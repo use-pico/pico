@@ -81,7 +81,6 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
-									size: "md",
 								}),
 							})}
 						>
@@ -96,7 +95,6 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
-									size: "md",
 								}),
 							})}
 						>

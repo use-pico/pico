@@ -90,7 +90,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 							subtitle={`Customer ID: ${entity.id}`}
 						/>
 					)}
-					links={({ entity }) => (
+					links={() => (
 						<div className="flex gap-2">
 							<Button size="sm">
 								<Icon icon="icon-[ph--envelope]" />
@@ -102,7 +102,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 							</Button>
 						</div>
 					)}
-					actions={({ entity }) => (
+					actions={() => (
 						<div className="flex gap-2">
 							<ActionMenu>
 								{/* Primary tone - Edit action */}

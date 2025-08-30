@@ -56,7 +56,6 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 					cls={({ what }) => ({
 						variant: what.variant({
 							tone: "secondary",
-							size: "md",
 						}),
 					})}
 					iconEnabled={BackIcon}
@@ -72,7 +71,6 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 					cls={({ what }) => ({
 						variant: what.variant({
 							tone: "primary",
-							size: "md",
 						}),
 					})}
 					iconEnabled={TrashIcon}

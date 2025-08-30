@@ -37,7 +37,7 @@ export const BoolInlineCls = IconCls.extend(
 		],
 		defaults: def.defaults({
 			disabled: false,
-			size: "xl",
+			size: "md",
 			value: false,
 		}),
 	}),

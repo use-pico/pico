@@ -74,6 +74,6 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 
 		const component = screen.getByText("Conflict Component");
 		expect(component).toBeInTheDocument();
-		expect(component.className).toBe("p-4 rounded bg-red-500 text-red-100");
+		expect(component.className).toBe("bg-red-500 text-red-100 p-4 rounded");
 	});
 });

@@ -92,6 +92,6 @@ describe("1.2 Token System Basics - Nested Token References", () => {
 		);
 
 		const instance = Component.create();
-		expect(instance.root()).toBe("rounded font-medium px-6 py-3");
+		expect(instance.root()).toBe("px-6 py-3 rounded font-medium");
 	});
 });

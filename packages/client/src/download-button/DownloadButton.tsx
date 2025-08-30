@@ -74,11 +74,7 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 					{progress >= 0 && (
 						<Progress
 							value={progress}
-							cls={({ what }) => ({
-								variant: what.variant({
-									size: "sm",
-								}),
-							})}
+							size="xs"
 						/>
 					)}
 				</>

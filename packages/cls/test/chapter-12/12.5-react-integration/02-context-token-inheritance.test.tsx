@@ -171,7 +171,7 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 		const component = screen.getByText("Test Component");
 		expect(component).toBeInTheDocument();
 		expect(component.className).toBe(
-			"p-4 rounded bg-gray-900 text-white border-green-500",
+			"bg-gray-900 text-white border-green-500 p-4 rounded",
 		);
 	});
 });

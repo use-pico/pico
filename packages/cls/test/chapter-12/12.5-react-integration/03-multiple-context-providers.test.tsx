@@ -107,7 +107,7 @@ describe("12.5 React Integration - Multiple Context Providers", () => {
 
 		const nestedComponent = screen.getByText("Nested Component");
 		expect(nestedComponent.className).toBe(
-			"p-4 rounded bg-gray-900 text-white",
+			"bg-gray-900 text-white p-4 rounded",
 		);
 	});
 });

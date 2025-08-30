@@ -99,7 +99,6 @@ export const BoolInput: FC<BoolInput.Props> = ({
 					cls={({ what }) => ({
 						variant: what.variant({
 							tone: value ? "secondary" : "neutral",
-							size: "sm",
 							theme: "light",
 						}),
 					})}

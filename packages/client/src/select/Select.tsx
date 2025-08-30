@@ -63,7 +63,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 	textSelect,
 	disabled = false,
 	allowClear = false,
-	size: $size = "sm",
+	size: $size = "md",
 	onItem,
 	onSelect,
 	onChange,
@@ -164,9 +164,6 @@ export const Select = <TItem extends EntitySchema.Type>({
 						<Icon
 							icon={icon}
 							cls={({ what }) => ({
-								variant: what.variant({
-									size: "sm",
-								}),
 								slot: what.slot({
 									root: what.css([
 										"text-slate-400",
@@ -193,9 +190,9 @@ export const Select = <TItem extends EntitySchema.Type>({
 										e.stopPropagation();
 										e.preventDefault();
 									}}
-									size={"sm"}
 									cls={({ what }) => ({
 										variant: what.variant({
+											tone: "neutral",
 											theme: "light",
 										}),
 									})}
@@ -203,7 +200,6 @@ export const Select = <TItem extends EntitySchema.Type>({
 							) : null}
 							<Icon
 								icon={"icon-[gg--select]"}
-								size={"sm"}
 								cls={({ what }) => ({
 									slot: what.slot({
 										root: what.css(

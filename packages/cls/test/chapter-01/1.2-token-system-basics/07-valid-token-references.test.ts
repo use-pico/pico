@@ -54,7 +54,7 @@ describe("1.2 Token System Basics - Valid Token References", () => {
 		// This should not throw an error
 		const instance = Component.create();
 		expect(instance.root()).toBe(
-			"rounded font-medium px-4 py-2 bg-blue-600 text-white",
+			"px-4 py-2 rounded font-medium bg-blue-600 text-white",
 		);
 	});
 });

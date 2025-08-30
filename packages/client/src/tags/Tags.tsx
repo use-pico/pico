@@ -42,11 +42,6 @@ export const Tags: FC<Tags.Props> = ({
 						<Badge
 							key={tag.id}
 							onClick={() => onClick?.(tag)}
-							cls={({ what }) => ({
-								variant: what.variant({
-									size: "sm",
-								}),
-							})}
 						>
 							<Render tag={tag} />
 						</Badge>

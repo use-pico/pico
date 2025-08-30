@@ -45,7 +45,11 @@ export const Route = createFileRoute("/$locale/components")({
 								"text-center",
 							])}
 						>
-							<Tx label={"Components"} />
+							<Tx
+								label={"Components"}
+								size={"xl"}
+								font={"bold"}
+							/>
 						</h1>
 					</div>
 

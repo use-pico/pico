@@ -112,11 +112,9 @@ export const TableHeader = <
 										? SelectionAnyIcon
 										: SelectionOffIcon
 							}
+							disabled={selectionMode === "single"}
+							size="sm"
 							cls={({ what }) => ({
-								variant: what.variant({
-									disabled: selectionMode === "single",
-									size: "sm",
-								}),
 								slot: what.slot({
 									root: what.css(
 										slots.select(({ what }) => ({
@@ -167,7 +165,6 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
-										size={"xs"}
 										cls={({ what }) => ({
 											variant: what.variant({
 												tone: "primary",

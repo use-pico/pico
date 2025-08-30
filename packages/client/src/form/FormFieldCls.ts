@@ -184,7 +184,7 @@ export const FormFieldCls = PicoCls.extend(
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
-			size: "sm",
+			size: "md",
 		}),
 	}),
 );

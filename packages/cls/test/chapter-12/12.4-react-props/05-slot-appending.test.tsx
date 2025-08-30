@@ -172,9 +172,9 @@ describe("12.4 React Props - Slot Appending", () => {
 		const component = screen.getByTestId("component");
 		expect(component).toBeInTheDocument();
 
-		// Should have: combined internal+user classes and tokens (from merge) + base tokens (from rules)
+		// Should have: tokens first, then classes (classes override tokens)
 		expect(component.className).toBe(
-			"internal-css-class user-css-class text-blue-600 bg-blue-100",
+			"text-blue-600 bg-blue-100 internal-css-class user-css-class",
 		);
 	});
 });

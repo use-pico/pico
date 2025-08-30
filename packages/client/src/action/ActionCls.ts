@@ -288,7 +288,7 @@ export const ActionCls = PicoCls.extend(
 			disabled: false,
 			loading: false,
 			border: true,
-			size: "sm",
+			size: "md",
 		}),
 	}),
 );

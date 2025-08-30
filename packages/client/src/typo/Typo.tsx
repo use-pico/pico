@@ -21,7 +21,7 @@ export const BaseTypo: FC<Typo.Props> = ({
 	label,
 	size = "md",
 	font = "normal",
-	tone = "neutral",
+	tone = "inherit",
 	theme = "light",
 	italic = false,
 	tva = TypoCls,

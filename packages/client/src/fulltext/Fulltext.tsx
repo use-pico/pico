@@ -56,14 +56,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 						set("");
 					}}
 				>
-					<Icon
-						icon={"icon-[gridicons--cross]"}
-						cls={({ what }) => ({
-							variant: what.variant({
-								size: "md",
-							}),
-						})}
-					/>
+					<Icon icon={"icon-[gridicons--cross]"} />
 				</div>
 			)}
 		</div>

@@ -511,6 +511,8 @@ root: what.both(
 )
 ```
 
+> **💡 Important**: In `what.both()`, **tokens are processed first, then classes**. This means classes will override tokens, giving you precise control over styling precedence. For example, if a token provides `"px-4"` and a class provides `"pl-8"`, the `"pl-8"` class will win.
+
 #### Type-Safe Variant Usage
 
 The `what.variant()` helper is **crucial for type safety** - it ensures you only use valid variant combinations:
@@ -933,12 +935,12 @@ const ButtonWithTokens = cls(
 
 // Usage - token resolution happens automatically
 const instance = ButtonWithTokens.create();
-console.log(instance.root()); // "px-4 py-2 rounded font-medium text-white"
+console.log(instance.root()); // "text-white px-4 py-2 rounded font-medium"
 
 const primaryInstance = ButtonWithTokens.create(({ what }) => ({
   variant: what.variant({ variant: "primary" })
 }));
-console.log(primaryInstance.root()); // "px-4 py-2 rounded font-medium text-white bg-blue-600"
+console.log(primaryInstance.root()); // "text-white px-4 py-2 rounded font-medium bg-blue-600"
 ```
 
 ### 5.4 Slots <a id="54-slots"></a>
@@ -1552,12 +1554,12 @@ const ButtonWithTokenChains = cls(
 
 // Usage - token chain resolution happens automatically
 const instance = ButtonWithTokenChains.create();
-console.log(instance.root()); // "px-4 py-2 rounded font-medium text-white"
+console.log(instance.root()); // "text-white px-4 py-2 rounded font-medium"
 
 const primaryInstance = ButtonWithTokenChains.create(({ what }) => ({
   variant: what.variant({ variant: "primary" })
 }));
-console.log(primaryInstance.root()); // "px-4 py-2 rounded font-medium text-white bg-blue-600"
+console.log(primaryInstance.root()); // "text-white px-4 py-2 rounded font-medium bg-blue-600"
 ```
 
 ### 8.2 Rules <a id="82-rules"></a>
@@ -1689,6 +1691,8 @@ const rootClasses = classes.root(({ what }) => ({
 3. **Class Extraction**: Extract CSS classes from token definition
 4. **Multiple Tokens**: Combine classes from multiple tokens
 5. **Override Application**: Apply any token overrides from create config
+
+> **💡 Important**: When using `what.both()`, **tokens are resolved first, then classes are applied**. This means classes will override tokens, giving you precise control over styling precedence. For example, if a token provides `"px-4"` and a class provides `"pl-8"`, the `"pl-8"` class will win.
 
 ### 10.3 Rule Evaluation Process <a id="103-rule-evaluation-process"></a>
 
@@ -2082,7 +2086,7 @@ function Button({ children, cls, ...props }) {
 
 // 1. Basic usage (no cls prop)
 <Button>Click me</Button>
-// Result: "px-4 py-2 rounded font-medium bg-blue-600 text-white"
+// Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium"
 
 // 2. With cls prop for variant override
 <Button cls={({ what }) => ({ 
@@ -2090,7 +2094,7 @@ function Button({ children, cls, ...props }) {
 })}>
   Click me
 </Button>
-// Result: "px-4 py-2 rounded font-medium bg-gray-600 text-white"
+// Result: "bg-gray-600 text-white px-4 py-2 rounded font-medium"
 
 // 3. With cls prop for slot override (append mode)
 <Button cls={({ what }) => ({ 
@@ -2100,7 +2104,7 @@ function Button({ children, cls, ...props }) {
 })}>
   Click me
 </Button>
-// Result: "px-4 py-2 rounded font-medium bg-blue-600 text-white shadow-lg hover:shadow-xl"
+// Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium shadow-lg hover:shadow-xl"
 
 // 4. With cls prop for override (replace mode)
 <Button cls={({ what }) => ({ 

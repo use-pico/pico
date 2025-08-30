@@ -109,12 +109,7 @@ export function cls<
 	): ClassName[] => {
 		const result: ClassName[] = [];
 
-		// Handle WhatClass (has 'class' property)
-		if ("class" in what && what.class) {
-			result.push(what.class);
-		}
-
-		// Handle WhatToken (has 'token' property) - recursive resolution
+		// Handle WhatToken (has 'token' property) - recursive resolution FIRST
 		if ("token" in what && what.token) {
 			for (const tokenKey of what.token) {
 				// Check for circular dependencies
@@ -144,6 +139,11 @@ export function cls<
 				// Remove from resolved set for other branches
 				resolvedTokens.delete(tokenKey);
 			}
+		}
+
+		// Handle WhatClass (has 'class' property) AFTER tokens - classes override tokens
+		if ("class" in what && what.class) {
+			result.push(what.class);
 		}
 
 		return result;

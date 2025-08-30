@@ -65,7 +65,7 @@ describe("12.4 React Props - No Configuration", () => {
 		const component = screen.getByText?.("Default Component");
 		expect(component).toBeInTheDocument();
 		expect(component.className).toBe(
-			"p-4 rounded bg-gray-100 text-gray-900",
+			"bg-gray-100 text-gray-900 p-4 rounded",
 		);
 	});
 });

@@ -175,14 +175,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 								>
 									{item.group}
 								</div>
-								<Icon
-									icon={ArrowRightIcon}
-									cls={({ what }) => ({
-										variant: what.variant({
-											size: "xs",
-										}),
-									})}
-								/>
+								<Icon icon={ArrowRightIcon} />
 								<Render item={item} />
 							</div>
 							<Action

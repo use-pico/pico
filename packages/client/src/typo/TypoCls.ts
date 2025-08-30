@@ -21,6 +21,7 @@ export const TypoCls = PicoCls.extend(
 				"bold",
 			],
 			tone: [
+				"inherit",
 				"primary",
 				"secondary",
 				"danger",
@@ -292,7 +293,7 @@ export const TypoCls = PicoCls.extend(
 		defaults: def.defaults({
 			size: "md",
 			font: "normal",
-			tone: "neutral",
+			tone: "inherit",
 			theme: "light",
 			italic: false,
 		}),

@@ -95,11 +95,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 					<div className={classes.zone()}>
 						<Icon
 							icon={UploadIcon}
-							cls={({ what }) => ({
-								variant: what.variant({
-									size: "xl",
-								}),
-							})}
+							size="xl"
 						/>
 						<div className={"mb-2 text-sm font-semibold"}>
 							{textTile ||

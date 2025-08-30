@@ -44,16 +44,21 @@ export const SelectCls = FormFieldCls.extend(
 						"border.default",
 						"round.default",
 						"tone.neutral.light.border",
+						"square.xs",
 					],
 				),
-				item: what.css([
-					"focus:outline-hidden",
-					"py-2",
-					"px-2.5",
-					"flex",
-					"items-center",
-					"justify-between",
-				]),
+				item: what.both(
+					[
+						"focus:outline-hidden",
+						"flex",
+						"items-center",
+						"justify-between",
+					],
+					[
+						"padding.md",
+						"round.default",
+					],
+				),
 			}),
 			def.rule(
 				what.variant({

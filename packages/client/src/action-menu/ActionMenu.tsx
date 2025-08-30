@@ -53,7 +53,7 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 						<Action
 							iconEnabled={icon}
 							iconProps={iconProps}
-							size={"sm"}
+							size={"md"}
 							cls={({ what }) => ({
 								variant: what.variant({
 									border: true,
