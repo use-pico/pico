@@ -144,7 +144,6 @@ export { withList } from "./source/withList";
 export { withMutation } from "./source/withMutation";
 export { withQuery } from "./source/withQuery";
 export { Status } from "./status/Status";
-export { StatusCls } from "./status/StatusCls";
 export { RangeFilter } from "./table/filter/RangeFilter";
 export { withEqualFilter } from "./table/filter/withEqualFilter";
 export { withRangeFilter } from "./table/filter/withRangeFilter";

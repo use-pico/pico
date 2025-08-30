@@ -204,6 +204,138 @@ export const Route = createFileRoute("/$locale/components/attr")({
 					</div>
 				</Section>
 
+				{/* Tone Variants */}
+				<Section title={<Tx label={"Tone Variants"} />}>
+					<div className="grid grid-cols-2 gap-6">
+						<Column label={<Tx label={"Primary Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Name"
+									value={sampleData.name}
+									tone="primary"
+								/>
+								<Attr
+									label="Email"
+									value={sampleData.email}
+									tone="primary"
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Secondary Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Role"
+									value={sampleData.role}
+									tone="secondary"
+								/>
+								<Attr
+									label="Department"
+									value={sampleData.department}
+									tone="secondary"
+								/>
+							</div>
+						</Column>
+					</div>
+					<div className="grid grid-cols-2 gap-6 mt-6">
+						<Column label={<Tx label={"Danger Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Status"
+									value="Critical"
+									tone="danger"
+								/>
+								<Attr
+									label="Priority"
+									value="High"
+									tone="danger"
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Warning Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Performance"
+									value="Needs Attention"
+									tone="warning"
+								/>
+								<Attr
+									label="Review Due"
+									value="Next Week"
+									tone="warning"
+								/>
+							</div>
+						</Column>
+					</div>
+					<div className="grid grid-cols-2 gap-6 mt-6">
+						<Column label={<Tx label={"Link Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Website"
+									value="example.com"
+									tone="link"
+								/>
+								<Attr
+									label="Documentation"
+									value="docs.example.com"
+									tone="link"
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Subtle Tone"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									label="Created"
+									value={sampleData.startDate}
+									tone="subtle"
+								/>
+								<Attr
+									label="Last Updated"
+									value="2024-01-15"
+									tone="subtle"
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Tone with Inline Variants */}
+				<Section title={<Tx label={"Tone with Inline Variants"} />}>
+					<div className="grid grid-cols-2 gap-6">
+						<Column label={<Tx label={"Inline Primary"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									inline
+									label="Name:"
+									value={sampleData.name}
+									tone="primary"
+								/>
+								<Attr
+									inline
+									label="Email:"
+									value={sampleData.email}
+									tone="primary"
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Inline Danger"} />}>
+							<div className="flex flex-col space-y-2">
+								<Attr
+									inline
+									label="Status:"
+									value="Critical"
+									tone="danger"
+								/>
+								<Attr
+									inline
+									label="Priority:"
+									value="High"
+									tone="danger"
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
 				{/* Variant Combinations */}
 				<Section title={<Tx label={"Variant Combinations"} />}>
 					<div className="grid grid-cols-2 gap-6">
@@ -225,14 +357,16 @@ export const Route = createFileRoute("/$locale/components/attr")({
 							label={<Tx label={"Default + No Background"} />}
 						>
 							<div className="flex flex-col space-y-2">
-								<Attr
-									label="Role"
-									value={sampleData.role}
-								/>
-								<Attr
-									label="Department"
-									value={sampleData.department}
-								/>
+								<div className="flex flex-col space-y-2">
+									<Attr
+										label="Role"
+										value={sampleData.role}
+									/>
+									<Attr
+										label="Department"
+										value={sampleData.department}
+									/>
+								</div>
 							</div>
 						</Column>
 					</div>

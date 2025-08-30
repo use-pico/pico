@@ -5,7 +5,7 @@ export const StatusCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"title",
 			"message",
 			"body",
@@ -16,7 +16,7 @@ export const StatusCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"w-full",
 					"flex",
 					"flex-col",
@@ -24,14 +24,11 @@ export const StatusCls = PicoCls.extend(
 					"justify-center",
 				]),
 				title: what.css([
-					"text-xl",
-					"text-bold",
 					"w-full",
 					"text-center",
 				]),
 				message: what.both(
 					[
-						"text-base",
 						"w-full",
 						"text-center",
 					],

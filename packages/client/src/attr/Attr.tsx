@@ -1,35 +1,54 @@
-import { useCls, withCls } from "@use-pico/cls";
-import { type FC, type ReactNode, useContext } from "react";
+import { useCls, type VariantOf, withCls } from "@use-pico/cls";
+import { type FC, useContext } from "react";
 import { InlineContext } from "../context/InlineContext";
+import { Typo } from "../typo/Typo";
+import type { TypoCls } from "../typo/TypoCls";
 import { AttrCls } from "./AttrCls";
 
 export namespace Attr {
 	export interface Props extends AttrCls.Props {
+		label: Typo.Value;
+		value: Typo.Value;
+		labelProps?: Typo.PropsEx;
+		valueProps?: Typo.PropsEx;
+		tone?: VariantOf<TypoCls, "tone">;
 		inline?: boolean;
-		label?: ReactNode;
-		value: ReactNode;
 	}
 }
 
 export const BaseAttr: FC<Attr.Props> = ({
-	inline,
 	label,
 	value,
+	labelProps,
+	valueProps,
+	tone = "neutral",
+	inline,
 	tva = AttrCls,
 	cls,
 }) => {
 	const inlineContext = useContext(InlineContext);
-	const isInline = inline ?? inlineContext?.inline;
 	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
-			inline: isInline,
+			inline: inline ?? inlineContext?.inline,
 		}),
 	}));
 
 	return (
-		<div className={slots.base()}>
-			{label ? <div className={slots.label()}>{label}</div> : null}
-			<div className={slots.value()}>{value}</div>
+		<div className={slots.root()}>
+			<Typo
+				label={label}
+				size="sm"
+				font="normal"
+				tone={tone}
+				{...labelProps}
+			/>
+			<Typo
+				label={value}
+				size="md"
+				font="bold"
+				tone={tone}
+				{...valueProps}
+			/>
 		</div>
 	);
 };

@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './@routes/index'
 import { Route as LocaleIndexRouteImport } from './@routes/$locale/index'
 import { Route as LocaleComponentsRouteImport } from './@routes/$locale/components'
 import { Route as LocaleComponentsIndexRouteImport } from './@routes/$locale/components/index'
+import { Route as LocaleComponentsTypoRouteImport } from './@routes/$locale/components/typo'
 import { Route as LocaleComponentsTitlePreviewRouteImport } from './@routes/$locale/components/title-preview'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsStatusRouteImport } from './@routes/$locale/components/status'
@@ -65,6 +66,11 @@ const LocaleComponentsRoute = LocaleComponentsRouteImport.update({
 const LocaleComponentsIndexRoute = LocaleComponentsIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
+const LocaleComponentsTypoRoute = LocaleComponentsTypoRouteImport.update({
+  id: '/typo',
+  path: '/typo',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
 const LocaleComponentsTitlePreviewRoute =
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
+  '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -276,6 +283,7 @@ export interface FileRoutesByTo {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
+  '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
+  '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -347,6 +356,7 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
+    | '/$locale/components/typo'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
   fileRoutesByTo: FileRoutesByTo
@@ -379,6 +389,7 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
+    | '/$locale/components/typo'
     | '/$locale/components'
     | '/$locale/components/menu/$selected'
   id:
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
+    | '/$locale/components/typo'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
   fileRoutesById: FileRoutesById
@@ -457,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/$locale/components/'
       preLoaderRoute: typeof LocaleComponentsIndexRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/typo': {
+      id: '/$locale/components/typo'
+      path: '/typo'
+      fullPath: '/$locale/components/typo'
+      preLoaderRoute: typeof LocaleComponentsTypoRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/title-preview': {
@@ -678,6 +697,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsStatusRoute: typeof LocaleComponentsStatusRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsTitlePreviewRoute: typeof LocaleComponentsTitlePreviewRoute
+  LocaleComponentsTypoRoute: typeof LocaleComponentsTypoRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
   LocaleComponentsMenuSelectedRoute: typeof LocaleComponentsMenuSelectedRoute
 }
@@ -709,6 +729,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsStatusRoute: LocaleComponentsStatusRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsTitlePreviewRoute: LocaleComponentsTitlePreviewRoute,
+  LocaleComponentsTypoRoute: LocaleComponentsTypoRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
   LocaleComponentsMenuSelectedRoute: LocaleComponentsMenuSelectedRoute,
 }

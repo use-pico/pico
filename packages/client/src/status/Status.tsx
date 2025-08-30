@@ -1,5 +1,7 @@
+import { withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
+import { Typo } from "../typo/Typo";
 import { StatusCls } from "./StatusCls";
 
 export namespace Status {
@@ -8,41 +10,57 @@ export namespace Status {
 		textMessage: ReactNode;
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
+		titleProps?: Typo.PropsEx;
+		messageProps?: Typo.PropsEx;
+		bodyProps?: Typo.PropsEx;
 	}
 }
 
-export const Status: FC<Status.Props> = ({
+export const BaseStatus: FC<Status.Props> = ({
 	textTitle,
 	textMessage,
 	icon,
 	iconProps,
+	titleProps,
+	messageProps,
+	bodyProps,
 	tva = StatusCls,
 	cls,
 	children,
 }) => {
-	const classes = tva.create(cls);
+	const slots = tva.create(cls);
 
 	return (
-		<div className={classes.base()}>
-			{icon ? (
-				<Icon
-					icon={icon}
-					cls={({ what }) => ({
-						variant: what.variant({
-							size: "xl",
-						}),
-						slot: what.slot({
-							root: what.css([
-								"opacity-50",
-							]),
-						}),
-					})}
-					{...iconProps}
-				/>
-			) : null}
-			<div className={classes.title()}>{textTitle}</div>
-			<div className={classes.message()}>{textMessage}</div>
-			<div className={classes.body()}>{children}</div>
+		<div className={slots.root()}>
+			<Icon
+				icon={icon}
+				size="xl"
+				cls={({ what }) => ({
+					slot: what.slot({
+						root: what.css([
+							"opacity-50",
+						]),
+					}),
+				})}
+				{...iconProps}
+			/>
+
+			<Typo
+				label={textTitle}
+				size="xl"
+				font="bold"
+				{...titleProps}
+			/>
+			<Typo
+				label={textMessage}
+				{...messageProps}
+			/>
+			<Typo
+				label={children}
+				{...bodyProps}
+			/>
 		</div>
 	);
 };
+
+export const Status = withCls(BaseStatus, StatusCls);

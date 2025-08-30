@@ -5,9 +5,7 @@ export const AttrCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
-			"label",
-			"value",
+			"root",
 		],
 		variant: {
 			inline: [
@@ -19,68 +17,42 @@ export const AttrCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
-						"px-2",
-						"py-1",
-						"group",
 						"transition-all",
 					],
 					[
+						"padding.md",
 						// "shadow.sm",
 						// "border.default",
-						"round.default",
 						// "tone.neutral.light.border",
 						// "tone.neutral.light.shadow",
 						// "tone.neutral.light.shadow:hover",
 					],
 				),
-				label: what.both(
-					[
-						"text-sm",
-						"font-semibold",
-						"border-b",
-						// "mb-2",
-					],
-					[
-						"tone.neutral.light.text",
-						// "tone.neutral.light.border",
-						// "tone.neutral.light.border:group-hover",
-					],
-				),
-				value: what.css([]),
 			}),
+			def.rule(
+				what.variant({
+					inline: false,
+				}),
+				{
+					root: what.css([
+						"flex",
+						"flex-col",
+						"gap-2",
+					]),
+				},
+			),
 			def.rule(
 				what.variant({
 					inline: true,
 				}),
 				{
-					base: what.css([
-						"border-none",
+					root: what.css([
 						"inline-flex",
-						"flex-row",
-						"items-center",
 						"gap-2",
+						"items-center",
 					]),
-					label: what.both(
-						[
-							"mb-0",
-							"font-light",
-							"text-md",
-							"border-none",
-						],
-						[
-							"tone.neutral.light.text",
-						],
-					),
-					value: what.both(
-						[
-							"text-md",
-						],
-						[
-							"tone.neutral.light.text:hover",
-						],
-					),
 				},
 			),
 		],

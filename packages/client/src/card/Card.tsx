@@ -1,5 +1,5 @@
 import type { Entity } from "@use-pico/common";
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import { Attr } from "../attr/Attr";
 import { InlineContext } from "../context/InlineContext";
 import { CardCls } from "./CardCls";
@@ -32,7 +32,6 @@ export namespace Card {
 	export interface Item<TValues extends Record<string, any>>
 		extends Omit<Attr.Props, "value"> {
 		id: string;
-		label?: ReactNode;
 		render: FC<Entity.Type<TValues>>;
 	}
 
