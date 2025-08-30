@@ -1,5 +1,5 @@
-import { FloatingTree } from "@floating-ui/react";
-import { useCls } from "@use-pico/cls";
+import { FloatingTree, type Placement } from "@floating-ui/react";
+import { useCls, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
@@ -15,6 +15,7 @@ export namespace ActionMenu {
 		 * Override the default target element for the menu
 		 */
 		target?: Float.Target.TargetFn;
+		placement?: Placement;
 		actionProps?: Action.Props;
 		/**
 		 * Whether to show an overlay backdrop when menu is open
@@ -23,10 +24,11 @@ export namespace ActionMenu {
 	}
 }
 
-export const ActionMenu: FC<ActionMenu.Props> = ({
+export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	icon = ActionMenuIcon,
 	iconProps,
 	target,
+	placement = "right-end",
 	actionProps,
 	children,
 	tva = ActionMenuCls,
@@ -66,7 +68,7 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 				}
 				delay={100}
 				float={{
-					placement: "bottom-start",
+					placement,
 				}}
 				closeOnClick
 				{...props}
@@ -76,3 +78,5 @@ export const ActionMenu: FC<ActionMenu.Props> = ({
 		</FloatingTree>
 	);
 };
+
+export const ActionMenu = withCls(BaseActionMenu, ActionMenuCls);

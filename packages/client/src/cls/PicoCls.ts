@@ -278,32 +278,43 @@ export const PicoCls = cls(
 			 * Border
 			 */
 			"border.default",
+			"border.default:hover",
 			"border.sm",
 			"border.md",
 			"border.lg",
 			/**
-			 * X-Y Padding
+			 * Size - using w/h
+			 *
+			 * May contain more classes
 			 */
+			"size.xs",
+			"size.sm",
+			"size.md",
+			"size.lg",
+			"size.xl",
+			//
 			"padding.xs",
 			"padding.sm",
 			"padding.md",
 			"padding.lg",
+			"padding.xl",
 			//
 			"square.xs",
 			"square.sm",
 			"square.md",
 			"square.lg",
+			"square.xl",
 			//
 			"icon.xs",
 			"icon.sm",
 			"icon.md",
 			"icon.lg",
 			"icon.xl",
-			"icon-p.xs",
-			"icon-p.sm",
-			"icon-p.md",
-			"icon-p.lg",
-			"icon-p.xl",
+			"inner-icon.xs",
+			"inner-icon.sm",
+			"inner-icon.md",
+			"inner-icon.lg",
+			"inner-icon.xl",
 			/**
 			 * Scale
 			 */
@@ -1289,6 +1300,10 @@ export const PicoCls = cls(
 				"border-1",
 				"border-b-2",
 			]),
+			"border.default:hover": what.css([
+				"hover:border-1",
+				"hover:border-b-2",
+			]),
 			"border.sm": what.css([
 				"border-b-2",
 			]),
@@ -1299,109 +1314,138 @@ export const PicoCls = cls(
 				"border-b-4",
 			]),
 			/**
-			 * X-Y Padding
+			 * Sizes
 			 */
+			"size.xs": what.css([
+				"h-6",
+				"px-2",
+				"text-xs",
+			]),
+			"size.sm": what.css([
+				"h-8",
+				"px-3",
+				"text-sm",
+			]),
+			"size.md": what.css([
+				"h-10",
+				"px-4",
+				"text-base",
+			]),
+			"size.lg": what.css([
+				"h-12",
+				"px-6",
+				"text-lg",
+			]),
+			"size.xl": what.css([
+				"h-16",
+				"px-8",
+				"text-xl",
+			]),
+			//
 			"padding.xs": what.css([
 				"px-2",
 				"py-1",
 			]),
 			"padding.sm": what.css([
-				"px-2",
-				"py-2",
+				"px-3",
+				"py-1.5",
 			]),
 			"padding.md": what.css([
+				"px-4",
+				"py-2",
+			]),
+			"padding.lg": what.css([
 				"px-6",
 				"py-3",
 			]),
-			"padding.lg": what.css([
-				"px-12",
+			"padding.xl": what.css([
+				"px-8",
 				"py-4",
 			]),
 			//
 			"square.xs": what.css([
-				"px-1",
-				"py-1",
+				"p-1",
 			]),
 			"square.sm": what.css([
-				"px-2",
-				"py-2",
+				"p-1.5",
 			]),
 			"square.md": what.css([
-				"px-3",
-				"py-3",
+				"p-2",
 			]),
 			"square.lg": what.css([
-				"px-4",
-				"py-4",
+				"p-3",
+			]),
+			"square.xl": what.css([
+				"p-4",
 			]),
 			//
 			"icon.xs": what.css([
-				"w-4",
-				"h-4",
-				"flex-shrink-0",
-				"min-w-0",
-				"min-h-0",
-			]),
-			"icon.sm": what.css([
 				"w-6",
 				"h-6",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon.md": what.css([
+			"icon.sm": what.css([
 				"w-8",
 				"h-8",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon.lg": what.css([
+			"icon.md": what.css([
 				"w-10",
 				"h-10",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon.xl": what.css([
+			"icon.lg": what.css([
 				"w-12",
 				"h-12",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
+			"icon.xl": what.css([
+				"w-16",
+				"h-16",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			]),
 			//
-			"icon-p.xs": what.css([
-				"w-7",
-				"h-7",
+			"inner-icon.xs": what.css([
+				"w-4",
+				"h-4",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon-p.sm": what.css([
-				"w-9",
-				"h-9",
+			"inner-icon.sm": what.css([
+				"w-6",
+				"h-6",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon-p.md": what.css([
-				"w-11",
-				"h-11",
+			"inner-icon.md": what.css([
+				"w-8",
+				"h-8",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon-p.lg": what.css([
-				"w-13",
-				"h-13",
+			"inner-icon.lg": what.css([
+				"w-10",
+				"h-10",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",
 			]),
-			"icon-p.xl": what.css([
-				"w-15",
-				"h-15",
+			"inner-icon.xl": what.css([
+				"w-14",
+				"h-14",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",

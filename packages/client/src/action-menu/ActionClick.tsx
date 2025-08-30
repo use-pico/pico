@@ -1,3 +1,4 @@
+import { withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
@@ -9,35 +10,42 @@ export namespace ActionClick {
 		icon?: Icon.Type;
 		iconProps?: Icon.Props;
 		loading?: boolean;
+		disabled?: boolean;
 	}
 }
 
-export const ActionClick: FC<ActionClick.Props> = ({
+export const BaseActionClick: FC<ActionClick.Props> = ({
 	icon,
 	iconProps,
 	loading = false,
+	disabled = false,
 	tva = ActionClickCls,
 	cls,
 	children,
 	...props
 }) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = tva.create(cls, ({ what }) => ({
 		variant: what.variant({
 			loading,
+			disabled,
 		}),
 	}));
 
 	return (
-		<div
-			className={classes.root()}
-			{...props}
-		>
-			<Icon
-				icon={loading ? LoaderIcon : icon}
-				size={"sm"}
-				{...iconProps}
-			/>
-			{children}
+		<div className={slots.wrapper()}>
+			<div
+				className={slots.root()}
+				{...props}
+			>
+				<Icon
+					icon={loading ? LoaderIcon : icon}
+					size={"sm"}
+					{...iconProps}
+				/>
+				{children}
+			</div>
 		</div>
 	);
 };
+
+export const ActionClick = withCls(BaseActionClick, ActionClickCls);

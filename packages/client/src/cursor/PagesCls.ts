@@ -41,7 +41,6 @@ export const PagesCls = PicoCls.extend(
 						"scale.sm",
 						"border.default",
 						"round.default",
-						"padding.sm",
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",

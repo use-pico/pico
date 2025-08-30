@@ -22,6 +22,7 @@ const sizes = [
 	"sm",
 	"md",
 	"lg",
+	"xl",
 ] as const;
 
 export const Route = createFileRoute("/$locale/components/action")({

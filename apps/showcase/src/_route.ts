@@ -14,7 +14,6 @@ import { Route as IndexRouteImport } from './@routes/index'
 import { Route as LocaleIndexRouteImport } from './@routes/$locale/index'
 import { Route as LocaleComponentsRouteImport } from './@routes/$locale/components'
 import { Route as LocaleComponentsIndexRouteImport } from './@routes/$locale/components/index'
-import { Route as LocaleComponentsValueOfRouteImport } from './@routes/$locale/components/value-of'
 import { Route as LocaleComponentsTitlePreviewRouteImport } from './@routes/$locale/components/title-preview'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsStatusRouteImport } from './@routes/$locale/components/status'
@@ -22,11 +21,13 @@ import { Route as LocaleComponentsSelectRouteImport } from './@routes/$locale/co
 import { Route as LocaleComponentsProgressRouteImport } from './@routes/$locale/components/progress'
 import { Route as LocaleComponentsPreviewRouteImport } from './@routes/$locale/components/preview'
 import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$locale/components/popup-select'
+import { Route as LocaleComponentsMiscRouteImport } from './@routes/$locale/components/misc'
 import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/components/issues'
 import { Route as LocaleComponentsIconRouteImport } from './@routes/$locale/components/icon'
 import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/components/form'
 import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
 import { Route as LocaleComponentsDateInlineRouteImport } from './@routes/$locale/components/date-inline'
+import { Route as LocaleComponentsCustomerDetailRouteImport } from './@routes/$locale/components/customer-detail'
 import { Route as LocaleComponentsCursorRouteImport } from './@routes/$locale/components/cursor'
 import { Route as LocaleComponentsComplexFormRouteImport } from './@routes/$locale/components/complex-form'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
@@ -35,6 +36,7 @@ import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/co
 import { Route as LocaleComponentsBoolInputRouteImport } from './@routes/$locale/components/bool-input'
 import { Route as LocaleComponentsBoolInlineRouteImport } from './@routes/$locale/components/bool-inline'
 import { Route as LocaleComponentsBadgeRouteImport } from './@routes/$locale/components/badge'
+import { Route as LocaleComponentsAttrRouteImport } from './@routes/$locale/components/attr'
 import { Route as LocaleComponentsAlertRouteImport } from './@routes/$locale/components/alert'
 import { Route as LocaleComponentsActionMenuRouteImport } from './@routes/$locale/components/action-menu'
 import { Route as LocaleComponentsActionRouteImport } from './@routes/$locale/components/action'
@@ -63,11 +65,6 @@ const LocaleComponentsRoute = LocaleComponentsRouteImport.update({
 const LocaleComponentsIndexRoute = LocaleComponentsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LocaleComponentsRoute,
-} as any)
-const LocaleComponentsValueOfRoute = LocaleComponentsValueOfRouteImport.update({
-  id: '/value-of',
-  path: '/value-of',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
 const LocaleComponentsTitlePreviewRoute =
@@ -108,6 +105,11 @@ const LocaleComponentsPopupSelectRoute =
     path: '/popup-select',
     getParentRoute: () => LocaleComponentsRoute,
   } as any)
+const LocaleComponentsMiscRoute = LocaleComponentsMiscRouteImport.update({
+  id: '/misc',
+  path: '/misc',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsIssuesRoute = LocaleComponentsIssuesRouteImport.update({
   id: '/issues',
   path: '/issues',
@@ -132,6 +134,12 @@ const LocaleComponentsDateInlineRoute =
   LocaleComponentsDateInlineRouteImport.update({
     id: '/date-inline',
     path: '/date-inline',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsCustomerDetailRoute =
+  LocaleComponentsCustomerDetailRouteImport.update({
+    id: '/customer-detail',
+    path: '/customer-detail',
     getParentRoute: () => LocaleComponentsRoute,
   } as any)
 const LocaleComponentsCursorRoute = LocaleComponentsCursorRouteImport.update({
@@ -177,6 +185,11 @@ const LocaleComponentsBadgeRoute = LocaleComponentsBadgeRouteImport.update({
   path: '/badge',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsAttrRoute = LocaleComponentsAttrRouteImport.update({
+  id: '/attr',
+  path: '/attr',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsAlertRoute = LocaleComponentsAlertRouteImport.update({
   id: '/alert',
   path: '/alert',
@@ -208,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/action': typeof LocaleComponentsActionRoute
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
+  '/$locale/components/attr': typeof LocaleComponentsAttrRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
@@ -216,11 +230,13 @@ export interface FileRoutesByFullPath {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
+  '/$locale/components/misc': typeof LocaleComponentsMiscRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
@@ -228,7 +244,6 @@ export interface FileRoutesByFullPath {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
-  '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -238,6 +253,7 @@ export interface FileRoutesByTo {
   '/$locale/components/action': typeof LocaleComponentsActionRoute
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
+  '/$locale/components/attr': typeof LocaleComponentsAttrRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
@@ -246,11 +262,13 @@ export interface FileRoutesByTo {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
+  '/$locale/components/misc': typeof LocaleComponentsMiscRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
@@ -258,7 +276,6 @@ export interface FileRoutesByTo {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
-  '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -271,6 +288,7 @@ export interface FileRoutesById {
   '/$locale/components/action': typeof LocaleComponentsActionRoute
   '/$locale/components/action-menu': typeof LocaleComponentsActionMenuRoute
   '/$locale/components/alert': typeof LocaleComponentsAlertRoute
+  '/$locale/components/attr': typeof LocaleComponentsAttrRoute
   '/$locale/components/badge': typeof LocaleComponentsBadgeRoute
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
@@ -279,11 +297,13 @@ export interface FileRoutesById {
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
+  '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
+  '/$locale/components/misc': typeof LocaleComponentsMiscRoute
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
@@ -291,7 +311,6 @@ export interface FileRoutesById {
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
-  '/$locale/components/value-of': typeof LocaleComponentsValueOfRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
 }
@@ -305,6 +324,7 @@ export interface FileRouteTypes {
     | '/$locale/components/action'
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
+    | '/$locale/components/attr'
     | '/$locale/components/badge'
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
@@ -313,11 +333,13 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
+    | '/$locale/components/customer-detail'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
+    | '/$locale/components/misc'
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
@@ -325,7 +347,6 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
-    | '/$locale/components/value-of'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
   fileRoutesByTo: FileRoutesByTo
@@ -335,6 +356,7 @@ export interface FileRouteTypes {
     | '/$locale/components/action'
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
+    | '/$locale/components/attr'
     | '/$locale/components/badge'
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
@@ -343,11 +365,13 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
+    | '/$locale/components/customer-detail'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
+    | '/$locale/components/misc'
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
@@ -355,7 +379,6 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
-    | '/$locale/components/value-of'
     | '/$locale/components'
     | '/$locale/components/menu/$selected'
   id:
@@ -367,6 +390,7 @@ export interface FileRouteTypes {
     | '/$locale/components/action'
     | '/$locale/components/action-menu'
     | '/$locale/components/alert'
+    | '/$locale/components/attr'
     | '/$locale/components/badge'
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
@@ -375,11 +399,13 @@ export interface FileRouteTypes {
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
+    | '/$locale/components/customer-detail'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
+    | '/$locale/components/misc'
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
@@ -387,7 +413,6 @@ export interface FileRouteTypes {
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
-    | '/$locale/components/value-of'
     | '/$locale/components/'
     | '/$locale/components/menu/$selected'
   fileRoutesById: FileRoutesById
@@ -432,13 +457,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/$locale/components/'
       preLoaderRoute: typeof LocaleComponentsIndexRouteImport
-      parentRoute: typeof LocaleComponentsRoute
-    }
-    '/$locale/components/value-of': {
-      id: '/$locale/components/value-of'
-      path: '/value-of'
-      fullPath: '/$locale/components/value-of'
-      preLoaderRoute: typeof LocaleComponentsValueOfRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/title-preview': {
@@ -490,6 +508,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsPopupSelectRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/misc': {
+      id: '/$locale/components/misc'
+      path: '/misc'
+      fullPath: '/$locale/components/misc'
+      preLoaderRoute: typeof LocaleComponentsMiscRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/issues': {
       id: '/$locale/components/issues'
       path: '/issues'
@@ -523,6 +548,13 @@ declare module '@tanstack/react-router' {
       path: '/date-inline'
       fullPath: '/$locale/components/date-inline'
       preLoaderRoute: typeof LocaleComponentsDateInlineRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/customer-detail': {
+      id: '/$locale/components/customer-detail'
+      path: '/customer-detail'
+      fullPath: '/$locale/components/customer-detail'
+      preLoaderRoute: typeof LocaleComponentsCustomerDetailRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/cursor': {
@@ -581,6 +613,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsBadgeRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/attr': {
+      id: '/$locale/components/attr'
+      path: '/attr'
+      fullPath: '/$locale/components/attr'
+      preLoaderRoute: typeof LocaleComponentsAttrRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/alert': {
       id: '/$locale/components/alert'
       path: '/alert'
@@ -616,6 +655,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsActionRoute: typeof LocaleComponentsActionRoute
   LocaleComponentsActionMenuRoute: typeof LocaleComponentsActionMenuRoute
   LocaleComponentsAlertRoute: typeof LocaleComponentsAlertRoute
+  LocaleComponentsAttrRoute: typeof LocaleComponentsAttrRoute
   LocaleComponentsBadgeRoute: typeof LocaleComponentsBadgeRoute
   LocaleComponentsBoolInlineRoute: typeof LocaleComponentsBoolInlineRoute
   LocaleComponentsBoolInputRoute: typeof LocaleComponentsBoolInputRoute
@@ -624,11 +664,13 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
   LocaleComponentsComplexFormRoute: typeof LocaleComponentsComplexFormRoute
   LocaleComponentsCursorRoute: typeof LocaleComponentsCursorRoute
+  LocaleComponentsCustomerDetailRoute: typeof LocaleComponentsCustomerDetailRoute
   LocaleComponentsDateInlineRoute: typeof LocaleComponentsDateInlineRoute
   LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
   LocaleComponentsFormRoute: typeof LocaleComponentsFormRoute
   LocaleComponentsIconRoute: typeof LocaleComponentsIconRoute
   LocaleComponentsIssuesRoute: typeof LocaleComponentsIssuesRoute
+  LocaleComponentsMiscRoute: typeof LocaleComponentsMiscRoute
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
   LocaleComponentsPreviewRoute: typeof LocaleComponentsPreviewRoute
   LocaleComponentsProgressRoute: typeof LocaleComponentsProgressRoute
@@ -636,7 +678,6 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsStatusRoute: typeof LocaleComponentsStatusRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsTitlePreviewRoute: typeof LocaleComponentsTitlePreviewRoute
-  LocaleComponentsValueOfRoute: typeof LocaleComponentsValueOfRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
   LocaleComponentsMenuSelectedRoute: typeof LocaleComponentsMenuSelectedRoute
 }
@@ -645,6 +686,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsActionRoute: LocaleComponentsActionRoute,
   LocaleComponentsActionMenuRoute: LocaleComponentsActionMenuRoute,
   LocaleComponentsAlertRoute: LocaleComponentsAlertRoute,
+  LocaleComponentsAttrRoute: LocaleComponentsAttrRoute,
   LocaleComponentsBadgeRoute: LocaleComponentsBadgeRoute,
   LocaleComponentsBoolInlineRoute: LocaleComponentsBoolInlineRoute,
   LocaleComponentsBoolInputRoute: LocaleComponentsBoolInputRoute,
@@ -653,11 +695,13 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
   LocaleComponentsComplexFormRoute: LocaleComponentsComplexFormRoute,
   LocaleComponentsCursorRoute: LocaleComponentsCursorRoute,
+  LocaleComponentsCustomerDetailRoute: LocaleComponentsCustomerDetailRoute,
   LocaleComponentsDateInlineRoute: LocaleComponentsDateInlineRoute,
   LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
   LocaleComponentsFormRoute: LocaleComponentsFormRoute,
   LocaleComponentsIconRoute: LocaleComponentsIconRoute,
   LocaleComponentsIssuesRoute: LocaleComponentsIssuesRoute,
+  LocaleComponentsMiscRoute: LocaleComponentsMiscRoute,
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
   LocaleComponentsPreviewRoute: LocaleComponentsPreviewRoute,
   LocaleComponentsProgressRoute: LocaleComponentsProgressRoute,
@@ -665,7 +709,6 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsStatusRoute: LocaleComponentsStatusRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsTitlePreviewRoute: LocaleComponentsTitlePreviewRoute,
-  LocaleComponentsValueOfRoute: LocaleComponentsValueOfRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
   LocaleComponentsMenuSelectedRoute: LocaleComponentsMenuSelectedRoute,
 }

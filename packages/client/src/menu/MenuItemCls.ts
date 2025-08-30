@@ -28,36 +28,34 @@ export const MenuItemCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
-						"flex",
+						"inline-flex",
 						"flex-row",
 						"gap-2",
 						"items-center",
-						"px-2",
-						"py-1",
 						"border-transparent",
 						"transition-all",
 						"duration-200",
 						"cursor-pointer",
+						"w-full",
 					],
 					[
 						"border.default",
 						"round.default",
 						"scale.default",
+						"padding.md",
 					],
 				),
 				items: what.both(
 					[
 						"flex",
 						"flex-col",
-						"w-max",
 						"gap-2",
-						"px-4",
-						"py-4",
 					],
 					[
 						"border.default",
 						"round.default",
 						"shadow.default",
+						"square.lg",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",

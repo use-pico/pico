@@ -31,6 +31,7 @@ export const BadgeCls = PicoCls.extend(
 				"sm",
 				"md",
 				"lg",
+				"xl",
 			],
 		},
 	},
@@ -51,6 +52,7 @@ export const BadgeCls = PicoCls.extend(
 					],
 					[
 						"border.default",
+						"shadow.default",
 					],
 				),
 			}),
@@ -253,15 +255,9 @@ export const BadgeCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.both(
-						[
-							"text-xs",
-						],
-						[
-							"padding.xs",
-							"shadow.sm",
-						],
-					),
+					root: what.token([
+						"size.xs",
+					]),
 				},
 			),
 			def.rule(
@@ -269,17 +265,9 @@ export const BadgeCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.both(
-						[
-							"text-sm",
-							"px-3",
-							"py-1",
-						],
-						[
-							"padding.sm",
-							"shadow.sm",
-						],
-					),
+					root: what.token([
+						"size.sm",
+					]),
 				},
 			),
 			def.rule(
@@ -287,17 +275,9 @@ export const BadgeCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.both(
-						[
-							"text-md",
-							"px-4",
-							"py-1.5",
-						],
-						[
-							"padding.md",
-							"shadow.md",
-						],
-					),
+					root: what.token([
+						"size.md",
+					]),
 				},
 			),
 			def.rule(
@@ -305,17 +285,19 @@ export const BadgeCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.both(
-						[
-							"text-lg",
-							"px-6",
-							"py-2",
-						],
-						[
-							"padding.lg",
-							"shadow.lg",
-						],
-					),
+					root: what.token([
+						"size.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "xl",
+				}),
+				{
+					root: what.token([
+						"size.xl",
+					]),
 				},
 			),
 		],

@@ -1,5 +1,5 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { useCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import { type AnchorHTMLAttributes, forwardRef } from "react";
 import { Icon } from "../icon/Icon";
 import { ActionLinkCls } from "./ActionLinkCls";
@@ -28,25 +28,27 @@ const BaseActionLink = forwardRef<HTMLAnchorElement, BaseActionLinkProps>(
 		const slots = useCls(tva, cls);
 
 		return (
-			<a
-				{...props}
-				className={slots.root()}
-				ref={ref}
-			>
-				<Icon
-					icon={icon}
-					size={"sm"}
-					{...iconProps}
-				/>
-				{children}
-			</a>
+			<div className={slots.wrapper()}>
+				<a
+					{...props}
+					className={slots.root()}
+					ref={ref}
+				>
+					<Icon
+						icon={icon}
+						size={"sm"}
+						{...iconProps}
+					/>
+					{children}
+				</a>
+			</div>
 		);
 	},
 );
 
 const CreateActionLink = createLink(BaseActionLink);
 
-export const ActionLink: LinkComponent<typeof BaseActionLink> = (props) => {
+export const ActionLinkBase: LinkComponent<typeof BaseActionLink> = (props) => {
 	return (
 		<CreateActionLink
 			preload={"intent"}
@@ -54,3 +56,5 @@ export const ActionLink: LinkComponent<typeof BaseActionLink> = (props) => {
 		/>
 	);
 };
+
+export const ActionLink = withCls(ActionLinkBase, ActionLinkCls);

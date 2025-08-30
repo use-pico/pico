@@ -1,3 +1,4 @@
+import type { Placement } from "@floating-ui/react";
 import {
 	type UseMatchRouteOptions,
 	useMatchRoute,
@@ -15,6 +16,7 @@ export namespace MenuGroup {
 		match?: UseMatchRouteOptions[];
 		active?: boolean;
 		type?: VariantOf<MenuGroupCls, "type">;
+		placement?: Placement;
 		vertical?: boolean;
 	}
 }
@@ -25,6 +27,7 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	match = [],
 	active,
 	type,
+	placement = "bottom-start",
 	vertical,
 	tva = MenuGroupCls,
 	cls,
@@ -58,7 +61,7 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 			action="hover"
 			delay={100}
 			float={{
-				placement: "bottom-start",
+				placement,
 			}}
 		>
 			<div className={slots.items()}>{children}</div>

@@ -5,6 +5,7 @@ export const ActionCls = PicoCls.extend(
 		tokens: [],
 		slot: [
 			"root",
+			"wrapper",
 		],
 		variant: {
 			tone: [
@@ -43,11 +44,13 @@ export const ActionCls = PicoCls.extend(
 						"cursor-pointer",
 						"transition-all",
 						"select-none",
+						"border-transparent",
 					],
 					[
 						"round.default",
 						"scale.md",
 						"border.default",
+						"border.default:hover",
 					],
 				),
 			}),
@@ -168,6 +171,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
+						"shadow.default",
 						"tone.primary.light.text",
 						"tone.primary.light.text:hover",
 						"tone.primary.light.bg",
@@ -186,6 +190,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
+						"shadow.default",
 						"tone.secondary.light.text",
 						"tone.secondary.light.text:hover",
 						"tone.secondary.light.bg",
@@ -204,6 +209,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
+						"shadow.default",
 						"tone.danger.light.text",
 						"tone.danger.light.text:hover",
 						"tone.danger.light.bg",
@@ -222,6 +228,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
+						"shadow.default",
 						"tone.warning.light.text",
 						"tone.warning.light.text:hover",
 						"tone.warning.light.bg",
@@ -242,11 +249,11 @@ export const ActionCls = PicoCls.extend(
 					root: what.token([
 						"tone.neutral.light.text",
 						"tone.neutral.light.text:hover",
-						"tone.neutral.light.bg",
+						// "tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",
-						"tone.neutral.light.border",
+						// "tone.neutral.light.border",
 						"tone.neutral.light.border:hover",
-						"tone.neutral.light.shadow",
+						// "tone.neutral.light.shadow",
 						"tone.neutral.light.shadow:hover",
 					]),
 				},
@@ -258,6 +265,7 @@ export const ActionCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
+						"shadow.default",
 						"tone.subtle.light.text",
 						"tone.subtle.light.text:hover",
 						"tone.subtle.light.bg",
@@ -274,9 +282,11 @@ export const ActionCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					root: what.css([
+					wrapper: what.css([
 						"cursor-not-allowed",
 						"opacity-50",
+					]),
+					root: what.css([
 						"pointer-events-none",
 					]),
 				},
@@ -286,9 +296,12 @@ export const ActionCls = PicoCls.extend(
 					loading: true,
 				}),
 				{
+					wrapper: what.css([
+						"cursor-progress",
+						"opacity-50",
+					]),
 					root: what.css([
 						"pointer-events-none",
-						"opacity-50",
 					]),
 				},
 			),

@@ -5,7 +5,7 @@ export const CardCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			inline: [
@@ -17,17 +17,24 @@ export const CardCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
 						"flex",
 						"flex-col",
 						"gap-4",
 					],
 					[
-						"square.md",
 						"border.default",
 						"round.default",
+						"shadow.default",
+						"square.lg",
+						// "tone.neutral.light.bg",
+						"tone.neutral.light.text",
+						"tone.neutral.light.text:hover",
 						"tone.neutral.light.border",
+						"tone.neutral.light.border:hover",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
 					],
 				),
 			}),
@@ -36,13 +43,16 @@ export const CardCls = PicoCls.extend(
 					inline: true,
 				}),
 				{
-					base: what.css([
-						"flex-row",
-						"border-none",
-						"gap-1",
-						"p-0",
-						"flex-1",
-					]),
+					root: what.both(
+						[
+							"inline-flex",
+							"flex-row",
+							"gap-2",
+						],
+						[
+							"square.md",
+						],
+					),
 				},
 			),
 		],

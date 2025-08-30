@@ -24,7 +24,6 @@ export const IssuesCls = PicoCls.extend(
 						"text-md",
 					],
 					[
-						"square.md",
 						"border.default",
 						"round.default",
 					],

@@ -1,7 +1,7 @@
 import type { Entity } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
+import { Attr } from "../attr/Attr";
 import { InlineContext } from "../context/InlineContext";
-import { ValueOf } from "../value-of/ValueOf";
 import { CardCls } from "./CardCls";
 
 /**
@@ -30,7 +30,7 @@ import { CardCls } from "./CardCls";
  */
 export namespace Card {
 	export interface Item<TValues extends Record<string, any>>
-		extends Omit<ValueOf.Props, "value"> {
+		extends Omit<Attr.Props, "value"> {
 		id: string;
 		label?: ReactNode;
 		render: FC<Entity.Type<TValues>>;
@@ -49,7 +49,7 @@ export namespace Card {
 		items: Item<TValues>[];
 		hidden?: string[];
 		inline?: boolean;
-		valueOfProps?: Partial<ValueOf.Props>;
+		attrProps?: Partial<Attr.Props>;
 	}
 
 	/**
@@ -66,13 +66,13 @@ export namespace Card {
 export const Card = <TValues extends Record<string, any>>({
 	items,
 	hidden = [],
-	valueOfProps,
+	attrProps,
 	entity,
 	tva = CardCls,
 	cls,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = tva.create(cls, ({ what }) => ({
 		variant: what.variant({
 			inline,
 		}),
@@ -84,15 +84,15 @@ export const Card = <TValues extends Record<string, any>>({
 				inline,
 			}}
 		>
-			<div className={classes.base()}>
+			<div className={slots.root()}>
 				{items
 					.filter(({ id }) => !hidden.includes(id))
 					.map(({ id, render: Render, ...props }) => {
 						return (
-							<ValueOf
+							<Attr
 								key={id}
 								value={<Render entity={entity} />}
-								{...valueOfProps}
+								{...attrProps}
 								{...props}
 							/>
 						);

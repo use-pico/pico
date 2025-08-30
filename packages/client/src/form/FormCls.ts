@@ -35,7 +35,6 @@ export const FormCls = PicoCls.extend(
 					[
 						"border.default",
 						"round.default",
-						"square.md",
 						"tone.neutral.light.border",
 					],
 				),

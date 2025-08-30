@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
@@ -14,7 +14,7 @@ export namespace ActionModal {
 	}
 }
 
-export const ActionModal: FC<ActionModal.Props> = ({
+export const BaseActionModal: FC<ActionModal.Props> = ({
 	icon,
 	iconProps,
 	label,
@@ -31,23 +31,27 @@ export const ActionModal: FC<ActionModal.Props> = ({
 	}));
 
 	return hidden ? null : (
-		<div className={slots.root()}>
-			<Modal
-				icon={icon}
-				target={
-					<div className={"flex flex-row gap-2 items-center"}>
-						<Icon
-							icon={icon}
-							size={"sm"}
-							{...iconProps}
-						/>
-						{label}
-					</div>
-				}
-				disabled={disabled}
-				size={"lg"}
-				{...props}
-			/>
+		<div className={slots.wrapper()}>
+			<div className={slots.root()}>
+				<Modal
+					icon={icon}
+					target={
+						<div className={"flex flex-row gap-2 items-center"}>
+							<Icon
+								icon={icon}
+								size={"sm"}
+								{...iconProps}
+							/>
+							{label}
+						</div>
+					}
+					disabled={disabled}
+					size={"lg"}
+					{...props}
+				/>
+			</div>
 		</div>
 	);
 };
+
+export const ActionModal = withCls(BaseActionModal, ActionModalCls);

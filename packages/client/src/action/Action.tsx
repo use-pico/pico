@@ -5,7 +5,12 @@ import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { ActionCls } from "./ActionCls";
 
 /**
- * Action, useful for creating simple actions like toolbar buttons.
+ * Action component for creating simple interactive elements like toolbar buttons.
+ *
+ * The Action component provides a flexible way to create clickable elements with
+ * different states (enabled, disabled, loading) and customizable icons. It's
+ * particularly useful for toolbar buttons, action buttons, and other interactive
+ * elements that need to respond to different states.
  *
  * @group ui
  *
@@ -16,11 +21,9 @@ import { ActionCls } from "./ActionCls";
  * export const MyComponent = () => {
  *   const mutation = useMutation();
  *   return <Action
- *      icon={{
- *          enabled: "...",
- *          disabled: "...",
- *          loading: "...",
- *      }}
+ *      iconEnabled="play"
+ *      iconDisabled="pause"
+ *      iconLoading="spinner"
  *      loading={mutation.isPending}
  *      onClick={() => {
  *          mutation.mutate();
@@ -31,29 +34,36 @@ import { ActionCls } from "./ActionCls";
  */
 export namespace Action {
 	/**
-	 * All the properties used in the Action icon.
+	 * Properties for the Action component.
 	 */
 	export interface Props
 		extends ActionCls.Props<
 			Omit<HTMLAttributes<HTMLDivElement>, "children">
 		> {
+		/** Icon to display when the action is enabled and not loading */
 		iconEnabled?: Icon.Type;
+		/** Icon to display when the action is disabled */
 		iconDisabled?: Icon.Type;
+		/** Icon to display when the action is in loading state */
 		iconLoading?: Icon.Type;
+		/** Additional properties to pass to the Icon component */
 		iconProps?: Icon.PropsEx;
+		/** Size variant of the action (inherits from ActionCls size variants) */
 		size?: VariantOf<ActionCls, "size">;
 		/**
 		 * Controls loading state of an action.
+		 * When true, displays the loading icon and prevents click events.
 		 */
 		loading?: boolean;
 		/**
 		 * Controls disabled state of an action.
+		 * When true, displays the disabled icon and prevents click events.
 		 */
 		disabled?: boolean;
 	}
 }
 
-const Component: FC<Action.Props> = ({
+const BaseAction: FC<Action.Props> = ({
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
@@ -97,4 +107,4 @@ const Component: FC<Action.Props> = ({
 	);
 };
 
-export const Action = withCls(Component, ActionCls);
+export const Action = withCls(BaseAction, ActionCls);

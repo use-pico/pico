@@ -35,8 +35,6 @@ export const AlertCls = PicoCls.extend(
 			def.root({
 				base: what.both(
 					[
-						"py-2",
-						"px-3",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -45,6 +43,7 @@ export const AlertCls = PicoCls.extend(
 						"shadow.default",
 						"round.default",
 						"border.default",
+						"padding.md",
 					],
 				),
 				header: what.css([

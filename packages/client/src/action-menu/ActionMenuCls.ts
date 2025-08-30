@@ -26,7 +26,7 @@ export const ActionMenuCls = PicoCls.extend(
 						"tone.neutral.light.shadow",
 						"tone.neutral.light.border",
 						"round.default",
-						"square.md",
+						"square.lg",
 						"shadow.md",
 					],
 				),

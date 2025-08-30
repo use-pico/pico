@@ -22,14 +22,19 @@ export const JustDropZoneCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
-					"flex",
-					"flex-col",
-					"gap-2",
-					"items-center",
-					"justify-center",
-					"w-full",
-				]),
+				base: what.both(
+					[
+						"flex",
+						"flex-col",
+						"gap-2",
+						"items-center",
+						"justify-center",
+						"w-full",
+					],
+					[
+						"shadow.default",
+					],
+				),
 				label: what.both(
 					[
 						"flex",
@@ -45,8 +50,12 @@ export const JustDropZoneCls = PicoCls.extend(
 					[
 						"round.default",
 						"tone.neutral.light.border",
+						"tone.neutral.light.text",
+						"tone.neutral.light.text:hover",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",
+						"tone.neutral.light.shadow",
+						"tone.neutral.light.shadow:hover",
 					],
 				),
 				zone: what.both(
@@ -60,6 +69,7 @@ export const JustDropZoneCls = PicoCls.extend(
 					],
 					[
 						"tone.neutral.light.text",
+						"tone.neutral.light.text:hover",
 					],
 				),
 			}),
@@ -87,18 +97,13 @@ export const JustDropZoneCls = PicoCls.extend(
 					rejected: true,
 				}),
 				{
-					label: what.both(
-						[],
-						[
-							"tone.danger.light.text",
-						],
-					),
-					zone: what.both(
-						[],
-						[
-							"tone.danger.light.text",
-						],
-					),
+					label: what.token([
+						"tone.danger.light.text",
+						"tone.danger.light.text:hover",
+					]),
+					zone: what.token([
+						"tone.danger.light.text",
+					]),
 				},
 			),
 		],

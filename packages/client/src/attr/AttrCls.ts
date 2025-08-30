@@ -1,7 +1,7 @@
 import type { Component } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const ValueOfCls = PicoCls.extend(
+export const AttrCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
@@ -16,7 +16,7 @@ export const ValueOfCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				base: what.both(
@@ -27,12 +27,12 @@ export const ValueOfCls = PicoCls.extend(
 						"transition-all",
 					],
 					[
-						"shadow.sm",
-						"border.default",
+						// "shadow.sm",
+						// "border.default",
 						"round.default",
-						"tone.neutral.light.border",
-						"tone.neutral.light.shadow",
-						"tone.neutral.light.shadow:hover",
+						// "tone.neutral.light.border",
+						// "tone.neutral.light.shadow",
+						// "tone.neutral.light.shadow:hover",
 					],
 				),
 				label: what.both(
@@ -40,12 +40,12 @@ export const ValueOfCls = PicoCls.extend(
 						"text-sm",
 						"font-semibold",
 						"border-b",
-						"mb-2",
+						// "mb-2",
 					],
 					[
 						"tone.neutral.light.text",
-						"tone.neutral.light.border",
-						"tone.neutral.light.border:group-hover",
+						// "tone.neutral.light.border",
+						// "tone.neutral.light.border:group-hover",
 					],
 				),
 				value: what.css([]),
@@ -57,7 +57,7 @@ export const ValueOfCls = PicoCls.extend(
 				{
 					base: what.css([
 						"border-none",
-						"flex",
+						"inline-flex",
 						"flex-row",
 						"items-center",
 						"gap-2",
@@ -90,8 +90,8 @@ export const ValueOfCls = PicoCls.extend(
 	}),
 );
 
-export type ValueOfCls = typeof ValueOfCls;
+export type AttrCls = typeof AttrCls;
 
-export namespace ValueOfCls {
-	export type Props<P = unknown> = Component<ValueOfCls, P>;
+export namespace AttrCls {
+	export type Props<P = unknown> = Component<AttrCls, P>;
 }

@@ -12,7 +12,7 @@ export const ActionLinkCls = ActionCls.extend(
 		rules: [],
 		defaults: def.defaults({
 			disabled: false,
-			tone: "subtle",
+			tone: "neutral",
 			theme: "light",
 			loading: false,
 		}),

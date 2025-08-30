@@ -29,7 +29,7 @@ export const IconCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"icon.xs",
+						"inner-icon.xs",
 					]),
 				},
 			),
@@ -39,7 +39,7 @@ export const IconCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"icon.sm",
+						"inner-icon.sm",
 					]),
 				},
 			),
@@ -49,7 +49,7 @@ export const IconCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"icon.md",
+						"inner-icon.md",
 					]),
 				},
 			),
@@ -59,7 +59,7 @@ export const IconCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"icon.lg",
+						"inner-icon.lg",
 					]),
 				},
 			),
@@ -69,7 +69,7 @@ export const IconCls = PicoCls.extend(
 				}),
 				{
 					root: what.token([
-						"icon.xl",
+						"inner-icon.xl",
 					]),
 				},
 			),

@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { translator } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { TxCls } from "./TxCls";
@@ -10,9 +11,9 @@ export namespace Tx {
 }
 
 export const Tx: FC<Tx.Props> = ({ label, fallback, tva = TxCls, cls }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, cls);
 
 	return (
-		<div className={classes.base()}>{translator.rich(label, fallback)}</div>
+		<div className={slots.base()}>{translator.rich(label, fallback)}</div>
 	);
 };

@@ -30,6 +30,7 @@ export const ButtonCls = PicoCls.extend(
 				"sm",
 				"md",
 				"lg",
+				"xl",
 			],
 			border: [
 				"bool",
@@ -69,14 +70,9 @@ export const ButtonCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					root: what.both(
-						[
-							"text-xs",
-						],
-						[
-							"padding.xs",
-						],
-					),
+					root: what.token([
+						"size.xs",
+					]),
 				},
 			),
 			def.rule(
@@ -84,14 +80,9 @@ export const ButtonCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					root: what.both(
-						[
-							"text-sm",
-						],
-						[
-							"padding.sm",
-						],
-					),
+					root: what.token([
+						"size.sm",
+					]),
 				},
 			),
 			def.rule(
@@ -99,14 +90,9 @@ export const ButtonCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					root: what.both(
-						[
-							"text-md",
-						],
-						[
-							"padding.md",
-						],
-					),
+					root: what.token([
+						"size.md",
+					]),
 				},
 			),
 			def.rule(
@@ -114,14 +100,19 @@ export const ButtonCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					root: what.both(
-						[
-							"text-lg",
-						],
-						[
-							"padding.lg",
-						],
-					),
+					root: what.token([
+						"size.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "xl",
+				}),
+				{
+					root: what.token([
+						"size.xl",
+					]),
 				},
 			),
 			/**

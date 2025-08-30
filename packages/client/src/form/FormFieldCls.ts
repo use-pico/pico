@@ -32,6 +32,7 @@ export const FormFieldCls = PicoCls.extend(
 				"sm",
 				"md",
 				"lg",
+				"xl",
 			],
 		},
 	},
@@ -132,7 +133,7 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					input: what.token([
-						"padding.xs",
+						"size.xs",
 					]),
 				},
 			),
@@ -142,7 +143,7 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					input: what.token([
-						"padding.sm",
+						"size.sm",
 					]),
 				},
 			),
@@ -152,7 +153,7 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					input: what.token([
-						"padding.md",
+						"size.md",
 					]),
 				},
 			),
@@ -162,7 +163,17 @@ export const FormFieldCls = PicoCls.extend(
 				}),
 				{
 					input: what.token([
-						"padding.lg",
+						"size.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					size: "xl",
+				}),
+				{
+					input: what.token([
+						"size.xl",
 					]),
 				},
 			),

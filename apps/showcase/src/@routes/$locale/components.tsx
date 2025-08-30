@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, useParams } from "@tanstack/react-router";
-import { Menu, MenuLink, Tx } from "@use-pico/client";
+import { Menu, MenuGroup, MenuLink, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components")({
@@ -19,11 +19,12 @@ export const Route = createFileRoute("/$locale/components")({
 					className={tvc([
 						"flex",
 						"flex-col",
-						"w-1/8",
+						"w-fit",
 						"border-r",
 						"border-slate-300",
 						"bg-slate-100",
-						"h-full",
+						"min-h-full",
+						"items-center",
 						"shadow-lg",
 					])}
 				>
@@ -34,12 +35,14 @@ export const Route = createFileRoute("/$locale/components")({
 							"border-slate-300",
 							"bg-slate-50",
 							"flex-shrink-0",
+							"w-full",
 						])}
 					>
 						<h1
 							className={tvc([
 								"text-2xl",
 								"font-bold",
+								"text-center",
 							])}
 						>
 							<Tx label={"Components"} />
@@ -54,283 +57,440 @@ export const Route = createFileRoute("/$locale/components")({
 						])}
 					>
 						<Menu vertical>
-							<MenuLink
-								icon={"icon-[ph--paint-brush]"}
-								to={"/$locale/components/colors"}
-								params={{
-									locale,
-								}}
-								vertical
+							{/* Core UI Components */}
+							<MenuGroup
+								icon={"icon-[ph--puzzle-piece]"}
+								label={<Tx label={"Core UI"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/button",
+									},
+									{
+										to: "/$locale/components/badge",
+									},
+									{
+										to: "/$locale/components/alert",
+									},
+									{
+										to: "/$locale/components/icon",
+									},
+									{
+										to: "/$locale/components/progress",
+									},
+								]}
 							>
-								<Tx label={"Colors"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--cursor]"}
+									to={"/$locale/components/button"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Buttons"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--list]"}
-								to={"/$locale/components/action-menu"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Action menu"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--tag]"}
+									to={"/$locale/components/badge"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Badge"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--warning]"}
-								to={"/$locale/components/alert"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Alert"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--warning]"}
+									to={"/$locale/components/alert"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Alert"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--lightning]"}
-								to={"/$locale/components/action"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Action"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--star]"}
+									to={"/$locale/components/icon"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Icon"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--tag]"}
-								to={"/$locale/components/badge"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Badge"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--chart-line]"}
+									to={"/$locale/components/progress"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Progress"} />
+								</MenuLink>
+							</MenuGroup>
 
-							<MenuLink
-								icon={"icon-[ph--cursor]"}
-								to={"/$locale/components/button"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Buttons"} />
-							</MenuLink>
-
-							<MenuLink
+							{/* Data Display Components */}
+							<MenuGroup
 								icon={"icon-[ph--table]"}
-								to={"/$locale/components/table"}
-								params={{
-									locale,
-								}}
-								vertical
+								label={<Tx label={"Data Display"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/attr",
+									},
+									{
+										to: "/$locale/components/detail",
+									},
+									{
+										to: "/$locale/components/status",
+									},
+									{
+										to: "/$locale/components/preview",
+									},
+									{
+										to: "/$locale/components/title-preview",
+									},
+									{
+										to: "/$locale/components/table",
+									},
+									{
+										to: "/$locale/components/card",
+									},
+								]}
 							>
-								<Tx label={"Table"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--function]"}
+									to={"/$locale/components/attr"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Attr"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--credit-card]"}
-								to={"/$locale/components/card"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Card"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--list-dashes]"}
+									to={"/$locale/components/detail"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Detail"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--function]"}
-								to={"/$locale/components/value-of"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"ValueOf"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--info]"}
+									to={"/$locale/components/status"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Status"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--info]"}
-								to={"/$locale/components/status"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Status"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--eye]"}
+									to={"/$locale/components/preview"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Preview"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--star]"}
-								to={"/$locale/components/icon"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Icon"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--text-t]"}
+									to={"/$locale/components/title-preview"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Title Preview"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--text-t]"}
-								to={"/$locale/components/title-preview"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Title Preview"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--table]"}
+									to={"/$locale/components/table"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Table"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--eye]"}
-								to={"/$locale/components/preview"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Preview"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--credit-card]"}
+									to={"/$locale/components/card"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Card"} />
+								</MenuLink>
+							</MenuGroup>
 
-							<MenuLink
-								icon={"icon-[ph--list-dashes]"}
-								to={"/$locale/components/detail"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Detail"} />
-							</MenuLink>
-
-							<MenuLink
+							{/* Form Components */}
+							<MenuGroup
 								icon={"icon-[ph--textbox]"}
-								to={"/$locale/components/form"}
-								params={{
-									locale,
-								}}
-								vertical
+								label={<Tx label={"Form Components"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/form",
+									},
+									{
+										to: "/$locale/components/complex-form",
+									},
+									{
+										to: "/$locale/components/bool-inline",
+									},
+									{
+										to: "/$locale/components/bool-input",
+									},
+									{
+										to: "/$locale/components/select",
+									},
+									{
+										to: "/$locale/components/popup-select",
+									},
+									{
+										to: "/$locale/components/date-inline",
+									},
+									{
+										to: "/$locale/components/cursor",
+									},
+								]}
 							>
-								<Tx label={"Form"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--textbox]"}
+									to={"/$locale/components/form"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Form"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--clipboard-text]"}
-								to={"/$locale/components/complex-form"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Complex Form"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--clipboard-text]"}
+									to={"/$locale/components/complex-form"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Complex Form"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--check-square]"}
-								to={"/$locale/components/bool-inline"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Bool Inline"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--check-square]"}
+									to={"/$locale/components/bool-inline"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Bool Inline"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={
-									"icon-[fluent--checkbox-checked-20-regular]"
-								}
-								to={"/$locale/components/bool-input"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Bool Input"} />
-							</MenuLink>
+								<MenuLink
+									icon={
+										"icon-[fluent--checkbox-checked-20-regular]"
+									}
+									to={"/$locale/components/bool-input"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Bool Input"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--cursor-text]"}
-								to={"/$locale/components/cursor"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Cursor"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--caret-down]"}
+									to={"/$locale/components/select"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Select"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--calendar]"}
-								to={"/$locale/components/date-inline"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Date Inline"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--list-plus]"}
+									to={"/$locale/components/popup-select"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Popup Select"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--chart-line]"}
-								to={"/$locale/components/progress"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Progress"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--calendar]"}
+									to={"/$locale/components/date-inline"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Date Inline"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--list-plus]"}
-								to={"/$locale/components/popup-select"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Popup Select"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--cursor-text]"}
+									to={"/$locale/components/cursor"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Cursor"} />
+								</MenuLink>
+							</MenuGroup>
 
-							<MenuLink
-								icon={"icon-[ph--caret-down]"}
-								to={"/$locale/components/select"}
-								params={{
-									locale,
-								}}
-								vertical
+							{/* Navigation & Actions */}
+							<MenuGroup
+								icon={"icon-[ph--lightning]"}
+								label={<Tx label={"Navigation & Actions"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/action",
+									},
+									{
+										to: "/$locale/components/action-menu",
+									},
+									{
+										to: "/$locale/components/menu/$selected",
+									},
+								]}
 							>
-								<Tx label={"Select"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--lightning]"}
+									to={"/$locale/components/action"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Action"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--warning-circle]"}
-								to={"/$locale/components/issues"}
-								params={{
-									locale,
-								}}
-								vertical
-							>
-								<Tx label={"Issues"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--list]"}
+									to={"/$locale/components/action-menu"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Action menu"} />
+								</MenuLink>
 
-							<MenuLink
-								icon={"icon-[ph--dots-three-vertical]"}
-								to={"/$locale/components/menu/$selected"}
-								params={{
-									locale,
-									selected: "colors",
-								}}
-								vertical
+								<MenuLink
+									icon={"icon-[ph--dots-three-vertical]"}
+									to={"/$locale/components/menu/$selected"}
+									params={{
+										locale,
+										selected: "colors",
+									}}
+									vertical
+								>
+									<Tx label={"Menu"} />
+								</MenuLink>
+							</MenuGroup>
+
+							{/* Utilities & Theming */}
+							<MenuGroup
+								icon={"icon-[ph--paint-brush]"}
+								label={<Tx label={"Utilities & Theming"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/colors",
+									},
+									{
+										to: "/$locale/components/misc",
+									},
+									{
+										to: "/$locale/components/issues",
+									},
+								]}
 							>
-								<Tx label={"Menu"} />
-							</MenuLink>
+								<MenuLink
+									icon={"icon-[ph--paint-brush]"}
+									to={"/$locale/components/colors"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Colors"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--puzzle-piece]"}
+									to={"/$locale/components/misc"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Misc Components"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--warning-circle]"}
+									to={"/$locale/components/issues"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Issues"} />
+								</MenuLink>
+							</MenuGroup>
+
+							{/* Examples & Demos */}
+							<MenuGroup
+								icon={"icon-[ph--flask]"}
+								label={<Tx label={"Examples & Demos"} />}
+								placement="right-end"
+								match={[
+									{
+										to: "/$locale/components/customer-detail",
+									},
+								]}
+							>
+								<MenuLink
+									icon={"icon-[ph--user-circle]"}
+									to={"/$locale/components/customer-detail"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Customer Detail"} />
+								</MenuLink>
+							</MenuGroup>
 						</Menu>
 					</div>
 				</div>

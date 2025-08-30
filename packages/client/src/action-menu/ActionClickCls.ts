@@ -13,7 +13,7 @@ export const ActionClickCls = ActionCls.extend(
 		defaults: def.defaults({
 			loading: false,
 			disabled: false,
-			tone: "subtle",
+			tone: "neutral",
 			theme: "light",
 		}),
 	}),

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, Tx, ValueOf } from "@use-pico/client";
+import { Attr, Badge, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
@@ -19,9 +19,9 @@ const sampleData = {
 	],
 	projects: 12,
 	rating: 4.8,
-};
+} as const;
 
-export const Route = createFileRoute("/$locale/components/value-of")({
+export const Route = createFileRoute("/$locale/components/attr")({
 	component() {
 		return (
 			<div
@@ -31,17 +31,17 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 					"space-y-8",
 				])}
 			>
-				{/* Basic ValueOf */}
-				<Section title={<Tx label={"Basic ValueOf"} />}>
+				{/* Basic Attr */}
+				<Section title={<Tx label={"Basic Attr"} />}>
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Default"} />}>
-							<ValueOf
+							<Attr
 								label="Name"
 								value={sampleData.name}
 							/>
 						</Column>
 						<Column label={<Tx label={"Without Background"} />}>
-							<ValueOf
+							<Attr
 								label="Email"
 								value={sampleData.email}
 							/>
@@ -49,27 +49,27 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 					</div>
 				</Section>
 
-				{/* Inline ValueOf */}
-				<Section title={<Tx label={"Inline ValueOf"} />}>
+				{/* Inline Attr */}
+				<Section title={<Tx label={"Inline Attr"} />}>
 					<div className="grid grid-cols-1 gap-4">
 						<Column label={<Tx label={"Inline Layout"} />}>
 							<div className="flex flex-col space-y-2">
-								<ValueOf
+								<Attr
 									inline
 									label="Name:"
 									value={sampleData.name}
 								/>
-								<ValueOf
+								<Attr
 									inline
 									label="Email:"
 									value={sampleData.email}
 								/>
-								<ValueOf
+								<Attr
 									inline
 									label="Role:"
 									value={sampleData.role}
 								/>
-								<ValueOf
+								<Attr
 									inline
 									label="Department:"
 									value={sampleData.department}
@@ -84,15 +84,15 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Text Values"} />}>
 							<div className="flex flex-col space-y-2">
-								<ValueOf
+								<Attr
 									label="Full Name"
 									value={sampleData.name}
 								/>
-								<ValueOf
+								<Attr
 									label="Email Address"
 									value={sampleData.email}
 								/>
-								<ValueOf
+								<Attr
 									label="Job Title"
 									value={sampleData.role}
 								/>
@@ -100,15 +100,15 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 						</Column>
 						<Column label={<Tx label={"Numeric Values"} />}>
 							<div className="flex flex-col space-y-2">
-								<ValueOf
+								<Attr
 									label="Annual Salary"
 									value={`$${sampleData.salary.toLocaleString()}`}
 								/>
-								<ValueOf
+								<Attr
 									label="Projects Completed"
 									value={sampleData.projects}
 								/>
-								<ValueOf
+								<Attr
 									label="Performance Rating"
 									value={`${sampleData.rating}/5.0`}
 								/>
@@ -121,7 +121,7 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 				<Section title={<Tx label={"Complex Values"} />}>
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Array Values"} />}>
-							<ValueOf
+							<Attr
 								label="Skills"
 								value={
 									<div className="flex flex-wrap gap-2">
@@ -142,7 +142,7 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 							/>
 						</Column>
 						<Column label={<Tx label={"Boolean Values"} />}>
-							<ValueOf
+							<Attr
 								label="Active Status"
 								value={
 									sampleData.isActive ? "Active" : "Inactive"
@@ -152,48 +152,48 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 					</div>
 				</Section>
 
-				{/* Multiple ValueOf Components */}
-				<Section title={<Tx label={"Multiple ValueOf Components"} />}>
+				{/* Multiple Attr Components */}
+				<Section title={<Tx label={"Multiple Attr Components"} />}>
 					<div className="grid grid-cols-1 gap-4">
 						<Column label={<Tx label={"Employee Profile"} />}>
 							<div className="grid grid-cols-2 gap-4">
 								<div className="flex flex-col space-y-2">
-									<ValueOf
+									<Attr
 										label="Personal Information"
 										value=""
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Name:"
 										value={sampleData.name}
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Email:"
 										value={sampleData.email}
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Start Date:"
 										value={sampleData.startDate}
 									/>
 								</div>
 								<div className="flex flex-col space-y-2">
-									<ValueOf
+									<Attr
 										label="Work Information"
 										value=""
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Role:"
 										value={sampleData.role}
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Department:"
 										value={sampleData.department}
 									/>
-									<ValueOf
+									<Attr
 										inline
 										label="Salary:"
 										value={`$${sampleData.salary.toLocaleString()}`}
@@ -209,12 +209,12 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Inline + Background"} />}>
 							<div className="flex flex-col space-y-2">
-								<ValueOf
+								<Attr
 									inline
 									label="Name:"
 									value={sampleData.name}
 								/>
-								<ValueOf
+								<Attr
 									inline
 									label="Email:"
 									value={sampleData.email}
@@ -225,11 +225,11 @@ export const Route = createFileRoute("/$locale/components/value-of")({
 							label={<Tx label={"Default + No Background"} />}
 						>
 							<div className="flex flex-col space-y-2">
-								<ValueOf
+								<Attr
 									label="Role"
 									value={sampleData.role}
 								/>
-								<ValueOf
+								<Attr
 									label="Department"
 									value={sampleData.department}
 								/>
