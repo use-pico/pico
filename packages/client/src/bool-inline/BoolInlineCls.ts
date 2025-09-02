@@ -12,7 +12,7 @@ export const BoolInlineCls = IconCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.rule(
 				what.variant({
@@ -39,6 +39,8 @@ export const BoolInlineCls = IconCls.extend(
 			disabled: false,
 			size: "md",
 			value: false,
+			theme: "light",
+			tone: "inherit",
 		}),
 	}),
 );
