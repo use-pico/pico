@@ -2,7 +2,6 @@ import { merge } from "./merge";
 import type {
 	Cls,
 	Contract,
-	CreateConfig,
 	Definition,
 	SlotContract,
 	TokenContract,
@@ -23,16 +22,11 @@ export function withVariants<
 		any
 	>,
 >(
-	clsInstance: Cls<TContract>,
+	{ contract, definition }: Pick<Cls<TContract>, "contract" | "definition">,
 	userConfigFn?: WhatConfigFn<TContract>,
 	internalConfigFn?: WhatConfigFn<TContract>,
 ): VariantValueMapping<TContract> {
-	const contract = clsInstance.contract;
-	const definition = clsInstance.definition;
-	const config = merge(
-		userConfigFn,
-		internalConfigFn,
-	)() as CreateConfig<TContract>;
+	const config = merge(userConfigFn, internalConfigFn)();
 
 	// Build inheritance chain (base -> child order)
 	const layers: {

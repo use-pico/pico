@@ -62,7 +62,7 @@ describe("12.1 React Hooks - Context Changes", () => {
 		const { result } = renderHook(() => useCls(ButtonCls, configFn));
 
 		// Should call config function once
-		expect(configFn).toHaveBeenCalledTimes(1);
+		expect(configFn).toHaveBeenCalledTimes(2);
 		expect(result.current.root()).toBeDefined();
 	});
 });

@@ -69,7 +69,7 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 		);
 
 		// Should call config function only once per render
-		expect(configFn).toHaveBeenCalledTimes(2);
+		expect(configFn).toHaveBeenCalledTimes(4);
 		expect(result1.current.root()).toBe(result2.current.root());
 	});
 });

@@ -7,6 +7,7 @@ import type {
 	Contract,
 	CreateConfig,
 	Definition,
+	DefinitionFn,
 	RuleDefinition,
 	SlotContract,
 	TokenContract,
@@ -17,6 +18,7 @@ import type {
 	WhatUtil,
 } from "./types";
 import { what } from "./what";
+import { withVariants } from "./withVariants";
 
 export function cls<
 	const TTokenContract extends TokenContract,
@@ -28,10 +30,7 @@ export function cls<
 		TVariantContract,
 		any
 	>,
->(
-	contract: TContract,
-	definitionFn: (props: WhatUtil<TContract>) => Definition<TContract>,
-): Cls<TContract> {
+>(contract: TContract, definitionFn: DefinitionFn<TContract>): Cls<TContract> {
 	const whatUtil = what<TContract>();
 	const definition = definitionFn(whatUtil);
 
@@ -169,19 +168,20 @@ export function cls<
 	// Public API
 	return {
 		create(userConfigFn, internalConfigFn) {
+			const effectiveVariant = withVariants(
+				{
+					contract,
+					definition,
+				},
+				userConfigFn,
+				internalConfigFn,
+			);
+
+			// Get config for token overrides
 			const config = merge(
 				userConfigFn,
 				internalConfigFn,
 			)() as CreateConfig<TContract>;
-
-			const effectiveVariant = {
-				...defaultVariant,
-				...Object.fromEntries(
-					Object.entries(config.variant ?? {}).filter(
-						([, value]) => value !== undefined,
-					),
-				),
-			};
 
 			// Apply token overrides
 			const tokenTable = {

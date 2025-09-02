@@ -1,4 +1,4 @@
-import { useCls, type VariantOf, withCls } from "@use-pico/cls";
+import { useClsEx, type VariantOf, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Typo } from "../typo/Typo";
@@ -30,7 +30,7 @@ export const BaseStatus: FC<Status.Props> = ({
 	cls,
 	children,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const { slots, variants } = useClsEx(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			tone,
 		}),
@@ -41,7 +41,7 @@ export const BaseStatus: FC<Status.Props> = ({
 			<Icon
 				icon={icon}
 				size="xl"
-				tone={tone}
+				tone={variants.tone}
 				cls={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
@@ -56,12 +56,12 @@ export const BaseStatus: FC<Status.Props> = ({
 				label={textTitle}
 				size="xl"
 				font="bold"
-				tone={tone}
+				tone={variants.tone}
 				{...titleProps}
 			/>
 			<Typo
 				label={textMessage}
-				tone={tone}
+				tone={variants.tone}
 				{...messageProps}
 			/>
 			<Typo

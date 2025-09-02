@@ -181,6 +181,9 @@ export const Route = createFileRoute("/$locale/components")({
 									{
 										to: "/$locale/components/card",
 									},
+									{
+										to: "/$locale/components/data",
+									},
 								]}
 							>
 								<MenuLink
@@ -258,6 +261,17 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Card"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--database]"}
+									to={"/$locale/components/data"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Data"} />
 								</MenuLink>
 							</MenuGroup>
 

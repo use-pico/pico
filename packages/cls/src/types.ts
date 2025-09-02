@@ -905,6 +905,10 @@ export type Definition<T extends Contract<any, any, any>> = {
 	defaults: VariantValueMapping<T>;
 };
 
+export type DefinitionFn<TContract extends Contract<any, any, any>> = (
+	props: WhatUtil<TContract>,
+) => Definition<TContract>;
+
 export type CreateConfig<T extends Contract<any, any, any>> = {
 	variant?: Partial<VariantValueMapping<T>>;
 	slot?: SlotMapping<T>;

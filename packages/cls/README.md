@@ -256,9 +256,10 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
   - [15.4 Performance Optimization](#154-performance-optimization)
 - [16. React Integration](#16-react-integration)
   - [16.1 useCls Hook](#161-usecls-hook)
-  - [16.2 Component Patterns](#162-component-patterns)
-  - [16.2.1 The `cls` Prop and Slot Merging](#1621-the-cls-prop-and-slot-merging)
-  - [16.3 withCls HOC](#163-withcls-hoc)
+  - [16.1.1 useClsEx Hook](#1611-useclsex-hook)
+- [16.2 Component Patterns](#162-component-patterns)
+- [16.2.1 The `cls` Prop and Slot Merging](#1621-the-cls-prop-and-slot-merging)
+- [16.3 withCls HOC](#163-withcls-hoc)
   - [16.4 Context Integration](#164-context-integration)
   - [16.5 Provider Architecture](#165-provider-architecture)
   - [16.6 React Type System](#166-react-type-system)
@@ -1910,6 +1911,7 @@ import type {
 
 import { 
   useCls,           // Main React hook for CLS integration
+  useClsEx,         // Combined hook for slots and variants
   useClsContext,    // Access CLS context
   ClsProvider,      // Provide CLS context
   withCls           // HOC to attach CLS to components
@@ -1999,6 +2001,123 @@ const classes = useCls(ButtonCls, undefined, ({ what }) => ({
   slot: what.slot({ root: what.css(["internal-class"]) })
 }));
 ```
+
+### 16.1.1 useClsEx Hook <a id="1611-useclsex-hook"></a>
+
+The `useClsEx` hook is a **convenient combination** of `useCls` and `withVariants` - it provides both slots and computed variants in a single hook call. This is perfect for components that need access to both styling functions and variant information.
+
+> **🎯 Mental Model**: `useClsEx` = "Give me both the styling functions AND the computed variant values"
+
+#### Basic Usage
+
+```tsx
+import { useClsEx } from '@use-pico/cls/react';
+
+function Button({ size = "md", variant = "primary" }) {
+  const { slots, variants } = useClsEx(ButtonCls, ({ what }) => ({
+    variant: what.variant({ size, variant })
+  }));
+
+  // Access computed variants
+  console.log('Current variants:', variants); // { size: "md", variant: "primary" }
+  
+  // Use slots for styling
+  return (
+    <button className={slots.root()}>
+      Button with {variants.size} size and {variants.variant} variant
+    </button>
+  );
+}
+```
+
+#### When to Use useClsEx
+
+**✅ Perfect for:**
+- Components that need both styling and variant information
+- **Wrapper components that extract variants and pass them downstream** (see example below)
+- Dynamic UI that responds to variant changes
+- Components that render variant-dependent content
+- Debugging and development tools
+
+**❌ Consider useCls instead when:**
+- You only need styling (slots)
+- You don't need access to computed variant values
+- Performance is critical (useCls is slightly more optimized)
+
+#### Advanced Usage: Wrapper Components with Downstream Variants
+
+**🚀 Key Use Case**: When a wrapper component extracts variants using `VariantOf` and needs to pass computed variants to its children.
+
+```tsx
+import type { VariantOf } from '@use-pico/cls';
+
+// Wrapper component that takes a variant and passes it to children
+interface StatusProps {
+  tone?: VariantOf<StatusCls, "tone">; // Extract tone variant type
+  children: React.ReactNode;
+}
+
+function Status({ tone = "inherit", children }: StatusProps) {
+  // useClsEx provides both styling AND computed variants
+  const { slots, variants } = useClsEx(StatusCls, ({ what }) => ({
+    variant: what.variant({ tone })
+  }));
+
+  return (
+    <div className={slots.root()}>
+      {/* Pass computed tone variant to child components */}
+      <Icon 
+        icon="info" 
+        tone={variants.tone} // ✅ Computed variant value
+        cls={({ what }) => ({
+          slot: what.slot({
+            root: what.css(["opacity-50"])
+          })
+        })}
+      />
+      
+      <Typo tone={variants.tone}> {/* ✅ Same computed variant */}
+        {children}
+      </Typo>
+    </div>
+  );
+}
+
+// Usage - tone flows through the component hierarchy
+<Status tone="success">
+  Operation completed successfully!
+</Status>
+```
+
+**Why useClsEx is Perfect Here:**
+- **Single Source of Truth**: `variants.tone` contains the computed variant value
+- **Type Safety**: `VariantOf<StatusCls, "tone">` ensures prop types match contract
+- **Downstream Propagation**: Children receive the exact same variant value
+- **Consistency**: All child components use identical variant computation
+
+> **💡 Real-World Example**: This pattern is used in consuming packages like `@use-pico/client` - see the `Status` component that takes a `tone` variant and passes it to child `Icon` and `Typo` components, ensuring consistent styling throughout the component hierarchy.
+
+#### Comparison: useCls vs useClsEx
+
+| Feature | useCls | useClsEx |
+|---------|--------|----------|
+| **Returns** | `slots` only | `{ slots, variants }` |
+| **Performance** | Optimized | Slightly more overhead |
+| **Use Case** | Styling only | Styling + variant info |
+| **API** | `const slots = useCls(...)` | `const { slots, variants } = useClsEx(...)` |
+
+**Choose useClsEx when you need:**
+- Access to computed variant values
+- Both styling functions and variant information
+- Debugging variant computation
+- Dynamic content based on variants
+
+**Choose useCls when you need:**
+- Only styling functions
+- Maximum performance
+- Simple component styling
+
+> **💡 Next**: Learn about [Component Patterns](#162-component-patterns) for building reusable, composable React components with CLS.
 
 ### 16.2 Component Patterns <a id="162-component-patterns"></a>
 

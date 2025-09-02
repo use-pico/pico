@@ -28,6 +28,7 @@ import { Route as LocaleComponentsIconRouteImport } from './@routes/$locale/comp
 import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/components/form'
 import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
 import { Route as LocaleComponentsDateInlineRouteImport } from './@routes/$locale/components/date-inline'
+import { Route as LocaleComponentsDataRouteImport } from './@routes/$locale/components/data'
 import { Route as LocaleComponentsCustomerDetailRouteImport } from './@routes/$locale/components/customer-detail'
 import { Route as LocaleComponentsCursorRouteImport } from './@routes/$locale/components/cursor'
 import { Route as LocaleComponentsComplexFormRouteImport } from './@routes/$locale/components/complex-form'
@@ -142,6 +143,11 @@ const LocaleComponentsDateInlineRoute =
     path: '/date-inline',
     getParentRoute: () => LocaleComponentsRoute,
   } as any)
+const LocaleComponentsDataRoute = LocaleComponentsDataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => LocaleComponentsRoute,
+} as any)
 const LocaleComponentsCustomerDetailRoute =
   LocaleComponentsCustomerDetailRouteImport.update({
     id: '/customer-detail',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
+  '/$locale/components/data': typeof LocaleComponentsDataRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
@@ -270,6 +277,7 @@ export interface FileRoutesByTo {
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
+  '/$locale/components/data': typeof LocaleComponentsDataRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
@@ -306,6 +314,7 @@ export interface FileRoutesById {
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
   '/$locale/components/cursor': typeof LocaleComponentsCursorRoute
   '/$locale/components/customer-detail': typeof LocaleComponentsCustomerDetailRoute
+  '/$locale/components/data': typeof LocaleComponentsDataRoute
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/customer-detail'
+    | '/$locale/components/data'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
@@ -376,6 +386,7 @@ export interface FileRouteTypes {
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/customer-detail'
+    | '/$locale/components/data'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
@@ -411,6 +422,7 @@ export interface FileRouteTypes {
     | '/$locale/components/complex-form'
     | '/$locale/components/cursor'
     | '/$locale/components/customer-detail'
+    | '/$locale/components/data'
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
@@ -569,6 +581,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsDateInlineRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/data': {
+      id: '/$locale/components/data'
+      path: '/data'
+      fullPath: '/$locale/components/data'
+      preLoaderRoute: typeof LocaleComponentsDataRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/customer-detail': {
       id: '/$locale/components/customer-detail'
       path: '/customer-detail'
@@ -684,6 +703,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsComplexFormRoute: typeof LocaleComponentsComplexFormRoute
   LocaleComponentsCursorRoute: typeof LocaleComponentsCursorRoute
   LocaleComponentsCustomerDetailRoute: typeof LocaleComponentsCustomerDetailRoute
+  LocaleComponentsDataRoute: typeof LocaleComponentsDataRoute
   LocaleComponentsDateInlineRoute: typeof LocaleComponentsDateInlineRoute
   LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
   LocaleComponentsFormRoute: typeof LocaleComponentsFormRoute
@@ -716,6 +736,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsComplexFormRoute: LocaleComponentsComplexFormRoute,
   LocaleComponentsCursorRoute: LocaleComponentsCursorRoute,
   LocaleComponentsCustomerDetailRoute: LocaleComponentsCustomerDetailRoute,
+  LocaleComponentsDataRoute: LocaleComponentsDataRoute,
   LocaleComponentsDateInlineRoute: LocaleComponentsDateInlineRoute,
   LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
   LocaleComponentsFormRoute: LocaleComponentsFormRoute,
