@@ -26,6 +26,8 @@ export namespace Icon {
 		 */
 		icon: Icon.Type;
 		size?: VariantOf<IconCls, "size">;
+		tone?: VariantOf<IconCls, "tone">;
+		theme?: VariantOf<IconCls, "theme">;
 		disabled?: boolean;
 	}
 
@@ -38,6 +40,8 @@ export namespace Icon {
 export const Icon: FC<Icon.Props> = ({
 	icon,
 	size,
+	tone,
+	theme,
 	disabled,
 	tva = IconCls,
 	cls,
@@ -46,6 +50,8 @@ export const Icon: FC<Icon.Props> = ({
 	const slots = useCls(tva, cls, ({ what }) => ({
 		variant: what.variant({
 			size,
+			tone,
+			theme,
 			disabled,
 		}),
 		slot: what.slot({

@@ -27,3 +27,4 @@ export type {
 	WhatToken,
 	WhatUtil,
 } from "./types";
+export { withVariants } from "./withVariants";

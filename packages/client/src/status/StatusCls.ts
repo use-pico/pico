@@ -10,10 +10,21 @@ export const StatusCls = PicoCls.extend(
 			"message",
 			"body",
 		],
-		variant: {},
+		variant: {
+			tone: [
+				"inherit",
+				"primary",
+				"secondary",
+				"danger",
+				"warning",
+				"neutral",
+				"subtle",
+				"link",
+			],
+		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				root: what.css([
@@ -41,8 +52,15 @@ export const StatusCls = PicoCls.extend(
 					"w-full",
 				]),
 			}),
+			/**
+			 * Tones are not defined as Status are forwarding it's
+			 * styles to "Icon" and "Typo" components which implements
+			 * their own styles.
+			 */
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "inherit",
+		}),
 	}),
 );
 

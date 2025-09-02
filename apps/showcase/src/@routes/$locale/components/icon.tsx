@@ -427,6 +427,181 @@ export const Route = createFileRoute("/$locale/components/icon")({
 					</div>
 				</Section>
 
+				{/* Tone Variants */}
+				<Section title={<Tx label={"Tone Variants"} />}>
+					<div className="grid grid-cols-2 gap-6">
+						<Column
+							label={<Tx label={"All Tones (Light Theme)"} />}
+						>
+							<div className="flex items-center space-x-4">
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "primary",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "secondary",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "danger",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "warning",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "neutral",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "subtle",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "link",
+											theme: "light",
+										}),
+									})}
+								/>
+							</div>
+						</Column>
+						<Column label={<Tx label={"Inherit Tone (Default)"} />}>
+							<div className="flex items-center space-x-4">
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "inherit",
+											theme: "light",
+										}),
+									})}
+								/>
+								<Icon
+									icon={CheckIcon}
+									cls={({ what }) => ({
+										variant: what.variant({
+											tone: "inherit",
+											theme: "dark",
+										}),
+									})}
+								/>
+								<span className="text-xs text-gray-500">
+									Inherits parent styling
+								</span>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Dark Theme Showcase */}
+				<Section title={<Tx label={"Dark Theme Showcase"} />}>
+					<div className="grid grid-cols-1 gap-6">
+						<Column label={<Tx label={"Dark Theme Tones"} />}>
+							<div className="bg-black p-6 rounded-lg">
+								<div className="flex items-center space-x-4">
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "primary",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "secondary",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "danger",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "warning",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "neutral",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "subtle",
+												theme: "dark",
+											}),
+										})}
+									/>
+									<Icon
+										icon={CheckIcon}
+										cls={({ what }) => ({
+											variant: what.variant({
+												tone: "link",
+												theme: "dark",
+											}),
+										})}
+									/>
+								</div>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
 				{/* Icon Categories */}
 				<Section title={<Tx label={"Icon Categories"} />}>
 					<div className="grid grid-cols-1 gap-6">

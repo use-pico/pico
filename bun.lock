@@ -20,10 +20,10 @@
         "@tanstack/react-query": "5.85.6",
         "@tanstack/react-router": "1.131.31",
         "@tanstack/zod-adapter": "^1.129.7",
-        "@use-pico/client": "5.0.32",
-        "@use-pico/cls": "5.0.17",
-        "@use-pico/common": "5.0.21",
-        "@use-pico/server": "5.0.21",
+        "@use-pico/client": "5.0.33",
+        "@use-pico/cls": "5.0.18",
+        "@use-pico/common": "5.0.22",
+        "@use-pico/server": "5.0.22",
         "fuse.js": "7.1.0",
         "kysely": "0.28.5",
         "react": "^19.1.1",
@@ -56,7 +56,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "5.0.32",
+      "version": "5.0.33",
       "dependencies": {
         "@floating-ui/react": "0.27.16",
         "@lexical/list": "0.34.0",
@@ -67,8 +67,8 @@
         "@tanstack/react-query": "5.85.6",
         "@tanstack/react-router": "1.131.31",
         "@types/luxon": "^3.6.2",
-        "@use-pico/cls": "5.0.17",
-        "@use-pico/common": "5.0.21",
+        "@use-pico/cls": "5.0.18",
+        "@use-pico/common": "5.0.22",
         "axios": "1.11.0",
         "js-file-downloader": "1.1.25",
         "kysely": "0.28.5",
@@ -82,7 +82,7 @@
         "read-excel-file": "5.8.8",
         "sqlocal": "0.14.2",
         "ts-pattern": "^5.8.0",
-        "use-debounce": "10.0.5",
+        "use-debounce": "10.0.6",
         "uuid": "^11.1.0",
         "write-excel-file": "2.3.4",
         "zod": "4.1.5",
@@ -104,7 +104,7 @@
     },
     "packages/cls": {
       "name": "@use-pico/cls",
-      "version": "5.0.17",
+      "version": "5.0.18",
       "dependencies": {
         "react": "^19.1.1",
         "tailwind-merge": "^3.3.1",
@@ -134,7 +134,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "5.0.21",
+      "version": "5.0.22",
       "dependencies": {
         "@apollo/client": "^4.0.0",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -176,7 +176,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.42",
+      "version": "4.0.43",
       "dependencies": {
         "@graphql-codegen/add": "^5.0.3",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -206,10 +206,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "5.0.21",
+      "version": "5.0.22",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "5.0.21",
+        "@use-pico/common": "5.0.22",
         "yaml": "2.8.1",
       },
       "devDependencies": {
@@ -1752,7 +1752,7 @@
 
     "upper-case-first": ["upper-case-first@2.0.2", "", { "dependencies": { "tslib": "^2.0.3" } }, "sha512-514ppYHBaKwfJRK/pNC6c/OxfGa0obSnAl106u97Ed0I625Nin96KAjttZF6ZL3e1XLtphxnqrOi9iWgm+u+bg=="],
 
-    "use-debounce": ["use-debounce@10.0.5", "", { "peerDependencies": { "react": "*" } }, "sha512-Q76E3lnIV+4YT9AHcrHEHYmAd9LKwUAbPXDm7FlqVGDHiSOhX3RDjT8dm0AxbJup6WgOb1YEcKyCr11kBJR5KQ=="],
+    "use-debounce": ["use-debounce@10.0.6", "", { "peerDependencies": { "react": "*" } }, "sha512-C5OtPyhAZgVoteO9heXMTdW7v/IbFI+8bSVKYCJrSmiWWCLsbUxiBSp4t9v0hNBTGY97bT72ydDIDyGSFWfwXg=="],
 
     "use-sync-external-store": ["use-sync-external-store@1.5.0", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A=="],
 

@@ -167,42 +167,90 @@ export const Route = createFileRoute("/$locale/components/status")({
 					</div>
 				</Section>
 
-				{/* Custom Icon Props */}
-				<Section title={<Tx label={"Custom Icon Props"} />}>
+				{/* Tone Variants */}
+				<Section title={<Tx label={"Tone Variants"} />}>
 					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Custom Icon Size"} />}>
-							<Status
-								textTitle="Custom Icon"
-								textMessage="This status uses custom icon properties."
-								icon="icon-[mdi-light--star]"
-								iconProps={{
-									cls: ({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-yellow-500",
-												"opacity-75",
-											]),
-										}),
-									}),
-								}}
-							/>
+						<Column label={<Tx label={"Success Tones"} />}>
+							<div className="space-y-4">
+								<Status
+									textTitle="Success"
+									textMessage="Operation completed successfully."
+									icon="icon-[mdi-light--check-circle]"
+									tone="primary"
+								/>
+								<Status
+									textTitle="Information"
+									textMessage="Here's some helpful information."
+									icon="icon-[mdi-light--information]"
+									tone="secondary"
+								/>
+								<Status
+									textTitle="Neutral"
+									textMessage="This is a neutral status message."
+									icon="icon-[mdi-light--circle]"
+									tone="neutral"
+								/>
+							</div>
 						</Column>
-						<Column label={<Tx label={"Animated Icon"} />}>
-							<Status
-								textTitle="Processing"
-								textMessage="Please wait while we process your data."
-								icon="icon-[lets-icons--progress-light]"
-								iconProps={{
-									cls: ({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"animate-spin",
-												"text-blue-500",
-											]),
-										}),
-									}),
-								}}
-							/>
+						<Column label={<Tx label={"Alert Tones"} />}>
+							<div className="space-y-4">
+								<Status
+									textTitle="Warning"
+									textMessage="Please review your input before proceeding."
+									icon="icon-[mdi-light--alert-circle]"
+									tone="warning"
+								/>
+								<Status
+									textTitle="Error"
+									textMessage="Something went wrong. Please try again."
+									icon="icon-[pajamas--status-alert]"
+									tone="danger"
+								/>
+								<Status
+									textTitle="Subtle"
+									textMessage="A subtle status message for less important info."
+									icon="icon-[mdi-light--minus-circle]"
+									tone="subtle"
+								/>
+							</div>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Tone Comparison */}
+				<Section title={<Tx label={"Tone Comparison"} />}>
+					<div className="grid grid-cols-1 gap-6">
+						<Column
+							label={
+								<Tx label={"Same Message, Different Tones"} />
+							}
+						>
+							<div className="space-y-4">
+								<Status
+									textTitle="System Status"
+									textMessage="All systems are operating normally."
+									icon="icon-[mdi-light--check-circle]"
+									tone="primary"
+								/>
+								<Status
+									textTitle="System Status"
+									textMessage="All systems are operating normally."
+									icon="icon-[mdi-light--check-circle]"
+									tone="secondary"
+								/>
+								<Status
+									textTitle="System Status"
+									textMessage="All systems are operating normally."
+									icon="icon-[mdi-light--check-circle]"
+									tone="neutral"
+								/>
+								<Status
+									textTitle="System Status"
+									textMessage="All systems are operating normally."
+									icon="icon-[mdi-light--check-circle]"
+									tone="subtle"
+								/>
+							</div>
 						</Column>
 					</div>
 				</Section>

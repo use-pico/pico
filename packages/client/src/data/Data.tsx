@@ -1,6 +1,10 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
-import { type QueryKey, useQuery } from "@tanstack/react-query";
-import type { FC } from "react";
+import {
+	type QueryKey,
+	useQuery,
+	type UseQueryResult,
+} from "@tanstack/react-query";
+import type { FC, ReactNode } from "react";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
@@ -9,33 +13,17 @@ import { Tx } from "../tx/Tx";
  * Experimental component using schema to ensure the given data is valid.
  */
 export namespace Data {
-	export interface Props<TSchema extends StandardSchemaV1> {
-		/**
-		 * Hash - internally uses useQuery because of promise handling
-		 */
-		hash: QueryKey;
-		/**
-		 * Input data
-		 */
-		data: unknown;
-		/**
-		 * Standard schema to validate the data
-		 */
-		schema: TSchema;
-		/**
-		 * Success component to render when the data is valid
-		 */
-		success: FC<{
-			data: StandardSchemaV1.InferOutput<TSchema>;
-		}>;
-		/**
-		 * Pending component to render when the data is being validated
-		 */
-		pending?: FC;
-		/**
-		 * Error component to render when the data is invalid
-		 */
-		error?: FC;
+	export namespace ErrorComponent {
+		export interface Props {
+			error: Error;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export interface Props<TResult extends UseQueryResult> {
+		result: TResult;
+		renderError?: ErrorComponent.RenderFn;
 	}
 }
 
@@ -45,11 +33,12 @@ export const Data = <TSchema extends StandardSchemaV1>({
 	schema,
 	success: SuccessComponent,
 	pending: PendingComponent = () => null,
-	error: ErrorComponent = () => (
+	renderError = () => (
 		<Status
 			icon={ErrorIcon}
 			iconProps={{
 				cls: ({ what }) => ({
+					variant: what.variant({}),
 					slot: what.slot({
 						root: what.css([
 							"text-red-500",

@@ -1,4 +1,4 @@
-import { withCls } from "@use-pico/cls";
+import { useCls, type VariantOf, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Typo } from "../typo/Typo";
@@ -13,6 +13,7 @@ export namespace Status {
 		titleProps?: Typo.PropsEx;
 		messageProps?: Typo.PropsEx;
 		bodyProps?: Typo.PropsEx;
+		tone?: VariantOf<StatusCls, "tone">;
 	}
 }
 
@@ -24,17 +25,23 @@ export const BaseStatus: FC<Status.Props> = ({
 	titleProps,
 	messageProps,
 	bodyProps,
+	tone = "inherit",
 	tva = StatusCls,
 	cls,
 	children,
 }) => {
-	const slots = tva.create(cls);
+	const slots = useCls(tva, cls, ({ what }) => ({
+		variant: what.variant({
+			tone,
+		}),
+	}));
 
 	return (
 		<div className={slots.root()}>
 			<Icon
 				icon={icon}
 				size="xl"
+				tone={tone}
 				cls={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
@@ -49,10 +56,12 @@ export const BaseStatus: FC<Status.Props> = ({
 				label={textTitle}
 				size="xl"
 				font="bold"
+				tone={tone}
 				{...titleProps}
 			/>
 			<Typo
 				label={textMessage}
+				tone={tone}
 				{...messageProps}
 			/>
 			<Typo
