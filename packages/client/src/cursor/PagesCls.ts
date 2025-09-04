@@ -5,7 +5,7 @@ export const PagesCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"list",
 			"page",
 		],
@@ -19,13 +19,13 @@ export const PagesCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"select-none",
 				]),
 				list: what.css([
-					"flex",
+					"inline-flex",
 					"items-center",
-					"gap-3",
+					"gap-2",
 				]),
 				page: what.both(
 					[
@@ -41,6 +41,7 @@ export const PagesCls = PicoCls.extend(
 						"scale.sm",
 						"border.default",
 						"round.default",
+						"size.sm",
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.bg:hover",
@@ -58,11 +59,11 @@ export const PagesCls = PicoCls.extend(
 					page: what.both(
 						[
 							"font-bold",
-							"scale-120",
 							"hover:scale-120",
 						],
 						[
 							"shadow.sm",
+							"size.md",
 							"tone.neutral.light.text",
 							"tone.neutral.light.bg",
 							"tone.neutral.light.border",

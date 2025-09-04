@@ -1,5 +1,6 @@
 import type { CountSchema, withQuerySchema } from "@use-pico/common";
 import { Cursor as CoolCursor } from "../cursor/Cursor";
+import { Data } from "../data/Data";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import type { withQuery } from "../source/withQuery";
@@ -15,48 +16,27 @@ export namespace TableCursor {
 export const TableCursor = <TQuery extends withQuerySchema.Query>({
 	cursor,
 	withCountQuery,
-	query: { filter, where, ...query },
+	query: { filter, where },
 }: TableCursor.Props<TQuery>) => {
-	const { data, isSuccess, isLoading, isFetching, isError } =
-		withCountQuery.useQuery({
-			/**
-			 * This is a trick - count needs only filters, sort and so on is not necessary
-			 */
-			filter,
-			where,
-		} as TQuery);
-
-	if (isError) {
-		return null;
-	}
-
-	if (!query.cursor) {
-		return null;
-	}
-
-	if (isLoading) {
-		return <Icon icon={LoaderIcon} />;
-	}
-
-	if (!isSuccess) {
-		return null;
-	}
+	const countQuery = withCountQuery.useQuery({
+		/**
+		 * This is a trick - count needs only filters, sort and so on is not necessary
+		 */
+		filter,
+		where,
+	} as TQuery);
 
 	return (
-		<CoolCursor
-			cls={({ what }) => ({
-				slot: {
-					root: what.css(
-						isFetching
-							? [
-									"opacity-50",
-								]
-							: undefined,
-					),
-				},
-			})}
-			state={cursor}
-			count={data}
+		<Data<CountSchema.Type, typeof countQuery>
+			result={countQuery}
+			renderError={() => null}
+			renderLoading={() => <Icon icon={LoaderIcon} />}
+			renderSuccess={({ data }) => (
+				<CoolCursor
+					state={cursor}
+					count={data}
+				/>
+			)}
 		/>
 	);
 };

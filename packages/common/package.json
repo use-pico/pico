@@ -29,7 +29,7 @@
 		"kysely": "0.28.5",
 		"luxon": "^3.7.1",
 		"object-path": "0.11.8",
-		"path-to-regexp": "8.2.0",
+		"path-to-regexp": "8.3.0",
 		"preferred-locale": "2.0.2",
 		"read-excel-file": "5.8.8",
 		"timer-node": "5.0.9",

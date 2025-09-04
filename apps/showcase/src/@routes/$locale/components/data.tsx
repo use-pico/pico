@@ -32,6 +32,7 @@ export const Route = createFileRoute("/$locale/components/data")({
 				"clientInfo",
 			],
 			queryFn: fetchClientInfo,
+			staleTime: 0,
 		});
 
 		return (
@@ -242,7 +243,7 @@ export const Route = createFileRoute("/$locale/components/data")({
 								</div>
 							</div>
 						)}
-						renderPending={() => (
+						renderLoading={() => (
 							<div
 								className={tvc([
 									"p-6",

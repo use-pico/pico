@@ -37,22 +37,9 @@ export const TablePrefix = <
 	context,
 }: TablePrefix.Props<TQuery, TContext>) => {
 	return (
-		<div className={"flex items-center justify-between gap-4"}>
-			<div className={"flex flex-row items-center gap-2 flex-grow"}>
-				<div className={"flex items-center gap-6"}>
-					{fulltext ? (
-						<Fulltext
-							state={fulltext}
-							// cls={({ what }) => ({
-							// 	slot: {
-							// 		base: what.css([
-							// 			"w-96",
-							// 		]),
-							// 	},
-							// })}
-						/>
-					) : null}
-				</div>
+		<div className={"grid grid-cols-3 gap-4 items-center"}>
+			<div className={"inline-flex items-center gap-2"}>
+				{fulltext ? <Fulltext state={fulltext} /> : null}
 				<div className={"flex flex-row items-center gap-2"}>
 					{controlsHidden.includes("toolbar")
 						? null
@@ -64,16 +51,16 @@ export const TablePrefix = <
 				</div>
 			</div>
 
-			<div className={"flex flex-row items-center justify-center gap-2"}>
+			<div />
+
+			<div className={"justify-self-end"}>
 				{cursor && withCountQuery ? (
 					<TableCursor
 						withCountQuery={withCountQuery}
 						cursor={cursor}
 						query={query}
 					/>
-				) : (
-					<div />
-				)}
+				) : null}
 			</div>
 		</div>
 	);

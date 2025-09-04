@@ -23,7 +23,7 @@ export const Pages: FC<Pages.Props> = ({
 	const classes = tva.create(cls);
 
 	return (
-		<nav className={classes.base()}>
+		<nav className={classes.root()}>
 			<ul className={classes.list()}>
 				{pages.map((current) => {
 					return (

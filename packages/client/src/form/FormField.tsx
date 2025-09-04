@@ -1,6 +1,7 @@
 import { useCls } from "@use-pico/cls";
 import type { ForwardedRef, ReactNode } from "react";
 import { forwardRef, useId } from "react";
+import { Typo } from "../typo/Typo";
 import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
 
@@ -72,12 +73,11 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 							}
 						>
 							{label ? (
-								<label
-									htmlFor={name as string}
-									className={slots.label()}
-								>
-									{label}
-								</label>
+								<Typo
+									size={"md"}
+									font={"semi"}
+									label={label}
+								/>
 							) : (
 								<div />
 							)}
@@ -86,7 +86,14 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 							) : null}
 						</div>
 					) : null}
-					{hint ? <div className={slots.hint()}>{hint}</div> : null}
+					{hint ? (
+						<Typo
+							italic
+							size={"sm"}
+							tone={"subtle"}
+							label={hint}
+						/>
+					) : null}
 				</div>
 			) : null}
 			{children({

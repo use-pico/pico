@@ -9,6 +9,7 @@ import { type FC, type ReactNode, useMemo } from "react";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
 import { Tx } from "../tx/Tx";
+import { Typo } from "../typo/Typo";
 import { CursorCls } from "./CursorCls";
 import { Pages } from "./Pages";
 import { SizeSelect } from "./SizeSelect";
@@ -50,12 +51,15 @@ export const Cursor: FC<Cursor.Props> = ({
 	return (
 		<div className={slots.root()}>
 			<div className={slots.sums()}>
-				<div>{textTotal}</div>
-				<div className={"font-bold"}>{count.filter}</div>
+				{textTotal}
+				<Typo label={count.filter} />
 				{count.filter !== count.where && (
 					<>
-						<div>/</div>
-						<div className={"font-semibold"}>{count.where}</div>
+						<Typo label={"/"} />
+						<Typo
+							font={"bold"}
+							label={count.where}
+						/>
 					</>
 				)}
 			</div>
@@ -117,6 +121,7 @@ export const Cursor: FC<Cursor.Props> = ({
 					) : null}
 				</div>
 			) : null}
+
 			<SizeSelect
 				size={state.value.size}
 				onSize={(size) =>

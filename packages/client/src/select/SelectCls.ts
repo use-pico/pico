@@ -21,27 +21,30 @@ export const SelectCls = FormFieldCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				input: what.css([
-					"flex",
+					"inline-flex",
 					"flex-row",
+					"w-fit",
 					"items-center",
 					"justify-between",
 					"cursor-pointer",
+					"gap-2",
 				]),
 				popup: what.both(
 					[
-						"z-50",
-						"cursor-pointer",
+						"flex",
+						"flex-col",
 						"overflow-y-auto",
 						"bg-white",
-						"shadow-lg",
 						"focus:outline-hidden",
+						"gap-1",
 					],
 					[
 						"border.default",
+						"shadow.default",
 						"round.default",
 						"tone.neutral.light.border",
 						"square.xs",
@@ -53,6 +56,8 @@ export const SelectCls = FormFieldCls.extend(
 						"flex",
 						"items-center",
 						"justify-between",
+						"gap-2",
+						"cursor-pointer",
 					],
 					[
 						"padding.md",

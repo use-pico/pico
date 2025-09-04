@@ -155,7 +155,6 @@ export const Select = <TItem extends EntitySchema.Type>({
 			{({ ref: _, ...props }) => (
 				<>
 					<div
-						tabIndex={disabled ? -1 : 0}
 						ref={disabled ? undefined : refs.setReference}
 						{...(disabled ? {} : getReferenceProps())}
 						{...props}
@@ -200,6 +199,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 							) : null}
 							<Icon
 								icon={"icon-[gg--select]"}
+								size="sm"
 								cls={({ what }) => ({
 									slot: what.slot({
 										root: what.css(

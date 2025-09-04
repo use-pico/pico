@@ -40,7 +40,6 @@ export const SizeSelect: FC<SizeSelect.Props> = ({
 			value={`${size}`}
 			onItem={({ size }) => onSize(size)}
 			render={({ entity: { size } }) => size}
-			size={"sm"}
 			{...props}
 		/>
 	);
