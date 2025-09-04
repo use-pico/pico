@@ -65,7 +65,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--puzzle-piece]"}
 								label={<Tx label={"Core UI"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/button",
@@ -159,7 +158,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--table]"}
 								label={<Tx label={"Data Display"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/attr",
@@ -281,7 +279,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--textbox]"}
 								label={<Tx label={"Form Components"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/form",
@@ -405,7 +402,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--lightning]"}
 								label={<Tx label={"Navigation & Actions"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/action",
@@ -458,7 +454,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--paint-brush]"}
 								label={<Tx label={"Utilities & Theming"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/colors",
@@ -510,7 +505,6 @@ export const Route = createFileRoute("/$locale/components")({
 							<MenuGroup
 								icon={"icon-[ph--flask]"}
 								label={<Tx label={"Examples & Demos"} />}
-								placement="right-end"
 								match={[
 									{
 										to: "/$locale/components/customer-detail",

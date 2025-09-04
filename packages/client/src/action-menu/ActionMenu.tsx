@@ -28,7 +28,7 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	icon = ActionMenuIcon,
 	iconProps,
 	target,
-	placement = "right-end",
+	placement = "right-start",
 	actionProps,
 	children,
 	tva = ActionMenuCls,

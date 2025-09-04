@@ -163,21 +163,7 @@ export const AbstractListBody = <
 					</motion.div>
 				)}
 
-				{isSuccess && data?.length === 0 && (
-					<motion.div
-						key="empty"
-						variants={stateVariants}
-						initial="initial"
-						animate="empty"
-						exit="exit"
-					>
-						{renderEmpty({
-							loading: undefined,
-						})}
-					</motion.div>
-				)}
-
-				{isSuccess && data && (
+				{isSuccess && data.length > 0 && (
 					<motion.div
 						key="success"
 						variants={stateVariants}
@@ -242,6 +228,19 @@ export const AbstractListBody = <
 								})}
 							</motion.div>
 						</motion.div>
+					</motion.div>
+				)}
+				{isSuccess && data?.length === 0 && (
+					<motion.div
+						key="empty"
+						variants={stateVariants}
+						initial="initial"
+						animate="empty"
+						exit="exit"
+					>
+						{renderEmpty({
+							loading: undefined,
+						})}
 					</motion.div>
 				)}
 			</AnimatePresence>

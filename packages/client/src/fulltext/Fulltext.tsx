@@ -49,14 +49,16 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				}}
 			/>
 			{value && (
-				<div
-					className={slots.clear()}
-					onClick={() => {
-						setSearch("");
-						set("");
-					}}
-				>
-					<Icon icon={"icon-[gridicons--cross]"} />
+				<div className={slots.clear()}>
+					<Icon
+						icon={"icon-[gridicons--cross]"}
+						size="sm"
+						tone={"secondary"}
+						onClick={() => {
+							setSearch("");
+							set("");
+						}}
+					/>
 				</div>
 			)}
 		</div>
