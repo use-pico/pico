@@ -19,7 +19,6 @@ export const CursorCls = PicoCls.extend(
 				root: what.css([
 					"inline-flex",
 					"items-center",
-					"justify-between",
 					"gap-2",
 				]),
 				pages: what.css([
@@ -27,14 +26,6 @@ export const CursorCls = PicoCls.extend(
 					"items-center",
 					"justify-center",
 					"gap-2",
-					"text-sm",
-				]),
-				"pages-wrapper": what.css([
-					// "flex",
-					// "flex-col",
-					// "items-end",
-					// // "justify-start",
-					// "gap-2",
 				]),
 				sums: what.css([
 					"inline-flex",

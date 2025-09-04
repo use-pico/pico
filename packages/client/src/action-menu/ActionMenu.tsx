@@ -10,7 +10,7 @@ import { ActionMenuCls } from "./ActionMenuCls";
 export namespace ActionMenu {
 	export interface Props extends ActionMenuCls.Props<PropsWithChildren> {
 		icon?: Icon.Type;
-		iconProps?: Omit<Icon.Props, "icon">;
+		iconProps?: Icon.PropsEx;
 		/**
 		 * Override the default target element for the menu
 		 */
@@ -53,7 +53,7 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 						<Action
 							iconEnabled={icon}
 							iconProps={iconProps}
-							size={"md"}
+							size={"sm"}
 							cls={({ what }) => ({
 								variant: what.variant({
 									border: true,

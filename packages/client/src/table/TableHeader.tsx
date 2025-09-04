@@ -171,6 +171,7 @@ export const TableHeader = <
 												theme: "light",
 											}),
 										})}
+										size={"xs"}
 										onClick={() => {
 											column.filter?.reset({
 												state: filter,

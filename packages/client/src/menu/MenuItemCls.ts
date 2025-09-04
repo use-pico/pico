@@ -30,13 +30,12 @@ export const MenuItemCls = PicoCls.extend(
 					[
 						"inline-flex",
 						"flex-row",
-						"gap-2",
 						"items-center",
 						"border-transparent",
 						"transition-all",
 						"duration-200",
 						"cursor-pointer",
-						"w-full",
+						"w-fit",
 					],
 					[
 						"border.default",

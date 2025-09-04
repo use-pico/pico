@@ -86,6 +86,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/typo",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--cursor]"}
@@ -185,6 +186,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/data",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--function]"}
@@ -306,6 +308,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/cursor",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--textbox]"}
@@ -414,6 +417,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/menu/$selected",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--lightning]"}
@@ -466,6 +470,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/issues",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--paint-brush]"}
@@ -511,6 +516,7 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/customer-detail",
 									},
 								]}
+								vertical
 							>
 								<MenuLink
 									icon={"icon-[ph--user-circle]"}

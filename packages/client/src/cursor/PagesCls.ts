@@ -35,11 +35,10 @@ export const PagesCls = PicoCls.extend(
 						"cursor-pointer",
 						"transition-all",
 						"duration-200",
-						"hover:shadow-sm",
 					],
 					[
-						"scale.sm",
 						"border.default",
+						"shadow.default",
 						"round.default",
 						"size.sm",
 						"tone.neutral.light.text",
@@ -59,7 +58,6 @@ export const PagesCls = PicoCls.extend(
 					page: what.both(
 						[
 							"font-bold",
-							"hover:scale-120",
 						],
 						[
 							"shadow.sm",

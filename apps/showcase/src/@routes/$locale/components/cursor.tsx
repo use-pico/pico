@@ -92,7 +92,6 @@ export const Route = createFileRoute("/$locale/components/cursor")({
 									filter: 25,
 									total: 50,
 								}}
-								textTotal={<Tx label={"Total records"} />}
 							/>
 						</div>
 					</Column>
@@ -218,7 +217,6 @@ export const Route = createFileRoute("/$locale/components/cursor")({
 									filter: 250,
 									total: 250,
 								}}
-								textTotal={<Tx label={"Total users"} />}
 							/>
 						</div>
 					</Column>
@@ -242,7 +240,6 @@ export const Route = createFileRoute("/$locale/components/cursor")({
 									filter: 45,
 									total: 500,
 								}}
-								textTotal={<Tx label={"Filtered items"} />}
 							/>
 						</div>
 					</Column>

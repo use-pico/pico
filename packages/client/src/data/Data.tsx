@@ -56,7 +56,7 @@ export namespace Data {
 }
 
 export const Data = <
-const TData,
+	const TData,
 	const TResult extends UseQueryResult<TData, Error>,
 >({
 	result,

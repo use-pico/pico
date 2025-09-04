@@ -91,9 +91,6 @@ export const FormFieldCls = PicoCls.extend(
 						"opacity-80",
 						"cursor-not-allowed",
 					]),
-					label: what.css([
-						"opacity-50",
-					]),
 					input: what.both(
 						[
 							"pointer-events-none",

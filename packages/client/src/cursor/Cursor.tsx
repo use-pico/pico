@@ -5,10 +5,10 @@ import {
 	cursorOf,
 	type StateType,
 } from "@use-pico/common";
-import { type FC, type ReactNode, useMemo } from "react";
+import { type FC, useMemo } from "react";
+import { Badge } from "../badge/Badge";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
-import { Tx } from "../tx/Tx";
 import { Typo } from "../typo/Typo";
 import { CursorCls } from "./CursorCls";
 import { Pages } from "./Pages";
@@ -20,14 +20,12 @@ export namespace Cursor {
 	export interface Props extends CursorCls.Props {
 		state: State;
 		count: CountSchema.Type;
-		textTotal?: ReactNode;
 	}
 }
 
 export const Cursor: FC<Cursor.Props> = ({
 	state,
 	count,
-	textTotal = <Tx label={"Number of items"} />,
 	tva = CursorCls,
 	cls,
 }) => {
@@ -50,19 +48,25 @@ export const Cursor: FC<Cursor.Props> = ({
 
 	return (
 		<div className={slots.root()}>
-			<div className={slots.sums()}>
-				{textTotal}
-				<Typo label={count.filter} />
+			<Badge
+				size={"sm"}
+				tone={count.filter === count.where ? "neutral" : "primary"}
+			>
+				<Typo
+					label={count.filter}
+					size={"sm"}
+				/>
 				{count.filter !== count.where && (
 					<>
 						<Typo label={"/"} />
 						<Typo
 							font={"bold"}
+							size={"sm"}
 							label={count.where}
 						/>
 					</>
 				)}
-			</div>
+			</Badge>
 
 			{$cursor.total > 1 ? (
 				<div className={slots.pages()}>
@@ -79,7 +83,7 @@ export const Cursor: FC<Cursor.Props> = ({
 						/>
 					) : null}
 
-					{$cursor.start && $cursor.pages ? (
+					{$cursor.start && $cursor.pages && state.value.page >= 3 ? (
 						<Icon
 							icon={DotsIcon}
 							size={"xs"}
@@ -99,8 +103,9 @@ export const Cursor: FC<Cursor.Props> = ({
 						/>
 					) : null}
 
-					{($cursor.pages && $cursor.end) ||
-					($cursor.start && $cursor.end) ? (
+					{state.value.page < $cursor.total - 3 &&
+					(($cursor.pages && $cursor.end) ||
+						($cursor.start && $cursor.end)) ? (
 						<Icon
 							icon={DotsIcon}
 							size={"xs"}
