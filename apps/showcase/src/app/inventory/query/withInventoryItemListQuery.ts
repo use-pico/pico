@@ -37,7 +37,7 @@ export const withInventoryItemListQuery = () => {
 								},
 							}),
 						);
-					}, 1750);
+					}, 750);
 				});
 			},
 		},

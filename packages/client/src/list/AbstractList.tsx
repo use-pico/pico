@@ -181,7 +181,7 @@ export const AbstractList = <
 				return (
 					<Status
 						icon={SpinnerIcon}
-						tone={"secondary"}
+						tone={"primary"}
 						textTitle={<Tx label={"Loading..."} />}
 						textMessage={<Tx label={"Please wait..."} />}
 					/>
@@ -204,6 +204,7 @@ export const AbstractList = <
 		return (
 			<Status
 				icon={ErrorIcon}
+				tone={"danger"}
 				textTitle={<Tx label={"Error"} />}
 				textMessage={<Tx label={"Something went wrong."} />}
 			/>

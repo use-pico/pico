@@ -1,8 +1,6 @@
 import type { CountSchema, withQuerySchema } from "@use-pico/common";
 import { Cursor as CoolCursor } from "../cursor/Cursor";
 import { Data } from "../data/Data";
-import { Icon } from "../icon/Icon";
-import { LoaderIcon } from "../icon/LoaderIcon";
 import type { withQuery } from "../source/withQuery";
 
 export namespace TableCursor {
@@ -30,7 +28,7 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 		<Data<CountSchema.Type, typeof countQuery>
 			result={countQuery}
 			renderError={() => null}
-			renderLoading={() => <Icon icon={LoaderIcon} />}
+			renderLoading={() => null}
 			renderSuccess={({ data }) => (
 				<CoolCursor
 					state={cursor}

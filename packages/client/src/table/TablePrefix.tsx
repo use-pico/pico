@@ -40,6 +40,9 @@ export const TablePrefix = <
 		<div className={"grid grid-cols-3 gap-4 items-center"}>
 			<div className={"inline-flex items-center gap-2"}>
 				{fulltext ? <Fulltext state={fulltext} /> : null}
+			</div>
+
+			<div>
 				<div className={"flex flex-row items-center gap-2"}>
 					{controlsHidden.includes("toolbar")
 						? null
@@ -50,8 +53,6 @@ export const TablePrefix = <
 							})}
 				</div>
 			</div>
-
-			<div />
 
 			<div className={"justify-self-end"}>
 				{cursor && withCountQuery ? (
