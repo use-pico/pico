@@ -3,7 +3,7 @@ import type { FC, ReactNode } from "react";
 import { match, P } from "ts-pattern";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { ErrorIcon } from "../icon/ErrorIcon";
-import { LoaderIcon } from "../icon/LoaderIcon";
+import { SpinnerIcon } from "../icon/SpinnerIcon";
 import type { withQuery } from "../source/withQuery";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
@@ -180,7 +180,8 @@ export const AbstractList = <
 			.with("loading", () => {
 				return (
 					<Status
-						icon={LoaderIcon}
+						icon={SpinnerIcon}
+						tone={"secondary"}
 						textTitle={<Tx label={"Loading..."} />}
 						textMessage={<Tx label={"Please wait..."} />}
 					/>

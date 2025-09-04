@@ -162,6 +162,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 					>
 						<Icon
 							icon={icon}
+							size="sm"
 							cls={({ what }) => ({
 								slot: what.slot({
 									root: what.css([

@@ -15,19 +15,29 @@ export const withInventoryItemListQuery = () => {
 				];
 			},
 			async queryFn({ filter, where, cursor, sort }) {
-				return withList({
-					select: kysely.selectFrom("InventoryItem").selectAll(),
-					output: InventoryItemSchema,
-					cursor,
-					filter,
-					where,
-					query({ select, where }) {
-						return withInventoryItemQueryBuilderWithSort({
-							select,
-							where,
-							sort,
-						});
-					},
+				return new Promise((res) => {
+					setTimeout(() => {
+						res(
+							withList({
+								select: kysely
+									.selectFrom("InventoryItem")
+									.selectAll(),
+								output: InventoryItemSchema,
+								cursor,
+								filter,
+								where,
+								query({ select, where }) {
+									return withInventoryItemQueryBuilderWithSort(
+										{
+											select,
+											where,
+											sort,
+										},
+									);
+								},
+							}),
+						);
+					}, 1750);
 				});
 			},
 		},

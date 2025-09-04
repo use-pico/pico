@@ -41,7 +41,7 @@ export const MenuItemCls = PicoCls.extend(
 					[
 						"border.default",
 						"round.default",
-						"scale.default",
+						"scale.sm",
 						"padding.md",
 					],
 				),
@@ -179,17 +179,6 @@ export const MenuItemCls = PicoCls.extend(
 					root: what.css([
 						"hover:tone.subtle.light.bg:hover",
 						"hover:tone.subtle.light.border:hover",
-					]),
-				},
-			),
-			// Original active rule (kept for backward compatibility)
-			def.rule(
-				what.variant({
-					active: true,
-				}),
-				{
-					root: what.css([
-						"scale-105",
 					]),
 				},
 			),

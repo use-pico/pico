@@ -14,7 +14,7 @@ export const LoadingOverlayCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				root: what.both(

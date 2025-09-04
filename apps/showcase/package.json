@@ -15,7 +15,7 @@
 		"@tanstack/react-query": "5.86.0",
 		"@tanstack/react-router": "1.131.35",
 		"@tanstack/zod-adapter": "^1.129.7",
-		"@use-pico/client": "5.0.36",
+		"@use-pico/client": "5.0.37",
 		"@use-pico/cls": "5.0.21",
 		"@use-pico/common": "5.0.25",
 		"@use-pico/server": "5.0.25",

@@ -1,6 +1,7 @@
 import { useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { Icon } from "../icon/Icon";
+import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { LoadingOverlayCls } from "./LoadingOverlayCls";
 
 export namespace LoadingOverlay {
@@ -23,7 +24,7 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	return show ? (
 		<div className={slots.root()}>
 			<Icon
-				icon={"icon-[svg-spinners--pulse-rings-multiple]"}
+				icon={SpinnerIcon}
 				cls={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
