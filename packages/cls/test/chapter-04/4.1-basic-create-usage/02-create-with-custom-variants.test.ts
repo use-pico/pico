@@ -18,7 +18,7 @@ describe("4.1 Basic Create Usage - Create with Custom Variants", () => {
 				},
 			},
 			({ what, def }) => ({
-				token: {},
+				token: def.token({}),
 				rules: [
 					def.root({
 						root: what.css([

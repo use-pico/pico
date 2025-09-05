@@ -1,5 +1,5 @@
 import type { Contract } from "./Contract";
-import type { Utility } from "./utility";
+import type { Utility } from "./Utility";
 
 /**
  * Namespace for variant-related types and utilities

@@ -1,14 +1,8 @@
-import type {
-	Cls,
-	CreateConfig,
-	Definition,
-	DefinitionFn,
-	RuleDefinition,
-	Slot,
-	WhatUtil,
-} from "./types";
+import type { Cls, CreateConfig, Slot, WhatUtil } from "./types";
 import type { ClassName } from "./types/ClassName";
 import type { Contract } from "./types/Contract";
+import type { Definition } from "./types/Definition";
+import type { Rule } from "./types/Rule";
 import type { Slot as CoolSlot } from "./types/Slot";
 import type { Token } from "./types/Token";
 import type { Variant } from "./types/Variant";
@@ -27,7 +21,7 @@ export function cls<
 		TVariantContract,
 		any
 	>,
->(contract: TContract, definitionFn: DefinitionFn<TContract>): Cls<TContract> {
+>(contract: TContract, definitionFn: Definition.Fn<TContract>): Cls<TContract> {
 	const whatUtil = what<TContract>();
 	const definition = definitionFn(whatUtil);
 
@@ -37,7 +31,7 @@ export function cls<
 	// Build inheritance chain (base -> child order)
 	const layers: {
 		contract: Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>;
-		definition: Definition<
+		definition: Definition.Type<
 			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		>;
 	}[] = [];
@@ -45,7 +39,9 @@ export function cls<
 		| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
-		| Definition<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
+		| Definition.Type<
+				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
+		  >
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -57,7 +53,9 @@ export function cls<
 			| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
+			| Definition.Type<
+					Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
+			  >
 			| undefined;
 	}
 
@@ -71,7 +69,7 @@ export function cls<
 
 	// Merge defaults and rules from ALL layers in inheritance order
 	const defaultVariant = {} as Variant.VariantOf<TContract>;
-	const rules: RuleDefinition<
+	const rules: Rule.Type<
 		Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 	>[] = [];
 

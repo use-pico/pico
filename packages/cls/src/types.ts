@@ -1,8 +1,10 @@
 import type { ClassName } from "./types/ClassName";
 import type { Contract as CoolContract } from "./types/Contract";
+import type { Definition } from "./types/Definition";
+import type { Rule as CoolRule } from "./types/Rule";
 import type { Slot as CoolSlot } from "./types/Slot";
 import type { Token as CoolToken } from "./types/Token";
-import type { Utility } from "./types/utility";
+import type { Utility } from "./types/Utility";
 import type { Variant as CoolVariant } from "./types/Variant";
 
 /**
@@ -47,9 +49,6 @@ export interface WhatUtilEx<T extends CoolContract.Any>
 // SLOT SYSTEM
 // ============================================================================
 
-// Helper types for internal use
-type SlotOf<T extends CoolContract.Any> = Slot.Of<T>;
-
 /**
  * Namespace for CLS helper types
  */
@@ -79,22 +78,16 @@ export namespace Contract {
 	 * Namespace for rule-related types
 	 */
 	export namespace Rule {
-		export interface Definition<T extends CoolContract.Any> {
-			override?: boolean;
-			match?: Partial<CoolVariant.VariantOf<T>>;
-			slot: Slot.Mapping<T>;
-		}
-
 		export type MatchFn<TContract extends CoolContract.Any> = (
-			match: Definition<TContract>["match"] | undefined,
-			slot: Slot.Mapping<TContract>,
+			match: CoolRule.Type<TContract>["match"] | undefined,
+			slot: CoolSlot.Mapping<TContract>,
 			override?: boolean,
-		) => Definition<TContract>;
+		) => CoolRule.Type<TContract>;
 
 		export type MatchSlotFn<TContract extends CoolContract.Any> = (
-			slot: Slot.Mapping<TContract>,
+			slot: CoolSlot.Mapping<TContract>,
 			override?: boolean,
-		) => Definition<TContract>;
+		) => CoolRule.Type<TContract>;
 	}
 }
 
@@ -122,15 +115,6 @@ export namespace WhatUtil {
 	}
 
 	/**
-	 * Namespace for slot-related helper types
-	 */
-	export namespace Slot {
-		export type Mapping<T extends CoolContract.Any> = {
-			[K in SlotOf<T>]?: Value.Any<T>;
-		};
-	}
-
-	/**
 	 * Namespace for configuration function types
 	 */
 	export namespace Config {
@@ -155,8 +139,8 @@ export namespace WhatUtil {
 		) => Value.Any<T>;
 
 		export type SlotFn<T extends CoolContract.Any> = (
-			slot: WhatUtil.Slot.Mapping<T>,
-		) => WhatUtil.Slot.Mapping<T>;
+			slot: CoolSlot.Mapping<T>,
+		) => CoolSlot.Mapping<T>;
 	}
 
 	/**
@@ -164,8 +148,8 @@ export namespace WhatUtil {
 	 */
 	export namespace Override {
 		export type TokenFn<T extends CoolContract.Any> = (
-			token: Token.DefinitionOptional<T>,
-		) => Token.DefinitionOptional<T>;
+			token: CoolToken.Optional<T>,
+		) => CoolToken.Optional<T>;
 	}
 }
 
@@ -174,21 +158,10 @@ export namespace WhatUtil {
  */
 export namespace Slot {
 	/**
-	 * Extracts all slot names from a contract and its inheritance chain
-	 */
-	export type Of<T extends CoolContract.Any> = T extends {
-		"~use"?: infer U;
-	}
-		? U extends CoolContract.Any
-			? T["slot"][number] | Of<U>
-			: T["slot"][number]
-		: T["slot"][number];
-
-	/**
 	 * Mapping type for slot styling configurations
 	 */
 	export type Mapping<T extends CoolContract.Any> = {
-		[K in Of<T>]?: WhatUtil.Value.Any<T>;
+		[K in CoolSlot.Extract<T>]?: WhatUtil.Value.Any<T>;
 	};
 
 	/**
@@ -202,7 +175,7 @@ export namespace Slot {
 	 * Object type containing all slot functions for a contract
 	 */
 	export type Functions<T extends CoolContract.Any> = {
-		[K in Of<T>]: Fn<T>;
+		[K in CoolSlot.Extract<T>]: Fn<T>;
 	};
 
 	/**
@@ -216,27 +189,12 @@ export namespace Slot {
  */
 export namespace Token {
 	/**
-	 * Required token definitions for all declared tokens
-	 */
-	export type DefinitionRequired<T extends CoolContract.Any> =
-		T["tokens"][number] extends never
-			? Record<string, never>
-			: { [K in T["tokens"][number]]: WhatUtil.Value.Any<T> };
-
-	/**
-	 * Optional token definitions for inherited tokens
-	 */
-	export type DefinitionOptional<T extends CoolContract.Any> = Partial<
-		Record<CoolToken.Extract<T>, WhatUtil.Value.Any<T>>
-	>;
-
-	/**
 	 * Extended token definitions that handle both required and optional tokens
 	 */
 	export type DefinitionEx<T extends CoolContract.Any> =
 		T["tokens"][number] extends never
-			? DefinitionOptional<T> // If no local tokens, only inherited tokens are allowed
-			: DefinitionOptional<T> & DefinitionRequired<T>; // If local tokens exist, they are required
+			? CoolToken.Optional<T> // If no local tokens, only inherited tokens are allowed
+			: CoolToken.Optional<T> & CoolToken.Required<T>; // If local tokens exist, they are required
 
 	/**
 	 * Function type for creating token reference styling values
@@ -249,8 +207,8 @@ export namespace Token {
 	 * Function type for creating token override definitions
 	 */
 	export type OverrideFn<T extends CoolContract.Any> = (
-		token: DefinitionOptional<T>,
-	) => DefinitionOptional<T>;
+		token: CoolToken.Optional<T>,
+	) => CoolToken.Optional<T>;
 
 	/**
 	 * Function type for creating token definitions
@@ -258,12 +216,6 @@ export namespace Token {
 	export type DefinitionFn<T extends CoolContract.Any> = (
 		token: DefinitionEx<T>,
 	) => DefinitionEx<T>;
-}
-
-export interface RuleDefinition<T extends CoolContract.Any> {
-	override?: boolean;
-	match?: CoolVariant.Optional<T>;
-	slot: Slot.Mapping<T>;
 }
 
 export interface WhatUtil<T extends CoolContract.Any> {
@@ -285,7 +237,7 @@ export interface WhatUtil<T extends CoolContract.Any> {
 		root: Contract.Rule.MatchSlotFn<T>;
 		rule: Contract.Rule.MatchFn<T>;
 
-		token(token: Token.DefinitionRequired<T>): Token.DefinitionRequired<T>;
+		token(token: CoolToken.Required<T>): CoolToken.Required<T>;
 
 		defaults: CoolVariant.RequiredFn<T>;
 	};
@@ -293,25 +245,15 @@ export interface WhatUtil<T extends CoolContract.Any> {
 
 export type DefinitionEx<T extends CoolContract.Any> = {
 	token: Token.DefinitionEx<T>;
-	rules: RuleDefinition<T>[];
+	rules: CoolRule.Type<T>[];
 	defaults: CoolVariant.VariantOf<T>;
 };
-
-export type Definition<T extends CoolContract.Any> = {
-	token: Token.DefinitionRequired<T>;
-	rules: RuleDefinition<T>[];
-	defaults: CoolVariant.VariantOf<T>;
-};
-
-export type DefinitionFn<TContract extends CoolContract.Any> = (
-	props: WhatUtil<TContract>,
-) => Definition<TContract>;
 
 export type CreateConfig<T extends CoolContract.Any> = {
 	variant?: Partial<CoolVariant.VariantOf<T>>;
-	slot?: Slot.Mapping<T>;
-	override?: Slot.Mapping<T>;
-	token?: Token.DefinitionOptional<T>;
+	slot?: CoolSlot.Mapping<T>;
+	override?: CoolSlot.Mapping<T>;
+	token?: CoolToken.Optional<T>;
 };
 
 export type Component<TCls extends Cls<any>, P = unknown> = {
@@ -400,5 +342,5 @@ export interface Cls<T extends CoolContract.Any> {
 
 	contract: T;
 
-	definition: Definition<T>;
+	definition: Definition.Type<T>;
 }

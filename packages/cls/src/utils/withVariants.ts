@@ -1,5 +1,6 @@
-import type { Cls, Definition, WhatUtil } from "../types";
+import type { Cls, WhatUtil } from "../types";
 import type { Contract } from "../types/Contract";
+import type { Definition } from "../types/Definition";
 import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
 import type { Variant } from "../types/Variant";
@@ -26,7 +27,7 @@ export function withVariants<
 	// Build inheritance chain (base -> child order)
 	const layers: {
 		contract: Contract.Type<Token.Type, Slot.Type, Variant.Type>;
-		definition: Definition<
+		definition: Definition.Type<
 			Contract.Type<Token.Type, Slot.Type, Variant.Type>
 		>;
 	}[] = [];
@@ -35,7 +36,7 @@ export function withVariants<
 		| Contract.Type<Token.Type, Slot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
-		| Definition<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
+		| Definition.Type<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -47,7 +48,9 @@ export function withVariants<
 			| Contract.Type<Token.Type, Slot.Type, Variant.Type>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
+			| Definition.Type<
+					Contract.Type<Token.Type, Slot.Type, Variant.Type>
+			  >
 			| undefined;
 	}
 
