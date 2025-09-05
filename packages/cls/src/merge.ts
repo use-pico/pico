@@ -1,4 +1,4 @@
-import type { Contract, CreateConfig, What, WhatConfigFn } from "./types";
+import type { Contract, CreateConfig, WhatUtil } from "./types";
 import { what } from "./what";
 
 /**
@@ -23,10 +23,10 @@ function filter<T extends Record<string, any>>(
 /**
  * Combines two What objects by merging their class and token arrays
  */
-function combineWhat<T extends Contract<any, any, any>>(
-	internal: What<T> | undefined,
-	user: What<T> | undefined,
-): What<T> | undefined {
+function combineWhat<T extends Contract.Any>(
+	internal: WhatUtil.Value.Any<T> | undefined,
+	user: WhatUtil.Value.Any<T> | undefined,
+): WhatUtil.Value.Any<T> | undefined {
 	if (!internal && !user) {
 		return undefined;
 	}
@@ -74,15 +74,15 @@ function combineWhat<T extends Contract<any, any, any>>(
 		return {
 			class: combinedClasses,
 			token: combinedTokens,
-		} as What<T>;
+		} as WhatUtil.Value.Any<T>;
 	} else if (combinedClasses.length > 0) {
 		return {
 			class: combinedClasses,
-		} as What<T>;
+		} as WhatUtil.Value.Any<T>;
 	} else if (combinedTokens.length > 0) {
 		return {
 			token: combinedTokens,
-		} as What<T>;
+		} as WhatUtil.Value.Any<T>;
 	}
 
 	return undefined;
@@ -96,9 +96,9 @@ function combineWhat<T extends Contract<any, any, any>>(
  * - Shallow merge per field to match cls.create() semantics
  * - Slots are combined by appending What objects, not overriding them
  */
-export function merge<const TContract extends Contract<any, any, any>>(
-	userFn?: WhatConfigFn<TContract>,
-	internalFn?: WhatConfigFn<TContract>,
+export function merge<const TContract extends Contract.Any>(
+	userFn?: WhatUtil.Config.Fn<TContract>,
+	internalFn?: WhatUtil.Config.Fn<TContract>,
 ): () => Partial<CreateConfig<TContract>> {
 	const $user = userFn?.(what());
 	const $internal = internalFn?.(what());

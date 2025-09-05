@@ -1,7 +1,7 @@
 import type { Contract, WhatUtil } from "./types";
 
 export const what = <
-	TContract extends Contract<any, any, any>,
+	TContract extends Contract.Any,
 >(): WhatUtil<TContract> => ({
 	what: {
 		css: (classes) => ({

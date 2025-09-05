@@ -1,7 +1,7 @@
 import type { Cls, Contract, CreateConfig, WhatUtil } from "../types";
 import { useClsContext } from "./ClsContext";
 
-export function useCls<TContract extends Contract<any, any, any>>(
+export function useCls<TContract extends Contract.Any>(
 	clsInstance: Cls<TContract>,
 	userConfigFn?: (
 		props: WhatUtil<TContract>,

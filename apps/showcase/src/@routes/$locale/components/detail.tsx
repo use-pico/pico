@@ -251,9 +251,7 @@ export const Route = createFileRoute("/$locale/components/detail")({
 					<div className="grid grid-cols-1 gap-6">
 						<ShowcaseColumn label={<Tx label={"User Details"} />}>
 							<Detail>
-								<Section>
-                                    
-                                </Section>
+								<Section></Section>
 							</Detail>
 						</ShowcaseColumn>
 					</div>

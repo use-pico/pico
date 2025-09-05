@@ -1,4 +1,4 @@
-import type { Cls, ClsSlots } from "../types";
+import type { Cls, Slot } from "../types";
 import { proxyOf } from "../utils/proxyOf";
 
 /**
@@ -36,14 +36,14 @@ export function withCls<TCls extends Cls<any>, T extends object>(
 	clsInstance: TCls,
 ): T & {
 	cls: TCls;
-	"~slots": ClsSlots<TCls["contract"]>;
+	"~slots": Slot.Functions<TCls["contract"]>;
 	"~contract": TCls["contract"];
 	"~definition": TCls["definition"];
 } {
 	// Create the wrapped value with phantom properties
 	const WrappedComponent = Component as T & {
 		cls: TCls;
-		"~slots": ClsSlots<TCls["contract"]>;
+		"~slots": Slot.Functions<TCls["contract"]>;
 		"~contract": TCls["contract"];
 		"~definition": TCls["definition"];
 	};

@@ -3,28 +3,26 @@ import { tvc } from "./tvc";
 import type {
 	ClassName,
 	Cls,
-	ClsSlotFn,
 	Contract,
 	CreateConfig,
 	Definition,
 	DefinitionFn,
 	RuleDefinition,
+	Slot,
 	SlotContract,
-	TokenContract,
-	TokenDefinitionRequired,
+	Token,
 	VariantContract,
 	VariantValueMapping,
-	What,
 	WhatUtil,
 } from "./types";
 import { what } from "./what";
 import { withVariants } from "./withVariants";
 
 export function cls<
-	const TTokenContract extends TokenContract,
+	const TTokenContract extends Token.Type,
 	const TSlotContract extends SlotContract,
 	const TVariantContract extends VariantContract,
-	const TContract extends Contract<
+	const TContract extends Contract.Type<
 		TTokenContract,
 		TSlotContract,
 		TVariantContract,
@@ -39,16 +37,18 @@ export function cls<
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract<TokenContract, SlotContract, VariantContract>;
+		contract: Contract.Type<TTokenContract, SlotContract, VariantContract>;
 		definition: Definition<
-			Contract<TokenContract, SlotContract, VariantContract>
+			Contract.Type<TTokenContract, SlotContract, VariantContract>
 		>;
 	}[] = [];
 	let current:
-		| Contract<TokenContract, SlotContract, VariantContract>
+		| Contract.Type<TTokenContract, SlotContract, VariantContract>
 		| undefined = contract;
 	let currentDef:
-		| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+		| Definition<
+				Contract.Type<TTokenContract, SlotContract, VariantContract>
+		  >
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -57,10 +57,12 @@ export function cls<
 			definition: currentDef,
 		});
 		current = current["~use"] as
-			| Contract<TokenContract, SlotContract, VariantContract>
+			| Contract.Type<TTokenContract, SlotContract, VariantContract>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+			| Definition<
+					Contract.Type<TTokenContract, SlotContract, VariantContract>
+			  >
 			| undefined;
 	}
 
@@ -75,7 +77,7 @@ export function cls<
 	// Merge defaults and rules from ALL layers in inheritance order
 	const defaultVariant = {} as VariantValueMapping<TContract>;
 	const rules: RuleDefinition<
-		Contract<TokenContract, SlotContract, VariantContract>
+		Contract.Type<TTokenContract, SlotContract, VariantContract>
 	>[] = [];
 
 	// Process layers in inheritance order (base first, child last)
@@ -87,8 +89,11 @@ export function cls<
 	}
 
 	// Build token index with proper inheritance order
-	const tokens: TokenDefinitionRequired<
-		Contract<TokenContract, SlotContract, VariantContract>
+	const tokens: Record<
+		string,
+		WhatUtil.Value.Any<
+			Contract.Type<TTokenContract, SlotContract, VariantContract>
+		>
 	> = {};
 
 	// Apply token definitions in inheritance order (base first, child last)
@@ -100,9 +105,14 @@ export function cls<
 
 	// Helper function to resolve a single What<T> object recursively
 	const resolveWhat = (
-		what: What<Contract<TokenContract, SlotContract, VariantContract>>,
-		tokenTable: TokenDefinitionRequired<
-			Contract<TokenContract, SlotContract, VariantContract>
+		what: WhatUtil.Value.Any<
+			Contract.Type<TTokenContract, SlotContract, VariantContract>
+		>,
+		tokenTable: Record<
+			string,
+			WhatUtil.Value.Any<
+				Contract.Type<TTokenContract, SlotContract, VariantContract>
+			>
 		>,
 		resolvedTokens: Set<string> = new Set(),
 	): ClassName[] => {
@@ -189,14 +199,14 @@ export function cls<
 			};
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values as What<
-					Contract<TokenContract, SlotContract, VariantContract>
+				tokenTable[key] = values as WhatUtil.Value.Any<
+					Contract.Type<TTokenContract, SlotContract, VariantContract>
 				>;
 			}
 
 			const cache = {} as Record<
 				TSlotContract[number],
-				ClsSlotFn<TContract>
+				Slot.Fn<TContract>
 			>;
 			const resultCache = new Map<string, string>();
 
@@ -218,14 +228,14 @@ export function cls<
 			};
 
 			const handler: ProxyHandler<
-				Record<TSlotContract[number], ClsSlotFn<TContract>>
+				Record<TSlotContract[number], Slot.Fn<TContract>>
 			> = {
 				get(_, slotName: TSlotContract[number]) {
 					if (slotName in cache) {
 						return cache[slotName];
 					}
 
-					const slotFn: ClsSlotFn<TContract> = (call) => {
+					const slotFn: Slot.Fn<TContract> = (call) => {
 						const key = computeKey(slotName, call);
 						const cached = resultCache.get(key);
 						if (cached !== undefined) {
@@ -258,9 +268,9 @@ export function cls<
 						for (const [key, values] of Object.entries(
 							localConfig?.token ?? {},
 						)) {
-							localTokens[key] = values as What<
-								Contract<
-									TokenContract,
+							localTokens[key] = values as WhatUtil.Value.Any<
+								Contract.Type<
+									TTokenContract,
 									SlotContract,
 									VariantContract
 								>
@@ -363,7 +373,7 @@ export function cls<
 			};
 
 			return new Proxy(
-				{} as Record<TSlotContract[number], ClsSlotFn<TContract>>,
+				{} as Record<TSlotContract[number], Slot.Fn<TContract>>,
 				handler,
 			);
 		},
@@ -386,9 +396,7 @@ export function cls<
 			};
 			return cls(mergedContract as any, childDefinitionFn as any);
 		},
-		use<Sub extends Contract<any, any, any>>(
-			sub: Cls<Sub>,
-		): Cls<TContract> {
+		use<Sub extends Contract.Any>(sub: Cls<Sub>): Cls<TContract> {
 			return sub as unknown as Cls<TContract>;
 		},
 		cls(userConfigFn, internalConfigFn): (props: any) => any {

@@ -4,18 +4,18 @@ import type {
 	Contract,
 	Definition,
 	SlotContract,
-	TokenContract,
+	Token,
 	VariantContract,
 	VariantValueMapping,
-	WhatConfigFn,
+	WhatUtil,
 } from "./types";
 
 // Standalone function to compute variants
 export function withVariants<
-	const TTokenContract extends TokenContract,
+	const TTokenContract extends Token.Type,
 	const TSlotContract extends SlotContract,
 	const TVariantContract extends VariantContract,
-	const TContract extends Contract<
+	const TContract extends Contract.Type<
 		TTokenContract,
 		TSlotContract,
 		TVariantContract,
@@ -23,24 +23,26 @@ export function withVariants<
 	>,
 >(
 	{ contract, definition }: Pick<Cls<TContract>, "contract" | "definition">,
-	userConfigFn?: WhatConfigFn<TContract>,
-	internalConfigFn?: WhatConfigFn<TContract>,
+	userConfigFn?: WhatUtil.Config.Fn<TContract>,
+	internalConfigFn?: WhatUtil.Config.Fn<TContract>,
 ): VariantValueMapping<TContract> {
 	const config = merge(userConfigFn, internalConfigFn)();
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract<TokenContract, SlotContract, VariantContract>;
+		contract: Contract.Type<TTokenContract, SlotContract, VariantContract>;
 		definition: Definition<
-			Contract<TokenContract, SlotContract, VariantContract>
+			Contract.Type<TTokenContract, SlotContract, VariantContract>
 		>;
 	}[] = [];
 
 	let current:
-		| Contract<TokenContract, SlotContract, VariantContract>
+		| Contract.Type<TTokenContract, SlotContract, VariantContract>
 		| undefined = contract;
 	let currentDef:
-		| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+		| Definition<
+				Contract.Type<TTokenContract, SlotContract, VariantContract>
+		  >
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -49,10 +51,12 @@ export function withVariants<
 			definition: currentDef,
 		});
 		current = current["~use"] as
-			| Contract<TokenContract, SlotContract, VariantContract>
+			| Contract.Type<TTokenContract, SlotContract, VariantContract>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<Contract<TokenContract, SlotContract, VariantContract>>
+			| Definition<
+					Contract.Type<TTokenContract, SlotContract, VariantContract>
+			  >
 			| undefined;
 	}
 

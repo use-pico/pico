@@ -6,105 +6,60 @@ import type { ClassNameValue } from "tailwind-merge";
 
 export type ClassName = ClassNameValue;
 export type SlotContract = readonly string[];
-export type TokenContract = readonly string[];
 export type VariantContract = Record<string, readonly string[]>;
 
 // ============================================================================
 // UTILITY TYPES
 // ============================================================================
 
-type ListOf<T> = [
-	T,
-	...T[],
-];
+/**
+ * Namespace for general utility types used throughout the CLS system
+ */
+export namespace Utility {
+	/**
+	 * Converts the string "bool" to boolean type, otherwise preserves the string type
+	 * Used for variant value type mapping where "bool" represents boolean variants
+	 */
+	export type Value<T extends string> = T extends "bool" ? boolean : T;
 
-type StringToBool<T extends string> = T extends "bool" ? boolean : T;
+	/**
+	 * Merges two record types by combining their array values
+	 * Used for merging variant contracts in inheritance chains
+	 */
+	export type Merge<
+		A extends Record<string, readonly any[]>,
+		B extends Record<string, readonly any[]>,
+	> = {
+		[K in keyof A | keyof B]: K extends keyof B
+			? K extends keyof A
+				? [
+						...A[K],
+						...B[K],
+					]
+				: B[K]
+			: K extends keyof A
+				? A[K]
+				: never;
+	};
 
-type MergeRecords<
-	A extends Record<string, readonly any[]>,
-	B extends Record<string, readonly any[]>,
-> = {
-	[K in keyof A | keyof B]: K extends keyof B
-		? K extends keyof A
-			? [
-					...A[K],
-					...B[K],
-				]
-			: B[K]
-		: K extends keyof A
-			? A[K]
-			: never;
-};
-
-export type HasBaseInUseChain<Sub, Base> = Sub extends Base
-	? true
-	: Sub extends {
-				"~use"?: infer U;
-			}
-		? HasBaseInUseChain<U, Base>
-		: false;
-
-// ============================================================================
-// CONTRACT SYSTEM
-// ============================================================================
-
-export type Contract<
-	TTokenContract extends TokenContract,
-	TSlotContract extends SlotContract,
-	TVariantContract extends VariantContract,
-	TUse extends Contract<any, any, any> | unknown = unknown,
-> = {
-	tokens: TTokenContract;
-	slot: TSlotContract;
-	variant: TVariantContract;
-	"~use"?: TUse;
-	"~definition"?: Definition<any>;
-};
-
-export type ContractEx<
-	TTokenContract extends TokenContract,
-	TSlotContract extends SlotContract,
-	TVariantContract extends VariantContract,
-	TBaseContract extends Contract<any, any, any>,
-> = {
-	tokens: TTokenContract;
-	slot: TSlotContract;
-	variant: TVariantContract;
-	"~use"?: TBaseContract;
-	"~definition"?: Definition<any>;
-};
+	/**
+	 * Checks if a contract type has a specific base type in its inheritance chain
+	 * Used for validating contract inheritance relationships
+	 */
+	export type HasBaseInUseChain<Sub, Base> = Sub extends Base
+		? true
+		: Sub extends {
+					"~use"?: infer U;
+				}
+			? HasBaseInUseChain<U, Base>
+			: false;
+}
 
 // ============================================================================
 // TOKEN SYSTEM
 // ============================================================================
 
-type TokensOf<T extends Contract<any, any, any>> = T extends {
-	"~use"?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? T["tokens"][number] | TokensOf<U>
-		: T["tokens"][number]
-	: T["tokens"][number];
-
-export type TokensOfList<T extends Contract<any, any, any>> = ListOf<
-	TokensOf<T>
->;
-
-// Updated: Token definitions now support What<T> objects (CSS classes + token references)
-export type TokenDefinitionRequired<T extends Contract<any, any, any>> =
-	T["tokens"][number] extends never
-		? {
-				[K: string]: never;
-			} // If no tokens declared, no properties allowed
-		: { [K in T["tokens"][number]]: What<T> }; // If tokens declared, they are required
-
-export type TokenDefinitionOptional<T extends Contract<any, any, any>> =
-	Partial<Record<TokensOf<T>, What<T>>>;
-
-export type TokenDefinitionEx<T extends Contract<any, any, any>> =
-	T["tokens"][number] extends never
-		? TokenDefinitionOptional<T> // If no local tokens, only inherited tokens are allowed
-		: TokenDefinitionOptional<T> & TokenDefinitionRequired<T>; // If local tokens exist, they are required
+// Token-related types moved to Token namespace
 
 /**
  * Extended utility interface for CLS extension operations.
@@ -115,7 +70,7 @@ export type TokenDefinitionEx<T extends Contract<any, any, any>> =
  *
  * @template T - The contract type that defines the structure (tokens, slots, variants)
  */
-export interface WhatUtilEx<T extends Contract<any, any, any>>
+export interface WhatUtilEx<T extends Contract.Any>
 	extends Omit<WhatUtil<T>, "def"> {
 	def: Omit<WhatUtil<T>["def"], "token"> & {
 		/**
@@ -140,7 +95,7 @@ export interface WhatUtilEx<T extends Contract<any, any, any>>
 		 * })
 		 * ```
 		 */
-		token(token: TokenDefinitionEx<T>): TokenDefinitionEx<T>;
+		token(token: Token.DefinitionEx<T>): Token.DefinitionEx<T>;
 	};
 }
 
@@ -148,113 +103,339 @@ export interface WhatUtilEx<T extends Contract<any, any, any>>
 // SLOT SYSTEM
 // ============================================================================
 
-type SlotsOf<T extends Contract<any, any, any>> = T extends {
-	"~use"?: infer U;
-}
-	? U extends Contract<any, any, any>
-		? T["slot"][number] | SlotsOf<U>
-		: T["slot"][number]
-	: T["slot"][number];
-
-export type SlotMapping<T extends Contract<any, any, any>> = {
-	[K in SlotsOf<T>]?: What<T>;
-};
-export type WhatConfigFn<T extends Contract<any, any, any>> = (
-	props: WhatUtil<T>,
-) => Partial<CreateConfig<T>>;
-
-export type ClsSlotFn<T extends Contract<any, any, any>> = (
-	config?: WhatConfigFn<T>,
-) => string;
-
-export type ClsSlots<T extends Contract<any, any, any>> = {
-	[K in SlotsOf<T>]: ClsSlotFn<T>;
-};
+// Helper types for internal use
+type SlotOf<T extends Contract.Any> = Slot.Of<T>;
 
 // ============================================================================
 // VARIANT SYSTEM
 // ============================================================================
 
-export type Variants<T extends Contract<any, any, any>> = T extends {
+export type Variants<T extends Contract.Any> = T extends {
 	variant: infer V extends VariantContract;
 	"~use"?: infer U;
 }
-	? U extends Contract<any, any, any>
-		? MergeRecords<Variants<U>, V>
+	? U extends Contract.Any
+		? Utility.Merge<Variants<U>, V>
 		: V
 	: Record<string, never>; // No variants allowed when none are declared
 
-// Helper type to check if a contract has no variants
-type HasNoVariants<T extends Contract<any, any, any>> =
-	keyof Variants<T> extends never ? true : false;
+// ============================================================================
+// Helper Types and Namespaces
+// ============================================================================
 
-// Helper type for variant value mapping when no variants are declared
+/**
+ * Core helper type to check if a contract has no variants declared
+ */
+type HasNoVariants<T extends Contract.Any> = keyof Variants<T> extends never
+	? true
+	: false;
+
+/**
+ * Core helper type for variant value mapping when no variants are declared
+ */
 type NoVariantsMapping = Record<string, never>;
 
-// Helper type for variant value mapping when variants are declared
-type VariantsMapping<T extends Contract<any, any, any>> = {
-	[K in keyof Variants<T>]: StringToBool<Variants<T>[K][number]>;
-};
-
-// Helper types for defaults function
-type DefaultsParam<T extends Contract<any, any, any>> =
-	HasNoVariants<T> extends true ? NoVariantsMapping : VariantValueMapping<T>;
-
-type DefaultsReturn<T extends Contract<any, any, any>> =
-	HasNoVariants<T> extends true ? NoVariantsMapping : VariantValueMapping<T>;
-
-// Helper types for variant function
-type VariantParam<T extends Contract<any, any, any>> =
-	HasNoVariants<T> extends true
-		? NoVariantsMapping
-		: Partial<VariantValueMapping<T>>;
-
-type VariantReturn<T extends Contract<any, any, any>> =
-	HasNoVariants<T> extends true
-		? NoVariantsMapping
-		: Partial<VariantValueMapping<T>>;
-
-// Helper types for cls function
-type ClsConfigFn<
-	T extends Contract<any, any, any>,
-	Sub extends Contract<any, any, any>,
-> = WhatConfigFn<HasBaseInUseChain<Sub, T> extends true ? Sub : never>;
-
-// Keep the original VariantValueMapping simple for compatibility
-export type VariantValueMapping<T extends Contract<any, any, any>> = {
-	[K in keyof Variants<T>]: StringToBool<Variants<T>[K][number]>;
-};
-
-// ============================================================================
-// STYLING CONFIGURATION TYPES
-// ============================================================================
-
-export type WhatClass = {
-	class: ClassName;
-};
-
-export type WhatToken<T extends Contract<any, any, any>> = {
-	token: TokensOfList<T>;
-};
-
-export type What<T extends Contract<any, any, any>> = WhatClass | WhatToken<T>;
-
-export interface RuleDefinition<T extends Contract<any, any, any>> {
-	override?: boolean;
-	match?: Partial<VariantValueMapping<T>>;
-	slot: SlotMapping<T>;
+/**
+ * Namespace for CLS helper types
+ */
+namespace Cls {
+	/**
+	 * Helper type for cls function configuration
+	 */
+	export type ConfigFn<
+		T extends Contract.Any,
+		Sub extends Contract.Any,
+	> = WhatUtil.Config.Fn<
+		Utility.HasBaseInUseChain<Sub, T> extends true ? Sub : never
+	>;
 }
 
-export type MatchFn<TContract extends Contract<any, any, any>> = (
-	match: RuleDefinition<TContract>["match"] | undefined,
-	slot: SlotMapping<TContract>,
-	override?: boolean,
-) => RuleDefinition<TContract>;
+// Keep the original VariantValueMapping simple for compatibility
+export type VariantValueMapping<T extends Contract.Any> = {
+	[K in keyof Variants<T>]: Utility.Value<Variants<T>[K][number]>;
+};
 
-export type MatchSlotFn<TContract extends Contract<any, any, any>> = (
-	slot: SlotMapping<TContract>,
-	override?: boolean,
-) => RuleDefinition<TContract>;
+// ============================================================================
+// Contract Namespace
+// ============================================================================
+
+/**
+ * Namespace for Contract-related types
+ */
+export namespace Contract {
+	/**
+	 * Base contract type that defines the structure of a CLS contract
+	 */
+	export type Type<
+		TTokenContract extends Token.Type,
+		TSlotContract extends SlotContract,
+		TVariantContract extends VariantContract,
+		TUse extends Contract.Any | unknown = unknown,
+	> = {
+		tokens: TTokenContract;
+		slot: TSlotContract;
+		variant: TVariantContract;
+		"~use"?: TUse;
+		"~definition"?: Definition<any>;
+	};
+
+	/**
+	 * Contract type with any generics for flexible usage
+	 */
+	export type Any = Type<any, any, any>;
+
+	// Token namespace moved to top-level Token namespace
+
+	/**
+	 * Namespace for rule-related types
+	 */
+	export namespace Rule {
+		export interface Definition<T extends Contract.Any> {
+			override?: boolean;
+			match?: Partial<VariantValueMapping<T>>;
+			slot: Slot.Mapping<T>;
+		}
+
+		export type MatchFn<TContract extends Contract.Any> = (
+			match: Definition<TContract>["match"] | undefined,
+			slot: Slot.Mapping<TContract>,
+			override?: boolean,
+		) => Definition<TContract>;
+
+		export type MatchSlotFn<TContract extends Contract.Any> = (
+			slot: Slot.Mapping<TContract>,
+			override?: boolean,
+		) => Definition<TContract>;
+	}
+}
+
+// ============================================================================
+// WhatUtil Namespace
+// ============================================================================
+
+/**
+ * Namespace for WhatUtil-related types and styling values
+ */
+export namespace WhatUtil {
+	/**
+	 * Namespace for styling value types
+	 */
+	export namespace Value {
+		export type Class = {
+			class: ClassName;
+		};
+
+		export type Token<T extends Contract.Any> = {
+			token: Token.List<T>;
+		};
+
+		export type Any<T extends Contract.Any> = Class | Token<T>;
+	}
+
+	/**
+	 * Namespace for slot-related helper types
+	 */
+	export namespace Slot {
+		export type Mapping<T extends Contract.Any> = {
+			[K in SlotOf<T>]?: Value.Any<T>;
+		};
+	}
+
+	/**
+	 * Namespace for configuration function types
+	 */
+	export namespace Config {
+		export type Fn<T extends Contract.Any> = (
+			props: WhatUtil<T>,
+		) => Partial<CreateConfig<T>>;
+	}
+
+	/**
+	 * Namespace for defaults function helper types
+	 */
+	export namespace Defaults {
+		export type Props<T extends Contract.Any> =
+			HasNoVariants<T> extends true
+				? NoVariantsMapping
+				: VariantValueMapping<T>;
+
+		export type Return<T extends Contract.Any> =
+			HasNoVariants<T> extends true
+				? NoVariantsMapping
+				: VariantValueMapping<T>;
+	}
+
+	/**
+	 * Namespace for variant function helper types
+	 */
+	export namespace Variant {
+		export type Props<T extends Contract.Any> =
+			HasNoVariants<T> extends true
+				? NoVariantsMapping
+				: Partial<VariantValueMapping<T>>;
+
+		export type Return<T extends Contract.Any> =
+			HasNoVariants<T> extends true
+				? NoVariantsMapping
+				: Partial<VariantValueMapping<T>>;
+	}
+
+	/**
+	 * Namespace for what function types
+	 */
+	export namespace What {
+		export type CssFn = (classes: ClassName) => Value.Class;
+
+		export type TokenFn<T extends Contract.Any> = (
+			tokens: Token.List<T>,
+		) => Value.Token<T>;
+
+		export type BothFn<T extends Contract.Any> = (
+			classes: ClassName,
+			tokens: Token.List<T>,
+		) => Value.Any<T>;
+
+		export type VariantFn<T extends Contract.Any> = (
+			variant: Variant.Props<T>,
+		) => Variant.Return<T>;
+
+		export type SlotFn<T extends Contract.Any> = (
+			slot: WhatUtil.Slot.Mapping<T>,
+		) => WhatUtil.Slot.Mapping<T>;
+	}
+
+	/**
+	 * Namespace for override function types
+	 */
+	export namespace Override {
+		export type TokenFn<T extends Contract.Any> = (
+			token: Token.DefinitionOptional<T>,
+		) => Token.DefinitionOptional<T>;
+	}
+}
+
+/**
+ * Namespace for slot-related types and utilities
+ */
+export namespace Slot {
+	/**
+	 * Extracts all slot names from a contract and its inheritance chain
+	 */
+	export type Of<T extends Contract.Any> = T extends {
+		"~use"?: infer U;
+	}
+		? U extends Contract.Any
+			? T["slot"][number] | Of<U>
+			: T["slot"][number]
+		: T["slot"][number];
+
+	/**
+	 * Mapping type for slot styling configurations
+	 */
+	export type Mapping<T extends Contract.Any> = {
+		[K in Of<T>]?: WhatUtil.Value.Any<T>;
+	};
+
+	/**
+	 * Function type for individual slot functions that return CSS class strings
+	 */
+	export type Fn<T extends Contract.Any> = (
+		config?: WhatUtil.Config.Fn<T>,
+	) => string;
+
+	/**
+	 * Object type containing all slot functions for a contract
+	 */
+	export type Functions<T extends Contract.Any> = {
+		[K in Of<T>]: Fn<T>;
+	};
+
+	/**
+	 * Extracts the slot functions type from a CLS instance for use in component props
+	 */
+	export type Component<TCls extends Cls<any>> = Functions<TCls["contract"]>;
+}
+
+/**
+ * Namespace for token-related types and utilities
+ */
+export namespace Token {
+	/**
+	 * Base token type - array of token names
+	 */
+	export type Type = readonly string[];
+
+	/**
+	 * Extracts all token names from a contract and its inheritance chain
+	 */
+	export type Extract<T extends Contract.Any> = T extends {
+		"~use"?: infer U;
+	}
+		? U extends Contract.Any
+			? T["tokens"][number] | Extract<U>
+			: T["tokens"][number]
+		: T["tokens"][number];
+
+	/**
+	 * List type for token references (at least one token required)
+	 */
+	export type List<T extends Contract.Any> = [
+		Extract<T>,
+		...Extract<T>[],
+	];
+
+	/**
+	 * Required token definitions for all declared tokens
+	 */
+	export type DefinitionRequired<T extends Contract.Any> =
+		T["tokens"][number] extends never
+			? {
+					[K: string]: never;
+				} // If no tokens declared, no properties allowed
+			: { [K in T["tokens"][number]]: WhatUtil.Value.Any<T> }; // If tokens declared, they are required
+
+	/**
+	 * Optional token definitions for inherited tokens
+	 */
+	export type DefinitionOptional<T extends Contract.Any> = Partial<
+		Record<Extract<T>, WhatUtil.Value.Any<T>>
+	>;
+
+	/**
+	 * Extended token definitions that handle both required and optional tokens
+	 */
+	export type DefinitionEx<T extends Contract.Any> =
+		T["tokens"][number] extends never
+			? DefinitionOptional<T> // If no local tokens, only inherited tokens are allowed
+			: DefinitionOptional<T> & DefinitionRequired<T>; // If local tokens exist, they are required
+
+	/**
+	 * Function type for creating token reference styling values
+	 */
+	export type Fn<T extends Contract.Any> = (
+		tokens: List<T>,
+	) => WhatUtil.Value.Token<T>;
+
+	/**
+	 * Function type for creating token override definitions
+	 */
+	export type OverrideFn<T extends Contract.Any> = (
+		token: DefinitionOptional<T>,
+	) => DefinitionOptional<T>;
+
+	/**
+	 * Function type for creating token definitions
+	 */
+	export type DefinitionFn<T extends Contract.Any> = (
+		token: DefinitionEx<T>,
+	) => DefinitionEx<T>;
+}
+
+export interface RuleDefinition<T extends Contract.Any> {
+	override?: boolean;
+	match?: Partial<VariantValueMapping<T>>;
+	slot: Slot.Mapping<T>;
+}
 
 /**
  * Core utility interface that provides type-safe styling helpers for CLS definitions.
@@ -281,7 +462,7 @@ export type MatchSlotFn<TContract extends Contract<any, any, any>> = (
  * }));
  * ```
  */
-export interface WhatUtil<T extends Contract<any, any, any>> {
+export interface WhatUtil<T extends Contract.Any> {
 	/**
 	 * Styling value creation utilities for building type-safe styling configurations.
 	 *
@@ -297,7 +478,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * This is ideal for layout utilities, spacing, and other CSS-only styling.
 		 *
 		 * @param classes - CSS class names to apply
-		 * @returns A WhatClass object containing the CSS classes
+		 * @returns A WhatUtil.Value.Class object containing the CSS classes
 		 *
 		 * @example
 		 * ```typescript
@@ -311,7 +492,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * root: what.css(["font-medium", "text-sm", "shadow-sm"])
 		 * ```
 		 */
-		css(classes: ClassName): WhatClass;
+		css: WhatUtil.What.CssFn;
 
 		/**
 		 * Creates a token reference styling value.
@@ -321,7 +502,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * a flexible design system.
 		 *
 		 * @param tokens - Array of token names to reference
-		 * @returns A WhatToken object containing the token references
+		 * @returns A WhatUtil.Value.Token object containing the token references
 		 *
 		 * @example
 		 * ```typescript
@@ -335,7 +516,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * root: what.token(["spacing.padding.md", "spacing.radius.sm"])
 		 * ```
 		 */
-		token(tokens: TokensOfList<T>): WhatToken<T>;
+		token: WhatUtil.What.TokenFn<T>;
 
 		/**
 		 * Creates a mixed styling value with both CSS classes and token references.
@@ -362,7 +543,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * )
 		 * ```
 		 */
-		both(classes: ClassName, tokens: TokensOfList<T>): What<T>;
+		both: WhatUtil.What.BothFn<T>;
 
 		/**
 		 * Creates type-safe variant values for conditional styling.
@@ -392,7 +573,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * )
 		 * ```
 		 */
-		variant(variant: VariantParam<T>): VariantReturn<T>;
+		variant: WhatUtil.What.VariantFn<T>;
 
 		/**
 		 * Creates slot-specific styling configurations.
@@ -415,7 +596,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * }))
 		 * ```
 		 */
-		slot(slot: SlotMapping<T>): SlotMapping<T>;
+		slot: WhatUtil.What.SlotFn<T>;
 	};
 
 	/**
@@ -452,7 +633,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		root: MatchSlotFn<T>;
+		root: Contract.Rule.MatchSlotFn<T>;
 
 		/**
 		 * Creates a conditional rule that replaces styles when variants match.
@@ -488,7 +669,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * )
 		 * ```
 		 */
-		rule: MatchFn<T>;
+		rule: Contract.Rule.MatchFn<T>;
 
 		/**
 		 * Creates token overrides that replace existing token definitions.
@@ -509,9 +690,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		token(
-			token: Partial<TokenDefinitionOptional<T>>,
-		): Partial<TokenDefinitionOptional<T>>;
+		token: WhatUtil.Override.TokenFn<T>;
 	};
 
 	/**
@@ -551,7 +730,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		root: MatchSlotFn<T>;
+		root: Contract.Rule.MatchSlotFn<T>;
 
 		/**
 		 * Creates a conditional rule that adds styles when variants match.
@@ -584,7 +763,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * )
 		 * ```
 		 */
-		rule: MatchFn<T>;
+		rule: Contract.Rule.MatchFn<T>;
 
 		/**
 		 * Creates token definitions that define the design system values.
@@ -608,7 +787,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		token(token: TokenDefinitionRequired<T>): TokenDefinitionRequired<T>;
+		token(token: Token.DefinitionRequired<T>): Token.DefinitionRequired<T>;
 
 		/**
 		 * Creates default variant values for the component.
@@ -631,7 +810,9 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		defaults(defaults: DefaultsParam<T>): DefaultsReturn<T>;
+		defaults(
+			defaults: WhatUtil.Defaults.Props<T>,
+		): WhatUtil.Defaults.Return<T>;
 	};
 }
 
@@ -673,7 +854,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
  * );
  * ```
  */
-export type DefinitionEx<T extends Contract<any, any, any>> = {
+export type DefinitionEx<T extends Contract.Any> = {
 	/**
 	 * Required token definitions for all declared tokens in the extended contract.
 	 *
@@ -704,7 +885,7 @@ export type DefinitionEx<T extends Contract<any, any, any>> = {
 	 * })
 	 * ```
 	 */
-	token: TokenDefinitionEx<T>;
+	token: Token.DefinitionEx<T>;
 
 	/**
 	 * Array of styling rules that define conditional styling for the extended component.
@@ -821,7 +1002,7 @@ export type DefinitionEx<T extends Contract<any, any, any>> = {
  * }));
  * ```
  */
-export type Definition<T extends Contract<any, any, any>> = {
+export type Definition<T extends Contract.Any> = {
 	/**
 	 * Token definitions that map token names to their CSS values.
 	 *
@@ -851,7 +1032,7 @@ export type Definition<T extends Contract<any, any, any>> = {
 	 * })
 	 * ```
 	 */
-	token: TokenDefinitionRequired<T>;
+	token: Token.DefinitionRequired<T>;
 
 	/**
 	 * Array of styling rules that define conditional styling based on variants.
@@ -940,15 +1121,15 @@ export type Definition<T extends Contract<any, any, any>> = {
 	defaults: VariantValueMapping<T>;
 };
 
-export type DefinitionFn<TContract extends Contract<any, any, any>> = (
+export type DefinitionFn<TContract extends Contract.Any> = (
 	props: WhatUtil<TContract>,
 ) => Definition<TContract>;
 
-export type CreateConfig<T extends Contract<any, any, any>> = {
+export type CreateConfig<T extends Contract.Any> = {
 	variant?: Partial<VariantValueMapping<T>>;
-	slot?: SlotMapping<T>;
-	override?: SlotMapping<T>;
-	token?: Partial<TokenDefinitionOptional<T>>;
+	slot?: Slot.Mapping<T>;
+	override?: Slot.Mapping<T>;
+	token?: Token.DefinitionOptional<T>;
 };
 
 /**
@@ -1082,7 +1263,7 @@ export type Component<TCls extends Cls<any>, P = unknown> = {
  * };
  * ```
  */
-export type ComponentSlots<TCls extends Cls<any>> = ClsSlots<TCls["contract"]>;
+export type ComponentSlots<TCls extends Cls<any>> = Slot.Component<TCls>;
 
 /**
  * Extracts the value type for a specific variant from a CLS instance.
@@ -1115,7 +1296,7 @@ export type VariantOf<
 	TVariant extends keyof Variants<TCls["contract"]>,
 > = Variants<TCls["contract"]>[TVariant] extends readonly (infer U extends
 	string)[]
-	? StringToBool<U>
+	? Utility.Value<U>
 	: never;
 
 /**
@@ -1198,7 +1379,7 @@ export type VariantsOf<TCls extends Cls<any>> = Partial<
  * }));
  * ```
  */
-export interface Cls<T extends Contract<any, any, any>> {
+export interface Cls<T extends Contract.Any> {
 	/**
 	 * Creates a styled instance with optional configuration overrides.
 	 *
@@ -1230,9 +1411,9 @@ export interface Cls<T extends Contract<any, any, any>> {
 	 * ```
 	 */
 	create(
-		userConfigFn?: WhatConfigFn<T>,
-		internalConfigFn?: WhatConfigFn<T>,
-	): ClsSlots<T>;
+		userConfigFn?: WhatUtil.Config.Fn<T>,
+		internalConfigFn?: WhatUtil.Config.Fn<T>,
+	): Slot.Functions<T>;
 
 	/**
 	 * Extends the current CLS instance with additional functionality.
@@ -1277,19 +1458,29 @@ export interface Cls<T extends Contract<any, any, any>> {
 	 * ```
 	 */
 	extend<
-		const TTokenContract extends TokenContract,
+		const TTokenContract extends Token.Type,
 		const TSlotContract extends SlotContract,
 		const TVariantContract extends VariantContract,
 	>(
-		contract: Contract<TTokenContract, TSlotContract, TVariantContract, T>,
+		contract: Contract.Type<
+			TTokenContract,
+			TSlotContract,
+			TVariantContract,
+			T
+		>,
 		definition: (
 			props: WhatUtilEx<
-				Contract<TTokenContract, TSlotContract, TVariantContract, T>
+				Contract.Type<
+					TTokenContract,
+					TSlotContract,
+					TVariantContract,
+					T
+				>
 			>,
 		) => DefinitionEx<
-			Contract<TTokenContract, TSlotContract, TVariantContract, T>
+			Contract.Type<TTokenContract, TSlotContract, TVariantContract, T>
 		>,
-	): Cls<ContractEx<TTokenContract, TSlotContract, TVariantContract, T>>;
+	): Cls<Contract.Type<TTokenContract, TSlotContract, TVariantContract, T>>;
 
 	/**
 	 * Assigns a compatible CLS instance for type-safe inheritance.
@@ -1314,9 +1505,9 @@ export interface Cls<T extends Contract<any, any, any>> {
 	 * const slots = ButtonGroup.create();
 	 * ```
 	 */
-	use<Sub extends Contract<any, any, any>>(
+	use<Sub extends Contract.Any>(
 		sub: Cls<Sub> & {
-			contract: HasBaseInUseChain<Sub, T> extends true
+			contract: Utility.HasBaseInUseChain<Sub, T> extends true
 				? unknown
 				: [
 						"❌ Not derived from Base contract",
@@ -1356,14 +1547,14 @@ export interface Cls<T extends Contract<any, any, any>> {
 	 * }))}>Click me</Button>
 	 * ```
 	 */
-	cls<Sub extends Contract<any, any, any> = T>(
+	cls<Sub extends Contract.Any = T>(
 		userConfigFn?: {
-			hack: ClsConfigFn<T, Sub>;
+			hack: Cls.ConfigFn<T, Sub>;
 		}["hack"],
 		internalConfigFn?: {
-			hack: ClsConfigFn<T, Sub>;
+			hack: Cls.ConfigFn<T, Sub>;
 		}["hack"],
-	): WhatConfigFn<T> | undefined;
+	): WhatUtil.Config.Fn<T> | undefined;
 
 	/**
 	 * The contract that defines the structure of this CLS instance.

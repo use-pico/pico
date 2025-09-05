@@ -1,9 +1,4 @@
-import type {
-	Contract,
-	SlotContract,
-	TokenContract,
-	VariantContract,
-} from "./types";
+import type { Contract, SlotContract, Token, VariantContract } from "./types";
 
 /**
  * Type-only function used to properly construct and infer the result Contract type.
@@ -11,12 +6,12 @@ import type {
  * This function serves as a type assertion helper that ensures the provided contract
  * parameter matches the expected Contract type structure with proper generic constraints.
  * It returns the contract unchanged at runtime but provides TypeScript with the correct
- * type information for the Contract<TTokenContract, TSlotContract, TVariantContract, any> type.
+ * type information for the Contract.Type<TToken.Type, TSlotContract, TVariantContract, any> type.
  *
- * @template TTokenContract - The token contract type extending TokenContract
+ * @template TTokenContract - The token type extending Token.Type
  * @template TSlotContract - The slot contract type extending SlotContract
  * @template TVariantContract - The variant contract type extending VariantContract
- * @template TContract - The full contract type extending Contract with the above generics
+ * @template TContract - The full contract type extending Contract.Type with the above generics
  * @param contract - The contract object to be type-asserted
  * @returns The same contract object with proper type inference
  *
@@ -31,10 +26,10 @@ import type {
  * ```
  */
 export const contract = <
-	const TTokenContract extends TokenContract,
+	const TTokenContract extends Token.Type,
 	const TSlotContract extends SlotContract,
 	const TVariantContract extends VariantContract,
-	const TContract extends Contract<
+	const TContract extends Contract.Type<
 		TTokenContract,
 		TSlotContract,
 		TVariantContract,
