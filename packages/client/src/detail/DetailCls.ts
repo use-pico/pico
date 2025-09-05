@@ -5,25 +5,20 @@ export const DetailCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"section",
-			"legend",
 			"item",
 			"value",
 			"label",
 			"field",
 		],
-		variant: {
-			borderless: [
-				"bool",
-			],
-		},
+		variant: {},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"flex",
 					"flex-col",
 					"gap-4",
@@ -32,34 +27,17 @@ export const DetailCls = PicoCls.extend(
 					[
 						"flex",
 						"flex-col",
-						"gap-4",
-						"p-4",
-						"border",
 					],
 					[
-						"border.default",
-						"tone.neutral.light.border",
-						"round.sm",
+						"square.md",
 					],
 				),
-				legend: what.css([
+				item: what.css([
 					"flex",
 					"flex-row",
-					"gap-2",
+					"gap-4",
 					"items-center",
-					"px-2",
 				]),
-				item: what.both(
-					[
-						"flex",
-						"flex-row",
-						"gap-4",
-						"items-center",
-					],
-					[
-						"tone.danger.dark.shadow",
-					],
-				),
 				value: what.both(
 					[
 						"flex-1",
@@ -103,20 +81,8 @@ export const DetailCls = PicoCls.extend(
 					],
 				),
 			}),
-			def.rule(
-				what.variant({
-					borderless: true,
-				}),
-				{
-					value: what.css([
-						"border-none",
-					]),
-				},
-			),
 		],
-		defaults: def.defaults({
-			borderless: true,
-		}),
+		defaults: def.defaults({}),
 	}),
 );
 

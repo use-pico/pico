@@ -132,6 +132,7 @@ export { PreviewCls } from "./preview/PreviewCls";
 export { PriceInline } from "./price-inline/PriceInline";
 export { Progress } from "./progress/Progress";
 export { ProgressCls } from "./progress/ProgressCls";
+export { Section } from "./section/Section";
 export { Select } from "./select/Select";
 export { SelectCls } from "./select/SelectCls";
 export { useSelection } from "./selection/useSelection";

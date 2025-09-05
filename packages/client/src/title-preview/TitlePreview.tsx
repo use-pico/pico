@@ -5,7 +5,7 @@ import { TitlePreviewCls } from "./TitlePreviewCls";
 
 export namespace TitlePreview {
 	export interface Props extends TitlePreviewCls.Props {
-		icon?: string;
+		icon?: Icon.Type;
 		title: ReactNode;
 		subtitle?: ReactNode;
 	}
@@ -27,12 +27,10 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	return (
 		<div className={slots.base()}>
 			<div className={slots.title()}>
-				{icon ? (
-					<Icon
-						icon={icon}
-						size={"sm"}
-					/>
-				) : null}
+				<Icon
+					icon={icon}
+					size={"sm"}
+				/>
 				{title}
 			</div>
 			{subtitle ? (

@@ -6,7 +6,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"build": "bun x rollup -c"
+		"no:build": "bun x rollup -c"
 	},
 	"dependencies": {
 		"@phenomnomnominal/tsquery": "6.1.3",

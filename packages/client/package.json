@@ -1,13 +1,13 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.43",
+	"version": "5.0.44",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
 		"typecheck": "tsc --noEmit",
 		"build:bundle": "bun x rollup -c",
-		"build": "bun run build:bundle"
+		"no:build": "bun run build:bundle"
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.16",

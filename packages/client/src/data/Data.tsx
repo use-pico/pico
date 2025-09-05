@@ -155,7 +155,7 @@ export const Data = <
 					initial={{
 						opacity: 0,
 						scale: 0.98,
-						y: 4,
+						y: 2,
 					}}
 					animate={{
 						opacity: 1,
@@ -165,10 +165,10 @@ export const Data = <
 					exit={{
 						opacity: 0,
 						scale: 0.98,
-						y: -2,
+						y: -1,
 					}}
 					transition={{
-						duration: 0.18,
+						duration: 0.05,
 						ease: [
 							0.22,
 							1,

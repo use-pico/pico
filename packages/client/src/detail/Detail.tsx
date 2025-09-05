@@ -1,29 +1,21 @@
 import { useCls } from "@use-pico/cls";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { DetailCls } from "./DetailCls";
-import { Section } from "./Section";
 
 export namespace Detail {
-	export interface Props extends DetailCls.Props {
-		section: Omit<Section.Props, "slots">[];
+	export interface Props extends DetailCls.Props<PropsWithChildren> {
+		//
 	}
 
 	export type PropsEx = Omit<Props, "section">;
 }
 
-export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {
+export const Detail: FC<Detail.Props> = ({
+	children,
+	tva = DetailCls,
+	cls,
+}) => {
 	const slots = useCls(tva, cls);
 
-	return (
-		<div className={slots.base()}>
-			{section.map(({ id, ...props }) => (
-				<Section
-					key={`detail-section-${id}`}
-					id={id}
-					slots={slots}
-					{...props}
-				/>
-			))}
-		</div>
-	);
+	return <div className={slots.root()}>{children}</div>;
 };

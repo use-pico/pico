@@ -247,30 +247,42 @@ export const Route = createFileRoute("/$locale/components/detail")({
 				])}
 			>
 				{/* Basic Usage */}
-				<Section title={<Tx label={"Basic Usage"} />}>
+				<ShowcaseSection title={<Tx label={"Basic Usage"} />}>
 					<div className="grid grid-cols-1 gap-6">
-						<Column label={<Tx label={"User Details"} />}>
-							<Detail section={sampleUserDetails} />
-						</Column>
+						<ShowcaseColumn label={<Tx label={"User Details"} />}>
+							<Detail>
+								<Section>
+                                    
+                                </Section>
+							</Detail>
+						</ShowcaseColumn>
 					</div>
-				</Section>
+				</ShowcaseSection>
 
 				{/* Different Content Types */}
-				<Section title={<Tx label={"Different Content Types"} />}>
+				<ShowcaseSection
+					title={<Tx label={"Different Content Types"} />}
+				>
 					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Project Details"} />}>
+						<ShowcaseColumn
+							label={<Tx label={"Project Details"} />}
+						>
 							<Detail section={sampleProjectDetails} />
-						</Column>
-						<Column label={<Tx label={"Document Details"} />}>
+						</ShowcaseColumn>
+						<ShowcaseColumn
+							label={<Tx label={"Document Details"} />}
+						>
 							<Detail section={sampleDocumentDetails} />
-						</Column>
+						</ShowcaseColumn>
 					</div>
-				</Section>
+				</ShowcaseSection>
 
 				{/* Borderless Variant */}
-				<Section title={<Tx label={"Borderless Variant"} />}>
+				<ShowcaseSection title={<Tx label={"Borderless Variant"} />}>
 					<div className="grid grid-cols-1 gap-6">
-						<Column label={<Tx label={"Without Borders"} />}>
+						<ShowcaseColumn
+							label={<Tx label={"Without Borders"} />}
+						>
 							<Detail
 								section={sampleUserDetails}
 								cls={({ what }) => ({
@@ -279,14 +291,16 @@ export const Route = createFileRoute("/$locale/components/detail")({
 									}),
 								})}
 							/>
-						</Column>
+						</ShowcaseColumn>
 					</div>
-				</Section>
+				</ShowcaseSection>
 
 				{/* Custom Styling */}
-				<Section title={<Tx label={"Custom Styling"} />}>
+				<ShowcaseSection title={<Tx label={"Custom Styling"} />}>
 					<div className="grid grid-cols-2 gap-6">
-						<Column label={<Tx label={"Highlighted Sections"} />}>
+						<ShowcaseColumn
+							label={<Tx label={"Highlighted Sections"} />}
+						>
 							<Detail
 								section={sampleUserDetails}
 								cls={({ what }) => ({
@@ -308,8 +322,8 @@ export const Route = createFileRoute("/$locale/components/detail")({
 									}),
 								})}
 							/>
-						</Column>
-						<Column label={<Tx label={"Compact Layout"} />}>
+						</ShowcaseColumn>
+						<ShowcaseColumn label={<Tx label={"Compact Layout"} />}>
 							<Detail
 								section={sampleProjectDetails}
 								cls={({ what }) => ({
@@ -344,29 +358,31 @@ export const Route = createFileRoute("/$locale/components/detail")({
 									}),
 								})}
 							/>
-						</Column>
+						</ShowcaseColumn>
 					</div>
-				</Section>
+				</ShowcaseSection>
 
 				{/* Real-world Examples */}
-				<Section title={<Tx label={"Real-world Examples"} />}>
+				<ShowcaseSection title={<Tx label={"Real-world Examples"} />}>
 					<div className="grid grid-cols-1 gap-6">
-						<Column label={<Tx label={"Complete User Profile"} />}>
+						<ShowcaseColumn
+							label={<Tx label={"Complete User Profile"} />}
+						>
 							<Detail
 								section={[
 									...sampleUserDetails,
 									...sampleProjectDetails,
 								]}
 							/>
-						</Column>
+						</ShowcaseColumn>
 					</div>
-				</Section>
+				</ShowcaseSection>
 			</div>
 		);
 	},
 });
 
-function Section({
+function ShowcaseSection({
 	title,
 	children,
 }: {
@@ -395,7 +411,7 @@ function Section({
 	);
 }
 
-function Column({
+function ShowcaseColumn({
 	label,
 	children,
 }: {

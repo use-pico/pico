@@ -6,7 +6,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"build": "bun x rollup -c"
+		"no:build": "bun x rollup -c"
 	},
 	"dependencies": {
 		"@apollo/client": "^4.0.0",
