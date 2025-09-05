@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
-import { merge } from "../../../src/merge";
+import { cls, merge } from "../../../src";
 
 describe("3.3 Slot Configuration Order - Merge Function Should Append Slots", () => {
 	it("should demonstrate that merge.ts overrides slots instead of appending them", () => {

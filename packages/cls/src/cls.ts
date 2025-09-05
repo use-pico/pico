@@ -1,5 +1,3 @@
-import { merge } from "./merge";
-import { tvc } from "./tvc";
 import type {
 	ClassName,
 	Cls,
@@ -15,8 +13,10 @@ import type {
 	VariantValueMapping,
 	WhatUtil,
 } from "./types";
-import { what } from "./what";
-import { withVariants } from "./withVariants";
+import { merge } from "./utils/merge";
+import { tvc } from "./utils/tvc";
+import { what } from "./utils/what";
+import { withVariants } from "./utils/withVariants";
 
 export function cls<
 	const TTokenContract extends Token.Type,

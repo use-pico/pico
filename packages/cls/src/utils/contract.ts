@@ -1,4 +1,4 @@
-import type { Contract, SlotContract, Token, VariantContract } from "./types";
+import type { Contract, SlotContract, Token, VariantContract } from "../types";
 
 /**
  * Type-only function used to properly construct and infer the result Contract type.

@@ -1,4 +1,4 @@
-import type { Contract, CreateConfig, WhatUtil } from "./types";
+import type { Contract, CreateConfig, WhatUtil } from "../types";
 import { what } from "./what";
 
 /**

@@ -1,4 +1,3 @@
-import { merge } from "./merge";
 import type {
 	Cls,
 	Contract,
@@ -8,7 +7,8 @@ import type {
 	VariantContract,
 	VariantValueMapping,
 	WhatUtil,
-} from "./types";
+} from "../types";
+import { merge } from "./merge";
 
 // Standalone function to compute variants
 export function withVariants<

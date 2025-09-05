@@ -1,9 +1,6 @@
 export { cls } from "./cls";
 export { clx } from "./clx";
-export { contract } from "./contract";
-export { merge } from "./merge";
 export * from "./react";
-export { tvc } from "./tvc";
 export type {
 	ClassName,
 	Cls,
@@ -23,4 +20,7 @@ export type {
 	VariantValueMapping,
 	WhatUtil,
 } from "./types";
-export { withVariants } from "./withVariants";
+export { contract } from "./utils/contract";
+export { merge } from "./utils/merge";
+export { tvc } from "./utils/tvc";
+export { withVariants } from "./utils/withVariants";

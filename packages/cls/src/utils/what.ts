@@ -1,4 +1,4 @@
-import type { Contract, WhatUtil } from "./types";
+import type { Contract, WhatUtil } from "../types";
 
 export const what = <
 	TContract extends Contract.Any,

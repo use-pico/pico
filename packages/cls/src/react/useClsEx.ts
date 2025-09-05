@@ -1,5 +1,5 @@
 import type { Cls, Contract, WhatUtil } from "../types";
-import { withVariants } from "../withVariants";
+import { withVariants } from "../utils/withVariants";
 import { useCls } from "./useCls";
 
 export function useClsEx<TContract extends Contract.Any>(
