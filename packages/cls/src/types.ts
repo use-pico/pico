@@ -175,15 +175,52 @@ export type ClsSlots<T extends Contract<any, any, any>> = {
 // VARIANT SYSTEM
 // ============================================================================
 
-type Variants<T extends Contract<any, any, any>> = T extends {
+export type Variants<T extends Contract<any, any, any>> = T extends {
 	variant: infer V extends VariantContract;
 	"~use"?: infer U;
 }
 	? U extends Contract<any, any, any>
 		? MergeRecords<Variants<U>, V>
 		: V
-	: {};
+	: Record<string, never>; // No variants allowed when none are declared
 
+// Helper type to check if a contract has no variants
+type HasNoVariants<T extends Contract<any, any, any>> =
+	keyof Variants<T> extends never ? true : false;
+
+// Helper type for variant value mapping when no variants are declared
+type NoVariantsMapping = Record<string, never>;
+
+// Helper type for variant value mapping when variants are declared
+type VariantsMapping<T extends Contract<any, any, any>> = {
+	[K in keyof Variants<T>]: StringToBool<Variants<T>[K][number]>;
+};
+
+// Helper types for defaults function
+type DefaultsParam<T extends Contract<any, any, any>> =
+	HasNoVariants<T> extends true ? NoVariantsMapping : VariantValueMapping<T>;
+
+type DefaultsReturn<T extends Contract<any, any, any>> =
+	HasNoVariants<T> extends true ? NoVariantsMapping : VariantValueMapping<T>;
+
+// Helper types for variant function
+type VariantParam<T extends Contract<any, any, any>> =
+	HasNoVariants<T> extends true
+		? NoVariantsMapping
+		: Partial<VariantValueMapping<T>>;
+
+type VariantReturn<T extends Contract<any, any, any>> =
+	HasNoVariants<T> extends true
+		? NoVariantsMapping
+		: Partial<VariantValueMapping<T>>;
+
+// Helper types for cls function
+type ClsConfigFn<
+	T extends Contract<any, any, any>,
+	Sub extends Contract<any, any, any>,
+> = WhatConfigFn<HasBaseInUseChain<Sub, T> extends true ? Sub : never>;
+
+// Keep the original VariantValueMapping simple for compatibility
 export type VariantValueMapping<T extends Contract<any, any, any>> = {
 	[K in keyof Variants<T>]: StringToBool<Variants<T>[K][number]>;
 };
@@ -355,9 +392,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * )
 		 * ```
 		 */
-		variant(
-			variant: Partial<VariantValueMapping<T>>,
-		): Partial<VariantValueMapping<T>>;
+		variant(variant: VariantParam<T>): VariantReturn<T>;
 
 		/**
 		 * Creates slot-specific styling configurations.
@@ -596,7 +631,7 @@ export interface WhatUtil<T extends Contract<any, any, any>> {
 		 * })
 		 * ```
 		 */
-		defaults(defaults: VariantValueMapping<T>): VariantValueMapping<T>;
+		defaults(defaults: DefaultsParam<T>): DefaultsReturn<T>;
 	};
 }
 
@@ -1323,14 +1358,10 @@ export interface Cls<T extends Contract<any, any, any>> {
 	 */
 	cls<Sub extends Contract<any, any, any> = T>(
 		userConfigFn?: {
-			hack: WhatConfigFn<
-				HasBaseInUseChain<Sub, T> extends true ? Sub : never
-			>;
+			hack: ClsConfigFn<T, Sub>;
 		}["hack"],
 		internalConfigFn?: {
-			hack: WhatConfigFn<
-				HasBaseInUseChain<Sub, T> extends true ? Sub : never
-			>;
+			hack: ClsConfigFn<T, Sub>;
 		}["hack"],
 	): WhatConfigFn<T> | undefined;
 

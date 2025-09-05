@@ -133,6 +133,7 @@ export { PriceInline } from "./price-inline/PriceInline";
 export { Progress } from "./progress/Progress";
 export { ProgressCls } from "./progress/ProgressCls";
 export { Section } from "./section/Section";
+export { SectionCls } from "./section/SectionCls";
 export { Select } from "./select/Select";
 export { SelectCls } from "./select/SelectCls";
 export { useSelection } from "./selection/useSelection";

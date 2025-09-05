@@ -10,7 +10,19 @@ export const SectionCls = PicoCls.extend(
 	},
 	({ what, def }) => ({
 		token: def.token({}),
-		rules: [],
+		rules: [
+			def.root({
+				root: what.css([]),
+			}),
+			def.rule(
+				what.variant({
+					mrdka: "dfd",
+				}),
+				{
+					root: what.css([]),
+				},
+			),
+		],
 		defaults: def.defaults({
 			pica: "t",
 		}),
