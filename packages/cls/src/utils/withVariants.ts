@@ -1,20 +1,15 @@
-import type {
-	Cls,
-	Contract,
-	Definition,
-	SlotContract,
-	Token,
-	VariantContract,
-	VariantValueMapping,
-	WhatUtil,
-} from "../types";
+import type { Cls, Definition, WhatUtil } from "../types";
+import type { Contract } from "../types/Contract";
+import type { Slot } from "../types/Slot";
+import type { Token } from "../types/Token";
+import type { Variant } from "../types/Variant";
 import { merge } from "./merge";
 
 // Standalone function to compute variants
 export function withVariants<
 	const TTokenContract extends Token.Type,
-	const TSlotContract extends SlotContract,
-	const TVariantContract extends VariantContract,
+	const TSlotContract extends Slot.Type,
+	const TVariantContract extends Variant.Type,
 	const TContract extends Contract.Type<
 		TTokenContract,
 		TSlotContract,
@@ -25,24 +20,22 @@ export function withVariants<
 	{ contract, definition }: Pick<Cls<TContract>, "contract" | "definition">,
 	userConfigFn?: WhatUtil.Config.Fn<TContract>,
 	internalConfigFn?: WhatUtil.Config.Fn<TContract>,
-): VariantValueMapping<TContract> {
+): Variant.VariantOf<TContract> {
 	const config = merge(userConfigFn, internalConfigFn)();
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract.Type<TTokenContract, SlotContract, VariantContract>;
+		contract: Contract.Type<Token.Type, Slot.Type, Variant.Type>;
 		definition: Definition<
-			Contract.Type<TTokenContract, SlotContract, VariantContract>
+			Contract.Type<Token.Type, Slot.Type, Variant.Type>
 		>;
 	}[] = [];
 
 	let current:
-		| Contract.Type<TTokenContract, SlotContract, VariantContract>
+		| Contract.Type<Token.Type, Slot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
-		| Definition<
-				Contract.Type<TTokenContract, SlotContract, VariantContract>
-		  >
+		| Definition<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -51,17 +44,15 @@ export function withVariants<
 			definition: currentDef,
 		});
 		current = current["~use"] as
-			| Contract.Type<TTokenContract, SlotContract, VariantContract>
+			| Contract.Type<Token.Type, Slot.Type, Variant.Type>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<
-					Contract.Type<TTokenContract, SlotContract, VariantContract>
-			  >
+			| Definition<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
 			| undefined;
 	}
 
 	// Merge defaults from ALL layers in inheritance order
-	const defaultVariant = {} as VariantValueMapping<TContract>;
+	const defaultVariant = {} as Variant.VariantOf<TContract>;
 
 	// Process layers in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {

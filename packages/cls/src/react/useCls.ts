@@ -1,4 +1,5 @@
-import type { Cls, Contract, CreateConfig, WhatUtil } from "../types";
+import type { Cls, CreateConfig, WhatUtil } from "../types";
+import type { Contract } from "../types/Contract";
 import { useClsContext } from "./ClsContext";
 
 export function useCls<TContract extends Contract.Any>(

@@ -1,18 +1,17 @@
 import type {
-	ClassName,
 	Cls,
-	Contract,
 	CreateConfig,
 	Definition,
 	DefinitionFn,
 	RuleDefinition,
 	Slot,
-	SlotContract,
-	Token,
-	VariantContract,
-	VariantValueMapping,
 	WhatUtil,
 } from "./types";
+import type { ClassName } from "./types/ClassName";
+import type { Contract } from "./types/Contract";
+import type { Slot as CoolSlot } from "./types/Slot";
+import type { Token } from "./types/Token";
+import type { Variant } from "./types/Variant";
 import { merge } from "./utils/merge";
 import { tvc } from "./utils/tvc";
 import { what } from "./utils/what";
@@ -20,8 +19,8 @@ import { withVariants } from "./utils/withVariants";
 
 export function cls<
 	const TTokenContract extends Token.Type,
-	const TSlotContract extends SlotContract,
-	const TVariantContract extends VariantContract,
+	const TSlotContract extends CoolSlot.Type,
+	const TVariantContract extends Variant.Type,
 	const TContract extends Contract.Type<
 		TTokenContract,
 		TSlotContract,
@@ -37,18 +36,16 @@ export function cls<
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract.Type<TTokenContract, SlotContract, VariantContract>;
+		contract: Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>;
 		definition: Definition<
-			Contract.Type<TTokenContract, SlotContract, VariantContract>
+			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		>;
 	}[] = [];
 	let current:
-		| Contract.Type<TTokenContract, SlotContract, VariantContract>
+		| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
-		| Definition<
-				Contract.Type<TTokenContract, SlotContract, VariantContract>
-		  >
+		| Definition<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -57,12 +54,10 @@ export function cls<
 			definition: currentDef,
 		});
 		current = current["~use"] as
-			| Contract.Type<TTokenContract, SlotContract, VariantContract>
+			| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 			| undefined;
 		currentDef = current?.["~definition"] as
-			| Definition<
-					Contract.Type<TTokenContract, SlotContract, VariantContract>
-			  >
+			| Definition<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 			| undefined;
 	}
 
@@ -75,9 +70,9 @@ export function cls<
 	}
 
 	// Merge defaults and rules from ALL layers in inheritance order
-	const defaultVariant = {} as VariantValueMapping<TContract>;
+	const defaultVariant = {} as Variant.VariantOf<TContract>;
 	const rules: RuleDefinition<
-		Contract.Type<TTokenContract, SlotContract, VariantContract>
+		Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 	>[] = [];
 
 	// Process layers in inheritance order (base first, child last)
@@ -92,7 +87,7 @@ export function cls<
 	const tokens: Record<
 		string,
 		WhatUtil.Value.Any<
-			Contract.Type<TTokenContract, SlotContract, VariantContract>
+			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		>
 	> = {};
 
@@ -106,12 +101,12 @@ export function cls<
 	// Helper function to resolve a single What<T> object recursively
 	const resolveWhat = (
 		what: WhatUtil.Value.Any<
-			Contract.Type<TTokenContract, SlotContract, VariantContract>
+			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		>,
 		tokenTable: Record<
 			string,
 			WhatUtil.Value.Any<
-				Contract.Type<TTokenContract, SlotContract, VariantContract>
+				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 			>
 		>,
 		resolvedTokens: Set<string> = new Set(),
@@ -159,8 +154,8 @@ export function cls<
 	};
 
 	const matches = (
-		variant: VariantValueMapping<TContract>,
-		ruleMatch?: Partial<VariantValueMapping<TContract>>,
+		variant: Variant.Required<TContract>,
+		ruleMatch?: Variant.Optional<TContract>,
 	): boolean => {
 		if (!ruleMatch) {
 			return true;
@@ -200,7 +195,7 @@ export function cls<
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
 				tokenTable[key] = values as WhatUtil.Value.Any<
-					Contract.Type<TTokenContract, SlotContract, VariantContract>
+					Contract.Type<TTokenContract, CoolSlot.Type, Variant.Type>
 				>;
 			}
 
@@ -260,7 +255,8 @@ export function cls<
 									localConfig?.variant ?? {},
 								).filter(([, value]) => value !== undefined),
 							),
-						};
+						} as const;
+
 						const localTokens = {
 							...tokenTable,
 						};
@@ -271,8 +267,8 @@ export function cls<
 							localTokens[key] = values as WhatUtil.Value.Any<
 								Contract.Type<
 									TTokenContract,
-									SlotContract,
-									VariantContract
+									CoolSlot.Type,
+									Variant.Type
 								>
 							>;
 						}
@@ -281,7 +277,12 @@ export function cls<
 
 						// Apply rules
 						for (const rule of rules) {
-							if (!matches(localEffective, rule.match)) {
+							if (
+								!matches(
+									localEffective as Variant.Required<TContract>,
+									rule.match as Variant.Optional<TContract>,
+								)
+							) {
 								continue;
 							}
 							const slotMap = rule.slot ?? {};

@@ -1,4 +1,5 @@
-import type { Cls, Contract, WhatUtil } from "../types";
+import type { Cls, WhatUtil } from "../types";
+import type { Contract } from "../types/Contract";
 import { withVariants } from "../utils/withVariants";
 import { useCls } from "./useCls";
 
