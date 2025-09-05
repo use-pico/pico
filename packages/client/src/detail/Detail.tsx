@@ -7,6 +7,8 @@ export namespace Detail {
 	export interface Props extends DetailCls.Props {
 		section: Omit<Section.Props, "slots">[];
 	}
+
+	export type PropsEx = Omit<Props, "section">;
 }
 
 export const Detail: FC<Detail.Props> = ({ section, tva = DetailCls, cls }) => {

@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.42",
+	"version": "5.0.43",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -11,9 +11,9 @@
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.16",
-		"@lexical/list": "0.34.0",
-		"@lexical/react": "0.34.0",
-		"@lexical/utils": "0.34.0",
+		"@lexical/list": "0.35.0",
+		"@lexical/react": "0.35.0",
+		"@lexical/utils": "0.35.0",
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-form": "1.19.3",
 		"@tanstack/react-query": "5.86.0",
@@ -24,7 +24,7 @@
 		"axios": "1.11.0",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.5",
-		"lexical": "0.34.0",
+		"lexical": "0.35.0",
 		"localstorage-slim": "2.7.1",
 		"luxon": "^3.7.1",
 		"motion": "12.23.12",
