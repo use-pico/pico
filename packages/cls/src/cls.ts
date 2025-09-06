@@ -8,7 +8,8 @@ import type { Token } from "./types/Token";
 import type { Tweak } from "./types/Tweak";
 import type { Variant } from "./types/Variant";
 import type { What } from "./types/What";
-import { def } from "./utils/def";
+import { def } from "./utils/definition/def";
+import { override } from "./utils/definition/override";
 import { merge } from "./utils/merge";
 import { tvc } from "./utils/tvc";
 import { what } from "./utils/what";
@@ -25,9 +26,15 @@ export function cls<
 ): Cls.Type<TContract> {
 	const whatUtil = what<TContract>();
 	const defUtil = def<TContract>();
-	const definition = definitionFn({
+
+	const utils = {
 		what: whatUtil,
 		def: defUtil,
+	} as const;
+
+	const definition = definitionFn({
+		...utils,
+		override: override(),
 	});
 
 	// Set the definition on the contract for inheritance
@@ -209,7 +216,8 @@ export function cls<
 				try {
 					return `${slot}|${JSON.stringify(
 						call({
-							what: whatUtil,
+							...utils,
+							override: null,
 						}),
 					)}`;
 				} catch {
@@ -233,7 +241,8 @@ export function cls<
 						}
 
 						const local = call?.({
-							what: whatUtil,
+							...utils,
+							override: null,
 						});
 						const localConfig: Tweak.Type<TContract> | undefined =
 							local

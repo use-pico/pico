@@ -105,12 +105,13 @@ export function merge<const TContract extends Contract.Any>(
 	userTweakFn?: Tweak.Fn<TContract>,
 	internalTweakFn?: Tweak.Fn<TContract>,
 ): () => Tweak.Type<TContract> {
-	const $user = userTweakFn?.({
-		what: what(),
-	});
-	const $internal = internalTweakFn?.({
-		what: what(),
-	});
+	const utils = {
+		what: what<TContract>(),
+		override: null,
+	} as const;
+
+	const $user = userTweakFn?.(utils);
+	const $internal = internalTweakFn?.(utils);
 
 	return () => ({
 		...($internal ?? {}),

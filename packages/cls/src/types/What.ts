@@ -92,17 +92,4 @@ export namespace What {
 		/** Function for slot specification */
 		slot: Slot.OptionalFn<TContract>;
 	}
-
-	/**
-	 * Properties interface containing What utilities.
-	 *
-	 * Used to pass What utilities to other functions that need
-	 * to specify styling approaches and values.
-	 *
-	 * @template TContract - The contract type being styled
-	 */
-	export interface Props<TContract extends Contract.Any> {
-		/** What utility for specifying styling approaches */
-		what: Type<TContract>;
-	}
 }

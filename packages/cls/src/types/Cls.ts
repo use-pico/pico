@@ -3,6 +3,7 @@ import type { Definition } from "./Definition";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
 import type { Tweak } from "./Tweak";
+import type { Utility } from "./Utility";
 import type { Variant } from "./Variant";
 
 /**
@@ -72,17 +73,30 @@ export namespace Cls {
 			? IsChildrenOf<U, TAncestor>
 			: false;
 
-	export namespace Util {
-		/**
-		 * Extracts the slot functions type from a CLS instance for use in component props
-		 */
-		export type SlotsOf<TCls extends Type<any>> = Slot.Kit<
-			TCls["contract"]
-		>;
+	// ===========================
+	// Utility types
+	// ===========================
 
-		export type Props<TCls extends Type<any>, P = unknown> = {
-			tva?: TCls;
-			cls?: Tweak.Fn<TCls["contract"]>;
-		} & Omit<P, "tva" | "cls">;
-	}
+	/**
+	 * Extracts the slot functions type from a CLS instance for use in component props
+	 */
+	export type SlotsOf<TCls extends Type<any>> = Slot.Kit<TCls["contract"]>;
+
+	export type VariantOf<
+		TCls extends Type<any>,
+		TVariant extends keyof Variant.Extract<TCls["contract"]>,
+	> = Variant.Extract<
+		TCls["contract"]
+	>[TVariant] extends readonly (infer U extends string)[]
+		? Utility.Value<U>
+		: never;
+
+	export type VariantsOf<TCls extends Type<any>> = Variant.Optional<
+		TCls["contract"]
+	>;
+
+	export type Props<TCls extends Type<any>, P = unknown> = {
+		tva?: TCls;
+		cls?: Tweak.Fn<TCls["contract"]>;
+	} & Omit<P, "tva" | "cls">;
 }

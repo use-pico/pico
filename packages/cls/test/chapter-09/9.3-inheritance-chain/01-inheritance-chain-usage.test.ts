@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, type VariantsOf } from "../../../src";
+import { type Cls, cls } from "../../../src";
 
 describe("9.3 Inheritance Chain", () => {
 	it("should handle use method with multi-level inheritance chains", () => {
@@ -359,7 +359,7 @@ describe("9.3 Inheritance Chain", () => {
 			"bg-red-500 text-white px-6 py-3",
 		);
 
-		const _variants: VariantsOf<typeof StatefulButton> = {
+		const _variants: Cls.VariantsOf<typeof StatefulButton> = {
 			size: "md",
 			state: "enabled",
 			color: "primary",

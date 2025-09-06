@@ -1,9 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { type Cls, cls } from "../../../src";
 import { useCls } from "../../../src/react";
-import type { Component } from "../../../src/types";
 
 describe("12.4 React Props - Variant Overrides", () => {
 	it("should handle cls prop with variant overrides", () => {
@@ -124,7 +123,7 @@ describe("12.4 React Props - Variant Overrides", () => {
 			}),
 		);
 
-		const Button: FC<Component<typeof ButtonCls, PropsWithChildren>> = ({
+		const Button: FC<Cls.Props<typeof ButtonCls, PropsWithChildren>> = ({
 			cls: userCls,
 			children,
 		}) => {

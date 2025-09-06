@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { type Component, cls } from "../../../src";
+import { type Cls, cls } from "../../../src";
 import { ClsProvider, useCls } from "../../../src/react";
 
 describe("12.6 React Advanced Integration - cls Prop Function with Context", () => {
@@ -104,7 +104,7 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 			children,
 			cls: clsProp,
 			...props
-		}: Component<typeof ButtonCls, PropsWithChildren>) => {
+		}: Cls.Props<typeof ButtonCls, PropsWithChildren>) => {
 			const classes = useCls(ButtonCls, clsProp);
 
 			if (!classes) {

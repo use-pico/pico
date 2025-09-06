@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
+import type { Cls } from "../../../src";
 import { cls } from "../../../src";
-import type { Component } from "../../../src/types";
 
 describe("12.4 React Props - Slot Overrides", () => {
 	it("should handle cls prop with slot overrides", () => {
@@ -128,7 +128,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 		);
 
 		const Card: FC<
-			Component<typeof CardCls> & {
+			Cls.Props<typeof CardCls> & {
 				title: string;
 				children: string;
 			}
@@ -147,8 +147,8 @@ describe("12.4 React Props - Slot Overrides", () => {
 			<Card
 				cls={({ what }) => ({
 					variant: what.variant({
-						theme: "highlighted" as const,
-						size: "lg" as const,
+						theme: "highlighted",
+						size: "lg",
 					}),
 				})}
 				title="Test Card"

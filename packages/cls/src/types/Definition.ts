@@ -53,6 +53,8 @@ export namespace Definition {
 			what: What.Type<TContract>;
 			/** Definition utilities for creating rules, tokens, and defaults */
 			def: Def.Type<TContract>;
+			/** Override utilities for creating rules, tokens, and defaults */
+			override: Def.Type<TContract>;
 		}
 
 		/**

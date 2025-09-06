@@ -1,15 +1,7 @@
 export { cls } from "./cls";
 export * from "./react";
-export type {
-	Cls,
-	Component,
-	ComponentSlots,
-	CreateConfig,
-	VariantOf,
-	VariantsOf,
-	WhatUtil,
-} from "./types";
 export type { ClassName } from "./types/ClassName";
+export type { Cls } from "./types/Cls";
 export type { Contract } from "./types/Contract";
 export type { Definition } from "./types/Definition";
 export type { Rule } from "./types/Rule";

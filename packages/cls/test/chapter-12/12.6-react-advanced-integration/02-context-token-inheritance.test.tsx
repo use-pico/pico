@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { type Component, cls } from "../../../src";
+import { type Cls, cls } from "../../../src";
 import { ClsProvider, useCls } from "../../../src/react";
 
 describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
@@ -95,7 +95,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			children,
 			cls: clsProp,
 			...props
-		}: Component<typeof CardCls, PropsWithChildren>) => {
+		}: Cls.Props<typeof CardCls, PropsWithChildren>) => {
 			const classes = useCls(CardCls, clsProp);
 
 			if (!classes) {
@@ -119,7 +119,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 					<Card
 						cls={({ what }) => ({
 							variant: what.variant({
-								elevation: "high" as const,
+								elevation: "high",
 							}),
 						})}
 					>

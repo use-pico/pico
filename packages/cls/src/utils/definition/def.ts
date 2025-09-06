@@ -1,5 +1,5 @@
-import type { Contract } from "../types/Contract";
-import type { Definition } from "../types/Definition";
+import type { Contract } from "../../types/Contract";
+import type { Definition } from "../../types/Definition";
 
 export const def = <
 	TContract extends Contract.Any,

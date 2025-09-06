@@ -30,6 +30,11 @@ export namespace Tweak {
 		token?: Token.Optional<TContract>;
 	};
 
+	export interface Props<TContract extends Contract.Any> {
+		what: What.Type<TContract>;
+		override: any;
+	}
+
 	/**
 	 * This is a config function used to provide typesafe way to tweaks.
 	 *
@@ -41,6 +46,6 @@ export namespace Tweak {
 	 * @returns Tweak modifications to apply
 	 */
 	export type Fn<TContract extends Contract.Any> = (
-		props: What.Props<TContract>,
+		props: Props<TContract>,
 	) => Type<TContract>;
 }

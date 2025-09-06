@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { type Component, cls } from "../../../src";
+import { type Cls, cls } from "../../../src";
 import { useCls, withCls } from "../../../src/react";
 
 describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
@@ -150,7 +150,7 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 			children,
 			icon,
 			...props
-		}: Component<
+		}: Cls.Props<
 			typeof IconButtonCls,
 			PropsWithChildren & {
 				icon: string;

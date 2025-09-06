@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
+import type { Cls } from "../../../src";
 import { cls } from "../../../src";
-import type { Component } from "../../../src/types";
 
 describe("12.4 React Props - No Configuration", () => {
 	it("should handle cls prop with no configuration", () => {
@@ -51,9 +51,7 @@ describe("12.4 React Props - No Configuration", () => {
 		);
 
 		const TestComponent: FC<
-			Component<typeof TestCls> & {
-				children: string;
-			}
+			Cls.Props<typeof TestCls, PropsWithChildren>
 		> = ({ cls: userCls, children }) => {
 			const classes = TestCls.create(userCls);
 			return <div className={classes.root()}>{children}</div>;

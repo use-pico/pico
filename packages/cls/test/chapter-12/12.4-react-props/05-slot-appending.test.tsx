@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
+import type { Cls } from "../../../src";
 import { cls } from "../../../src";
-import type { Component } from "../../../src/types";
 
 describe("12.4 React Props - Slot Appending", () => {
 	it("should demonstrate Icon component scenario with slot appending", () => {
@@ -37,7 +37,7 @@ describe("12.4 React Props - Slot Appending", () => {
 
 		// Simulate Icon component with internal slot configuration
 		const Icon: FC<
-			Component<typeof IconCls> & {
+			Cls.Props<typeof IconCls> & {
 				icon: string;
 			}
 		> = ({ cls: userCls, icon }) => {
@@ -124,7 +124,7 @@ describe("12.4 React Props - Slot Appending", () => {
 			}),
 		);
 
-		const TestComponent: FC<Component<typeof ComponentCls>> = ({
+		const TestComponent: FC<Cls.Props<typeof ComponentCls>> = ({
 			cls: userCls,
 		}) => {
 			// Internal config with both CSS and tokens

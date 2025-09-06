@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
+import type { Cls } from "../../../src";
 import { cls } from "../../../src";
-import type { Component } from "../../../src/types";
 
 describe("12.4 React Props - Token Overrides", () => {
 	it("should handle cls prop with token overrides", () => {
@@ -65,7 +65,7 @@ describe("12.4 React Props - Token Overrides", () => {
 		);
 
 		const SimpleComponent: FC<
-			Component<typeof SimpleCls, PropsWithChildren>
+			Cls.Props<typeof SimpleCls, PropsWithChildren>
 		> = ({ cls: userCls, children }) => {
 			const classes = SimpleCls.create(userCls);
 			return <div className={classes.root()}>{children}</div>;
@@ -76,7 +76,7 @@ describe("12.4 React Props - Token Overrides", () => {
 			<SimpleComponent
 				cls={({ what }) => ({
 					variant: what.variant({
-						color: "secondary" as const,
+						color: "secondary",
 					}),
 				})}
 			>
