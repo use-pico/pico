@@ -44,14 +44,13 @@ export function cls<
 	// Build inheritance chain (base -> child order)
 	const layers: {
 		contract: Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>;
-		definition: Definition.Type<
-			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-		>;
+		definition: Definition.Type<any>;
 	}[] = [];
 	let current:
 		| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
+		| Definition.Type<TContract>
 		| Definition.Type<
 				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 		  >
@@ -102,7 +101,9 @@ export function cls<
 	// Apply token definitions in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
 		for (const [k, v] of Object.entries(d.token)) {
-			tokens[k] = v;
+			if (v !== undefined) {
+				tokens[k] = v;
+			}
 		}
 	}
 

@@ -26,15 +26,14 @@ export function withVariants<
 	// Build inheritance chain (base -> child order)
 	const layers: {
 		contract: Contract.Type<Token.Type, Slot.Type, Variant.Type>;
-		definition: Definition.Type<
-			Contract.Type<Token.Type, Slot.Type, Variant.Type>
-		>;
+		definition: Definition.Type<any>;
 	}[] = [];
 
 	let current:
 		| Contract.Type<Token.Type, Slot.Type, Variant.Type>
 		| undefined = contract;
 	let currentDef:
+		| Definition.Type<TContract>
 		| Definition.Type<Contract.Type<Token.Type, Slot.Type, Variant.Type>>
 		| undefined = definition;
 
