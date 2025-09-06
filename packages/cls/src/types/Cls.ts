@@ -62,6 +62,10 @@ export namespace Cls {
 	/**
 	 * Checks if a contract type has a specific base type in its inheritance chain
 	 * Used for validating contract inheritance relationships
+	 *
+	 * @template TChildren - The child contract to check
+	 * @template TAncestor - The ancestor contract to look for
+	 * @returns true if TChildren extends TAncestor, false otherwise
 	 */
 	export type IsChildrenOf<TChildren, TAncestor> = TChildren extends TAncestor
 		? true

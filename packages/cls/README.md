@@ -29,20 +29,20 @@ const Button = cls(
 );
 
 // Usage
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
-console.log(classes.root()); // "bg-blue-600 text-white px-6 py-3"
+console.log(slots.root()); // "bg-blue-600 text-white px-6 py-3"
 
 // With React
-import { useCls } from '@use-pico/cls';
+import { useCls } from '@use-pico/cls/react';
 
 function MyButton({ size = "md" }) {
-  const classes = useCls(Button, ({ what }) => ({
+  const slots = useCls(Button, ({ what }) => ({
     variant: what.variant({ size })
   }));
   
-  return <button className={classes.root()}>Click me</button>;
+  return <button className={slots.root()}>Click me</button>;
 }
 ```
 
@@ -101,14 +101,14 @@ import { cls } from '@use-pico/cls';
 import { useCls } from '@use-pico/cls/react';
 
 const MyComponent = ({ theme = "light" }) => {
-  const classes = useCls(Card, ({ what }) => ({
+  const slots = useCls(Card, ({ what }) => ({
     variant: what.variant({ theme })
   }));
 
   return (
-    <div className={classes.root()}>
-      <h2 className={classes.title()}>Card Title</h2>
-      <div className={classes.content()}>Card content here</div>
+    <div className={slots.root()}>
+      <h2 className={slots.title()}>Card Title</h2>
+      <div className={slots.content()}>Card content here</div>
     </div>
   );
 };
@@ -121,7 +121,7 @@ const MyComponent = ({ theme = "light" }) => {
 ### Type-Safe Variants
 ```typescript
 // TypeScript ensures only valid variants are used
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ 
     size: "lg",        // ✅ Valid
     // size: "xl"      // ❌ TypeScript error
@@ -147,7 +147,7 @@ const PrimaryButton = Button.extend(
 
 ### Runtime Overrides
 ```typescript
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ size: "lg" }),
   token: {
     "color.bg.primary": what.css(["bg-indigo-600"]) // Runtime override
@@ -520,7 +520,7 @@ The `what.variant()` helper is **crucial for type safety** - it ensures you only
 
 ```typescript
 // ✅ Type-safe variant usage
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ 
     size: "lg",        // ✅ Valid: "lg" is in ["sm", "md", "lg"]
     variant: "primary" // ✅ Valid: "primary" is in ["default", "primary"]
@@ -528,7 +528,7 @@ const classes = Button.create(({ what }) => ({
 }));
 
 // ❌ TypeScript will catch invalid variants
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ 
     size: "xl",        // ❌ Error: "xl" is not in ["sm", "md", "lg"]
     variant: "invalid" // ❌ Error: "invalid" is not in ["default", "primary"]
@@ -1125,17 +1125,17 @@ Generates styled instances with optional overrides. Both parameters are **callba
 **Example:**
 ```typescript
 // Basic usage with variants
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // Using what.variant() for type-safe variant values
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With slot overrides using what utility
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
   slot: {
     icon: what.css(["mr-2", "animate-spin"]),
@@ -1144,21 +1144,21 @@ const classes = Button.create(({ what }) => ({
 }));
 
 // With token overrides
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   token: {
     "color.text.primary": what.css(["text-blue-600"])
   }
 }));
 
 // With hard overrides
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"])
   }
 }));
 
 // Combined user and internal configs
-const classes = Button.create(
+const slots = Button.create(
   ({ what }) => ({
     variant: what.variant({ variant: "primary" })
   }),
@@ -1248,7 +1248,7 @@ function Icon({ icon, cls, ...props }) {
 **Slot Configuration (Append Mode):**
 ```typescript
 // ✅ Adds to existing styles
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   slot: {
     root: what.css(["mr-2", "animate-spin"]) // Appends to existing root styles
   }
@@ -1259,7 +1259,7 @@ const classes = Button.create(({ what }) => ({
 **Override Configuration (Replace Mode):**
 ```typescript
 // ✅ Replaces all previous styles
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"]) // Replaces all root styles
   }
@@ -1274,7 +1274,7 @@ The `useCls` hook combines multiple configuration sources:
 ```typescript
 // useCls(tva, userConfigFn, internalConfigFn)
 const slots = useCls(
-  ButtonCls,           // CLS instance
+  ButtonCls,           // cls
   ({ what }) => ({     // User config (cls prop)
     slot: what.slot({
       root: what.css(["user-class"])
@@ -1292,7 +1292,7 @@ const slots = useCls(
 
 ### 6.2 `extend(childContract, childDefinitionFn)` <a id="62-extend-method"></a>
 
-Creates new CLS instances with additional functionality, inheriting from a parent.
+Creates new cls instances with additional functionality, inheriting from a parent.
 
 **Parameters:**
 - `childContract`: Extended contract with new tokens, slots, or variants
@@ -1350,12 +1350,12 @@ const PrimaryButton = Button.extend(
 
 ### 6.3 `use(sub)` <a id="63-use-method"></a>
 
-Provides type-safe assignment of compatible CLS instances.
+Provides type-safe assignment of compatible cls instances.
 
 **Parameters:**
-- `sub`: A CLS instance that must be derived from the current instance
+- `sub`: A cls instance that must be derived from the current instance
 
-**Returns:** The current CLS instance for chaining
+**Returns:** The current cls instance for chaining
 
 **Example:**
 ```typescript
@@ -1604,12 +1604,12 @@ type DefaultDefinition<TContract> = VariantValueMapping<TContract>;
 **Basic Usage:**
 ```typescript
 // With variants only
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With slot overrides
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
   slot: {
     root: what.css(["mr-2", "animate-spin"]),
@@ -1618,19 +1618,19 @@ const classes = Button.create(({ what }) => ({
 }));
 
 // Using what.variant() for type-safe variant values
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With token overrides
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   token: {
     "color.text.primary": what.css(["text-blue-600"])
   }
 }));
 
 // With hard overrides
-const classes = Button.create(({ what }) => ({
+const slots = Button.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"])
   }
@@ -1639,7 +1639,7 @@ const classes = Button.create(({ what }) => ({
 
 **Combined User and Internal Configs:**
 ```typescript
-const classes = Button.create(
+const slots = Button.create(
   ({ what }) => ({
     variant: what.variant({ variant: "primary" })
   }),
@@ -1654,11 +1654,11 @@ const classes = Button.create(
 **Slot Function Usage:**
 ```typescript
 // Access slot functions
-const rootClasses = classes.root();
-const labelClasses = classes.label();
+const rootSlots = slots.root();
+const labelSlots = slots.label();
 
 // With per-call overrides
-const rootClasses = classes.root(({ what }) => ({
+const rootSlots = slots.root(({ what }) => ({
   variant: what.variant({ size: "lg" }),
   slot: {
     root: what.css(["custom-class"])
@@ -1902,13 +1902,6 @@ Leverage caching, use lazy evaluation, monitor bundle size, and profile runtime 
 ### Available React Types
 
 ```tsx
-import type { 
-  Component,        // Standard component props with CLS integration
-  ComponentSlots,   // Slot functions from CLS instance
-  VariantOf,        // Extract variant value types
-  VariantsOf,       // Extract all variant types
-} from '@use-pico/cls';
-
 import { 
   useCls,           // Main React hook for CLS integration
   useClsEx,         // Combined hook for slots and variants
@@ -1920,7 +1913,7 @@ import {
 
 ### 16.1 useCls Hook <a id="161-usecls-hook"></a>
 
-The `useCls` hook is the **foundation of React integration** - it bridges CLS instances with React components:
+The `useCls` hook is the **foundation of React integration** - it bridges cls instances with React components:
 
 ```tsx
 import { cls } from '@use-pico/cls';
@@ -1955,14 +1948,14 @@ const ButtonCls = cls(
 );
 
 function Button({ children, size = "md", tone = "primary" }) {
-  const classes = useCls(ButtonCls, ({ what }) => ({
+  const slots = useCls(ButtonCls, ({ what }) => ({
     variant: what.variant({ size, tone })
   }));
 
   return (
-    <button className={classes.root()}>
-      <span className={classes.icon()}>🚀</span>
-      <span className={classes.label()}>{children}</span>
+    <button className={slots.root()}>
+      <span className={slots.icon()}>🚀</span>
+      <span className={slots.label()}>{children}</span>
     </button>
   );
 }
@@ -1978,26 +1971,26 @@ function Button({ children, size = "md", tone = "primary" }) {
 **useCls Hook Signature:**
 ```tsx
 useCls(
-  clsInstance,           // CLS instance to use
-  userConfigFn?,         // User configuration (cls prop)
-  internalConfigFn?      // Internal configuration (component logic)
+  cls,                  // CLS instance to use
+  userTweakFn?,         // User configuration (tweak prop)
+  internalTweakFn?      // Internal configuration (component logic)
 )
 ```
 
 **Common Usage Patterns:**
 ```tsx
 // Basic usage with user config only
-const classes = useCls(ButtonCls, ({ what }) => ({
+const slots = useCls(ButtonCls, ({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
 
-// With cls prop and internal config
-const classes = useCls(ButtonCls, cls, ({ what }) => ({
+// With tweak prop and internal config
+const slots = useCls(ButtonCls, tweak, ({ what }) => ({
   variant: what.variant({ disabled: props.disabled })
 }));
 
 // With internal config only
-const classes = useCls(ButtonCls, undefined, ({ what }) => ({
+const slots = useCls(ButtonCls, undefined, ({ what }) => ({
   slot: what.slot({ root: what.css(["internal-class"]) })
 }));
 ```
@@ -2121,26 +2114,26 @@ function Status({ tone = "inherit", children }: StatusProps) {
 
 ### 16.2 Component Patterns <a id="162-component-patterns"></a>
 
-Build reusable, composable React components with CLS. The `cls` prop provides a type-safe way to use the CLS package directly in components:
+Build reusable, composable React components with CLS. The `tweak` prop provides a type-safe way to use the CLS package directly in components:
 
 ```tsx
-import type { Component } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
-interface ButtonProps extends Component<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
+interface ButtonProps extends Cls.Props<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
   children: React.ReactNode;
 }
 
 function Button({ 
   children,
-  tva = ButtonCls,
-  cls,
+  cls = ButtonCls,
+  tweak,
   ...props 
 }: ButtonProps) {
   // useCls combines three configuration sources:
   // 1. Component rules (from ButtonCls definition)
-  // 2. User config (cls prop function) - appends to component rules
+  // 2. User config (tweak prop function) - appends to component rules
   // 3. Internal config (component logic) - appends to user config
-  const classes = useCls(tva, cls, ({ what }) => ({
+  const slots = useCls(cls, tweak, ({ what }) => ({
     variant: what.variant({
       // Control variant by native prop
       disabled: props.disabled,
@@ -2148,32 +2141,32 @@ function Button({
   }));
   
   return (
-    <button className={classes.root()} {...props}>
+    <button className={slots.root()} {...props}>
       {children}
     </button>
   );
 }
 
-// useCls with tva and cls provides:
+// useCls with cls and tweak provides:
 // - Type-safe access to CLS slots
 // - Automatic context inheritance  
-// - Runtime configuration overrides via cls prop function
+// - Runtime configuration overrides via tweak prop function
 // - Proper React integration and performance
 // - **Slot merging**: User config appends to component rules, internal config appends to user config
 
-// The cls prop is a function that provides user configuration overrides
+// The tweak prop is a function that provides user configuration overrides
 // Users pass: tweak={({ what }) => ({ variant: { tone: "primary" } })}
 ```
 
-### 16.2.1 The `cls` Prop and Slot Merging <a id="1621-the-cls-prop-and-slot-merging"></a>
+### 16.2.1 The `tweak` Prop and Slot Merging <a id="1621-the-tweak-prop-and-slot-merging"></a>
 
-The `cls` prop is a **powerful feature** that enables user customization while preserving component integrity. It works through **slot merging** - user configurations append to component rules rather than replacing them.
+The `tweak` prop is a **powerful feature** that enables user customization while preserving component integrity. It works through **slot merging** - user configurations append to component rules rather than replacing them.
 
-#### How the `cls` Prop Works
+#### How the `tweak` Prop Works
 
 **🔍 Configuration Flow:**
 1. **Component Rules**: Base styling from CLS definition
-2. **User Config** (`cls` prop): User-provided overrides (append mode)
+2. **User Config** (`tweak` prop): User-provided overrides (append mode)
 3. **Internal Config**: Component logic overrides (append mode)
 4. **Result**: All configurations combined in order
 
@@ -2186,16 +2179,16 @@ The `cls` prop is a **powerful feature** that enables user customization while p
 #### Real-World Example: Customizable Button
 
 ```tsx
-// Button component with cls prop support
-function Button({ children, cls, ...props }) {
-  const classes = useCls(ButtonCls, cls, ({ what }) => ({
+// Button component with tweak prop support
+function Button({ children, tweak, ...props }) {
+  const slots = useCls(ButtonCls, tweak, ({ what }) => ({
     variant: what.variant({
       disabled: props.disabled,
     })
   }));
 
   return (
-    <button className={classes.root()} {...props}>
+    <button className={slots.root()} {...props}>
       {children}
     </button>
   );
@@ -2203,11 +2196,11 @@ function Button({ children, cls, ...props }) {
 
 // Usage examples showing slot merging:
 
-// 1. Basic usage (no cls prop)
+// 1. Basic usage (no tweak prop)
 <Button>Click me</Button>
 // Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium"
 
-// 2. With cls prop for variant override
+// 2. With tweak prop for variant override
 <Button tweak={({ what }) => ({ 
   variant: what.variant({ tone: "secondary" }) 
 })}>
@@ -2215,7 +2208,7 @@ function Button({ children, cls, ...props }) {
 </Button>
 // Result: "bg-gray-600 text-white px-4 py-2 rounded font-medium"
 
-// 3. With cls prop for slot override (append mode)
+// 3. With tweak prop for slot override (append mode)
 <Button tweak={({ what }) => ({ 
   slot: what.slot({
     root: what.css(["shadow-lg", "hover:shadow-xl"])
@@ -2225,7 +2218,7 @@ function Button({ children, cls, ...props }) {
 </Button>
 // Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium shadow-lg hover:shadow-xl"
 
-// 4. With cls prop for override (replace mode)
+// 4. With tweak prop for override (replace mode)
 <Button tweak={({ what }) => ({ 
   override: what.override({
     root: what.css(["bg-red-500", "text-white", "border-2"])
@@ -2243,7 +2236,7 @@ A common pattern is to separate props between a base component (internal) and a 
 **Example: MenuLink Component**
 ```tsx
 // Base component - internal props only
-interface BaseMenuLinkProps extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
+interface BaseMenuLinkProps extends Cls.Props<typeof MenuLinkCls, AnchorHTMLAttributes<HTMLAnchorElement>> {
   icon?: string | ReactNode;
   inner?: boolean;
   vertical?: boolean;
@@ -2251,8 +2244,8 @@ interface BaseMenuLinkProps extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLA
 }
 
 const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
-  ({ icon, inner, vertical, tva = MenuLinkCls, cls, children, ...props }, ref) => {
-    const slots = useCls(tva, cls, ({ what }) => ({
+  ({ icon, inner, vertical, cls = MenuLinkCls, tweak, children, ...props }, ref) => {
+    const slots = useCls(cls, tweak, ({ what }) => ({
       variant: what.variant({ inner, vertical })
     }));
 
@@ -2339,7 +2332,7 @@ function Icon({ icon, cls, ...props }) {
 
 ### 16.3 withCls HOC <a id="163-withcls-hoc"></a>
 
-Bind CLS instances directly to your components so you can access `Component.cls` externally without exporting both the component and CLS instance separately:
+Bind cls instances directly to your components so you can access `Component.cls` externally without exporting both the component and cls instance separately:
 
 ```tsx
 import { withCls } from '@use-pico/cls/react';
@@ -2369,11 +2362,11 @@ function App() {
   );
 }
 
-// Export only Button - Button.cls gives access to CLS instance
+// Export only Button - Button.cls gives access to cls instance
 export { Button };
 // No need to export ButtonCls separately!
 
-// Key benefit: Single export with typed access to CLS instance
+// Key benefit: Single export with typed access to cls instance
 // Other components can use useCls(Button.cls, ...) for proper React integration
 
 // File structure:
@@ -2383,7 +2376,7 @@ export { Button };
 
 ### 16.4 Context Integration <a id="164-context-integration"></a>
 
-Seamless theme inheritance through React Context. The `ClsProvider` accepts a single CLS instance that provides tokens and styling to child components:
+Seamless theme inheritance through React Context. The `ClsProvider` accepts a single cls instance that provides tokens and styling to child components:
 
 ```tsx
 import { ClsProvider } from '@use-pico/cls/react';
@@ -2395,14 +2388,14 @@ const ThemeProvider = ({ children }) => (
 );
 
 function ThemedButton() {
-  // The cls prop automatically provides the full configuration with context inheritance
+  // The tweak prop automatically provides the full configuration with context inheritance
   return <Button tweak={({ what }) => ({ variant: what.variant({ tone: "primary" }) })}>Themed Button</Button>;
 }
 
-// The cls prop automatically handles context inheritance and provides
+// The tweak prop automatically handles context inheritance and provides
 // the full configuration function with access to what utility
 
-// The cls prop is a function that provides user configuration overrides
+// The tweak prop is a function that provides user configuration overrides
 // Users pass: tweak={({ what }) => ({ variant: { tone: "primary" } })}
 ```
 
@@ -2428,12 +2421,12 @@ CLS provides several TypeScript helper types specifically designed for React int
 
 #### Component Props Type
 
-The `Component<TCls, P>` type provides a standard interface for React component props with CLS integration:
+The `Cls.Props<TCls, P>` type provides a standard interface for React component props with CLS integration:
 
 ```tsx
-import type { Component } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
-interface ButtonProps extends Component<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
+interface ButtonProps extends Cls.Props<typeof ButtonCls, React.ButtonHTMLAttributes<HTMLButtonElement>> {
   children: React.ReactNode;
   size?: "sm" | "md" | "lg";
   variant?: "primary" | "secondary";
@@ -2441,11 +2434,11 @@ interface ButtonProps extends Component<typeof ButtonCls, React.ButtonHTMLAttrib
 
 function Button({ 
   children,
-  tva = ButtonCls,  // CLS instance (optional)
-  cls,              // Configuration function (optional)
+  cls = ButtonCls,  // cls (optional)
+  tweak,            // Configuration function (optional)
   ...props 
 }: ButtonProps) {
-  const classes = useCls(tva, cls, ({ what }) => ({
+  const slots = useCls(cls, tweak, ({ what }) => ({
     variant: what.variant({ 
       size: props.size,
       variant: props.variant 
@@ -2453,7 +2446,7 @@ function Button({
   }));
   
   return (
-    <button className={classes.root()} {...props}>
+    <button className={slots.root()} {...props}>
       {children}
     </button>
   );
@@ -2461,20 +2454,20 @@ function Button({
 ```
 
 **Key Features:**
-- **`tva?: TCls`**: Optional CLS instance for styling
-- **`tweak?: WhatConfigFn<TCls>`**: Optional configuration function
-- **`& Omit<P, "tva" | "tweak">`**: Preserves all other props from base type `P`
+- **`cls?: TCls`**: Optional cls for styling
+- **`tweak?: Tweak.Fn<TCls>`**: Optional configuration function
+- **`& Omit<P, "cls" | "tweak">`**: Preserves all other props from base type `P`
 
 #### ComponentSlots Type
 
-The `ComponentSlots<TCls>` type extracts slot functions from a CLS instance for use in component props:
+The `Cls.SlotsOf<TCls>` type extracts slot functions from a cls instance for use in component props:
 
 ```tsx
-import type { ComponentSlots } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
 interface IconProps {
   icon: string;
-  slots?: ComponentSlots<typeof IconCls>;
+  slots?: Cls.SlotsOf<typeof IconCls>;
 }
 
 function Icon({ icon, slots = IconCls.create() }: IconProps) {
@@ -2498,28 +2491,28 @@ function CustomIcon({ icon }: { icon: string }) {
 
 #### VariantOf Type
 
-The `VariantOf<TCls, TVariant>` type extracts the value type for a specific variant:
+The `Cls.VariantOf<TCls, TVariant>` type extracts the value type for a specific variant:
 
 ```tsx
-import type { VariantOf } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
 // Given ButtonCls with variants: { size: ["sm", "md", "lg"], disabled: ["bool"] }
-type ButtonSize = VariantOf<typeof ButtonCls, "size">;     // "sm" | "md" | "lg"
-type ButtonDisabled = VariantOf<typeof ButtonCls, "disabled">; // boolean
+type ButtonSize = Cls.VariantOf<typeof ButtonCls, "size">;     // "sm" | "md" | "lg"
+type ButtonDisabled = Cls.VariantOf<typeof ButtonCls, "disabled">; // boolean
 
 interface ButtonProps {
-  size?: VariantOf<typeof ButtonCls, "size">;
-  disabled?: VariantOf<typeof ButtonCls, "disabled">;
+  size?: Cls.VariantOf<typeof ButtonCls, "size">;
+  disabled?: Cls.VariantOf<typeof ButtonCls, "disabled">;
   children: React.ReactNode;
 }
 
 function Button({ size = "md", disabled = false, children }: ButtonProps) {
-  const classes = useCls(ButtonCls, ({ what }) => ({
+  const slots = useCls(ButtonCls, ({ what }) => ({
     variant: what.variant({ size, disabled })
   }));
   
   return (
-    <button className={classes.root()} disabled={disabled}>
+    <button className={slots.root()} disabled={disabled}>
       {children}
     </button>
   );
@@ -2534,13 +2527,13 @@ function Button({ size = "md", disabled = false, children }: ButtonProps) {
 
 #### VariantsOf Type
 
-The `VariantsOf<TCls>` type extracts **all available variants** from a CLS instance into a type-safe object structure:
+The `Cls.VariantsOf<TCls>` type extracts **all available variants** from a cls instance into a type-safe object structure:
 
 ```tsx
-import type { VariantsOf } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
 // Given ButtonCls with variants: { size: ["sm", "md", "lg"], disabled: ["bool"] }
-type ButtonVariants = VariantsOf<typeof ButtonCls>;
+type ButtonVariants = Cls.VariantsOf<typeof ButtonCls>;
 // Result: {
 //   size?: "sm" | "md" | "lg";
 //   disabled?: boolean;
@@ -2548,18 +2541,18 @@ type ButtonVariants = VariantsOf<typeof ButtonCls>;
 
 // Use for component props that accept all variants
 interface ButtonProps {
-  variants?: VariantsOf<typeof ButtonCls>;
+  variants?: Cls.VariantsOf<typeof ButtonCls>;
   children: React.ReactNode;
 }
 
 // Use for default variant objects
-const defaultVariants: VariantsOf<typeof ButtonCls> = {
+const defaultVariants: Cls.VariantsOf<typeof ButtonCls> = {
   size: "md",
   disabled: false
 };
 
 // Use for type-safe variant configurations
-function createButtonConfig(variants: VariantsOf<typeof ButtonCls>) {
+function createButtonConfig(variants: Cls.VariantsOf<typeof ButtonCls>) {
   return ButtonCls.create(({ what }) => ({
     variant: what.variant(variants)
   }));
@@ -2570,7 +2563,7 @@ const config = createButtonConfig({ size: "lg", disabled: true });
 ```
 
 **Key Features:**
-- **Complete variant extraction**: Gets all variants from a CLS instance
+- **Complete variant extraction**: Gets all variants from a cls instance
 - **Partial object type**: All variant properties are optional for flexibility
 - **Type safety**: Ensures only valid variant combinations are used
 - **IDE autocompletion**: Provides full IntelliSense for all available variants
@@ -2585,7 +2578,7 @@ const config = createButtonConfig({ size: "lg", disabled: true });
 #### Complete Example: Type-Safe Component
 
 ```tsx
-import type { Component, VariantOf } from '@use-pico/cls';
+import type { Cls } from '@use-pico/cls';
 
 // Define CLS with variants
 const CardCls = cls(
@@ -2614,11 +2607,11 @@ const CardCls = cls(
 );
 
 // Type-safe component props
-interface CardProps extends Component<typeof CardCls, React.HTMLAttributes<HTMLDivElement>> {
+interface CardProps extends Cls.Props<typeof CardCls, React.HTMLAttributes<HTMLDivElement>> {
   children: React.ReactNode;
-  theme?: VariantOf<typeof CardCls, "theme">;
-  size?: VariantOf<typeof CardCls, "size">;
-  elevated?: VariantOf<typeof CardCls, "elevated">;
+  theme?: Cls.VariantOf<typeof CardCls, "theme">;
+  size?: Cls.VariantOf<typeof CardCls, "size">;
+  elevated?: Cls.VariantOf<typeof CardCls, "elevated">;
 }
 
 function Card({ 
@@ -2626,18 +2619,18 @@ function Card({
   theme = "light",
   size = "md", 
   elevated = false,
-  tva = CardCls,
-  cls,
+  cls = CardCls,
+  tweak,
   ...props 
 }: CardProps) {
-  const classes = useCls(tva, cls, ({ what }) => ({
+  const slots = useCls(cls, tweak, ({ what }) => ({
     variant: what.variant({ theme, size, elevated })
   }));
   
   return (
-    <div className={classes.root()} {...props}>
-      <h2 className={classes.title()}>Card Title</h2>
-      <div className={classes.content()}>{children}</div>
+    <div className={slots.root()} {...props}>
+      <h2 className={slots.title()}>Card Title</h2>
+      <div className={slots.content()}>{children}</div>
     </div>
   );
 }
@@ -2684,14 +2677,14 @@ function ConditionalButton({ isActive, ...props }) {
 ```tsx
 const ButtonGroup = ({ children, variant = "horizontal" }) => {
   // ✅ Use useCls for proper React integration
-  const classes = useCls(ButtonGroupCls, undefined, ({ what }) => ({
+  const slots = useCls(ButtonGroupCls, undefined, ({ what }) => ({
     variant: what.variant({ variant })
   }));
   
   return (
-    <div className={classes.root()}>
+    <div className={slots.root()}>
       {React.Children.map(children, (child, index) => (
-        <div key={index} className={classes.item()}>
+        <div key={index} className={slots.item()}>
           {child}
         </div>
       ))}
