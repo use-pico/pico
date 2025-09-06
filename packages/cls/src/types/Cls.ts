@@ -3,7 +3,7 @@ import type { Definition } from "./Definition";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
 import type { Tweak } from "./Tweak";
-import type { Utility } from "./Utility";
+import type { Utils } from "./Utils";
 import type { Variant } from "./Variant";
 
 /**
@@ -82,11 +82,11 @@ export namespace Cls {
 
 	export type VariantOf<
 		TCls extends Type<any>,
-		TVariant extends keyof Variant.Extract<TCls["contract"]>,
-	> = Variant.Extract<
+		TVariant extends keyof Variant.Raw<TCls["contract"]>,
+	> = Variant.Raw<
 		TCls["contract"]
 	>[TVariant] extends readonly (infer U extends string)[]
-		? Utility.Value<U>
+		? Utils.Value<U>
 		: never;
 
 	export type VariantsOf<TCls extends Type<any>> = Variant.Optional<

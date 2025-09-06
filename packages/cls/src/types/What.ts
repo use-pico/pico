@@ -30,7 +30,7 @@ export namespace What {
 	 */
 	export type Token<TContract extends Contract.Any> = {
 		/** Array of optional tokens for styling */
-		token: Token.Extract<TContract>[];
+		token: Token.Raw<TContract>[];
 	};
 
 	/**
@@ -57,7 +57,7 @@ export namespace What {
 	 * @template TContract - The contract type containing the tokens
 	 */
 	export type TokenFn<TContract extends Contract.Any> = (
-		tokens: Token.Extract<TContract>[],
+		tokens: Token.Raw<TContract>[],
 	) => Token<TContract>;
 
 	/**
@@ -69,7 +69,7 @@ export namespace What {
 	 */
 	export type BothFn<TContract extends Contract.Any> = (
 		classes: ClassName,
-		tokens: Token.Extract<TContract>[],
+		tokens: Token.Raw<TContract>[],
 	) => Any<TContract>;
 
 	/**

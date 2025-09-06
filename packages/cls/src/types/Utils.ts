@@ -1,7 +1,7 @@
 /**
  * Namespace for general utility types used throughout the CLS system
  */
-export namespace Utility {
+export namespace Utils {
 	/**
 	 * Converts the string "bool" to boolean type, otherwise preserves the string type
 	 * Used for variant value type mapping where "bool" represents boolean variants

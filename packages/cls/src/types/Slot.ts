@@ -21,11 +21,11 @@ export namespace Slot {
 	 * @template TContract - The contract type to extract slot names from
 	 * @returns A union type of all slot names from the inheritance chain
 	 */
-	export type Extract<TContract extends Contract.Any> = TContract extends {
+	export type Raw<TContract extends Contract.Any> = TContract extends {
 		"~use"?: infer U;
 	}
 		? U extends Contract.Any
-			? TContract["slot"][number] | Extract<U>
+			? TContract["slot"][number] | Raw<U>
 			: TContract["slot"][number]
 		: TContract["slot"][number];
 
@@ -33,11 +33,11 @@ export namespace Slot {
 	 * Mapping type for slot styling values
 	 */
 	export type SlotOf<TContract extends Contract.Any> = {
-		[K in Extract<TContract>]?: What.Any<TContract>;
+		[K in Raw<TContract>]?: What.Any<TContract>;
 	};
 
 	export type HasSlots<TContract extends Contract.Any> =
-		keyof Extract<TContract> extends never ? false : true;
+		keyof Raw<TContract> extends never ? false : true;
 
 	export type Required<TContract extends Contract.Any> =
 		HasSlots<TContract> extends false
@@ -71,6 +71,6 @@ export namespace Slot {
 	 * This type is directly facing an user when using the cls instance.
 	 */
 	export type Kit<TContract extends Contract.Any> = {
-		[K in Extract<TContract>]: Fn<TContract>;
+		[K in Raw<TContract>]: Fn<TContract>;
 	};
 }

@@ -13,44 +13,44 @@ export namespace Token {
 	/**
 	 * Extracts all token names from a contract and its inheritance chain
 	 */
-	// TODO Check if inheritance can be abstracted to a type
-	export type Extract<T extends Contract.Any> = T extends {
-		"~use"?: infer U;
+	export type Raw<TContract extends Contract.Any> = TContract extends {
+		"~use"?: infer TExt;
 	}
-		? U extends Contract.Any
-			? T["tokens"][number] | Extract<U>
-			: T["tokens"][number]
-		: T["tokens"][number];
+		? TExt extends Contract.Any
+			? TContract["tokens"][number] | Raw<TExt>
+			: TContract["tokens"][number]
+		: TContract["tokens"][number];
 
 	/**
 	 * Required token definitions for all declared tokens
 	 */
-	export type Required<T extends Contract.Any> =
-		T["tokens"][number] extends never
+	export type Required<TContract extends Contract.Any> =
+		TContract["tokens"][number] extends never
 			? Record<string, never>
-			: { [K in T["tokens"][number]]: What.Any<T> };
+			: { [K in TContract["tokens"][number]]: What.Any<TContract> };
 
-	export type RequiredFn<T extends Contract.Any> = (
-		token: Token.Required<T>,
-	) => Token.Required<T>;
+	export type RequiredFn<TContract extends Contract.Any> = (
+		token: Token.Required<TContract>,
+	) => Token.Required<TContract>;
 
 	/**
 	 * Optional token definitions for inherited tokens
 	 */
-	export type Optional<T extends Contract.Any> = Partial<
-		T["tokens"][number] extends never
+	export type Optional<TContract extends Contract.Any> = Partial<
+		TContract["tokens"][number] extends never
 			? Record<string, never>
-			: { [K in T["tokens"][number]]: What.Any<T> }
+			: { [K in TContract["tokens"][number]]: What.Any<TContract> }
 	>;
 
-	export type OptionalFn<T extends Contract.Any> = (
-		token: Token.Optional<T>,
-	) => Token.Optional<T>;
+	export type OptionalFn<TContract extends Contract.Any> = (
+		token: Token.Optional<TContract>,
+	) => Token.Optional<TContract>;
 
 	/**
 	 * Extended token definitions that handle both required and optional tokens
 	 */
-	export type Ex<T extends Contract.Any> = T["tokens"][number] extends never
-		? Optional<T>
-		: Optional<T> & Required<T>;
+	export type Ex<TContract extends Contract.Any> =
+		TContract["tokens"][number] extends never
+			? Optional<TContract>
+			: Optional<TContract> & Required<TContract>;
 }

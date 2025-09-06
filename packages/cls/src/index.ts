@@ -7,7 +7,7 @@ export type { Definition } from "./types/Definition";
 export type { Rule } from "./types/Rule";
 export type { Slot } from "./types/Slot";
 export type { Token } from "./types/Token";
-export type { Utility } from "./types/Utility";
+export type { Utils as Utility } from "./types/Utils";
 export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
 export { contract } from "./utils/contract";

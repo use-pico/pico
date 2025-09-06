@@ -1,5 +1,5 @@
 import type { Contract } from "./Contract";
-import type { Utility } from "./Utility";
+import type { Utils } from "./Utils";
 
 /**
  * Namespace for variant-related types and utilities
@@ -23,12 +23,12 @@ export namespace Variant {
 	 * @template TContract - The contract type to extract variants from
 	 * @returns A merged variant contract containing all variants from the inheritance chain
 	 */
-	export type Extract<TContract extends Contract.Any> = TContract extends {
+	export type Raw<TContract extends Contract.Any> = TContract extends {
 		variant: infer V extends Type;
 		"~use"?: infer U;
 	}
 		? U extends Contract.Any
-			? Utility.Merge<Extract<U>, V>
+			? Utils.Merge<Raw<U>, V>
 			: V
 		: Record<string, never>;
 
@@ -43,7 +43,7 @@ export namespace Variant {
 	 * @returns `true` if the contract has variants, `false` if it has no variants
 	 */
 	export type HasVariants<TContract extends Contract.Any> =
-		keyof Extract<TContract> extends never ? false : true;
+		keyof Raw<TContract> extends never ? false : true;
 
 	/**
 	 * Extracts all variants from inheritance chain and builds an object with "bool" variants
@@ -58,9 +58,7 @@ export namespace Variant {
 	 * @returns A mapping of variant names to their resolved value types
 	 */
 	export type VariantOf<TContract extends Contract.Any> = {
-		[K in keyof Extract<TContract>]: Utility.Value<
-			Extract<TContract>[K][number]
-		>;
+		[K in keyof Raw<TContract>]: Utils.Value<Raw<TContract>[K][number]>;
 	};
 
 	export type Required<TContract extends Contract.Any> =
