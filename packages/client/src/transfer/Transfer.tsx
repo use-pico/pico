@@ -31,7 +31,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	render: Render,
 	value,
 	onChange,
-	tva = TransferCls,
+	cls = TransferCls,
 	tweak,
 }: Transfer.Props<TItem>) => {
 	const itemMap = new Map<
@@ -70,7 +70,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 		};
 	});
 
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	const withHandleSelect = (group: ReactNode, item: TItem) => () => {
 		onChange?.(

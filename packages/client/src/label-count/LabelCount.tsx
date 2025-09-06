@@ -16,10 +16,10 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	label,
 	count,
 	badgeProps,
-	tva = LabelCountCls,
+	cls = LabelCountCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<div className={slots.root()}>

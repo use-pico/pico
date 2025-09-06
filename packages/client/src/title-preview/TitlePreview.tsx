@@ -15,10 +15,10 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	icon,
 	title,
 	subtitle,
-	tva = TitlePreviewCls,
+	cls = TitlePreviewCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			withSubtitle: Boolean(subtitle),
 		}),

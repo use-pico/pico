@@ -29,14 +29,14 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	type,
 	vertical,
 	placement = vertical ? "right-start" : "bottom-start",
-	tva = MenuGroupCls,
+	cls = MenuGroupCls,
 	tweak,
 	children,
 }) => {
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			type,
 			active: active ?? isActive,

@@ -12,10 +12,10 @@ export namespace Progress {
 export const Progress: FC<Progress.Props> = ({
 	value,
 	size,
-	tva = ProgressCls,
+	cls = ProgressCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 		}),

@@ -26,11 +26,11 @@ export const BaseStatus: FC<Status.Props> = ({
 	messageProps,
 	bodyProps,
 	tone = "inherit",
-	tva = StatusCls,
+	cls = StatusCls,
 	tweak,
 	children,
 }) => {
-	const { slots, variants } = useClsEx(tva, tweak, ({ what }) => ({
+	const { slots, variants } = useClsEx(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			tone,
 		}),

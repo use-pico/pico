@@ -10,8 +10,8 @@ interface BaseLinkToProps extends LinkToCls.Props<PropsWithChildren> {
 }
 
 const BaseLinkTo = forwardRef<HTMLAnchorElement, BaseLinkToProps>(
-	({ icon, iconProps, tva = LinkToCls, tweak, children, ...props }, ref) => {
-		const slots = useCls(tva, tweak);
+	({ icon, iconProps, cls = LinkToCls, tweak, children, ...props }, ref) => {
+		const slots = useCls(cls, tweak);
 
 		return (
 			<a

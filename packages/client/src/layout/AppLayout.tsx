@@ -25,11 +25,11 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	logo,
 	menu,
 	actions,
-	tva = AppLayoutCls,
+	cls = AppLayoutCls,
 	tweak,
 	children,
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<div className={slots.root()}>

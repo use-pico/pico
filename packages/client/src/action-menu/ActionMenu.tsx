@@ -31,11 +31,11 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	placement = "right-start",
 	actionProps,
 	children,
-	tva = ActionMenuCls,
+	cls = ActionMenuCls,
 	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		slot: what.slot({
 			base: what.css([
 				"relative",

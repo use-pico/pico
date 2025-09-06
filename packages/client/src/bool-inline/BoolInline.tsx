@@ -51,7 +51,7 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	checkIcon = CheckIcon,
 	unCheckIcon = UnCheckIcon,
 	undefinedIcon = UndefinedIcon,
-	tva = BoolInlineCls,
+	cls = BoolInlineCls,
 	tweak,
 	...props
 }) => {
@@ -59,7 +59,7 @@ export const BoolInline: FC<BoolInline.Props> = ({
 		return (
 			<Icon
 				icon={undefinedIcon}
-				tva={IconCls.use(tva)}
+				cls={IconCls.use(cls)}
 				tweak={IconCls.tweak(tweak)}
 				{...props}
 			/>
@@ -68,7 +68,7 @@ export const BoolInline: FC<BoolInline.Props> = ({
 	return (
 		<Icon
 			icon={value ? checkIcon : unCheckIcon}
-			tva={IconCls.use(tva)}
+			cls={IconCls.use(cls)}
 			tweak={IconCls.tweak(tweak, ({ what }) => ({
 				variant: what.variant({
 					value,

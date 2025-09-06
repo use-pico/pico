@@ -72,11 +72,11 @@ const BaseAction: FC<Action.Props> = ({
 	disabled = false,
 	loading = false,
 	onClick,
-	tva = ActionCls,
+	cls = ActionCls,
 	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			loading,

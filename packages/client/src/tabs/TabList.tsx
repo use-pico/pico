@@ -10,11 +10,11 @@ export namespace TabList {
 
 export const TabList: FC<TabList.Props> = ({
 	right,
-	tva = TabListCls,
+	cls = TabListCls,
 	tweak,
 	children,
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<div className={slots.base()}>

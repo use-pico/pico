@@ -20,11 +20,11 @@ export namespace Issues {
 }
 
 export const Issues: FC<Issues.Props> = ({
-	tva = IssuesCls,
+	cls = IssuesCls,
 	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
 		error: ErrorIcon,

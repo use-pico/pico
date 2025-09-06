@@ -12,10 +12,10 @@ export namespace LoadingOverlay {
 
 export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	show = true,
-	tva = LoadingOverlayCls,
+	cls = LoadingOverlayCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			show,
 		}),

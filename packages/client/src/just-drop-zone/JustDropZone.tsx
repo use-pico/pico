@@ -38,7 +38,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	accept,
 	textTile,
 	textMessage,
-	tva = JustDropZoneCls,
+	cls = JustDropZoneCls,
 	tweak,
 	children: Children,
 	onDropAccepted,
@@ -63,7 +63,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			active: isDragActive,
 			rejected: isDragReject,

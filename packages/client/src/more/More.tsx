@@ -58,11 +58,11 @@ export const More = <TValues extends EntitySchema.Type>({
 	renderInline,
 	renderItem = renderInline,
 	limit,
-	tva = MoreCls,
+	cls = MoreCls,
 	tweak,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<div className={slots.root()}>

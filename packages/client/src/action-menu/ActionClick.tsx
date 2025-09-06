@@ -19,12 +19,12 @@ export const BaseActionClick: FC<ActionClick.Props> = ({
 	iconProps,
 	loading = false,
 	disabled = false,
-	tva = ActionClickCls,
+	cls = ActionClickCls,
 	tweak,
 	children,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			loading,
 			disabled,

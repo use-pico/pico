@@ -24,10 +24,10 @@ export const BaseTypo: FC<Typo.Props> = ({
 	tone = "inherit",
 	theme = "light",
 	italic = false,
-	tva = TypoCls,
+	cls = TypoCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			font,

@@ -23,11 +23,11 @@ export const BaseAttr: FC<Attr.Props> = ({
 	valueProps,
 	tone = "neutral",
 	inline,
-	tva = AttrCls,
+	cls = AttrCls,
 	tweak,
 }) => {
 	const inlineContext = useContext(InlineContext);
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			inline: inline ?? inlineContext?.inline,
 		}),

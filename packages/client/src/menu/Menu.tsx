@@ -10,11 +10,11 @@ export namespace Menu {
 
 export const Menu: FC<Menu.Props> = ({
 	vertical = false,
-	tva = MenuCls,
+	cls = MenuCls,
 	tweak,
 	children,
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			vertical,
 		}),

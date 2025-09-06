@@ -216,10 +216,10 @@ export const AbstractList = <
 	renderHeader = () => null,
 	renderFooter = () => null,
 	renderPostfix = () => null,
-	tva = AbstractListCls,
+	cls = AbstractListCls,
 	tweak,
 }: AbstractList.Props<TQuery, TItem>) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	/**
 	 * Here we're expecting basically only two states - success or

@@ -27,11 +27,11 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	description,
 	textOn,
 	textOff,
-	tva = BoolInputCls,
+	cls = BoolInputCls,
 	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
 			value: value ?? false,

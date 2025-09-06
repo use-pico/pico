@@ -18,10 +18,10 @@ export const Pages: FC<Pages.Props> = ({
 	pages,
 	page,
 	onPage,
-	tva = PagesCls,
+	cls = PagesCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<nav className={slots.root()}>

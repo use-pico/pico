@@ -15,7 +15,7 @@ const BaseActionLink = forwardRef<HTMLAnchorElement, BaseActionLinkProps>(
 		{
 			icon = null,
 			iconProps,
-			tva = ActionLinkCls,
+			cls = ActionLinkCls,
 			tweak,
 			children,
 			...props
@@ -25,7 +25,7 @@ const BaseActionLink = forwardRef<HTMLAnchorElement, BaseActionLinkProps>(
 		/**
 		 * Slots, because we're using `ref` here and `tva` does not support `ref`s.
 		 */
-		const slots = useCls(tva, tweak);
+		const slots = useCls(cls, tweak);
 
 		return (
 			<div className={slots.wrapper()}>

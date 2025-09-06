@@ -21,10 +21,10 @@ export const Badge: FC<Badge.Props> = ({
 	tone,
 	theme,
 	tweak,
-	tva = BadgeCls,
+	cls = BadgeCls,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			tone,

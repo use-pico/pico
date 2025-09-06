@@ -43,11 +43,11 @@ export const Icon: FC<Icon.Props> = ({
 	tone,
 	theme,
 	disabled,
-	tva = IconCls,
+	cls = IconCls,
 	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			tone,

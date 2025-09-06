@@ -11,7 +11,7 @@ export namespace TabPane {
 
 export const TabPane: FC<TabPane.Props> = ({
 	tab,
-	tva = TabPaneCls,
+	cls = TabPaneCls,
 	tweak,
 	children,
 }) => {
@@ -19,7 +19,7 @@ export const TabPane: FC<TabPane.Props> = ({
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			hidden: tab !== currentTab,
 		}),

@@ -23,12 +23,12 @@ export const Button: FC<Button.Props> = ({
 	iconProps,
 	loading,
 	size,
-	tva = ButtonCls,
+	cls = ButtonCls,
 	tweak,
 	children,
 	...props
 }) => {
-	const classes = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
 			size,
@@ -36,9 +36,9 @@ export const Button: FC<Button.Props> = ({
 	}));
 
 	return (
-		<div className={classes.wrapper()}>
+		<div className={slots.wrapper()}>
 			<button
-				className={classes.root()}
+				className={slots.root()}
 				type={"button"}
 				{...props}
 			>

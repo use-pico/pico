@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { Attr } from "../attr/Attr";
@@ -67,11 +68,11 @@ export const Card = <TValues extends Record<string, any>>({
 	hidden = [],
 	attrProps,
 	entity,
-	tva = CardCls,
+	cls = CardCls,
 	tweak,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const slots = tva.create(tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			inline,
 		}),

@@ -382,11 +382,11 @@ export const Table = <
 	controlsHidden = [],
 	rowCls,
 	rowDblClick,
-	tva = TableCls,
+	cls = TableCls,
 	tweak,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,
@@ -407,7 +407,7 @@ export const Table = <
 
 	return (
 		<AbstractList
-			tva={AbstractListCls.use(tva)}
+			cls={AbstractListCls.use(cls)}
 			renderPrefix={(render) => (
 				<TablePrefix<TQuery, TContext>
 					withCountQuery={withCountQuery}

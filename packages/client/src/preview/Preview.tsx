@@ -38,10 +38,10 @@ export const Preview = <TValues extends Record<string, any>>({
 	links: Links,
 	actions: Actions,
 	extra: Extra,
-	tva = PreviewCls,
+	cls = PreviewCls,
 	tweak,
 }: Preview.Props<TValues>) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<InlineContext.Provider

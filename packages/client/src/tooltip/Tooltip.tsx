@@ -12,10 +12,10 @@ export namespace Tooltip {
 export const Tooltip: FC<Tooltip.Props> = ({
 	target,
 	children,
-	tva = TooltipCls,
+	cls = TooltipCls,
 	tweak,
 }) => {
-	const slots = useCls(tva, tweak);
+	const slots = useCls(cls, tweak);
 
 	return (
 		<Float

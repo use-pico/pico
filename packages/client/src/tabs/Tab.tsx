@@ -9,11 +9,11 @@ export namespace Tab {
 	}
 }
 
-export const Tab: FC<Tab.Props> = ({ tab, tva = TabCls, tweak, children }) => {
+export const Tab: FC<Tab.Props> = ({ tab, cls = TabCls, tweak, children }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			active: tab === store.tab,
 		}),

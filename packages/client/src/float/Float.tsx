@@ -61,7 +61,7 @@ export const Float: FC<Float.Props> = ({
 	delay = 100,
 	float,
 	withOverlay = false,
-	tva = FloatCls,
+	cls = FloatCls,
 	tweak,
 	children,
 }) => {
@@ -92,7 +92,7 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			mounted: isMounted,
 		}),

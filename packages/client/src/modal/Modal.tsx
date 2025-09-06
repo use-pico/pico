@@ -57,7 +57,7 @@ export const Modal: FC<Modal.Props> = ({
 	outside = false,
 	size = "md",
 	tweak,
-	tva = ModalCls,
+	cls = ModalCls,
 	children,
 }) => {
 	const useModalStore = useMemo(
@@ -88,7 +88,7 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			size,

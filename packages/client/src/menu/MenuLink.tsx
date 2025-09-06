@@ -25,7 +25,7 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 			active,
 			variantType,
 			vertical,
-			tva = MenuLinkCls,
+			cls = MenuLinkCls,
 			match = [],
 			tweak,
 			children,
@@ -36,7 +36,7 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 		const matchRoute = useMatchRoute();
 		const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-		const slots = useCls(tva, tweak, ({ what }) => ({
+		const slots = useCls(cls, tweak, ({ what }) => ({
 			variant: what.variant({
 				type: variantType,
 				active: active ?? isActive,

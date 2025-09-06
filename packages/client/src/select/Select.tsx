@@ -68,7 +68,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 	onSelect,
 	onChange,
 	value,
-	tva = SelectCls,
+	cls = SelectCls,
 	tweak,
 	...props
 }: Select.Props<TItem>) => {
@@ -143,7 +143,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const slots = useCls(tva, tweak, ({ what }) => ({
+	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			size: $size,

@@ -104,8 +104,8 @@ export namespace Cls {
 	 */
 	export type Props<TCls extends Type<any>, P = unknown> = {
 		/** Optional CLS instance to use for styling */
-		tva?: TCls;
+		cls?: TCls;
 		/** Optional tweak function to modify styles on existing component */
 		tweak?: Tweak.Fn<TCls["contract"]>;
-	} & Omit<P, "tva" | "tweak">;
+	} & Omit<P, "cls" | "tweak">;
 }
