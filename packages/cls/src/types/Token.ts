@@ -22,16 +22,14 @@ export namespace Token {
 		: TContract["tokens"][number];
 
 	/**
-	 * Required token definitions for all declared tokens
+	 * Extended token definitions that handle both required and optional tokens
 	 */
 	export type Required<TContract extends Contract.Any> =
 		TContract["tokens"][number] extends never
-			? Record<string, never>
-			: { [K in TContract["tokens"][number]]: What.Any<TContract> };
-
-	export type RequiredFn<TContract extends Contract.Any> = (
-		token: Token.Required<TContract>,
-	) => Token.Required<TContract>;
+			? Optional<TContract>
+			: Optional<TContract> & {
+					[K in TContract["tokens"][number]]: What.Any<TContract>;
+				};
 
 	/**
 	 * Optional token definitions for inherited tokens
@@ -39,18 +37,14 @@ export namespace Token {
 	export type Optional<TContract extends Contract.Any> = Partial<
 		TContract["tokens"][number] extends never
 			? Record<string, never>
-			: { [K in TContract["tokens"][number]]: What.Any<TContract> }
+			: { [K in Raw<TContract>]: What.Any<TContract> }
 	>;
+
+	export type RequiredFn<TContract extends Contract.Any> = (
+		token: Token.Required<TContract>,
+	) => Token.Required<TContract>;
 
 	export type OptionalFn<TContract extends Contract.Any> = (
 		token: Token.Optional<TContract>,
 	) => Token.Optional<TContract>;
-
-	/**
-	 * Extended token definitions that handle both required and optional tokens
-	 */
-	export type Ex<TContract extends Contract.Any> =
-		TContract["tokens"][number] extends never
-			? Optional<TContract>
-			: Optional<TContract> & Required<TContract>;
 }
