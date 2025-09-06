@@ -456,6 +456,36 @@ const Button = cls(
 );
 ```
 
+### `tvc(...classes)`
+
+A utility function for optimal class string merging and deduplication. This is a re-export of [tailwind-merge](https://github.com/dcastil/tailwind-merge) that intelligently merges Tailwind CSS classes, removing conflicts and duplicates.
+
+**Parameters:**
+- `...classes`: CSS class strings to merge
+
+**Returns:** A single optimized class string
+
+**Example:**
+```typescript
+import { tvc } from '@use-pico/cls';
+
+// Automatically resolves conflicts and removes duplicates
+tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
+// Result: "py-2 px-6 bg-red-500" (px-6 overrides px-4, bg-red-500 overrides bg-blue-500)
+
+// Handles complex Tailwind classes
+tvc("text-sm font-medium", "text-lg font-bold", "text-gray-900");
+// Result: "text-lg font-bold text-gray-900"
+```
+
+**Key Features:**
+- **Conflict Resolution**: Automatically resolves conflicting Tailwind classes (e.g., `px-4` vs `px-6`)
+- **Duplicate Removal**: Removes duplicate classes efficiently
+- **Tailwind-Aware**: Understands Tailwind's class hierarchy and specificity
+- **Performance Optimized**: Fast class merging with minimal overhead
+
+> **💡 Pro Tip**: CLS uses `tvc()` internally for all class merging, so you get optimal class output automatically. You can also use it directly in your components for manual class merging.
+
 ---
 
 ## 5. Key Concepts <a id="5-key-concepts"></a>
@@ -1381,7 +1411,7 @@ type TokenContract = readonly string[];
 ]
 ```
 
-**Note**: The actual implementation uses a flat array of token names rather than a nested object structure. This simplifies the type system and makes token inheritance more straightforward.
+**Note**: CLS uses **only flat arrays** for token contracts, not nested object structures. This design choice simplifies the type system, makes token inheritance more straightforward, and provides better performance. Each token name is a string that can be referenced in definitions using dot notation (e.g., `"color.text.primary"`).
 
 ### 7.2 Slot Contract <a id="72-slot-contract"></a>
 ```typescript
@@ -1816,10 +1846,12 @@ Variants are merged across the inheritance chain:
 **[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Inheritance System](#11-inheritance-system)** | **[→ Next Chapter: Type System](#13-type-system)**
 
 ### 12.1 Caching Strategy <a id="121-caching-strategy"></a>
-- **Slot Function Caching**: Slot functions are cached after first creation
-- **Result Caching**: Slot function results are cached based on configuration hash
-- **Rule Caching**: Rules are processed once per contract
-- **Proxy Optimization**: Uses Proxy for lazy slot function creation
+- **Slot Function Caching**: Slot functions are cached after first creation to avoid recreation on each access
+- **Result Caching**: Slot function results are cached based on configuration hash using `JSON.stringify()` for serialization
+- **Rule Caching**: Rules are processed once per contract and reused across all instances
+- **Proxy Optimization**: Uses Proxy for lazy slot function creation - functions are only created when accessed
+- **Configuration Hashing**: Cache keys are generated from configuration objects, with fallback to `"__non_serializable__"` for complex objects
+- **Memory Efficiency**: Cached results are stored in a `Map` for optimal lookup performance
 
 ### 12.2 Memory Management <a id="122-memory-management"></a>
 - **Lazy Evaluation**: Slot functions are only created when accessed via Proxy
@@ -1831,9 +1863,10 @@ Variants are merged across the inheritance chain:
 ### 12.3 Runtime Optimization <a id="123-runtime-optimization"></a>
 - **Early Exit**: Stop rule evaluation when no more matches are possible
 - **Efficient Matching**: Use direct property access for variant matching
-- **Class Deduplication**: Use tailwind-merge for optimal class output
+- **Class Deduplication**: Use [tailwind-merge](https://github.com/dcastil/tailwind-merge) for optimal class output via `tvc()` utility
 - **Minimal Allocations**: Reuse objects where possible
 - **Configuration Hashing**: Use JSON.stringify for cache keys (with fallback for non-serializable configs)
+- **Proxy-based Lazy Loading**: Slot functions are created only when accessed, reducing initial overhead
 
 ---
 
