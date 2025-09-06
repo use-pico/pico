@@ -12,7 +12,7 @@ export namespace Detail {
 }
 
 export const Detail: FC<Detail.Props> = ({
-	inline = true,
+	inline = false,
 	children,
 	cls = DetailCls,
 	tweak,

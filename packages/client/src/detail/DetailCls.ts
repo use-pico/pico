@@ -17,7 +17,7 @@ export const DetailCls = PicoCls.extend(
 					[
 						"flex",
 						"flex-row",
-						"gap-4",
+						"flex-wrap",
 					],
 					[
 						"border.default",
