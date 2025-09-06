@@ -20,10 +20,10 @@ export namespace Variant {
 	 * contains the raw variant definitions as they were declared, without any value type
 	 * transformations.
 	 *
-	 * @template T - The contract type to extract variants from
+	 * @template TContract - The contract type to extract variants from
 	 * @returns A merged variant contract containing all variants from the inheritance chain
 	 */
-	export type Extract<T extends Contract.Any> = T extends {
+	export type Extract<TContract extends Contract.Any> = TContract extends {
 		variant: infer V extends Type;
 		"~use"?: infer U;
 	}
@@ -39,11 +39,11 @@ export namespace Variant {
 	 * has any variant declarations. It's used to conditionally apply variant-related
 	 * type constraints and ensure type safety when working with optional variant systems.
 	 *
-	 * @template T - The contract type to check for variants
+	 * @template TContract - The contract type to check for variants
 	 * @returns `true` if the contract has variants, `false` if it has no variants
 	 */
-	export type HasVariants<T extends Contract.Any> =
-		keyof Extract<T> extends never ? false : true;
+	export type HasVariants<TContract extends Contract.Any> =
+		keyof Extract<TContract> extends never ? false : true;
 
 	/**
 	 * Extracts all variants from inheritance chain and builds an object with "bool" variants
@@ -54,26 +54,30 @@ export namespace Variant {
 	 * with its corresponding value type. Boolean variants (defined with "bool") are mapped
 	 * to the `boolean` type, while other variants are mapped to their string literal union types.
 	 *
-	 * @template T - The contract type to extract variant value mappings from
+	 * @template TContract - The contract type to extract variant value mappings from
 	 * @returns A mapping of variant names to their resolved value types
 	 */
-	export type VariantOf<T extends Contract.Any> = {
-		[K in keyof Extract<T>]: Utility.Value<Extract<T>[K][number]>;
+	export type VariantOf<TContract extends Contract.Any> = {
+		[K in keyof Extract<TContract>]: Utility.Value<
+			Extract<TContract>[K][number]
+		>;
 	};
 
-	export type Required<T extends Contract.Any> = HasVariants<T> extends false
-		? Record<string, never>
-		: VariantOf<T>;
+	export type Required<TContract extends Contract.Any> =
+		HasVariants<TContract> extends false
+			? Record<string, never>
+			: VariantOf<TContract>;
 
-	export type Optional<T extends Contract.Any> = HasVariants<T> extends false
-		? Record<string, never>
-		: Partial<VariantOf<T>>;
+	export type Optional<TContract extends Contract.Any> =
+		HasVariants<TContract> extends false
+			? Record<string, never>
+			: Partial<VariantOf<TContract>>;
 
-	export type RequiredFn<T extends Contract.Any> = (
-		variant: Required<T>,
-	) => Required<T>;
+	export type RequiredFn<TContract extends Contract.Any> = (
+		variant: Required<TContract>,
+	) => Required<TContract>;
 
-	export type OptionalFn<T extends Contract.Any> = (
-		variant: Optional<T>,
-	) => Optional<T>;
+	export type OptionalFn<TContract extends Contract.Any> = (
+		variant: Optional<TContract>,
+	) => Optional<TContract>;
 }

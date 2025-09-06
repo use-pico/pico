@@ -14,11 +14,24 @@ export namespace Rule {
 	 * - Optional variant matching conditions
 	 * - Required slot mapping that defines the actual styling values
 	 *
-	 * @template T - The contract type that defines the structure (tokens, slots, variants)
+	 * @template TContract - The contract type that defines the structure (tokens, slots, variants)
 	 */
-	export type Type<T extends Contract.Any> = {
+	export type Type<TContract extends Contract.Any> = {
 		override?: boolean;
-		match?: Variant.Optional<T>;
-		slot: Slot.Mapping<T>;
+		match?: Variant.Optional<TContract>;
+		slot: Slot.Optional<TContract>;
 	};
+
+	export namespace Match {
+		export type RootFn<TContract extends Contract.Any> = (
+			slot: Slot.Optional<TContract>,
+			override?: boolean,
+		) => Type<TContract>;
+
+		export type RuleFn<TContract extends Contract.Any> = (
+			match: Variant.Optional<TContract>,
+			slot: Slot.Optional<TContract>,
+			override?: boolean,
+		) => Type<TContract>;
+	}
 }

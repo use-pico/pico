@@ -1,28 +1,27 @@
-import type { Cls, WhatUtil } from "../types";
+import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
 import type { Definition } from "../types/Definition";
 import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
+import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
 import { merge } from "./merge";
 
 // Standalone function to compute variants
 export function withVariants<
-	const TTokenContract extends Token.Type,
-	const TSlotContract extends Slot.Type,
-	const TVariantContract extends Variant.Type,
-	const TContract extends Contract.Type<
-		TTokenContract,
-		TSlotContract,
-		TVariantContract,
-		any
-	>,
+	const TToken extends Token.Type,
+	const TSlot extends Slot.Type,
+	const TVariant extends Variant.Type,
+	const TContract extends Contract.Type<TToken, TSlot, TVariant, any>,
 >(
-	{ contract, definition }: Pick<Cls<TContract>, "contract" | "definition">,
-	userConfigFn?: WhatUtil.Config.Fn<TContract>,
-	internalConfigFn?: WhatUtil.Config.Fn<TContract>,
+	{
+		contract,
+		definition,
+	}: Pick<Cls.Type<TContract>, "contract" | "definition">,
+	userTweakFn?: Tweak.Fn<TContract>,
+	internalTweakFn?: Tweak.Fn<TContract>,
 ): Variant.VariantOf<TContract> {
-	const config = merge(userConfigFn, internalConfigFn)();
+	const config = merge(userTweakFn, internalTweakFn)();
 
 	// Build inheritance chain (base -> child order)
 	const layers: {

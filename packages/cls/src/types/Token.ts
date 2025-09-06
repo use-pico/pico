@@ -1,5 +1,5 @@
-import type { WhatUtil } from "../types";
 import type { Contract } from "./Contract";
+import type { What } from "./What";
 
 /**
  * Namespace for token-related types and utilities
@@ -28,7 +28,11 @@ export namespace Token {
 	export type Required<T extends Contract.Any> =
 		T["tokens"][number] extends never
 			? Record<string, never>
-			: { [K in T["tokens"][number]]: WhatUtil.Value.Any<T> };
+			: { [K in T["tokens"][number]]: What.Any<T> };
+
+	export type RequiredFn<T extends Contract.Any> = (
+		token: Token.Required<T>,
+	) => Token.Required<T>;
 
 	/**
 	 * Optional token definitions for inherited tokens
@@ -36,6 +40,17 @@ export namespace Token {
 	export type Optional<T extends Contract.Any> = Partial<
 		T["tokens"][number] extends never
 			? Record<string, never>
-			: { [K in T["tokens"][number]]: WhatUtil.Value.Any<T> }
+			: { [K in T["tokens"][number]]: What.Any<T> }
 	>;
+
+	export type OptionalFn<T extends Contract.Any> = (
+		token: Token.Optional<T>,
+	) => Token.Optional<T>;
+
+	/**
+	 * Extended token definitions that handle both required and optional tokens
+	 */
+	export type Ex<T extends Contract.Any> = T["tokens"][number] extends never
+		? Optional<T>
+		: Optional<T> & Required<T>;
 }

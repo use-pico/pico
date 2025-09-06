@@ -1,5 +1,9 @@
-import type { CreateConfig, WhatUtil } from "../types";
 import type { Contract } from "../types/Contract";
+import type { Slot } from "../types/Slot";
+import type { Token } from "../types/Token";
+import type { Tweak } from "../types/Tweak";
+import type { Variant } from "../types/Variant";
+import type { What } from "../types/What";
 import { what } from "./what";
 
 /**
@@ -25,9 +29,9 @@ function filter<T extends Record<string, any>>(
  * Combines two What objects by merging their class and token arrays
  */
 function combineWhat<T extends Contract.Any>(
-	internal: WhatUtil.Value.Any<T> | undefined,
-	user: WhatUtil.Value.Any<T> | undefined,
-): WhatUtil.Value.Any<T> | undefined {
+	internal: What.Any<T> | undefined,
+	user: What.Any<T> | undefined,
+): What.Any<T> | undefined {
 	if (!internal && !user) {
 		return undefined;
 	}
@@ -75,15 +79,15 @@ function combineWhat<T extends Contract.Any>(
 		return {
 			class: combinedClasses,
 			token: combinedTokens,
-		} as WhatUtil.Value.Any<T>;
+		} as What.Any<T>;
 	} else if (combinedClasses.length > 0) {
 		return {
 			class: combinedClasses,
-		} as WhatUtil.Value.Any<T>;
+		} as What.Any<T>;
 	} else if (combinedTokens.length > 0) {
 		return {
 			token: combinedTokens,
-		} as WhatUtil.Value.Any<T>;
+		} as What.Any<T>;
 	}
 
 	return undefined;
@@ -98,11 +102,15 @@ function combineWhat<T extends Contract.Any>(
  * - Slots are combined by appending What objects, not overriding them
  */
 export function merge<const TContract extends Contract.Any>(
-	userFn?: WhatUtil.Config.Fn<TContract>,
-	internalFn?: WhatUtil.Config.Fn<TContract>,
-): () => Partial<CreateConfig<TContract>> {
-	const $user = userFn?.(what());
-	const $internal = internalFn?.(what());
+	userTweakFn?: Tweak.Fn<TContract>,
+	internalTweakFn?: Tweak.Fn<TContract>,
+): () => Tweak.Type<TContract> {
+	const $user = userTweakFn?.({
+		what: what(),
+	});
+	const $internal = internalTweakFn?.({
+		what: what(),
+	});
 
 	return () => ({
 		...($internal ?? {}),
@@ -110,7 +118,7 @@ export function merge<const TContract extends Contract.Any>(
 		variant: {
 			...filter($internal?.variant),
 			...filter($user?.variant),
-		} as Partial<CreateConfig<TContract>["variant"]>,
+		} as Variant.Optional<TContract>,
 		slot: (() => {
 			const internalSlot = $internal?.slot;
 			const userSlot = $user?.slot;
@@ -144,10 +152,10 @@ export function merge<const TContract extends Contract.Any>(
 		override: {
 			...$internal?.override,
 			...$user?.override,
-		} as Partial<CreateConfig<TContract>["override"]>,
+		} as Slot.Optional<TContract>,
 		token: {
 			...$internal?.token,
 			...$user?.token,
-		} as Partial<CreateConfig<TContract>["token"]>,
+		} as Token.Optional<TContract>,
 	});
 }

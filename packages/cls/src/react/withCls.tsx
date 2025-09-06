@@ -1,4 +1,5 @@
-import type { Cls, Slot } from "../types";
+import type { Cls } from "../types/Cls";
+import type { Slot } from "../types/Slot";
 import { proxyOf } from "../utils/proxyOf";
 
 /**
@@ -31,19 +32,19 @@ import { proxyOf } from "../utils/proxyOf";
  * // And access the cls: ModernButton.cls
  * ```
  */
-export function withCls<TCls extends Cls<any>, T extends object>(
+export function withCls<TCls extends Cls.Type<any>, T extends object>(
 	Component: T,
-	clsInstance: TCls,
+	cls: TCls,
 ): T & {
 	cls: TCls;
-	"~slots": Slot.Functions<TCls["contract"]>;
+	"~slots": Slot.Kit<TCls["contract"]>;
 	"~contract": TCls["contract"];
 	"~definition": TCls["definition"];
 } {
 	// Create the wrapped value with phantom properties
 	const WrappedComponent = Component as T & {
 		cls: TCls;
-		"~slots": Slot.Functions<TCls["contract"]>;
+		"~slots": Slot.Kit<TCls["contract"]>;
 		"~contract": TCls["contract"];
 		"~definition": TCls["definition"];
 	};
@@ -51,10 +52,10 @@ export function withCls<TCls extends Cls<any>, T extends object>(
 	const proxy = proxyOf();
 
 	// Attach the cls instance
-	WrappedComponent.cls = clsInstance;
+	WrappedComponent.cls = cls;
 	WrappedComponent["~slots"] = proxy;
-	WrappedComponent["~contract"] = clsInstance.contract;
-	WrappedComponent["~definition"] = clsInstance.definition;
+	WrappedComponent["~contract"] = cls.contract;
+	WrappedComponent["~definition"] = cls.definition;
 
 	return WrappedComponent;
 }

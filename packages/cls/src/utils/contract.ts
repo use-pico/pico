@@ -11,9 +11,9 @@ import type { Variant } from "../types/Variant";
  * It returns the contract unchanged at runtime but provides TypeScript with the correct
  * type information for the Contract.Type<TToken.Type, TSlot.Type, TVariant.Type, any> type.
  *
- * @template TTokenContract - The token type extending Token.Type
- * @template TSlotContract - The slot contract type extending SlotContract
- * @template TVariantContract - The variant contract type extending VariantContract
+ * @template TToken - The token type extending Token.Type
+ * @template TSlot - The slot contract type extending SlotContract
+ * @template TVariant - The variant contract type extending VariantContract
  * @template TContract - The full contract type extending Contract.Type with the above generics
  * @param contract - The contract object to be type-asserted
  * @returns The same contract object with proper type inference
@@ -29,15 +29,10 @@ import type { Variant } from "../types/Variant";
  * ```
  */
 export const contract = <
-	const TTokenContract extends Token.Type,
-	const TSlotContract extends Slot.Type,
-	const TVariantContract extends Variant.Type,
-	const TContract extends Contract.Type<
-		TTokenContract,
-		TSlotContract,
-		TVariantContract,
-		any
-	>,
+	const TToken extends Token.Type,
+	const TSlot extends Slot.Type,
+	const TVariant extends Variant.Type,
+	const TContract extends Contract.Type<TToken, TSlot, TVariant, any>,
 >(
 	contract: TContract,
 ) => contract;

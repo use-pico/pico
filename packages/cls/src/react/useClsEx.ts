@@ -1,21 +1,16 @@
-import type { Cls, WhatUtil } from "../types";
+import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
+import type { Tweak } from "../types/Tweak";
 import { withVariants } from "../utils/withVariants";
 import { useCls } from "./useCls";
 
 export function useClsEx<TContract extends Contract.Any>(
-	clsInstance: Cls<TContract>,
-	userConfigFn?: WhatUtil.Config.Fn<TContract>,
-	internalConfigFn?: WhatUtil.Config.Fn<TContract>,
+	cls: Cls.Type<TContract>,
+	userTweakFn?: Tweak.Fn<TContract>,
+	internalTweakFn?: Tweak.Fn<TContract>,
 ) {
-	// Get slots using useCls
-	const slots = useCls(clsInstance, userConfigFn, internalConfigFn);
-
-	// Get variants using withVariants
-	const variants = withVariants(clsInstance, userConfigFn, internalConfigFn);
-
 	return {
-		slots,
-		variants,
+		slots: useCls(cls, userTweakFn, internalTweakFn),
+		variants: withVariants(cls, userTweakFn, internalTweakFn),
 	};
 }

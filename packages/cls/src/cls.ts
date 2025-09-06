@@ -1,29 +1,34 @@
-import type { Cls, CreateConfig, Slot, WhatUtil } from "./types";
 import type { ClassName } from "./types/ClassName";
+import type { Cls } from "./types/Cls";
 import type { Contract } from "./types/Contract";
 import type { Definition } from "./types/Definition";
 import type { Rule } from "./types/Rule";
 import type { Slot as CoolSlot } from "./types/Slot";
 import type { Token } from "./types/Token";
+import type { Tweak } from "./types/Tweak";
 import type { Variant } from "./types/Variant";
+import type { What } from "./types/What";
+import { def } from "./utils/def";
 import { merge } from "./utils/merge";
 import { tvc } from "./utils/tvc";
 import { what } from "./utils/what";
 import { withVariants } from "./utils/withVariants";
 
 export function cls<
-	const TTokenContract extends Token.Type,
-	const TSlotContract extends CoolSlot.Type,
-	const TVariantContract extends Variant.Type,
-	const TContract extends Contract.Type<
-		TTokenContract,
-		TSlotContract,
-		TVariantContract,
-		any
-	>,
->(contract: TContract, definitionFn: Definition.Fn<TContract>): Cls<TContract> {
+	const TToken extends Token.Type,
+	const TSlot extends CoolSlot.Type,
+	const TVariant extends Variant.Type,
+	const TContract extends Contract.Type<TToken, TSlot, TVariant, any>,
+>(
+	contract: TContract,
+	definitionFn: Definition.Factory.Fn<TContract>,
+): Cls.Type<TContract> {
 	const whatUtil = what<TContract>();
-	const definition = definitionFn(whatUtil);
+	const defUtil = def<TContract>();
+	const definition = definitionFn({
+		what: whatUtil,
+		def: defUtil,
+	});
 
 	// Set the definition on the contract for inheritance
 	contract["~definition"] = definition;
@@ -84,9 +89,7 @@ export function cls<
 	// Build token index with proper inheritance order
 	const tokens: Record<
 		string,
-		WhatUtil.Value.Any<
-			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-		>
+		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 	> = {};
 
 	// Apply token definitions in inheritance order (base first, child last)
@@ -98,14 +101,10 @@ export function cls<
 
 	// Helper function to resolve a single What<T> object recursively
 	const resolveWhat = (
-		what: WhatUtil.Value.Any<
-			Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-		>,
+		what: What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>,
 		tokenTable: Record<
 			string,
-			WhatUtil.Value.Any<
-				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-			>
+			What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 		>,
 		resolvedTokens: Set<string> = new Set(),
 	): ClassName[] => {
@@ -170,21 +169,21 @@ export function cls<
 
 	// Public API
 	return {
-		create(userConfigFn, internalConfigFn) {
+		create(userTweakFn, internalTweakFn) {
 			const effectiveVariant = withVariants(
 				{
 					contract,
 					definition,
 				},
-				userConfigFn,
-				internalConfigFn,
+				userTweakFn,
+				internalTweakFn,
 			);
 
 			// Get config for token overrides
 			const config = merge(
-				userConfigFn,
-				internalConfigFn,
-			)() as CreateConfig<TContract>;
+				userTweakFn,
+				internalTweakFn,
+			)() as Tweak.Type<TContract>;
 
 			// Apply token overrides
 			const tokenTable = {
@@ -192,51 +191,52 @@ export function cls<
 			};
 
 			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values as WhatUtil.Value.Any<
-					Contract.Type<TTokenContract, CoolSlot.Type, Variant.Type>
+				tokenTable[key] = values as What.Any<
+					Contract.Type<TToken, CoolSlot.Type, Variant.Type>
 				>;
 			}
 
-			const cache = {} as Record<
-				TSlotContract[number],
-				Slot.Fn<TContract>
-			>;
+			const cache = {} as Record<TSlot[number], CoolSlot.Fn<TContract>>;
 			const resultCache = new Map<string, string>();
 
 			const computeKey = (
 				slot: string,
-				call?: (
-					props: WhatUtil<TContract>,
-				) => Partial<CreateConfig<TContract>>,
+				call?: Tweak.Fn<TContract>,
 			): string => {
 				if (!call) {
 					return `${slot}|__no_config__`;
 				}
 
 				try {
-					return `${slot}|${JSON.stringify(call(whatUtil))}`;
+					return `${slot}|${JSON.stringify(
+						call({
+							what: whatUtil,
+						}),
+					)}`;
 				} catch {
 					return `${slot}|__non_serializable__`;
 				}
 			};
 
 			const handler: ProxyHandler<
-				Record<TSlotContract[number], Slot.Fn<TContract>>
+				Record<TSlot[number], CoolSlot.Fn<TContract>>
 			> = {
-				get(_, slotName: TSlotContract[number]) {
+				get(_, slotName: TSlot[number]) {
 					if (slotName in cache) {
 						return cache[slotName];
 					}
 
-					const slotFn: Slot.Fn<TContract> = (call) => {
+					const slotFn: CoolSlot.Fn<TContract> = (call) => {
 						const key = computeKey(slotName, call);
 						const cached = resultCache.get(key);
 						if (cached !== undefined) {
 							return cached;
 						}
 
-						const local = call?.(whatUtil);
-						const localConfig: CreateConfig<TContract> | undefined =
+						const local = call?.({
+							what: whatUtil,
+						});
+						const localConfig: Tweak.Type<TContract> | undefined =
 							local
 								? {
 										variant: local.variant,
@@ -262,9 +262,9 @@ export function cls<
 						for (const [key, values] of Object.entries(
 							localConfig?.token ?? {},
 						)) {
-							localTokens[key] = values as WhatUtil.Value.Any<
+							localTokens[key] = values as What.Any<
 								Contract.Type<
-									TTokenContract,
+									TToken,
 									CoolSlot.Type,
 									Variant.Type
 								>
@@ -372,7 +372,7 @@ export function cls<
 			};
 
 			return new Proxy(
-				{} as Record<TSlotContract[number], Slot.Fn<TContract>>,
+				{} as Record<TSlot[number], CoolSlot.Fn<TContract>>,
 				handler,
 			);
 		},
@@ -387,7 +387,7 @@ export function cls<
 					...parentTokens,
 					...childTokens,
 				]),
-			) as unknown as TTokenContract & TContract["tokens"];
+			) as unknown as TToken & TContract["tokens"];
 
 			const mergedContract = {
 				...childContract,
@@ -395,10 +395,10 @@ export function cls<
 			};
 			return cls(mergedContract as any, childDefinitionFn as any);
 		},
-		use<Sub extends Contract.Any>(sub: Cls<Sub>): Cls<TContract> {
-			return sub as unknown as Cls<TContract>;
+		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
+			return sub as unknown as Cls.Type<TContract>;
 		},
-		cls(userConfigFn, internalConfigFn): (props: any) => any {
+		cls(userConfigFn, internalConfigFn) {
 			return merge(userConfigFn, internalConfigFn);
 		},
 		contract,

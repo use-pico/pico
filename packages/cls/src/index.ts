@@ -17,6 +17,7 @@ export type { Slot } from "./types/Slot";
 export type { Token } from "./types/Token";
 export type { Utility } from "./types/Utility";
 export type { Variant } from "./types/Variant";
+export type { What } from "./types/What";
 export { contract } from "./utils/contract";
 export { merge } from "./utils/merge";
 export { tvc } from "./utils/tvc";

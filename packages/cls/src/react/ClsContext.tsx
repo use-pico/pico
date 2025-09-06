@@ -1,11 +1,11 @@
 import { createContext, type ReactNode, useContext } from "react";
-import type { Cls } from "../types";
+import type { Cls } from "../types/Cls";
 
 /**
  * Context for providing a cls instance to child components.
  * This allows components to inherit from a parent cls instance.
  */
-const ClsContext = createContext<Cls<any> | undefined>(undefined);
+const ClsContext = createContext<Cls.Type<any> | undefined>(undefined);
 
 /**
  * Provider component for cls context.
@@ -26,7 +26,7 @@ export function ClsProvider({
 	value,
 }: {
 	children: ReactNode;
-	value: Cls<any>;
+	value: Cls.Type<any>;
 }) {
 	return <ClsContext.Provider value={value}>{children}</ClsContext.Provider>;
 }
@@ -48,27 +48,6 @@ export function ClsProvider({
  * }
  * ```
  */
-export function useClsContext(): Cls<any> | undefined {
+export function useClsContext(): Cls.Type<any> | undefined {
 	return useContext(ClsContext);
-}
-
-/**
- * Hook to get the cls instance from context.
- *
- * @returns The cls instance from context or undefined if not provided
- *
- * @example
- * ```tsx
- * function Button({ variant, size }) {
- *   const contextCls = useClsContext();
- *
- *   if (contextCls) {
- *     const classes = contextCls.create({ variant: { variant, size } });
- *     // Use the cls instance from context
- *   }
- * }
- * ```
- */
-export function useClsFromContext(): Cls<any> | undefined {
-	return useClsContext();
 }

@@ -1,28 +1,25 @@
-import type { Cls, CreateConfig, WhatUtil } from "../types";
+import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
+import type { Tweak } from "../types/Tweak";
+import type { What } from "../types/What";
 import { useClsContext } from "./ClsContext";
 
 export function useCls<TContract extends Contract.Any>(
-	clsInstance: Cls<TContract>,
-	userConfigFn?: (
-		props: WhatUtil<TContract>,
-	) => Partial<CreateConfig<TContract>>,
-	internalConfigFn?: (
-		props: WhatUtil<TContract>,
-	) => Partial<CreateConfig<TContract>>,
+	cls: Cls.Type<TContract>,
+	userTweakFn?: Tweak.Fn<TContract>,
+	internalTweakFn?: Tweak.Fn<TContract>,
 ) {
-	// Get context cls instance
-	const contextCls = useClsContext();
+	const clsContext = useClsContext();
 
-	// Merge context tokens with internal config (flat-only)
-	let mergedInternalConfig = internalConfigFn;
-	if (contextCls?.definition?.token) {
-		mergedInternalConfig = (props: WhatUtil<TContract>) => {
-			const config = internalConfigFn?.(props) ?? {};
+	let mergedInternalConfig = internalTweakFn;
+
+	if (clsContext?.definition?.token) {
+		mergedInternalConfig = (props: What.Props<TContract>) => {
+			const config = internalTweakFn?.(props) ?? {};
 			return {
 				...config,
 				token: {
-					...(contextCls.definition.token as any),
+					...(clsContext.definition.token as any),
 					...(config.token as any), // Internal tokens win over context tokens
 				} as any,
 			};
@@ -31,5 +28,5 @@ export function useCls<TContract extends Contract.Any>(
 
 	// Simple implementation - creates classes on every render
 	// For performance optimization, consider memoizing the config objects
-	return clsInstance.create(userConfigFn, mergedInternalConfig);
+	return cls.create(userTweakFn, mergedInternalConfig);
 }

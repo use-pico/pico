@@ -19,7 +19,9 @@ export const SectionCls = PicoCls.extend(
 					mrdka: "dfd",
 				}),
 				{
-					root: what.token([]),
+					root: what.token([
+						"",
+					]),
 				},
 			),
 		],

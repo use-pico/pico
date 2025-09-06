@@ -27,16 +27,4 @@ export namespace Utility {
 				? A[K]
 				: never;
 	};
-
-	/**
-	 * Checks if a contract type has a specific base type in its inheritance chain
-	 * Used for validating contract inheritance relationships
-	 */
-	export type HasBaseInUseChain<Sub, Base> = Sub extends Base
-		? true
-		: Sub extends {
-					"~use"?: infer U;
-				}
-			? HasBaseInUseChain<U, Base>
-			: false;
 }
