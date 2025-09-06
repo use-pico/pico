@@ -64,11 +64,10 @@ export function cls<
 			| undefined;
 	}
 
-	// Collect all slots
-	const allSlots = new Set<string>();
+	const slotSet = new Set<string>();
 	for (const { contract: c } of layers) {
 		for (const slot of c.slot) {
-			allSlots.add(slot);
+			slotSet.add(slot);
 		}
 	}
 
@@ -106,7 +105,7 @@ export function cls<
 			string,
 			What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 		>,
-		resolvedTokens: Set<string> = new Set(),
+		tokenSet: Set<string> = new Set(),
 	): ClassName[] => {
 		const result: ClassName[] = [];
 
@@ -114,10 +113,10 @@ export function cls<
 		if ("token" in what && what.token) {
 			for (const tokenKey of what.token) {
 				// Check for circular dependencies
-				if (resolvedTokens.has(tokenKey)) {
+				if (tokenSet.has(tokenKey)) {
 					throw new Error(
 						`Circular dependency detected in token references: ${Array.from(
-							resolvedTokens,
+							tokenSet,
 						).join(" -> ")} -> ${tokenKey}`,
 					);
 				}
@@ -127,18 +126,18 @@ export function cls<
 				}
 
 				// Add to resolved set to prevent cycles
-				resolvedTokens.add(tokenKey);
+				tokenSet.add(tokenKey);
 
 				// Recursively resolve the token definition
 				const resolved = resolveWhat(
 					tokenTable[tokenKey],
 					tokenTable,
-					resolvedTokens,
+					tokenSet,
 				);
 				result.push(...resolved);
 
 				// Remove from resolved set for other branches
-				resolvedTokens.delete(tokenKey);
+				tokenSet.delete(tokenKey);
 			}
 		}
 
@@ -361,7 +360,7 @@ export function cls<
 					return cache[slotName];
 				},
 				ownKeys() {
-					return Array.from(allSlots);
+					return Array.from(slotSet);
 				},
 				getOwnPropertyDescriptor() {
 					return {
