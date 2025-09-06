@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Detail, Tx } from "@use-pico/client";
+import { Attr, Detail, Section, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
@@ -251,7 +251,26 @@ export const Route = createFileRoute("/$locale/components/detail")({
 					<div className="grid grid-cols-1 gap-6">
 						<ShowcaseColumn label={<Tx label={"User Details"} />}>
 							<Detail>
-								<Section></Section>
+								{sampleUserDetails.map((section) => (
+									<Section
+										key={section.id}
+										title={<Tx label={section.title} />}
+									>
+										{section.item.map((item) =>
+											item.value.map((attr) => (
+												<Attr
+													key={attr.id}
+													label={
+														<Tx
+															label={attr.label}
+														/>
+													}
+													value={attr.value}
+												/>
+											)),
+										)}
+									</Section>
+								))}
 							</Detail>
 						</ShowcaseColumn>
 					</div>
@@ -265,97 +284,62 @@ export const Route = createFileRoute("/$locale/components/detail")({
 						<ShowcaseColumn
 							label={<Tx label={"Project Details"} />}
 						>
-							<Detail section={sampleProjectDetails} />
+							<Detail>
+								{sampleProjectDetails.map((section) => (
+									<Section
+										key={section.id}
+										title={<Tx label={section.title} />}
+									>
+										{section.item.map((item) =>
+											item.value.map((attr) => (
+												<Attr
+													key={attr.id}
+													label={
+														<Tx
+															label={attr.label}
+														/>
+													}
+													value={
+														<Tx
+															label={attr.value}
+														/>
+													}
+												/>
+											)),
+										)}
+									</Section>
+								))}
+							</Detail>
 						</ShowcaseColumn>
 						<ShowcaseColumn
 							label={<Tx label={"Document Details"} />}
 						>
-							<Detail section={sampleDocumentDetails} />
-						</ShowcaseColumn>
-					</div>
-				</ShowcaseSection>
-
-				{/* Borderless Variant */}
-				<ShowcaseSection title={<Tx label={"Borderless Variant"} />}>
-					<div className="grid grid-cols-1 gap-6">
-						<ShowcaseColumn
-							label={<Tx label={"Without Borders"} />}
-						>
-							<Detail
-								section={sampleUserDetails}
-								tweak={({ what }) => ({
-									variant: what.variant({
-										borderless: true,
-									}),
-								})}
-							/>
-						</ShowcaseColumn>
-					</div>
-				</ShowcaseSection>
-
-				{/* Custom Styling */}
-				<ShowcaseSection title={<Tx label={"Custom Styling"} />}>
-					<div className="grid grid-cols-2 gap-6">
-						<ShowcaseColumn
-							label={<Tx label={"Highlighted Sections"} />}
-						>
-							<Detail
-								section={sampleUserDetails}
-								tweak={({ what }) => ({
-									slot: what.slot({
-										section: what.both(
-											[
-												"flex",
-												"flex-col",
-												"gap-4",
-												"border",
-												"p-4",
-											],
-											[
-												"tone.primary.light.border",
-												"tone.primary.light.bg",
-												"round.md",
-											],
-										),
-									}),
-								})}
-							/>
-						</ShowcaseColumn>
-						<ShowcaseColumn label={<Tx label={"Compact Layout"} />}>
-							<Detail
-								section={sampleProjectDetails}
-								tweak={({ what }) => ({
-									slot: what.slot({
-										section: what.both(
-											[
-												"flex",
-												"flex-col",
-												"gap-2",
-												"border",
-												"p-2",
-											],
-											[
-												"tone.neutral.light.border",
-												"tone.neutral.light.bg",
-												"round.sm",
-											],
-										),
-										value: what.both(
-											[
-												"flex-1",
-												"flex-col",
-												"gap-1",
-												"border",
-												"p-1",
-											],
-											[
-												"tone.neutral.light.border",
-												"round.sm",
-											],
-										),
-									}),
-								})}
-							/>
+							<Detail>
+								{sampleDocumentDetails.map((section) => (
+									<Section
+										key={section.id}
+										title={<Tx label={section.title} />}
+									>
+										{section.item.map((item) =>
+											item.value.map((attr) => (
+												<Attr
+													key={attr.id}
+													label={
+														<Tx
+															label={attr.label}
+														/>
+													}
+													value={
+														<Tx
+															label={attr.value}
+														/>
+													}
+												/>
+											)),
+										)}
+									</Section>
+								))}
+							</Detail>
 						</ShowcaseColumn>
 					</div>
 				</ShowcaseSection>
@@ -366,12 +350,35 @@ export const Route = createFileRoute("/$locale/components/detail")({
 						<ShowcaseColumn
 							label={<Tx label={"Complete User Profile"} />}
 						>
-							<Detail
-								section={[
+							<Detail>
+								{[
 									...sampleUserDetails,
 									...sampleProjectDetails,
-								]}
-							/>
+								].map((section) => (
+									<Section
+										key={section.id}
+										title={<Tx label={section.title} />}
+									>
+										{section.item.map((item) =>
+											item.value.map((attr) => (
+												<Attr
+													key={attr.id}
+													label={
+														<Tx
+															label={attr.label}
+														/>
+													}
+													value={
+														<Tx
+															label={attr.value}
+														/>
+													}
+												/>
+											)),
+										)}
+									</Section>
+								))}
+							</Detail>
 						</ShowcaseColumn>
 					</div>
 				</ShowcaseSection>

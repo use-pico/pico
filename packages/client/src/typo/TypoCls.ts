@@ -9,6 +9,7 @@ export const TypoCls = PicoCls.extend(
 		],
 		variant: {
 			size: [
+				"inherit",
 				"xs",
 				"sm",
 				"md",
@@ -16,6 +17,7 @@ export const TypoCls = PicoCls.extend(
 				"xl",
 			],
 			font: [
+				"inherit",
 				"normal",
 				"semi",
 				"bold",
@@ -33,6 +35,7 @@ export const TypoCls = PicoCls.extend(
 			theme: [
 				"light",
 				"dark",
+				"inherit",
 			],
 			italic: [
 				"bool",

@@ -19,19 +19,23 @@ export const TitlePreviewCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				root: what.css([
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-				]),
+				root: what.both(
+					[
+						"flex",
+						"flex-row",
+						"gap-2",
+						"items-center",
+					],
+					[
+						"square.sm",
+					],
+				),
 				title: what.both(
 					[
 						"flex",
 						"flex-row",
 						"gap-2",
 						"items-center",
-						"text-lg",
 						"font-bold",
 					],
 					[
@@ -43,7 +47,6 @@ export const TitlePreviewCls = PicoCls.extend(
 					"flex-row",
 					"gap-4",
 					"items-center",
-					"text-lg",
 				]),
 			}),
 			def.rule(

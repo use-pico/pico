@@ -1,43 +1,38 @@
-import { type FC, type ReactNode, useId } from "react";
-import type { DetailCls } from "../detail/DetailCls";
-import { Item } from "../detail/Item";
+import { useCls } from "@use-pico/cls";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 import type { Icon } from "../icon/Icon";
 import { TitlePreview } from "../title-preview/TitlePreview";
+import { SectionCls } from "./SectionCls";
 
 export namespace Section {
-	export interface Props {
+	export interface Props extends SectionCls.Props<PropsWithChildren> {
 		icon?: Icon.Type;
 		title: ReactNode;
-		hidden?: boolean;
-		item: Omit<Item.Props, "slots">[];
-		slots: DetailCls.Slots;
 	}
 }
 
 export const Section: FC<Section.Props> = ({
 	icon,
 	title,
-	hidden = false,
-	item,
-	slots,
+	cls = SectionCls,
+	tweak,
+	children,
 }) => {
-	const baseId = useId();
+	const slots = useCls(cls, tweak);
 
-	return hidden ? null : (
-		<div className={slots.section()}>
+	return (
+		<div className={slots.root()}>
 			<TitlePreview
 				icon={icon}
 				title={title}
+				tweak={({ what }) => ({
+					slot: what.slot({
+						root: what.css(slots.title()),
+					}),
+				})}
 			/>
 
-			{item.map(({ id, ...props }) => (
-				<Item
-					key={`${baseId}-${id}`}
-					id={`${baseId}-${id}`}
-					slots={slots}
-					{...props}
-				/>
-			))}
+			<div className={slots.items()}>{children}</div>
 		</div>
 	);
 };
