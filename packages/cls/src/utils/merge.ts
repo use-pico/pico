@@ -4,6 +4,7 @@ import type { Token } from "../types/Token";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
 import type { What } from "../types/What";
+import { override } from "./tweak/override";
 import { what } from "./what";
 
 /**
@@ -93,6 +94,11 @@ function combineWhat<T extends Contract.Any>(
 	return undefined;
 }
 
+const utils = {
+	what: what<any>(),
+	override: override<any>(),
+} as const;
+
 /**
  * merge(user, internal)
  *
@@ -105,11 +111,6 @@ export function merge<const TContract extends Contract.Any>(
 	userTweakFn?: Tweak.Fn<TContract>,
 	internalTweakFn?: Tweak.Fn<TContract>,
 ): () => Tweak.Type<TContract> {
-	const utils = {
-		what: what<TContract>(),
-		override: null,
-	} as const;
-
 	const $user = userTweakFn?.(utils);
 	const $internal = internalTweakFn?.(utils);
 

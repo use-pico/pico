@@ -30,9 +30,15 @@ export namespace Tweak {
 		token?: Token.Optional<TContract>;
 	};
 
+	export namespace Override {
+		export interface Type<TContract extends Contract.Any> {
+			token: Token.OptionalFn<TContract>;
+		}
+	}
+
 	export interface Props<TContract extends Contract.Any> {
 		what: What.Type<TContract>;
-		override: any;
+		override: Override.Type<TContract>;
 	}
 
 	/**

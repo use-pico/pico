@@ -9,11 +9,23 @@ import type { Tweak } from "./types/Tweak";
 import type { Variant } from "./types/Variant";
 import type { What } from "./types/What";
 import { def } from "./utils/definition/def";
-import { override } from "./utils/definition/override";
+import { override as defOverride } from "./utils/definition/override";
 import { merge } from "./utils/merge";
 import { tvc } from "./utils/tvc";
+import { override as tweakOverride } from "./utils/tweak/override";
 import { what } from "./utils/what";
 import { withVariants } from "./utils/withVariants";
+
+const defUtils = {
+	what: what<any>(),
+	def: def<any>(),
+	override: defOverride<any>(),
+} as const;
+
+const tweakUtils = {
+	...defUtils,
+	override: tweakOverride<any>(),
+} as const;
 
 export function cls<
 	const TToken extends Token.Type,
@@ -24,18 +36,7 @@ export function cls<
 	contract: TContract,
 	definitionFn: Definition.Factory.Fn<TContract>,
 ): Cls.Type<TContract> {
-	const whatUtil = what<TContract>();
-	const defUtil = def<TContract>();
-
-	const utils = {
-		what: whatUtil,
-		def: defUtil,
-	} as const;
-
-	const definition = definitionFn({
-		...utils,
-		override: override(),
-	});
+	const definition = definitionFn(defUtils);
 
 	// Set the definition on the contract for inheritance
 	contract["~definition"] = definition;
@@ -214,12 +215,7 @@ export function cls<
 				}
 
 				try {
-					return `${slot}|${JSON.stringify(
-						call({
-							...utils,
-							override: null,
-						}),
-					)}`;
+					return `${slot}|${JSON.stringify(call(tweakUtils))}`;
 				} catch {
 					return `${slot}|__non_serializable__`;
 				}
@@ -240,10 +236,7 @@ export function cls<
 							return cached;
 						}
 
-						const local = call?.({
-							...utils,
-							override: null,
-						});
+						const local = call?.(tweakUtils);
 						const localConfig: Tweak.Type<TContract> | undefined =
 							local
 								? {
