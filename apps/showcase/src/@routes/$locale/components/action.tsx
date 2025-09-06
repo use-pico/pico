@@ -94,7 +94,7 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 							<Column label={<Tx label={"Default"} />}>
 								<Action
 									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -106,7 +106,7 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 							<Column label={<Tx label={"Borderless"} />}>
 								<Action
 									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -120,7 +120,7 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									disabled
 									iconDisabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -133,7 +133,7 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									loading
 									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -171,7 +171,7 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									disabled
 									iconDisabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -187,7 +187,7 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									loading
 									iconEnabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -202,7 +202,7 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 									disabled
 									loading
 									iconDisabled={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme,
@@ -237,7 +237,7 @@ function SizeRow({ size }: { size: (typeof sizes)[number] }) {
 							<Action
 								iconEnabled={TrashIcon}
 								size={size}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone: "primary",
 										theme,

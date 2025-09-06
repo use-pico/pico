@@ -13,9 +13,9 @@ export namespace LoadingOverlay {
 export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	show = true,
 	tva = LoadingOverlayCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			show,
 		}),
@@ -25,7 +25,7 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 		<div className={slots.root()}>
 			<Icon
 				icon={SpinnerIcon}
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
 							"w-24",

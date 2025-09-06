@@ -44,7 +44,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
@@ -59,7 +59,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
@@ -77,7 +77,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
@@ -91,7 +91,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									theme: "light",
 									tone: "danger",
@@ -105,7 +105,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 			}}
 			actionProps={{
 				iconEnabled: ErrorIcon,
-				cls({ what }) {
+				tweak({ what }) {
 					return {
 						variant: what.variant({
 							theme: "light",

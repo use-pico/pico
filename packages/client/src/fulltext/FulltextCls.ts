@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const FulltextCls = PicoCls.extend(
@@ -79,5 +79,5 @@ export const FulltextCls = PicoCls.extend(
 export type FulltextCls = typeof FulltextCls;
 
 export namespace FulltextCls {
-	export type Props<P = unknown> = Component<FulltextCls, P>;
+	export type Props<P = unknown> = Cls.Props<FulltextCls, P>;
 }

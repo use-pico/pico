@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const CursorCls = PicoCls.extend(
@@ -41,5 +41,5 @@ export const CursorCls = PicoCls.extend(
 export type CursorCls = typeof CursorCls;
 
 export namespace CursorCls {
-	export type Props<P = unknown> = Component<CursorCls, P>;
+	export type Props<P = unknown> = Cls.Props<CursorCls, P>;
 }

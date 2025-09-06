@@ -128,7 +128,7 @@ export const Route = createFileRoute("/$locale/components/attr")({
 										{sampleData.skills.map((skill) => (
 											<Badge
 												key={skill}
-												cls={({ what }) => ({
+												tweak={({ what }) => ({
 													variant: what.variant({
 														theme: "light",
 													}),

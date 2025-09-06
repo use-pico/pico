@@ -66,15 +66,15 @@ describe("12.4 React Props - Token Overrides", () => {
 
 		const SimpleComponent: FC<
 			Cls.Props<typeof SimpleCls, PropsWithChildren>
-		> = ({ cls: userCls, children }) => {
-			const classes = SimpleCls.create(userCls);
+		> = ({ tweak: userTweak, children }) => {
+			const classes = SimpleCls.create(userTweak);
 			return <div className={classes.root()}>{children}</div>;
 		};
 
 		// Test with token overrides
 		render(
 			<SimpleComponent
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					variant: what.variant({
 						color: "secondary",
 					}),

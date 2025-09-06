@@ -59,13 +59,13 @@ export const More = <TValues extends EntitySchema.Type>({
 	renderItem = renderInline,
 	limit,
 	tva = MoreCls,
-	cls,
+	tweak,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const classes = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.root()}>
 			{items.length ? null : textEmpty}
 			{$items.map((item) =>
 				renderInline({
@@ -81,7 +81,7 @@ export const More = <TValues extends EntitySchema.Type>({
 							iconProps={iconProps}
 							disabled={disabled}
 							size={"xs"}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									tone: "subtle",
 									theme: "light",

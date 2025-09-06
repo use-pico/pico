@@ -26,11 +26,11 @@ export const BaseAlert: FC<Alert.Props> = ({
 	title,
 	message,
 	onClick,
-	cls,
+	tweak,
 	tva = AlertCls,
 	children,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			clickable: Boolean(onClick),
 		}),

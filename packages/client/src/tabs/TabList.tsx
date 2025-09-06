@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { TabListCls } from "./TabListCls";
 
@@ -10,14 +11,14 @@ export namespace TabList {
 export const TabList: FC<TabList.Props> = ({
 	right,
 	tva = TabListCls,
-	cls,
+	tweak,
 	children,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.tabs()}>{children}</div>
+		<div className={slots.base()}>
+			<div className={slots.tabs()}>{children}</div>
 			{right}
 		</div>
 	);

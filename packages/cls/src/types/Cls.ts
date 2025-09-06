@@ -41,7 +41,7 @@ export namespace Cls {
 			},
 		): Type<TContract>;
 
-		cls<Sub extends Contract.Any = TContract>(
+		tweak<Sub extends Contract.Any = TContract>(
 			userTweakFn?: {
 				hack: Tweak.Fn<
 					IsChildrenOf<Sub, TContract> extends true ? Sub : never
@@ -52,9 +52,7 @@ export namespace Cls {
 					IsChildrenOf<Sub, TContract> extends true ? Sub : never
 				>;
 			}["hack"],
-		):
-			| Tweak.Fn<IsChildrenOf<Sub, TContract> extends true ? Sub : never>
-			| undefined;
+		): Tweak.Fn<TContract> | undefined;
 
 		contract: TContract;
 
@@ -108,6 +106,6 @@ export namespace Cls {
 		/** Optional CLS instance to use for styling */
 		tva?: TCls;
 		/** Optional tweak function to modify styles on existing component */
-		cls?: Tweak.Fn<TCls["contract"]>;
-	} & Omit<P, "tva" | "cls">;
+		tweak?: Tweak.Fn<TCls["contract"]>;
+	} & Omit<P, "tva" | "tweak">;
 }

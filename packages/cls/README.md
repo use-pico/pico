@@ -1232,7 +1232,7 @@ function Icon({ icon, cls, ...props }) {
 // Usage with user config
 <Icon 
   icon="icon-[mdi-light--home]"
-  cls={({ what }) => ({
+  tweak={({ what }) => ({
     slot: what.slot({
       root: what.css(["animate-pulse"]) // User config: append animation
     })
@@ -2069,7 +2069,7 @@ function Status({ tone = "inherit", children }: StatusProps) {
       <Icon 
         icon="info" 
         tone={variants.tone} // ✅ Computed variant value
-        cls={({ what }) => ({
+        tweak={({ what }) => ({
           slot: what.slot({
             root: what.css(["opacity-50"])
           })
@@ -2162,7 +2162,7 @@ function Button({
 // - **Slot merging**: User config appends to component rules, internal config appends to user config
 
 // The cls prop is a function that provides user configuration overrides
-// Users pass: cls={({ what }) => ({ variant: { tone: "primary" } })}
+// Users pass: tweak={({ what }) => ({ variant: { tone: "primary" } })}
 ```
 
 ### 16.2.1 The `cls` Prop and Slot Merging <a id="1621-the-cls-prop-and-slot-merging"></a>
@@ -2208,7 +2208,7 @@ function Button({ children, cls, ...props }) {
 // Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium"
 
 // 2. With cls prop for variant override
-<Button cls={({ what }) => ({ 
+<Button tweak={({ what }) => ({ 
   variant: what.variant({ tone: "secondary" }) 
 })}>
   Click me
@@ -2216,7 +2216,7 @@ function Button({ children, cls, ...props }) {
 // Result: "bg-gray-600 text-white px-4 py-2 rounded font-medium"
 
 // 3. With cls prop for slot override (append mode)
-<Button cls={({ what }) => ({ 
+<Button tweak={({ what }) => ({ 
   slot: what.slot({
     root: what.css(["shadow-lg", "hover:shadow-xl"])
   })
@@ -2226,7 +2226,7 @@ function Button({ children, cls, ...props }) {
 // Result: "bg-blue-600 text-white px-4 py-2 rounded font-medium shadow-lg hover:shadow-xl"
 
 // 4. With cls prop for override (replace mode)
-<Button cls={({ what }) => ({ 
+<Button tweak={({ what }) => ({ 
   override: what.override({
     root: what.css(["bg-red-500", "text-white", "border-2"])
   })
@@ -2283,7 +2283,7 @@ export const MenuLink: LinkComponent<typeof BaseMenuLink> = (props) => {
 **Slot Configuration (Recommended):**
 ```tsx
 // ✅ Appends to existing styles - preserves component integrity
-<Button cls={({ what }) => ({ 
+<Button tweak={({ what }) => ({ 
   slot: what.slot({
     root: what.css(["custom-shadow", "hover:scale-105"])
   })
@@ -2296,7 +2296,7 @@ export const MenuLink: LinkComponent<typeof BaseMenuLink> = (props) => {
 **Override Configuration (Use Sparingly):**
 ```tsx
 // ⚠️ Replaces all styles - use only when you need complete control
-<Button cls={({ what }) => ({ 
+<Button tweak={({ what }) => ({ 
   override: what.override({
     root: what.css(["completely-custom-styling"])
   })
@@ -2327,7 +2327,7 @@ function Icon({ icon, cls, ...props }) {
 // Usage with multiple configuration layers:
 <Icon 
   icon="icon-[mdi-light--home]"
-  cls={({ what }) => ({
+  tweak={({ what }) => ({
     slot: what.slot({
       root: what.css(["animate-pulse", "text-blue-500"])
     })
@@ -2396,14 +2396,14 @@ const ThemeProvider = ({ children }) => (
 
 function ThemedButton() {
   // The cls prop automatically provides the full configuration with context inheritance
-  return <Button cls={({ what }) => ({ variant: what.variant({ tone: "primary" }) })}>Themed Button</Button>;
+  return <Button tweak={({ what }) => ({ variant: what.variant({ tone: "primary" }) })}>Themed Button</Button>;
 }
 
 // The cls prop automatically handles context inheritance and provides
 // the full configuration function with access to what utility
 
 // The cls prop is a function that provides user configuration overrides
-// Users pass: cls={({ what }) => ({ variant: { tone: "primary" } })}
+// Users pass: tweak={({ what }) => ({ variant: { tone: "primary" } })}
 ```
 
 ### 16.5 Provider Architecture <a id="165-provider-architecture"></a>
@@ -2462,8 +2462,8 @@ function Button({
 
 **Key Features:**
 - **`tva?: TCls`**: Optional CLS instance for styling
-- **`cls?: WhatConfigFn<TCls>`**: Optional configuration function
-- **`& Omit<P, "tva" | "cls">`**: Preserves all other props from base type `P`
+- **`tweak?: WhatConfigFn<TCls>`**: Optional configuration function
+- **`& Omit<P, "tva" | "tweak">`**: Preserves all other props from base type `P`
 
 #### ComponentSlots Type
 
@@ -2657,7 +2657,7 @@ function Card({
 function DynamicButton({ theme, ...props }) {
   return (
     <Button 
-      cls={({ what, override }) => ({ 
+      tweak={({ what, override }) => ({ 
         token: override.token({ "color.bg.primary": what.css([`bg-${theme}-600`]) })
       })} 
       {...props} 
@@ -2671,7 +2671,7 @@ function DynamicButton({ theme, ...props }) {
 function ConditionalButton({ isActive, ...props }) {
   return (
     <Button 
-      cls={({ what }) => ({ 
+      tweak={({ what }) => ({ 
         variant: what.variant({ tone: isActive ? "primary" : "secondary" })
       })} 
       {...props} 

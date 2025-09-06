@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const MenuCls = PicoCls.extend(
@@ -45,5 +45,5 @@ export const MenuCls = PicoCls.extend(
 export type MenuCls = typeof MenuCls;
 
 export namespace MenuCls {
-	export type Props<P = unknown> = Component<MenuCls, P>;
+	export type Props<P = unknown> = Cls.Props<MenuCls, P>;
 }

@@ -276,7 +276,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 
 								<div className="flex gap-2">
 									<Button
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "sm",
 											}),
@@ -285,7 +285,7 @@ export const Route = createFileRoute("/$locale/components/form")({
 										Submit
 									</Button>
 									<Button
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "sm",
 												tone: "secondary",

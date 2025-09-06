@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const AttrCls = PicoCls.extend(
@@ -65,5 +65,5 @@ export const AttrCls = PicoCls.extend(
 export type AttrCls = typeof AttrCls;
 
 export namespace AttrCls {
-	export type Props<P = unknown> = Component<AttrCls, P>;
+	export type Props<P = unknown> = Cls.Props<AttrCls, P>;
 }

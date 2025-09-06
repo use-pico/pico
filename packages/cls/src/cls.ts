@@ -406,8 +406,8 @@ export function cls<
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
 		},
-		cls(userConfigFn, internalConfigFn) {
-			return merge(userConfigFn, internalConfigFn);
+		tweak(userTweakFn, internalTweakFn) {
+			return merge(userTweakFn, internalTweakFn) as Tweak.Fn<TContract>;
 		},
 		contract,
 		definition,

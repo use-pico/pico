@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const LoadingOverlayCls = PicoCls.extend(
@@ -59,5 +59,5 @@ export const LoadingOverlayCls = PicoCls.extend(
 export type LoadingOverlayCls = typeof LoadingOverlayCls;
 
 export namespace LoadingOverlayCls {
-	export type Props<P = unknown> = Component<LoadingOverlayCls, P>;
+	export type Props<P = unknown> = Cls.Props<LoadingOverlayCls, P>;
 }

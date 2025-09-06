@@ -107,7 +107,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={smallValue}
 								onChange={setSmallValue}
 								label="Small toggle"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										size: "sm",
 									}),
@@ -117,7 +117,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={mediumValue}
 								onChange={setMediumValue}
 								label="Medium toggle (default)"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										size: "md",
 									}),
@@ -127,7 +127,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={largeValue}
 								onChange={setLargeValue}
 								label="Large toggle"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										size: "lg",
 									}),
@@ -146,7 +146,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={neutralValue}
 								onChange={setNeutralValue}
 								label="Neutral tone (default)"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone: "neutral",
 									}),
@@ -156,7 +156,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={primaryValue}
 								onChange={setPrimaryValue}
 								label="Primary tone"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone: "primary",
 									}),
@@ -166,7 +166,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={dangerValue}
 								onChange={setDangerValue}
 								label="Danger tone"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone: "danger",
 									}),
@@ -176,7 +176,7 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={warningValue}
 								onChange={setWarningValue}
 								label="Warning tone"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone: "warning",
 									}),

@@ -1,4 +1,4 @@
-import { withCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
@@ -20,11 +20,11 @@ export const BaseActionClick: FC<ActionClick.Props> = ({
 	loading = false,
 	disabled = false,
 	tva = ActionClickCls,
-	cls,
+	tweak,
 	children,
 	...props
 }) => {
-	const slots = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			loading,
 			disabled,

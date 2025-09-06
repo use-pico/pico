@@ -16,16 +16,16 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	title,
 	subtitle,
 	tva = TitlePreviewCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			withSubtitle: Boolean(subtitle),
 		}),
 	}));
 
 	return (
-		<div className={slots.base()}>
+		<div className={slots.root()}>
 			<div className={slots.title()}>
 				<Icon
 					icon={icon}

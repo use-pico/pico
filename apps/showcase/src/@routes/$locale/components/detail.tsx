@@ -283,7 +283,7 @@ export const Route = createFileRoute("/$locale/components/detail")({
 						>
 							<Detail
 								section={sampleUserDetails}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										borderless: true,
 									}),
@@ -301,7 +301,7 @@ export const Route = createFileRoute("/$locale/components/detail")({
 						>
 							<Detail
 								section={sampleUserDetails}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: what.slot({
 										section: what.both(
 											[
@@ -324,7 +324,7 @@ export const Route = createFileRoute("/$locale/components/detail")({
 						<ShowcaseColumn label={<Tx label={"Compact Layout"} />}>
 							<Detail
 								section={sampleProjectDetails}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: what.slot({
 										section: what.both(
 											[

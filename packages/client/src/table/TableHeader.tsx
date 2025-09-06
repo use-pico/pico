@@ -114,7 +114,7 @@ export const TableHeader = <
 							}
 							disabled={selectionMode === "single"}
 							size="sm"
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								slot: what.slot({
 									root: what.css(
 										slots.select(({ what }) => ({
@@ -165,7 +165,7 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "primary",
 												theme: "light",

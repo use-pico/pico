@@ -17,16 +17,16 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	count,
 	badgeProps,
 	tva = LabelCountCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	return (
-		<div className={slots.base()}>
+		<div className={slots.root()}>
 			<div className={slots.label()}>{label}</div>
 			<Badge
 				{...badgeProps}
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					variant: what.variant({
 						size: "xs",
 						theme: "light",

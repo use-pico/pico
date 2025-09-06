@@ -12,7 +12,7 @@ import {
 	useListNavigation,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { useCls, type VariantOf } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import { type Entity, type EntitySchema, translator } from "@use-pico/common";
 import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import { Action } from "../action/Action";
@@ -32,7 +32,7 @@ export namespace Select {
 		textSelect?: ReactNode;
 		disabled?: boolean;
 		allowClear?: boolean;
-		size?: VariantOf<SelectCls, "size">;
+		size?: Cls.VariantOf<SelectCls, "size">;
 		/**
 		 * Called only when an item is actually selected
 		 */
@@ -69,7 +69,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 	onChange,
 	value,
 	tva = SelectCls,
-	cls,
+	tweak,
 	...props
 }: Select.Props<TItem>) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -143,7 +143,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			size: $size,
@@ -163,7 +163,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 						<Icon
 							icon={icon}
 							size="sm"
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								slot: what.slot({
 									root: what.css([
 										"text-slate-400",
@@ -190,7 +190,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 										e.stopPropagation();
 										e.preventDefault();
 									}}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "neutral",
 											theme: "light",
@@ -201,7 +201,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 							<Icon
 								icon={"icon-[gg--select]"}
 								size="sm"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: what.slot({
 										root: what.css(
 											[

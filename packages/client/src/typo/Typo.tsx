@@ -1,4 +1,4 @@
-import { useCls, type VariantOf, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, ReactNode } from "react";
 import { TypoCls } from "./TypoCls";
 
@@ -7,10 +7,10 @@ export namespace Typo {
 
 	export interface Props extends TypoCls.Props {
 		label: Value;
-		size?: VariantOf<TypoCls, "size">;
-		font?: VariantOf<TypoCls, "font">;
-		tone?: VariantOf<TypoCls, "tone">;
-		theme?: VariantOf<TypoCls, "theme">;
+		size?: Cls.VariantOf<TypoCls, "size">;
+		font?: Cls.VariantOf<TypoCls, "font">;
+		tone?: Cls.VariantOf<TypoCls, "tone">;
+		theme?: Cls.VariantOf<TypoCls, "theme">;
 		italic?: boolean;
 	}
 
@@ -25,9 +25,9 @@ export const BaseTypo: FC<Typo.Props> = ({
 	theme = "light",
 	italic = false,
 	tva = TypoCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			font,

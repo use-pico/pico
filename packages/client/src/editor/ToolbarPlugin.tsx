@@ -143,7 +143,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							disabled: !isBold,
 						}),
@@ -155,7 +155,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							disabled: !isItalic,
 						}),
@@ -170,7 +170,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"underline",
 						);
 					}}
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							disabled: !isUnderline,
 						}),
@@ -189,7 +189,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"strikethrough",
 						);
 					}}
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							disabled: !isStrikethrough,
 						}),

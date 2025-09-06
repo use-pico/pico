@@ -11,14 +11,14 @@ export namespace Menu {
 export const Menu: FC<Menu.Props> = ({
 	vertical = false,
 	tva = MenuCls,
-	cls,
+	tweak,
 	children,
 }) => {
-	const classes = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			vertical,
 		}),
 	}));
 
-	return <div className={classes.root()}>{children}</div>;
+	return <div className={slots.root()}>{children}</div>;
 };

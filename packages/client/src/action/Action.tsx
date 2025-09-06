@@ -1,4 +1,4 @@
-import { useCls, type VariantOf, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -49,7 +49,7 @@ export namespace Action {
 		/** Additional properties to pass to the Icon component */
 		iconProps?: Icon.PropsEx;
 		/** Size variant of the action (inherits from ActionCls size variants) */
-		size?: VariantOf<ActionCls, "size">;
+		size?: Cls.VariantOf<ActionCls, "size">;
 		/**
 		 * Controls loading state of an action.
 		 * When true, displays the loading icon and prevents click events.
@@ -73,10 +73,10 @@ const BaseAction: FC<Action.Props> = ({
 	loading = false,
 	onClick,
 	tva = ActionCls,
-	cls,
+	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			loading,

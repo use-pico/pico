@@ -1,4 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
+import { useCls } from "@use-pico/cls";
 import type { PropsWithChildren, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { AppLayoutCls } from "./AppLayoutCls";
@@ -25,22 +26,22 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	menu,
 	actions,
 	tva = AppLayoutCls,
-	cls,
+	tweak,
 	children,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	return (
-		<div className={classes.base()}>
+		<div className={slots.root()}>
 			<Toaster position={"top-right"} />
-			<div className={classes.header()}>
+			<div className={slots.header()}>
 				<div>{logo}</div>
 				<div className={"grow"}>{menu}</div>
 				<div className={"flex flex-row gap-2 items-center"}>
 					{actions}
 				</div>
 			</div>
-			<div className={classes.content()}>{children ?? <Outlet />}</div>
+			<div className={slots.content()}>{children ?? <Outlet />}</div>
 		</div>
 	);
 };

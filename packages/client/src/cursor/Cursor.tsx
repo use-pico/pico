@@ -27,7 +27,7 @@ export const Cursor: FC<Cursor.Props> = ({
 	state,
 	count,
 	tva = CursorCls,
-	cls,
+	tweak,
 }) => {
 	const $cursor = useMemo(
 		() =>
@@ -44,7 +44,7 @@ export const Cursor: FC<Cursor.Props> = ({
 		],
 	);
 
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	return (
 		<div className={slots.root()}>

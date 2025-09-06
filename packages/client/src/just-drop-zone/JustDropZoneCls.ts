@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const JustDropZoneCls = PicoCls.extend(
@@ -117,5 +117,5 @@ export const JustDropZoneCls = PicoCls.extend(
 export type JustDropZoneCls = typeof JustDropZoneCls;
 
 export namespace JustDropZoneCls {
-	export type Props<P = unknown> = Component<JustDropZoneCls, P>;
+	export type Props<P = unknown> = Cls.Props<JustDropZoneCls, P>;
 }

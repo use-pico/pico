@@ -1,4 +1,4 @@
-import { type ClassName, tvc } from "@use-pico/cls";
+import { type ClassName, tvc, useCls } from "@use-pico/cls";
 import type {
 	CountSchema,
 	DeepKeys,
@@ -383,10 +383,10 @@ export const Table = <
 	rowCls,
 	rowDblClick,
 	tva = TableCls,
-	cls,
+	tweak,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,
@@ -427,7 +427,7 @@ export const Table = <
 					data={items}
 					grid={grid}
 					context={context}
-					slots={classes}
+					slots={slots}
 					visible={visibleColumns}
 					selection={selection}
 					selectionMode={selectionMode}
@@ -447,7 +447,7 @@ export const Table = <
 					filter={filter}
 					context={context}
 					grid={grid}
-					slots={classes}
+					slots={slots}
 					actionRow={actionRow}
 					controlsHidden={controlsHidden}
 					rowCls={rowCls}

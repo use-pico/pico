@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC } from "react";
 import { InlineContext } from "../context/InlineContext";
@@ -38,9 +39,9 @@ export const Preview = <TValues extends Record<string, any>>({
 	actions: Actions,
 	extra: Extra,
 	tva = PreviewCls,
-	cls,
+	tweak,
 }: Preview.Props<TValues>) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	return (
 		<InlineContext.Provider
@@ -48,28 +49,28 @@ export const Preview = <TValues extends Record<string, any>>({
 				inline: true,
 			}}
 		>
-			<div className={classes.base()}>
+			<div className={slots.base()}>
 				{Title || Links ? (
-					<div className={classes.container()}>
-						<div className={classes.title()}>
+					<div className={slots.container()}>
+						<div className={slots.title()}>
 							{Title ? <Title entity={entity} /> : null}
 						</div>
-						<div className={classes.links()}>
+						<div className={slots.links()}>
 							{Links ? <Links entity={entity} /> : null}
 						</div>
 					</div>
 				) : null}
 
 				{(Title || Links) && (Actions || Extra) ? (
-					<div className={classes.divider()} />
+					<div className={slots.divider()} />
 				) : null}
 
 				{Actions || Extra ? (
-					<div className={classes.container()}>
-						<div className={classes.actions()}>
+					<div className={slots.container()}>
+						<div className={slots.actions()}>
 							{Actions ? <Actions entity={entity} /> : null}
 						</div>
-						<div className={classes.extra()}>
+						<div className={slots.extra()}>
 							{Extra ? <Extra entity={entity} /> : null}
 						</div>
 					</div>

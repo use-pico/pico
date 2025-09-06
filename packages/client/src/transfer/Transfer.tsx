@@ -1,4 +1,4 @@
-import { tvc } from "@use-pico/cls";
+import { tvc, useCls } from "@use-pico/cls";
 import type { EntitySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { Action } from "../action/Action";
@@ -32,7 +32,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	value,
 	onChange,
 	tva = TransferCls,
-	cls,
+	tweak,
 }: Transfer.Props<TItem>) => {
 	const itemMap = new Map<
 		string,
@@ -70,7 +70,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 		};
 	});
 
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	const withHandleSelect = (group: ReactNode, item: TItem) => () => {
 		onChange?.(
@@ -92,8 +92,8 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	};
 
 	return (
-		<div className={classes.base()}>
-			<div className={classes.panel()}>
+		<div className={slots.base()}>
+			<div className={slots.panel()}>
 				{source.reduce((acc, { items }) => {
 					return acc + items.length;
 				}, 0) === 0 ? (
@@ -107,14 +107,14 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-source-group-${id}`}
-							className={classes.group()}
+							className={slots.group()}
 						>
-							<div className={classes.header()}>{group}</div>
+							<div className={slots.header()}>{group}</div>
 							{items.map((item) => {
 								return (
 									<div
 										key={`transfer-source-item-${item.id}`}
-										className={classes.item()}
+										className={slots.item()}
 										onDoubleClick={withHandleSelect(
 											group,
 											item,
@@ -122,7 +122,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 									>
 										<Render item={item} />
 										<Action
-											cls={({ what }) => ({
+											tweak={({ what }) => ({
 												slot: {
 													base: what.css([
 														"invisible",
@@ -149,7 +149,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					);
 				})}
 			</div>
-			<div className={classes.panel()}>
+			<div className={slots.panel()}>
 				{selected.length === 0 ? (
 					<Tx label={"Select items (label)"} />
 				) : null}
@@ -157,7 +157,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-selected-item-${item.id}`}
-							className={classes.item()}
+							className={slots.item()}
 							onDoubleClick={withHandleDeselect(item)}
 						>
 							<div
@@ -179,7 +179,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 								<Render item={item} />
 							</div>
 							<Action
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: {
 										base: what.css([
 											"invisible",

@@ -32,10 +32,10 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	actionProps,
 	children,
 	tva = ActionMenuCls,
-	cls,
+	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		slot: what.slot({
 			base: what.css([
 				"relative",
@@ -54,7 +54,7 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 							iconEnabled={icon}
 							iconProps={iconProps}
 							size={"sm"}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									border: true,
 									tone: "neutral",

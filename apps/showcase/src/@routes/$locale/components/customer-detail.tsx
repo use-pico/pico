@@ -108,7 +108,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Primary tone - Edit action */}
 								<ActionClick
 									onClick={() => console.log("Edit customer")}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "primary",
 											theme: "light",
@@ -122,7 +122,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Secondary tone - View details */}
 								<ActionClick
 									onClick={() => console.log("View details")}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "secondary",
 											theme: "light",
@@ -138,7 +138,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Suspend customer")
 									}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "warning",
 											theme: "light",
@@ -154,7 +154,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Delete customer")
 									}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "danger",
 											theme: "light",
@@ -168,7 +168,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Neutral tone - Export data */}
 								<ActionClick
 									onClick={() => console.log("Export data")}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "neutral",
 											theme: "light",
@@ -184,7 +184,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Send notification")
 									}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "subtle",
 											theme: "light",
@@ -208,7 +208,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Premium feature")
 									}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "primary",
 											theme: "light",
@@ -238,7 +238,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 				<div className="flex gap-4 p-4 bg-slate-50 rounded-lg">
 					<Button
 						onClick={() => setSelectedTab("overview")}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								tone:
 									selectedTab === "overview"
@@ -251,7 +251,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("subscription")}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								tone:
 									selectedTab === "subscription"
@@ -264,7 +264,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("usage")}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								tone:
 									selectedTab === "usage"
@@ -277,7 +277,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("activity")}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								tone:
 									selectedTab === "activity"

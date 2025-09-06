@@ -68,10 +68,10 @@ export const Card = <TValues extends Record<string, any>>({
 	attrProps,
 	entity,
 	tva = CardCls,
-	cls,
+	tweak,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const slots = tva.create(cls, ({ what }) => ({
+	const slots = tva.create(tweak, ({ what }) => ({
 		variant: what.variant({
 			inline,
 		}),

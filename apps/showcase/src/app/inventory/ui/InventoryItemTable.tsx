@@ -136,7 +136,7 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 
 						<ActionClick
 							icon={TrashIcon}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									tone: "danger",
 								}),

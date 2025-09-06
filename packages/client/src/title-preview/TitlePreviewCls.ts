@@ -1,11 +1,11 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const TitlePreviewCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"title",
 			"subtitle",
 		],
@@ -16,10 +16,10 @@ export const TitlePreviewCls = PicoCls.extend(
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"flex",
 					"flex-row",
 					"gap-2",
@@ -72,5 +72,5 @@ export const TitlePreviewCls = PicoCls.extend(
 export type TitlePreviewCls = typeof TitlePreviewCls;
 
 export namespace TitlePreviewCls {
-	export type Props<P = unknown> = Component<TitlePreviewCls, P>;
+	export type Props<P = unknown> = Cls.Props<TitlePreviewCls, P>;
 }

@@ -21,10 +21,10 @@ export const BaseActionModal: FC<ActionModal.Props> = ({
 	disabled = false,
 	hidden = false,
 	tva = ActionModalCls,
-	cls,
+	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 		}),

@@ -62,7 +62,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 								<div className="w-full max-w-md">
 									<Progress
 										value={progressValue}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone,
 												size: "md",
@@ -87,7 +87,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 								<div className="w-full max-w-md">
 									<Progress
 										value={progressValue}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone,
 												size: "md",
@@ -121,7 +121,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 											<div className="w-full max-w-md">
 												<Progress
 													value={progressValue}
-													cls={({ what }) => ({
+													tweak={({ what }) => ({
 														variant: what.variant({
 															tone: "primary",
 															size,
@@ -145,7 +145,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={25}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "primary",
 											size: "md",
@@ -159,7 +159,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={50}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "secondary",
 											size: "md",
@@ -173,7 +173,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={75}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "warning",
 											size: "md",
@@ -187,7 +187,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={100}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "primary",
 											size: "md",
@@ -209,7 +209,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "danger",
 											size: "lg",
@@ -223,7 +223,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "subtle",
 											size: "sm",
@@ -237,7 +237,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "neutral",
 											size: "xs",
@@ -259,7 +259,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "danger",
 											size: "lg",
@@ -273,7 +273,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "subtle",
 											size: "sm",
@@ -287,7 +287,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 							<div className="w-full max-w-md">
 								<Progress
 									value={progressValue}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "neutral",
 											size: "xs",
@@ -320,7 +320,7 @@ export const Route = createFileRoute("/$locale/components/progress")({
 											<div className="w-full max-w-md">
 												<Progress
 													value={progressValue}
-													cls={({ what }) => ({
+													tweak={({ what }) => ({
 														variant: what.variant({
 															size: "md",
 															tone,

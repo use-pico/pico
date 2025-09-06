@@ -21,7 +21,7 @@ export const Upload: FC<Upload.Props> = ({ progressProps, ...props }) => {
 		<div className={"w-full"}>
 			<Progress
 				{...progressProps}
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					slot: {
 						progress: what.css(
 							[

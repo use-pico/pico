@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { FC, ReactNode } from "react";
 import { match, P } from "ts-pattern";
@@ -216,16 +217,16 @@ export const AbstractList = <
 	renderFooter = () => null,
 	renderPostfix = () => null,
 	tva = AbstractListCls,
-	cls,
+	tweak,
 }: AbstractList.Props<TQuery, TItem>) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	/**
 	 * Here we're expecting basically only two states - success or
 	 * loading as the Error is already resolved here.
 	 */
 	return (
-		<div className={classes.root()}>
+		<div className={slots.root()}>
 			{renderPrefix({})}
 
 			<AbstractListBody
@@ -238,7 +239,7 @@ export const AbstractList = <
 				renderEmpty={renderEmpty}
 				renderError={renderError}
 				//
-				slots={classes}
+				slots={slots}
 			/>
 
 			{renderPostfix({})}

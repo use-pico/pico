@@ -11,7 +11,7 @@ export const SubmitButton: FC<SubmitButton.Props> = (props) => {
 	return (
 		<Button
 			type={"submit"}
-			cls={({ what }) => ({
+			tweak={({ what }) => ({
 				variant: what.variant({
 					tone: "primary",
 				}),

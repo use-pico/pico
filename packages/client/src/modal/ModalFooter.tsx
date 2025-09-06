@@ -100,7 +100,7 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				iconEnabled={cancelIcon}
 				iconDisabled={cancelIcon}
 				onClick={handleCancel}
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					variant: what.variant({
 						tone: "neutral",
 						theme: "light",

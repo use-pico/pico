@@ -39,7 +39,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	textTile,
 	textMessage,
 	tva = JustDropZoneCls,
-	cls,
+	tweak,
 	children: Children,
 	onDropAccepted,
 	...props
@@ -63,7 +63,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const classes = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			active: isDragActive,
 			rejected: isDragReject,
@@ -79,7 +79,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	return (
 		<div
 			{...getRootProps()}
-			className={classes.base()}
+			className={slots.base()}
 		>
 			{Children && isNonEmptyArray(files) ? (
 				<Children
@@ -90,9 +90,9 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			) : (
 				<label
 					htmlFor={id}
-					className={classes.label()}
+					className={slots.label()}
 				>
-					<div className={classes.zone()}>
+					<div className={slots.zone()}>
 						<Icon
 							icon={UploadIcon}
 							size="xl"

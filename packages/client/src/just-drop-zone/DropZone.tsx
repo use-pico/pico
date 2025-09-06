@@ -107,7 +107,7 @@ export const DropZone: FC<DropZone.Props> = ({
 					<div>
 						<Button
 							iconEnabled={TrashIcon}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									tone: "secondary",
 								}),

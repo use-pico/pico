@@ -1,21 +1,21 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const AppLayoutCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"header",
 			"content",
 		],
 		variant: {},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
 					"min-h-screen",
 					"flex",
 					"flex-col",
@@ -56,5 +56,5 @@ export const AppLayoutCls = PicoCls.extend(
 export type AppLayoutCls = typeof AppLayoutCls;
 
 export namespace AppLayoutCls {
-	export type Props<P = unknown> = Component<AppLayoutCls, P>;
+	export type Props<P = unknown> = Cls.Props<AppLayoutCls, P>;
 }

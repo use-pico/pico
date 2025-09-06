@@ -1,11 +1,11 @@
-import { useCls, type VariantOf } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { ProgressCls } from "./ProgressCls";
 
 export namespace Progress {
 	export interface Props extends ProgressCls.Props {
 		value: number;
-		size?: VariantOf<ProgressCls, "size">;
+		size?: Cls.VariantOf<ProgressCls, "size">;
 	}
 }
 
@@ -13,9 +13,9 @@ export const Progress: FC<Progress.Props> = ({
 	value,
 	size,
 	tva = ProgressCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 		}),

@@ -75,7 +75,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "xs",
 											}),
@@ -88,7 +88,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "sm",
 											}),
@@ -101,7 +101,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "md",
 											}),
@@ -114,7 +114,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "lg",
 											}),
@@ -127,7 +127,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												size: "xl",
 											}),
@@ -143,7 +143,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											size: "xs",
 										}),
@@ -151,7 +151,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											size: "sm",
 										}),
@@ -159,7 +159,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											size: "md",
 										}),
@@ -167,7 +167,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											size: "lg",
 										}),
@@ -175,7 +175,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											size: "xl",
 										}),
@@ -244,7 +244,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={SpinnerIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"animate-spin",
@@ -255,7 +255,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={LoaderIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"animate-pulse",
@@ -276,7 +276,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={EditIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											disabled: true,
 										}),
@@ -284,7 +284,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											disabled: true,
 										}),
@@ -292,7 +292,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={DownloadIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											disabled: true,
 										}),
@@ -300,7 +300,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={FavouriteIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											disabled: true,
 										}),
@@ -319,7 +319,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-2">
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												disabled: true,
 											}),
@@ -341,7 +341,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-green-500",
@@ -351,7 +351,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={ErrorIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-red-500",
@@ -361,7 +361,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={FavouriteIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-pink-500",
@@ -371,7 +371,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={SettingsIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-blue-500",
@@ -385,7 +385,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={FavouriteIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-gray-400",
@@ -398,7 +398,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={EditIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-gray-400",
@@ -411,7 +411,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={TrashIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										slot: what.slot({
 											root: what.css([
 												"text-gray-400",
@@ -436,7 +436,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "primary",
 											theme: "light",
@@ -445,7 +445,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "secondary",
 											theme: "light",
@@ -454,7 +454,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "danger",
 											theme: "light",
@@ -463,7 +463,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "warning",
 											theme: "light",
@@ -472,7 +472,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "neutral",
 											theme: "light",
@@ -481,7 +481,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "subtle",
 											theme: "light",
@@ -490,7 +490,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "link",
 											theme: "light",
@@ -503,7 +503,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "inherit",
 											theme: "light",
@@ -512,7 +512,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								/>
 								<Icon
 									icon={CheckIcon}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone: "inherit",
 											theme: "dark",
@@ -535,7 +535,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex items-center space-x-4">
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "primary",
 												theme: "dark",
@@ -544,7 +544,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "secondary",
 												theme: "dark",
@@ -553,7 +553,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "danger",
 												theme: "dark",
@@ -562,7 +562,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "warning",
 												theme: "dark",
@@ -571,7 +571,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "neutral",
 												theme: "dark",
@@ -580,7 +580,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "subtle",
 												theme: "dark",
@@ -589,7 +589,7 @@ export const Route = createFileRoute("/$locale/components/icon")({
 									/>
 									<Icon
 										icon={CheckIcon}
-										cls={({ what }) => ({
+										tweak={({ what }) => ({
 											variant: what.variant({
 												tone: "link",
 												theme: "dark",

@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const FormFieldCls = PicoCls.extend(
@@ -177,5 +177,5 @@ export const FormFieldCls = PicoCls.extend(
 export type FormFieldCls = typeof FormFieldCls;
 
 export namespace FormFieldCls {
-	export type Props<P = unknown> = Component<FormFieldCls, P>;
+	export type Props<P = unknown> = Cls.Props<FormFieldCls, P>;
 }

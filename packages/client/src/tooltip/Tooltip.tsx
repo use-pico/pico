@@ -13,9 +13,9 @@ export const Tooltip: FC<Tooltip.Props> = ({
 	target,
 	children,
 	tva = TooltipCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	return (
 		<Float

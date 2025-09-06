@@ -10,7 +10,7 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { tvc, useCls, type VariantOf } from "@use-pico/cls";
+import { type Cls, tvc, useCls } from "@use-pico/cls";
 import { type FC, type ReactNode, useMemo } from "react";
 import { Action } from "../action/Action";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -37,7 +37,7 @@ export namespace Modal {
 		textTitle: ReactNode;
 		disabled?: boolean;
 		defaultOpen?: boolean;
-		size?: VariantOf<ModalCls, "size">;
+		size?: Cls.VariantOf<ModalCls, "size">;
 		/**
 		 * Close the modal when clicking outside of it.
 		 */
@@ -56,7 +56,7 @@ export const Modal: FC<Modal.Props> = ({
 	defaultOpen = false,
 	outside = false,
 	size = "md",
-	cls,
+	tweak,
 	tva = ModalCls,
 	children,
 }) => {
@@ -88,7 +88,7 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			size,
@@ -163,7 +163,7 @@ export const Modal: FC<Modal.Props> = ({
 										<Action
 											iconEnabled={CloseIcon}
 											onClick={() => close()}
-											cls={({ what }) => ({
+											tweak={({ what }) => ({
 												variant: what.variant({
 													tone: "neutral",
 													theme: "light",

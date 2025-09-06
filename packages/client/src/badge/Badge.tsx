@@ -1,4 +1,4 @@
-import { useCls, type VariantOf } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { BadgeCls } from "./BadgeCls";
 
@@ -10,9 +10,9 @@ import { BadgeCls } from "./BadgeCls";
 export namespace Badge {
 	export interface Props
 		extends BadgeCls.Props<HTMLAttributes<HTMLDivElement>> {
-		size?: VariantOf<BadgeCls, "size">;
-		tone?: VariantOf<BadgeCls, "tone">;
-		theme?: VariantOf<BadgeCls, "theme">;
+		size?: Cls.VariantOf<BadgeCls, "size">;
+		tone?: Cls.VariantOf<BadgeCls, "tone">;
+		theme?: Cls.VariantOf<BadgeCls, "theme">;
 	}
 }
 
@@ -20,11 +20,11 @@ export const Badge: FC<Badge.Props> = ({
 	size,
 	tone,
 	theme,
-	cls,
+	tweak,
 	tva = BadgeCls,
 	...props
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			tone,

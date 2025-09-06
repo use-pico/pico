@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { PagesCls } from "./PagesCls";
 
@@ -18,18 +19,18 @@ export const Pages: FC<Pages.Props> = ({
 	page,
 	onPage,
 	tva = PagesCls,
-	cls,
+	tweak,
 }) => {
-	const classes = tva.create(cls);
+	const slots = useCls(tva, tweak);
 
 	return (
-		<nav className={classes.root()}>
-			<ul className={classes.list()}>
+		<nav className={slots.root()}>
+			<ul className={slots.list()}>
 				{pages.map((current) => {
 					return (
 						<li
 							key={`page-${current}`}
-							className={classes.page(({ what }) => ({
+							className={slots.page(({ what }) => ({
 								variant: what.variant({
 									current: page === current - 1,
 								}),

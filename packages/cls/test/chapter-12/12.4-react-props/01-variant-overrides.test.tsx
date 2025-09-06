@@ -124,10 +124,10 @@ describe("12.4 React Props - Variant Overrides", () => {
 		);
 
 		const Button: FC<Cls.Props<typeof ButtonCls, PropsWithChildren>> = ({
-			cls: userCls,
+			tweak: userTweak,
 			children,
 		}) => {
-			const classes = useCls(ButtonCls, userCls);
+			const classes = useCls(ButtonCls, userTweak);
 
 			if (!classes) {
 				return null;
@@ -146,7 +146,7 @@ describe("12.4 React Props - Variant Overrides", () => {
 		// Test with variant override
 		render(
 			<Button
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					variant: what.variant({
 						variant: "secondary" as const,
 						size: "lg" as const,

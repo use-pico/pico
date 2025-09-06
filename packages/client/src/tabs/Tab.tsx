@@ -1,3 +1,4 @@
+import { useCls } from "@use-pico/cls";
 import { type FC, type PropsWithChildren, useContext } from "react";
 import { TabCls } from "./TabCls";
 import { TabsContext } from "./TabsContext";
@@ -8,11 +9,11 @@ export namespace Tab {
 	}
 }
 
-export const Tab: FC<Tab.Props> = ({ tab, tva = TabCls, cls, children }) => {
+export const Tab: FC<Tab.Props> = ({ tab, tva = TabCls, tweak, children }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const classes = tva.create(cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			active: tab === store.tab,
 		}),
@@ -20,7 +21,7 @@ export const Tab: FC<Tab.Props> = ({ tab, tva = TabCls, cls, children }) => {
 
 	return store.hidden.includes(tab) ? null : (
 		<div
-			className={classes.base()}
+			className={slots.base()}
 			onClick={() => store.setCurrent(tab)}
 		>
 			{children}

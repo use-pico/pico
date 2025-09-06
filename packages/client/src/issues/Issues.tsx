@@ -2,7 +2,10 @@ import { useCls } from "@use-pico/cls";
 import { type IssueSchema, withIssueType } from "@use-pico/common";
 import type { FC } from "react";
 import { Badge } from "../badge/Badge";
+import { ErrorIcon } from "../icon/ErrorIcon";
 import { Icon } from "../icon/Icon";
+import { InfoIcon } from "../icon/InfoIcon";
+import { WarningIcon } from "../icon/WarningIcon";
 import { More } from "../more/More";
 import { Tx } from "../tx/Tx";
 import { IssuesCls } from "./IssuesCls";
@@ -18,15 +21,15 @@ export namespace Issues {
 
 export const Issues: FC<Issues.Props> = ({
 	tva = IssuesCls,
-	cls,
+	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
-		error: "icon-[ix--warning]",
-		warning: "icon-[ix--warning]",
-		info: "icon-[ix--info]",
+		error: ErrorIcon,
+		warning: WarningIcon,
+		info: InfoIcon,
 	};
 
 	const isErrorWarning = withIssueType({
@@ -57,7 +60,7 @@ export const Issues: FC<Issues.Props> = ({
 				return (
 					<Badge
 						key={`issues-${entity.id}-inline`}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							slot: what.slot({
 								root: what.css(
 									slots.item(({ what }) => ({

@@ -1,4 +1,4 @@
-import { useClsEx, type VariantOf, withCls } from "@use-pico/cls";
+import { type Cls, useClsEx, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Typo } from "../typo/Typo";
@@ -13,7 +13,7 @@ export namespace Status {
 		titleProps?: Typo.PropsEx;
 		messageProps?: Typo.PropsEx;
 		bodyProps?: Typo.PropsEx;
-		tone?: VariantOf<StatusCls, "tone">;
+		tone?: Cls.VariantOf<StatusCls, "tone">;
 	}
 }
 
@@ -27,10 +27,10 @@ export const BaseStatus: FC<Status.Props> = ({
 	bodyProps,
 	tone = "inherit",
 	tva = StatusCls,
-	cls,
+	tweak,
 	children,
 }) => {
-	const { slots, variants } = useClsEx(tva, cls, ({ what }) => ({
+	const { slots, variants } = useClsEx(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			tone,
 		}),
@@ -42,7 +42,7 @@ export const BaseStatus: FC<Status.Props> = ({
 				icon={icon}
 				size="xl"
 				tone={variants.tone}
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
 							"opacity-50",

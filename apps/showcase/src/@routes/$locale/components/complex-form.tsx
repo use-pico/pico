@@ -707,7 +707,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 				<Section title={<Tx label={"Form Actions"} />}>
 					<div className="flex gap-4">
 						<Button
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									size: "md",
 								}),
@@ -716,7 +716,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 							<Tx label={"Save Changes"} />
 						</Button>
 						<Button
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									size: "md",
 									tone: "secondary",
@@ -726,7 +726,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 							<Tx label={"Save as Draft"} />
 						</Button>
 						<Button
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									size: "md",
 									tone: "danger",

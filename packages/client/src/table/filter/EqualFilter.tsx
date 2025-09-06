@@ -31,7 +31,7 @@ export const EqualFilter = <
 		<Action
 			iconEnabled={FilterApplyIcon}
 			size={"xs"}
-			cls={({ what }) => ({
+			tweak={({ what }) => ({
 				variant: what.variant({
 					tone: "primary",
 					theme: "light",

@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { MenuItemCls } from "./MenuItemCls";
 
 export const MenuGroupCls = MenuItemCls.extend(
@@ -21,5 +21,5 @@ export const MenuGroupCls = MenuItemCls.extend(
 export type MenuGroupCls = typeof MenuGroupCls;
 
 export namespace MenuGroupCls {
-	export type Props<P = unknown> = Component<MenuGroupCls, P>;
+	export type Props<P = unknown> = Cls.Props<MenuGroupCls, P>;
 }

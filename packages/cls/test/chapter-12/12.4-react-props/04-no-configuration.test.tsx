@@ -52,8 +52,8 @@ describe("12.4 React Props - No Configuration", () => {
 
 		const TestComponent: FC<
 			Cls.Props<typeof TestCls, PropsWithChildren>
-		> = ({ cls: userCls, children }) => {
-			const classes = TestCls.create(userCls);
+		> = ({ tweak: userTweak, children }) => {
+			const classes = TestCls.create(userTweak);
 			return <div className={classes.root()}>{children}</div>;
 		};
 

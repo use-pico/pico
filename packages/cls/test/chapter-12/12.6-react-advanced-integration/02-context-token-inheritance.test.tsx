@@ -93,10 +93,10 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 
 		const Card = ({
 			children,
-			cls: clsProp,
+			tweak: tweakProp,
 			...props
 		}: Cls.Props<typeof CardCls, PropsWithChildren>) => {
-			const classes = useCls(CardCls, clsProp);
+			const classes = useCls(CardCls, tweakProp);
 
 			if (!classes) {
 				return null;
@@ -117,7 +117,7 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			<ClsProvider value={ThemeCls}>
 				<ClsProvider value={CardCls}>
 					<Card
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								elevation: "high",
 							}),

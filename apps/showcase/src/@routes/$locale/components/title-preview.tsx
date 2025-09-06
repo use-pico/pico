@@ -179,9 +179,9 @@ export const Route = createFileRoute("/$locale/components/title-preview")({
 								icon="SettingsIcon"
 								title="Custom Styled"
 								subtitle="With additional styling applied"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: what.slot({
-										base: what.css([
+										root: what.css([
 											"bg-blue-50",
 											"p-4",
 											"rounded-lg",
@@ -203,9 +203,9 @@ export const Route = createFileRoute("/$locale/components/title-preview")({
 								icon="UserIcon"
 								title="Compact Title"
 								subtitle="With reduced spacing"
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									slot: what.slot({
-										base: what.css([
+										root: what.css([
 											"gap-1",
 										]),
 										title: what.css([

@@ -1,4 +1,4 @@
-import { tvc, type VariantOf, type VariantsOf } from "@use-pico/cls";
+import { type Cls, tvc } from "@use-pico/cls";
 import type { withQuerySchema } from "@use-pico/common";
 import { Action } from "../action/Action";
 import { AscIcon } from "../icon/AscIcon";
@@ -69,9 +69,9 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 		]);
 	};
 
-	const actionSize: VariantOf<typeof Action.cls, "size"> = "xs";
+	const actionSize: Cls.VariantOf<typeof Action.cls, "size"> = "xs";
 
-	const actionVariant: VariantsOf<typeof Action.cls> = {
+	const actionVariant: Cls.VariantsOf<typeof Action.cls> = {
 		tone: "primary",
 		theme: "light",
 	};
@@ -93,7 +93,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 								update(type?.sort === "asc" ? "desc" : "asc");
 							}}
 							size={actionSize}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									...actionVariant,
 									tone:
@@ -126,7 +126,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 								update("asc");
 							}}
 							size={actionSize}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									...actionVariant,
 									tone:
@@ -154,7 +154,7 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							update(undefined);
 						}}
 						size={actionSize}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							variant: what.variant({
 								...actionVariant,
 								tone:

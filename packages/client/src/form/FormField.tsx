@@ -44,7 +44,7 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 		disabled = false,
 		meta,
 		tva = FormFieldCls,
-		cls,
+		tweak,
 		children = (props) => <input {...props} />,
 	} = props;
 
@@ -52,7 +52,7 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 
 	const isError = meta?.isTouched && meta.errors && meta.errors.length > 0;
 
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			isSubmitting: false,
 			isLoading: false,

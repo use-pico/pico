@@ -28,10 +28,10 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	textOn,
 	textOff,
 	tva = BoolInputCls,
-	cls,
+	tweak,
 	...props
 }) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
 			value: value ?? false,
@@ -96,7 +96,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			</div>
 			{(textOn || textOff) && (
 				<Badge
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							tone: value ? "secondary" : "neutral",
 							theme: "light",

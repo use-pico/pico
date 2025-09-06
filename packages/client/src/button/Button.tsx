@@ -1,4 +1,4 @@
-import { useCls, type VariantOf } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -12,7 +12,7 @@ export namespace Button {
 		iconLoading?: string;
 		iconProps?: Omit<Icon.Props, "icon">;
 		loading?: boolean;
-		size?: VariantOf<ButtonCls, "size">;
+		size?: Cls.VariantOf<ButtonCls, "size">;
 	}
 }
 
@@ -24,11 +24,11 @@ export const Button: FC<Button.Props> = ({
 	loading,
 	size,
 	tva = ButtonCls,
-	cls,
+	tweak,
 	children,
 	...props
 }) => {
-	const classes = useCls(tva, cls, ({ what }) => ({
+	const classes = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled: props.disabled,
 			size,

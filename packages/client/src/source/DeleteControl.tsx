@@ -28,9 +28,9 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	onCancel,
 	invalidate: $invalidate = [],
 	tva = DeleteControlCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();
@@ -53,7 +53,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 			<div className={slots.content()}>{textContent}</div>
 			<div className={slots.footer()}>
 				<Button
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							tone: "secondary",
 						}),
@@ -68,7 +68,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				</Button>
 
 				<Button
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							tone: "primary",
 						}),

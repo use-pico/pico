@@ -20,9 +20,9 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	state: { value = "", set },
 	textPlaceholder,
 	tva = FulltextCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 	const [search, setSearch] = useState(value || "");
 	const debounced = useDebouncedCallback((value) => {
 		set(value);

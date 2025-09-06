@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { IconCls } from "../icon/IconCls";
 
 export const BoolInlineCls = IconCls.extend(
@@ -48,5 +48,5 @@ export const BoolInlineCls = IconCls.extend(
 export type BoolInlineCls = typeof BoolInlineCls;
 
 export namespace BoolInlineCls {
-	export type Props<P = unknown> = Component<BoolInlineCls, P>;
+	export type Props<P = unknown> = Cls.Props<BoolInlineCls, P>;
 }

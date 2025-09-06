@@ -135,7 +135,7 @@ export const Row = <
 					<Icon
 						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
 						size={"sm"}
-						cls={({ what }) => ({
+						tweak={({ what }) => ({
 							slot: what.slot({
 								root: what.css(
 									slots.select(({ what }) => ({

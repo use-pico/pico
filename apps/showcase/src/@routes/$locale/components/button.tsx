@@ -52,7 +52,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 									{sizes.map((size) => (
 										<Button
 											key={`size-${size}-${theme}`}
-											cls={({ what }) => ({
+											tweak={({ what }) => ({
 												variant: what.variant({
 													size,
 													theme,
@@ -75,7 +75,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 							{tones.map((tone) => (
 								<Button
 									key={`tone-light-${tone}`}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
@@ -91,7 +91,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 							{tones.map((tone) => (
 								<Button
 									key={`tone-light-borderless-${tone}`}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
@@ -109,7 +109,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<Button
 									key={`tone-light-disabled-${tone}`}
 									disabled
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
@@ -126,7 +126,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<Button
 									key={`tone-light-borderless-disabled-${tone}`}
 									disabled
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "light",
@@ -148,7 +148,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 							{tones.map((tone) => (
 								<Button
 									key={`tone-dark-${tone}`}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
@@ -164,7 +164,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 							{tones.map((tone) => (
 								<Button
 									key={`tone-dark-borderless-${tone}`}
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
@@ -182,7 +182,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<Button
 									key={`tone-dark-disabled-${tone}`}
 									disabled
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
@@ -199,7 +199,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 								<Button
 									key={`tone-dark-borderless-disabled-${tone}`}
 									disabled
-									cls={({ what }) => ({
+									tweak={({ what }) => ({
 										variant: what.variant({
 											tone,
 											theme: "dark",
@@ -234,7 +234,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 											{tones.map((tone) => (
 												<Button
 													key={`size-combination-${size}-${tone}-${theme}`}
-													cls={({ what }) => ({
+													tweak={({ what }) => ({
 														variant: what.variant({
 															size,
 															tone,
@@ -268,7 +268,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 									{tones.map((tone) => (
 										<Button
 											key={`complete-${tone}-${theme}`}
-											cls={({ what }) => ({
+											tweak={({ what }) => ({
 												variant: what.variant({
 													size: "md",
 													tone,

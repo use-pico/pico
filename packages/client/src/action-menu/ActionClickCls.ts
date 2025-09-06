@@ -8,7 +8,7 @@ export const ActionClickCls = ActionCls.extend(
 		variant: {},
 	},
 	({ def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [],
 		defaults: def.defaults({
 			loading: false,

@@ -109,9 +109,9 @@ export const PopupSelect = <
 	state,
 	//
 	tva = PopupSelectCls,
-	cls,
+	tweak,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		slot: what.slot({
 			input: what.css(className),
 		}),

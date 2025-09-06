@@ -1,4 +1,4 @@
-import { useCls, type VariantOf, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import { type FC, useContext } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { Typo } from "../typo/Typo";
@@ -11,7 +11,7 @@ export namespace Attr {
 		value: Typo.Value;
 		labelProps?: Typo.PropsEx;
 		valueProps?: Typo.PropsEx;
-		tone?: VariantOf<TypoCls, "tone">;
+		tone?: Cls.VariantOf<TypoCls, "tone">;
 		inline?: boolean;
 	}
 }
@@ -24,10 +24,10 @@ export const BaseAttr: FC<Attr.Props> = ({
 	tone = "neutral",
 	inline,
 	tva = AttrCls,
-	cls,
+	tweak,
 }) => {
 	const inlineContext = useContext(InlineContext);
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			inline: inline ?? inlineContext?.inline,
 		}),

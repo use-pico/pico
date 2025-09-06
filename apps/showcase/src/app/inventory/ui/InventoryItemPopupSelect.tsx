@@ -34,7 +34,7 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 					renderInline={({ entity }) => (
 						<Badge
 							key={`${entity.id}-inline`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									size: "xs",
 									border: false,
@@ -47,7 +47,7 @@ export const InventoryItemPopupSelect: FC<InventoryItemPopupSelect.Props> = (
 					renderItem={({ entity }) => (
 						<Badge
 							key={`${entity.id}-item`}
-							cls={({ what }) => ({
+							tweak={({ what }) => ({
 								variant: what.variant({
 									size: "xs",
 								}),

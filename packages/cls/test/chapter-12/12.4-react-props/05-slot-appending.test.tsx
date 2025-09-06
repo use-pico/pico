@@ -40,18 +40,14 @@ describe("12.4 React Props - Slot Appending", () => {
 			Cls.Props<typeof IconCls> & {
 				icon: string;
 			}
-		> = ({ cls: userCls, icon }) => {
-			// This simulates the Icon component's useCls call
-			const slots = IconCls.create(
-				userCls, // userConfigFn
-				({ what }) => ({
-					slot: what.slot({
-						root: what.css([
-							icon,
-						]), // Internal icon class
-					}),
-				}), // internalConfigFn
-			);
+		> = ({ tweak: userTweak, icon }) => {
+			const slots = IconCls.create(userTweak, ({ what }) => ({
+				slot: what.slot({
+					root: what.css([
+						icon,
+					]),
+				}),
+			}));
 			return (
 				<div
 					className={slots.root()}
@@ -63,7 +59,7 @@ describe("12.4 React Props - Slot Appending", () => {
 		// Test with user providing additional slot configuration
 		render(
 			<Icon
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					slot: what.slot({
 						root: what.css([
 							"user-custom-icon",
@@ -125,11 +121,11 @@ describe("12.4 React Props - Slot Appending", () => {
 		);
 
 		const TestComponent: FC<Cls.Props<typeof ComponentCls>> = ({
-			cls: userCls,
+			tweak: userTweak,
 		}) => {
 			// Internal config with both CSS and tokens
 			const slots = ComponentCls.create(
-				userCls, // userConfigFn
+				userTweak, // userConfigFn
 				({ what }) => ({
 					slot: what.slot({
 						root: what.both(
@@ -154,7 +150,7 @@ describe("12.4 React Props - Slot Appending", () => {
 		// User provides additional styling
 		render(
 			<TestComponent
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					slot: what.slot({
 						root: what.both(
 							[

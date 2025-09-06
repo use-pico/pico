@@ -13,9 +13,9 @@ export namespace Detail {
 export const Detail: FC<Detail.Props> = ({
 	children,
 	tva = DetailCls,
-	cls,
+	tweak,
 }) => {
-	const slots = useCls(tva, cls);
+	const slots = useCls(tva, tweak);
 
 	return <div className={slots.root()}>{children}</div>;
 };

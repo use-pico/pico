@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const DeleteControlCls = PicoCls.extend(
@@ -45,5 +45,5 @@ export const DeleteControlCls = PicoCls.extend(
 export type DeleteControlCls = typeof DeleteControlCls;
 
 export namespace DeleteControlCls {
-	export type Props<P = unknown> = Component<DeleteControlCls, P>;
+	export type Props<P = unknown> = Cls.Props<DeleteControlCls, P>;
 }

@@ -30,7 +30,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 						>
 							<Alert
 								title={`${tone} alert`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 							<Alert
 								icon="icon-[ph--info]"
 								title={`${tone} alert with icon`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
@@ -70,7 +70,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 							<Alert
 								title={`${tone} alert`}
 								message={`This is a ${tone} alert with a descriptive message that provides additional context and information.`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
@@ -95,7 +95,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								icon="icon-[ph--info]"
 								title={`${tone} alert`}
 								message={`This is a ${tone} alert with both an icon and a descriptive message that provides additional context and information.`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
@@ -117,7 +117,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								title={`${tone} clickable alert`}
 								message={`This ${tone} alert is clickable and can be used for interactive notifications.`}
 								onClick={() => {}}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 										theme: "light",
@@ -136,7 +136,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 						>
 							<Alert
 								title={`${tone} alert`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 									}),
@@ -155,7 +155,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 							<Alert
 								icon="icon-[ph--info]"
 								title={`${tone} alert with icon`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 									}),
@@ -174,7 +174,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 							<Alert
 								title={`${tone} alert`}
 								message={`This is a ${tone} alert with a descriptive message that provides additional context and information.`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 									}),
@@ -196,7 +196,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								icon="icon-[ph--info]"
 								title={`${tone} alert`}
 								message={`This is a ${tone} alert with both an icon and a descriptive message that provides additional context and information.`}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 									}),
@@ -217,7 +217,7 @@ export const Route = createFileRoute("/$locale/components/alert")({
 								title={`${tone} clickable alert`}
 								message={`This ${tone} alert is clickable and can be used for interactive notifications.`}
 								onClick={() => {}}
-								cls={({ what }) => ({
+								tweak={({ what }) => ({
 									variant: what.variant({
 										tone,
 									}),

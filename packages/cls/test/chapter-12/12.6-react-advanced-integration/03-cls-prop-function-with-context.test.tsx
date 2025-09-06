@@ -102,10 +102,10 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 
 		const Button = ({
 			children,
-			cls: clsProp,
+			tweak: tweakProp,
 			...props
 		}: Cls.Props<typeof ButtonCls, PropsWithChildren>) => {
-			const classes = useCls(ButtonCls, clsProp);
+			const classes = useCls(ButtonCls, tweakProp);
 
 			if (!classes) {
 				return null;
@@ -127,7 +127,7 @@ describe("12.6 React Advanced Integration - cls Prop Function with Context", () 
 		render(
 			<ClsProvider value={ThemeCls}>
 				<Button
-					cls={({ what }) => ({
+					tweak={({ what }) => ({
 						variant: what.variant({
 							color: "secondary",
 						}),

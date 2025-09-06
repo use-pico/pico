@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
 export const BoolInputCls = PicoCls.extend(
@@ -305,5 +305,5 @@ export const BoolInputCls = PicoCls.extend(
 export type BoolInputCls = typeof BoolInputCls;
 
 export namespace BoolInputCls {
-	export type Props<P = unknown> = Component<BoolInputCls, P>;
+	export type Props<P = unknown> = Cls.Props<BoolInputCls, P>;
 }

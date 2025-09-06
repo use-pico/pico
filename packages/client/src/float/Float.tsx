@@ -62,7 +62,7 @@ export const Float: FC<Float.Props> = ({
 	float,
 	withOverlay = false,
 	tva = FloatCls,
-	cls,
+	tweak,
 	children,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -92,7 +92,7 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const slots = useCls(tva, cls, ({ what }) => ({
+	const slots = useCls(tva, tweak, ({ what }) => ({
 		variant: what.variant({
 			mounted: isMounted,
 		}),

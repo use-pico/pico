@@ -132,8 +132,8 @@ describe("12.4 React Props - Slot Overrides", () => {
 				title: string;
 				children: string;
 			}
-		> = ({ cls: userCls, title, children }) => {
-			const classes = CardCls.create(userCls);
+		> = ({ tweak: userTweak, title, children }) => {
+			const classes = CardCls.create(userTweak);
 			return (
 				<div className={classes.root()}>
 					<h3 className={classes.header()}>{title}</h3>
@@ -145,7 +145,7 @@ describe("12.4 React Props - Slot Overrides", () => {
 		// Test with slot-specific overrides
 		render(
 			<Card
-				cls={({ what }) => ({
+				tweak={({ what }) => ({
 					variant: what.variant({
 						theme: "highlighted",
 						size: "lg",
