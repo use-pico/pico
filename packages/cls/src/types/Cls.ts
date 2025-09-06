@@ -95,8 +95,19 @@ export namespace Cls {
 		TCls["contract"]
 	>;
 
+	/**
+	 * Props are used in React components when an user wants to work with Cls.
+	 *
+	 * Provides a way to pass a Cls instance or tweak styles on an existing component.
+	 * Combines Cls-specific props with additional component props while preventing conflicts.
+	 *
+	 * @template TCls - The CLS instance type
+	 * @template P - Additional component props (defaults to unknown)
+	 */
 	export type Props<TCls extends Type<any>, P = unknown> = {
+		/** Optional CLS instance to use for styling */
 		tva?: TCls;
+		/** Optional tweak function to modify styles on existing component */
 		cls?: Tweak.Fn<TCls["contract"]>;
 	} & Omit<P, "tva" | "cls">;
 }

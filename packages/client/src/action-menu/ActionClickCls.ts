@@ -1,4 +1,4 @@
-import type { Component } from "@use-pico/cls";
+import type { Cls } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
 export const ActionClickCls = ActionCls.extend(
@@ -22,5 +22,5 @@ export const ActionClickCls = ActionCls.extend(
 export type ActionClickCls = typeof ActionClickCls;
 
 export namespace ActionClickCls {
-	export type Props<P = unknown> = Component<typeof ActionClickCls, P>;
+	export type Props<P = unknown> = Cls.Props<typeof ActionClickCls, P>;
 }

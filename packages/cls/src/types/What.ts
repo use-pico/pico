@@ -30,7 +30,7 @@ export namespace What {
 	 */
 	export type Token<TContract extends Contract.Any> = {
 		/** Array of optional tokens for styling */
-		token: Token.Optional<TContract>[];
+		token: Token.Extract<TContract>[];
 	};
 
 	/**
