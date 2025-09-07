@@ -11,20 +11,40 @@
 import { cls } from '@use-pico/cls';
 
 const ButtonCls = cls(
+  /**
+   * Contract definition - defines structure (tokens, slots, variants)
+   */
   {
     tokens: ["color.bg.primary", "color.text.primary"],
     slot: ["root"],
     variant: { size: ["sm", "md", "lg"] }
   },
   ({ what, def }) => ({
+    /**
+     * Token definitions - enforced by the contract above
+     * Both missing and excessive tokens are type-checked
+     */
     token: def.token({
       "color.bg.primary": what.css(["bg-blue-600"]),
       "color.text.primary": what.css(["text-white"])
     }),
+    /**
+     * Rules - conditional styling based on variants
+     * May be empty, but usually contains at least "root" rule and variant rules
+     */
     rules: [
       def.root({ root: what.token(["color.bg.primary", "color.text.primary"]) }),
       def.rule(what.variant({ size: "lg" }), { root: what.css(["px-6", "py-3"]) })
     ],
+    /**
+     * Defaults - required for all variants to ensure predictable behavior
+     * Enforced even when there are no variants to ensure default values of a component
+     * (e.g. even when inherited, children must provide new defaults)
+     * 
+     * Use "def.defaults" instead of "{}" as it provides type-safe way to check
+     * if all defaults are provided in case new variant is created; this will create
+     * nice error instead of strange method return type issues
+     */
     defaults: def.defaults({
       size: "md"
     })
