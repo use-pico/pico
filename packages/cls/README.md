@@ -197,14 +197,21 @@ const slots = ButtonCls.create(({ what }) => ({
 ```typescript
 const PrimaryButtonCls = ButtonCls.extend(
   {
+    /**
+     * Token defined, which means it gets fresh value (eventually overriding the parent)
+     * if the same token name is used
+     */
     tokens: ["color.bg.primary"],
     slot: ["root"],
     variant: {}
   },
   ({ what, def }) => ({
     token: def.token({
-      "color.bg.primary": what.css(["bg-blue-600"]) // Overrides parent
-    })
+      "color.bg.primary": what.css(["bg-blue-600"])
+      // Rest of tokens (if any) are optionally available for merge
+    }),
+    rules: [],
+    defaults: def.defaults({}),
   })
 );
 ```
@@ -213,9 +220,9 @@ const PrimaryButtonCls = ButtonCls.extend(
 ```typescript
 const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ size: "lg" }),
-  token: {
+  token: what.token({
     "color.bg.primary": what.css(["bg-indigo-600"]) // Runtime override
-  }
+  })
 }));
 ```
 
