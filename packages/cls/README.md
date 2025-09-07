@@ -408,12 +408,12 @@ The main interface that combines contract and definition:
 ```typescript
 // Definition defines HOW it's styled
 {
-  token: {
+  token: def.token({
     "color.text.default": what.css(["text-gray-900"]),
     "color.text.primary": what.css(["text-white"]),
     "color.bg.default": what.css(["bg-gray-100"]),
     "color.bg.primary": what.css(["bg-blue-600"])
-  },
+  }),
   rules: [
     // How do variants affect styling?
     def.root({
@@ -863,14 +863,14 @@ tokens: [
  * In definition each token gets concrete class names/tokens values
  * (thus what the token will get resolved to)
  */
-token: {
+token: def.token({
   "color.text.default": what.css(["text-gray-900"]),
   "color.text.primary": what.css(["text-white"]),
   "color.text.secondary": what.css(["text-gray-700"]),
   "color.bg.default": what.css(["bg-gray-100"]),
   "color.bg.primary": what.css(["bg-blue-600"]),
   "color.bg.secondary": what.css(["bg-gray-200"])
-}
+})
 ```
 
 #### How Tokens Work
@@ -897,17 +897,17 @@ token: {
 // Parent contract
 {
   tokens: ["color.bg.default"],
-  token: {
+  token: def.token({
     "color.bg.default": what.css(["bg-gray-100"])
-  }
+  })
 }
 
 // Child contract
 {
   tokens: ["color.bg.default"], // Same token declared
-  token: {
+  token: def.token({
     "color.bg.default": what.css(["bg-blue-100"]) // REPLACES parent definition
-  }
+  })
 }
 
 // Result: Child definition wins, parent is discarded
@@ -931,26 +931,31 @@ token: {
 ```typescript
 // Override specific tokens at creation time
 const buttonClasses = ButtonCls.create(({ what }) => ({
-  token: {
+  token: what.token({
     "color.text.primary": what.css(["text-blue-600"]) // Override only primary text
     // Other tokens remain unchanged
-  }
+  })
 }));
 ```
 
 **Component-Level Overrides**
 ```typescript
-const MyComponent = ({ cls }: Component<typeof Button>) => {
+import type { Cls } from '@use-pico/cls';
+
+const MyComponent = ({ tweak }: Cls.Props<typeof ButtonCls>) => {
   return (
-    <button className={cls(({ what }) => ({
-      token: {
-        "color.bg.primary": what.css(["bg-indigo-600"]) // Override primary background
-      }
-    }))}>
+    <button className={ButtonCls.create(tweak).root()}>
       Click me
     </button>
   );
 };
+
+// Usage with token override
+<MyComponent tweak={({ what }) => ({
+  token: what.token({
+    "color.bg.primary": what.css(["bg-indigo-600"]) // Override primary background
+  })
+})} />
 ```
 
 #### Advanced: Token Chain Resolution
@@ -1204,13 +1209,13 @@ def.rule(what.variant({ disabled: true }), {
 
 **[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Key Concepts](#5-key-concepts)** | **[→ Next Chapter: Contract Structure](#7-contract-structure)**
 
-### 6.1 `create(userConfigFn?, internalConfigFn?)` <a id="61-create-method"></a>
+### 6.1 `create(userTweakFn?, internalTweakFn?)` <a id="61-create-method"></a>
 
-Generates styled instances with optional overrides. Both parameters are **callback functions** that receive the `what` utility.
+Generates styled instances with optional overrides. Both parameters are **callback functions** that receive the tweak utilities.
 
 **Parameters:**
-- `userConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns user configuration
-- `internalConfigFn`: Callback function that receives [`{ what }`](#51-what-utility) and returns internal configuration
+- `userTweakFn`: Callback function that receives `{ what, override }` and returns user configuration
+- `internalTweakFn`: Callback function that receives `{ what, override }` and returns internal configuration
 
 **Configuration Options:**
 - **`variant`**: Override variant values
@@ -1218,7 +1223,7 @@ Generates styled instances with optional overrides. Both parameters are **callba
 - **`override`**: Hard override slot styling (replace mode)
 - **`token`**: Override token definitions
 
-> **Note:** The [`what`](#51-what-utility) utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
+> **Note:** The `what` utility should be used for `slot`, `override`, and `variant` options as it provides proper type-checks and ensures type safety. The `what.variant()` helper is particularly useful for ensuring variant values are correctly typed.
 
 **Slot Configuration Behavior:**
 - **`slot` configurations append** classes and tokens to existing slot styling
@@ -1249,24 +1254,24 @@ const slots = ButtonCls.create(({ what }) => ({
 // With slot overrides using what utility
 const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
-  slot: {
+  slot: what.slot({
     icon: what.css(["mr-2", "animate-spin"]),
     label: what.token(["color.text.hover"])
-  }
+  })
 }));
 
 // With token overrides
 const slots = ButtonCls.create(({ what }) => ({
-  token: {
+  token: what.token({
     "color.text.primary": what.css(["text-blue-600"])
-  }
+  })
 }));
 
 // With hard overrides
 const slots = ButtonCls.create(({ what }) => ({
-  override: {
+  override: what.slot({
     root: what.css(["bg-red-500", "text-white"])
-  }
+  })
 }));
 
 // Combined user and internal configs
@@ -1275,9 +1280,9 @@ const slots = ButtonCls.create(
     variant: what.variant({ variant: "primary" })
   }),
   ({ what }) => ({
-    slot: {
+    slot: what.slot({
       root: what.css(["shadow-lg"])
-    }
+    })
   })
 );
 ```
@@ -1364,9 +1369,9 @@ function Icon({ icon, cls, ...props }) {
 ```typescript
 // ✅ Adds to existing styles
 const slots = ButtonCls.create(({ what }) => ({
-  slot: {
+  slot: what.slot({
     root: what.css(["mr-2", "animate-spin"]) // Appends to existing root styles
-  }
+  })
 }));
 // Result: Previous styles + new styles
 ```
@@ -1375,9 +1380,9 @@ const slots = ButtonCls.create(({ what }) => ({
 ```typescript
 // ✅ Replaces all previous styles
 const slots = ButtonCls.create(({ what }) => ({
-  override: {
+  override: what.slot({
     root: what.css(["bg-red-500", "text-white"]) // Replaces all root styles
-  }
+  })
 }));
 // Result: Only the new styles, previous styles discarded
 ```
@@ -1726,10 +1731,10 @@ const slots = ButtonCls.create(({ what }) => ({
 // With slot overrides
 const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
-  slot: {
+  slot: what.slot({
     root: what.css(["mr-2", "animate-spin"]),
     label: what.token(["color.text.hover"])
-  }
+  })
 }));
 
 // Using what.variant() for type-safe variant values
@@ -1739,16 +1744,16 @@ const slots = ButtonCls.create(({ what }) => ({
 
 // With token overrides
 const slots = ButtonCls.create(({ what }) => ({
-  token: {
+  token: what.token({
     "color.text.primary": what.css(["text-blue-600"])
-  }
+  })
 }));
 
 // With hard overrides
 const slots = ButtonCls.create(({ what }) => ({
-  override: {
+  override: what.slot({
     root: what.css(["bg-red-500", "text-white"])
-  }
+  })
 }));
 ```
 
@@ -1759,9 +1764,9 @@ const slots = ButtonCls.create(
     variant: what.variant({ variant: "primary" })
   }),
   ({ what }) => ({
-    slot: {
+    slot: what.slot({
       root: what.css(["shadow-lg"])
-    }
+    })
   })
 );
 ```
@@ -1775,9 +1780,9 @@ const labelSlots = slots.label();
 // With per-call overrides
 const rootSlots = slots.root(({ what }) => ({
   variant: what.variant({ size: "lg" }),
-  slot: {
+  slot: what.slot({
     root: what.css(["custom-class"])
-  }
+  })
 }));
 ```
 
