@@ -42,6 +42,9 @@ const ButtonCls = cls(
      * Both missing and excessive tokens are type-checked
      */
     token: def.token({
+      /**
+       * Here you can refer css classes or even other tokens defined in inheritance chain.
+       */
       "color.bg.primary": what.css(["bg-blue-600"]),
       "color.text.primary": what.css(["text-white"])
     }),
@@ -68,7 +71,10 @@ const ButtonCls = cls(
   })
 );
 
-// Usage
+/**
+ * Create slots close to the component (e.g. in Component body in React) so it can be
+ * directly used in component's "className" or similar prop
+ */
 const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
@@ -78,10 +84,18 @@ console.log(slots.root()); // "bg-blue-600 text-white px-6 py-3"
 import { useCls } from '@use-pico/cls/react';
 
 function MyButton({ size = "md" }) {
+  /**
+   * Create slots for usage in a React component; this is a recommended way of React usage
+   * as it also connects to context in the background, so even Themes/Design System will work out of box
+   */
   const slots = useCls(ButtonCls, ({ what }) => ({
     variant: what.variant({ size })
   }));
   
+  /**
+   * You can use "slots.root()" which eventually receives same tweak function as "create/useCls",
+   * so styles can be changed even on slot level
+   */
   return <button className={slots.root()}>Click me</button>;
 }
 ```
