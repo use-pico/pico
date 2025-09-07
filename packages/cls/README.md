@@ -2374,7 +2374,7 @@ const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
 
     return (
       <a {...props} className={slots.base()} ref={ref}>
-        {isString(icon) ? <Icon icon={icon} /> : icon}
+        <Icon icon={icon} />
         {children}
       </a>
     );
