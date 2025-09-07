@@ -10,7 +10,7 @@
 ```typescript
 import { cls } from '@use-pico/cls';
 
-const Button = cls(
+const ButtonCls = cls(
   {
     tokens: ["color.bg.primary", "color.text.primary"],
     slot: ["root"],
@@ -24,12 +24,15 @@ const Button = cls(
     rules: [
       def.root({ root: what.token(["color.bg.primary", "color.text.primary"]) }),
       def.rule(what.variant({ size: "lg" }), { root: what.css(["px-6", "py-3"]) })
-    ]
+    ],
+    defaults: def.defaults({
+      size: "md"
+    })
   })
 );
 
 // Usage
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
 console.log(slots.root()); // "bg-blue-600 text-white px-6 py-3"
@@ -38,7 +41,7 @@ console.log(slots.root()); // "bg-blue-600 text-white px-6 py-3"
 import { useCls } from '@use-pico/cls/react';
 
 function MyButton({ size = "md" }) {
-  const slots = useCls(Button, ({ what }) => ({
+  const slots = useCls(ButtonCls, ({ what }) => ({
     variant: what.variant({ size })
   }));
   
@@ -69,7 +72,7 @@ yarn add @use-pico/cls
 
 ### Simple Component
 ```typescript
-const Card = cls(
+const CardCls = cls(
   {
     tokens: ["color.bg", "color.text"],
     slot: ["root", "title", "content"],
@@ -90,7 +93,10 @@ const Card = cls(
         what.variant({ theme: "dark" }),
         { root: what.token(["color.bg.dark", "color.text.dark"]) }
       )
-    ]
+    ],
+    defaults: def.defaults({
+      theme: "light"
+    })
   })
 );
 ```
@@ -101,7 +107,7 @@ import { cls } from '@use-pico/cls';
 import { useCls } from '@use-pico/cls/react';
 
 const MyComponent = ({ theme = "light" }) => {
-  const slots = useCls(Card, ({ what }) => ({
+  const slots = useCls(CardCls, ({ what }) => ({
     variant: what.variant({ theme })
   }));
 
@@ -121,7 +127,7 @@ const MyComponent = ({ theme = "light" }) => {
 ### Type-Safe Variants
 ```typescript
 // TypeScript ensures only valid variants are used
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ 
     size: "lg",        // ✅ Valid
     // size: "xl"      // ❌ TypeScript error
@@ -131,7 +137,7 @@ const slots = Button.create(({ what }) => ({
 
 ### Token Inheritance
 ```typescript
-const PrimaryButton = Button.extend(
+const PrimaryButtonCls = ButtonCls.extend(
   {
     tokens: ["color.bg.primary"],
     slot: ["root"],
@@ -147,7 +153,7 @@ const PrimaryButton = Button.extend(
 
 ### Runtime Overrides
 ```typescript
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ size: "lg" }),
   token: {
     "color.bg.primary": what.css(["bg-indigo-600"]) // Runtime override
@@ -414,7 +420,7 @@ Creates a cls instance for component styling with tokens, slots, and variants.
 **Example:**
 ```typescript
 // Basic button with variants
-const Button = cls(
+const ButtonCls = cls(
   {
     tokens: ["color.text.default", "color.text.primary", "color.bg.default", "color.bg.primary"],
     slot: ["root", "label"],
@@ -550,7 +556,7 @@ The `what.variant()` helper is **crucial for type safety** - it ensures you only
 
 ```typescript
 // ✅ Type-safe variant usage
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ 
     size: "lg",        // ✅ Valid: "lg" is in ["sm", "md", "lg"]
     variant: "primary" // ✅ Valid: "primary" is in ["default", "primary"]
@@ -558,7 +564,7 @@ const slots = Button.create(({ what }) => ({
 }));
 
 // ❌ TypeScript will catch invalid variants
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ 
     size: "xl",        // ❌ Error: "xl" is not in ["sm", "md", "lg"]
     variant: "invalid" // ❌ Error: "invalid" is not in ["default", "primary"]
@@ -576,7 +582,7 @@ const slots = Button.create(({ what }) => ({
 
 **Real-World Example:**
 ```typescript
-const Button = cls(
+const ButtonCls = cls(
   {
     tokens: ["color.text.primary", "color.bg.primary", "spacing.padding.md"],
     slot: ["root", "icon", "label"],
@@ -609,7 +615,11 @@ const Button = cls(
           root: what.css(["px-6", "py-3"]) // Pure CSS for size-specific styling
         }
       )
-    ]
+    ],
+    defaults: def.defaults({
+      size: "md",
+      variant: "default"
+    })
   })
 );
 ```
@@ -709,7 +719,7 @@ what.slot(slot)             // Slot configurations
 #### Complete Example: Def vs Override in Action
 
 ```typescript
-const Button = cls(
+const ButtonCls = cls(
   {
     tokens: ["color.text", "color.bg"],
     slot: ["root", "label"],
@@ -851,7 +861,7 @@ token: {
 **Runtime Token Overrides**
 ```typescript
 // Override specific tokens at creation time
-const buttonClasses = Button.create(({ what }) => ({
+const buttonClasses = ButtonCls.create(({ what }) => ({
   token: {
     "color.text.primary": what.css(["text-blue-600"]) // Override only primary text
     // Other tokens remain unchanged
@@ -960,7 +970,10 @@ const ButtonWithTokens = cls(
           root: what.token(["button.primary"])
         }
       )
-    ]
+    ],
+    defaults: def.defaults({
+      variant: "default"
+    })
   })
 );
 
@@ -1155,17 +1168,17 @@ Generates styled instances with optional overrides. Both parameters are **callba
 **Example:**
 ```typescript
 // Basic usage with variants
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // Using what.variant() for type-safe variant values
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With slot overrides using what utility
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
   slot: {
     icon: what.css(["mr-2", "animate-spin"]),
@@ -1174,21 +1187,21 @@ const slots = Button.create(({ what }) => ({
 }));
 
 // With token overrides
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   token: {
     "color.text.primary": what.css(["text-blue-600"])
   }
 }));
 
 // With hard overrides
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"])
   }
 }));
 
 // Combined user and internal configs
-const slots = Button.create(
+const slots = ButtonCls.create(
   ({ what }) => ({
     variant: what.variant({ variant: "primary" })
   }),
@@ -1240,7 +1253,10 @@ const IconCls = cls(
         what.variant({ size: "lg" }),
         { root: what.css(["w-6", "h-6"]) } // Size-specific styling
       )
-    ]
+    ],
+    defaults: def.defaults({
+      size: "md"
+    })
   })
 );
 
@@ -1278,7 +1294,7 @@ function Icon({ icon, cls, ...props }) {
 **Slot Configuration (Append Mode):**
 ```typescript
 // ✅ Adds to existing styles
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   slot: {
     root: what.css(["mr-2", "animate-spin"]) // Appends to existing root styles
   }
@@ -1289,7 +1305,7 @@ const slots = Button.create(({ what }) => ({
 **Override Configuration (Replace Mode):**
 ```typescript
 // ✅ Replaces all previous styles
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"]) // Replaces all root styles
   }
@@ -1330,7 +1346,7 @@ Creates new cls instances with additional functionality, inheriting from a paren
 
 **Example:**
 ```typescript
-const PrimaryButton = Button.extend(
+const PrimaryButtonCls = ButtonCls.extend(
   {
     tokens: ["color.text.default", "color.text.primary", "color.text.secondary", "color.bg.default", "color.bg.primary", "color.bg.secondary"],
     slot: ["root", "label", "icon"],
@@ -1389,8 +1405,8 @@ Provides type-safe assignment of compatible cls instances.
 
 **Example:**
 ```typescript
-const ButtonGroup = Button.use(PrimaryButton);
-// ButtonGroup now has access to PrimaryButton's extended functionality
+const ButtonGroupCls = ButtonCls.use(PrimaryButtonCls);
+// ButtonGroupCls now has access to PrimaryButtonCls's extended functionality
 ```
 
 ---
@@ -1634,12 +1650,12 @@ type DefaultDefinition<TContract> = VariantValueMapping<TContract>;
 **Basic Usage:**
 ```typescript
 // With variants only
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With slot overrides
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary" }),
   slot: {
     root: what.css(["mr-2", "animate-spin"]),
@@ -1648,19 +1664,19 @@ const slots = Button.create(({ what }) => ({
 }));
 
 // Using what.variant() for type-safe variant values
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ variant: "primary", size: "lg" })
 }));
 
 // With token overrides
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   token: {
     "color.text.primary": what.css(["text-blue-600"])
   }
 }));
 
 // With hard overrides
-const slots = Button.create(({ what }) => ({
+const slots = ButtonCls.create(({ what }) => ({
   override: {
     root: what.css(["bg-red-500", "text-white"])
   }
@@ -1669,7 +1685,7 @@ const slots = Button.create(({ what }) => ({
 
 **Combined User and Internal Configs:**
 ```typescript
-const slots = Button.create(
+const slots = ButtonCls.create(
   ({ what }) => ({
     variant: what.variant({ variant: "primary" })
   }),
@@ -1748,7 +1764,7 @@ Contracts can inherit from parent contracts, creating a hierarchy:
 const BaseButton = cls(baseContract, baseDefinitionFn);
 
 // Extended contract
-const ExtendedButton = BaseButton.extend(childContract, childDefinitionFn);
+const ExtendedButton = BaseButtonCls.extend(childContract, childDefinitionFn);
 ```
 
 **Inheritance Behavior:**
@@ -1792,7 +1808,7 @@ const BaseButton = cls(
 );
 
 // Extended component
-const PrimaryButton = BaseButton.extend(
+const PrimaryButtonCls = BaseButtonCls.extend(
   {
     tokens: ["color.bg.default"], // Same token declared - TypeScript enforces implementation
     slot: ["root"],
@@ -1807,15 +1823,15 @@ const PrimaryButton = BaseButton.extend(
   })
 );
 
-// Result: PrimaryButton uses "bg-blue-600", not "bg-gray-100"
-const instance = PrimaryButton.create();
+// Result: PrimaryButtonCls uses "bg-blue-600", not "bg-gray-100"
+const instance = PrimaryButtonCls.create();
 console.log(instance.root()); // "bg-blue-600"
 ```
 
 **Type System Enforcement:**
 ```typescript
 // ❌ This would cause a TypeScript error
-const PrimaryButton = BaseButton.extend(
+const PrimaryButtonCls = BaseButtonCls.extend(
   {
     tokens: ["color.bg.default"], // Declared but not implemented
     slot: ["root"],
