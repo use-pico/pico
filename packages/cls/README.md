@@ -44,6 +44,7 @@ const ButtonCls = cls(
     token: def.token({
       /**
        * Here you can refer css classes or even other tokens defined in inheritance chain.
+       * Note: Token inheritance is replacement-based, not accumulation-based.
        */
       "color.bg.primary": what.css(["bg-blue-600"]),
       "color.text.primary": what.css(["text-white"])
@@ -691,7 +692,7 @@ const ButtonCls = cls(
 
 ### 5.2 Definition Callback <a id="52-definition-callback"></a>
 
-The definition function receives a `WhatUtil` object with three main interfaces that serve different purposes:
+The definition function receives a `Props` object with three main interfaces that serve different purposes:
 
 ```typescript
 ({ what, override, def }) => ({ ... })
@@ -769,7 +770,6 @@ def.defaults(defaultValues)                      // Default variant values
 ```typescript
 override.root(slotConfig, override = true)       // Default slot with override=true
 override.rule(match, slotConfig, override = true) // Conditional rule with override=true
-override.token(partialTokens)                    // Partial token overrides
 ```
 
 **`what` - Styling Helpers**
@@ -778,7 +778,6 @@ what.css(classes)           // CSS classes only
 what.token(tokens)          // Token references only
 what.both(classes, tokens)  // Both classes and tokens
 what.variant(variant)       // Type-safe variant values
-what.slot(slot)             // Slot configurations
 ```
 
 #### Complete Example: Def vs Override in Action
@@ -850,15 +849,20 @@ Tokens are the **foundation of your design system** - they represent reusable de
 #### Token Structure
 
 ```typescript
-// Token naming: group.variant
-// In contract: flat array of token names
+/**
+ * Tokens can have arbitrary names, just keep in mind if you want to use them in root Theme,
+ * they should at least have some semantic name to prevent accidental collisions (overrides)
+ */
 tokens: [
   "color.text.default", "color.text.primary", "color.text.secondary",
   "color.bg.default", "color.bg.primary", "color.bg.secondary",
   "spacing.padding.sm", "spacing.padding.md", "spacing.padding.lg"
 ]
 
-// In definition: each token gets a What<T> object
+/**
+ * In definition each token gets concrete class names/tokens values
+ * (thus what the token will get resolved to)
+ */
 token: {
   "color.text.default": what.css(["text-gray-900"]),
   "color.text.primary": what.css(["text-white"]),
