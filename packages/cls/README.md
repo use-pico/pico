@@ -136,6 +136,10 @@ const CardCls = cls(
     }),
     rules: [
       def.root({
+        /**
+         * When "both" is used, class names takes precedence over tokens when there are
+         * conflicting styles (e.g. px-4 from token and px-2 from class name -> result is px-2)
+         */
         root: what.both(["rounded-lg", "shadow-md"], ["color.bg.light"]),
         title: what.css(["text-xl", "font-bold"]),
         content: what.css(["p-4"])
@@ -152,7 +156,10 @@ const CardCls = cls(
 );
 ```
 
-### With React
+### Simple React Component
+
+> **Note**: Keep in mind this is the most simple way (and basically not recommended) how CLS can be used in React
+
 ```tsx
 import { cls } from '@use-pico/cls';
 import { useCls } from '@use-pico/cls/react';
