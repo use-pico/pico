@@ -15,9 +15,26 @@ const ButtonCls = cls(
    * Contract definition - defines structure (tokens, slots, variants)
    */
   {
+    /**
+     * Define tokens forced in definition later on, regardless if they were defined in parent
+     */
     tokens: ["color.bg.primary", "color.text.primary"],
+    /**
+     * Slot definitions are the individual slots available in your component to use
+     * For simple components "root" is enough, for complex ones there may be more slots
+     * 
+     * Slots are only defined, but they're not enforced to be used; one trick this allows
+     * is to create an empty slot, which can be overridden in runtime (e.g. you explicitly
+     * allow users to put styles in individual part of your component)
+     */
     slot: ["root"],
-    variant: { size: ["sm", "md", "lg"] }
+    /**
+     * Define individual variants: key is variant name, values defines available variant values
+     * with exception of "bool" which converts value to literal bool
+     */
+    variant: { 
+      size: ["sm", "md", "lg"] 
+    }
   },
   ({ what, def }) => ({
     /**
