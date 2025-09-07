@@ -15,10 +15,10 @@
 		"@tanstack/react-query": "5.87.1",
 		"@tanstack/react-router": "1.131.35",
 		"@tanstack/zod-adapter": "^1.129.7",
-		"@use-pico/client": "5.0.45",
-		"@use-pico/cls": "5.0.22",
-		"@use-pico/common": "5.0.26",
-		"@use-pico/server": "5.0.26",
+		"@use-pico/client": "5.0.46",
+		"@use-pico/cls": "5.0.23",
+		"@use-pico/common": "5.0.27",
+		"@use-pico/server": "5.0.27",
 		"fuse.js": "7.1.0",
 		"kysely": "0.28.5",
 		"react": "^19.1.1",
@@ -27,7 +27,7 @@
 		"zod": "4.1.5"
 	},
 	"devDependencies": {
-		"@iconify/json": "2.2.381",
+		"@iconify/json": "2.2.382",
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.13",
