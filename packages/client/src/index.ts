@@ -37,7 +37,6 @@ export { ExportButton } from "./export/ExportButton";
 export { Float } from "./float/Float";
 export { FloatCls } from "./float/FloatCls";
 export { FloatContext } from "./float/FloatContext";
-export { Flow } from "./flow/Flow";
 export type { Form } from "./form/Form";
 export { FormCls } from "./form/FormCls";
 export { FormError } from "./form/FormError";
