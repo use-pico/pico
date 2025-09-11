@@ -50,6 +50,9 @@ export namespace Action {
 		iconProps?: Icon.PropsEx;
 		/** Size variant of the action (inherits from ActionCls size variants) */
 		size?: Cls.VariantOf<ActionCls, "size">;
+		tone?: Cls.VariantOf<ActionCls, "tone">;
+		theme?: Cls.VariantOf<ActionCls, "theme">;
+		border?: boolean;
 		/**
 		 * Controls loading state of an action.
 		 * When true, displays the loading icon and prevents click events.
@@ -69,6 +72,9 @@ const BaseAction: FC<Action.Props> = ({
 	iconLoading = SpinnerIcon,
 	iconProps,
 	size = "sm",
+	tone,
+	theme,
+	border,
 	disabled = false,
 	loading = false,
 	onClick,
@@ -81,6 +87,9 @@ const BaseAction: FC<Action.Props> = ({
 			disabled,
 			loading,
 			size,
+			tone,
+			theme,
+			border,
 		}),
 	}));
 

@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/cls",
 	"description": "Type-safe, composable styling system for React, Vue, Svelte, and vanilla JS",
-	"version": "5.0.26",
+	"version": "5.0.27",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {

@@ -7,7 +7,7 @@ import { StatusCls } from "./StatusCls";
 export namespace Status {
 	export interface Props extends StatusCls.Props<PropsWithChildren> {
 		textTitle: ReactNode;
-		textMessage: ReactNode;
+		textMessage?: ReactNode;
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;

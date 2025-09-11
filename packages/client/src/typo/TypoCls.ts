@@ -294,10 +294,10 @@ export const TypoCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			size: "md",
-			font: "normal",
+			size: "inherit",
+			font: "inherit",
 			tone: "inherit",
-			theme: "light",
+			theme: "inherit",
 			italic: false,
 		}),
 	}),
