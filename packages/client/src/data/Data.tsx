@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { match } from "ts-pattern";
 import { ErrorIcon } from "../icon/ErrorIcon";
 import { Icon } from "../icon/Icon";
-import { LoaderIcon } from "../icon/LoaderIcon";
+import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
 
@@ -62,24 +62,32 @@ export const Data = <
 	result,
 	renderSuccess,
 	renderLoading = () => (
-		<Icon
-			icon={LoaderIcon}
-			size="xl"
-		/>
+		<div className="grid place-content-center">
+			<Icon
+				icon={SpinnerIcon}
+				size="xl"
+				tone={"secondary"}
+			/>
+		</div>
 	),
 	renderFetching = () => (
-		<Icon
-			icon={LoaderIcon}
-			size="xl"
-		/>
+		<div className="grid place-content-center">
+			<Icon
+				icon={SpinnerIcon}
+				size="xl"
+				tone={"secondary"}
+			/>
+		</div>
 	),
 	renderError = () => (
-		<Status
-			icon={ErrorIcon}
-			tone={"danger"}
-			textTitle={<Tx label={"Invalid data provided (title)"} />}
-			textMessage={<Tx label={"Invalid data provided (message)"} />}
-		/>
+		<div className="grid place-content-center">
+			<Status
+				icon={ErrorIcon}
+				tone={"danger"}
+				textTitle={<Tx label={"Invalid data provided (title)"} />}
+				textMessage={<Tx label={"Invalid data provided (message)"} />}
+			/>
+		</div>
 	),
 	children = ({ content }) => content,
 }: Data.Props<TData, TResult>) => {

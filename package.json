@@ -7,7 +7,7 @@
 		"translations": "turbo run translations --no-daemon",
 		"test": "turbo run test --no-daemon",
 		"format": "biome format --write .",
-		"lint": "biome check .",
+		"lint": "biome check --write .",
 		"typecheck": "turbo run typecheck --no-daemon",
 		"test:types": "turbo run test:types --no-daemon",
 		"changeset:changeset": "changeset",
@@ -23,8 +23,8 @@
 		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.3",
-		"@changesets/cli": "2.29.6",
+		"@biomejs/biome": "2.2.4",
+		"@changesets/cli": "2.29.7",
 		"npm-run-all2": "8.0.4",
 		"syncpack": "13.0.4",
 		"turbo": "2.5.6",

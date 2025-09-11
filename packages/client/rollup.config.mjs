@@ -35,7 +35,6 @@ export default [
 					"@lexical/react/LexicalRichTextPlugin",
 					"@lexical/react/LexicalTabIndentationPlugin",
 					"react/jsx-runtime",
-					"sqlocal/kysely",
 				],
 			}),
 			typescript({

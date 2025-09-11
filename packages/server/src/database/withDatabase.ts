@@ -1,6 +1,5 @@
 import type { Database } from "@use-pico/common";
-import { Kysely, type MigrationProvider, Migrator } from "kysely";
-import { SQLocalKysely } from "sqlocal/kysely";
+import { type Dialect, Kysely, type MigrationProvider, Migrator } from "kysely";
 
 export namespace withDatabase {
 	export namespace Props {
@@ -17,26 +16,16 @@ export namespace withDatabase {
 
 	export interface Props<TDatabase>
 		extends Partial<Pick<MigrationProvider, "getMigrations">> {
-		database: string;
+		dialect: Dialect;
 		bootstrap: Props.bootstrap.Callback<TDatabase>;
 	}
 }
 
 export const withDatabase = <TDatabase>({
-	database,
+	dialect,
 	getMigrations = async () => ({}),
 	bootstrap,
 }: withDatabase.Props<TDatabase>): Database.Instance<TDatabase> => {
-	const { dialect } = new SQLocalKysely({
-		databasePath: `${database}.sqlite3`,
-		onInit(sql: any) {
-			return [
-				sql`PRAGMA foreign_keys = ON;`,
-				sql`PRAGMA journal_mode = WAL;`,
-			];
-		},
-	});
-
 	const kysely = new Kysely<TDatabase>({
 		dialect,
 		log: [

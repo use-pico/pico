@@ -49,6 +49,7 @@ export const BadgeCls = PicoCls.extend(
 						"select-none",
 						"text-sm",
 						"rounded-full",
+						"w-fit",
 					],
 					[
 						"border.default",

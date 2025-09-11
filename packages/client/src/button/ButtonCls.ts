@@ -35,6 +35,14 @@ export const ButtonCls = PicoCls.extend(
 			border: [
 				"bool",
 			],
+			round: [
+				"default",
+				"sm",
+				"md",
+				"lg",
+				"xl",
+				"full",
+			],
 		},
 	},
 	({ what, def }) => ({
@@ -57,7 +65,6 @@ export const ButtonCls = PicoCls.extend(
 					[
 						"scale.default",
 						"border.default",
-						"round.default",
 						"shadow.default",
 					],
 				),
@@ -301,6 +308,69 @@ export const ButtonCls = PicoCls.extend(
 					]),
 				},
 			),
+			/**
+			 * Round rules
+			 */
+			def.rule(
+				what.variant({
+					round: "default",
+				}),
+				{
+					root: what.token([
+						"round.default",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "sm",
+				}),
+				{
+					root: what.token([
+						"round.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "md",
+				}),
+				{
+					root: what.token([
+						"round.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "lg",
+				}),
+				{
+					root: what.token([
+						"round.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "xl",
+				}),
+				{
+					root: what.token([
+						"round.xl",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "full",
+				}),
+				{
+					root: what.token([
+						"round.full",
+					]),
+				},
+			),
 		],
 		defaults: def.defaults({
 			tone: "primary",
@@ -308,6 +378,7 @@ export const ButtonCls = PicoCls.extend(
 			disabled: false,
 			size: "md",
 			border: true,
+			round: "default",
 		}),
 	}),
 );

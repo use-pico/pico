@@ -340,7 +340,9 @@ export const PicoCls = cls(
 			 */
 			"disabled",
 		],
-		slot: [],
+		slot: [
+			"default",
+		],
 		variant: {},
 	},
 	({ def, what }) => ({

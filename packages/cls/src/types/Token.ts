@@ -34,11 +34,9 @@ export namespace Token {
 	/**
 	 * Optional token definitions for inherited tokens
 	 */
-	export type Optional<TContract extends Contract.Any> = Partial<
-		TContract["tokens"][number] extends never
-			? Record<string, never>
-			: { [K in Raw<TContract>]: What.Any<TContract> }
-	>;
+	export type Optional<TContract extends Contract.Any> = Partial<{
+		[K in Raw<TContract>]: What.Any<TContract>;
+	}>;
 
 	export type RequiredFn<TContract extends Contract.Any> = (
 		token: Token.Required<TContract>,

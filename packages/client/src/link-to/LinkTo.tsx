@@ -1,5 +1,5 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { useCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import { type ComponentProps, forwardRef, type PropsWithChildren } from "react";
 import { Icon } from "../icon/Icon";
 import { LinkToCls } from "./LinkToCls";
@@ -7,11 +7,30 @@ import { LinkToCls } from "./LinkToCls";
 interface BaseLinkToProps extends LinkToCls.Props<PropsWithChildren> {
 	icon?: Icon.Type;
 	iconProps?: Icon.PropsEx;
+	tone?: Cls.VariantOf<LinkToCls, "tone">;
+	theme?: Cls.VariantOf<LinkToCls, "theme">;
 }
 
 const BaseLinkTo = forwardRef<HTMLAnchorElement, BaseLinkToProps>(
-	({ icon, iconProps, cls = LinkToCls, tweak, children, ...props }, ref) => {
-		const slots = useCls(cls, tweak);
+	(
+		{
+			icon,
+			iconProps,
+			tone,
+			theme,
+			cls = LinkToCls,
+			tweak,
+			children,
+			...props
+		},
+		ref,
+	) => {
+		const slots = useCls(cls, tweak, ({ what }) => ({
+			variant: what.variant({
+				tone,
+				theme,
+			}),
+		}));
 
 		return (
 			<a

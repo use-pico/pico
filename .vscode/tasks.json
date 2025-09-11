@@ -108,6 +108,24 @@
 				"showReuseMessage": true,
 				"clear": true
 			}
+		},
+		{
+			"type": "shell",
+			"command": "bun run format",
+			"problemMatcher": [],
+			"label": "format",
+			"detail": "Format the project.",
+			"runOptions": {
+				"instanceLimit": 1
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"close": true
+			}
 		}
 	]
 }

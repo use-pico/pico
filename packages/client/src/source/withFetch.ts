@@ -10,7 +10,7 @@ export namespace withFetch {
 			TFilter extends FilterSchema.Type,
 		> {
 			select: TSelect;
-			where?: TFilter;
+			where?: TFilter | null;
 		}
 	}
 
@@ -24,8 +24,8 @@ export namespace withFetch {
 
 		output: EnsureOutput<TSelect, TOutputSchema>;
 
-		filter?: TFilter;
-		where?: TFilter;
+		filter?: TFilter | null;
+		where?: TFilter | null;
 	}
 
 	export type Callback<
