@@ -19,10 +19,10 @@ export namespace Typo {
 
 export const BaseTypo: FC<Typo.Props> = ({
 	label,
-	size = "inherit",
-	font = "inherit",
-	tone = "inherit",
-	theme = "inherit",
+	size,
+	font,
+	tone,
+	theme,
 	italic = false,
 	cls = TypoCls,
 	tweak,

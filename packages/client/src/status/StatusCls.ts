@@ -7,7 +7,6 @@ export const StatusCls = PicoCls.extend(
 		slot: [
 			"root",
 			"title",
-			"message",
 			"body",
 		],
 		variant: {
@@ -33,23 +32,14 @@ export const StatusCls = PicoCls.extend(
 					"flex-col",
 					"items-center",
 					"justify-center",
+					"gap-2",
 				]),
 				title: what.css([
-					"w-full",
-					"text-center",
-				]),
-				message: what.both(
-					[
-						"w-full",
-						"text-center",
-					],
-					[
-						"tone.neutral.light.text",
-					],
-				),
-				body: what.css([
-					"pt-2",
-					"w-full",
+					"flex",
+					"flex-col",
+					"gap-1",
+					"items-center",
+					"justify-center",
 				]),
 			}),
 			/**

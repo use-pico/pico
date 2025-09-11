@@ -12,7 +12,6 @@ export namespace Status {
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;
 		messageProps?: Typo.PropsEx;
-		bodyProps?: Typo.PropsEx;
 		tone?: Cls.VariantOf<StatusCls, "tone">;
 	}
 }
@@ -24,7 +23,6 @@ export const BaseStatus: FC<Status.Props> = ({
 	iconProps,
 	titleProps,
 	messageProps,
-	bodyProps,
 	tone = "inherit",
 	cls = StatusCls,
 	tweak,
@@ -38,36 +36,36 @@ export const BaseStatus: FC<Status.Props> = ({
 
 	return (
 		<div className={slots.root()}>
-			<Icon
-				icon={icon}
-				size="xl"
-				tone={variants.tone}
-				tweak={({ what }) => ({
-					slot: what.slot({
-						root: what.css([
-							"opacity-50",
-						]),
-					}),
-				})}
-				{...iconProps}
-			/>
+			<div className={slots.title()}>
+				<Icon
+					icon={icon}
+					size="xl"
+					tone={variants.tone}
+					tweak={({ what }) => ({
+						slot: what.slot({
+							root: what.css([
+								"opacity-50",
+							]),
+						}),
+					})}
+					{...iconProps}
+				/>
 
-			<Typo
-				label={textTitle}
-				size="xl"
-				font="bold"
-				tone={variants.tone}
-				{...titleProps}
-			/>
-			<Typo
-				label={textMessage}
-				tone={variants.tone}
-				{...messageProps}
-			/>
-			<Typo
-				label={children}
-				{...bodyProps}
-			/>
+				<Typo
+					label={textTitle}
+					size="xl"
+					font="bold"
+					tone={variants.tone}
+					{...titleProps}
+				/>
+				<Typo
+					label={textMessage}
+					tone={variants.tone}
+					{...messageProps}
+				/>
+			</div>
+
+			<div className={slots.body()}>{children}</div>
 		</div>
 	);
 };
