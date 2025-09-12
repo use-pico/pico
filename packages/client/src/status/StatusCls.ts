@@ -40,6 +40,7 @@ export const StatusCls = PicoCls.extend(
 					"gap-1",
 					"items-center",
 					"justify-center",
+					"text-center",
 				]),
 			}),
 			/**
