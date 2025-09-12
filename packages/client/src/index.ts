@@ -51,6 +51,7 @@ export { useStableCallback } from "./hooks/useStableCallback";
 export { useStableMemo } from "./hooks/useStableMemo";
 export { ActionMenuIcon } from "./icon/ActionMenuIcon";
 export { ArrowDownIcon } from "./icon/ArrowDownIcon";
+export { ArrowLeftIcon } from "./icon/ArrowLeftIcon";
 export { ArrowRightIcon } from "./icon/ArrowRightIcon";
 export { ArrowUpIcon } from "./icon/ArrowUpIcon";
 export { AscIcon } from "./icon/AscIcon";

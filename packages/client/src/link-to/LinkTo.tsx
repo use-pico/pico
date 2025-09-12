@@ -1,10 +1,15 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
 import { type Cls, useCls } from "@use-pico/cls";
-import { type ComponentProps, forwardRef, type PropsWithChildren } from "react";
+import {
+	type AnchorHTMLAttributes,
+	type ComponentProps,
+	forwardRef,
+} from "react";
 import { Icon } from "../icon/Icon";
 import { LinkToCls } from "./LinkToCls";
 
-interface BaseLinkToProps extends LinkToCls.Props<PropsWithChildren> {
+interface BaseLinkToProps
+	extends LinkToCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
 	icon?: Icon.Type;
 	iconProps?: Icon.PropsEx;
 	tone?: Cls.VariantOf<LinkToCls, "tone">;
