@@ -5,7 +5,7 @@ export const TabPaneCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			hidden: [
@@ -17,14 +17,16 @@ export const TabPaneCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([]),
+				root: what.css([
+					"TabPane-root",
+				]),
 			}),
 			def.rule(
 				what.variant({
 					hidden: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"hidden",
 					]),
 				},

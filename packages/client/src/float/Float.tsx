@@ -114,6 +114,7 @@ export const Float: FC<Float.Props> = ({
 						<div
 							ref={refs.setFloating}
 							style={floatingStyles}
+							data-ui="Float-portal"
 							className={slots.portal()}
 							{...getFloatingProps()}
 							onClick={
@@ -142,6 +143,7 @@ export const Float: FC<Float.Props> = ({
 							...floatingStyles,
 							...styles,
 						}}
+						data-ui="Float-portal"
 						className={slots.portal()}
 						{...getFloatingProps()}
 						onClick={

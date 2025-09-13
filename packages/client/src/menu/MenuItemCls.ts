@@ -28,6 +28,7 @@ export const MenuItemCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"MenuItem-root",
 						"inline-flex",
 						"flex-row",
 						"gap-2",
@@ -47,6 +48,7 @@ export const MenuItemCls = PicoCls.extend(
 				),
 				items: what.both(
 					[
+						"MenuItem-items",
 						"flex",
 						"flex-col",
 						"gap-2",

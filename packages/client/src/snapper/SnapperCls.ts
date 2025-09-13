@@ -14,6 +14,7 @@ export const SnapperCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Snapper-root",
 					"relative",
 					"min-h-0",
 					"min-w-0",

@@ -15,6 +15,7 @@ export const DetailCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Detail-root",
 						"flex",
 						"flex-row",
 						"flex-wrap",

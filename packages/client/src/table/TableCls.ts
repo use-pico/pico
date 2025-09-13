@@ -26,21 +26,25 @@ export const TableCls = AbstractListCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Table-root",
 					"min-w-full",
 					"flex",
 					"flex-col",
 					"gap-2",
 				]),
 				body: what.css([
+					"Table-body",
 					"overflow-x-auto",
 				]),
 				items: what.css([
+					"Table-items",
 					"relative",
 					"w-fit",
 					"min-w-full",
 				]),
 				header: what.both(
 					[
+						"Table-header",
 						"grid",
 						"border-t",
 						"border-b",
@@ -54,6 +58,7 @@ export const TableCls = AbstractListCls.extend(
 					],
 				),
 				headerCell: what.css([
+					"Table-headerCell",
 					"flex",
 					"flex-row",
 					"items-center",
@@ -66,6 +71,7 @@ export const TableCls = AbstractListCls.extend(
 				]),
 				row: what.both(
 					[
+						"Table-row",
 						"grid",
 						"border-b",
 						"transition-all",
@@ -85,6 +91,7 @@ export const TableCls = AbstractListCls.extend(
 					],
 				),
 				cell: what.css([
+					"Table-cell",
 					"flex",
 					"flex-row",
 					"items-center",
@@ -95,9 +102,12 @@ export const TableCls = AbstractListCls.extend(
 					"truncate",
 					"group",
 				]),
-				footer: what.css([]),
+				footer: what.css([
+					"Table-footer",
+				]),
 				select: what.both(
 					[
+						"Table-select",
 						"cursor-pointer",
 						"transition-colors",
 						"duration-150",

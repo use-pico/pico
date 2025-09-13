@@ -41,6 +41,7 @@ export const BadgeCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Badge-root",
 						"flex-row",
 						"flex",
 						"font-bold",

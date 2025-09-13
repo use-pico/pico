@@ -516,7 +516,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								)}
 								tweak={({ what }) => ({
 									slot: what.slot({
-										base: what.css([
+										root: what.css([
 											"bg-blue-50",
 											"border-blue-200",
 											"border-2",
@@ -536,7 +536,7 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								)}
 								tweak={({ what }) => ({
 									slot: what.slot({
-										base: what.css([
+										root: what.css([
 											"p-1",
 											"gap-1",
 										]),

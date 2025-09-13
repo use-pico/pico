@@ -16,12 +16,14 @@ export const AppLayoutCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"AppLayout-root",
 					"min-h-screen",
 					"flex",
 					"flex-col",
 				]),
 				header: what.both(
 					[
+						"AppLayout-header",
 						"flex",
 						"flex-row",
 						"items-center",
@@ -38,6 +40,7 @@ export const AppLayoutCls = PicoCls.extend(
 				),
 				content: what.both(
 					[
+						"AppLayout-content",
 						"grow",
 						"h-full",
 						"border-b",

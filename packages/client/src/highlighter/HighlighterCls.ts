@@ -15,6 +15,7 @@ export const HighlighterCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Highlighter-root",
 					"fixed",
 					"inset-0",
 					"pointer-events-auto",
@@ -23,6 +24,7 @@ export const HighlighterCls = PicoCls.extend(
 				]),
 				hole: what.both(
 					[
+						"Highlighter-hole",
 						"fixed",
 						"ring-2",
 						"ring-white/90",

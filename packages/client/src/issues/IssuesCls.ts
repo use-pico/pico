@@ -21,6 +21,7 @@ export const IssuesCls = PicoCls.extend(
 			def.root({
 				item: what.both(
 					[
+						"Issues-item",
 						"text-md",
 					],
 					[

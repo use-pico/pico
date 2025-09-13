@@ -27,6 +27,7 @@ export const StatusCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Status-root",
 					"w-full",
 					"flex",
 					"flex-col",
@@ -35,12 +36,16 @@ export const StatusCls = PicoCls.extend(
 					"gap-2",
 				]),
 				title: what.css([
+					"Status-title",
 					"flex",
 					"flex-col",
 					"gap-1",
 					"items-center",
 					"justify-center",
 					"text-center",
+				]),
+				body: what.css([
+					"Status-body",
 				]),
 			}),
 			/**

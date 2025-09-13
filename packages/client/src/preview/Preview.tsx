@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { PreviewCls } from "./PreviewCls";
 
@@ -11,6 +11,7 @@ export namespace Preview {
 
 	export interface Props<TValues extends Record<string, any>>
 		extends PreviewCls.Props<Entity.Type<TValues>> {
+		ref?: Ref<HTMLDivElement>;
 		/**
 		 * Title section (left-top)
 		 */
@@ -33,6 +34,7 @@ export namespace Preview {
 }
 
 export const Preview = <TValues extends Record<string, any>>({
+	ref,
 	entity,
 	title: Title,
 	links: Links,
@@ -49,28 +51,53 @@ export const Preview = <TValues extends Record<string, any>>({
 				inline: true,
 			}}
 		>
-			<div className={slots.base()}>
+			<div
+				data-ui="Preview-root"
+				ref={ref}
+				className={slots.root()}
+			>
 				{Title || Links ? (
-					<div className={slots.container()}>
-						<div className={slots.title()}>
+					<div
+						data-ui="Preview-container"
+						className={slots.container()}
+					>
+						<div
+							data-ui="Preview-title"
+							className={slots.title()}
+						>
 							{Title ? <Title entity={entity} /> : null}
 						</div>
-						<div className={slots.links()}>
+						<div
+							data-ui="Preview-links"
+							className={slots.links()}
+						>
 							{Links ? <Links entity={entity} /> : null}
 						</div>
 					</div>
 				) : null}
 
 				{(Title || Links) && (Actions || Extra) ? (
-					<div className={slots.divider()} />
+					<div
+						data-ui="Preview-divider"
+						className={slots.divider()}
+					/>
 				) : null}
 
 				{Actions || Extra ? (
-					<div className={slots.container()}>
-						<div className={slots.actions()}>
+					<div
+						data-ui="Preview-container"
+						className={slots.container()}
+					>
+						<div
+							data-ui="Preview-actions"
+							className={slots.actions()}
+						>
 							{Actions ? <Actions entity={entity} /> : null}
 						</div>
-						<div className={slots.extra()}>
+						<div
+							data-ui="Preview-extra"
+							className={slots.extra()}
+						>
 							{Extra ? <Extra entity={entity} /> : null}
 						</div>
 					</div>

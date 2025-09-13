@@ -126,6 +126,7 @@ export const AbstractListBody = <
 
 	return (
 		<motion.div
+			data-ui="AbstractList-body"
 			className={slots.body()}
 			layout
 			transition={LAYOUT_TRANS}
@@ -139,6 +140,7 @@ export const AbstractListBody = <
 			>
 				{isLoading && (
 					<motion.div
+						data-ui="AbstractList-loading"
 						key="loading"
 						variants={stateVariants}
 						initial="initial"
@@ -153,6 +155,7 @@ export const AbstractListBody = <
 
 				{isError && (
 					<motion.div
+						data-ui="AbstractList-error"
 						key="error"
 						variants={stateVariants}
 						initial="initial"
@@ -165,6 +168,7 @@ export const AbstractListBody = <
 
 				{isSuccess && data.length > 0 && (
 					<motion.div
+						data-ui="AbstractList-success"
 						key="success"
 						variants={stateVariants}
 						initial="initial"
@@ -174,6 +178,7 @@ export const AbstractListBody = <
 						transition={LAYOUT_TRANS}
 					>
 						<motion.div
+							data-ui="AbstractList-items"
 							className={slots.items()}
 							layout
 							transition={LAYOUT_TRANS}
@@ -182,6 +187,7 @@ export const AbstractListBody = <
 							}}
 						>
 							<motion.div
+								data-ui="AbstractList-header"
 								variants={headerVariants}
 								animate={isFetching ? "fetching" : "stable"}
 								layout
@@ -199,6 +205,7 @@ export const AbstractListBody = <
 							>
 								{data.map((item) => (
 									<motion.div
+										data-ui="AbstractList-$row"
 										key={item.id}
 										variants={rowVariants}
 										initial="initial"
@@ -217,6 +224,7 @@ export const AbstractListBody = <
 							</AnimatePresence>
 
 							<motion.div
+								data-ui="AbstractList-footer"
 								variants={headerVariants}
 								animate={isFetching ? "fetching" : "stable"}
 								layout
@@ -232,6 +240,7 @@ export const AbstractListBody = <
 				)}
 				{isSuccess && data?.length === 0 && (
 					<motion.div
+						data-ui="AbstractList-empty"
 						key="empty"
 						variants={stateVariants}
 						initial="initial"

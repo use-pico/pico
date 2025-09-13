@@ -26,6 +26,11 @@ export const TabPane: FC<TabPane.Props> = ({
 	}));
 
 	return hidden.includes(tab) ? null : (
-		<div className={slots.base()}>{children}</div>
+		<div
+			data-ui="TabPane-root"
+			className={slots.root()}
+		>
+			{children}
+		</div>
 	);
 };

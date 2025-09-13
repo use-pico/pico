@@ -1,5 +1,5 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import { type FC, useEffect, useState } from "react";
+import { type FC, type Ref, useEffect, useState } from "react";
 import { Icon } from "../icon/Icon";
 import { SnapperNavCls } from "./SnapperNavCls";
 import { useSnapper } from "./useSnapper";
@@ -12,6 +12,7 @@ export namespace SnapperNav {
 	}
 
 	export interface Props extends SnapperNavCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		pages: Page[];
 		initialIndex?: number;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
@@ -19,6 +20,7 @@ export namespace SnapperNav {
 }
 
 export const BaseSnapperNav: FC<SnapperNav.Props> = ({
+	ref,
 	pages,
 	align,
 	initialIndex = 0,
@@ -73,8 +75,15 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	]);
 
 	return (
-		<div className={slots.root()}>
-			<div className={slots.items()}>
+		<div
+			data-ui="SnapperNav-root"
+			ref={ref}
+			className={slots.root()}
+		>
+			<div
+				data-ui="SnapperNav-items"
+				className={slots.items()}
+			>
 				{pages.map(({ id, icon, iconProps }, i) => {
 					const isActive = i === active;
 					return (

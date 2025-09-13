@@ -26,10 +26,15 @@ export const ColorsCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				root: what.token([
-					"border.default",
-					"shadow.default",
-				]),
+				root: what.both(
+					[
+						"Colors-root",
+					],
+					[
+						"border.default",
+						"shadow.default",
+					],
+				),
 			}),
 			// Dark
 			def.rule(

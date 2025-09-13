@@ -5,7 +5,7 @@ export const ModalCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"target",
 			"modal",
 		],
@@ -27,8 +27,9 @@ export const ModalCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Modal-root",
 						"backdrop-blur-xs",
 						"flex",
 						"justify-center",
@@ -39,9 +40,12 @@ export const ModalCls = PicoCls.extend(
 						"focus.off",
 					],
 				),
-				target: what.css([]),
+				target: what.css([
+					"Modal-target",
+				]),
 				modal: what.both(
 					[
+						"Modal-modal",
 						"bg-white",
 						"shadow-lg",
 						"p-4",
@@ -62,7 +66,7 @@ export const ModalCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pointer-events-none",
 						"cursor-not-allowed",
 					]),
@@ -73,7 +77,7 @@ export const ModalCls = PicoCls.extend(
 					loading: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"pointer-events-none",
 						"opacity-50",
 					]),

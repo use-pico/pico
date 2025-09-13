@@ -6,13 +6,13 @@ export namespace Typo {
 	export type Value = ReactNode;
 
 	export interface Props extends TypoCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		label: Value;
 		size?: Cls.VariantOf<TypoCls, "size">;
 		font?: Cls.VariantOf<TypoCls, "font">;
 		tone?: Cls.VariantOf<TypoCls, "tone">;
 		theme?: Cls.VariantOf<TypoCls, "theme">;
 		italic?: boolean;
-		ref?: Ref<HTMLDivElement>;
 	}
 
 	export type PropsEx = Omit<Props, "label">;
@@ -41,6 +41,7 @@ export const BaseTypo: FC<Typo.Props> = ({
 
 	return (
 		<div
+			data-ui="Typo-root"
 			ref={ref}
 			className={slots.root()}
 		>

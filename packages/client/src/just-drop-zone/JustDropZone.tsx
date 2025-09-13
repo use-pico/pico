@@ -79,7 +79,8 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 	return (
 		<div
 			{...getRootProps()}
-			className={slots.base()}
+			data-ui="JustDropZone-root"
+			className={slots.root()}
 		>
 			{Children && isNonEmptyArray(files) ? (
 				<Children
@@ -90,9 +91,13 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			) : (
 				<label
 					htmlFor={id}
+					data-ui="JustDropZone-label"
 					className={slots.label()}
 				>
-					<div className={slots.zone()}>
+					<div
+						data-ui="JustDropZone-zone"
+						className={slots.zone()}
+					>
 						<Icon
 							icon={UploadIcon}
 							size="xl"

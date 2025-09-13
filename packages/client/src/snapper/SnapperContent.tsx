@@ -21,10 +21,16 @@ export const BaseSnapperContent: FC<SnapperContent.Props> = ({
 
 	return (
 		<div
+			data-ui="SnapperContent-;root"
 			ref={containerRef}
 			className={slots.root()}
 		>
-			<div className={slots.content()}>{children}</div>
+			<div
+				data-ui="SnapperContent-content"
+				className={slots.content()}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

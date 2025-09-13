@@ -5,7 +5,7 @@ export const ProgressCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"progress",
 		],
 		variant: {
@@ -33,8 +33,9 @@ export const ProgressCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Progress-root",
 						"h-full",
 						"w-full",
 						"transition-all",
@@ -47,6 +48,7 @@ export const ProgressCls = PicoCls.extend(
 				),
 				progress: what.both(
 					[
+						"Progress-progress",
 						"h-full",
 						"leading-none",
 						"transition-all",
@@ -62,7 +64,7 @@ export const ProgressCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"h-0.5",
 					]),
 				},
@@ -72,7 +74,7 @@ export const ProgressCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"h-1",
 					]),
 				},
@@ -82,7 +84,7 @@ export const ProgressCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"h-2",
 					]),
 				},
@@ -92,7 +94,7 @@ export const ProgressCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"h-4",
 					]),
 				},

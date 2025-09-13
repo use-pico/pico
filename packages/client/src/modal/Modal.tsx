@@ -112,7 +112,8 @@ export const Modal: FC<Modal.Props> = ({
 						<FloatingOverlay
 							lockScroll
 							style={styles}
-							className={slots.base()}
+							data-ui="Modal-root"
+							className={slots.root()}
 							onDoubleClick={(e) => {
 								e.stopPropagation();
 								e.preventDefault();
@@ -122,6 +123,7 @@ export const Modal: FC<Modal.Props> = ({
 								<div
 									ref={refs.setFloating}
 									{...getFloatingProps()}
+									data-ui="Modal-modal"
 									className={slots.modal()}
 								>
 									<div

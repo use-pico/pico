@@ -5,7 +5,7 @@ export const TabCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			active: [
@@ -17,8 +17,9 @@ export const TabCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Tab-root",
 						"flex",
 						"flex-row",
 						"items-center",
@@ -42,7 +43,7 @@ export const TabCls = PicoCls.extend(
 					active: true,
 				}),
 				{
-					base: what.both(
+					root: what.both(
 						[
 							"cursor-default",
 							"font-semibold",

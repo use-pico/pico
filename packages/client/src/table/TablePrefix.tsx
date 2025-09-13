@@ -37,7 +37,10 @@ export const TablePrefix = <
 	context,
 }: TablePrefix.Props<TQuery, TContext>) => {
 	return (
-		<div className={"grid grid-cols-3 gap-4 items-center"}>
+		<div
+			data-ui="TablePrefix-root"
+			className={"grid grid-cols-3 gap-4 items-center"}
+		>
 			<div className={"inline-flex items-center gap-2"}>
 				{fulltext ? <Fulltext state={fulltext} /> : null}
 			</div>

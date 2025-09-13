@@ -47,8 +47,12 @@ export const BaseButton: FC<Button.Props> = ({
 	}));
 
 	return (
-		<div className={slots.wrapper()}>
+		<div
+			data-ui="Button-wrapper"
+			className={slots.wrapper()}
+		>
 			<button
+				data-ui="Button-root"
 				ref={ref}
 				className={slots.root()}
 				type={"button"}

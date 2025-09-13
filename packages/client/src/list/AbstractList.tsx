@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, Ref } from "react";
 import { match, P } from "ts-pattern";
 import { EmptyResultIcon } from "../icon/EmptyResultIcon";
 import { ErrorIcon } from "../icon/ErrorIcon";
@@ -107,6 +107,7 @@ export namespace AbstractList {
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> extends AbstractListCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		/**
 		 * Query used to fetch data using the request prop.
 		 *
@@ -171,6 +172,7 @@ export const AbstractList = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
+	ref,
 	withQuery,
 	query,
 	renderEmpty = ({ loading }) => {
@@ -226,7 +228,11 @@ export const AbstractList = <
 	 * loading as the Error is already resolved here.
 	 */
 	return (
-		<div className={slots.root()}>
+		<div
+			data-ui="AbstractList-root"
+			ref={ref}
+			className={slots.root()}
+		>
 			{renderPrefix({})}
 
 			<AbstractListBody

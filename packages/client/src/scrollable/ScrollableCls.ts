@@ -25,6 +25,7 @@ export const ScrollableCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Scrollable-root",
 						"relative",
 						"isolate",
 						"min-h-0",
@@ -39,6 +40,7 @@ export const ScrollableCls = PicoCls.extend(
 				),
 
 				viewport: what.css([
+					"Scrollable-viewport",
 					"h-full",
 					"overflow-auto",
 					"overscroll-contain",
@@ -46,6 +48,7 @@ export const ScrollableCls = PicoCls.extend(
 				]),
 
 				content: what.css([
+					"Scrollable-content",
 					"min-h-full",
 					"grid",
 					"content-center",
@@ -54,6 +57,7 @@ export const ScrollableCls = PicoCls.extend(
 
 				// horní fade (gradient → plynule do transparent)
 				fadeTop: what.css([
+					"Scrollable-fadeTop",
 					"pointer-events-none",
 					"absolute",
 					"inset-x-0",
@@ -65,6 +69,7 @@ export const ScrollableCls = PicoCls.extend(
 				]),
 
 				fadeBottom: what.css([
+					"Scrollable-fadeBottom",
 					"pointer-events-none",
 					"absolute",
 					"inset-x-0",

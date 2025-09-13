@@ -17,8 +17,16 @@ export const TabList: FC<TabList.Props> = ({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.tabs()}>{children}</div>
+		<div
+			data-ui="TabList-root"
+			className={slots.root()}
+		>
+			<div
+				data-ui="TabList-tabs"
+				className={slots.tabs()}
+			>
+				{children}
+			</div>
 			{right}
 		</div>
 	);

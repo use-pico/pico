@@ -20,15 +20,18 @@ export const PagesCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Pages-root",
 					"select-none",
 				]),
 				list: what.css([
+					"Pages-list",
 					"inline-flex",
 					"items-center",
 					"gap-2",
 				]),
 				page: what.both(
 					[
+						"Pages-page",
 						"flex",
 						"items-center",
 						"justify-center",

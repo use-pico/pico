@@ -38,11 +38,15 @@ export const BaseAlert: FC<Alert.Props> = ({
 
 	return (
 		<div
-			className={slots.base()}
+			data-ui="Alert-root"
+			className={slots.root()}
 			onClick={onClick}
 			role={"alert"}
 		>
-			<div className={slots.header()}>
+			<div
+				data-ui="Alert-header"
+				className={slots.header()}
+			>
 				{icon && (
 					<Icon
 						icon={icon}
@@ -50,10 +54,29 @@ export const BaseAlert: FC<Alert.Props> = ({
 						{...iconProps}
 					/>
 				)}
-				<div className={slots.title()}>{title}</div>
+				<div
+					data-ui="Alert-title"
+					className={slots.title()}
+				>
+					{title}
+				</div>
 			</div>
-			{message && <div className={slots.message()}>{message}</div>}
-			{children && <div className={slots.body()}>{children}</div>}
+			{message && (
+				<div
+					data-ui="Alert-message"
+					className={slots.message()}
+				>
+					{message}
+				</div>
+			)}
+			{children && (
+				<div
+					data-ui="Alert-body"
+					className={slots.body()}
+				>
+					{children}
+				</div>
+			)}
 		</div>
 	);
 };

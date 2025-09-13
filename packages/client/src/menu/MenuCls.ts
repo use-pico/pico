@@ -18,6 +18,7 @@ export const MenuCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Menu-root",
 					"flex",
 					"flex-row",
 					"gap-2",

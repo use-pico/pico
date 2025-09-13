@@ -5,7 +5,7 @@ export const PreviewCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"container",
 			"title",
 			"links",
@@ -19,8 +19,9 @@ export const PreviewCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Preview-root",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -34,6 +35,7 @@ export const PreviewCls = PicoCls.extend(
 					],
 				),
 				container: what.css([
+					"Preview-container",
 					"flex",
 					"flex-row",
 					"items-center",
@@ -41,12 +43,14 @@ export const PreviewCls = PicoCls.extend(
 					"gap-1",
 				]),
 				title: what.css([
+					"Preview-title",
 					"flex",
 					"flex-row",
 					"items-center",
 					"gap-4",
 				]),
 				links: what.css([
+					"Preview-links",
 					"flex",
 					"flex-row",
 					"items-center",
@@ -54,12 +58,14 @@ export const PreviewCls = PicoCls.extend(
 					"justify-end",
 				]),
 				actions: what.css([
+					"Preview-actions",
 					"flex",
 					"flex-row",
 					"items-center",
 					"gap-4",
 				]),
 				extra: what.css([
+					"Preview-extra",
 					"flex",
 					"flex-row",
 					"gap-4",
@@ -67,6 +73,7 @@ export const PreviewCls = PicoCls.extend(
 				]),
 				divider: what.both(
 					[
+						"Preview-divider",
 						"w-full",
 						"border-b",
 					],

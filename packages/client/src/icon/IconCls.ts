@@ -37,6 +37,11 @@ export const IconCls = PicoCls.extend(
 	({ what, def }) => ({
 		token: def.token({}),
 		rules: [
+			def.root({
+				root: what.css([
+					"Icon-root",
+				]),
+			}),
 			/**
 			 * Size rules
 			 */

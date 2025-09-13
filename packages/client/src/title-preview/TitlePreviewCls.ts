@@ -21,6 +21,7 @@ export const TitlePreviewCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"TitlePreview-root",
 						"flex",
 						"flex-row",
 						"gap-2",
@@ -32,6 +33,7 @@ export const TitlePreviewCls = PicoCls.extend(
 				),
 				title: what.both(
 					[
+						"TitlePreview-title",
 						"flex",
 						"flex-row",
 						"gap-2",
@@ -43,6 +45,7 @@ export const TitlePreviewCls = PicoCls.extend(
 					],
 				),
 				subtitle: what.css([
+					"TitlePreview-subtitle",
 					"flex",
 					"flex-row",
 					"gap-4",

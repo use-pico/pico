@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
 import type { EntitySchema } from "@use-pico/common";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { Action } from "../action/Action";
 import { ActionMenuIcon } from "../icon/ActionMenuIcon";
 import type { Icon } from "../icon/Icon";
@@ -20,6 +20,7 @@ export namespace More {
 
 	export interface Props<TValues extends EntitySchema.Type>
 		extends MoreCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		icon?: string;
 		iconProps?: Icon.PropsEx;
 		actionProps?: Action.Props;
@@ -47,6 +48,7 @@ export namespace More {
 }
 
 export const More = <TValues extends EntitySchema.Type>({
+	ref,
 	icon = ActionMenuIcon,
 	iconProps,
 	actionProps,
@@ -65,7 +67,11 @@ export const More = <TValues extends EntitySchema.Type>({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<div className={slots.root()}>
+		<div
+			data-ui="More-root"
+			ref={ref}
+			className={slots.root()}
+		>
 			{items.length ? null : textEmpty}
 			{$items.map((item) =>
 				renderInline({

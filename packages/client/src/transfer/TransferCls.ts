@@ -5,7 +5,7 @@ export const TransferCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"panel",
 			"group",
 			"header",
@@ -17,7 +17,8 @@ export const TransferCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"Transfer-root",
 					"grid",
 					"grid-cols-2",
 					"gap-2",
@@ -25,6 +26,7 @@ export const TransferCls = PicoCls.extend(
 				]),
 				panel: what.both(
 					[
+						"Transfer-panel",
 						"grow",
 						"rounded",
 						"p-4",
@@ -35,13 +37,16 @@ export const TransferCls = PicoCls.extend(
 					],
 				),
 				group: what.css([
+					"Transfer-group",
 					"transition-none",
 				]),
 				header: what.css([
+					"Transfer-header",
 					"font-bold",
 				]),
 				item: what.both(
 					[
+						"Transfer-item",
 						"flex",
 						"flex-row",
 						"items-center",

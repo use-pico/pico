@@ -34,6 +34,7 @@ export const ActionCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Action-root",
 						"flex",
 						"flex-row",
 						"gap-2",
@@ -53,6 +54,9 @@ export const ActionCls = PicoCls.extend(
 						"border.default:hover",
 					],
 				),
+				wrapper: what.css([
+					"Action-wrapper",
+				]),
 			}),
 			// Tone colors (dark theme)
 			def.rule(

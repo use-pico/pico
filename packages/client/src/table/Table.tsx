@@ -458,6 +458,7 @@ export const Table = <
 			renderPostfix={() => {
 				return (
 					<div
+						data-ui="Table-postfix"
 						className={tvc(
 							"flex",
 							"flex-row",

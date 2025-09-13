@@ -5,7 +5,7 @@ export const PageCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {},
 	},
@@ -13,7 +13,8 @@ export const PageCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"Page-root",
 					"flex",
 					"flex-col",
 					"gap-2",

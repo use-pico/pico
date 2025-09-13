@@ -60,6 +60,7 @@ export const Issues: FC<Issues.Props> = ({
 				return (
 					<Badge
 						key={`issues-${entity.id}-inline`}
+						data-ui="Issues-item"
 						tweak={({ what }) => ({
 							slot: what.slot({
 								root: what.css(

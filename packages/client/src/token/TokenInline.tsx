@@ -11,7 +11,7 @@ export namespace TokenInline {
 
 export const TokenInline: FC<TokenInline.Props> = ({ entity }) => {
 	return (
-		<div className={"flex flex-row items-center gap-2"}>
+		<div className={"inline-flex flex-row items-center gap-2"}>
 			<span>
 				<Tx label={`Token [${entity.token}]`} />
 			</span>

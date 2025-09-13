@@ -5,7 +5,7 @@ export const FormFieldCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"header",
 			"input",
 		],
@@ -38,18 +38,21 @@ export const FormFieldCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"FormField-root",
 					"flex",
 					"flex-col",
 					"gap-1",
 				]),
 				header: what.css([
+					"FormField-header",
 					"flex",
 					"flex-col",
 					"w-full",
 				]),
 				input: what.both(
 					[
+						"FormField-input",
 						"transition-all",
 						"duration-300",
 					],
@@ -87,7 +90,7 @@ export const FormFieldCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"opacity-80",
 						"cursor-not-allowed",
 					]),

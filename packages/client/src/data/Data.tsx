@@ -140,6 +140,7 @@ export const Data = <
 
 	return (
 		<motion.div
+			data-ui="Data-root"
 			layout
 			style={{
 				overflow: "hidden",
@@ -159,6 +160,7 @@ export const Data = <
 				initial={false}
 			>
 				<motion.div
+					data-ui="Data-content"
 					key={state}
 					initial={{
 						opacity: 0,

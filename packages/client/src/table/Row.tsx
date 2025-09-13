@@ -98,6 +98,7 @@ export const Row = <
 
 	return (
 		<div
+			data-ui="Table-row"
 			className={slots.row(({ what }) => ({
 				variant: what.variant({
 					selected: isSelected,

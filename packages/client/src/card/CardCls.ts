@@ -19,6 +19,7 @@ export const CardCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Card-root",
 						"flex",
 						"flex-col",
 						"gap-4",

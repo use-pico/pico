@@ -15,9 +15,15 @@ export const AbstractListCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				root: what.css([]),
-				body: what.css([]),
-				items: what.css([]),
+				root: what.css([
+					"AbstractList-root",
+				]),
+				body: what.css([
+					"AbstractList-body",
+				]),
+				items: what.css([
+					"AbstractList-items",
+				]),
 			}),
 		],
 		defaults: def.defaults({}),

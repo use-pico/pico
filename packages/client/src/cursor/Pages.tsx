@@ -1,5 +1,5 @@
 import { useCls } from "@use-pico/cls";
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { PagesCls } from "./PagesCls";
 
 export namespace Pages {
@@ -8,6 +8,7 @@ export namespace Pages {
 	}
 
 	export interface Props extends PagesCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		pages: number[];
 		page: number;
 		onPage: Event.OnPage;
@@ -15,6 +16,7 @@ export namespace Pages {
 }
 
 export const Pages: FC<Pages.Props> = ({
+	ref,
 	pages,
 	page,
 	onPage,
@@ -24,12 +26,20 @@ export const Pages: FC<Pages.Props> = ({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<nav className={slots.root()}>
-			<ul className={slots.list()}>
+		<nav
+			data-ui="Pages-root"
+			ref={ref}
+			className={slots.root()}
+		>
+			<ul
+				data-ui="Pages-list"
+				className={slots.list()}
+			>
 				{pages.map((current) => {
 					return (
 						<li
 							key={`page-${current}`}
+							data-ui="Pages-page"
 							className={slots.page(({ what }) => ({
 								variant: what.variant({
 									current: page === current - 1,

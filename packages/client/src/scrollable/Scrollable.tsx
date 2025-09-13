@@ -114,25 +114,30 @@ export const BaseScrollable: FC<Scrollable.Props> = ({
 	return (
 		<div
 			ref={rootElementRef}
+			data-ui="Scrollable-root"
 			className={slots.root()}
 		>
 			<div
 				ref={topFadeElementRef}
 				aria-hidden={true}
+				data-ui="Scrollable-fadeTop"
 				className={slots.fadeTop()}
 			/>
 			<div
 				ref={bottomFadeElementRef}
 				aria-hidden={true}
+				data-ui="Scrollable-fadeBottom"
 				className={slots.fadeBottom()}
 			/>
 
 			<div
 				ref={viewportElementRef}
+				data-ui="Scrollable-viewport"
 				className={slots.viewport()}
 			>
 				<div
 					ref={contentContainerRef}
+					data-ui="Scrollable-content"
 					className={slots.content()}
 				>
 					{children}

@@ -5,12 +5,13 @@ import {
 	useMatchRoute,
 } from "@tanstack/react-router";
 import { type Cls, useCls } from "@use-pico/cls";
-import { type AnchorHTMLAttributes, forwardRef } from "react";
+import type { AnchorHTMLAttributes, FC, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { MenuLinkCls } from "./MenuLinkCls";
 
 interface BaseMenuLinkProps
 	extends MenuLinkCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
+	ref?: Ref<HTMLAnchorElement>;
 	icon?: Icon.Type;
 	active?: boolean;
 	match?: UseMatchRouteOptions[];
@@ -18,47 +19,44 @@ interface BaseMenuLinkProps
 	vertical?: boolean;
 }
 
-const BaseMenuLink = forwardRef<HTMLAnchorElement, BaseMenuLinkProps>(
-	(
-		{
-			icon,
-			active,
-			variantType,
+const BaseMenuLink: FC<BaseMenuLinkProps> = ({
+	ref,
+	icon,
+	active,
+	variantType,
+	vertical,
+	cls = MenuLinkCls,
+	match = [],
+	tweak,
+	children,
+	...props
+}) => {
+	const matchRoute = useMatchRoute();
+	const isActive = match.some((options) => Boolean(matchRoute(options)));
+
+	const slots = useCls(cls, tweak, ({ what }) => ({
+		variant: what.variant({
+			type: variantType,
+			active: active ?? isActive,
 			vertical,
-			cls = MenuLinkCls,
-			match = [],
-			tweak,
-			children,
-			...props
-		},
-		ref,
-	) => {
-		const matchRoute = useMatchRoute();
-		const isActive = match.some((options) => Boolean(matchRoute(options)));
+		}),
+	}));
 
-		const slots = useCls(cls, tweak, ({ what }) => ({
-			variant: what.variant({
-				type: variantType,
-				active: active ?? isActive,
-				vertical,
-			}),
-		}));
-
-		return (
-			<a
-				{...props}
-				className={slots.root()}
-				ref={ref}
-			>
-				<Icon
-					icon={icon}
-					size={"sm"}
-				/>
-				{children}
-			</a>
-		);
-	},
-);
+	return (
+		<a
+			{...props}
+			data-ui="MenuLink-root"
+			className={slots.root()}
+			ref={ref}
+		>
+			<Icon
+				icon={icon}
+				size={"sm"}
+			/>
+			{children}
+		</a>
+	);
+};
 
 const CreateMenuLink = createLink(BaseMenuLink);
 

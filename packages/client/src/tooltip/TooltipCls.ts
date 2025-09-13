@@ -15,6 +15,7 @@ export const TooltipCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Tooltip-root",
 						"px-4",
 						"py-2",
 					],

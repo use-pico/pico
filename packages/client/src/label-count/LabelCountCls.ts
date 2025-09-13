@@ -15,13 +15,16 @@ export const LabelCountCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"LabelCount-root",
 					"flex",
 					"flex-row",
 					"items-center",
 					"w-fit",
 					"gap-2",
 				]),
-				label: what.css([]),
+				label: what.css([
+					"LabelCount-label",
+				]),
 			}),
 		],
 		defaults: def.defaults({}),

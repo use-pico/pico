@@ -15,6 +15,7 @@ export const MoreCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"More-root",
 					"flex",
 					"flex-row",
 					"flex-wrap",
@@ -25,6 +26,7 @@ export const MoreCls = PicoCls.extend(
 				]),
 				item: what.both(
 					[
+						"More-item",
 						"px-2",
 						"py-1",
 					],

@@ -49,8 +49,12 @@ export const ButtonCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
+				wrapper: what.css([
+					"Button-wrapper",
+				]),
 				root: what.both(
 					[
+						"Button-root",
 						"flex",
 						"flex-row",
 						"items-center",

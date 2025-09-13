@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCls } from "@use-pico/cls";
-import { type FC, type ReactNode, useContext } from "react";
+import { type FC, type ReactNode, type Ref, useContext } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
@@ -13,6 +13,7 @@ import { withInvalidator } from "./withInvalidator";
 
 export namespace DeleteControl {
 	export interface Props extends DeleteControlCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		textContent: ReactNode;
 		textToast: string;
 		callback(): Promise<any>;
@@ -22,6 +23,7 @@ export namespace DeleteControl {
 }
 
 export const DeleteControl: FC<DeleteControl.Props> = ({
+	ref,
 	textContent,
 	textToast,
 	callback,
@@ -49,9 +51,21 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	});
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.content()}>{textContent}</div>
-			<div className={slots.footer()}>
+		<div
+			data-ui="DeleteControl-root"
+			ref={ref}
+			className={slots.root()}
+		>
+			<div
+				data-ui="DeleteControl-content"
+				className={slots.content()}
+			>
+				{textContent}
+			</div>
+			<div
+				data-ui="DeleteControl-footer"
+				className={slots.footer()}
+			>
 				<Button
 					tweak={({ what }) => ({
 						variant: what.variant({

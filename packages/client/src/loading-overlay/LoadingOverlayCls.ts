@@ -19,6 +19,7 @@ export const LoadingOverlayCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"LoadingOverlay-root",
 						"fixed",
 						"inset-0",
 						"h-full",

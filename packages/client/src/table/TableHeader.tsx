@@ -74,6 +74,7 @@ export const TableHeader = <
 	return (
 		<>
 			<div
+				data-ui="Table-header-loading"
 				className={tvc(
 					[
 						"absolute",
@@ -88,7 +89,9 @@ export const TableHeader = <
 						: undefined,
 				)}
 			/>
+
 			<div
+				data-ui="Table-header"
 				className={slots.header()}
 				style={{
 					gridTemplateColumns: grid,
@@ -147,6 +150,7 @@ export const TableHeader = <
 					return (
 						<div
 							key={`header-${column.name}`}
+							data-ui="Table-headerCell"
 							className={slots.headerCell()}
 						>
 							<Header

@@ -5,7 +5,7 @@ import {
 	cursorOf,
 	type StateType,
 } from "@use-pico/common";
-import { type FC, useMemo } from "react";
+import { type FC, type Ref, useMemo } from "react";
 import { Badge } from "../badge/Badge";
 import { DotsIcon } from "../icon/DotsIcon";
 import { Icon } from "../icon/Icon";
@@ -18,12 +18,14 @@ export namespace Cursor {
 	export type State = StateType<CursorSchema.Type>;
 
 	export interface Props extends CursorCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		state: State;
 		count: CountSchema.Type;
 	}
 }
 
 export const Cursor: FC<Cursor.Props> = ({
+	ref,
 	state,
 	count,
 	cls = CursorCls,
@@ -47,7 +49,11 @@ export const Cursor: FC<Cursor.Props> = ({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<div className={slots.root()}>
+		<div
+			data-ui="Cursor-root"
+			ref={ref}
+			className={slots.root()}
+		>
 			<Badge
 				size={"sm"}
 				tone={count.filter === count.where ? "neutral" : "primary"}
@@ -69,7 +75,10 @@ export const Cursor: FC<Cursor.Props> = ({
 			</Badge>
 
 			{$cursor.total > 1 ? (
-				<div className={slots.pages()}>
+				<div
+					data-ui="Cursor-pages"
+					className={slots.pages()}
+				>
 					{$cursor.start ? (
 						<Pages
 							page={state.value.page}

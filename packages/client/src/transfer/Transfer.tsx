@@ -92,8 +92,14 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 	};
 
 	return (
-		<div className={slots.base()}>
-			<div className={slots.panel()}>
+		<div
+			data-ui="Transfer-root"
+			className={slots.root()}
+		>
+			<div
+				data-ui="Transfer-panel"
+				className={slots.panel()}
+			>
 				{source.reduce((acc, { items }) => {
 					return acc + items.length;
 				}, 0) === 0 ? (
@@ -107,13 +113,20 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-source-group-${id}`}
+							data-ui="Transfer-group"
 							className={slots.group()}
 						>
-							<div className={slots.header()}>{group}</div>
+							<div
+								data-ui="Transfer-header"
+								className={slots.header()}
+							>
+								{group}
+							</div>
 							{items.map((item) => {
 								return (
 									<div
 										key={`transfer-source-item-${item.id}`}
+										data-ui="Transfer-item"
 										className={slots.item()}
 										onDoubleClick={withHandleSelect(
 											group,
@@ -124,7 +137,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 										<Action
 											tweak={({ what }) => ({
 												slot: {
-													base: what.css([
+													root: what.css([
 														"invisible",
 														"group-hover:visible",
 													]),
@@ -149,7 +162,10 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					);
 				})}
 			</div>
-			<div className={slots.panel()}>
+			<div
+				data-ui="Transfer-panel"
+				className={slots.panel()}
+			>
 				{selected.length === 0 ? (
 					<Tx label={"Select items (label)"} />
 				) : null}
@@ -157,6 +173,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 					return (
 						<div
 							key={`transfer-selected-item-${item.id}`}
+							data-ui="Transfer-item"
 							className={slots.item()}
 							onDoubleClick={withHandleDeselect(item)}
 						>
@@ -181,7 +198,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 							<Action
 								tweak={({ what }) => ({
 									slot: {
-										base: what.css([
+										root: what.css([
 											"invisible",
 											"group-hover:visible",
 										]),

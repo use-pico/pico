@@ -1,5 +1,5 @@
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
@@ -14,6 +14,7 @@ export namespace Target {
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> {
+		ref?: Ref<HTMLLabelElement>;
 		mode: "single" | "multi";
 		modalId: string;
 		slots: PopupSelectCls.Slots;
@@ -33,6 +34,7 @@ export const Target = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
+	ref,
 	mode,
 	modalId,
 	slots,
@@ -59,7 +61,9 @@ export const Target = <
 
 	return (
 		<label
+			data-ui="PopupSelect-input"
 			htmlFor={modalId}
+			ref={ref}
 			className={slots.input(({ what }) => ({
 				variant: what.variant({
 					isLoading: selected.isFetching,

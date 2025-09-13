@@ -1,10 +1,11 @@
 import { useCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren, Ref } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { DetailCls } from "./DetailCls";
 
 export namespace Detail {
 	export interface Props extends DetailCls.Props<PropsWithChildren> {
+		ref?: Ref<HTMLDivElement>;
 		inline?: boolean;
 	}
 
@@ -12,6 +13,7 @@ export namespace Detail {
 }
 
 export const Detail: FC<Detail.Props> = ({
+	ref,
 	inline = false,
 	children,
 	cls = DetailCls,
@@ -25,7 +27,13 @@ export const Detail: FC<Detail.Props> = ({
 				inline,
 			}}
 		>
-			<div className={slots.root()}>{children}</div>
+			<div
+				data-ui="Detail-root"
+				ref={ref}
+				className={slots.root()}
+			>
+				{children}
+			</div>
 		</InlineContext.Provider>
 	);
 };

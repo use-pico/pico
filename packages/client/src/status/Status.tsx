@@ -1,11 +1,12 @@
 import { type Cls, useClsEx, withCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { Typo } from "../typo/Typo";
 import { StatusCls } from "./StatusCls";
 
 export namespace Status {
 	export interface Props extends StatusCls.Props<PropsWithChildren> {
+		ref?: Ref<HTMLDivElement>;
 		textTitle: ReactNode;
 		textMessage?: ReactNode;
 		icon?: Icon.Type;
@@ -17,6 +18,7 @@ export namespace Status {
 }
 
 export const BaseStatus: FC<Status.Props> = ({
+	ref,
 	textTitle,
 	textMessage,
 	icon,
@@ -35,8 +37,15 @@ export const BaseStatus: FC<Status.Props> = ({
 	}));
 
 	return (
-		<div className={slots.root()}>
-			<div className={slots.title()}>
+		<div
+			data-ui="Status-root"
+			ref={ref}
+			className={slots.root()}
+		>
+			<div
+				data-ui="Status-title"
+				className={slots.title()}
+			>
 				<Icon
 					icon={icon}
 					size="xl"
@@ -65,7 +74,12 @@ export const BaseStatus: FC<Status.Props> = ({
 				/>
 			</div>
 
-			<div className={slots.body()}>{children}</div>
+			<div
+				data-ui="Status-body"
+				className={slots.body()}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

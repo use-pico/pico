@@ -5,7 +5,7 @@ export const JustDropZoneCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"label",
 			"zone",
 		],
@@ -22,8 +22,9 @@ export const JustDropZoneCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"JustDropZone-root",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -37,6 +38,7 @@ export const JustDropZoneCls = PicoCls.extend(
 				),
 				label: what.both(
 					[
+						"JustDropZone-label",
 						"flex",
 						"flex-col",
 						"items-center",
@@ -60,6 +62,7 @@ export const JustDropZoneCls = PicoCls.extend(
 				),
 				zone: what.both(
 					[
+						"JustDropZone-zone",
 						"flex",
 						"flex-col",
 						"items-center",

@@ -1,5 +1,5 @@
 import { useCls } from "@use-pico/cls";
-import type { FC, InputHTMLAttributes, ReactNode } from "react";
+import type { FC, InputHTMLAttributes, ReactNode, Ref } from "react";
 import { Badge } from "../badge/Badge";
 import { BoolInputCls } from "./BoolInputCls";
 
@@ -11,6 +11,7 @@ export namespace BoolInput {
 				"value" | "onChange" | "type"
 			>
 		> {
+		ref?: Ref<HTMLInputElement>;
 		value: boolean | undefined | null;
 		onChange(value: boolean): void;
 		label?: ReactNode;
@@ -21,6 +22,7 @@ export namespace BoolInput {
 }
 
 export const BoolInput: FC<BoolInput.Props> = ({
+	ref,
 	value,
 	onChange,
 	label,
@@ -47,6 +49,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 
 	const switchElement = (
 		<div
+			data-ui="BoolInput-root"
 			className={slots.root()}
 			role="switch"
 			aria-checked={value ?? false}
@@ -60,7 +63,9 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			}}
 		>
 			<input
+				ref={ref}
 				type="checkbox"
+				data-ui="BoolInput-input"
 				className={slots.input()}
 				checked={value ?? false}
 				onChange={(event) => {
@@ -69,8 +74,14 @@ export const BoolInput: FC<BoolInput.Props> = ({
 				disabled={props.disabled}
 				{...props}
 			/>
-			<div className={slots.track()}>
-				<div className={slots.thumb()} />
+			<div
+				data-ui="BoolInput-track"
+				className={slots.track()}
+			>
+				<div
+					data-ui="BoolInput-thumb"
+					className={slots.thumb()}
+				/>
 			</div>
 		</div>
 	);
@@ -82,13 +93,30 @@ export const BoolInput: FC<BoolInput.Props> = ({
 
 	// Return switch with label and description
 	return (
-		<div className={slots.container()}>
-			<div className={slots.content()}>
+		<div
+			data-ui="BoolInput-container"
+			className={slots.container()}
+		>
+			<div
+				data-ui="BoolInput-content"
+				className={slots.content()}
+			>
 				{switchElement}
-				<div className={slots.textContainer()}>
-					<label className={slots.label()}>{label}</label>
+				<div
+					data-ui="BoolInput-textContainer"
+					className={slots.textContainer()}
+				>
+					<label
+						data-ui="BoolInput-label"
+						className={slots.label()}
+					>
+						{label}
+					</label>
 					{description && (
-						<span className={slots.description()}>
+						<span
+							data-ui="BoolInput-description"
+							className={slots.description()}
+						>
 							{description}
 						</span>
 					)}

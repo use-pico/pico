@@ -5,7 +5,7 @@ export const FormCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"fieldset",
 			"legend",
 		],
@@ -25,8 +25,9 @@ export const FormCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Form-root",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -39,6 +40,7 @@ export const FormCls = PicoCls.extend(
 					],
 				),
 				fieldset: what.css([
+					"Form-fieldset",
 					"flex",
 					"flex-col",
 					"gap-4",
@@ -47,6 +49,7 @@ export const FormCls = PicoCls.extend(
 				]),
 				legend: what.both(
 					[
+						"Form-legend",
 						"font-bold",
 						"text-lg",
 						"p-1",
@@ -73,7 +76,7 @@ export const FormCls = PicoCls.extend(
 					isSubmitting: true,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"opacity-50",
 						"pointer-events-none",
 						"select-none",

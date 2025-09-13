@@ -23,6 +23,7 @@ export const SnapperItemCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"SnapperItem-root",
 						"relative",
 						"snap-start",
 						"min-h-0",

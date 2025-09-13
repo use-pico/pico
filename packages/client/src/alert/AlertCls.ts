@@ -5,7 +5,7 @@ export const AlertCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"header",
 			"title",
 			"message",
@@ -33,8 +33,9 @@ export const AlertCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Alert-root",
 						"flex",
 						"flex-col",
 						"gap-2",
@@ -47,21 +48,25 @@ export const AlertCls = PicoCls.extend(
 					],
 				),
 				header: what.css([
+					"Alert-header",
 					"flex",
 					"items-center",
 					"gap-2",
 					"w-full",
 				]),
 				title: what.css([
+					"Alert-title",
 					"font-semibold",
 					"w-full",
 				]),
 				message: what.css([
+					"Alert-message",
 					"opacity-85",
 					"text-sm",
 					"w-full",
 				]),
 				body: what.css([
+					"Alert-body",
 					"border-t",
 					"w-full",
 				]),
@@ -73,7 +78,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.primary.dark.text",
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
@@ -90,7 +95,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.primary.light.text",
 						"tone.primary.light.bg",
 						"tone.primary.light.border",
@@ -107,7 +112,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.secondary.dark.text",
 						"tone.secondary.dark.bg",
 						"tone.secondary.dark.border",
@@ -124,7 +129,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.secondary.light.text",
 						"tone.secondary.light.bg",
 						"tone.secondary.light.border",
@@ -141,7 +146,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.danger.dark.text",
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
@@ -158,7 +163,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.danger.light.text",
 						"tone.danger.light.bg",
 						"tone.danger.light.border",
@@ -175,7 +180,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.warning.dark.text",
 						"tone.warning.dark.bg",
 						"tone.warning.dark.border",
@@ -192,7 +197,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.warning.light.text",
 						"tone.warning.light.bg",
 						"tone.warning.light.border",
@@ -209,7 +214,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.neutral.dark.text",
 						"tone.neutral.dark.bg",
 						"tone.neutral.dark.border",
@@ -226,7 +231,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.neutral.light.text",
 						"tone.neutral.light.bg",
 						"tone.neutral.light.border",
@@ -243,7 +248,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.subtle.dark.text",
 						"tone.subtle.dark.bg",
 						"tone.subtle.dark.border",
@@ -260,7 +265,7 @@ export const AlertCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.subtle.light.text",
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
@@ -277,7 +282,7 @@ export const AlertCls = PicoCls.extend(
 					clickable: true,
 				}),
 				{
-					base: what.both(
+					root: what.both(
 						[
 							"group",
 							"cursor-pointer",

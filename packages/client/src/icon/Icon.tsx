@@ -1,6 +1,6 @@
 import { type Cls, useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
-import type { FC, HTMLAttributes, ReactNode } from "react";
+import type { FC, HTMLAttributes, ReactNode, Ref } from "react";
 import { IconCls } from "./IconCls";
 
 /**
@@ -18,6 +18,7 @@ export namespace Icon {
 		extends IconCls.Props<
 			Omit<HTMLAttributes<HTMLDivElement>, "className">
 		> {
+		ref?: Ref<HTMLDivElement>;
 		/**
 		 * `Iconify` icon name.
 		 *
@@ -38,6 +39,7 @@ export namespace Icon {
 }
 
 export const Icon: FC<Icon.Props> = ({
+	ref,
 	icon,
 	size,
 	tone,
@@ -61,6 +63,8 @@ export const Icon: FC<Icon.Props> = ({
 
 	return isString(icon) ? (
 		<div
+			data-ui="Icon-root"
+			ref={ref}
 			className={slots.root()}
 			{...props}
 		/>

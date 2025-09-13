@@ -5,7 +5,7 @@ export const DeleteControlCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"content",
 			"footer",
 		],
@@ -15,13 +15,15 @@ export const DeleteControlCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"DeleteControl-root",
 					"flex",
 					"flex-col",
 					"gap-4",
 				]),
 				content: what.both(
 					[
+						"DeleteControl-content",
 						"text-bold",
 						"font-bold",
 					],
@@ -30,6 +32,7 @@ export const DeleteControlCls = PicoCls.extend(
 					],
 				),
 				footer: what.css([
+					"DeleteControl-footer",
 					"flex",
 					"flex-row",
 					"items-center",

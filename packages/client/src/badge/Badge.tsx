@@ -34,6 +34,7 @@ export const BaseBadge: FC<Badge.Props> = ({
 
 	return (
 		<div
+			data-ui="Badge-root"
 			className={slots.root()}
 			{...props}
 		/>

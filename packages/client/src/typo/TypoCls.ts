@@ -45,6 +45,11 @@ export const TypoCls = PicoCls.extend(
 	({ what, def }) => ({
 		token: def.token({}),
 		rules: [
+			def.root({
+				root: what.css([
+					"Typo-root",
+				]),
+			}),
 			def.rule(
 				{
 					size: "xs",

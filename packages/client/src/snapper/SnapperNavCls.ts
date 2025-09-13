@@ -25,6 +25,7 @@ export const SnapperNavCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"SnapperNav-root",
 						"absolute",
 						"z-20",
 						"pointer-events-none",
@@ -35,6 +36,7 @@ export const SnapperNavCls = PicoCls.extend(
 					],
 				),
 				items: what.css([
+					"SnapperNav-items",
 					"gap-4",
 				]),
 			}),

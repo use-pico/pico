@@ -5,7 +5,7 @@ export const TabListCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"tabs",
 		],
 		variant: {},
@@ -14,13 +14,15 @@ export const TabListCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"TabList-root",
 					"flex",
 					"flex-row",
 					"items-center",
 					"justify-between",
 				]),
 				tabs: what.css([
+					"TabList-tabs",
 					"flex",
 					"flex-row",
 					"items-center",

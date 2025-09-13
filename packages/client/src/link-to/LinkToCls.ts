@@ -30,6 +30,7 @@ export const LinkToCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"LinkTo-root",
 						"flex",
 						"flex-row",
 						"gap-2",

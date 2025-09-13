@@ -21,6 +21,7 @@ export const SnapperContentCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"SnapperContent-root",
 						"relative",
 						"min-h-0",
 						"min-w-0",
@@ -35,6 +36,7 @@ export const SnapperContentCls = PicoCls.extend(
 					],
 				),
 				content: what.css([
+					"SnapperContent-content",
 					"grid",
 					"gap-2",
 					"h-full",

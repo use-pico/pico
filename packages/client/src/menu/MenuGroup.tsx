@@ -48,6 +48,7 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 		<Float
 			target={(props) => (
 				<div
+					data-ui="MenuGroup-root"
 					className={slots.root()}
 					{...props}
 				>
@@ -64,7 +65,12 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 				placement,
 			}}
 		>
-			<div className={slots.items()}>{children}</div>
+			<div
+				data-ui="MenuGroup-items"
+				className={slots.items()}
+			>
+				{children}
+			</div>
 		</Float>
 	);
 };

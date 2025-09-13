@@ -19,11 +19,14 @@ export const FloatCls = PicoCls.extend(
 		rules: [
 			def.root({
 				target: what.css([
+					"Float-target",
 					"flex",
 					"justify-center",
 					"items-center",
 				]),
-				portal: what.css([]),
+				portal: what.css([
+					"Float-portal",
+				]),
 			}),
 			def.rule(
 				what.variant({

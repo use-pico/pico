@@ -47,6 +47,7 @@ export const BaseHighlighter: FC<Highlighter.Props> = ({
 		<AnimatePresence>
 			{visible ? (
 				<motion.div
+					data-ui="Highlighter-root"
 					className={slots.root()}
 					onClick={onBackdropClick}
 					initial={{
@@ -64,6 +65,7 @@ export const BaseHighlighter: FC<Highlighter.Props> = ({
 					}}
 				>
 					<motion.div
+						data-ui="Highlighter-hole"
 						className={slots.hole()}
 						style={{
 							top: y,

@@ -95,7 +95,8 @@ const BaseAction: FC<Action.Props> = ({
 
 	return (
 		<div
-			className={slots.base()}
+			data-ui="Action-root"
+			className={slots.root()}
 			onClick={disabled ? undefined : onClick}
 			{...props}
 		>

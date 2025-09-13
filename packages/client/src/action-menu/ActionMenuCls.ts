@@ -4,7 +4,7 @@ import { PicoCls } from "../cls/PicoCls";
 export const ActionMenuCls = PicoCls.extend(
 	{
 		slot: [
-			"base",
+			"root",
 		],
 		tokens: [],
 		variant: {},
@@ -13,8 +13,9 @@ export const ActionMenuCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"ActionMenu-root",
 						"flex",
 						"flex-col",
 						"gap-2",

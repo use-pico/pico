@@ -5,7 +5,7 @@ export const FulltextCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 			"search",
 			"input",
 			"clear",
@@ -16,12 +16,14 @@ export const FulltextCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.css([
+				root: what.css([
+					"Fulltext-root",
 					"relative",
 					"w-full",
 				]),
 				search: what.both(
 					[
+						"Fulltext-search",
 						"absolute",
 						"inset-y-0",
 						"left-2",
@@ -36,6 +38,7 @@ export const FulltextCls = PicoCls.extend(
 				),
 				input: what.both(
 					[
+						"Fulltext-input",
 						"pl-8",
 						"w-full",
 					],
@@ -58,6 +61,7 @@ export const FulltextCls = PicoCls.extend(
 				),
 				clear: what.both(
 					[
+						"Fulltext-clear",
 						"absolute",
 						"inset-y-0",
 						"right-2",

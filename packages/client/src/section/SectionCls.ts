@@ -17,6 +17,7 @@ export const SectionCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Section-root",
 						"flex-1",
 					],
 					[
@@ -25,6 +26,7 @@ export const SectionCls = PicoCls.extend(
 				),
 				title: what.both(
 					[
+						"Section-title",
 						"border-b-2",
 					],
 					[
@@ -33,6 +35,7 @@ export const SectionCls = PicoCls.extend(
 					],
 				),
 				items: what.css([
+					"Section-items",
 					"flex",
 					"flex-col",
 					"gap-2",

@@ -41,6 +41,7 @@ export const BoolInputCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"BoolInput-root",
 						"relative",
 						"inline-flex",
 						"items-center",
@@ -55,6 +56,7 @@ export const BoolInputCls = PicoCls.extend(
 				),
 				track: what.both(
 					[
+						"BoolInput-track",
 						"relative",
 						"inline-flex",
 						"items-center",
@@ -74,6 +76,7 @@ export const BoolInputCls = PicoCls.extend(
 				),
 				thumb: what.both(
 					[
+						"BoolInput-thumb",
 						"absolute",
 						"bg-white",
 						"shadow-sm",
@@ -90,29 +93,35 @@ export const BoolInputCls = PicoCls.extend(
 					],
 				),
 				input: what.css([
+					"BoolInput-input",
 					"sr-only",
 				]),
 				container: what.css([
+					"BoolInput-container",
 					"flex",
 					"items-center",
 					"justify-between",
 				]),
 				content: what.css([
+					"BoolInput-content",
 					"flex",
 					"items-center",
 					"gap-3",
 				]),
 				label: what.css([
+					"BoolInput-label",
 					"text-sm",
 					"font-medium",
 					"text-gray-900",
 					"cursor-pointer",
 				]),
 				description: what.css([
+					"BoolInput-description",
 					"text-sm",
 					"text-gray-500",
 				]),
 				textContainer: what.css([
+					"BoolInput-textContainer",
 					"flex",
 					"flex-col",
 					"gap-1",

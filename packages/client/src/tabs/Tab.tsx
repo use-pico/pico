@@ -21,7 +21,8 @@ export const Tab: FC<Tab.Props> = ({ tab, cls = TabCls, tweak, children }) => {
 
 	return store.hidden.includes(tab) ? null : (
 		<div
-			className={slots.base()}
+			data-ui="Tab-root"
+			className={slots.root()}
 			onClick={() => store.setCurrent(tab)}
 		>
 			{children}

@@ -37,7 +37,7 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 }) => {
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		slot: what.slot({
-			base: what.css([
+			root: what.css([
 				"relative",
 			]),
 		}),
@@ -73,7 +73,12 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 				closeOnClick
 				{...props}
 			>
-				<div className={slots.base()}>{children}</div>
+				<div
+					data-ui="ActionMenu-root"
+					className={slots.root()}
+				>
+					{children}
+				</div>
 			</Float>
 		</FloatingTree>
 	);

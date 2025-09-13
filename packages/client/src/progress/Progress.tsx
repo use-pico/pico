@@ -22,8 +22,12 @@ export const Progress: FC<Progress.Props> = ({
 	}));
 
 	return (
-		<div className={slots.base()}>
+		<div
+			data-ui="Progress-root"
+			className={slots.root()}
+		>
 			<div
+				data-ui="Progress-progress"
 				style={{
 					width: `${Math.max(0, Math.min(100, value))}%`,
 				}}

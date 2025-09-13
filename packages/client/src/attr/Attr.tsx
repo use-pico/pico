@@ -1,5 +1,5 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import { type FC, useContext } from "react";
+import { type FC, type Ref, useContext } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { Typo } from "../typo/Typo";
 import type { TypoCls } from "../typo/TypoCls";
@@ -7,6 +7,7 @@ import { AttrCls } from "./AttrCls";
 
 export namespace Attr {
 	export interface Props extends AttrCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		label: Typo.Value;
 		value: Typo.Value;
 		labelProps?: Typo.PropsEx;
@@ -17,6 +18,7 @@ export namespace Attr {
 }
 
 export const BaseAttr: FC<Attr.Props> = ({
+	ref,
 	label,
 	value,
 	labelProps,
@@ -34,7 +36,11 @@ export const BaseAttr: FC<Attr.Props> = ({
 	}));
 
 	return (
-		<div className={slots.root()}>
+		<div
+			data-ui="Attr-root"
+			ref={ref}
+			className={slots.root()}
+		>
 			<Typo
 				label={label}
 				size="sm"

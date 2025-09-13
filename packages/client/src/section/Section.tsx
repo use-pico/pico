@@ -21,7 +21,10 @@ export const Section: FC<Section.Props> = ({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<div className={slots.root()}>
+		<div
+			data-ui="Section-root"
+			className={slots.root()}
+		>
 			<TitlePreview
 				icon={icon}
 				title={title}
@@ -32,7 +35,12 @@ export const Section: FC<Section.Props> = ({
 				})}
 			/>
 
-			<div className={slots.items()}>{children}</div>
+			<div
+				data-ui="Section-items"
+				className={slots.items()}
+			>
+				{children}
+			</div>
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { Attr } from "../attr/Attr";
 import { InlineContext } from "../context/InlineContext";
 import { CardCls } from "./CardCls";
@@ -43,6 +43,7 @@ export namespace Card {
 	 */
 	export interface Props<TValues extends Record<string, any>>
 		extends CardCls.Props<Entity.Type<TValues>> {
+		ref?: Ref<HTMLDivElement>;
 		/**
 		 * Items to render in the card using specified schema.
 		 */
@@ -64,6 +65,7 @@ export namespace Card {
 }
 
 export const Card = <TValues extends Record<string, any>>({
+	ref,
 	items,
 	hidden = [],
 	attrProps,
@@ -84,7 +86,11 @@ export const Card = <TValues extends Record<string, any>>({
 				inline,
 			}}
 		>
-			<div className={slots.root()}>
+			<div
+				data-ui="Card-root"
+				ref={ref}
+				className={slots.root()}
+			>
 				{items
 					.filter(({ id }) => !hidden.includes(id))
 					.map(({ id, render: Render, ...props }) => {

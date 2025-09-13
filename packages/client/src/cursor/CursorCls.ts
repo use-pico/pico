@@ -17,17 +17,23 @@ export const CursorCls = PicoCls.extend(
 		rules: [
 			def.root({
 				root: what.css([
+					"Cursor-root",
 					"inline-flex",
 					"items-center",
 					"gap-2",
 				]),
 				pages: what.css([
+					"Cursor-pages",
 					"flex",
 					"items-center",
 					"justify-center",
 					"gap-2",
 				]),
+				"pages-wrapper": what.css([
+					"Cursor-pages-wrapper",
+				]),
 				sums: what.css([
+					"Cursor-sums",
 					"inline-flex",
 					"items-center",
 					"gap-2",

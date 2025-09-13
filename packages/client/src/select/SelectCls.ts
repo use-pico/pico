@@ -35,6 +35,7 @@ export const SelectCls = FormFieldCls.extend(
 				]),
 				popup: what.both(
 					[
+						"Select-popup",
 						"flex",
 						"flex-col",
 						"overflow-y-auto",
@@ -52,6 +53,7 @@ export const SelectCls = FormFieldCls.extend(
 				),
 				item: what.both(
 					[
+						"Select-item",
 						"focus:outline-hidden",
 						"flex",
 						"items-center",
@@ -70,7 +72,7 @@ export const SelectCls = FormFieldCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.both(
+					root: what.both(
 						[
 							"cursor-not-allowed",
 							"hover:shadow-none",

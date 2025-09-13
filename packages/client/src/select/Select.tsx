@@ -158,6 +158,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 						ref={disabled ? undefined : refs.setReference}
 						{...(disabled ? {} : getReferenceProps())}
 						{...props}
+						data-ui="Select-input"
 						className={slots.input()}
 					>
 						<Icon
@@ -227,6 +228,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 										...floatingStyles,
 										...styles,
 									}}
+									data-ui="Select-popup"
 									className={slots.popup()}
 									{...getFloatingProps()}
 								>
@@ -239,6 +241,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 											tabIndex={
 												i === activeIndex ? 0 : -1
 											}
+											data-ui="Select-item"
 											className={slots.item(
 												({ what }) => ({
 													variant: what.variant({

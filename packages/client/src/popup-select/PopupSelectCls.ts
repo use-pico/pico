@@ -21,6 +21,7 @@ export const PopupSelectCls = PicoCls.extend(
 		rules: [
 			def.root({
 				input: what.css([
+					"PopupSelect-input",
 					"flex",
 					"flex-row",
 					"gap-2",

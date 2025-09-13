@@ -1,6 +1,6 @@
 import { useCls } from "@use-pico/cls";
-import type { ForwardedRef, ReactNode } from "react";
-import { forwardRef, useId } from "react";
+import type { FC, ReactNode, Ref } from "react";
+import { useId } from "react";
 import { Typo } from "../typo/Typo";
 import { FormError } from "./FormError";
 import { FormFieldCls } from "./FormFieldCls";
@@ -10,7 +10,7 @@ export namespace FormField {
 
 	export namespace Render {
 		export interface Props {
-			ref: ForwardedRef<any>;
+			ref?: Ref<any>;
 			className: string;
 			disabled: boolean;
 			id: string;
@@ -23,6 +23,7 @@ export namespace FormField {
 	}
 
 	export interface Props extends FormFieldCls.Props {
+		ref?: Ref<any>;
 		id?: string;
 		label?: ReactNode;
 		hint?: ReactNode;
@@ -34,8 +35,9 @@ export namespace FormField {
 	}
 }
 
-export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
+export const FormField: FC<FormField.Props> = (props) => {
 	const {
+		ref,
 		id,
 		label,
 		hint,
@@ -63,9 +65,15 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 	}));
 
 	return (
-		<div className={slots.base()}>
+		<div
+			data-ui="FormField-root"
+			className={slots.root()}
+		>
 			{label || meta?.errors?.length || hint ? (
-				<div className={slots.header()}>
+				<div
+					data-ui="FormField-header"
+					className={slots.header()}
+				>
 					{label || meta?.errors?.length ? (
 						<div
 							className={
@@ -107,6 +115,6 @@ export const FormField = forwardRef<any, FormField.Props>((props, ref) => {
 			})}
 		</div>
 	);
-});
+};
 
 FormField.displayName = "FormField";

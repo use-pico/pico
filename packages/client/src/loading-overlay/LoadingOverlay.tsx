@@ -1,16 +1,18 @@
 import { useCls } from "@use-pico/cls";
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { LoadingOverlayCls } from "./LoadingOverlayCls";
 
 export namespace LoadingOverlay {
 	export interface Props extends LoadingOverlayCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		show?: boolean;
 	}
 }
 
 export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
+	ref,
 	show = true,
 	cls = LoadingOverlayCls,
 	tweak,
@@ -22,7 +24,11 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	}));
 
 	return show ? (
-		<div className={slots.root()}>
+		<div
+			data-ui="LoadingOverlay-root"
+			ref={ref}
+			className={slots.root()}
+		>
 			<Icon
 				icon={SpinnerIcon}
 				tweak={({ what }) => ({

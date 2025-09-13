@@ -5,7 +5,7 @@ export const ActionCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
-			"base",
+			"root",
 		],
 		variant: {
 			tone: [
@@ -42,8 +42,9 @@ export const ActionCls = PicoCls.extend(
 		token: {},
 		rules: [
 			def.root({
-				base: what.both(
+				root: what.both(
 					[
+						"Action-root",
 						"flex",
 						"items-center",
 						"justify-center",
@@ -69,7 +70,7 @@ export const ActionCls = PicoCls.extend(
 					size: "xs",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"icon.xs",
 					]),
 				},
@@ -79,7 +80,7 @@ export const ActionCls = PicoCls.extend(
 					size: "sm",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"icon.sm",
 					]),
 				},
@@ -89,7 +90,7 @@ export const ActionCls = PicoCls.extend(
 					size: "md",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"icon.md",
 					]),
 				},
@@ -99,7 +100,7 @@ export const ActionCls = PicoCls.extend(
 					size: "lg",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"icon.lg",
 					]),
 				},
@@ -109,7 +110,7 @@ export const ActionCls = PicoCls.extend(
 					size: "xl",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"icon.xl",
 					]),
 				},
@@ -121,7 +122,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.primary.dark.set",
 					]),
 				},
@@ -132,7 +133,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.secondary.dark.set",
 					]),
 				},
@@ -143,7 +144,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.danger.dark.set",
 					]),
 				},
@@ -154,7 +155,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.warning.dark.set",
 					]),
 				},
@@ -165,7 +166,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.neutral.dark.set",
 					]),
 				},
@@ -176,7 +177,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "dark",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.subtle.dark.set",
 					]),
 				},
@@ -188,7 +189,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.primary.light.set",
 					]),
 				},
@@ -199,7 +200,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.secondary.light.set",
 					]),
 				},
@@ -210,7 +211,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.danger.light.set",
 					]),
 				},
@@ -221,7 +222,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.warning.light.set",
 					]),
 				},
@@ -232,7 +233,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.neutral.light.set",
 					]),
 				},
@@ -243,7 +244,7 @@ export const ActionCls = PicoCls.extend(
 					theme: "light",
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"tone.subtle.light.set",
 					]),
 				},
@@ -254,7 +255,7 @@ export const ActionCls = PicoCls.extend(
 					disabled: true,
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"disabled",
 					]),
 				},
@@ -265,7 +266,7 @@ export const ActionCls = PicoCls.extend(
 					loading: true,
 				}),
 				{
-					base: what.token([
+					root: what.token([
 						"disabled",
 					]),
 				},
@@ -276,7 +277,7 @@ export const ActionCls = PicoCls.extend(
 					border: false,
 				}),
 				{
-					base: what.css([
+					root: what.css([
 						"border-none",
 					]),
 				},

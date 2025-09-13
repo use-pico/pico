@@ -19,6 +19,7 @@ export const AttrCls = PicoCls.extend(
 			def.root({
 				root: what.both(
 					[
+						"Attr-root",
 						"transition-all",
 					],
 					[
