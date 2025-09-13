@@ -84,6 +84,9 @@ export const Route = createFileRoute("/$locale/components")({
 									{
 										to: "/$locale/components/typo",
 									},
+									{
+										to: "/$locale/components/highlighter",
+									},
 								]}
 								vertical
 							>
@@ -151,6 +154,17 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Typo"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--target]"}
+									to={"/$locale/components/highlighter"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Highlighter"} />
 								</MenuLink>
 							</MenuGroup>
 

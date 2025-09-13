@@ -25,6 +25,7 @@ import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$loca
 import { Route as LocaleComponentsMiscRouteImport } from './@routes/$locale/components/misc'
 import { Route as LocaleComponentsIssuesRouteImport } from './@routes/$locale/components/issues'
 import { Route as LocaleComponentsIconRouteImport } from './@routes/$locale/components/icon'
+import { Route as LocaleComponentsHighlighterRouteImport } from './@routes/$locale/components/highlighter'
 import { Route as LocaleComponentsFormRouteImport } from './@routes/$locale/components/form'
 import { Route as LocaleComponentsDetailRouteImport } from './@routes/$locale/components/detail'
 import { Route as LocaleComponentsDateInlineRouteImport } from './@routes/$locale/components/date-inline'
@@ -127,6 +128,12 @@ const LocaleComponentsIconRoute = LocaleComponentsIconRouteImport.update({
   path: '/icon',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsHighlighterRoute =
+  LocaleComponentsHighlighterRouteImport.update({
+    id: '/highlighter',
+    path: '/highlighter',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsFormRoute = LocaleComponentsFormRouteImport.update({
   id: '/form',
   path: '/form',
@@ -247,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
+  '/$locale/components/highlighter': typeof LocaleComponentsHighlighterRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/misc': typeof LocaleComponentsMiscRoute
@@ -281,6 +289,7 @@ export interface FileRoutesByTo {
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
+  '/$locale/components/highlighter': typeof LocaleComponentsHighlighterRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/misc': typeof LocaleComponentsMiscRoute
@@ -318,6 +327,7 @@ export interface FileRoutesById {
   '/$locale/components/date-inline': typeof LocaleComponentsDateInlineRoute
   '/$locale/components/detail': typeof LocaleComponentsDetailRoute
   '/$locale/components/form': typeof LocaleComponentsFormRoute
+  '/$locale/components/highlighter': typeof LocaleComponentsHighlighterRoute
   '/$locale/components/icon': typeof LocaleComponentsIconRoute
   '/$locale/components/issues': typeof LocaleComponentsIssuesRoute
   '/$locale/components/misc': typeof LocaleComponentsMiscRoute
@@ -356,6 +366,7 @@ export interface FileRouteTypes {
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
+    | '/$locale/components/highlighter'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/misc'
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
+    | '/$locale/components/highlighter'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/misc'
@@ -426,6 +438,7 @@ export interface FileRouteTypes {
     | '/$locale/components/date-inline'
     | '/$locale/components/detail'
     | '/$locale/components/form'
+    | '/$locale/components/highlighter'
     | '/$locale/components/icon'
     | '/$locale/components/issues'
     | '/$locale/components/misc'
@@ -558,6 +571,13 @@ declare module '@tanstack/react-router' {
       path: '/icon'
       fullPath: '/$locale/components/icon'
       preLoaderRoute: typeof LocaleComponentsIconRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/highlighter': {
+      id: '/$locale/components/highlighter'
+      path: '/highlighter'
+      fullPath: '/$locale/components/highlighter'
+      preLoaderRoute: typeof LocaleComponentsHighlighterRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/form': {
@@ -707,6 +727,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsDateInlineRoute: typeof LocaleComponentsDateInlineRoute
   LocaleComponentsDetailRoute: typeof LocaleComponentsDetailRoute
   LocaleComponentsFormRoute: typeof LocaleComponentsFormRoute
+  LocaleComponentsHighlighterRoute: typeof LocaleComponentsHighlighterRoute
   LocaleComponentsIconRoute: typeof LocaleComponentsIconRoute
   LocaleComponentsIssuesRoute: typeof LocaleComponentsIssuesRoute
   LocaleComponentsMiscRoute: typeof LocaleComponentsMiscRoute
@@ -740,6 +761,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsDateInlineRoute: LocaleComponentsDateInlineRoute,
   LocaleComponentsDetailRoute: LocaleComponentsDetailRoute,
   LocaleComponentsFormRoute: LocaleComponentsFormRoute,
+  LocaleComponentsHighlighterRoute: LocaleComponentsHighlighterRoute,
   LocaleComponentsIconRoute: LocaleComponentsIconRoute,
   LocaleComponentsIssuesRoute: LocaleComponentsIssuesRoute,
   LocaleComponentsMiscRoute: LocaleComponentsMiscRoute,
