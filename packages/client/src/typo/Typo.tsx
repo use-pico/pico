@@ -1,5 +1,5 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, Ref } from "react";
 import { TypoCls } from "./TypoCls";
 
 export namespace Typo {
@@ -12,6 +12,7 @@ export namespace Typo {
 		tone?: Cls.VariantOf<TypoCls, "tone">;
 		theme?: Cls.VariantOf<TypoCls, "theme">;
 		italic?: boolean;
+		ref?: Ref<HTMLDivElement>;
 	}
 
 	export type PropsEx = Omit<Props, "label">;
@@ -26,6 +27,7 @@ export const BaseTypo: FC<Typo.Props> = ({
 	italic = false,
 	cls = TypoCls,
 	tweak,
+	ref,
 }) => {
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
@@ -37,7 +39,14 @@ export const BaseTypo: FC<Typo.Props> = ({
 		}),
 	}));
 
-	return <div className={slots.root()}>{label}</div>;
+	return (
+		<div
+			ref={ref}
+			className={slots.root()}
+		>
+			{label}
+		</div>
+	);
 };
 
 export const Typo = withCls(BaseTypo, TypoCls);

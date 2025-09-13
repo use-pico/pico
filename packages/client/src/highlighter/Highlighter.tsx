@@ -1,60 +1,97 @@
 import { useCls, withCls } from "@use-pico/cls";
+import { AnimatePresence, motion } from "motion/react";
 import type { FC } from "react";
 import { HighlighterCls } from "./HighlighterCls";
 
 export namespace Highlighter {
-	export interface Rect {
-		x: number;
-		y: number;
-		width: number;
-		height: number;
-	}
+	export type Rect = Pick<DOMRect, "left" | "top" | "width" | "height">;
 
 	export interface Props extends HighlighterCls.Props {
+		/**
+		 * Whether the highlighter is visible .
+		 *
+		 * Highlighter is animated - do not remove it from the DOM or exit animation
+		 * will not work properly. The whole component is lightweight, so you may not bother
+		 * to keep it present.
+		 */
+		visible: boolean;
 		/** Viewport-relative rectangle of the target element */
-		rect: Rect;
+		rect: Rect | undefined;
 		/** Extra padding expanded around the rectangle */
 		padding?: number;
-		/** Backdrop darkness 0..1 applied via giant box-shadow */
-		backdropOpacity?: number;
 		/** Called when user clicks the backdrop (including the hole; hole is not click-through) */
 		onBackdropClick?: () => void;
 	}
 }
 
 export const BaseHighlighter: FC<Highlighter.Props> = ({
+	visible,
 	rect,
 	padding = 8,
-	backdropOpacity = 0.6,
 	onBackdropClick,
 	cls = HighlighterCls,
 	tweak,
 }) => {
 	const slots = useCls(cls, tweak);
 
-	const x = Math.max(0, Math.floor(rect.x - padding));
-	const y = Math.max(0, Math.floor(rect.y - padding));
+	if (!rect) {
+		return null;
+	}
+
+	const x = Math.max(0, Math.floor(rect.left - padding));
+	const y = Math.max(0, Math.floor(rect.top - padding));
 	const width = Math.ceil(rect.width + padding * 2);
 	const height = Math.ceil(rect.height + padding * 2);
 
 	return (
-		<div
-			className={slots.root()}
-			onClick={onBackdropClick}
-		>
-			<div
-				className={slots.hole()}
-				style={{
-					top: y,
-					left: x,
-					width,
-					height,
-					// boxShadow: `0 0 0 100vh rgba(0,0,0,${backdropOpacity})`,
-					// transition:
-					// 	"top 300ms ease, left 300ms ease, width 300ms ease, height 300ms ease",
-				}}
-			/>
-		</div>
+		<AnimatePresence>
+			{visible ? (
+				<motion.div
+					className={slots.root()}
+					onClick={onBackdropClick}
+					initial={{
+						opacity: 0,
+					}}
+					animate={{
+						opacity: 1,
+					}}
+					exit={{
+						opacity: 0,
+					}}
+					transition={{
+						duration: 0.2,
+						ease: "easeOut",
+					}}
+				>
+					<motion.div
+						className={slots.hole()}
+						style={{
+							top: y,
+							left: x,
+							width,
+							height,
+						}}
+						initial={{
+							scale: 1.2,
+							opacity: 0,
+						}}
+						animate={{
+							scale: 1,
+							opacity: 1,
+						}}
+						exit={{
+							scale: 1.2,
+							opacity: 0,
+						}}
+						transition={{
+							duration: 0.3,
+							ease: "easeOut",
+							delay: 0.1,
+						}}
+					/>
+				</motion.div>
+			) : null}
+		</AnimatePresence>
 	);
 };
 

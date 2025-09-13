@@ -30,7 +30,7 @@ export const HighlighterCls = PicoCls.extend(
 						"transition-[top,left,width,height]",
 						"duration-300",
 						"ease-in-out",
-						"shadow-[0_0_0_100vh_rgba(0,0,0,0.6)]",
+						"shadow-[0_0_0_300vh_rgba(0,0,0,0.6)]",
 					],
 					[
 						"round.default",
