@@ -13,7 +13,13 @@ export const ScrollableCls = PicoCls.extend(
 			"fadeTop",
 			"fadeBottom",
 		],
-		variant: {},
+		variant: {
+			layout: [
+				"grid",
+				"flex",
+				"absolute",
+			],
+		},
 	},
 	({ what, def }) => ({
 		token: def.token({
@@ -80,8 +86,34 @@ export const ScrollableCls = PicoCls.extend(
 					"bg-[linear-gradient(to_top,var(--fade-color),var(--fade-color)_var(--fade-solid),transparent)]",
 				]),
 			}),
+			def.rule(
+				what.variant({
+					layout: "grid",
+				}),
+				{
+					root: what.css([]),
+				},
+			),
+			def.rule(
+				what.variant({
+					layout: "flex",
+				}),
+				{
+					root: what.css([]),
+				},
+			),
+			def.rule(
+				what.variant({
+					layout: "absolute",
+				}),
+				{
+					root: what.css([]),
+				},
+			),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			layout: "flex",
+		}),
 	}),
 );
 

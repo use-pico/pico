@@ -27,13 +27,7 @@ export const ColumnLayoutCls = PicoCls.extend(
 					],
 					[
 						"round.xl",
-						"shadow.default",
 						"square.sm",
-						"border.default",
-						"shadow.default",
-						"tone.subtle.light.bg",
-						"tone.subtle.light.border",
-						"tone.subtle.light.shadow",
 					],
 				),
 			}),

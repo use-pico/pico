@@ -1,5 +1,4 @@
 import type { UseQueryResult } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "motion/react";
 import type { ReactNode } from "react";
 import { match } from "ts-pattern";
 import { ErrorIcon } from "../icon/ErrorIcon";
@@ -7,6 +6,29 @@ import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { Status } from "../status/Status";
 import { Tx } from "../tx/Tx";
+
+const DefaultSpinner = () => (
+	<div className="grid place-content-center">
+		<Icon
+			icon={SpinnerIcon}
+			size="xl"
+			tone="secondary"
+		/>
+	</div>
+);
+
+const DefaultError = () => (
+	<div className="grid place-content-center">
+		<Status
+			icon={ErrorIcon}
+			tone={"danger"}
+			textTitle={<Tx label={"Invalid data provided (title)"} />}
+			textMessage={<Tx label={"Invalid data provided (message)"} />}
+		/>
+	</div>
+);
+
+const DefaultContent: Data.Content.RenderFn = ({ content }) => content;
 
 export namespace Data {
 	export namespace SuccessComponent {
@@ -61,136 +83,41 @@ export const Data = <
 >({
 	result,
 	renderSuccess,
-	renderLoading = () => (
-		<div className="grid place-content-center">
-			<Icon
-				icon={SpinnerIcon}
-				size="xl"
-				tone={"secondary"}
-			/>
-		</div>
-	),
-	renderFetching = () => (
-		<div className="grid place-content-center">
-			<Icon
-				icon={SpinnerIcon}
-				size="xl"
-				tone={"secondary"}
-			/>
-		</div>
-	),
-	renderError = () => (
-		<div className="grid place-content-center">
-			<Status
-				icon={ErrorIcon}
-				tone={"danger"}
-				textTitle={<Tx label={"Invalid data provided (title)"} />}
-				textMessage={<Tx label={"Invalid data provided (message)"} />}
-			/>
-		</div>
-	),
-	children = ({ content }) => content,
+	renderLoading = DefaultSpinner,
+	renderFetching = DefaultSpinner,
+	renderError = DefaultError,
+	children = DefaultContent,
 }: Data.Props<TData, TResult>) => {
-	const { state, node } = match(result)
-		.when(
-			(r) => r.isSuccess,
-			(r) => ({
-				state: "success",
-				node: renderSuccess({
-					// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess
-					data: r.data!,
-				}),
-			}),
-		)
-		.when(
-			(r) => r.isError,
-			(r) => ({
-				state: "error",
-				node: renderError({
-					// biome-ignore lint/style/noNonNullAssertion: We've already checked isError
-					error: r.error!,
-				}),
-			}),
-		)
-		.when(
-			(r) => r.isLoading,
-			() => ({
-				state: "loading",
-				node: renderLoading(),
-			}),
-		)
-		.when(
-			(r) => r.isFetching,
-			(r) => ({
-				state: "fetching",
-				node: renderFetching({
-					// biome-ignore lint/style/noNonNullAssertion: We've data
-					data: r.data!,
-				}),
-			}),
-		)
-		.otherwise(() => ({
-			state: "loading",
-			node: null,
-		}));
-
-	const resolved = children({
-		content: node,
+	return children({
+		content: match(result)
+			.when(
+				(r) => r.isSuccess,
+				(r) =>
+					renderSuccess({
+						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess
+						data: r.data!,
+					}),
+			)
+			.when(
+				(r) => r.isError,
+				(r) =>
+					renderError({
+						// biome-ignore lint/style/noNonNullAssertion: We've already checked isError
+						error: r.error!,
+					}),
+			)
+			.when(
+				(r) => r.isLoading,
+				() => renderLoading(),
+			)
+			.when(
+				(r) => r.isFetching,
+				(r) =>
+					renderFetching({
+						// biome-ignore lint/style/noNonNullAssertion: We've data
+						data: r.data!,
+					}),
+			)
+			.otherwise(() => null),
 	});
-
-	return (
-		<motion.div
-			data-ui="Data-root"
-			layout
-			style={{
-				overflow: "hidden",
-			}}
-			transition={{
-				duration: 0.22,
-				ease: [
-					0.22,
-					1,
-					0.36,
-					1,
-				],
-			}}
-		>
-			<AnimatePresence
-				mode="wait"
-				initial={false}
-			>
-				<motion.div
-					data-ui="Data-content"
-					key={state}
-					initial={{
-						opacity: 0,
-						scale: 0.98,
-						y: 2,
-					}}
-					animate={{
-						opacity: 1,
-						scale: 1,
-						y: 0,
-					}}
-					exit={{
-						opacity: 0,
-						scale: 0.98,
-						y: -1,
-					}}
-					transition={{
-						duration: 0.05,
-						ease: [
-							0.22,
-							1,
-							0.36,
-							1,
-						],
-					}}
-					layout
-				>
-					{resolved}
-				</motion.div>
-			</AnimatePresence>
-		</motion.div>
-	);
 };
