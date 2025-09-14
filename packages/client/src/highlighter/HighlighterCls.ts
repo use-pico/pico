@@ -39,9 +39,7 @@ export const HighlighterCls = PicoCls.extend(
 					[
 						"round.default",
 						"border.default",
-						"shadow.default",
 						"tone.primary.light.border",
-						"tone.primary.light.shadow",
 					],
 				),
 			}),
