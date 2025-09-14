@@ -7,19 +7,9 @@ export namespace Highlighter {
 	export type Rect = Pick<DOMRect, "left" | "top" | "width" | "height">;
 
 	export interface Props extends HighlighterCls.Props {
-		/**
-		 * Whether the highlighter is visible .
-		 *
-		 * Highlighter is animated - do not remove it from the DOM or exit animation
-		 * will not work properly. The whole component is lightweight, so you may not bother
-		 * to keep it present.
-		 */
 		visible: boolean;
-		/** Viewport-relative rectangle of the target element */
 		rect: Rect | undefined;
-		/** Extra padding expanded around the rectangle */
 		padding?: number;
-		/** Called when user clicks the backdrop (including the hole; hole is not click-through) */
 		onBackdropClick?: () => void;
 	}
 }
@@ -32,16 +22,11 @@ export const BaseHighlighter: FC<Highlighter.Props> = ({
 	cls = HighlighterCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak);
-
-	if (!rect) {
-		return null;
-	}
-
-	const x = Math.max(0, Math.floor(rect.left - padding));
-	const y = Math.max(0, Math.floor(rect.top - padding));
-	const width = Math.ceil(rect.width + padding * 2);
-	const height = Math.ceil(rect.height + padding * 2);
+	const slots = useCls(cls, tweak, ({ what }) => ({
+		variant: what.variant({
+			center: rect === undefined,
+		}),
+	}));
 
 	return (
 		<AnimatePresence>
@@ -67,12 +52,26 @@ export const BaseHighlighter: FC<Highlighter.Props> = ({
 					<motion.div
 						data-ui="Highlighter-hole"
 						className={slots.hole()}
-						style={{
-							top: y,
-							left: x,
-							width,
-							height,
-						}}
+						style={
+							rect
+								? {
+										top: Math.max(
+											0,
+											Math.floor(rect.top - padding),
+										),
+										left: Math.max(
+											0,
+											Math.floor(rect.left - padding),
+										),
+										width: Math.ceil(
+											rect.width + padding * 2,
+										),
+										height: Math.ceil(
+											rect.height + padding * 2,
+										),
+									}
+								: undefined
+						}
 						initial={{
 							scale: 1.2,
 							opacity: 0,

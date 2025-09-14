@@ -178,6 +178,8 @@ export { useTokenOf } from "./token/useTokenOf";
 export { useTokensOf } from "./token/useTokensOf";
 export { Tooltip } from "./tooltip/Tooltip";
 export { TooltipCls } from "./tooltip/TooltipCls";
+export { Tour } from "./tour/Tour";
+export { TourButton } from "./tour/TourButton";
 export { Transfer } from "./transfer/Transfer";
 export { Tx } from "./tx/Tx";
 export { Typo } from "./typo/Typo";

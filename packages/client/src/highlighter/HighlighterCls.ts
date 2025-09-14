@@ -8,7 +8,11 @@ export const HighlighterCls = PicoCls.extend(
 			"root",
 			"hole",
 		],
-		variant: {},
+		variant: {
+			center: [
+				"bool",
+			],
+		},
 	},
 	({ what, def }) => ({
 		token: def.token({}),
@@ -39,8 +43,26 @@ export const HighlighterCls = PicoCls.extend(
 					],
 				),
 			}),
+			def.rule(
+				what.variant({
+					center: true,
+				}),
+				{
+					hole: what.css([
+						"fixed",
+						"left-1/2",
+						"top-1/2",
+						"-translate-x-1/2",
+						"-translate-y-1/2",
+						"w-0",
+						"h-0",
+					]),
+				},
+			),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			center: false,
+		}),
 	}),
 );
 
