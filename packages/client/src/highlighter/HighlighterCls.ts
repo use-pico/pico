@@ -30,8 +30,6 @@ export const HighlighterCls = PicoCls.extend(
 					[
 						"Highlighter-hole",
 						"fixed",
-						"ring-2",
-						"ring-white/90",
 						"shadow-[0_20px_60px_rgba(0,0,0,0.45)]",
 						"transition-[top,left,width,height]",
 						"duration-300",
@@ -40,6 +38,10 @@ export const HighlighterCls = PicoCls.extend(
 					],
 					[
 						"round.default",
+						"border.default",
+						"shadow.default",
+						"tone.primary.light.border",
+						"tone.primary.light.shadow",
 					],
 				),
 			}),
