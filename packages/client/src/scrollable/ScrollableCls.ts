@@ -34,8 +34,6 @@ export const ScrollableCls = PicoCls.extend(
 						"Scrollable-root",
 						"relative",
 						"isolate",
-						"min-h-0",
-						"h-full",
 						"overflow-hidden",
 						"[--fade-solid:12px]",
 					],
@@ -47,21 +45,20 @@ export const ScrollableCls = PicoCls.extend(
 
 				viewport: what.css([
 					"Scrollable-viewport",
-					"h-full",
 					"overflow-auto",
 					"overscroll-contain",
-					"z-0",
+					"h-full",
+					"min-h-0",
 				]),
 
 				content: what.css([
 					"Scrollable-content",
-					"min-h-full",
 					"grid",
 					"content-center",
 					"justify-items-stretch",
+					"min-h-full",
 				]),
 
-				// horní fade (gradient → plynule do transparent)
 				fadeTop: what.css([
 					"Scrollable-fadeTop",
 					"pointer-events-none",
@@ -86,28 +83,43 @@ export const ScrollableCls = PicoCls.extend(
 					"bg-[linear-gradient(to_top,var(--fade-color),var(--fade-color)_var(--fade-solid),transparent)]",
 				]),
 			}),
+
+			// ===== Layout variants =====
+
 			def.rule(
 				what.variant({
 					layout: "grid",
 				}),
 				{
-					root: what.css([]),
+					root: what.css([
+						"min-h-0",
+						"h-full",
+					]),
 				},
 			),
+
 			def.rule(
 				what.variant({
 					layout: "flex",
 				}),
 				{
-					root: what.css([]),
+					root: what.css([
+						"flex-1",
+						"min-h-0",
+						"h-auto",
+					]),
 				},
 			),
+
 			def.rule(
 				what.variant({
 					layout: "absolute",
 				}),
 				{
-					root: what.css([]),
+					root: what.css([
+						"absolute",
+						"inset-0",
+					]),
 				},
 			),
 		],
@@ -118,7 +130,6 @@ export const ScrollableCls = PicoCls.extend(
 );
 
 export type ScrollableCls = typeof ScrollableCls;
-
 export namespace ScrollableCls {
 	export type Props<P = unknown> = Cls.Props<ScrollableCls, P>;
 }

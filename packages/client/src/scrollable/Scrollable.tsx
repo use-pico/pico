@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import {
 	type FC,
 	type PropsWithChildren,
@@ -13,15 +13,22 @@ const clampToUnitInterval = (value: number) =>
 	value < 0 ? 0 : value > 1 ? 1 : value;
 
 export namespace Scrollable {
-	export interface Props extends ScrollableCls.Props<PropsWithChildren> {}
+	export interface Props extends ScrollableCls.Props<PropsWithChildren> {
+		layout: Cls.VariantOf<ScrollableCls, "layout">;
+	}
 }
 
 export const BaseScrollable: FC<Scrollable.Props> = ({
-	children,
+	layout,
 	cls = ScrollableCls,
 	tweak,
+	children,
 }) => {
-	const slots = useCls(cls, tweak);
+	const slots = useCls(cls, tweak, ({ what }) => ({
+		variant: what.variant({
+			layout,
+		}),
+	}));
 
 	const fadePx = 32;
 	const fadeSolid = 1;
