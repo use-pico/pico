@@ -1,5 +1,13 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import { type FC, type Ref, useEffect, useState } from "react";
+import {
+	type FC,
+	type Ref,
+	useCallback,
+	useEffect,
+	useId,
+	useMemo,
+	useState,
+} from "react";
 import { Icon } from "../icon/Icon";
 import { SnapperNavCls } from "./SnapperNavCls";
 import { useSnapper } from "./useSnapper";
@@ -13,7 +21,6 @@ export namespace SnapperNav {
 
 	export interface Limit {
 		limit: number;
-		icon: Icon.Type;
 		iconProps?: Icon.PropsEx;
 	}
 
@@ -30,21 +37,36 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	ref,
 	pages,
 	align,
+	limit = {
+		limit: 5,
+		iconProps: {
+			size: "sm",
+		},
+	},
 	initialIndex = 0,
-	limit,
 	cls = SnapperNavCls,
 	tweak,
 }) => {
 	const { orientation, containerRef, scrollToIndex } = useSnapper();
+	const [active, setActive] = useState(() =>
+		Math.min(initialIndex, Math.max(0, pages.length - 1)),
+	);
+
+	const isFirst = active === 0;
+	const isLast = active === pages.length - 1;
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			orientation,
 			align,
+			first: isFirst,
+			last: isLast,
 		}),
 	}));
-	const [active, setActive] = useState(() =>
-		Math.min(initialIndex, Math.max(0, pages.length - 1)),
-	);
+
+	// Control ids (stable, unique) for start/end buttons.
+	const firstId = useId();
+	const lastId = useId();
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Intentional - one shot execution
 	useEffect(() => {
@@ -82,6 +104,167 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		active,
 	]);
 
+	const flow = useMemo(() => {
+		if (!limit) {
+			return pages.map((_, i) => i);
+		}
+
+		const total = pages.length;
+		if (total === 0) {
+			return [];
+		}
+
+		const visible = Math.max(1, Math.min(limit.limit, total));
+		const half = Math.floor((visible - 1) / 2);
+		let start = active - half;
+		start = Math.max(0, Math.min(start, total - visible));
+
+		const out: number[] = [];
+		for (let i = 0; i < visible; i++) {
+			out.push(start + i);
+		}
+		return out;
+	}, [
+		limit,
+		pages,
+		active,
+	]);
+
+	const renderLimiter = useCallback(() => {
+		const leftIcon: Icon.Type =
+			orientation === "vertical"
+				? "icon-[rivet-icons--chevron-up]"
+				: "icon-[rivet-icons--chevron-left]";
+		const rightIcon: Icon.Type =
+			orientation === "vertical"
+				? "icon-[rivet-icons--chevron-down]"
+				: "icon-[rivet-icons--chevron-right]";
+
+		return (
+			<>
+				<Icon
+					id={firstId}
+					key={firstId}
+					onDoubleClick={() => scrollToIndex(0)}
+					onClick={() => scrollToIndex(active - 1)}
+					icon={leftIcon}
+					tone={orientation === "vertical" ? "secondary" : "subtle"}
+					size="md"
+					tweak={({ what }) => ({
+						slot: what.slot({
+							root: what.css(slots.first()),
+						}),
+					})}
+					{...limit?.iconProps}
+				/>
+				{flow.map((i) => {
+					const page = pages[i];
+					/**
+					 * Just to make TS happy
+					 */
+					if (!page) {
+						return null;
+					}
+					const isActive = i === active;
+
+					return (
+						<Icon
+							id={page.id}
+							key={page.id}
+							onClick={() => scrollToIndex(i)}
+							icon={page.icon}
+							tone={
+								orientation === "vertical"
+									? "secondary"
+									: "subtle"
+							}
+							size="md"
+							tweak={({ what }) => ({
+								slot: what.slot({
+									root: what.css(
+										slots.item(({ what }) => ({
+											variant: what.variant({
+												active: isActive,
+											}),
+										})),
+									),
+								}),
+							})}
+							{...page.iconProps}
+						/>
+					);
+				})}
+				<Icon
+					id={lastId}
+					key={lastId}
+					onClick={() => scrollToIndex(active + 1)}
+					onDoubleClick={() => scrollToIndex(pages.length - 1)}
+					icon={rightIcon}
+					tone={orientation === "vertical" ? "secondary" : "subtle"}
+					size="md"
+					tweak={({ what }) => ({
+						slot: what.slot({
+							root: what.css(slots.last()),
+						}),
+					})}
+					{...limit?.iconProps}
+				/>
+			</>
+		);
+	}, [
+		firstId,
+		lastId,
+		orientation,
+		limit?.iconProps,
+		pages,
+		active,
+		flow,
+		scrollToIndex,
+		slots,
+	]);
+
+	const renderPages = useCallback(
+		() => (
+			<>
+				{pages.map((page, i) => {
+					const isActive = i === active;
+
+					return (
+						<Icon
+							id={page.id}
+							key={page.id}
+							onClick={() => scrollToIndex(i)}
+							icon={page.icon}
+							tone={
+								orientation === "vertical"
+									? "secondary"
+									: "subtle"
+							}
+							size="md"
+							tweak={({ what }) => ({
+								slot: what.slot({
+									root: what.css([
+										"pointer-events-auto select-none transition cursor-pointer",
+										isActive
+											? "scale-125 opacity-100"
+											: "opacity-60 hover:opacity-90",
+									]),
+								}),
+							})}
+							{...page.iconProps}
+						/>
+					);
+				})}
+			</>
+		),
+		[
+			orientation,
+			pages,
+			active,
+			scrollToIndex,
+		],
+	);
+
 	return (
 		<div
 			data-ui="SnapperNav-root"
@@ -92,47 +275,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				data-ui="SnapperNav-items"
 				className={slots.items()}
 			>
-				{pages.map(({ id, icon, iconProps }, i) => {
-					const isActive = i === active;
-					const isFirst = i === 0;
-					const isLast = i === pages.length - 1;
-					const isLimit =
-						limit &&
-						pages.length > limit.limit &&
-						(isFirst || isLast);
-
-					const $icon = isLimit ? limit.icon : icon;
-					const $iconProps =
-						isLimit && limit.iconProps
-							? limit.iconProps || iconProps
-							: iconProps;
-
-					return (
-						<Icon
-							id={id}
-							key={id}
-							onClick={() => scrollToIndex(i)}
-							icon={$icon}
-							tone={
-								orientation === "vertical"
-									? "secondary"
-									: "subtle"
-							}
-							size="md"
-							tweak={({ what }) => ({
-								slot: what.slot({
-									root: what.css([
-										"pointer-events-auto select-none transition",
-										isActive
-											? "scale-125 opacity-100"
-											: "opacity-60 hover:opacity-90",
-									]),
-								}),
-							})}
-							{...$iconProps}
-						/>
-					);
-				})}
+				{limit ? renderLimiter() : renderPages()}
 			</div>
 		</div>
 	);

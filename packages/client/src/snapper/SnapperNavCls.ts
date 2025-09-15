@@ -3,10 +3,17 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const SnapperNavCls = PicoCls.extend(
 	{
-		tokens: [],
+		tokens: [
+			"snapper.nav.edge.common",
+			"snapper.nav.edge.enabled",
+			"snapper.nav.edge.disabled",
+		],
 		slot: [
 			"root",
 			"items",
+			"item",
+			"first",
+			"last",
 		],
 		variant: {
 			orientation: [
@@ -17,10 +24,35 @@ export const SnapperNavCls = PicoCls.extend(
 				"left",
 				"right",
 			],
+			active: [
+				"bool",
+			],
+			first: [
+				"bool",
+			],
+			last: [
+				"bool",
+			],
 		},
 	},
 	({ what, def }) => ({
-		token: def.token({}),
+		token: def.token({
+			"snapper.nav.edge.common": what.css([
+				"pointer-events-auto",
+				"select-none",
+				"transition",
+			]),
+			"snapper.nav.edge.enabled": what.css([
+				"opacity-80",
+				"hover:opacity-100",
+				"cursor-pointer",
+			]),
+			"snapper.nav.edge.disabled": what.css([
+				"opacity-40",
+				"hover:opacity-40",
+				"cursor-not-allowed",
+			]),
+		}),
 		rules: [
 			def.root({
 				root: what.both(
@@ -39,6 +71,18 @@ export const SnapperNavCls = PicoCls.extend(
 					"SnapperNav-items",
 					"gap-4",
 				]),
+				item: what.css([
+					"pointer-events-auto",
+					"select-none",
+					"transition",
+					"cursor-pointer",
+				]),
+				first: what.token([
+					"snapper.nav.edge.common",
+				]),
+				last: what.token([
+					"snapper.nav.edge.common",
+				]),
 			}),
 			def.rule(
 				what.variant({
@@ -51,6 +95,7 @@ export const SnapperNavCls = PicoCls.extend(
 					items: what.css([
 						"flex",
 						"flex-col",
+						"items-center",
 					]),
 				},
 			),
@@ -70,11 +115,11 @@ export const SnapperNavCls = PicoCls.extend(
 						],
 					),
 					items: what.css([
-						"inline-flex",
+						"flex",
 						"flex-row",
 						"justify-center",
 						"items-center",
-						"gap-0",
+						"gap-1",
 					]),
 				},
 			),
@@ -104,10 +149,75 @@ export const SnapperNavCls = PicoCls.extend(
 					]),
 				},
 			),
+			def.rule(
+				what.variant({
+					active: true,
+				}),
+				{
+					item: what.css([
+						"scale-125",
+						"opacity-100",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					active: false,
+				}),
+				{
+					item: what.css([
+						"opacity-60",
+						"hover:opacity-90",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					first: true,
+				}),
+				{
+					first: what.token([
+						"snapper.nav.edge.disabled",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					first: false,
+				}),
+				{
+					first: what.token([
+						"snapper.nav.edge.enabled",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					last: true,
+				}),
+				{
+					last: what.token([
+						"snapper.nav.edge.disabled",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					last: false,
+				}),
+				{
+					last: what.token([
+						"snapper.nav.edge.enabled",
+					]),
+				},
+			),
 		],
 		defaults: def.defaults({
 			orientation: "vertical",
 			align: "right",
+			active: false,
+			first: false,
+			last: false,
 		}),
 	}),
 );
