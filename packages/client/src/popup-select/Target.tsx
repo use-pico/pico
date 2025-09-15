@@ -52,7 +52,7 @@ export const Target = <
 			},
 		} as TQuery,
 		{
-			enabled: selection.hasAny(),
+			enabled: selection.hasAny,
 		},
 	);
 

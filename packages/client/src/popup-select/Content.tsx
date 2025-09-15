@@ -88,7 +88,6 @@ export const Content = <
 						});
 					},
 				}}
-				selectionMode={selection.mode}
 				selection={selection}
 				rowDblClick={({ data }) => {
 					if (selection.mode === "single") {

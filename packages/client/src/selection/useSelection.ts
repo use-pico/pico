@@ -32,23 +32,16 @@ export namespace useSelection {
 	}
 
 	export interface Selection<T extends EntitySchema.Type> {
-		/** Current array of selected items */
 		selection: T[];
-		/** Current selection mode */
 		mode: Mode;
 
-		/** Set single selection (replaces current selection) */
+		set(items: T[]): void;
 		single(item: T): void;
-		/** Add item to multi selection (won't duplicate if already selected) */
 		multi(item: T): void;
-		/** Toggle item selection */
 		toggle(item: T): void;
-		/** Remove item from selection */
 		remove(item: T): void;
 
-		/** Check if item with given id is selected */
 		isSelected(id: string): boolean;
-		/** True if any items are selected */
 		hasAny: boolean;
 
 		/** Clear selection */
@@ -56,9 +49,12 @@ export namespace useSelection {
 		/** Count of selected items */
 		count: number;
 
-		/** Required selection access methods - throws if no items selected */
+		/** Return true if ANY of provided items are selected */
+		some(items: T[]): boolean;
+		/** Return true if ALL of provided items are selected */
+		every(items: T[]): boolean;
+
 		required: Required<T>;
-		/** Optional selection access methods - returns undefined/empty if no items selected */
 		optional: Optional<T>;
 	}
 }
@@ -76,10 +72,6 @@ function dedupeById<T extends EntitySchema.Type>(arr: readonly T[]): T[] {
 	return out;
 }
 
-/**
- * Hook for managing reactive selection state with single or multi-selection modes.
- * Single source of truth = `selection`.
- */
 export function useSelection<T extends EntitySchema.Type>({
 	mode,
 	initial = [],
@@ -112,7 +104,10 @@ export function useSelection<T extends EntitySchema.Type>({
 	/** Add to multi (no duplicates) – functional update to avoid races */
 	const multi = useCallback((item: T) => {
 		setSelection((prev) => {
-			if (prev.some((p) => p.id === item.id)) return prev;
+			if (prev.some((p) => p.id === item.id)) {
+				return prev;
+			}
+
 			return [
 				...prev,
 				item,
@@ -140,6 +135,7 @@ export function useSelection<T extends EntitySchema.Type>({
 					next.splice(idx, 1);
 					return next;
 				}
+
 				return [
 					...prev,
 					item,
@@ -156,7 +152,6 @@ export function useSelection<T extends EntitySchema.Type>({
 		setSelection((prev) => prev.filter((p) => p.id !== item.id));
 	}, []);
 
-	/** Clear all */
 	const clear = useCallback(() => setSelection([]), []);
 
 	// ----- Required (stable) -----
@@ -188,7 +183,6 @@ export function useSelection<T extends EntitySchema.Type>({
 		if (selection.length === 0) {
 			throw new Error("No items selected in multi mode");
 		}
-
 		return selection as [
 			T,
 			...T[],
@@ -251,6 +245,28 @@ export function useSelection<T extends EntitySchema.Type>({
 		],
 	);
 
+	// ----- some/every (stable) -----
+	const some = useCallback(
+		(items: T[]): boolean =>
+			items.some((item) => selection.some((sel) => sel.id === item.id)),
+		[
+			selection,
+		],
+	);
+
+	const every = useCallback(
+		(items: T[]): boolean =>
+			items.every((item) => selection.some((sel) => sel.id === item.id)),
+		[
+			selection,
+		],
+	);
+
+	const set = useCallback(
+		(items: T[]) => setSelection(dedupeById(items)),
+		[],
+	);
+
 	return useMemo(
 		() => ({
 			selection,
@@ -259,12 +275,16 @@ export function useSelection<T extends EntitySchema.Type>({
 			multi,
 			toggle,
 			remove,
+			set,
 
 			isSelected: (id: string) => selection.some((p) => p.id === id),
 			hasAny: selection.length > 0,
 
 			clear,
 			count: selection.length,
+
+			some,
+			every,
 
 			required: {
 				single: requiredSingle,
@@ -295,6 +315,9 @@ export function useSelection<T extends EntitySchema.Type>({
 			optionalSingleId,
 			optionalMulti,
 			optionalMultiId,
+			some,
+			every,
+			set,
 		],
 	);
 }

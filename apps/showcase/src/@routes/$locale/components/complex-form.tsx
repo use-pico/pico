@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, FormField, Tx } from "@use-pico/client";
+import { Button, FormField, Tx, useSelection } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
-import { useId, useState } from "react";
+import { useId } from "react";
+import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
 import { InventoryItemPopupSelect } from "~/app/inventory/ui/InventoryItemPopupSelect";
 
 // Sample form data for demonstrations
@@ -76,13 +77,21 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 		const simpleTextId = useId();
 		const simpleEmailId = useId();
 
-		// Inventory item states
-		const [primaryItem, setPrimaryItem] = useState<string[]>([]);
-		const [secondaryItem, setSecondaryItem] = useState<string[]>([]);
-		const [replacementItems, setReplacementItems] = useState<string[]>([]);
-		const [singleInventoryItem, setSingleInventoryItem] = useState<
-			string[]
-		>([]);
+		// Inventory item selections
+		const primaryItemSelection = useSelection<InventoryItemSchema.Type>({
+			mode: "single",
+		});
+		const secondaryItemSelection = useSelection<InventoryItemSchema.Type>({
+			mode: "single",
+		});
+		const replacementItemsSelection =
+			useSelection<InventoryItemSchema.Type>({
+				mode: "multi",
+			});
+		const singleInventoryItemSelection =
+			useSelection<InventoryItemSchema.Type>({
+				mode: "single",
+			});
 
 		return (
 			<div
@@ -566,11 +575,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									{(props) => (
 										<InventoryItemPopupSelect
-											mode="single"
-											state={{
-												set: setPrimaryItem,
-												value: primaryItem,
-											}}
+											selection={primaryItemSelection}
 											{...props}
 										/>
 									)}
@@ -585,11 +590,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									{(props) => (
 										<InventoryItemPopupSelect
-											mode="single"
-											state={{
-												set: setSecondaryItem,
-												value: secondaryItem,
-											}}
+											selection={secondaryItemSelection}
 											{...props}
 										/>
 									)}
@@ -611,11 +612,9 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									{(props) => (
 										<InventoryItemPopupSelect
-											mode={"single"}
-											state={{
-												set: setSingleInventoryItem,
-												value: singleInventoryItem,
-											}}
+											selection={
+												singleInventoryItemSelection
+											}
 											{...props}
 										/>
 									)}
@@ -630,11 +629,9 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 								>
 									{(props) => (
 										<InventoryItemPopupSelect
-											mode="multi"
-											state={{
-												set: setReplacementItems,
-												value: replacementItems,
-											}}
+											selection={
+												replacementItemsSelection
+											}
 											{...props}
 										/>
 									)}
@@ -684,19 +681,11 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 						>
 							<div className="space-y-4">
 								<InventoryItemPopupSelect
-									mode="single"
-									state={{
-										set: setSingleInventoryItem,
-										value: singleInventoryItem,
-									}}
+									selection={singleInventoryItemSelection}
 								/>
 
 								<InventoryItemPopupSelect
-									mode="multi"
-									state={{
-										set: setReplacementItems,
-										value: replacementItems,
-									}}
+									selection={replacementItemsSelection}
 								/>
 							</div>
 						</Column>

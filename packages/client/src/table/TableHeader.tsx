@@ -55,19 +55,21 @@ export const TableHeader = <
 	actionTable,
 	controlsHidden,
 }: TableHeader.Props<TQuery, TData, TContext>) => {
-	const isAll = data.every((data) => selection?.value.includes(data.id));
-	const isAny = data.some((data) => selection?.value.includes(data.id));
+	const isAll = selection?.every(data);
+	const isAny = selection?.some(data);
 
 	const onSelectAll = () => {
 		if (isAll) {
 			selection?.set(
-				selection.value.filter(
-					(id) => !data.some((item) => item.id === id),
+				selection.selection.filter(
+					({ id }) => !data.some((item) => item.id === id),
 				),
 			);
-		} else {
-			selection?.set(selection.value.concat(data.map(({ id }) => id)));
+
+			return;
 		}
+
+		selection?.set(selection.selection.concat(data));
 	};
 
 	return (
@@ -114,7 +116,7 @@ export const TableHeader = <
 										? SelectionAnyIcon
 										: SelectionOffIcon
 							}
-							disabled={selectionMode === "single"}
+							disabled={selection.mode === "single"}
 							size="sm"
 							tweak={({ what }) => ({
 								slot: what.slot({
