@@ -1,6 +1,12 @@
 import type { Placement } from "@floating-ui/react";
 import { useCls } from "@use-pico/cls";
-import { type FC, useCallback, useEffect, useState } from "react";
+import {
+	type FC,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import { Action } from "../action/Action";
 import { Button } from "../button/Button";
 import { Highlighter } from "../highlighter/Highlighter";
@@ -23,20 +29,197 @@ export namespace Tour {
 		placement?: Placement;
 	}
 
+	export namespace Progress {
+		export interface Props {
+			isFirst: boolean;
+			isLast: boolean;
+			progress: number;
+			total: number;
+			percent: number;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace Close {
+		export interface Props {
+			isFirst: boolean;
+			isLast: boolean;
+			disabled: boolean;
+			close(): void;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace Title {
+		export interface Props {
+			title: string;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace Description {
+		export interface Props {
+			description: string | undefined;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace PrevButton {
+		export interface Props {
+			isFirst: boolean;
+			isLast: boolean;
+			disabled: boolean;
+			/**
+			 * If Tour is "first", this function will be no-op, so it's safe to call
+			 * it even if it may not make sense.
+			 */
+			prev(): void;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace NextButton {
+		export interface Props {
+			isFirst: boolean;
+			isLast: boolean;
+			disabled: boolean;
+			/**
+			 * If Tour is "last", this function will be no-op, so it's safe to call
+			 * it even if it may not make sense.
+			 */
+			next(): void;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
+	export namespace FinishButton {
+		export interface Props {
+			isFirst: boolean;
+			isLast: boolean;
+			finish(): void;
+		}
+
+		export type RenderFn = (props: Props) => ReactNode;
+	}
+
 	export interface Props extends TourCls.Props {
 		steps: Step[];
 		isOpen: boolean;
 		initialStepIndex?: number;
 		placement?: Placement;
+		renderClose?: Close.RenderFn;
+		renderTitle?: Title.RenderFn;
+		renderDescription?: Description.RenderFn;
+		renderProgress?: Progress.RenderFn;
+		renderPrevButton?: PrevButton.RenderFn;
+		renderNextButton?: NextButton.RenderFn;
+		renderFinishButton?: FinishButton.RenderFn;
 		onClose?: () => void;
 	}
 }
+
+const DefaultClose: Tour.Close.RenderFn = ({ close }) => {
+	return (
+		<Action
+			iconEnabled={CloseIcon}
+			iconDisabled={CloseIcon}
+			onClick={close}
+			size="sm"
+			tone={"neutral"}
+			theme={"light"}
+		/>
+	);
+};
+
+const DefaultTitle: Tour.Title.RenderFn = ({ title }) => {
+	return <div>{title}</div>;
+};
+
+const DefaultDescription: Tour.Description.RenderFn = ({ description }) => {
+	return (
+		<Typo
+			label={description}
+			size="sm"
+			tone={"secondary"}
+			theme={"light"}
+		/>
+	);
+};
+
+const DefaultProgress: Tour.Progress.RenderFn = ({
+	progress,
+	percent,
+	total,
+}) => {
+	return (
+		<Typo
+			label={`${progress} / ${total} (${percent.toFixed(0)}%)`}
+			font={"bold"}
+			size={"sm"}
+			tone={"primary"}
+			theme={"light"}
+		/>
+	);
+};
+
+const DefaultPrevButton: Tour.PrevButton.RenderFn = ({ prev, disabled }) => {
+	return (
+		<Button
+			iconEnabled={ArrowLeftIcon}
+			iconDisabled={ArrowLeftIcon}
+			onClick={prev}
+			disabled={disabled}
+			size="sm"
+		>
+			<Tx label={"Previous (tour)"} />
+		</Button>
+	);
+};
+
+const DefaultNextButton: Tour.NextButton.RenderFn = ({ next, disabled }) => {
+	return (
+		<Button
+			iconEnabled={ArrowRightIcon}
+			iconDisabled={ArrowRightIcon}
+			onClick={next}
+			disabled={disabled}
+			size="sm"
+		>
+			<Tx label={"Next (tour)"} />
+		</Button>
+	);
+};
+
+const DefaultFinishButton: Tour.FinishButton.RenderFn = ({ finish }) => {
+	return (
+		<Button
+			onClick={finish}
+			size="sm"
+			tone="warning"
+		>
+			<Tx label={"Finish (tour)"} />
+		</Button>
+	);
+};
 
 export const Tour: FC<Tour.Props> = ({
 	steps,
 	isOpen,
 	initialStepIndex = 0,
 	placement = "bottom",
+	renderClose = DefaultClose,
+	renderTitle = DefaultTitle,
+	renderDescription = DefaultDescription,
+	renderProgress = DefaultProgress,
+	renderPrevButton = DefaultPrevButton,
+	renderNextButton = DefaultNextButton,
+	renderFinishButton = DefaultFinishButton,
 	onClose,
 	cls = TourCls,
 	tweak,
@@ -123,6 +306,7 @@ export const Tour: FC<Tour.Props> = ({
 	]);
 
 	const padding = currentStep?.padding ?? 8;
+	const isFirst = currentStepIndex === 0;
 	const isLast = currentStepIndex === steps.length - 1;
 
 	return (
@@ -140,67 +324,70 @@ export const Tour: FC<Tour.Props> = ({
 					referenceElement={targetElement}
 					placement={currentStep?.placement ?? placement}
 				>
-					<div className="grid gap-2">
-						<div className="inline-flex items-center justify-between">
-							<div>{currentStep.title}</div>
+					<div
+						data-ui="Tour-content"
+						className="grid gap-2"
+					>
+						<div
+							data-ui="Tour-header"
+							className="inline-flex items-center justify-between"
+						>
+							{renderTitle({
+								title: currentStep.title,
+							})}
 
-							<div className="inline-flex items-center gap-2">
-								<Typo
-									label={`${currentStepIndex + 1} / ${steps.length}`}
-									font={"bold"}
-									size={"sm"}
-									tone={"primary"}
-									theme={"light"}
-								/>
+							<div
+								data-ui="Tour-header-items"
+								className="inline-flex items-center gap-2"
+							>
+								{renderProgress({
+									isFirst,
+									isLast,
+									progress: currentStepIndex + 1,
+									total: steps.length,
+									percent:
+										(100 / steps.length) *
+										(currentStepIndex + 1),
+								})}
 
-								<Action
-									iconEnabled={CloseIcon}
-									iconDisabled={CloseIcon}
-									onClick={handleClose}
-									size="sm"
-									tone={"neutral"}
-									theme={"light"}
-								/>
+								{renderClose({
+									isFirst,
+									isLast,
+									disabled: false,
+									close: handleClose,
+								})}
 							</div>
 						</div>
 
-						<Typo
-							label={currentStep.description}
-							size="sm"
-							tone={"secondary"}
-							theme={"light"}
-						/>
+						{renderDescription({
+							description: currentStep.description,
+						})}
 
-						<div className={slots.nav()}>
-							{currentStepIndex > 0 ? (
-								<Button
-									iconEnabled={ArrowLeftIcon}
-									iconDisabled={ArrowLeftIcon}
-									onClick={goToPrevious}
-									size="sm"
-								>
-									<Tx label={"Previous (tour)"} />
-								</Button>
-							) : null}
+						<div
+							data-ui="Tour-nav"
+							className={slots.nav()}
+						>
+							{currentStepIndex > 0
+								? renderPrevButton({
+										isFirst,
+										isLast,
+										disabled: isFirst,
+										prev: goToPrevious,
+									})
+								: null}
 
-							{isLast ? (
-								<Button
-									onClick={goToNext}
-									size="sm"
-									tone="warning"
-								>
-									<Tx label={"Finish (tour)"} />
-								</Button>
-							) : (
-								<Button
-									iconEnabled={ArrowRightIcon}
-									iconDisabled={ArrowRightIcon}
-									onClick={goToNext}
-									size="sm"
-								>
-									<Tx label={"Next (tour)"} />
-								</Button>
-							)}
+							{isLast
+								? renderFinishButton({
+										isFirst,
+										isLast,
+										finish: handleClose,
+									})
+								: renderNextButton({
+										isFirst,
+										isLast,
+										disabled: isLast,
+										next: goToNext,
+									})}
 						</div>
 					</div>
 				</Content>

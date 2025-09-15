@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.70",
+	"version": "5.0.73",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -49,7 +49,7 @@
 		"@types/react": "19.1.13",
 		"@use-pico/tsconfig": "4.0.22",
 		"npm-run-all2": "8.0.4",
-		"rollup": "4.50.1",
+		"rollup": "4.50.2",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},

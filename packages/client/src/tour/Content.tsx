@@ -109,6 +109,7 @@ export const Content: FC<Content.Props> = ({
 	return (
 		<>
 			<div
+				data-ui="Tour-Content-center"
 				ref={centerRef}
 				aria-hidden
 				className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0 h-0 pointer-events-none"
