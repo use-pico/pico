@@ -11,11 +11,18 @@ export namespace SnapperNav {
 		iconProps?: Icon.PropsEx;
 	}
 
+	export interface Limit {
+		limit: number;
+		icon: Icon.Type;
+		iconProps?: Icon.PropsEx;
+	}
+
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		pages: Page[];
 		initialIndex?: number;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
+		limit?: Limit;
 	}
 }
 
@@ -24,6 +31,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	pages,
 	align,
 	initialIndex = 0,
+	limit,
 	cls = SnapperNavCls,
 	tweak,
 }) => {
@@ -86,12 +94,25 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			>
 				{pages.map(({ id, icon, iconProps }, i) => {
 					const isActive = i === active;
+					const isFirst = i === 0;
+					const isLast = i === pages.length - 1;
+					const isLimit =
+						limit &&
+						pages.length > limit.limit &&
+						(isFirst || isLast);
+
+					const $icon = isLimit ? limit.icon : icon;
+					const $iconProps =
+						isLimit && limit.iconProps
+							? limit.iconProps || iconProps
+							: iconProps;
+
 					return (
 						<Icon
 							id={id}
 							key={id}
 							onClick={() => scrollToIndex(i)}
-							icon={icon}
+							icon={$icon}
 							tone={
 								orientation === "vertical"
 									? "secondary"
@@ -108,7 +129,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 									]),
 								}),
 							})}
-							{...iconProps}
+							{...$iconProps}
 						/>
 					);
 				})}

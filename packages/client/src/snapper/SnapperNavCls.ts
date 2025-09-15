@@ -70,8 +70,10 @@ export const SnapperNavCls = PicoCls.extend(
 						],
 					),
 					items: what.css([
-						"flex",
+						"inline-flex",
 						"flex-row",
+						"justify-center",
+						"items-center",
 						"gap-0",
 					]),
 				},
