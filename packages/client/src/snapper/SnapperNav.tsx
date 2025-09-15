@@ -10,40 +10,50 @@ import {
 } from "react";
 import { useDoubleTap } from "../hooks/useDoubleTap";
 import { Icon } from "../icon/Icon";
+import type { IconCls } from "../icon/IconCls";
 import { SnapperNavCls } from "./SnapperNavCls";
 import { useSnapper } from "./useSnapper";
 
 export namespace SnapperNav {
+	export namespace IconProps {
+		export interface Props {
+			limit: boolean;
+			active: boolean | undefined;
+			index: number | undefined;
+		}
+
+		export type IconPropsFn = (props: Props) => Icon.PropsEx;
+	}
+
 	export interface Page {
 		id: string;
 		icon: Icon.Type;
-		iconProps?: Icon.PropsEx;
-	}
-
-	export interface Limit {
-		limit: number;
-		iconProps?: Icon.PropsEx;
+		/**
+		 * Overrides the default icon props for the given page.
+		 *
+		 * Keep in mind this affects only pages, not the limiter (edges).
+		 */
+		iconProps?: IconProps.IconPropsFn;
 	}
 
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		pages: Page[];
 		initialIndex?: number;
+		tone?: Cls.VariantOf<IconCls, "tone">;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
-		limit?: Limit;
+		iconProps?: IconProps.IconPropsFn;
+		limit?: number;
 	}
 }
 
 export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	ref,
 	pages,
+	tone = "primary",
 	align,
-	limit = {
-		limit: 6,
-		iconProps: {
-			size: "sm",
-		},
-	},
+	iconProps,
+	limit = 6,
 	initialIndex = 0,
 	cls = SnapperNavCls,
 	tweak,
@@ -123,7 +133,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			return [];
 		}
 
-		const visible = Math.max(1, Math.min(limit.limit, total));
+		const visible = Math.max(1, Math.min(limit, total));
 		const half = Math.floor((visible - 1) / 2);
 		let start = active - half;
 		start = Math.max(0, Math.min(start, total - visible));
@@ -158,14 +168,18 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					onClick={() => scrollToIndex(active - 1)}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
-					tone={orientation === "vertical" ? "secondary" : "subtle"}
+					tone={tone}
 					size="md"
 					tweak={({ what }) => ({
 						slot: what.slot({
 							root: what.css(slots.first()),
 						}),
 					})}
-					{...limit?.iconProps}
+					{...iconProps?.({
+						limit: true,
+						active: false,
+						index: undefined,
+					})}
 				/>
 				{flow.map((i) => {
 					const page = pages[i];
@@ -183,11 +197,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 							key={page.id}
 							onClick={() => scrollToIndex(i)}
 							icon={page.icon}
-							tone={
-								orientation === "vertical"
-									? "secondary"
-									: "subtle"
-							}
+							tone={tone}
 							size="md"
 							tweak={({ what }) => ({
 								slot: what.slot({
@@ -200,7 +210,16 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 									),
 								}),
 							})}
-							{...page.iconProps}
+							{...iconProps?.({
+								limit: false,
+								active: isActive,
+								index: i,
+							})}
+							{...page.iconProps?.({
+								limit: false,
+								active: isActive,
+								index: i,
+							})}
 						/>
 					);
 				})}
@@ -211,14 +230,18 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					onDoubleClick={() => scrollToIndex(pages.length - 1)}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
-					tone={orientation === "vertical" ? "secondary" : "subtle"}
+					tone={tone}
 					size="md"
 					tweak={({ what }) => ({
 						slot: what.slot({
 							root: what.css(slots.last()),
 						}),
 					})}
-					{...limit?.iconProps}
+					{...iconProps?.({
+						limit: true,
+						active: false,
+						index: undefined,
+					})}
 				/>
 			</>
 		);
@@ -226,7 +249,8 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		firstId,
 		lastId,
 		orientation,
-		limit?.iconProps,
+		tone,
+		iconProps,
 		pages,
 		active,
 		flow,
@@ -248,11 +272,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 							key={page.id}
 							onClick={() => scrollToIndex(i)}
 							icon={page.icon}
-							tone={
-								orientation === "vertical"
-									? "secondary"
-									: "subtle"
-							}
+							tone={tone}
 							size="md"
 							tweak={({ what }) => ({
 								slot: what.slot({
@@ -264,15 +284,20 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 									]),
 								}),
 							})}
-							{...page.iconProps}
+							{...iconProps?.({
+								limit: false,
+								active: isActive,
+								index: i,
+							})}
 						/>
 					);
 				})}
 			</>
 		),
 		[
-			orientation,
+			tone,
 			pages,
+			iconProps,
 			active,
 			scrollToIndex,
 		],

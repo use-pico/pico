@@ -26,7 +26,6 @@ export const ColumnLayoutCls = PicoCls.extend(
 						"gap-1",
 					],
 					[
-						"round.xl",
 						"square.sm",
 					],
 				),

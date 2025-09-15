@@ -24,7 +24,7 @@ export const ScrollableCls = PicoCls.extend(
 	({ what, def }) => ({
 		token: def.token({
 			"scrollable.fade.color": what.css([
-				"[--fade-color:var(--color-orange-200)]",
+				"[--fade-color:var(--color-slate-300)]",
 			]),
 		}),
 		rules: [
@@ -46,7 +46,7 @@ export const ScrollableCls = PicoCls.extend(
 				viewport: what.css([
 					"Scrollable-viewport",
 					"overflow-auto",
-					"overscroll-contain",
+					"overscroll-y-contain",
 					"h-full",
 					"min-h-0",
 				]),

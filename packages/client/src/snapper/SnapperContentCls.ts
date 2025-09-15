@@ -19,22 +19,17 @@ export const SnapperContentCls = PicoCls.extend(
 		token: def.token({}),
 		rules: [
 			def.root({
-				root: what.both(
-					[
-						"SnapperContent-root",
-						"relative",
-						"min-h-0",
-						"min-w-0",
-						"scroll-smooth",
-						"[-webkit-overflow-scrolling:touch]",
-						"snap-mandatory",
-						"h-full",
-						"touch-auto",
-					],
-					[
-						"round.xl",
-					],
-				),
+				root: what.css([
+					"SnapperContent-root",
+					"relative",
+					"min-h-0",
+					"min-w-0",
+					"scroll-smooth",
+					"[-webkit-overflow-scrolling:touch]",
+					"snap-mandatory",
+					"h-full",
+					"touch-auto",
+				]),
 				content: what.css([
 					"SnapperContent-content",
 					"grid",

@@ -1,15 +1,11 @@
 import type { Cls } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const AlertCls = PicoCls.extend(
+export const SheetCls = PicoCls.extend(
 	{
 		tokens: [],
 		slot: [
 			"root",
-			"header",
-			"title",
-			"message",
-			"body",
 		],
 		variant: {
 			tone: [
@@ -25,52 +21,40 @@ export const AlertCls = PicoCls.extend(
 				"light",
 				"dark",
 			],
-			clickable: [
+			round: [
+				"none",
+				"default",
+				"sm",
+				"md",
+				"lg",
+				"xl",
+				"full",
+			],
+			disabled: [
 				"bool",
 			],
 		},
 	},
 	({ what, def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [
 			def.root({
 				root: what.both(
 					[
-						"Alert-root",
-						"flex",
-						"flex-col",
-						"gap-2",
+						"Sheet-root",
+						"grid",
+						"grid-cols-1",
+						"content-center",
+						"min-h-0",
+						"min-w-0",
+						"w-full",
+						"h-full",
 					],
 					[
-						"shadow.default",
-						"round.default",
 						"border.default",
-						"padding.md",
+						"shadow.default",
 					],
 				),
-				header: what.css([
-					"Alert-header",
-					"flex",
-					"items-center",
-					"gap-2",
-					"w-full",
-				]),
-				title: what.css([
-					"Alert-title",
-					"font-semibold",
-					"w-full",
-				]),
-				message: what.css([
-					"Alert-message",
-					"opacity-85",
-					"text-sm",
-					"w-full",
-				]),
-				body: what.css([
-					"Alert-body",
-					"border-t",
-					"w-full",
-				]),
 			}),
 			// Tone colors (dark / light)
 			def.rule(
@@ -84,9 +68,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.primary.dark.bg",
 						"tone.primary.dark.border",
 						"tone.primary.dark.shadow",
-					]),
-					body: what.token([
-						"tone.primary.dark.border",
 					]),
 				},
 			),
@@ -102,9 +83,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.primary.light.border",
 						"tone.primary.light.shadow",
 					]),
-					body: what.token([
-						"tone.primary.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -118,9 +96,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.secondary.dark.bg",
 						"tone.secondary.dark.border",
 						"tone.secondary.dark.shadow",
-					]),
-					body: what.token([
-						"tone.secondary.dark.border",
 					]),
 				},
 			),
@@ -136,9 +111,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.secondary.light.border",
 						"tone.secondary.light.shadow",
 					]),
-					body: what.token([
-						"tone.secondary.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -152,9 +124,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.danger.dark.bg",
 						"tone.danger.dark.border",
 						"tone.danger.dark.shadow",
-					]),
-					body: what.token([
-						"tone.danger.dark.border",
 					]),
 				},
 			),
@@ -170,9 +139,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.danger.light.border",
 						"tone.danger.light.shadow",
 					]),
-					body: what.token([
-						"tone.danger.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -186,9 +152,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.warning.dark.bg",
 						"tone.warning.dark.border",
 						"tone.warning.dark.shadow",
-					]),
-					body: what.token([
-						"tone.warning.dark.border",
 					]),
 				},
 			),
@@ -204,9 +167,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.warning.light.border",
 						"tone.warning.light.shadow",
 					]),
-					body: what.token([
-						"tone.warning.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -220,9 +180,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.neutral.dark.bg",
 						"tone.neutral.dark.border",
 						"tone.neutral.dark.shadow",
-					]),
-					body: what.token([
-						"tone.neutral.dark.border",
 					]),
 				},
 			),
@@ -238,9 +195,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.neutral.light.border",
 						"tone.neutral.light.shadow",
 					]),
-					body: what.token([
-						"tone.neutral.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -254,9 +208,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.subtle.dark.bg",
 						"tone.subtle.dark.border",
 						"tone.subtle.dark.shadow",
-					]),
-					body: what.token([
-						"tone.subtle.dark.border",
 					]),
 				},
 			),
@@ -272,9 +223,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",
 					]),
-					body: what.token([
-						"tone.subtle.light.border",
-					]),
 				},
 			),
 			def.rule(
@@ -288,9 +236,6 @@ export const AlertCls = PicoCls.extend(
 						"tone.link.dark.bg",
 						"tone.link.dark.border",
 						"tone.link.dark.shadow",
-					]),
-					body: what.token([
-						"tone.link.dark.border",
 					]),
 				},
 			),
@@ -306,42 +251,93 @@ export const AlertCls = PicoCls.extend(
 						"tone.link.light.border",
 						"tone.link.light.shadow",
 					]),
-					body: what.token([
-						"tone.link.light.border",
+				},
+			),
+			// Round variants
+			def.rule(
+				what.variant({
+					round: "default",
+				}),
+				{
+					root: what.token([
+						"round.default",
 					]),
 				},
 			),
-			// Clickable affordance
 			def.rule(
 				what.variant({
-					clickable: true,
+					round: "sm",
 				}),
 				{
-					root: what.both(
-						[
-							"group",
-							"cursor-pointer",
-							"transition-all",
-							"hover:shadow-md",
-							"active:opacity-90",
-						],
-						[
-							"scale.sm",
-						],
-					),
+					root: what.token([
+						"round.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "md",
+				}),
+				{
+					root: what.token([
+						"round.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "lg",
+				}),
+				{
+					root: what.token([
+						"round.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "xl",
+				}),
+				{
+					root: what.token([
+						"round.xl",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "full",
+				}),
+				{
+					root: what.token([
+						"round.full",
+					]),
+				},
+			),
+			// Disabled variant
+			def.rule(
+				what.variant({
+					disabled: true,
+				}),
+				{
+					root: what.css([
+						"opacity-60",
+						"pointer-events-none",
+					]),
 				},
 			),
 		],
 		defaults: def.defaults({
-			clickable: false,
 			tone: "primary",
 			theme: "light",
+			round: "xl",
+			disabled: false,
 		}),
 	}),
 );
 
-export type AlertCls = typeof AlertCls;
+export type SheetCls = typeof SheetCls;
 
-export namespace AlertCls {
-	export type Props<P = unknown> = Cls.Props<AlertCls, P>;
+export namespace SheetCls {
+	export type Props<P = unknown> = Cls.Props<SheetCls, P>;
 }

@@ -9,18 +9,7 @@ export const StatusCls = PicoCls.extend(
 			"title",
 			"body",
 		],
-		variant: {
-			tone: [
-				"inherit",
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-		},
+		variant: {},
 	},
 	({ what, def }) => ({
 		token: def.token({}),
@@ -48,15 +37,8 @@ export const StatusCls = PicoCls.extend(
 					"Status-body",
 				]),
 			}),
-			/**
-			 * Tones are not defined as Status are forwarding it's
-			 * styles to "Icon" and "Typo" components which implements
-			 * their own styles.
-			 */
 		],
-		defaults: def.defaults({
-			tone: "inherit",
-		}),
+		defaults: def.defaults({}),
 	}),
 );
 

@@ -228,9 +228,7 @@ function OrientationRow({
 							<SnapperNav
 								pages={pages}
 								align={align}
-								limit={{
-									limit: 3,
-								}}
+								limit={3}
 							/>
 							<SnapperContent>
 								{pages.map((page, index) => (

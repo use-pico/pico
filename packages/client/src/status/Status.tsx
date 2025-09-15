@@ -1,6 +1,7 @@
-import { type Cls, useClsEx, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { Icon } from "../icon/Icon";
+import type { IconCls } from "../icon/IconCls";
 import { Typo } from "../typo/Typo";
 import { StatusCls } from "./StatusCls";
 
@@ -13,7 +14,8 @@ export namespace Status {
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;
 		messageProps?: Typo.PropsEx;
-		tone?: Cls.VariantOf<StatusCls, "tone">;
+		tone?: Cls.VariantOf<IconCls, "tone">;
+		theme?: Cls.VariantOf<IconCls, "theme">;
 	}
 }
 
@@ -25,16 +27,13 @@ export const BaseStatus: FC<Status.Props> = ({
 	iconProps,
 	titleProps,
 	messageProps,
-	tone = "inherit",
+	tone = "primary",
+	theme = "light",
 	cls = StatusCls,
 	tweak,
 	children,
 }) => {
-	const { slots, variants } = useClsEx(cls, tweak, ({ what }) => ({
-		variant: what.variant({
-			tone,
-		}),
-	}));
+	const slots = useCls(cls, tweak);
 
 	return (
 		<div
@@ -49,7 +48,8 @@ export const BaseStatus: FC<Status.Props> = ({
 				<Icon
 					icon={icon}
 					size="xl"
-					tone={variants.tone}
+					tone={tone}
+					theme={theme}
 					tweak={({ what }) => ({
 						slot: what.slot({
 							root: what.css([
@@ -64,12 +64,14 @@ export const BaseStatus: FC<Status.Props> = ({
 					label={textTitle}
 					size="xl"
 					font="bold"
-					tone={variants.tone}
+					tone={tone}
+					theme={theme}
 					{...titleProps}
 				/>
 				<Typo
 					label={textMessage}
-					tone={variants.tone}
+					tone={tone}
+					theme={theme}
 					{...messageProps}
 				/>
 			</div>

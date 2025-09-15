@@ -61,15 +61,19 @@ export const SnapperNavCls = PicoCls.extend(
 						"absolute",
 						"z-20",
 						"pointer-events-none",
-						"bg-white/80",
+						"bg-white/70",
 					],
 					[
 						"square.sm",
+						"round.lg",
 					],
 				),
 				items: what.css([
 					"SnapperNav-items",
 					"gap-4",
+					"flex",
+					"items-center",
+					"justify-center",
 				]),
 				item: what.css([
 					"pointer-events-auto",
@@ -89,13 +93,8 @@ export const SnapperNavCls = PicoCls.extend(
 					orientation: "vertical",
 				}),
 				{
-					root: what.token([
-						"round.lg",
-					]),
 					items: what.css([
-						"flex",
 						"flex-col",
-						"items-center",
 					]),
 				},
 			),
@@ -104,22 +103,13 @@ export const SnapperNavCls = PicoCls.extend(
 					orientation: "horizontal",
 				}),
 				{
-					root: what.both(
-						[
-							"bottom-4",
-							"left-1/2",
-							"-translate-x-1/2",
-						],
-						[
-							"round.xl",
-						],
-					),
+					root: what.css([
+						"bottom-4",
+						"left-1/2",
+						"-translate-x-1/2",
+					]),
 					items: what.css([
-						"flex",
 						"flex-row",
-						"justify-center",
-						"items-center",
-						"gap-1",
 					]),
 				},
 			),
