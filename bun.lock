@@ -19,10 +19,10 @@
         "@tanstack/react-form": "1.20.0",
         "@tanstack/react-query": "5.87.4",
         "@tanstack/react-router": "1.131.44",
-        "@use-pico/client": "5.0.86",
-        "@use-pico/cls": "5.0.32",
-        "@use-pico/common": "5.0.37",
-        "@use-pico/server": "5.0.37",
+        "@use-pico/client": "5.0.91",
+        "@use-pico/cls": "5.0.33",
+        "@use-pico/common": "5.0.38",
+        "@use-pico/server": "5.0.38",
         "fuse.js": "7.1.0",
         "kysely": "0.28.7",
         "react": "^19.1.1",
@@ -55,7 +55,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "5.0.86",
+      "version": "5.0.91",
       "dependencies": {
         "@floating-ui/react": "0.27.16",
         "@lexical/list": "0.35.0",
@@ -66,8 +66,8 @@
         "@tanstack/react-query": "5.87.4",
         "@tanstack/react-router": "1.131.44",
         "@types/luxon": "^3.6.2",
-        "@use-pico/cls": "5.0.32",
-        "@use-pico/common": "5.0.37",
+        "@use-pico/cls": "5.0.33",
+        "@use-pico/common": "5.0.38",
         "axios": "1.12.2",
         "js-file-downloader": "1.1.25",
         "kysely": "0.28.7",
@@ -103,7 +103,7 @@
     },
     "packages/cls": {
       "name": "@use-pico/cls",
-      "version": "5.0.32",
+      "version": "5.0.33",
       "dependencies": {
         "react": "^19.1.1",
         "tailwind-merge": "^3.3.1",
@@ -133,7 +133,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "5.0.37",
+      "version": "5.0.38",
       "dependencies": {
         "@apollo/client": "^4.0.0",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -175,7 +175,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.45",
+      "version": "4.0.46",
       "dependencies": {
         "@graphql-codegen/add": "6.0.0",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -205,10 +205,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "5.0.37",
+      "version": "5.0.38",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "5.0.37",
+        "@use-pico/common": "5.0.38",
         "kysely": "0.28.7",
         "yaml": "2.8.1",
       },
