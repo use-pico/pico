@@ -4,6 +4,7 @@ import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import type { useSelection } from "../selection/useSelection";
 import type { withQuery } from "../source/withQuery";
 import { Tx } from "../tx/Tx";
 import type { PopupSelect } from "./PopupSelect";
@@ -15,7 +16,6 @@ export namespace Target {
 		TItem extends EntitySchema.Type,
 	> {
 		ref?: Ref<HTMLLabelElement>;
-		mode: "single" | "multi";
 		modalId: string;
 		slots: PopupSelectCls.Slots;
 		//
@@ -26,7 +26,7 @@ export namespace Target {
 		//
 		textSelect: ReactNode;
 		//
-		state: PopupSelect.State;
+		selection: useSelection.Selection<TItem>;
 	}
 }
 
@@ -35,7 +35,6 @@ export const Target = <
 	TItem extends EntitySchema.Type,
 >({
 	ref,
-	mode,
 	modalId,
 	slots,
 	//
@@ -44,16 +43,16 @@ export const Target = <
 	renderMulti,
 	textSelect,
 	//
-	state,
+	selection,
 }: Target.Props<TQuery, TItem>) => {
 	const selected = withQuery.useQuery(
 		{
 			filter: {
-				idIn: state.value,
+				idIn: selection.optional.multiId(),
 			},
 		} as TQuery,
 		{
-			enabled: Boolean(state.value?.length),
+			enabled: selection.hasAny(),
 		},
 	);
 

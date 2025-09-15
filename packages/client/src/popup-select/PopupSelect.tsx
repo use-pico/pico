@@ -1,12 +1,9 @@
 import { useCls } from "@use-pico/cls";
-import type {
-	EntitySchema,
-	StateType,
-	withQuerySchema,
-} from "@use-pico/common";
+import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import { type FC, type ReactNode, useId } from "react";
 import type { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
+import type { useSelection } from "../selection/useSelection";
 import type { withQuery } from "../source/withQuery";
 import type { Table } from "../table/Table";
 import { Content } from "./Content";
@@ -14,8 +11,6 @@ import { PopupSelectCls } from "./PopupSelectCls";
 import { Target } from "./Target";
 
 export namespace PopupSelect {
-	export type State = StateType<string[]>;
-
 	export namespace Render {
 		export namespace Single {
 			export interface Props<TItem extends EntitySchema.Type> {
@@ -42,7 +37,6 @@ export namespace PopupSelect {
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> extends PopupSelectCls.Props {
-		mode: "single" | "multi";
 		withQuery: withQuery.Api<TQuery, TItem[]>;
 		query?: Omit<TQuery, "filter" | "cursor">;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
@@ -68,7 +62,7 @@ export namespace PopupSelect {
 		required?: boolean;
 		disabled?: boolean;
 		//
-		state: State;
+		selection: useSelection.Selection<TItem>;
 	}
 
 	export type PropsEx<
@@ -84,7 +78,6 @@ export const PopupSelect = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
-	mode,
 	withQuery,
 	query,
 	table,
@@ -106,7 +99,7 @@ export const PopupSelect = <
 	required = false,
 	disabled = false,
 	//
-	state,
+	selection,
 	//
 	cls = PopupSelectCls,
 	tweak,
@@ -126,14 +119,13 @@ export const PopupSelect = <
 			disabled={disabled}
 			target={
 				<Target
-					mode={mode}
 					modalId={modalId}
 					slots={slots}
 					withQuery={withQuery}
 					renderSingle={renderSingle}
 					renderMulti={renderMulti}
 					textSelect={textSelect}
-					state={state}
+					selection={selection}
 				/>
 			}
 			textTitle={textTitle}
@@ -142,10 +134,9 @@ export const PopupSelect = <
 		>
 			{() => (
 				<Content
-					mode={mode}
 					query={query}
 					table={table}
-					state={state}
+					selection={selection}
 					allowEmpty={!required}
 				/>
 			)}
