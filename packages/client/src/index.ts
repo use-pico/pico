@@ -48,6 +48,7 @@ export { Fulltext } from "./fulltext/Fulltext";
 export { FulltextCls } from "./fulltext/FulltextCls";
 export { Highlighter } from "./highlighter/Highlighter";
 export { HighlighterTarget } from "./highlighter/HighlighterTarget";
+export { useDoubleTap } from "./hooks/useDoubleTap";
 export { useStableCallback } from "./hooks/useStableCallback";
 export { useStableMemo } from "./hooks/useStableMemo";
 export { ActionMenuIcon } from "./icon/ActionMenuIcon";

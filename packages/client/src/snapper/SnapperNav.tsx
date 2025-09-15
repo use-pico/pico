@@ -8,6 +8,7 @@ import {
 	useMemo,
 	useState,
 } from "react";
+import { useDoubleTap } from "../hooks/useDoubleTap";
 import { Icon } from "../icon/Icon";
 import { SnapperNavCls } from "./SnapperNavCls";
 import { useSnapper } from "./useSnapper";
@@ -38,7 +39,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	pages,
 	align,
 	limit = {
-		limit: 5,
+		limit: 6,
 		iconProps: {
 			size: "sm",
 		},
@@ -54,6 +55,14 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 
 	const isFirst = active === 0;
 	const isLast = active === pages.length - 1;
+
+	const firstDoubleTap = useDoubleTap({
+		onDoubleTap: () => scrollToIndex(0),
+	});
+
+	const lastDoubleTap = useDoubleTap({
+		onDoubleTap: () => scrollToIndex(pages.length - 1),
+	});
 
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
@@ -147,6 +156,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					key={firstId}
 					onDoubleClick={() => scrollToIndex(0)}
 					onClick={() => scrollToIndex(active - 1)}
+					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={orientation === "vertical" ? "secondary" : "subtle"}
 					size="md"
@@ -199,6 +209,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					key={lastId}
 					onClick={() => scrollToIndex(active + 1)}
 					onDoubleClick={() => scrollToIndex(pages.length - 1)}
+					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
 					tone={orientation === "vertical" ? "secondary" : "subtle"}
 					size="md"
@@ -221,6 +232,8 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		flow,
 		scrollToIndex,
 		slots,
+		firstDoubleTap,
+		lastDoubleTap,
 	]);
 
 	const renderPages = useCallback(
