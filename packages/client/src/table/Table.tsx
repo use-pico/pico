@@ -12,6 +12,7 @@ import type { Cursor as CoolCursor } from "../cursor/Cursor";
 import type { Fulltext as CoolFulltext } from "../fulltext/Fulltext";
 import { AbstractList } from "../list/AbstractList";
 import { AbstractListCls } from "../list/AbstractListCls";
+import type { useSelection } from "../selection/useSelection";
 import type { withQuery } from "../source/withQuery";
 import { useGrid } from "./hook/useGrid";
 import { useVisibleColumns } from "./hook/useVisibleColumns";
@@ -22,10 +23,6 @@ import { TableHeader } from "./TableHeader";
 import { TablePrefix } from "./TablePrefix";
 
 export namespace Table {
-	export namespace Selection {
-		export type State = StateType<string[]>;
-	}
-
 	export namespace Filter {
 		export type State<TQuery extends withQuerySchema.Query> = StateType<
 			TQuery["filter"]
@@ -211,17 +208,19 @@ export namespace Table {
 	export namespace Toolbar {
 		export interface Props<
 			TQuery extends withQuerySchema.Query,
+			TData extends EntitySchema.Type,
 			TContext = any,
 		> {
 			context: TContext;
-			selection: Selection.State | undefined;
+			selection: useSelection.Selection<TData> | undefined;
 			filter: Filter.State<TQuery> | undefined;
 		}
 
-		export type Render<
+		export type RenderFn<
 			TQuery extends withQuerySchema.Query,
+			TData extends EntitySchema.Type,
 			TContext = any,
-		> = (props: Props<TQuery, TContext>) => ReactNode;
+		> = (props: Props<TQuery, TData, TContext>) => ReactNode;
 	}
 
 	export namespace Action {
@@ -234,7 +233,7 @@ export namespace Table {
 				context: TContext;
 			}
 
-			export type Render<
+			export type RenderFn<
 				TData extends EntitySchema.Type,
 				TContext = any,
 			> = (props: Props<TData, TContext>) => ReactNode;
@@ -249,7 +248,7 @@ export namespace Table {
 				context: TContext;
 			}
 
-			export type Render<
+			export type RenderFn<
 				TData extends EntitySchema.Type,
 				TContext = any,
 			> = (props: Props<TData, TContext>) => ReactNode;
@@ -310,7 +309,7 @@ export namespace Table {
 		/**
 		 * Selection configuration.
 		 */
-		selection?: Selection.State;
+		selection?: useSelection.Selection<TData>;
 		selectionMode?: "single" | "multi";
 		filter?: Filter.State<TQuery>;
 		sort?: Sort.State<TQuery>;
@@ -337,15 +336,15 @@ export namespace Table {
 		 *
 		 * Good UI may be just icons to be used.
 		 */
-		toolbar?: Toolbar.Render<TQuery, TContext>;
+		toolbar?: Toolbar.RenderFn<TQuery, TData, TContext>;
 		/**
 		 * Table-wise action.
 		 */
-		actionTable?: Action.Table.Render<TData, TContext>;
+		actionTable?: Action.Table.RenderFn<TData, TContext>;
 		/**
 		 * Row-wise action.
 		 */
-		actionRow?: Action.Row.Render<TData, TContext>;
+		actionRow?: Action.Row.RenderFn<TData, TContext>;
 	}
 
 	export type PropsEx<
@@ -409,7 +408,7 @@ export const Table = <
 		<AbstractList
 			cls={AbstractListCls.use(cls)}
 			renderPrefix={(render) => (
-				<TablePrefix<TQuery, TContext>
+				<TablePrefix<TQuery, TData, TContext>
 					withCountQuery={withCountQuery}
 					query={props.query}
 					cursor={cursor}

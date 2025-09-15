@@ -81,7 +81,7 @@ export const Target = <
 				size={"sm"}
 			/>
 			{selected.isEnabled && selected.data && selected.data.length
-				? mode === "single"
+				? selection.mode === "single"
 					? selected.data[0]
 						? renderSingle({
 								entity: selected.data[0],

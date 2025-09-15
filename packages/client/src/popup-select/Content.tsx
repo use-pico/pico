@@ -10,17 +10,15 @@ import { ModalContext } from "../modal/ModalContext";
 import { ModalFooter } from "../modal/ModalFooter";
 import { useSelection } from "../selection/useSelection";
 import type { Table } from "../table/Table";
-import type { PopupSelect } from "./PopupSelect";
 
 export namespace Content {
 	export interface Props<
 		TQuery extends withQuerySchema.Query,
 		TItem extends EntitySchema.Type,
 	> {
-		mode: "single" | "multi";
 		query: Omit<TQuery, "filter" | "cursor"> | undefined;
 		table: FC<Table.PropsEx<TQuery, TItem>>;
-		state: PopupSelect.State;
+		selection: useSelection.Selection<TItem>;
 		allowEmpty: boolean;
 	}
 }
@@ -29,14 +27,14 @@ export const Content = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
-	mode,
 	query,
 	table: Table,
-	state,
+	selection,
 	allowEmpty,
 }: Content.Props<TQuery, TItem>) => {
-	const selection = useSelection({
-		initial: state.value,
+	const local = useSelection<TItem>({
+		mode: selection.mode,
+		initial: selection.selection,
 	});
 	const useModal = useContext(ModalContext);
 	const close = useModal((state) => state.close);
@@ -51,9 +49,9 @@ export const Content = <
 		<ModalContent
 			footer={
 				<ModalFooter
-					disabled={!selection.value.length && !allowEmpty}
+					disabled={!local.hasAny && !allowEmpty}
 					onConfirm={() => {
-						state.set(selection.value);
+						selection.set(local.selection);
 					}}
 				/>
 			}
@@ -90,13 +88,11 @@ export const Content = <
 						});
 					},
 				}}
-				selectionMode={mode}
+				selectionMode={selection.mode}
 				selection={selection}
 				rowDblClick={({ data }) => {
-					if (mode === "single") {
-						state.set([
-							data.id,
-						]);
+					if (selection.mode === "single") {
+						selection.single(data);
 						close();
 					}
 				}}

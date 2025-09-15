@@ -7,6 +7,7 @@ import { Icon } from "../icon/Icon";
 import { SelectionAnyIcon } from "../icon/SelectionAnyIcon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import type { useSelection } from "../selection/useSelection";
 import { ColumnSort } from "./ColumnSort";
 import type { Table } from "./Table";
 import type { TableCls } from "./TableCls";
@@ -24,10 +25,9 @@ export namespace TableHeader {
 		isFetching: boolean;
 		context: TContext;
 		filter: Table.Filter.State<TQuery> | undefined;
-		selection: Table.Selection.State | undefined;
-		selectionMode: "single" | "multi";
+		selection: useSelection.Selection<TData> | undefined;
 		sort: Table.Sort.State<TQuery> | undefined;
-		actionTable: Table.Action.Table.Render<TData, TContext> | undefined;
+		actionTable: Table.Action.Table.RenderFn<TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
 	}
 
@@ -50,7 +50,6 @@ export const TableHeader = <
 	grid,
 	filter,
 	selection,
-	selectionMode,
 	sort,
 	isFetching,
 	actionTable,

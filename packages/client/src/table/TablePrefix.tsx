@@ -1,6 +1,11 @@
-import type { CountSchema, withQuerySchema } from "@use-pico/common";
+import type {
+	CountSchema,
+	EntitySchema,
+	withQuerySchema,
+} from "@use-pico/common";
 import type { Cursor } from "../cursor/Cursor";
 import { Fulltext } from "../fulltext/Fulltext";
+import type { useSelection } from "../selection/useSelection";
 import type { withQuery } from "../source/withQuery";
 import type { Table } from "./Table";
 import { TableCursor } from "./TableCursor";
@@ -8,15 +13,16 @@ import { TableCursor } from "./TableCursor";
 export namespace TablePrefix {
 	export interface Props<
 		TQuery extends withQuerySchema.Query,
+		TData extends EntitySchema.Type,
 		TContext = any,
 	> {
 		query: TQuery;
 		fulltext: Fulltext.State | undefined;
 		cursor: Cursor.State | undefined;
 		withCountQuery: withQuery.Api<TQuery, CountSchema.Type> | undefined;
-		toolbar: Table.Toolbar.Render<TQuery, TContext> | undefined;
+		toolbar: Table.Toolbar.RenderFn<TQuery, TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
-		selection: Table.Selection.State | undefined;
+		selection: useSelection.Selection<TData> | undefined;
 		filter: Table.Filter.State<TQuery> | undefined;
 		context: TContext;
 	}
@@ -24,6 +30,7 @@ export namespace TablePrefix {
 
 export const TablePrefix = <
 	TQuery extends withQuerySchema.Query,
+	TData extends EntitySchema.Type,
 	TContext = any,
 >({
 	query,
@@ -35,7 +42,7 @@ export const TablePrefix = <
 	selection,
 	filter,
 	context,
-}: TablePrefix.Props<TQuery, TContext>) => {
+}: TablePrefix.Props<TQuery, TData, TContext>) => {
 	return (
 		<div
 			data-ui="TablePrefix-root"

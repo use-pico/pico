@@ -1,10 +1,10 @@
 import { tvc } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import type { FC } from "react";
-import { match, P } from "ts-pattern";
 import { Icon } from "../icon/Icon";
 import { SelectionOffIcon } from "../icon/SelectionOffIcon";
 import { SelectionOnIcon } from "../icon/SelectionOnIcon";
+import type { useSelection } from "../selection/useSelection";
 import { Cell } from "./Cell";
 import { useRow } from "./hook/useRow";
 import type { Table } from "./Table";
@@ -18,15 +18,14 @@ export namespace Row {
 	> {
 		item: TData;
 		visibleColumns: Table.Column.Props<TQuery, TData, any, TContext>[];
-		selection: Table.Selection.State | undefined;
-		selectionMode: "single" | "multi";
+		selection: useSelection.Selection<TData> | undefined;
 		filter: Table.Filter.State<TQuery> | undefined;
 		rowCls: Table.Row.Cls.Fn<TData, TContext> | undefined;
 		rowDblClick: Table.Row.DblClick.Fn<TData, TContext> | undefined;
 		/**
 		 * Row-wise action.
 		 */
-		actionRow: Table.Action.Row.Render<TData, TContext> | undefined;
+		actionRow: Table.Action.Row.RenderFn<TData, TContext> | undefined;
 		controlsHidden: Table.Controls[];
 		context: TContext;
 		grid: string;
@@ -49,7 +48,6 @@ export const Row = <
 	item,
 	visibleColumns,
 	selection,
-	selectionMode,
 	filter,
 	rowCls,
 	actionRow,
@@ -65,36 +63,7 @@ export const Row = <
 		context,
 	});
 
-	const onSelect = () => {
-		match(selectionMode)
-			.with("single", () => {
-				const selected = selection?.value.includes(item.id);
-				selection?.set(
-					selected
-						? []
-						: [
-								item.id,
-							],
-				);
-			})
-			.with("multi", () => {
-				const selected = selection?.value.includes(item.id);
-				selection?.set(
-					selected
-						? selection.value.filter((id) => id !== item.id)
-						: [
-								...selection.value,
-								item.id,
-							],
-				);
-			})
-			.with(P.nullish, () => {
-				//
-			})
-			.exhaustive();
-	};
-
-	const isSelected = selection?.value.includes(item.id);
+	const isSelected = selection?.isSelected(item.id);
 
 	return (
 		<div
@@ -116,7 +85,7 @@ export const Row = <
 				gridTemplateColumns: grid,
 			}}
 			onDoubleClick={() => {
-				onSelect();
+				selection?.toggle(item);
 				rowDblClick?.({
 					data: row.data,
 					context,
@@ -147,7 +116,9 @@ export const Row = <
 								),
 							}),
 						})}
-						onClick={onSelect}
+						onClick={() => {
+							selection?.toggle(item);
+						}}
 					/>
 				) : null}
 				{controlsHidden.includes("actions")

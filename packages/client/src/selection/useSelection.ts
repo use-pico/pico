@@ -1,5 +1,5 @@
 import type { EntitySchema } from "@use-pico/common";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export namespace useSelection {
 	/** Selection mode - either single item or multiple items */
@@ -7,18 +7,13 @@ export namespace useSelection {
 
 	/** Props for configuring the selection hook */
 	export interface Props<T extends EntitySchema.Type> {
-		/** Selection mode - single or multi */
 		mode: Mode;
-		/** Initial selection state */
 		initial?: T[];
 	}
 
-	/** Required selection access methods - throws if no items selected */
 	export interface Required<T extends EntitySchema.Type> {
-		/** Get single selected item (throws if none selected) */
 		single(): T;
 		singleId(): string;
-		/** Get multi selected items (throws if none selected, returns non-empty array) */
 		multi(): [
 			T,
 			...T[],
@@ -29,17 +24,13 @@ export namespace useSelection {
 		];
 	}
 
-	/** Optional selection access methods - returns undefined/empty if no items selected */
 	export interface Optional<T extends EntitySchema.Type> {
-		/** Get single selected item (returns undefined if none selected) */
 		single(): T | undefined;
 		singleId(): string | undefined;
-		/** Get multi selected items (returns empty array if none selected) */
 		multi(): T[];
 		multiId(): string[];
 	}
 
-	/** Selection hook return interface with state and controls */
 	export interface Selection<T extends EntitySchema.Type> {
 		/** Current array of selected items */
 		selection: T[];
@@ -54,10 +45,17 @@ export namespace useSelection {
 		toggle(item: T): void;
 		/** Remove item from selection */
 		remove(item: T): void;
+
 		/** Check if item with given id is selected */
 		isSelected(id: string): boolean;
-		/** Check if any items are selected */
-		hasAny(): boolean;
+		/** True if any items are selected */
+		hasAny: boolean;
+
+		/** Clear selection */
+		clear(): void;
+		/** Count of selected items */
+		count: number;
+
 		/** Required selection access methods - throws if no items selected */
 		required: Required<T>;
 		/** Optional selection access methods - returns undefined/empty if no items selected */
@@ -65,119 +63,193 @@ export namespace useSelection {
 	}
 }
 
+/** Deduplicate by id, keep first occurrence */
+function dedupeById<T extends EntitySchema.Type>(arr: readonly T[]): T[] {
+	const seen = new Set<string>();
+	const out: T[] = [];
+	for (const it of arr) {
+		if (!seen.has(it.id)) {
+			seen.add(it.id);
+			out.push(it);
+		}
+	}
+	return out;
+}
+
 /**
- * Hook for managing reactive selection state with single or multi-selection modes
- *
- * @param options Configuration options for the selection hook
- * @returns Selection interface with state and control methods
- *
- * @example
- * ```typescript
- * // Single selection
- * const selection = useSelection<CategorySchema.Type>({
- *   mode: "single",
- *   initial: []
- * });
- *
- * // Multi selection
- * const multiSelection = useSelection<CategorySchema.Type>({
- *   mode: "multi",
- *   initial: [category1, category2]
- * });
- * ```
+ * Hook for managing reactive selection state with single or multi-selection modes.
+ * Single source of truth = `selection`.
  */
 export function useSelection<T extends EntitySchema.Type>({
 	mode,
 	initial = [],
 }: useSelection.Props<T>): useSelection.Selection<T> {
-	const [selection, setSelection] = useState<T[]>(initial);
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Initial normalization only
+	const normalized = useMemo(() => {
+		const cleaned = dedupeById(initial);
+		return mode === "single" ? cleaned.slice(0, 1) : cleaned;
+	}, []);
 
-	// Memoized Set for O(1) lookups
-	const selectedIds = useMemo(
-		() => new Set(selection.map((item) => item.id)),
-		[
-			selection,
-		],
-	);
+	const [selection, setSelection] = useState<T[]>(normalized);
 
-	/**
-	 * Set single selection, replacing any current selection
-	 */
+	// Normalize selection when mode changes
+	useEffect(() => {
+		setSelection((prev) => {
+			const cleaned = dedupeById(prev);
+			return mode === "single" ? cleaned.slice(0, 1) : cleaned;
+		});
+	}, [
+		mode,
+	]);
+
+	/** Replace with exactly one item */
 	const single = useCallback((item: T) => {
 		setSelection([
 			item,
 		]);
 	}, []);
 
-	/**
-	 * Add item to multi-selection (prevents duplicates) - O(1) check
-	 */
-	const multi = useCallback(
-		(item: T) => {
-			// O(1) check using Set
-			if (selectedIds.has(item.id)) {
-				return; // Already selected, don't add again
-			}
-			setSelection((prev) => [
+	/** Add to multi (no duplicates) – functional update to avoid races */
+	const multi = useCallback((item: T) => {
+		setSelection((prev) => {
+			if (prev.some((p) => p.id === item.id)) return prev;
+			return [
 				...prev,
 				item,
-			]);
-		},
-		[
-			selectedIds,
-		],
-	);
+			];
+		});
+	}, []);
 
-	/**
-	 * Toggle item selection - behavior depends on mode:
-	 * - Single mode: select item or clear selection
-	 * - Multi mode: add/remove item from selection
-	 */
+	/** Toggle respecting current mode – functional to avoid races */
 	const toggle = useCallback(
 		(item: T) => {
-			const $isSelected = selectedIds.has(item.id);
+			setSelection((prev) => {
+				const idx = prev.findIndex((p) => p.id === item.id);
 
-			if (mode === "single") {
-				setSelection(
-					$isSelected
+				if (mode === "single") {
+					return idx >= 0
 						? []
 						: [
 								item,
-							],
-				);
-				return;
-			}
-
-			if (mode === "multi") {
-				if ($isSelected) {
-					setSelection((prev) =>
-						prev.filter(
-							(selectedItem) => selectedItem.id !== item.id,
-						),
-					);
-					return;
+							];
 				}
 
-				setSelection((prev) => [
+				// multi
+				if (idx >= 0) {
+					const next = prev.slice();
+					next.splice(idx, 1);
+					return next;
+				}
+				return [
 					...prev,
 					item,
-				]);
-			}
+				];
+			});
 		},
 		[
 			mode,
-			selectedIds,
 		],
 	);
 
-	/**
-	 * Remove specific item from selection
-	 */
+	/** Remove specific item */
 	const remove = useCallback((item: T) => {
-		setSelection((prev) =>
-			prev.filter((selectedItem) => selectedItem.id !== item.id),
-		);
+		setSelection((prev) => prev.filter((p) => p.id !== item.id));
 	}, []);
+
+	/** Clear all */
+	const clear = useCallback(() => setSelection([]), []);
+
+	// ----- Required (stable) -----
+	const requiredSingle = useCallback((): T => {
+		if (mode === "single" && selection.length === 1) {
+			const it = selection[0];
+			if (!it) {
+				throw new Error("Invalid selection state");
+			}
+			return it;
+		}
+		throw new Error("No item selected in single mode");
+	}, [
+		mode,
+		selection,
+	]);
+
+	const requiredSingleId = useCallback(
+		(): string => requiredSingle().id,
+		[
+			requiredSingle,
+		],
+	);
+
+	const requiredMulti = useCallback((): [
+		T,
+		...T[],
+	] => {
+		if (selection.length === 0) {
+			throw new Error("No items selected in multi mode");
+		}
+
+		return selection as [
+			T,
+			...T[],
+		];
+	}, [
+		selection,
+	]);
+
+	const requiredMultiId = useCallback((): [
+		string,
+		...string[],
+	] => {
+		if (selection.length === 0) {
+			throw new Error("No items selected in multi mode");
+		}
+
+		return selection.map((x) => x.id) as [
+			string,
+			...string[],
+		];
+	}, [
+		selection,
+	]);
+
+	// ----- Optional (stable) -----
+	const optionalSingle = useCallback(
+		(): T | undefined =>
+			mode === "single" && selection.length === 1
+				? selection[0]
+				: undefined,
+		[
+			mode,
+			selection,
+		],
+	);
+
+	const optionalSingleId = useCallback(
+		(): string | undefined =>
+			mode === "single" && selection.length === 1
+				? // biome-ignore lint/style/noNonNullAssertion: We're ok, bro
+					selection[0]!.id
+				: undefined,
+		[
+			mode,
+			selection,
+		],
+	);
+
+	const optionalMulti = useCallback(
+		(): T[] => selection,
+		[
+			selection,
+		],
+	);
+
+	const optionalMultiId = useCallback(
+		(): string[] => selection.map((x) => x.id),
+		[
+			selection,
+		],
+	);
 
 	return useMemo(
 		() => ({
@@ -187,60 +259,24 @@ export function useSelection<T extends EntitySchema.Type>({
 			multi,
 			toggle,
 			remove,
-			isSelected: selectedIds.has,
-			hasAny: () => selection.length > 0,
+
+			isSelected: (id: string) => selection.some((p) => p.id === id),
+			hasAny: selection.length > 0,
+
+			clear,
+			count: selection.length,
+
 			required: {
-				single(): T {
-					if (mode === "single" && selection.length === 1) {
-						const single = selection[0];
-						if (!single) {
-							throw new Error("Invalid selection state");
-						}
-						return single;
-					}
-					throw new Error("No item selected in single mode");
-				},
-				singleId(): string {
-					return this.single().id;
-				},
-				multi(): [
-					T,
-					...T[],
-				] {
-					if (selection.length === 0) {
-						throw new Error("No items selected in multi mode");
-					}
-					return selection as [
-						T,
-						...T[],
-					];
-				},
-				multiId(): [
-					string,
-					...string[],
-				] {
-					return Array.from(selectedIds) as [
-						string,
-						...string[],
-					];
-				},
+				single: requiredSingle,
+				singleId: requiredSingleId,
+				multi: requiredMulti,
+				multiId: requiredMultiId,
 			},
 			optional: {
-				single(): T | undefined {
-					if (mode === "single" && selection.length === 1) {
-						return selection[0];
-					}
-					return undefined;
-				},
-				singleId(): string | undefined {
-					return this.single()?.id;
-				},
-				multi(): T[] {
-					return selection;
-				},
-				multiId(): string[] {
-					return Array.from(selectedIds);
-				},
+				single: optionalSingle,
+				singleId: optionalSingleId,
+				multi: optionalMulti,
+				multiId: optionalMultiId,
 			},
 		}),
 		[
@@ -250,7 +286,15 @@ export function useSelection<T extends EntitySchema.Type>({
 			multi,
 			toggle,
 			remove,
-			selectedIds,
+			clear,
+			requiredSingle,
+			requiredSingleId,
+			requiredMulti,
+			requiredMultiId,
+			optionalSingle,
+			optionalSingleId,
+			optionalMulti,
+			optionalMultiId,
 		],
 	);
 }
