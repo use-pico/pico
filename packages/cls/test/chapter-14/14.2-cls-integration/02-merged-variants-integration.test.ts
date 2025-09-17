@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, cls } from "../../../src";
+import { cls, contract } from "../../../src";
 
 describe("14.2 CLS Integration - Merged Variants Integration", () => {
 	it("should work with merged variants from multiple builder calls", () => {
