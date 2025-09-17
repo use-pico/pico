@@ -81,9 +81,9 @@ export function cls<
 		Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 	>[] = [];
 
-	for (const { definition: d } of layers) {
-		Object.assign(defaultVariant, d.defaults);
-		rules.push(...d.rules);
+	for (const { definition } of layers) {
+		Object.assign(defaultVariant, definition.defaults);
+		rules.push(...definition.rules);
 	}
 
 	// Build token index with proper inheritance order
