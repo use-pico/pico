@@ -39,7 +39,10 @@ export const MoreCls = PicoCls.extend(
 				),
 			}),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "neutral",
+			theme: "light",
+		}),
 	}),
 );
 export type MoreCls = typeof MoreCls;

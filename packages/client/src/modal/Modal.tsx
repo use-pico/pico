@@ -96,7 +96,7 @@ export const Modal: FC<Modal.Props> = ({
 	}));
 
 	return (
-		<ModalContext.Provider value={useModalStore}>
+		<ModalContext value={useModalStore}>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps({
@@ -183,6 +183,6 @@ export const Modal: FC<Modal.Props> = ({
 					</FloatingPortal>
 				)}
 			</FloatingNode>
-		</ModalContext.Provider>
+		</ModalContext>
 	);
 };

@@ -46,7 +46,7 @@ export const BasePreview = <TValues extends Record<string, any>>({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<InlineContext.Provider
+		<InlineContext
 			value={{
 				inline: true,
 			}}
@@ -103,7 +103,7 @@ export const BasePreview = <TValues extends Record<string, any>>({
 					</div>
 				) : null}
 			</div>
-		</InlineContext.Provider>
+		</InlineContext>
 	);
 };
 

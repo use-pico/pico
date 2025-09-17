@@ -37,7 +37,5 @@ export const Tabs: FC<Tabs.Props> = ({
 		],
 	);
 
-	return (
-		<TabsContext.Provider value={store}>{children}</TabsContext.Provider>
-	);
+	return <TabsContext value={store}>{children}</TabsContext>;
 };

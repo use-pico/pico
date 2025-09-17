@@ -39,6 +39,8 @@ export const MenuCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			vertical: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

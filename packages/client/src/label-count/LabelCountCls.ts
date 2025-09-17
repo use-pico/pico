@@ -27,7 +27,10 @@ export const LabelCountCls = PicoCls.extend(
 				]),
 			}),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
+		}),
 	}),
 );
 

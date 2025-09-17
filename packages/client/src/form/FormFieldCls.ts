@@ -173,6 +173,8 @@ export const FormFieldCls = PicoCls.extend(
 			isLoading: false,
 			isError: false,
 			size: "md",
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

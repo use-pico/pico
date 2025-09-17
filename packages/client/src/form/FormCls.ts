@@ -99,6 +99,8 @@ export const FormCls = PicoCls.extend(
 			isError: false,
 			isSubmitting: false,
 			required: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

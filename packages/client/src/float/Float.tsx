@@ -125,7 +125,7 @@ export const Float: FC<Float.Props> = ({
 									: undefined
 							}
 						>
-							<FloatContext.Provider
+							<FloatContext
 								value={{
 									close() {
 										setIsOpen(false);
@@ -133,7 +133,7 @@ export const Float: FC<Float.Props> = ({
 								}}
 							>
 								{children}
-							</FloatContext.Provider>
+							</FloatContext>
 						</div>
 					</FloatingOverlay>
 				) : (
@@ -154,7 +154,7 @@ export const Float: FC<Float.Props> = ({
 								: undefined
 						}
 					>
-						<FloatContext.Provider
+						<FloatContext
 							value={{
 								close() {
 									setIsOpen(false);
@@ -162,7 +162,7 @@ export const Float: FC<Float.Props> = ({
 							}}
 						>
 							{children}
-						</FloatContext.Provider>
+						</FloatContext>
 					</div>
 				)}
 			</FloatingPortal>

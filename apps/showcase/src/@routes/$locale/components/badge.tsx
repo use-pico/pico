@@ -12,7 +12,10 @@ const OverriddenCls = PicoCls.extend(
 	() => ({
 		token: {},
 		rules: [],
-		defaults: {},
+		defaults: {
+			tone: "primary",
+			theme: "light",
+		},
 	}),
 );
 

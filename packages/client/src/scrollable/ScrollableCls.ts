@@ -125,6 +125,8 @@ export const ScrollableCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			layout: "flex",
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

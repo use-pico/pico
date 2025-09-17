@@ -61,6 +61,8 @@ export const HighlighterCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			center: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

@@ -40,7 +40,10 @@ export const CursorCls = PicoCls.extend(
 				]),
 			}),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
+		}),
 	}),
 );
 

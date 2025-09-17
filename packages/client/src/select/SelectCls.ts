@@ -114,6 +114,8 @@ export const SelectCls = FormFieldCls.extend(
 			disabled: false,
 			selected: false,
 			active: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

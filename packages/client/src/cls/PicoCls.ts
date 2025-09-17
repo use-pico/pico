@@ -343,7 +343,21 @@ export const PicoCls = cls(
 		slot: [
 			"default",
 		],
-		variant: {},
+		variant: {
+			tone: [
+				"primary",
+				"secondary",
+				"danger",
+				"warning",
+				"neutral",
+				"subtle",
+				"link",
+			],
+			theme: [
+				"light",
+				"dark",
+			],
+		},
 	},
 	({ def, what }) => ({
 		token: def.token({
@@ -1524,6 +1538,11 @@ export const PicoCls = cls(
 			]),
 		}),
 		rules: [],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
+		}),
 	}),
 );
+
+export type PicoCls = typeof PicoCls;

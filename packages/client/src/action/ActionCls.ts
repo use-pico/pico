@@ -8,18 +8,6 @@ export const ActionCls = PicoCls.extend(
 			"root",
 		],
 		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
 			disabled: [
 				"bool",
 			],
@@ -182,6 +170,17 @@ export const ActionCls = PicoCls.extend(
 					]),
 				},
 			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.link.dark.set",
+					]),
+				},
+			),
 			// Tone rules (light)
 			def.rule(
 				what.variant({
@@ -246,6 +245,17 @@ export const ActionCls = PicoCls.extend(
 				{
 					root: what.token([
 						"tone.subtle.light.set",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.link.light.set",
 					]),
 				},
 			),

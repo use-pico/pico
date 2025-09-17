@@ -5,20 +5,20 @@ export namespace createModalStore {
 		defaultOpen?: boolean;
 	}
 
-	export interface Instance {
+	export interface Store {
 		isOpen: boolean;
 		open(): void;
 		close(): void;
 		toggle(isOpen: boolean): void;
 	}
 
-	export type Store = UseBoundStore<StoreApi<Instance>>;
+	export type Hook = UseBoundStore<StoreApi<Store>>;
 }
 
 export const createModalStore = ({
 	defaultOpen = false,
-}: createModalStore.Props): createModalStore.Store => {
-	return create<createModalStore.Instance>((set) => ({
+}: createModalStore.Props): createModalStore.Hook => {
+	return create<createModalStore.Store>((set) => ({
 		isOpen: defaultOpen,
 		open() {
 			set({

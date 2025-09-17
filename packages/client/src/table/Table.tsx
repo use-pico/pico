@@ -1,4 +1,4 @@
-import { type ClassName, tvc, useCls } from "@use-pico/cls";
+import { type ClassName, tvc, useCls, withCls } from "@use-pico/cls";
 import type {
 	CountSchema,
 	DeepKeys,
@@ -356,7 +356,7 @@ export namespace Table {
 	>;
 }
 
-export const Table = <
+export const BaseTable = <
 	TQuery extends withQuerySchema.Query,
 	TData extends EntitySchema.Type,
 	TContext = any,
@@ -479,3 +479,5 @@ export const Table = <
 		/>
 	);
 };
+
+export const Table = withCls(BaseTable, TableCls);

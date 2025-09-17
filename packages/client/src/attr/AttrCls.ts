@@ -59,6 +59,8 @@ export const AttrCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			inline: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

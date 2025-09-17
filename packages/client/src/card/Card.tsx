@@ -81,7 +81,7 @@ export const Card = <TValues extends Record<string, any>>({
 	}));
 
 	return (
-		<InlineContext.Provider
+		<InlineContext
 			value={{
 				inline,
 			}}
@@ -104,6 +104,6 @@ export const Card = <TValues extends Record<string, any>>({
 						);
 					})}
 			</div>
-		</InlineContext.Provider>
+		</InlineContext>
 	);
 };

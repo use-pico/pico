@@ -199,6 +199,8 @@ export const MenuItemCls = PicoCls.extend(
 			active: false,
 			type: "main",
 			vertical: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

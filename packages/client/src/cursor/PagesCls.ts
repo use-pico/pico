@@ -78,6 +78,8 @@ export const PagesCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			current: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

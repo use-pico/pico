@@ -21,12 +21,6 @@ export const BoolInputCls = PicoCls.extend(
 				"md",
 				"lg",
 			],
-			tone: [
-				"neutral",
-				"primary",
-				"danger",
-				"warning",
-			],
 			value: [
 				"bool",
 			],
@@ -282,6 +276,81 @@ export const BoolInputCls = PicoCls.extend(
 					]),
 				},
 			),
+			// Secondary tone
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					value: false,
+				}),
+				{
+					track: what.token([
+						"tone.secondary.light.bg",
+						"tone.secondary.light.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					value: true,
+				}),
+				{
+					track: what.token([
+						"tone.secondary.dark.bg",
+						"tone.secondary.dark.border",
+					]),
+				},
+			),
+			// Subtle tone
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					value: false,
+				}),
+				{
+					track: what.token([
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					value: true,
+				}),
+				{
+					track: what.token([
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.border",
+					]),
+				},
+			),
+			// Link tone
+			def.rule(
+				what.variant({
+					tone: "link",
+					value: false,
+				}),
+				{
+					track: what.token([
+						"tone.link.light.bg",
+						"tone.link.light.border",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					value: true,
+				}),
+				{
+					track: what.token([
+						"tone.link.dark.bg",
+						"tone.link.dark.border",
+					]),
+				},
+			),
 			// Disabled variant rules
 			def.rule(
 				what.variant({
@@ -305,6 +374,7 @@ export const BoolInputCls = PicoCls.extend(
 		defaults: def.defaults({
 			size: "md",
 			tone: "primary",
+			theme: "light",
 			value: false,
 			disabled: false,
 		}),

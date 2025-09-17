@@ -12,19 +12,6 @@ export const AlertCls = PicoCls.extend(
 			"body",
 		],
 		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
 			clickable: [
 				"bool",
 			],

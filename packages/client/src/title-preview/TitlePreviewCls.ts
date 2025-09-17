@@ -71,6 +71,8 @@ export const TitlePreviewCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			withSubtitle: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

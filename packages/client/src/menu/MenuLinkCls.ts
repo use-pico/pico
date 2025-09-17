@@ -14,6 +14,8 @@ export const MenuLinkCls = MenuItemCls.extend(
 			type: "main",
 			active: false,
 			vertical: false,
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

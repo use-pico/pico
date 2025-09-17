@@ -9,19 +9,6 @@ export const ButtonCls = PicoCls.extend(
 			"root",
 		],
 		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
 			disabled: [
 				"bool",
 			],

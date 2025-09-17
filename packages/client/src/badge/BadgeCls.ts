@@ -8,18 +8,6 @@ export const BadgeCls = PicoCls.extend(
 			"root",
 		],
 		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
 			disabled: [
 				"bool",
 			],
@@ -143,6 +131,20 @@ export const BadgeCls = PicoCls.extend(
 					]),
 				},
 			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.link.dark.text",
+						"tone.link.dark.bg",
+						"tone.link.dark.border",
+						"tone.link.dark.shadow",
+					]),
+				},
+			),
 
 			// Tone rules using tokens (light background)
 			def.rule(
@@ -226,6 +228,20 @@ export const BadgeCls = PicoCls.extend(
 						"tone.subtle.light.bg",
 						"tone.subtle.light.border",
 						"tone.subtle.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.link.light.text",
+						"tone.link.light.bg",
+						"tone.link.light.border",
+						"tone.link.light.shadow",
 					]),
 				},
 			),

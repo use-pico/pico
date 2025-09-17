@@ -6,21 +6,7 @@ export const ColorsCls = PicoCls.extend(
 		slot: [
 			"root",
 		],
-		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
-		},
+		variant: {},
 	},
 	({ what, def }) => ({
 		token: def.token({}),

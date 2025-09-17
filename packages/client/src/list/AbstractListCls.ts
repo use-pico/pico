@@ -26,7 +26,10 @@ export const AbstractListCls = PicoCls.extend(
 				]),
 			}),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
+		}),
 	}),
 );
 

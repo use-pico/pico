@@ -83,7 +83,10 @@ export const PreviewCls = PicoCls.extend(
 				),
 			}),
 		],
-		defaults: def.defaults({}),
+		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
+		}),
 	}),
 );
 

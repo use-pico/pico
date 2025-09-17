@@ -22,7 +22,7 @@ export const BaseDetail: FC<Detail.Props> = ({
 	const slots = useCls(cls, tweak);
 
 	return (
-		<InlineContext.Provider
+		<InlineContext
 			value={{
 				inline,
 			}}
@@ -34,7 +34,7 @@ export const BaseDetail: FC<Detail.Props> = ({
 			>
 				{children}
 			</div>
-		</InlineContext.Provider>
+		</InlineContext>
 	);
 };
 
