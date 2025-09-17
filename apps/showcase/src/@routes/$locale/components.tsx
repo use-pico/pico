@@ -168,6 +168,89 @@ export const Route = createFileRoute("/$locale/components")({
 								</MenuLink>
 							</MenuGroup>
 
+							{/* Layout & Container */}
+							<MenuGroup
+								icon={"icon-[ph--layout]"}
+								label={<Tx label={"Layout & Container"} />}
+								match={[
+									{
+										to: "/$locale/components/container",
+									},
+									{
+										to: "/$locale/components/container/overflow",
+									},
+									{
+										to: "/$locale/components/container/orientation",
+									},
+									{
+										to: "/$locale/components/container/sizing",
+									},
+									{
+										to: "/$locale/components/container/design",
+									},
+								]}
+								vertical
+							>
+								<MenuLink
+									icon={"icon-[ph--layout]"}
+									to={"/$locale/components/container"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Container Overview"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--arrows-out]"}
+									to={
+										"/$locale/components/container/overflow"
+									}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Overflow & Snap"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--arrows-clockwise]"}
+									to={
+										"/$locale/components/container/orientation"
+									}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Orientation"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--resize]"}
+									to={"/$locale/components/container/sizing"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Sizing"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--palette]"}
+									to={"/$locale/components/container/design"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Design & Theming"} />
+								</MenuLink>
+							</MenuGroup>
+
 							{/* Data Display Components */}
 							<MenuGroup
 								icon={"icon-[ph--table]"}

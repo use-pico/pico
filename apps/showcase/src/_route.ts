@@ -43,7 +43,12 @@ import { Route as LocaleComponentsAttrRouteImport } from './@routes/$locale/comp
 import { Route as LocaleComponentsAlertRouteImport } from './@routes/$locale/components/alert'
 import { Route as LocaleComponentsActionMenuRouteImport } from './@routes/$locale/components/action-menu'
 import { Route as LocaleComponentsActionRouteImport } from './@routes/$locale/components/action'
+import { Route as LocaleComponentsContainerIndexRouteImport } from './@routes/$locale/components/container/index'
 import { Route as LocaleComponentsMenuSelectedRouteImport } from './@routes/$locale/components/menu/$selected'
+import { Route as LocaleComponentsContainerSizingRouteImport } from './@routes/$locale/components/container/sizing'
+import { Route as LocaleComponentsContainerOverflowRouteImport } from './@routes/$locale/components/container/overflow'
+import { Route as LocaleComponentsContainerOrientationRouteImport } from './@routes/$locale/components/container/orientation'
+import { Route as LocaleComponentsContainerDesignRouteImport } from './@routes/$locale/components/container/design'
 
 const LocaleRoute = LocaleRouteImport.update({
   id: '/$locale',
@@ -225,10 +230,40 @@ const LocaleComponentsActionRoute = LocaleComponentsActionRouteImport.update({
   path: '/action',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsContainerIndexRoute =
+  LocaleComponentsContainerIndexRouteImport.update({
+    id: '/container/',
+    path: '/container/',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsMenuSelectedRoute =
   LocaleComponentsMenuSelectedRouteImport.update({
     id: '/menu/$selected',
     path: '/menu/$selected',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsContainerSizingRoute =
+  LocaleComponentsContainerSizingRouteImport.update({
+    id: '/container/sizing',
+    path: '/container/sizing',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsContainerOverflowRoute =
+  LocaleComponentsContainerOverflowRouteImport.update({
+    id: '/container/overflow',
+    path: '/container/overflow',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsContainerOrientationRoute =
+  LocaleComponentsContainerOrientationRouteImport.update({
+    id: '/container/orientation',
+    path: '/container/orientation',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
+const LocaleComponentsContainerDesignRoute =
+  LocaleComponentsContainerDesignRouteImport.update({
+    id: '/container/design',
+    path: '/container/design',
     getParentRoute: () => LocaleComponentsRoute,
   } as any)
 
@@ -267,7 +302,12 @@ export interface FileRoutesByFullPath {
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
+  '/$locale/components/container/design': typeof LocaleComponentsContainerDesignRoute
+  '/$locale/components/container/orientation': typeof LocaleComponentsContainerOrientationRoute
+  '/$locale/components/container/overflow': typeof LocaleComponentsContainerOverflowRoute
+  '/$locale/components/container/sizing': typeof LocaleComponentsContainerSizingRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
+  '/$locale/components/container': typeof LocaleComponentsContainerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -302,7 +342,12 @@ export interface FileRoutesByTo {
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components': typeof LocaleComponentsIndexRoute
+  '/$locale/components/container/design': typeof LocaleComponentsContainerDesignRoute
+  '/$locale/components/container/orientation': typeof LocaleComponentsContainerOrientationRoute
+  '/$locale/components/container/overflow': typeof LocaleComponentsContainerOverflowRoute
+  '/$locale/components/container/sizing': typeof LocaleComponentsContainerSizingRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
+  '/$locale/components/container': typeof LocaleComponentsContainerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -340,7 +385,12 @@ export interface FileRoutesById {
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
   '/$locale/components/typo': typeof LocaleComponentsTypoRoute
   '/$locale/components/': typeof LocaleComponentsIndexRoute
+  '/$locale/components/container/design': typeof LocaleComponentsContainerDesignRoute
+  '/$locale/components/container/orientation': typeof LocaleComponentsContainerOrientationRoute
+  '/$locale/components/container/overflow': typeof LocaleComponentsContainerOverflowRoute
+  '/$locale/components/container/sizing': typeof LocaleComponentsContainerSizingRoute
   '/$locale/components/menu/$selected': typeof LocaleComponentsMenuSelectedRoute
+  '/$locale/components/container/': typeof LocaleComponentsContainerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -379,7 +429,12 @@ export interface FileRouteTypes {
     | '/$locale/components/title-preview'
     | '/$locale/components/typo'
     | '/$locale/components/'
+    | '/$locale/components/container/design'
+    | '/$locale/components/container/orientation'
+    | '/$locale/components/container/overflow'
+    | '/$locale/components/container/sizing'
     | '/$locale/components/menu/$selected'
+    | '/$locale/components/container'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -414,7 +469,12 @@ export interface FileRouteTypes {
     | '/$locale/components/title-preview'
     | '/$locale/components/typo'
     | '/$locale/components'
+    | '/$locale/components/container/design'
+    | '/$locale/components/container/orientation'
+    | '/$locale/components/container/overflow'
+    | '/$locale/components/container/sizing'
     | '/$locale/components/menu/$selected'
+    | '/$locale/components/container'
   id:
     | '__root__'
     | '/'
@@ -451,7 +511,12 @@ export interface FileRouteTypes {
     | '/$locale/components/title-preview'
     | '/$locale/components/typo'
     | '/$locale/components/'
+    | '/$locale/components/container/design'
+    | '/$locale/components/container/orientation'
+    | '/$locale/components/container/overflow'
+    | '/$locale/components/container/sizing'
     | '/$locale/components/menu/$selected'
+    | '/$locale/components/container/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -699,11 +764,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsActionRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/container/': {
+      id: '/$locale/components/container/'
+      path: '/container'
+      fullPath: '/$locale/components/container'
+      preLoaderRoute: typeof LocaleComponentsContainerIndexRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/menu/$selected': {
       id: '/$locale/components/menu/$selected'
       path: '/menu/$selected'
       fullPath: '/$locale/components/menu/$selected'
       preLoaderRoute: typeof LocaleComponentsMenuSelectedRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/container/sizing': {
+      id: '/$locale/components/container/sizing'
+      path: '/container/sizing'
+      fullPath: '/$locale/components/container/sizing'
+      preLoaderRoute: typeof LocaleComponentsContainerSizingRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/container/overflow': {
+      id: '/$locale/components/container/overflow'
+      path: '/container/overflow'
+      fullPath: '/$locale/components/container/overflow'
+      preLoaderRoute: typeof LocaleComponentsContainerOverflowRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/container/orientation': {
+      id: '/$locale/components/container/orientation'
+      path: '/container/orientation'
+      fullPath: '/$locale/components/container/orientation'
+      preLoaderRoute: typeof LocaleComponentsContainerOrientationRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/container/design': {
+      id: '/$locale/components/container/design'
+      path: '/container/design'
+      fullPath: '/$locale/components/container/design'
+      preLoaderRoute: typeof LocaleComponentsContainerDesignRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
   }
@@ -740,7 +840,12 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsTitlePreviewRoute: typeof LocaleComponentsTitlePreviewRoute
   LocaleComponentsTypoRoute: typeof LocaleComponentsTypoRoute
   LocaleComponentsIndexRoute: typeof LocaleComponentsIndexRoute
+  LocaleComponentsContainerDesignRoute: typeof LocaleComponentsContainerDesignRoute
+  LocaleComponentsContainerOrientationRoute: typeof LocaleComponentsContainerOrientationRoute
+  LocaleComponentsContainerOverflowRoute: typeof LocaleComponentsContainerOverflowRoute
+  LocaleComponentsContainerSizingRoute: typeof LocaleComponentsContainerSizingRoute
   LocaleComponentsMenuSelectedRoute: typeof LocaleComponentsMenuSelectedRoute
+  LocaleComponentsContainerIndexRoute: typeof LocaleComponentsContainerIndexRoute
 }
 
 const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
@@ -774,7 +879,14 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsTitlePreviewRoute: LocaleComponentsTitlePreviewRoute,
   LocaleComponentsTypoRoute: LocaleComponentsTypoRoute,
   LocaleComponentsIndexRoute: LocaleComponentsIndexRoute,
+  LocaleComponentsContainerDesignRoute: LocaleComponentsContainerDesignRoute,
+  LocaleComponentsContainerOrientationRoute:
+    LocaleComponentsContainerOrientationRoute,
+  LocaleComponentsContainerOverflowRoute:
+    LocaleComponentsContainerOverflowRoute,
+  LocaleComponentsContainerSizingRoute: LocaleComponentsContainerSizingRoute,
   LocaleComponentsMenuSelectedRoute: LocaleComponentsMenuSelectedRoute,
+  LocaleComponentsContainerIndexRoute: LocaleComponentsContainerIndexRoute,
 }
 
 const LocaleComponentsRouteWithChildren =

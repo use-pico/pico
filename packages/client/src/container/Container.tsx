@@ -1,4 +1,4 @@
-import { type Cls, useCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { ContainerCls } from "./ContainerCls";
 
@@ -6,6 +6,8 @@ export namespace Container {
 	export interface Props
 		extends ContainerCls.Props<HTMLAttributes<HTMLDivElement>> {
 		ref?: Ref<HTMLDivElement>;
+		tone?: Cls.VariantOf<ContainerCls, "tone">;
+		theme?: Cls.VariantOf<ContainerCls, "theme">;
 		height?: Cls.VariantOf<ContainerCls, "height">;
 		width?: Cls.VariantOf<ContainerCls, "width">;
 		orientation?: Cls.VariantOf<ContainerCls, "orientation">;
@@ -15,12 +17,17 @@ export namespace Container {
 		square?: Cls.VariantOf<ContainerCls, "square">;
 		gap?: Cls.VariantOf<ContainerCls, "gap">;
 		position?: Cls.VariantOf<ContainerCls, "position">;
+		border?: Cls.VariantOf<ContainerCls, "border">;
+		round?: Cls.VariantOf<ContainerCls, "round">;
+		shadow?: Cls.VariantOf<ContainerCls, "shadow">;
 	}
 }
 
-export const Container: FC<Container.Props> = ({
+export const BaseContainer: FC<Container.Props> = ({
 	ref,
 	//
+	tone,
+	theme,
 	height,
 	width,
 	orientation,
@@ -30,14 +37,25 @@ export const Container: FC<Container.Props> = ({
 	square,
 	gap,
 	position,
+	border,
+	round,
+	shadow,
 	//
 	cls = ContainerCls,
 	tweak,
+	//
+	className,
+	//
 	children,
 	...props
 }) => {
 	const slots = useCls(cls, tweak, ({ what }) => ({
+		slot: what.slot({
+			root: what.css(className),
+		}),
 		variant: what.variant({
+			tone,
+			theme,
 			height,
 			width,
 			orientation,
@@ -47,6 +65,9 @@ export const Container: FC<Container.Props> = ({
 			square,
 			gap,
 			position,
+			border,
+			round,
+			shadow,
 		}),
 	}));
 
@@ -61,3 +82,5 @@ export const Container: FC<Container.Props> = ({
 		</div>
 	);
 };
+
+export const Container = withCls(BaseContainer, ContainerCls);

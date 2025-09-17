@@ -282,6 +282,7 @@ export const PicoCls = cls(
 			"border.sm",
 			"border.md",
 			"border.lg",
+			"border.xl",
 			/**
 			 * Size - using w/h
 			 *
@@ -345,6 +346,7 @@ export const PicoCls = cls(
 		],
 		variant: {
 			tone: [
+				"unset",
 				"primary",
 				"secondary",
 				"danger",
@@ -354,6 +356,7 @@ export const PicoCls = cls(
 				"link",
 			],
 			theme: [
+				"unset",
 				"light",
 				"dark",
 			],
@@ -1329,6 +1332,9 @@ export const PicoCls = cls(
 			"border.lg": what.css([
 				"border-b-4",
 			]),
+			"border.xl": what.css([
+				"border-b-5",
+			]),
 			/**
 			 * Sizes
 			 */
@@ -1539,8 +1545,8 @@ export const PicoCls = cls(
 		}),
 		rules: [],
 		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

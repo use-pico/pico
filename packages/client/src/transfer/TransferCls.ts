@@ -67,7 +67,7 @@ export const TransferCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "neutral",
-			theme: "light",
+			theme: "unset",
 		}),
 	}),
 );

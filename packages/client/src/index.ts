@@ -15,6 +15,7 @@ export { ButtonCls } from "./button/ButtonCls";
 export { Card } from "./card/Card";
 export { ColorsCls } from "./cls/ColorsCls";
 export { PicoCls } from "./cls/PicoCls";
+export { Container } from "./container/Container";
 export { InlineContext } from "./context/InlineContext";
 export { PageCls } from "./css/PageCls";
 export { Cursor } from "./cursor/Cursor";

@@ -59,8 +59,8 @@ export const CardCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			inline: false,
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

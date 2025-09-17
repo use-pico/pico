@@ -147,8 +147,8 @@ export const TableCls = AbstractListCls.extend(
 		],
 		defaults: def.defaults({
 			selected: false,
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

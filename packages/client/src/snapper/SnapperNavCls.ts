@@ -208,8 +208,8 @@ export const SnapperNavCls = PicoCls.extend(
 			active: false,
 			first: false,
 			last: false,
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

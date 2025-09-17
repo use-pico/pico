@@ -66,6 +66,32 @@ export const ContainerCls = PicoCls.extend(
 				"absolute",
 				"relative",
 			],
+			border: [
+				"unset",
+				"default",
+				"sm",
+				"md",
+				"lg",
+				"xl",
+			],
+			round: [
+				"unset",
+				"default",
+				"xs",
+				"sm",
+				"md",
+				"lg",
+				"xl",
+				"full",
+			],
+			shadow: [
+				"unset",
+				"default",
+				"sm",
+				"md",
+				"lg",
+				"xl",
+			],
 		},
 	},
 	({ what, def }) => ({
@@ -561,6 +587,384 @@ export const ContainerCls = PicoCls.extend(
 					]),
 				},
 			),
+			/**
+			 * Tone and Theme rules (colors only) - no "unset" rules
+			 */
+			def.rule(
+				what.variant({
+					tone: "primary",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.primary.light.text",
+						"tone.primary.light.bg",
+						"tone.primary.light.border",
+						"tone.primary.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "primary",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.primary.dark.text",
+						"tone.primary.dark.bg",
+						"tone.primary.dark.border",
+						"tone.primary.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.secondary.light.text",
+						"tone.secondary.light.bg",
+						"tone.secondary.light.border",
+						"tone.secondary.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "secondary",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.secondary.dark.text",
+						"tone.secondary.dark.bg",
+						"tone.secondary.dark.border",
+						"tone.secondary.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "danger",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.danger.light.text",
+						"tone.danger.light.bg",
+						"tone.danger.light.border",
+						"tone.danger.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "danger",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.danger.dark.text",
+						"tone.danger.dark.bg",
+						"tone.danger.dark.border",
+						"tone.danger.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.warning.light.text",
+						"tone.warning.light.bg",
+						"tone.warning.light.border",
+						"tone.warning.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "warning",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.warning.dark.text",
+						"tone.warning.dark.bg",
+						"tone.warning.dark.border",
+						"tone.warning.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "neutral",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.neutral.light.text",
+						"tone.neutral.light.bg",
+						"tone.neutral.light.border",
+						"tone.neutral.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "neutral",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.neutral.dark.text",
+						"tone.neutral.dark.bg",
+						"tone.neutral.dark.border",
+						"tone.neutral.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.subtle.light.text",
+						"tone.subtle.light.bg",
+						"tone.subtle.light.border",
+						"tone.subtle.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "subtle",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.subtle.dark.text",
+						"tone.subtle.dark.bg",
+						"tone.subtle.dark.border",
+						"tone.subtle.dark.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.link.light.text",
+						"tone.link.light.bg",
+						"tone.link.light.border",
+						"tone.link.light.shadow",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "link",
+					theme: "dark",
+				}),
+				{
+					root: what.token([
+						"tone.link.dark.text",
+						"tone.link.dark.bg",
+						"tone.link.dark.border",
+						"tone.link.dark.shadow",
+					]),
+				},
+			),
+			/**
+			 * Border rules (size only, no colors)
+			 */
+			def.rule(
+				what.variant({
+					border: "default",
+				}),
+				{
+					root: what.token([
+						"border.default",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					border: "sm",
+				}),
+				{
+					root: what.token([
+						"border.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					border: "md",
+				}),
+				{
+					root: what.token([
+						"border.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					border: "lg",
+				}),
+				{
+					root: what.token([
+						"border.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					border: "xl",
+				}),
+				{
+					root: what.token([
+						"border.xl",
+					]),
+				},
+			),
+			/**
+			 * Shadow rules (size only, no colors)
+			 */
+			def.rule(
+				what.variant({
+					shadow: "default",
+				}),
+				{
+					root: what.token([
+						"shadow.default",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					shadow: "sm",
+				}),
+				{
+					root: what.token([
+						"shadow.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					shadow: "md",
+				}),
+				{
+					root: what.token([
+						"shadow.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					shadow: "lg",
+				}),
+				{
+					root: what.token([
+						"shadow.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					shadow: "xl",
+				}),
+				{
+					root: what.token([
+						"shadow.xl",
+					]),
+				},
+			),
+			/**
+			 * Rounded corners - using PicoCls round tokens
+			 */
+			def.rule(
+				what.variant({
+					round: "default",
+				}),
+				{
+					root: what.token([
+						"round.default",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "xs",
+				}),
+				{
+					root: what.token([
+						"round.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "sm",
+				}),
+				{
+					root: what.token([
+						"round.sm",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "md",
+				}),
+				{
+					root: what.token([
+						"round.md",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "lg",
+				}),
+				{
+					root: what.token([
+						"round.lg",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "xl",
+				}),
+				{
+					root: what.token([
+						"round.xl",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					round: "full",
+				}),
+				{
+					root: what.token([
+						"round.full",
+					]),
+				},
+			),
 		],
 		defaults: def.defaults({
 			height: "full",
@@ -572,8 +976,11 @@ export const ContainerCls = PicoCls.extend(
 			square: "unset",
 			gap: "unset",
 			position: "unset",
-			tone: "primary",
-			theme: "light",
+			border: "unset",
+			round: "unset",
+			shadow: "unset",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

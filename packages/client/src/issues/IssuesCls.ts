@@ -69,8 +69,8 @@ export const IssuesCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			type: "info",
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

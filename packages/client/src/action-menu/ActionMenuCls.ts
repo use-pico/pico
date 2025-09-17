@@ -35,7 +35,7 @@ export const ActionMenuCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "neutral",
-			theme: "light",
+			theme: "unset",
 		}),
 	}),
 );

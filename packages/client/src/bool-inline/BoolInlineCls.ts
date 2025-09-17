@@ -39,7 +39,7 @@ export const BoolInlineCls = IconCls.extend(
 			disabled: false,
 			size: "md",
 			value: false,
-			theme: "light",
+			theme: "unset",
 			tone: "inherit",
 		}),
 	}),

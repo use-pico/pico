@@ -118,7 +118,7 @@ export const ButtonCls = PicoCls.extend(
 			 */
 			def.rule(
 				what.variant({
-					tone: "primary",
+					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -129,8 +129,8 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "primary",
-					theme: "light",
+					tone: "unset",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -152,7 +152,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -174,7 +174,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -196,7 +196,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -218,7 +218,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -240,7 +240,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -262,7 +262,7 @@ export const ButtonCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -364,8 +364,8 @@ export const ButtonCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 			disabled: false,
 			size: "md",
 			border: true,

@@ -41,7 +41,7 @@ export const MoreCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "neutral",
-			theme: "light",
+			theme: "unset",
 		}),
 	}),
 );

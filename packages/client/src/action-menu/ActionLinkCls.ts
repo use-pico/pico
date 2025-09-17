@@ -13,7 +13,7 @@ export const ActionLinkCls = ActionCls.extend(
 		defaults: def.defaults({
 			disabled: false,
 			tone: "neutral",
-			theme: "light",
+			theme: "unset",
 			loading: false,
 		}),
 	}),

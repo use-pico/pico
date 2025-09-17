@@ -102,8 +102,8 @@ export const ProgressCls = PicoCls.extend(
 			// Tone variants for progress bar (light theme)
 			def.rule(
 				what.variant({
-					tone: "primary",
-					theme: "light",
+					tone: "unset",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -116,7 +116,7 @@ export const ProgressCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -129,7 +129,7 @@ export const ProgressCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -142,7 +142,7 @@ export const ProgressCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -155,7 +155,7 @@ export const ProgressCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -168,7 +168,7 @@ export const ProgressCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					progress: what.token([
@@ -181,7 +181,7 @@ export const ProgressCls = PicoCls.extend(
 			// Tone variants for progress bar (dark theme)
 			def.rule(
 				what.variant({
-					tone: "primary",
+					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -260,8 +260,8 @@ export const ProgressCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			size: "md",
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

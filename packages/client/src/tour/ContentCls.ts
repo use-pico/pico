@@ -39,8 +39,8 @@ export const ContentCls = PicoCls.extend(
 			}),
 		],
 		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
+			tone: "unset",
+			theme: "unset",
 		}),
 	}),
 );

@@ -8,21 +8,8 @@ export const SheetCls = PicoCls.extend(
 			"root",
 		],
 		variant: {
-			tone: [
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
 			round: [
-				"none",
+				"unset",
 				"default",
 				"sm",
 				"md",
@@ -59,7 +46,7 @@ export const SheetCls = PicoCls.extend(
 			// Tone colors (dark / light)
 			def.rule(
 				what.variant({
-					tone: "primary",
+					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -73,8 +60,8 @@ export const SheetCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "primary",
-					theme: "light",
+					tone: "unset",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -102,7 +89,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -130,7 +117,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -158,7 +145,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -186,7 +173,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -214,7 +201,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -242,7 +229,7 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "light",
+					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -328,9 +315,9 @@ export const SheetCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			round: "xl",
+			tone: "unset",
+			theme: "unset",
+			round: "unset",
 			disabled: false,
 		}),
 	}),

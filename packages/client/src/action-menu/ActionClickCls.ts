@@ -14,7 +14,7 @@ export const ActionClickCls = ActionCls.extend(
 			loading: false,
 			disabled: false,
 			tone: "neutral",
-			theme: "light",
+			theme: "unset",
 		}),
 	}),
 );
