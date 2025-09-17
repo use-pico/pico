@@ -326,11 +326,10 @@ export function cls<
 							];
 
 						const slotRules = rulesBySlot[slotKeyStr] ?? [];
-						const hasRules = slotRules.length;
 
 						// Fast bail: nothing contributes at all
 						if (
-							hasRules === 0 &&
+							slotRules.length === 0 &&
 							!localSlotWhat &&
 							!configSlotWhat &&
 							!localOverrideWhat &&
@@ -344,19 +343,19 @@ export function cls<
 						}
 
 						// One pass: evaluate predicates -> matches[], find last matching override index
-						let lastOverrideIdx = -1;
-						let anyMatch = false;
-						const matches: boolean[] = new Array(hasRules);
-						for (let i = 0; i < hasRules; i++) {
-							const m = slotRules[i]!.predicate(localEffective);
-							matches[i] = m;
-							if (m) {
-								anyMatch = true;
-								if (slotRules[i]!.override) {
-									lastOverrideIdx = i;
-								}
-							}
-						}
+						const matches = slotRules.map((rule) =>
+							rule.predicate(localEffective),
+						);
+						const anyMatch = matches.some(Boolean);
+						const lastOverrideIdx =
+							slotRules
+								.map((rule, index) =>
+									matches[index] && rule.override
+										? index
+										: -1,
+								)
+								.filter((index) => index !== -1)
+								.pop() ?? -1;
 
 						let acc: ClassName[] = [];
 
@@ -367,53 +366,38 @@ export function cls<
 
 							const sharedTokenSet = new Set<string>();
 
-							for (let i = start; i < hasRules; i++) {
-								if (!matches[i]) {
-									continue;
-								}
-								const entry = slotRules[i]!;
-								acc.push(
-									...resolveWhat(
-										entry.what,
-										activeTokens,
-										sharedTokenSet,
-										localResolvedCache,
-									),
-								);
-							}
+							slotRules
+								.slice(start)
+								.filter((_, index) => matches[start + index])
+								.forEach((rule) => {
+									acc.push(
+										...resolveWhat(
+											rule.what,
+											activeTokens,
+											sharedTokenSet,
+											localResolvedCache,
+										),
+									);
+								});
 						}
 
 						// Append slot configurations
 						if (localSlotWhat) {
-							const sharedTokenSet = new Set<string>();
 							acc.push(
 								...resolveWhat(
-									localSlotWhat as What.Any<
-										Contract.Type<
-											Token.Type,
-											CoolSlot.Type,
-											Variant.Type
-										>
-									>,
+									localSlotWhat,
 									activeTokens,
-									sharedTokenSet,
+									new Set<string>(),
 									localResolvedCache,
 								),
 							);
 						}
 						if (configSlotWhat) {
-							const sharedTokenSet = new Set<string>();
 							acc.push(
 								...resolveWhat(
-									configSlotWhat as What.Any<
-										Contract.Type<
-											Token.Type,
-											CoolSlot.Type,
-											Variant.Type
-										>
-									>,
+									configSlotWhat,
 									activeTokens,
-									sharedTokenSet,
+									new Set<string>(),
 									localResolvedCache,
 								),
 							);
@@ -422,36 +406,22 @@ export function cls<
 						// Apply overrides (clear and replace)
 						if (localOverrideWhat) {
 							acc = [];
-							const sharedTokenSet = new Set<string>();
 							acc.push(
 								...resolveWhat(
-									localOverrideWhat as What.Any<
-										Contract.Type<
-											Token.Type,
-											CoolSlot.Type,
-											Variant.Type
-										>
-									>,
+									localOverrideWhat,
 									activeTokens,
-									sharedTokenSet,
+									new Set<string>(),
 									localResolvedCache,
 								),
 							);
 						}
 						if (configOverrideWhat) {
 							acc = [];
-							const sharedTokenSet = new Set<string>();
 							acc.push(
 								...resolveWhat(
-									configOverrideWhat as What.Any<
-										Contract.Type<
-											Token.Type,
-											CoolSlot.Type,
-											Variant.Type
-										>
-									>,
+									configOverrideWhat,
 									activeTokens,
-									sharedTokenSet,
+									new Set<string>(),
 									localResolvedCache,
 								),
 							);
@@ -486,20 +456,18 @@ export function cls<
 		extend(childContract, childDefinitionFn) {
 			childContract["~use"] = contract;
 
-			const parentTokens = contract.tokens;
-			const childTokens = childContract.tokens;
-			const mergedTokens = Array.from(
-				new Set([
-					...parentTokens,
-					...childTokens,
-				]),
-			) as unknown as TToken & TContract["tokens"];
-
-			const mergedContract = {
-				...childContract,
-				tokens: mergedTokens,
-			};
-			return cls(mergedContract as any, childDefinitionFn as any);
+			return cls(
+				{
+					...childContract,
+					tokens: Array.from(
+						new Set([
+							...contract.tokens,
+							...childContract.tokens,
+						]),
+					),
+				} as any,
+				childDefinitionFn as any,
+			);
 		},
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
