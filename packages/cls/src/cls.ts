@@ -91,10 +91,7 @@ export function cls<
 		layers.flatMap(({ definition }) =>
 			Object.entries(definition.token).filter(([, v]) => v !== undefined),
 		),
-	) as Record<
-		string,
-		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
-	>;
+	) as Record<string, What.Any<Contract.Any>>;
 
 	// Compile predicates once per rule.match
 	const alwaysTrue: Predicate<TContract> = () => true;
@@ -110,10 +107,7 @@ export function cls<
 		) as (keyof Variant.Required<TContract>)[];
 		return function pred(variant: Variant.Required<TContract>): boolean {
 			return !keys.some(
-				(key) =>
-					key !== undefined &&
-					variant[key] !==
-						(match as Variant.Required<TContract>)[key],
+				(key) => key !== undefined && variant[key] !== match[key],
 			);
 		};
 	}
@@ -152,35 +146,21 @@ export function cls<
 		}, Object.create(null));
 
 	// Base token resolution cache; rebound after global overrides are applied
-	let baseTokenTable: Record<
-		string,
-		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
-	> = tokens;
+	let baseTokenTable: Record<string, What.Any<Contract.Any>> = tokens;
 	let baseResolvedTokenCache: Record<string, ClassName[]> =
 		Object.create(null);
 
-	// Helper to push arrays without spread/iterators
-	function pushAll<T>(dst: T[], src: T[]): void {
-		for (let i = 0; i < src.length; i++) {
-			dst.push(src[i]!);
-		}
-	}
-
 	// Helper to resolve a single What<T> recursively with caching
 	const resolveWhat = (
-		what: What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>,
-		tokenTable: Record<
-			string,
-			What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
-		>,
+		what: What.Any<Contract.Any>,
+		tokenTable: Record<string, What.Any<Contract.Any>>,
 		tokenSet: Set<string>,
 		localTokenCache?: Record<string, ClassName[]>,
 	): ClassName[] => {
 		const out: ClassName[] = [];
 
 		if ("token" in what && what.token) {
-			for (let i = 0; i < what.token.length; i++) {
-				const tokenKey = what.token[i]!;
+			what.token.forEach((tokenKey) => {
 				if (tokenSet.has(tokenKey)) {
 					throw new Error(
 						`Circular dependency detected in token references: ${Array.from(
@@ -189,22 +169,21 @@ export function cls<
 					);
 				}
 
-				const useBaseCache = tokenTable === baseTokenTable;
-				const cacheRef = useBaseCache
-					? baseResolvedTokenCache
-					: localTokenCache;
+				const cacheRef =
+					tokenTable === baseTokenTable
+						? baseResolvedTokenCache
+						: localTokenCache;
 
 				if (cacheRef) {
-					const cached = cacheRef[tokenKey];
-					if (cached) {
-						pushAll(out, cached);
-						continue;
+					if (cacheRef[tokenKey]) {
+						out.push(...cacheRef[tokenKey]);
+						return;
 					}
 				}
 
 				const tokenDef = tokenTable[tokenKey];
 				if (!tokenDef) {
-					continue;
+					return;
 				}
 
 				tokenSet.add(tokenKey);
@@ -215,14 +194,14 @@ export function cls<
 					tokenSet,
 					localTokenCache,
 				);
-				pushAll(out, resolved);
+				out.push(...resolved);
 
 				if (cacheRef) {
 					cacheRef[tokenKey] = resolved;
 				}
 
 				tokenSet.delete(tokenKey);
-			}
+			});
 		}
 
 		if ("class" in what && what.class) {
@@ -244,37 +223,27 @@ export function cls<
 				internalTweakFn,
 			);
 
-			const config = merge(
-				userTweakFn,
-				internalTweakFn,
-			)() as Tweak.Type<TContract>;
+			const config = merge(userTweakFn, internalTweakFn)();
 
 			// Global token table with overrides
-			const tokenTable: Record<
-				string,
-				What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
-			> = {
+			const tokenTable: Record<string, What.Any<Contract.Any>> = {
 				...tokens,
+				...(config.token ?? {}),
 			};
-			for (const [key, values] of Object.entries(config.token ?? {})) {
-				tokenTable[key] = values as What.Any<
-					Contract.Type<TToken, CoolSlot.Type, Variant.Type>
-				>;
-			}
 
 			// Rebind base token cache to include global overrides
 			baseTokenTable = tokenTable;
 			baseResolvedTokenCache = Object.create(null);
 
-			const cache = Object.create(null) as Record<
+			const cache: Record<
 				TSlot[number],
 				CoolSlot.Fn<TContract>
-			>;
+			> = Object.create(null);
 			const resultCache = new Map<string, string>();
 
 			const computeKeyFromLocal = (
 				slot: string,
-				local: ReturnType<NonNullable<Tweak.Fn<TContract>>> | undefined,
+				local: Tweak.Type<TContract> | undefined,
 			): string | null => {
 				if (!local) {
 					return `${slot}|__no_config__`;
@@ -299,16 +268,6 @@ export function cls<
 					const slotFn: CoolSlot.Fn<TContract> = (call) => {
 						const local = call?.(tweakUtils);
 
-						const localConfig: Tweak.Type<TContract> | undefined =
-							local
-								? {
-										variant: local.variant,
-										slot: local.slot,
-										override: local.override,
-										token: local.token,
-									}
-								: undefined;
-
 						const key = computeKeyFromLocal(slotKeyStr, local);
 						if (key !== null) {
 							const cached = resultCache.get(key);
@@ -320,14 +279,14 @@ export function cls<
 						// Merge variant overrides (no intermediate arrays)
 						const localEffective = {
 							...effectiveVariant,
-						} as Variant.Required<TContract>;
-						if (localConfig?.variant) {
-							for (const k in localConfig.variant) {
-								const v = (
-									localConfig.variant as Variant.Optional<TContract>
+						};
+						if (local?.variant) {
+							for (const k in local.variant) {
+								const variant = (
+									local.variant as Variant.Optional<TContract>
 								)[k];
-								if (v !== undefined) {
-									(localEffective as any)[k] = v;
+								if (variant !== undefined) {
+									(localEffective as any)[k] = variant;
 								}
 							}
 						}
@@ -348,15 +307,13 @@ export function cls<
 							| undefined;
 
 						if (
-							localConfig?.token &&
-							Object.keys(localConfig.token).length > 0
+							local?.token &&
+							Object.keys(local.token).length > 0
 						) {
 							const overlay = Object.create(
 								tokenTable,
 							) as typeof tokenTable;
-							for (const [k, v] of Object.entries(
-								localConfig.token,
-							)) {
+							for (const [k, v] of Object.entries(local.token)) {
 								overlay[k] = v as What.Any<
 									Contract.Type<
 										TToken,
@@ -374,14 +331,12 @@ export function cls<
 
 						// Pre-read per-slot extras
 						const localSlotWhat =
-							localConfig?.slot?.[
-								slotName as keyof typeof localConfig.slot
-							];
+							local?.slot?.[slotName as keyof typeof local.slot];
 						const configSlotWhat =
 							config.slot?.[slotName as keyof typeof config.slot];
 						const localOverrideWhat =
-							localConfig?.override?.[
-								slotName as keyof typeof localConfig.override
+							local?.override?.[
+								slotName as keyof typeof local.override
 							];
 						const configOverrideWhat =
 							config.override?.[
@@ -435,9 +390,8 @@ export function cls<
 									continue;
 								}
 								const entry = slotRules[i]!;
-								pushAll(
-									acc,
-									resolveWhat(
+								acc.push(
+									...resolveWhat(
 										entry.what,
 										activeTokens,
 										sharedTokenSet,
@@ -450,9 +404,8 @@ export function cls<
 						// Append slot configurations
 						if (localSlotWhat) {
 							const sharedTokenSet = new Set<string>();
-							pushAll(
-								acc,
-								resolveWhat(
+							acc.push(
+								...resolveWhat(
 									localSlotWhat as What.Any<
 										Contract.Type<
 											Token.Type,
@@ -468,9 +421,8 @@ export function cls<
 						}
 						if (configSlotWhat) {
 							const sharedTokenSet = new Set<string>();
-							pushAll(
-								acc,
-								resolveWhat(
+							acc.push(
+								...resolveWhat(
 									configSlotWhat as What.Any<
 										Contract.Type<
 											Token.Type,
@@ -489,9 +441,8 @@ export function cls<
 						if (localOverrideWhat) {
 							acc = [];
 							const sharedTokenSet = new Set<string>();
-							pushAll(
-								acc,
-								resolveWhat(
+							acc.push(
+								...resolveWhat(
 									localOverrideWhat as What.Any<
 										Contract.Type<
 											Token.Type,
@@ -508,9 +459,8 @@ export function cls<
 						if (configOverrideWhat) {
 							acc = [];
 							const sharedTokenSet = new Set<string>();
-							pushAll(
-								acc,
-								resolveWhat(
+							acc.push(
+								...resolveWhat(
 									configOverrideWhat as What.Any<
 										Contract.Type<
 											Token.Type,
