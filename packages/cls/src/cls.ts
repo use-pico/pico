@@ -281,19 +281,17 @@ export function cls<
 							...effectiveVariant,
 						};
 						if (local?.variant) {
-							for (const k in local.variant) {
-								const variant = local.variant[k];
-								if (variant !== undefined) {
-									(localEffective as any)[k] = variant;
-								}
-							}
+							Object.entries(local.variant)
+								.filter(([, variant]) => variant !== undefined)
+								.forEach(([k, variant]) => {
+									localEffective[
+										k as keyof typeof localEffective
+									] = variant;
+								});
 						}
 
 						// Local token overrides without copying base table: use overlay proto
-						let activeTokens = tokenTable as Record<
-							string,
-							What.Any<Contract.Any>
-						>;
+						let activeTokens = tokenTable;
 						let localResolvedCache:
 							| Record<string, ClassName[]>
 							| undefined;
