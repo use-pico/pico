@@ -107,6 +107,26 @@ export function cls<
 		}
 	}
 
+	// Pre-index rules per slot to avoid scanning all rules on every slot call
+	const rulesBySlot: Record<
+		string,
+		Rule.Type<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>[]
+	> = Object.create(null);
+	for (const rule of rules) {
+		const slotMap = rule.slot ?? {};
+		for (const slotKey of Object.keys(slotMap)) {
+			if (!rulesBySlot[slotKey]) {
+				rulesBySlot[slotKey] = [];
+			}
+			rulesBySlot[slotKey].push(rule);
+		}
+	}
+
+	// Base token resolution cache for the unoverridden token table
+	const baseTokenTable = tokens;
+	const baseResolvedTokenCache: Record<string, ClassName[]> =
+		Object.create(null);
+
 	// Helper function to resolve a single What<T> object recursively
 	const resolveWhat = (
 		what: What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>,
@@ -130,6 +150,15 @@ export function cls<
 					);
 				}
 
+				const useBaseCache = tokenTable === baseTokenTable;
+				if (useBaseCache) {
+					const cached = baseResolvedTokenCache[tokenKey];
+					if (cached) {
+						result.push(...cached);
+						continue;
+					}
+				}
+
 				if (!tokenTable[tokenKey]) {
 					continue;
 				}
@@ -144,6 +173,11 @@ export function cls<
 					tokenSet,
 				);
 				result.push(...resolved);
+
+				// Cache for base table only
+				if (tokenTable === baseTokenTable) {
+					baseResolvedTokenCache[tokenKey] = resolved;
+				}
 
 				// Remove from resolved set for other branches
 				tokenSet.delete(tokenKey);
@@ -175,6 +209,9 @@ export function cls<
 		return true;
 	};
 
+	// Build the initial token table including global token overrides from tweak config
+	// (Applied later inside .create where user/internal tweaks are merged.)
+
 	// Public API
 	return {
 		create(userTweakFn, internalTweakFn) {
@@ -193,8 +230,11 @@ export function cls<
 				internalTweakFn,
 			)() as Tweak.Type<TContract>;
 
-			// Apply token overrides
-			const tokenTable = {
+			// Apply token overrides (global level)
+			const tokenTable: Record<
+				string,
+				What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
+			> = {
 				...tokens,
 			};
 
@@ -207,18 +247,19 @@ export function cls<
 			const cache = {} as Record<TSlot[number], CoolSlot.Fn<TContract>>;
 			const resultCache = new Map<string, string>();
 
-			const computeKey = (
+			// Build a cache key from already evaluated local config
+			const computeKeyFromLocal = (
 				slot: string,
-				call?: Tweak.Fn<TContract>,
-			): string => {
-				if (!call) {
+				local: ReturnType<NonNullable<Tweak.Fn<TContract>>> | undefined,
+			): string | null => {
+				if (!local) {
 					return `${slot}|__no_config__`;
 				}
-
 				try {
-					return `${slot}|${JSON.stringify(call(tweakUtils))}`;
+					return `${slot}|${JSON.stringify(local)}`;
 				} catch {
-					return `${slot}|__non_serializable__`;
+					// Do not cache if serialization fails
+					return null;
 				}
 			};
 
@@ -231,13 +272,9 @@ export function cls<
 					}
 
 					const slotFn: CoolSlot.Fn<TContract> = (call) => {
-						const key = computeKey(slotName, call);
-						const cached = resultCache.get(key);
-						if (cached !== undefined) {
-							return cached;
-						}
-
+						// Evaluate 'call' exactly once
 						const local = call?.(tweakUtils);
+
 						const localConfig: Tweak.Type<TContract> | undefined =
 							local
 								? {
@@ -248,6 +285,17 @@ export function cls<
 									}
 								: undefined;
 
+						const key = computeKeyFromLocal(
+							String(slotName),
+							local,
+						);
+						if (key !== null) {
+							const cached = resultCache.get(key);
+							if (cached !== undefined) {
+								return cached;
+							}
+						}
+
 						const localEffective = {
 							...effectiveVariant,
 							...Object.fromEntries(
@@ -257,26 +305,50 @@ export function cls<
 							),
 						} as const;
 
-						const localTokens = {
-							...tokenTable,
-						};
+						// Avoid allocating a new token table if there are no local overrides
+						let localTokens:
+							| Record<
+									string,
+									What.Any<
+										Contract.Type<
+											Token.Type,
+											CoolSlot.Type,
+											Variant.Type
+										>
+									>
+							  >
+							| undefined;
 
-						for (const [key, values] of Object.entries(
-							localConfig?.token ?? {},
-						)) {
-							localTokens[key] = values as What.Any<
-								Contract.Type<
-									TToken,
-									CoolSlot.Type,
-									Variant.Type
-								>
-							>;
+						if (
+							localConfig?.token &&
+							Object.keys(localConfig.token).length > 0
+						) {
+							localTokens = {
+								...tokenTable,
+							};
+							for (const [key, values] of Object.entries(
+								localConfig.token,
+							)) {
+								localTokens[key] = values as What.Any<
+									Contract.Type<
+										TToken,
+										CoolSlot.Type,
+										Variant.Type
+									>
+								>;
+							}
 						}
+
+						// Use either the base table with potential global overrides or the locally extended one
+						const activeTokens = localTokens ?? tokenTable;
 
 						let acc: ClassName[] = [];
 
-						// Apply rules
-						for (const rule of rules) {
+						// Apply rules (pre-indexed per slot)
+						const slotRules =
+							rulesBySlot[slotName as unknown as string] ?? [];
+
+						for (const rule of slotRules) {
 							if (
 								!matches(
 									localEffective as Variant.Required<TContract>,
@@ -293,7 +365,7 @@ export function cls<
 							if (rule.override === true) {
 								acc = [];
 							}
-							acc.push(...resolveWhat(what, localTokens));
+							acc.push(...resolveWhat(what, activeTokens));
 						}
 
 						// Apply slot configurations (append to rules)
@@ -307,7 +379,7 @@ export function cls<
 									slotName as keyof typeof localConfig.slot
 								];
 							if (what) {
-								acc.push(...resolveWhat(what, localTokens));
+								acc.push(...resolveWhat(what, activeTokens));
 							}
 						}
 
@@ -319,7 +391,7 @@ export function cls<
 									slotName as keyof typeof config.slot
 								];
 							if (what) {
-								acc.push(...resolveWhat(what, localTokens));
+								acc.push(...resolveWhat(what, activeTokens));
 							}
 						}
 
@@ -335,7 +407,7 @@ export function cls<
 									slotName as keyof typeof localConfig.override
 								];
 							if (what) {
-								acc.push(...resolveWhat(what, localTokens));
+								acc.push(...resolveWhat(what, activeTokens));
 							}
 						}
 
@@ -350,12 +422,14 @@ export function cls<
 									slotName as keyof typeof config.override
 								];
 							if (what) {
-								acc.push(...resolveWhat(what, localTokens));
+								acc.push(...resolveWhat(what, activeTokens));
 							}
 						}
 
 						const out = tvc(acc);
-						resultCache.set(key, out);
+						if (key !== null) {
+							resultCache.set(key, out);
+						}
 						return out;
 					};
 
