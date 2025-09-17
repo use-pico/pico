@@ -1,6 +1,6 @@
 export namespace withErrors {
 	export interface Props {
-		error: any;
+		error: unknown;
 		errors: boolean[];
 		onError(error: Error): void;
 	}

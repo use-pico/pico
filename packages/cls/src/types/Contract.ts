@@ -19,7 +19,7 @@ export namespace Contract {
 		slot: TSlot;
 		variant: TVariant;
 		"~use"?: TUse;
-		"~definition"?: any; // Will be properly typed when imported
+		"~definition"?: unknown; // Will be properly typed when imported
 	};
 
 	/**

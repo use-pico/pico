@@ -71,13 +71,9 @@ export function cls<
 			| undefined;
 	}
 
-	const slotSet = new Set<string>();
-	for (const { contract: c } of layers) {
-		for (const slot of c.slot) {
-			slotSet.add(slot);
-		}
-	}
-	const slotKeys = Array.from(slotSet);
+	const slotKeys = Array.from(
+		new Set(layers.flatMap(({ contract }) => contract.slot)),
+	);
 
 	// Merge defaults and rules from ALL layers in inheritance order
 	const defaultVariant = {} as Variant.VariantOf<TContract>;
@@ -117,7 +113,10 @@ export function cls<
 		return function pred(v: Variant.Required<TContract>): boolean {
 			for (let i = 0; i < keys.length; i++) {
 				const k = keys[i];
-				if (v[k] !== (match as any)[k]) {
+				if (
+					k !== undefined &&
+					v[k] !== (match as Variant.Required<TContract>)[k]
+				) {
 					return false;
 				}
 			}
@@ -139,6 +138,9 @@ export function cls<
 
 	for (let r = 0; r < rules.length; r++) {
 		const rule = rules[r];
+		if (!rule) {
+			continue;
+		}
 		const predicate = compilePredicate(
 			rule.match as Variant.Optional<TContract>,
 		);
@@ -329,12 +331,14 @@ export function cls<
 						// Merge variant overrides (no intermediate arrays)
 						const localEffective = {
 							...effectiveVariant,
-						} as any;
+						} as Variant.Required<TContract>;
 						if (localConfig?.variant) {
 							for (const k in localConfig.variant) {
-								const v = (localConfig.variant as any)[k];
+								const v = (
+									localConfig.variant as Variant.Optional<TContract>
+								)[k];
 								if (v !== undefined) {
-									localEffective[k] = v;
+									(localEffective as any)[k] = v;
 								}
 							}
 						}
@@ -460,7 +464,13 @@ export function cls<
 							pushAll(
 								acc,
 								resolveWhat(
-									localSlotWhat as any,
+									localSlotWhat as What.Any<
+										Contract.Type<
+											Token.Type,
+											CoolSlot.Type,
+											Variant.Type
+										>
+									>,
 									activeTokens,
 									sharedTokenSet,
 									localResolvedCache,
@@ -472,7 +482,13 @@ export function cls<
 							pushAll(
 								acc,
 								resolveWhat(
-									configSlotWhat as any,
+									configSlotWhat as What.Any<
+										Contract.Type<
+											Token.Type,
+											CoolSlot.Type,
+											Variant.Type
+										>
+									>,
 									activeTokens,
 									sharedTokenSet,
 									localResolvedCache,
@@ -487,7 +503,13 @@ export function cls<
 							pushAll(
 								acc,
 								resolveWhat(
-									localOverrideWhat as any,
+									localOverrideWhat as What.Any<
+										Contract.Type<
+											Token.Type,
+											CoolSlot.Type,
+											Variant.Type
+										>
+									>,
 									activeTokens,
 									sharedTokenSet,
 									localResolvedCache,
@@ -500,7 +522,13 @@ export function cls<
 							pushAll(
 								acc,
 								resolveWhat(
-									configOverrideWhat as any,
+									configOverrideWhat as What.Any<
+										Contract.Type<
+											Token.Type,
+											CoolSlot.Type,
+											Variant.Type
+										>
+									>,
 									activeTokens,
 									sharedTokenSet,
 									localResolvedCache,

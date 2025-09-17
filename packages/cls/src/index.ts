@@ -1,7 +1,4 @@
 export { cls } from "./cls";
-//
-export { cls_old } from "./cls_old";
-//
 export * from "./react";
 export type { ClassName } from "./types/ClassName";
 export type { Cls } from "./types/Cls";

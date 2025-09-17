@@ -503,21 +503,13 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone: "inherit",
-											theme: "light",
-										}),
-									})}
+									tone={"unset"}
+									theme={"light"}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone: "inherit",
-											theme: "dark",
-										}),
-									})}
+									tone={"unset"}
+									theme={"dark"}
 								/>
 								<span className="text-xs text-gray-500">
 									Inherits parent styling

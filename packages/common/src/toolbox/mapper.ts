@@ -15,9 +15,9 @@ export const mapper = <A extends object, B extends object>(
 	input: A,
 	mapper: mapper.MapperFn<A, B>,
 ): Merge<A, B> => {
-	const result: any = {
+	const result = {
 		...input,
-	};
+	} as Record<string, unknown>;
 
 	for (const key in mapper) {
 		const fn = mapper[key as keyof typeof mapper];

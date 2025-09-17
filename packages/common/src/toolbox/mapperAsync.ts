@@ -15,9 +15,9 @@ export const mapperAsync = async <A extends object, B extends object>(
 	input: A,
 	mapper: mapperAsync.MapperFn<A, B>,
 ): Promise<Merge<A, B>> => {
-	const result: any = {
+	const result = {
 		...input,
-	};
+	} as Record<string, unknown>;
 
 	for (const key in mapper) {
 		const fn = mapper[key as keyof typeof mapper];

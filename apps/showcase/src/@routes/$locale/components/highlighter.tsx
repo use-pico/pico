@@ -62,7 +62,7 @@ export const Route = createFileRoute("/$locale/components/highlighter")({
 					])}
 				>
 					<Button
-						ref={targetRef}
+						buttonRef={targetRef}
 						onClick={handleHighlight}
 						tone="primary"
 						size="lg"
