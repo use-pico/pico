@@ -182,7 +182,6 @@ export const BoolInputCls = PicoCls.extend(
 			// Tone variants with value states
 			def.rule(
 				what.variant({
-					tone: "unset",
 					value: false,
 				}),
 				{
@@ -194,7 +193,6 @@ export const BoolInputCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "unset",
 					value: true,
 				}),
 				{
@@ -372,9 +370,9 @@ export const BoolInputCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			size: "md",
-			tone: "unset",
-			theme: "unset",
 			value: false,
 			disabled: false,
 		}),

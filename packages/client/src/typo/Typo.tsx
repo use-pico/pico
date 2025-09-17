@@ -1,5 +1,6 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, ReactNode, Ref } from "react";
+import { useTone } from "../tone/useTone";
 import { TypoCls } from "./TypoCls";
 
 export namespace Typo {
@@ -29,13 +30,19 @@ export const BaseTypo: FC<Typo.Props> = ({
 	tweak,
 	ref,
 }) => {
+	const contextTone = useTone({
+		tone,
+		theme,
+	});
+
+	console.log("Typo", contextTone);
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			size,
 			font,
-			tone,
-			theme,
 			italic,
+			...contextTone,
 		}),
 	}));
 

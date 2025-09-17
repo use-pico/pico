@@ -40,8 +40,8 @@ export const MoreCls = PicoCls.extend(
 			}),
 		],
 		defaults: def.defaults({
-			tone: "neutral",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

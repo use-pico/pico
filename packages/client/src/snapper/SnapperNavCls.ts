@@ -203,13 +203,13 @@ export const SnapperNavCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			orientation: "vertical",
 			align: "right",
 			active: false,
 			first: false,
 			last: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

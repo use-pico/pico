@@ -1,5 +1,6 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
+import { useTone } from "../tone/useTone";
 import { ContainerCls } from "./ContainerCls";
 
 export namespace Container {
@@ -49,13 +50,16 @@ export const BaseContainer: FC<Container.Props> = ({
 	children,
 	...props
 }) => {
+	const contextTone = useTone({
+		tone,
+		theme,
+	});
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		slot: what.slot({
 			root: what.css(className),
 		}),
 		variant: what.variant({
-			tone,
-			theme,
 			height,
 			width,
 			orientation,
@@ -68,6 +72,7 @@ export const BaseContainer: FC<Container.Props> = ({
 			border,
 			round,
 			shadow,
+			...contextTone,
 		}),
 	}));
 

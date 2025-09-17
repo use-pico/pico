@@ -196,11 +196,11 @@ export const MenuItemCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			active: false,
 			type: "main",
 			vertical: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

@@ -167,14 +167,14 @@ export const FormFieldCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			required: false,
 			disabled: false,
 			isSubmitting: false,
 			isLoading: false,
 			isError: false,
 			size: "md",
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

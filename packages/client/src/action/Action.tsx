@@ -2,6 +2,7 @@ import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
+import { useTone } from "../tone/useTone";
 import { ActionCls } from "./ActionCls";
 
 /**
@@ -84,14 +85,18 @@ const BaseAction: FC<Action.Props> = ({
 	tweak,
 	...props
 }) => {
+	const contextTone = useTone({
+		tone,
+		theme,
+	});
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
 			disabled,
 			loading,
 			size,
-			tone,
-			theme,
 			border,
+			...contextTone,
 		}),
 	}));
 

@@ -67,12 +67,8 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										{sizes.map((size) => (
 											<Badge
 												key={`size-${size}-${theme}`}
-												tweak={({ what }) => ({
-													variant: what.variant({
-														size,
-														theme,
-													}),
-												})}
+												size={size}
+												theme={theme}
 											>
 												<Tx label={size} />
 											</Badge>
@@ -90,12 +86,8 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-light-${tone}`}
-										tweak={({ what }) => ({
-											variant: what.variant({
-												tone,
-												theme: "light",
-											}),
-										})}
+										tone={tone}
+										theme="light"
 									>
 										<Tx label={tone} />
 									</Badge>
@@ -106,10 +98,10 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-light-no-border-${tone}`}
+										tone={tone}
+										theme="light"
 										tweak={({ what }) => ({
 											variant: what.variant({
-												tone,
-												theme: "light",
 												border: false,
 											}),
 										})}
@@ -123,13 +115,9 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-light-disabled-${tone}`}
-										tweak={({ what }) => ({
-											variant: what.variant({
-												tone,
-												theme: "light",
-												disabled: true,
-											}),
-										})}
+										tone={tone}
+										theme="light"
+										disabled
 									>
 										<Tx label={`${tone} disabled`} />
 									</Badge>
@@ -142,12 +130,12 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-light-no-border-disabled-${tone}`}
+										tone={tone}
+										theme="light"
+										disabled
 										tweak={({ what }) => ({
 											variant: what.variant({
-												tone,
-												theme: "light",
 												border: false,
-												disabled: true,
 											}),
 										})}
 									>
@@ -167,12 +155,8 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-dark-${tone}`}
-										tweak={({ what }) => ({
-											variant: what.variant({
-												tone,
-												theme: "dark",
-											}),
-										})}
+										tone={tone}
+										theme="dark"
 									>
 										<Tx label={tone} />
 									</Badge>
@@ -183,10 +167,10 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-dark-no-border-${tone}`}
+										tone={tone}
+										theme="dark"
 										tweak={({ what }) => ({
 											variant: what.variant({
-												tone,
-												theme: "dark",
 												border: false,
 											}),
 										})}
@@ -200,13 +184,9 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-dark-disabled-${tone}`}
-										tweak={({ what }) => ({
-											variant: what.variant({
-												tone,
-												theme: "dark",
-												disabled: true,
-											}),
-										})}
+										tone={tone}
+										theme="dark"
+										disabled
 									>
 										<Tx label={`${tone} disabled`} />
 									</Badge>
@@ -219,12 +199,12 @@ export const Route = createFileRoute("/$locale/components/badge")({
 								{tones.map((tone) => (
 									<Badge
 										key={`tone-dark-no-border-disabled-${tone}`}
+										tone={tone}
+										theme="dark"
+										disabled
 										tweak={({ what }) => ({
 											variant: what.variant({
-												tone,
-												theme: "dark",
 												border: false,
-												disabled: true,
 											}),
 										})}
 									>
@@ -257,14 +237,9 @@ export const Route = createFileRoute("/$locale/components/badge")({
 												{tones.map((tone) => (
 													<Badge
 														key={`size-combination-${size}-${tone}-${theme}`}
-														tweak={({ what }) => ({
-															variant:
-																what.variant({
-																	size,
-																	tone,
-																	theme,
-																}),
-														})}
+														size={size}
+														tone={tone}
+														theme={theme}
 													>
 														<Tx label={tone} />
 													</Badge>
@@ -292,14 +267,9 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										{tones.map((tone) => (
 											<Badge
 												key={`complete-${tone}-${theme}`}
-												tweak={({ what }) => ({
-													variant: what.variant({
-														size: "md",
-														tone,
-														theme,
-														border: true,
-													}),
-												})}
+												size="md"
+												tone={tone}
+												theme={theme}
 											>
 												<Tx
 													label={`${tone} ${theme}`}

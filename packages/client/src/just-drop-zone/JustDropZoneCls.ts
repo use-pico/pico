@@ -111,10 +111,10 @@ export const JustDropZoneCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			active: false,
 			rejected: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

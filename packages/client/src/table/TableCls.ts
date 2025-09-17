@@ -146,9 +146,9 @@ export const TableCls = AbstractListCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			selected: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

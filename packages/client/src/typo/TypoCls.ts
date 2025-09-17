@@ -22,21 +22,6 @@ export const TypoCls = PicoCls.extend(
 				"semi",
 				"bold",
 			],
-			tone: [
-				"inherit",
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-				"inherit",
-			],
 			italic: [
 				"bool",
 			],
@@ -133,20 +118,13 @@ export const TypoCls = PicoCls.extend(
 			/**
 			 * Tone rules with theme control
 			 */
+			def.rule(what.variant({}), {
+				root: what.token([
+					"tone.primary.light.text",
+				]),
+			}),
 			def.rule(
 				what.variant({
-					tone: "unset",
-					theme: "unset",
-				}),
-				{
-					root: what.token([
-						"tone.primary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -158,7 +136,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -180,7 +157,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -202,7 +178,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -224,7 +199,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -246,7 +220,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -268,7 +241,6 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -301,8 +273,8 @@ export const TypoCls = PicoCls.extend(
 		defaults: def.defaults({
 			size: "inherit",
 			font: "inherit",
-			tone: "inherit",
-			theme: "inherit",
+			tone: "unset",
+			theme: "unset",
 			italic: false,
 		}),
 	}),

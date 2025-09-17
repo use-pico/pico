@@ -49,7 +49,6 @@ export const BadgeCls = PicoCls.extend(
 			// Tone rules using tokens (dark background)
 			def.rule(
 				what.variant({
-					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -149,8 +148,8 @@ export const BadgeCls = PicoCls.extend(
 			// Tone rules using tokens (light background)
 			def.rule(
 				what.variant({
-					tone: "unset",
-					theme: "unset",
+					tone: "primary",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -164,7 +163,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -178,7 +177,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -192,7 +191,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -206,7 +205,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -220,7 +219,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -234,7 +233,7 @@ export const BadgeCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "unset",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -320,8 +319,8 @@ export const BadgeCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "unset",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 			disabled: false,
 			border: true,
 			size: "md",

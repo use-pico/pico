@@ -52,9 +52,9 @@ export const LoadingOverlayCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			show: true,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

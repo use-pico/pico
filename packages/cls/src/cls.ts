@@ -85,11 +85,8 @@ export function cls<
 		Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 	>[] = [];
 
-	// Process layers in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
-		// Merge defaults (child overrides base)
 		Object.assign(defaultVariant, d.defaults);
-		// Collect rules (all rules from all layers)
 		rules.push(...d.rules);
 	}
 
@@ -98,8 +95,6 @@ export function cls<
 		string,
 		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 	> = {};
-
-	// Apply token definitions in inheritance order (base first, child last)
 	for (const { definition: d } of layers) {
 		for (const [k, v] of Object.entries(d.token)) {
 			if (v !== undefined) {
@@ -108,7 +103,7 @@ export function cls<
 		}
 	}
 
-	// Compile a predicate once per rule.match
+	// Compile predicates once per rule.match
 	type Predicate = (v: Variant.Required<TContract>) => boolean;
 	const alwaysTrue: Predicate = () => true;
 
@@ -142,19 +137,22 @@ export function cls<
 		}>
 	> = Object.create(null);
 
-	for (const rule of rules) {
-		const slotMap = rule.slot ?? {};
+	for (let r = 0; r < rules.length; r++) {
+		const rule = rules[r];
 		const predicate = compilePredicate(
 			rule.match as Variant.Optional<TContract>,
 		);
 		const isOverride = rule.override === true;
-		for (const [slotKey, w] of Object.entries(slotMap)) {
+		const slotMap = rule.slot ?? {};
+		const keys = Object.keys(slotMap);
+		for (let i = 0; i < keys.length; i++) {
+			const slotKey = keys[i]!;
 			if (!rulesBySlot[slotKey]) {
 				rulesBySlot[slotKey] = [];
 			}
 			rulesBySlot[slotKey].push({
 				predicate,
-				what: w as What.Any<
+				what: slotMap[slotKey] as What.Any<
 					Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
 				>,
 				override: isOverride,
@@ -162,7 +160,7 @@ export function cls<
 		}
 	}
 
-	// Base token resolution cache; will be rebound after global overrides are applied
+	// Base token resolution cache; rebound after global overrides are applied
 	let baseTokenTable: Record<
 		string,
 		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
@@ -170,7 +168,14 @@ export function cls<
 	let baseResolvedTokenCache: Record<string, ClassName[]> =
 		Object.create(null);
 
-	// Helper to resolve a single What<T> object recursively with caching
+	// Helper to push arrays without spread/iterators
+	function pushAll<T>(dst: T[], src: T[]): void {
+		for (let i = 0; i < src.length; i++) {
+			dst.push(src[i]!);
+		}
+	}
+
+	// Helper to resolve a single What<T> recursively with caching
 	const resolveWhat = (
 		what: What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>,
 		tokenTable: Record<
@@ -180,12 +185,11 @@ export function cls<
 		tokenSet: Set<string>,
 		localTokenCache?: Record<string, ClassName[]>,
 	): ClassName[] => {
-		const result: ClassName[] = [];
+		const out: ClassName[] = [];
 
-		// Handle WhatToken (has 'token' property) - recursive resolution FIRST
 		if ("token" in what && what.token) {
-			for (const tokenKey of what.token) {
-				// Check for circular dependencies
+			for (let i = 0; i < what.token.length; i++) {
+				const tokenKey = what.token[i]!;
 				if (tokenSet.has(tokenKey)) {
 					throw new Error(
 						`Circular dependency detected in token references: ${Array.from(
@@ -202,7 +206,7 @@ export function cls<
 				if (cacheRef) {
 					const cached = cacheRef[tokenKey];
 					if (cached) {
-						result.push(...cached);
+						pushAll(out, cached);
 						continue;
 					}
 				}
@@ -212,34 +216,29 @@ export function cls<
 					continue;
 				}
 
-				// Add to resolved set to prevent cycles
 				tokenSet.add(tokenKey);
 
-				// Recursively resolve the token definition
 				const resolved = resolveWhat(
 					tokenDef,
 					tokenTable,
 					tokenSet,
 					localTokenCache,
 				);
-				result.push(...resolved);
+				pushAll(out, resolved);
 
-				// Cache in the appropriate cache
 				if (cacheRef) {
 					cacheRef[tokenKey] = resolved;
 				}
 
-				// Remove from resolved set for other branches
 				tokenSet.delete(tokenKey);
 			}
 		}
 
-		// Handle WhatClass (has 'class' property) AFTER tokens - classes override tokens
 		if ("class" in what && what.class) {
-			result.push(what.class);
+			out.push(what.class);
 		}
 
-		return result;
+		return out;
 	};
 
 	// Public API
@@ -254,20 +253,18 @@ export function cls<
 				internalTweakFn,
 			);
 
-			// Get config for token overrides
 			const config = merge(
 				userTweakFn,
 				internalTweakFn,
 			)() as Tweak.Type<TContract>;
 
-			// Apply token overrides (global level)
+			// Global token table with overrides
 			const tokenTable: Record<
 				string,
 				What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
 			> = {
 				...tokens,
 			};
-
 			for (const [key, values] of Object.entries(config.token ?? {})) {
 				tokenTable[key] = values as What.Any<
 					Contract.Type<TToken, CoolSlot.Type, Variant.Type>
@@ -284,7 +281,6 @@ export function cls<
 			>;
 			const resultCache = new Map<string, string>();
 
-			// Build a cache key from already evaluated local config
 			const computeKeyFromLocal = (
 				slot: string,
 				local: ReturnType<NonNullable<Tweak.Fn<TContract>>> | undefined,
@@ -295,7 +291,6 @@ export function cls<
 				try {
 					return `${slot}|${JSON.stringify(local)}`;
 				} catch {
-					// Do not cache if serialization fails
 					return null;
 				}
 			};
@@ -311,7 +306,6 @@ export function cls<
 					const slotKeyStr = String(slotName);
 
 					const slotFn: CoolSlot.Fn<TContract> = (call) => {
-						// Evaluate 'call' exactly once
 						const local = call?.(tweakUtils);
 
 						const localConfig: Tweak.Type<TContract> | undefined =
@@ -332,7 +326,7 @@ export function cls<
 							}
 						}
 
-						// Merge effective variants with local overrides
+						// Merge variant overrides (no intermediate arrays)
 						const localEffective = {
 							...effectiveVariant,
 						} as any;
@@ -345,31 +339,32 @@ export function cls<
 							}
 						}
 
-						// Avoid allocating a new token table if there are no local overrides
-						let localTokens:
-							| Record<
-									string,
-									What.Any<
-										Contract.Type<
-											Token.Type,
-											CoolSlot.Type,
-											Variant.Type
-										>
-									>
-							  >
+						// Local token overrides without copying base table: use overlay proto
+						let activeTokens = tokenTable as Record<
+							string,
+							What.Any<
+								Contract.Type<
+									Token.Type,
+									CoolSlot.Type,
+									Variant.Type
+								>
+							>
+						>;
+						let localResolvedCache:
+							| Record<string, ClassName[]>
 							| undefined;
 
 						if (
 							localConfig?.token &&
 							Object.keys(localConfig.token).length > 0
 						) {
-							localTokens = {
-								...tokenTable,
-							};
-							for (const [key, values] of Object.entries(
+							const overlay = Object.create(
+								tokenTable,
+							) as typeof tokenTable;
+							for (const [k, v] of Object.entries(
 								localConfig.token,
 							)) {
-								localTokens[key] = values as What.Any<
+								overlay[k] = v as What.Any<
 									Contract.Type<
 										TToken,
 										CoolSlot.Type,
@@ -377,37 +372,107 @@ export function cls<
 									>
 								>;
 							}
+							activeTokens = overlay;
+							localResolvedCache = Object.create(null) as Record<
+								string,
+								ClassName[]
+							>;
 						}
 
-						// Use either the base table with potential global overrides or the locally extended one
-						const activeTokens = localTokens ?? tokenTable;
+						// Pre-read per-slot extras
+						const localSlotWhat =
+							localConfig?.slot?.[
+								slotName as keyof typeof localConfig.slot
+							];
+						const configSlotWhat =
+							config.slot?.[slotName as keyof typeof config.slot];
+						const localOverrideWhat =
+							localConfig?.override?.[
+								slotName as keyof typeof localConfig.override
+							];
+						const configOverrideWhat =
+							config.override?.[
+								slotName as keyof typeof config.override
+							];
 
-						// Per-call shared state to avoid micro-allocations
-						const sharedTokenSet = new Set<string>();
-						const localResolvedCache =
-							activeTokens === baseTokenTable
-								? undefined
-								: (Object.create(null) as Record<
-										string,
-										ClassName[]
-									>);
+						const slotRules = rulesBySlot[slotKeyStr] ?? [];
+						const len = slotRules.length;
+
+						// Fast bail: nothing contributes at all
+						if (
+							len === 0 &&
+							!localSlotWhat &&
+							!configSlotWhat &&
+							!localOverrideWhat &&
+							!configOverrideWhat
+						) {
+							const out = "";
+							if (key !== null) {
+								resultCache.set(key, out);
+							}
+							return out;
+						}
+
+						// One pass: evaluate predicates -> matches[], find last matching override index
+						let lastOverrideIdx = -1;
+						let anyMatch = false;
+						const matches: boolean[] = new Array(len);
+						for (let i = 0; i < len; i++) {
+							const m = slotRules[i]!.predicate(localEffective);
+							matches[i] = m;
+							if (m) {
+								anyMatch = true;
+								if (slotRules[i]!.override) {
+									lastOverrideIdx = i;
+								}
+							}
+						}
 
 						let acc: ClassName[] = [];
 
-						// Apply rules (pre-indexed per slot)
-						const slotRules = rulesBySlot[slotKeyStr] ?? [];
+						// If at least one rule matches, accumulate from last matched override
+						if (anyMatch) {
+							const start =
+								lastOverrideIdx >= 0 ? lastOverrideIdx : 0;
 
-						for (let i = 0; i < slotRules.length; i++) {
-							const entry = slotRules[i];
-							if (!entry.predicate(localEffective)) {
-								continue;
+							const sharedTokenSet = new Set<string>();
+
+							for (let i = start; i < len; i++) {
+								if (!matches[i]) {
+									continue;
+								}
+								const entry = slotRules[i]!;
+								pushAll(
+									acc,
+									resolveWhat(
+										entry.what,
+										activeTokens,
+										sharedTokenSet,
+										localResolvedCache,
+									),
+								);
 							}
-							if (entry.override === true) {
-								acc = [];
-							}
-							acc.push(
-								...resolveWhat(
-									entry.what,
+						}
+
+						// Append slot configurations
+						if (localSlotWhat) {
+							const sharedTokenSet = new Set<string>();
+							pushAll(
+								acc,
+								resolveWhat(
+									localSlotWhat as any,
+									activeTokens,
+									sharedTokenSet,
+									localResolvedCache,
+								),
+							);
+						}
+						if (configSlotWhat) {
+							const sharedTokenSet = new Set<string>();
+							pushAll(
+								acc,
+								resolveWhat(
+									configSlotWhat as any,
 									activeTokens,
 									sharedTokenSet,
 									localResolvedCache,
@@ -415,93 +480,35 @@ export function cls<
 							);
 						}
 
-						// Apply slot configurations (append to rules)
-						if (
-							localConfig?.slot?.[
-								slotName as keyof typeof localConfig.slot
-							]
-						) {
-							const w =
-								localConfig.slot[
-									slotName as keyof typeof localConfig.slot
-								];
-							if (w) {
-								acc.push(
-									...resolveWhat(
-										w,
-										activeTokens,
-										sharedTokenSet,
-										localResolvedCache,
-									),
-								);
-							}
-						}
-
-						if (
-							config.slot?.[slotName as keyof typeof config.slot]
-						) {
-							const w =
-								config.slot[
-									slotName as keyof typeof config.slot
-								];
-							if (w) {
-								acc.push(
-									...resolveWhat(
-										w,
-										activeTokens,
-										sharedTokenSet,
-										localResolvedCache,
-									),
-								);
-							}
-						}
-
 						// Apply overrides (clear and replace)
-						if (
-							localConfig?.override?.[
-								slotName as keyof typeof localConfig.override
-							]
-						) {
+						if (localOverrideWhat) {
 							acc = [];
-							const w =
-								localConfig.override[
-									slotName as keyof typeof localConfig.override
-								];
-							if (w) {
-								acc.push(
-									...resolveWhat(
-										w,
-										activeTokens,
-										sharedTokenSet,
-										localResolvedCache,
-									),
-								);
-							}
+							const sharedTokenSet = new Set<string>();
+							pushAll(
+								acc,
+								resolveWhat(
+									localOverrideWhat as any,
+									activeTokens,
+									sharedTokenSet,
+									localResolvedCache,
+								),
+							);
+						}
+						if (configOverrideWhat) {
+							acc = [];
+							const sharedTokenSet = new Set<string>();
+							pushAll(
+								acc,
+								resolveWhat(
+									configOverrideWhat as any,
+									activeTokens,
+									sharedTokenSet,
+									localResolvedCache,
+								),
+							);
 						}
 
-						if (
-							config.override?.[
-								slotName as keyof typeof config.override
-							]
-						) {
-							acc = [];
-							const w =
-								config.override[
-									slotName as keyof typeof config.override
-								];
-							if (w) {
-								acc.push(
-									...resolveWhat(
-										w,
-										activeTokens,
-										sharedTokenSet,
-										localResolvedCache,
-									),
-								);
-							}
-						}
-
-						const out = tvc(acc);
+						const out = acc.length === 0 ? "" : tvc(acc);
 						if (key !== null) {
 							resultCache.set(key, out);
 						}
@@ -529,7 +536,6 @@ export function cls<
 		},
 		extend(childContract, childDefinitionFn) {
 			childContract["~use"] = contract;
-			// Don't set ~definition here - it will be set when cls() is called
 
 			const parentTokens = contract.tokens;
 			const childTokens = childContract.tokens;

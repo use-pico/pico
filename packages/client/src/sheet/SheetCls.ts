@@ -46,7 +46,6 @@ export const SheetCls = PicoCls.extend(
 			// Tone colors (dark / light)
 			def.rule(
 				what.variant({
-					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -60,8 +59,8 @@ export const SheetCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "unset",
-					theme: "unset",
+					tone: "primary",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -89,7 +88,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -117,7 +115,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -145,7 +142,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -173,7 +169,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -201,7 +196,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -229,7 +223,6 @@ export const SheetCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -315,8 +308,8 @@ export const SheetCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "unset",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 			round: "unset",
 			disabled: false,
 		}),

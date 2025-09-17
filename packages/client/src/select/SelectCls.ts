@@ -106,6 +106,8 @@ export const SelectCls = FormFieldCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			size: "md",
 			isError: false,
 			isLoading: false,
@@ -114,8 +116,6 @@ export const SelectCls = FormFieldCls.extend(
 			disabled: false,
 			selected: false,
 			active: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

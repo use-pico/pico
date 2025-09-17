@@ -36,11 +36,11 @@ export const BoolInlineCls = IconCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			disabled: false,
 			size: "md",
 			value: false,
-			theme: "unset",
-			tone: "inherit",
 		}),
 	}),
 );

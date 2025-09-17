@@ -40,9 +40,9 @@ export const FloatCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			mounted: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

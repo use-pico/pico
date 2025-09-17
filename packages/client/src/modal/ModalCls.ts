@@ -116,11 +116,11 @@ export const ModalCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			disabled: false,
 			loading: false,
 			size: "md",
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

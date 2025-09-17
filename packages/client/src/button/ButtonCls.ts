@@ -114,11 +114,22 @@ export const ButtonCls = PicoCls.extend(
 				},
 			),
 			/**
-			 * Tone rules
+			 * Tone rules - only for actual tone/theme combinations (no "unset")
 			 */
 			def.rule(
 				what.variant({
-					tone: "unset",
+					tone: "primary",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.primary.light.set",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "primary",
 					theme: "dark",
 				}),
 				{
@@ -129,12 +140,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "unset",
-					theme: "unset",
+					tone: "secondary",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.primary.light.set",
+						"tone.secondary.light.set",
 					]),
 				},
 			),
@@ -151,12 +162,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "secondary",
-					theme: "unset",
+					tone: "danger",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.secondary.light.set",
+						"tone.danger.light.set",
 					]),
 				},
 			),
@@ -173,12 +184,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "danger",
-					theme: "unset",
+					tone: "warning",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.danger.light.set",
+						"tone.warning.light.set",
 					]),
 				},
 			),
@@ -195,12 +206,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "warning",
-					theme: "unset",
+					tone: "neutral",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.warning.light.set",
+						"tone.neutral.light.set",
 					]),
 				},
 			),
@@ -217,12 +228,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "neutral",
-					theme: "unset",
+					tone: "subtle",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.neutral.light.set",
+						"tone.subtle.light.set",
 					]),
 				},
 			),
@@ -239,12 +250,12 @@ export const ButtonCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "subtle",
-					theme: "unset",
+					tone: "link",
+					theme: "light",
 				}),
 				{
 					root: what.token([
-						"tone.subtle.light.set",
+						"tone.link.light.set",
 					]),
 				},
 			),
@@ -256,17 +267,6 @@ export const ButtonCls = PicoCls.extend(
 				{
 					root: what.token([
 						"tone.link.dark.set",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "link",
-					theme: "unset",
-				}),
-				{
-					root: what.token([
-						"tone.link.light.set",
 					]),
 				},
 			),
@@ -364,8 +364,8 @@ export const ButtonCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "unset",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 			disabled: false,
 			size: "md",
 			border: true,

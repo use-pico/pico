@@ -11,10 +11,10 @@ export const ActionClickCls = ActionCls.extend(
 		token: def.token({}),
 		rules: [],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			loading: false,
 			disabled: false,
-			tone: "neutral",
-			theme: "unset",
 		}),
 	}),
 );

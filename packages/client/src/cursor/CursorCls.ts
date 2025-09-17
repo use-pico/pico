@@ -41,8 +41,8 @@ export const CursorCls = PicoCls.extend(
 			}),
 		],
 		defaults: def.defaults({
-			tone: "unset",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 		}),
 	}),
 );

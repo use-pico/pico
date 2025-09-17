@@ -11,11 +11,11 @@ export const MenuLinkCls = MenuItemCls.extend(
 		token: def.token({}),
 		rules: [],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			type: "main",
 			active: false,
 			vertical: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

@@ -58,9 +58,9 @@ export const TabCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			active: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

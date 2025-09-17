@@ -967,6 +967,8 @@ export const ContainerCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "unset",
+			theme: "unset",
 			height: "full",
 			width: "full",
 			orientation: "unset",
@@ -979,8 +981,6 @@ export const ContainerCls = PicoCls.extend(
 			border: "unset",
 			round: "unset",
 			shadow: "unset",
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

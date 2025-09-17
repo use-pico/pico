@@ -96,11 +96,11 @@ export const FormCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			isError: false,
 			isSubmitting: false,
 			required: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

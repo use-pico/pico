@@ -33,10 +33,10 @@ export const PopupSelectCls = PicoCls.extend(
 			}),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			isLoading: false,
 			selected: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

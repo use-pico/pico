@@ -33,9 +33,9 @@ export const TabPaneCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			hidden: false,
-			tone: "unset",
-			theme: "unset",
 		}),
 	}),
 );

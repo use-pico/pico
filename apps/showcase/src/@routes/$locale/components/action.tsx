@@ -10,6 +10,7 @@ const tones = [
 	"warning",
 	"neutral",
 	"subtle",
+	"link",
 ] as const;
 
 const themes = [
@@ -94,25 +95,17 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 							<Column label={<Tx label={"Default"} />}>
 								<Action
 									iconEnabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme,
-										}),
-									})}
+									tone={tone}
+									theme={theme}
 								/>
 							</Column>
 
 							<Column label={<Tx label={"Borderless"} />}>
 								<Action
 									iconEnabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme,
-											border: false,
-										}),
-									})}
+									tone={tone}
+									theme={theme}
+									border={false}
 								/>
 							</Column>
 
@@ -120,12 +113,8 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									disabled
 									iconDisabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme,
-										}),
-									})}
+									tone={tone}
+									theme={theme}
 								/>
 							</Column>
 
@@ -133,12 +122,8 @@ function ToneRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									loading
 									iconEnabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
-											tone,
-											theme,
-										}),
-									})}
+									tone={tone}
+									theme={theme}
 								/>
 							</Column>
 						</div>

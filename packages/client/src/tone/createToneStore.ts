@@ -22,8 +22,8 @@ export namespace createToneStore {
 }
 
 export const createToneStore = ({
-	defaultTone = "primary",
-	defaultTheme = "light",
+	defaultTone = "unset",
+	defaultTheme = "unset",
 }: createToneStore.Props): createToneStore.Hook => {
 	return create<createToneStore.Store>((set) => ({
 		tone: defaultTone,

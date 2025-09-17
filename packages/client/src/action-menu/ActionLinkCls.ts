@@ -8,12 +8,12 @@ export const ActionLinkCls = ActionCls.extend(
 		variant: {},
 	},
 	({ def }) => ({
-		token: {},
+		token: def.token({}),
 		rules: [],
 		defaults: def.defaults({
+			tone: "primary",
+			theme: "light",
 			disabled: false,
-			tone: "neutral",
-			theme: "unset",
 			loading: false,
 		}),
 	}),

@@ -7,22 +7,7 @@ export const LinkToCls = PicoCls.extend(
 		slot: [
 			"root",
 		],
-		variant: {
-			tone: [
-				"inherit",
-				"primary",
-				"secondary",
-				"danger",
-				"warning",
-				"neutral",
-				"subtle",
-				"link",
-			],
-			theme: [
-				"light",
-				"dark",
-			],
-		},
+		variant: {},
 	},
 	({ what, def }) => ({
 		token: {},
@@ -54,7 +39,6 @@ export const LinkToCls = PicoCls.extend(
 			 */
 			def.rule(
 				what.variant({
-					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -68,8 +52,8 @@ export const LinkToCls = PicoCls.extend(
 			),
 			def.rule(
 				what.variant({
-					tone: "unset",
-					theme: "unset",
+					tone: "primary",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -97,7 +81,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -125,7 +108,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -153,7 +135,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -181,7 +162,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -209,7 +189,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -237,7 +216,6 @@ export const LinkToCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -251,7 +229,7 @@ export const LinkToCls = PicoCls.extend(
 		],
 		defaults: def.defaults({
 			tone: "link",
-			theme: "unset",
+			theme: "light",
 		}),
 	}),
 );

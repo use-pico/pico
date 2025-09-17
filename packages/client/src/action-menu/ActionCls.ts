@@ -61,7 +61,6 @@ export const ActionCls = PicoCls.extend(
 			// Tone colors (dark theme)
 			def.rule(
 				what.variant({
-					tone: "unset",
 					theme: "dark",
 				}),
 				{
@@ -168,29 +167,22 @@ export const ActionCls = PicoCls.extend(
 				},
 			),
 			// Tone colors (light theme)
-			def.rule(
-				what.variant({
-					tone: "unset",
-					theme: "unset",
-				}),
-				{
-					root: what.token([
-						"shadow.default",
-						"tone.primary.light.text",
-						"tone.primary.light.text:hover",
-						"tone.primary.light.bg",
-						"tone.primary.light.bg:hover",
-						"tone.primary.light.border",
-						"tone.primary.light.border:hover",
-						"tone.primary.light.shadow",
-						"tone.primary.light.shadow:hover",
-					]),
-				},
-			),
+			def.rule(what.variant({}), {
+				root: what.token([
+					"shadow.default",
+					"tone.primary.light.text",
+					"tone.primary.light.text:hover",
+					"tone.primary.light.bg",
+					"tone.primary.light.bg:hover",
+					"tone.primary.light.border",
+					"tone.primary.light.border:hover",
+					"tone.primary.light.shadow",
+					"tone.primary.light.shadow:hover",
+				]),
+			}),
 			def.rule(
 				what.variant({
 					tone: "secondary",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -209,7 +201,6 @@ export const ActionCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -228,7 +219,6 @@ export const ActionCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -247,7 +237,6 @@ export const ActionCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -265,7 +254,6 @@ export const ActionCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
-					theme: "unset",
 				}),
 				{
 					root: what.token([
@@ -311,8 +299,8 @@ export const ActionCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			tone: "subtle",
-			theme: "unset",
+			tone: "primary",
+			theme: "light",
 			disabled: false,
 			loading: false,
 		}),

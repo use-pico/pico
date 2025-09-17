@@ -1,5 +1,7 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
+import { ToneProvider } from "../tone/ToneProvider";
+import { useTone } from "../tone/useTone";
 import { BadgeCls } from "./BadgeCls";
 
 /**
@@ -11,6 +13,7 @@ export namespace Badge {
 	export interface Props
 		extends BadgeCls.Props<HTMLAttributes<HTMLDivElement>> {
 		ref?: Ref<HTMLDivElement>;
+		disabled?: boolean;
 		size?: Cls.VariantOf<BadgeCls, "size">;
 		tone?: Cls.VariantOf<BadgeCls, "tone">;
 		theme?: Cls.VariantOf<BadgeCls, "theme">;
@@ -19,6 +22,7 @@ export namespace Badge {
 
 export const BaseBadge: FC<Badge.Props> = ({
 	ref,
+	disabled,
 	size,
 	tone,
 	theme,
@@ -26,21 +30,28 @@ export const BaseBadge: FC<Badge.Props> = ({
 	cls = BadgeCls,
 	...props
 }) => {
+	const contextTone = useTone({
+		tone,
+		theme,
+	});
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
+			disabled,
 			size,
-			tone,
-			theme,
+			...contextTone,
 		}),
 	}));
 
 	return (
-		<div
-			ref={ref}
-			data-ui="Badge-root"
-			className={slots.root()}
-			{...props}
-		/>
+		<ToneProvider {...contextTone}>
+			<div
+				ref={ref}
+				data-ui="Badge-root"
+				className={slots.root()}
+				{...props}
+			/>
+		</ToneProvider>
 	);
 };
 

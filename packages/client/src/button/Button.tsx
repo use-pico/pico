@@ -2,11 +2,15 @@ import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
+import { ToneProvider } from "../tone/ToneProvider";
+import { useTone } from "../tone/useTone";
 import { ButtonCls } from "./ButtonCls";
 
 export namespace Button {
 	export interface Props
 		extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonElement>> {
+		wrapperRef?: Ref<HTMLDivElement>;
+		buttonRef?: Ref<HTMLButtonElement>;
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
@@ -16,11 +20,12 @@ export namespace Button {
 		tone?: Cls.VariantOf<ButtonCls, "tone">;
 		theme?: Cls.VariantOf<ButtonCls, "theme">;
 		round?: Cls.VariantOf<ButtonCls, "round">;
-		ref?: Ref<HTMLButtonElement>;
 	}
 }
 
 export const BaseButton: FC<Button.Props> = ({
+	wrapperRef,
+	buttonRef,
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
@@ -30,50 +35,62 @@ export const BaseButton: FC<Button.Props> = ({
 	tone,
 	theme,
 	round,
-	ref,
 	cls = ButtonCls,
 	tweak,
+	disabled,
 	children,
 	...props
 }) => {
+	const contextTone = useTone({
+		tone,
+		theme,
+	});
+
 	const slots = useCls(cls, tweak, ({ what }) => ({
 		variant: what.variant({
-			disabled: props.disabled,
+			disabled,
 			size,
-			tone,
-			theme,
 			round,
+			...contextTone,
 		}),
 	}));
 
 	return (
-		<div
-			data-ui="Button-wrapper"
-			className={slots.wrapper()}
-		>
-			<button
-				data-ui="Button-root"
-				ref={ref}
-				className={slots.root()}
-				type={"button"}
-				{...props}
+		<ToneProvider {...contextTone}>
+			<div
+				data-ui="Button-wrapper"
+				ref={wrapperRef}
+				className={slots.wrapper()}
 			>
-				{props.disabled ? (
-					<Icon
-						icon={loading === true ? iconLoading : iconDisabled}
-						size={"sm"}
-						{...iconProps}
-					/>
-				) : (
-					<Icon
-						icon={loading === true ? iconLoading : iconEnabled}
-						size={"sm"}
-						{...iconProps}
-					/>
-				)}
-				{children}
-			</button>
-		</div>
+				<button
+					data-ui="Button-root"
+					ref={buttonRef}
+					className={slots.root()}
+					type={"button"}
+					disabled={disabled}
+					{...props}
+				>
+					{disabled ? (
+						<Icon
+							icon={
+								loading === true
+									? iconLoading
+									: (iconDisabled ?? iconEnabled)
+							}
+							size={"sm"}
+							{...iconProps}
+						/>
+					) : (
+						<Icon
+							icon={loading === true ? iconLoading : iconEnabled}
+							size={"sm"}
+							{...iconProps}
+						/>
+					)}
+					{children}
+				</button>
+			</div>
+		</ToneProvider>
 	);
 };
 
