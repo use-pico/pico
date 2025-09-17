@@ -424,9 +424,6 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/action-menu",
 									},
 									{
-										to: "/$locale/components/snapper",
-									},
-									{
 										to: "/$locale/components/menu/$selected",
 									},
 								]}
@@ -452,17 +449,6 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Action menu"} />
-								</MenuLink>
-
-								<MenuLink
-									icon={"icon-[ph--layout]"}
-									to={"/$locale/components/snapper"}
-									params={{
-										locale,
-									}}
-									vertical
-								>
-									<Tx label={"Snapper"} />
 								</MenuLink>
 
 								<MenuLink

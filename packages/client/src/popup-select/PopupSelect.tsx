@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
 import { type FC, type ReactNode, useId } from "react";
 import type { Icon } from "../icon/Icon";
@@ -74,7 +74,7 @@ export namespace PopupSelect {
 	>;
 }
 
-export const PopupSelect = <
+export const BasePopupSelect = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({
@@ -143,3 +143,5 @@ export const PopupSelect = <
 		</Modal>
 	);
 };
+
+export const PopupSelect = withCls(BasePopupSelect, PopupSelectCls);

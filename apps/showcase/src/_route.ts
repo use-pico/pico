@@ -18,7 +18,6 @@ import { Route as LocaleComponentsTypoRouteImport } from './@routes/$locale/comp
 import { Route as LocaleComponentsTitlePreviewRouteImport } from './@routes/$locale/components/title-preview'
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsStatusRouteImport } from './@routes/$locale/components/status'
-import { Route as LocaleComponentsSnapperRouteImport } from './@routes/$locale/components/snapper'
 import { Route as LocaleComponentsSelectRouteImport } from './@routes/$locale/components/select'
 import { Route as LocaleComponentsProgressRouteImport } from './@routes/$locale/components/progress'
 import { Route as LocaleComponentsPreviewRouteImport } from './@routes/$locale/components/preview'
@@ -90,11 +89,6 @@ const LocaleComponentsTableRoute = LocaleComponentsTableRouteImport.update({
 const LocaleComponentsStatusRoute = LocaleComponentsStatusRouteImport.update({
   id: '/status',
   path: '/status',
-  getParentRoute: () => LocaleComponentsRoute,
-} as any)
-const LocaleComponentsSnapperRoute = LocaleComponentsSnapperRouteImport.update({
-  id: '/snapper',
-  path: '/snapper',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
 const LocaleComponentsSelectRoute = LocaleComponentsSelectRouteImport.update({
@@ -268,7 +262,6 @@ export interface FileRoutesByFullPath {
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
-  '/$locale/components/snapper': typeof LocaleComponentsSnapperRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
@@ -304,7 +297,6 @@ export interface FileRoutesByTo {
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
-  '/$locale/components/snapper': typeof LocaleComponentsSnapperRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
@@ -343,7 +335,6 @@ export interface FileRoutesById {
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
-  '/$locale/components/snapper': typeof LocaleComponentsSnapperRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
   '/$locale/components/title-preview': typeof LocaleComponentsTitlePreviewRoute
@@ -383,7 +374,6 @@ export interface FileRouteTypes {
     | '/$locale/components/preview'
     | '/$locale/components/progress'
     | '/$locale/components/select'
-    | '/$locale/components/snapper'
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
@@ -419,7 +409,6 @@ export interface FileRouteTypes {
     | '/$locale/components/preview'
     | '/$locale/components/progress'
     | '/$locale/components/select'
-    | '/$locale/components/snapper'
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
@@ -457,7 +446,6 @@ export interface FileRouteTypes {
     | '/$locale/components/preview'
     | '/$locale/components/progress'
     | '/$locale/components/select'
-    | '/$locale/components/snapper'
     | '/$locale/components/status'
     | '/$locale/components/table'
     | '/$locale/components/title-preview'
@@ -534,13 +522,6 @@ declare module '@tanstack/react-router' {
       path: '/status'
       fullPath: '/$locale/components/status'
       preLoaderRoute: typeof LocaleComponentsStatusRouteImport
-      parentRoute: typeof LocaleComponentsRoute
-    }
-    '/$locale/components/snapper': {
-      id: '/$locale/components/snapper'
-      path: '/snapper'
-      fullPath: '/$locale/components/snapper'
-      preLoaderRoute: typeof LocaleComponentsSnapperRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/select': {
@@ -754,7 +735,6 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsPreviewRoute: typeof LocaleComponentsPreviewRoute
   LocaleComponentsProgressRoute: typeof LocaleComponentsProgressRoute
   LocaleComponentsSelectRoute: typeof LocaleComponentsSelectRoute
-  LocaleComponentsSnapperRoute: typeof LocaleComponentsSnapperRoute
   LocaleComponentsStatusRoute: typeof LocaleComponentsStatusRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
   LocaleComponentsTitlePreviewRoute: typeof LocaleComponentsTitlePreviewRoute
@@ -789,7 +769,6 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsPreviewRoute: LocaleComponentsPreviewRoute,
   LocaleComponentsProgressRoute: LocaleComponentsProgressRoute,
   LocaleComponentsSelectRoute: LocaleComponentsSelectRoute,
-  LocaleComponentsSnapperRoute: LocaleComponentsSnapperRoute,
   LocaleComponentsStatusRoute: LocaleComponentsStatusRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
   LocaleComponentsTitlePreviewRoute: LocaleComponentsTitlePreviewRoute,

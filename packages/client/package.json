@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.98",
+	"version": "5.0.99",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -20,7 +20,7 @@
 		"@tanstack/react-router": "1.131.44",
 		"@types/luxon": "^3.6.2",
 		"@use-pico/cls": "5.0.33",
-		"@use-pico/common": "5.0.43",
+		"@use-pico/common": "5.0.44",
 		"axios": "1.12.2",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.7",
@@ -37,7 +37,7 @@
 		"use-debounce": "10.0.6",
 		"uuid": "13.0.0",
 		"write-excel-file": "2.3.5",
-		"zod": "4.1.8",
+		"zod": "4.1.9",
 		"zustand": "^5.0.6"
 	},
 	"devDependencies": {

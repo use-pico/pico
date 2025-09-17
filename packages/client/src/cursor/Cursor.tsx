@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import {
 	type CountSchema,
 	type CursorSchema,
@@ -24,7 +24,7 @@ export namespace Cursor {
 	}
 }
 
-export const Cursor: FC<Cursor.Props> = ({
+export const BaseCursor: FC<Cursor.Props> = ({
 	ref,
 	state,
 	count,
@@ -148,3 +148,5 @@ export const Cursor: FC<Cursor.Props> = ({
 		</div>
 	);
 };
+
+export const Cursor = withCls(BaseCursor, CursorCls);

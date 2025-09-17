@@ -1,4 +1,4 @@
-import { useCls } from "@use-pico/cls";
+import { useCls, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, Ref } from "react";
 import { InlineContext } from "../context/InlineContext";
 import { DetailCls } from "./DetailCls";
@@ -12,7 +12,7 @@ export namespace Detail {
 	export type PropsEx = Omit<Props, "section">;
 }
 
-export const Detail: FC<Detail.Props> = ({
+export const BaseDetail: FC<Detail.Props> = ({
 	ref,
 	inline = false,
 	children,
@@ -37,3 +37,5 @@ export const Detail: FC<Detail.Props> = ({
 		</InlineContext.Provider>
 	);
 };
+
+export const Detail = withCls(BaseDetail, DetailCls);

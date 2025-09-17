@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.43",
+	"version": "5.0.44",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -33,7 +33,7 @@
 		"preferred-locale": "2.0.2",
 		"read-excel-file": "6.0.1",
 		"timer-node": "5.0.9",
-		"zod": "4.1.8"
+		"zod": "4.1.9"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "28.0.6",
