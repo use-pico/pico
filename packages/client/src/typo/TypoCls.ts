@@ -9,7 +9,7 @@ export const TypoCls = PicoCls.extend(
 		],
 		variant: {
 			size: [
-				"inherit",
+				"unset",
 				"xs",
 				"sm",
 				"md",
@@ -17,7 +17,7 @@ export const TypoCls = PicoCls.extend(
 				"xl",
 			],
 			font: [
-				"inherit",
+				"unset",
 				"normal",
 				"semi",
 				"bold",
@@ -118,13 +118,20 @@ export const TypoCls = PicoCls.extend(
 			/**
 			 * Tone rules with theme control
 			 */
-			def.rule(what.variant({}), {
-				root: what.token([
-					"tone.primary.light.text",
-				]),
-			}),
 			def.rule(
 				what.variant({
+					tone: "primary",
+					theme: "light",
+				}),
+				{
+					root: what.token([
+						"tone.primary.light.text",
+					]),
+				},
+			),
+			def.rule(
+				what.variant({
+					tone: "primary",
 					theme: "dark",
 				}),
 				{
@@ -136,6 +143,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "secondary",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -157,6 +165,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "danger",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -178,6 +187,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "warning",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -199,6 +209,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "neutral",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -220,6 +231,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "subtle",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -241,6 +253,7 @@ export const TypoCls = PicoCls.extend(
 			def.rule(
 				what.variant({
 					tone: "link",
+					theme: "light",
 				}),
 				{
 					root: what.token([
@@ -271,8 +284,8 @@ export const TypoCls = PicoCls.extend(
 			),
 		],
 		defaults: def.defaults({
-			size: "inherit",
-			font: "inherit",
+			size: "unset",
+			font: "unset",
 			tone: "unset",
 			theme: "unset",
 			italic: false,
