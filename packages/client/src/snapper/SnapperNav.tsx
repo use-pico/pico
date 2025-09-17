@@ -93,16 +93,20 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	}, []);
 
 	useEffect(() => {
-		const el = containerRef.current;
-		if (!el) {
+		const container = containerRef.current;
+		if (!container) {
 			return;
 		}
 
 		const onScroll = () => {
 			const size =
-				orientation === "vertical" ? el.clientHeight : el.clientWidth;
+				orientation === "vertical"
+					? container.clientHeight
+					: container.clientWidth;
 			const pos =
-				orientation === "vertical" ? el.scrollTop : el.scrollLeft;
+				orientation === "vertical"
+					? container.scrollTop
+					: container.scrollLeft;
 			const idx = Math.max(
 				0,
 				Math.min(pages.length - 1, Math.round(pos / Math.max(1, size))),
@@ -112,10 +116,13 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			}
 		};
 
-		el.addEventListener("scroll", onScroll, {
+		container.addEventListener("scroll", onScroll, {
 			passive: true,
 		});
-		return () => el.removeEventListener("scroll", onScroll);
+
+		return () => {
+			container.removeEventListener("scroll", onScroll);
+		};
 	}, [
 		containerRef,
 		orientation,

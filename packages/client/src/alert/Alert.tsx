@@ -1,5 +1,5 @@
 import { useCls, withCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { AlertCls } from "./AlertCls";
 
@@ -12,6 +12,7 @@ import { AlertCls } from "./AlertCls";
  */
 export namespace Alert {
 	export interface Props extends AlertCls.Props<PropsWithChildren> {
+		ref?: Ref<HTMLDivElement>;
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		title?: ReactNode;
@@ -21,6 +22,7 @@ export namespace Alert {
 }
 
 export const BaseAlert: FC<Alert.Props> = ({
+	ref,
 	icon,
 	iconProps,
 	title,
@@ -38,6 +40,7 @@ export const BaseAlert: FC<Alert.Props> = ({
 
 	return (
 		<div
+			ref={ref}
 			data-ui="Alert-root"
 			className={slots.root()}
 			onClick={onClick}

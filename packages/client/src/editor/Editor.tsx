@@ -12,11 +12,12 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import { tvc } from "@use-pico/cls";
 import type { SerializedEditor } from "lexical";
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { ToolbarPlugin } from "./ToolbarPlugin";
 
 export namespace Editor {
 	export interface Props {
+		ref?: Ref<HTMLDivElement>;
 		namespace: string;
 		editable?: boolean;
 		placeholder: string;
@@ -27,6 +28,7 @@ export namespace Editor {
 }
 
 export const Editor: FC<Editor.Props> = ({
+	ref,
 	namespace,
 	editable = true,
 	placeholder,
@@ -74,6 +76,8 @@ export const Editor: FC<Editor.Props> = ({
 	return (
 		<LexicalComposer initialConfig={config}>
 			<div
+				ref={ref}
+				data-ui="Editor-root"
 				className={tvc([
 					"flex",
 					"flex-col",
@@ -84,6 +88,7 @@ export const Editor: FC<Editor.Props> = ({
 			>
 				{withToolbar ? (
 					<div
+						data-ui="Editor-toolbar"
 						className={tvc([
 							"border-b",
 							"border-slate-300",
@@ -95,6 +100,7 @@ export const Editor: FC<Editor.Props> = ({
 					</div>
 				) : null}
 				<div
+					data-ui="Editor-content"
 					className={tvc([
 						"relative",
 					])}
@@ -102,6 +108,7 @@ export const Editor: FC<Editor.Props> = ({
 					<RichTextPlugin
 						contentEditable={
 							<ContentEditable
+								data-ui="Editor-content-editable"
 								className={tvc([
 									"h-full",
 									"focus:outline-none",
@@ -111,6 +118,7 @@ export const Editor: FC<Editor.Props> = ({
 								aria-placeholder={placeholder}
 								placeholder={
 									<div
+										data-ui="Editor-content-editable-placeholder"
 										className={tvc([
 											"absolute",
 											"top-4",

@@ -86,9 +86,14 @@ export function withMutation<TVariables, TResult>({
 			return useMutation<TResult, Error, TVariables>({
 				mutationFn,
 				...options,
-				async onSuccess(data, variables, context) {
+				async onSuccess(data, variables, onMutationResult, context) {
 					await invalidate(queryClient);
-					options?.onSuccess?.(data, variables, context);
+					options?.onSuccess?.(
+						data,
+						variables,
+						onMutationResult,
+						context,
+					);
 				},
 			});
 		},

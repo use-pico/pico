@@ -1,6 +1,6 @@
 import { tvc, useCls } from "@use-pico/cls";
 import type { EntitySchema } from "@use-pico/common";
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, Ref } from "react";
 import { Action } from "../action/Action";
 import { ArrowRightIcon } from "../icon/ArrowRightIcon";
 import { CloseIcon } from "../icon/CloseIcon";
@@ -17,6 +17,7 @@ export namespace Transfer {
 
 	export interface Props<TItem extends EntitySchema.Type>
 		extends TransferCls.Props {
+		ref?: Ref<HTMLDivElement>;
 		groups: readonly Group<TItem>[];
 		render: FC<{
 			item: TItem;
@@ -27,6 +28,7 @@ export namespace Transfer {
 }
 
 export const Transfer = <TItem extends EntitySchema.Type>({
+	ref,
 	groups,
 	render: Render,
 	value,
@@ -93,6 +95,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 
 	return (
 		<div
+			ref={ref}
 			data-ui="Transfer-root"
 			className={slots.root()}
 		>

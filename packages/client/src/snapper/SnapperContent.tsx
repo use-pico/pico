@@ -1,13 +1,17 @@
 import { useCls, withCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren, Ref } from "react";
+import { useMergeRefs } from "../ref/useMergeRefs";
 import { SnapperContentCls } from "./SnapperContentCls";
 import { useSnapper } from "./useSnapper";
 
 export namespace SnapperContent {
-	export interface Props extends SnapperContentCls.Props<PropsWithChildren> {}
+	export interface Props extends SnapperContentCls.Props<PropsWithChildren> {
+		ref?: Ref<HTMLDivElement>;
+	}
 }
 
 export const BaseSnapperContent: FC<SnapperContent.Props> = ({
+	ref,
 	cls = SnapperContentCls,
 	tweak,
 	children,
@@ -18,11 +22,15 @@ export const BaseSnapperContent: FC<SnapperContent.Props> = ({
 			orientation,
 		}),
 	}));
+	const refs = useMergeRefs([
+		containerRef,
+		ref,
+	]);
 
 	return (
 		<div
 			data-ui="SnapperContent-;root"
-			ref={containerRef}
+			ref={refs}
 			className={slots.root()}
 		>
 			<div

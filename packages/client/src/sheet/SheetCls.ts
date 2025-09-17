@@ -321,7 +321,7 @@ export const SheetCls = PicoCls.extend(
 				}),
 				{
 					root: what.css([
-						"opacity-60",
+						"opacity-80",
 						"pointer-events-none",
 					]),
 				},

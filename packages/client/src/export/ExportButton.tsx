@@ -18,7 +18,7 @@ export namespace ExportButton {
 			size: number;
 		}
 
-		export type Callback = (props: Props) => Promise<EntitySchema.Type[]>;
+		export type Fn = (props: Props) => Promise<EntitySchema.Type[]>;
 	}
 
 	export interface Props<TItem extends EntitySchema.Type>
@@ -40,7 +40,7 @@ export namespace ExportButton {
 		 *
 		 * There is no input as the source is responsible for binding all required parameters.
 		 */
-		source: Source.Callback;
+		source: Source.Fn;
 		/**
 		 * Callback to get the count of items to be exported. Used for internal paging & progress.
 		 */

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { CheckIcon } from "../icon/CheckIcon";
 import { Icon } from "../icon/Icon";
 import { IconCls } from "../icon/IconCls";
@@ -27,6 +27,7 @@ export namespace BoolInline {
 	 * Props for BoolInline component.
 	 */
 	export interface Props extends BoolInlineCls.Props<Icon.PropsEx> {
+		ref?: Ref<HTMLDivElement>;
 		/**
 		 * Input boolean value.
 		 */
@@ -47,6 +48,7 @@ export namespace BoolInline {
 }
 
 export const BoolInline: FC<BoolInline.Props> = ({
+	ref,
 	value,
 	checkIcon = CheckIcon,
 	unCheckIcon = UnCheckIcon,
@@ -57,24 +59,35 @@ export const BoolInline: FC<BoolInline.Props> = ({
 }) => {
 	if (value === null || value === undefined) {
 		return (
-			<Icon
-				icon={undefinedIcon}
-				cls={IconCls.use(cls)}
-				tweak={IconCls.tweak(tweak)}
-				{...props}
-			/>
+			<div
+				ref={ref}
+				data-ui="BoolInline-root"
+			>
+				<Icon
+					icon={undefinedIcon}
+					cls={IconCls.use(cls)}
+					tweak={IconCls.tweak(tweak)}
+					{...props}
+				/>
+			</div>
 		);
 	}
+
 	return (
-		<Icon
-			icon={value ? checkIcon : unCheckIcon}
-			cls={IconCls.use(cls)}
-			tweak={IconCls.tweak(tweak, ({ what }) => ({
-				variant: what.variant({
-					value,
-				}),
-			}))}
-			{...props}
-		/>
+		<div
+			ref={ref}
+			data-ui="BoolInline-root"
+		>
+			<Icon
+				icon={value ? checkIcon : unCheckIcon}
+				cls={IconCls.use(cls)}
+				tweak={IconCls.tweak(tweak, ({ what }) => ({
+					variant: what.variant({
+						value,
+					}),
+				}))}
+				{...props}
+			/>
+		</div>
 	);
 };

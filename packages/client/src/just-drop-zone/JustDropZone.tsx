@@ -1,6 +1,12 @@
 import { useCls } from "@use-pico/cls";
 import { isNonEmptyArray, translator } from "@use-pico/common";
-import { type FC, type ReactNode, useCallback, useState } from "react";
+import {
+	type FC,
+	type ReactNode,
+	type Ref,
+	useCallback,
+	useState,
+} from "react";
 import * as dropzone from "react-dropzone";
 import { Icon } from "../icon/Icon";
 import { UploadIcon } from "../icon/UploadIcon";
@@ -23,6 +29,7 @@ export namespace JustDropZone {
 
 	export interface Props
 		extends JustDropZoneCls.Props<dropzone.DropzoneOptions> {
+		ref?: Ref<HTMLDivElement>;
 		id?: string;
 		textTile?: ReactNode;
 		textMessage?: ReactNode;
@@ -34,6 +41,7 @@ export namespace JustDropZone {
 }
 
 export const JustDropZone: FC<JustDropZone.Props> = ({
+	ref,
 	id,
 	accept,
 	textTile,
@@ -78,6 +86,7 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 
 	return (
 		<div
+			ref={ref}
 			{...getRootProps()}
 			data-ui="JustDropZone-root"
 			className={slots.root()}

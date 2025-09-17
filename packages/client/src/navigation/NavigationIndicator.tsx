@@ -1,12 +1,14 @@
 import { useRouterState } from "@tanstack/react-router";
 import { tvc } from "@use-pico/cls";
-import { type FC, useEffect, useState } from "react";
+import { type FC, type Ref, useEffect, useState } from "react";
 
 export namespace NavigationIndicator {
-	export type Props = {};
+	export interface Props {
+		ref?: Ref<HTMLDivElement>;
+	}
 }
 
-export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
+export const NavigationIndicator: FC<NavigationIndicator.Props> = ({ ref }) => {
 	const { status } = useRouterState();
 	const [visible, setVisible] = useState(false);
 
@@ -25,13 +27,16 @@ export const NavigationIndicator: FC<NavigationIndicator.Props> = () => {
 			clearTimeout(timeout);
 		}
 
-		return () => clearTimeout(timeout);
+		return () => {
+			clearTimeout(timeout);
+		};
 	}, [
 		status,
 	]);
 
 	return visible ? (
 		<div
+			ref={ref}
 			className={tvc([
 				"fixed",
 				"top-0",

@@ -1,5 +1,5 @@
 import type { EntitySchema } from "@use-pico/common";
-import type { FC, ReactNode } from "react";
+import type { FC, ReactNode, Ref } from "react";
 import { Badge } from "../badge/Badge";
 import { Tx } from "../tx/Tx";
 
@@ -18,6 +18,7 @@ export namespace Tags {
 	}
 
 	export interface Props {
+		ref?: Ref<HTMLDivElement>;
 		tags?: (Data | undefined | null)[];
 		render?: Render.Component;
 		onClick?: (tag: Data) => void;
@@ -26,6 +27,7 @@ export namespace Tags {
 }
 
 export const Tags: FC<Tags.Props> = ({
+	ref,
 	tags = [],
 	render: Render = ({ tag }) => tag.label,
 	onClick,
@@ -36,7 +38,11 @@ export const Tags: FC<Tags.Props> = ({
 	);
 
 	return (
-		<div className={"flex flex-wrap flex-row gap-2 items-center"}>
+		<div
+			ref={ref}
+			data-ui="Tags-root"
+			className={"flex flex-wrap flex-row gap-2 items-center"}
+		>
 			{$tags.length
 				? $tags.map((tag) => (
 						<Badge

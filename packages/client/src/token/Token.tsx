@@ -67,6 +67,7 @@ export const Token: FC<Token.Props> = ({
 					>
 						{!result.success && (
 							<div
+								data-ui="Token-root-error"
 								className={
 									"flex flex-col items-center gap-2 border-t border-slate-200 p-4 mt-4"
 								}
@@ -74,6 +75,7 @@ export const Token: FC<Token.Props> = ({
 								{result.missing.map((token) => (
 									<div
 										key={`missing-token-${token}`}
+										data-ui="Token-root-error-item"
 										className={
 											"rounded-2xl bg-amber-300 border border-amber-400 text-amber-900 px-2 py-1 my-1"
 										}

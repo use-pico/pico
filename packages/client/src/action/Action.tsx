@@ -1,5 +1,5 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import type { FC, HTMLAttributes } from "react";
+import type { FC, HTMLAttributes, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { ActionCls } from "./ActionCls";
@@ -40,6 +40,7 @@ export namespace Action {
 		extends ActionCls.Props<
 			Omit<HTMLAttributes<HTMLDivElement>, "children">
 		> {
+		ref?: Ref<HTMLDivElement>;
 		/** Icon to display when the action is enabled and not loading */
 		iconEnabled?: Icon.Type;
 		/** Icon to display when the action is disabled */
@@ -67,6 +68,7 @@ export namespace Action {
 }
 
 const BaseAction: FC<Action.Props> = ({
+	ref,
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
@@ -95,6 +97,7 @@ const BaseAction: FC<Action.Props> = ({
 
 	return (
 		<div
+			ref={ref}
 			data-ui="Action-root"
 			className={slots.root()}
 			onClick={disabled ? undefined : onClick}

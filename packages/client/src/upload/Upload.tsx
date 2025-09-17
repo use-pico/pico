@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, Ref } from "react";
 import { Progress } from "../progress/Progress";
 import { useUpload } from "./useUpload";
 
@@ -11,14 +11,19 @@ import { useUpload } from "./useUpload";
  */
 export namespace Upload {
 	export interface Props extends useUpload.Props {
+		ref?: Ref<HTMLDivElement>;
 		progressProps?: Omit<Progress.Props, "value">;
 	}
 }
 
-export const Upload: FC<Upload.Props> = ({ progressProps, ...props }) => {
+export const Upload: FC<Upload.Props> = ({ ref, progressProps, ...props }) => {
 	const { isRunning, isSuccess, isError, percent } = useUpload(props);
 	return (
-		<div className={"w-full"}>
+		<div
+			ref={ref}
+			data-ui="Upload-root"
+			className={"w-full"}
+		>
 			<Progress
 				{...progressProps}
 				tweak={({ what }) => ({
