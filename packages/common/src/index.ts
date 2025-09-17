@@ -58,6 +58,7 @@ export { isNonEmptyArray } from "./toolbox/isNonEmptyArray";
 export { isObject } from "./toolbox/isObject";
 export { isString } from "./toolbox/isString";
 export { keyOf } from "./toolbox/keyOf";
+export { keysOf } from "./toolbox/keysOf";
 export { mapEmptyToNull } from "./toolbox/mapEmptyToNull";
 export { mapEmptyToUndefined } from "./toolbox/mapEmptyToUndefined";
 export { mapper } from "./toolbox/mapper";

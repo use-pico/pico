@@ -27,6 +27,17 @@ const tweakUtils = {
 	override: tweakOverride<any>(),
 } as const;
 
+// Local types for cls function implementation
+type Predicate<TContract extends Contract.Any> = (
+	v: Variant.Required<TContract>,
+) => boolean;
+
+type CompiledRule<TContract extends Contract.Any> = {
+	predicate: Predicate<TContract>;
+	what: What.Any<Contract.Any>;
+	override: boolean;
+};
+
 export function cls<
 	const TToken extends Token.Type,
 	const TSlot extends CoolSlot.Type,
@@ -43,17 +54,13 @@ export function cls<
 
 	// Build inheritance chain (base -> child order)
 	const layers: {
-		contract: Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>;
+		contract: Contract.Any;
 		definition: Definition.Type<any>;
 	}[] = [];
-	let current:
-		| Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-		| undefined = contract;
+	let current: Contract.Any | undefined = contract;
 	let currentDef:
 		| Definition.Type<TContract>
-		| Definition.Type<
-				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-		  >
+		| Definition.Type<Contract.Any>
 		| undefined = definition;
 
 	while (current && currentDef) {
@@ -75,92 +82,74 @@ export function cls<
 		new Set(layers.flatMap(({ contract }) => contract.slot)),
 	);
 
-	// Merge defaults and rules from ALL layers in inheritance order
-	const defaultVariant = {} as Variant.VariantOf<TContract>;
-	const rules: Rule.Type<
-		Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-	>[] = [];
-
-	for (const { definition } of layers) {
-		Object.assign(defaultVariant, definition.defaults);
-		rules.push(...definition.rules);
-	}
+	const rules: Rule.Type<Contract.Any>[] = layers.flatMap(
+		({ definition }) => definition.rules,
+	);
 
 	// Build token index with proper inheritance order
-	const tokens: Record<
+	const tokens = Object.fromEntries(
+		layers.flatMap(({ definition }) =>
+			Object.entries(definition.token).filter(([, v]) => v !== undefined),
+		),
+	) as Record<
 		string,
 		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
-	> = {};
-	for (const { definition: d } of layers) {
-		for (const [k, v] of Object.entries(d.token)) {
-			if (v !== undefined) {
-				tokens[k] = v;
-			}
-		}
-	}
+	>;
 
 	// Compile predicates once per rule.match
-	type Predicate = (v: Variant.Required<TContract>) => boolean;
-	const alwaysTrue: Predicate = () => true;
+	const alwaysTrue: Predicate<TContract> = () => true;
 
-	function compilePredicate(match?: Variant.Optional<TContract>): Predicate {
+	function compilePredicate(
+		match?: Variant.Optional<Contract.Any>,
+	): Predicate<TContract> {
 		if (!match) {
 			return alwaysTrue;
 		}
 		const keys = Object.keys(
 			match,
 		) as (keyof Variant.Required<TContract>)[];
-		return function pred(v: Variant.Required<TContract>): boolean {
-			for (let i = 0; i < keys.length; i++) {
-				const k = keys[i];
-				if (
-					k !== undefined &&
-					v[k] !== (match as Variant.Required<TContract>)[k]
-				) {
-					return false;
-				}
-			}
-			return true;
+		return function pred(variant: Variant.Required<TContract>): boolean {
+			return !keys.some(
+				(key) =>
+					key !== undefined &&
+					variant[key] !==
+						(match as Variant.Required<TContract>)[key],
+			);
 		};
 	}
 
 	// Pre-index rules per slot with compiled predicates and extracted 'what'
-	const rulesBySlot: Record<
-		string,
-		Array<{
-			predicate: Predicate;
-			what: What.Any<
-				Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-			>;
-			override: boolean;
-		}>
-	> = Object.create(null);
+	const rulesBySlot: Record<string, CompiledRule<TContract>[]> = rules
+		.flatMap((rule) => {
+			const predicate = compilePredicate(rule.match);
+			const isOverride = rule.override === true;
+			const slotMap = rule.slot ?? {};
 
-	for (let r = 0; r < rules.length; r++) {
-		const rule = rules[r];
-		if (!rule) {
-			continue;
-		}
-		const predicate = compilePredicate(
-			rule.match as Variant.Optional<TContract>,
-		);
-		const isOverride = rule.override === true;
-		const slotMap = rule.slot ?? {};
-		const keys = Object.keys(slotMap);
-		for (let i = 0; i < keys.length; i++) {
-			const slotKey = keys[i]!;
-			if (!rulesBySlot[slotKey]) {
-				rulesBySlot[slotKey] = [];
+			return Object.entries(slotMap)
+				.filter(
+					(
+						entry,
+					): entry is [
+						string,
+						What.Any<Contract.Any>,
+					] => entry[1] !== undefined,
+				)
+				.map(([slotKey, what]) => ({
+					slotKey,
+					compiledRule: {
+						predicate,
+						what,
+						override: isOverride,
+					},
+				}));
+		})
+		.reduce((acc, { slotKey, compiledRule }) => {
+			if (!acc[slotKey]) {
+				acc[slotKey] = [];
 			}
-			rulesBySlot[slotKey].push({
-				predicate,
-				what: slotMap[slotKey] as What.Any<
-					Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>
-				>,
-				override: isOverride,
-			});
-		}
-	}
+			acc[slotKey].push(compiledRule);
+			return acc;
+		}, Object.create(null));
 
 	// Base token resolution cache; rebound after global overrides are applied
 	let baseTokenTable: Record<
