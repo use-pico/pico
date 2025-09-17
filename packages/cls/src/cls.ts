@@ -29,7 +29,7 @@ const tweakUtils = {
 
 // Local types for cls function implementation
 type Predicate<TContract extends Contract.Any> = (
-	v: Variant.Required<TContract>,
+	variant: Variant.VariantOf<TContract>,
 ) => boolean;
 
 type CompiledRule<TContract extends Contract.Any> = {
@@ -104,8 +104,8 @@ export function cls<
 		}
 		const keys = Object.keys(
 			match,
-		) as (keyof Variant.Required<TContract>)[];
-		return function pred(variant: Variant.Required<TContract>): boolean {
+		) as (keyof Variant.VariantOf<TContract>)[];
+		return function pred(variant) {
 			return !keys.some(
 				(key) => key !== undefined && variant[key] !== match[key],
 			);
@@ -282,9 +282,7 @@ export function cls<
 						};
 						if (local?.variant) {
 							for (const k in local.variant) {
-								const variant = (
-									local.variant as Variant.Optional<TContract>
-								)[k];
+								const variant = local.variant[k];
 								if (variant !== undefined) {
 									(localEffective as any)[k] = variant;
 								}
@@ -294,13 +292,7 @@ export function cls<
 						// Local token overrides without copying base table: use overlay proto
 						let activeTokens = tokenTable as Record<
 							string,
-							What.Any<
-								Contract.Type<
-									Token.Type,
-									CoolSlot.Type,
-									Variant.Type
-								>
-							>
+							What.Any<Contract.Any>
 						>;
 						let localResolvedCache:
 							| Record<string, ClassName[]>
