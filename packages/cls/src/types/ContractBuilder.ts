@@ -1,4 +1,5 @@
 import type { Contract } from "./Contract";
+import type { DefinitionBuilder } from "./DefinitionBuilder";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
 import type { Utils } from "./Utils";
@@ -13,9 +14,9 @@ export namespace ContractBuilder {
 	 * Contract builder state that accumulates tokens, slots, and variants
 	 */
 	export interface State<
-		TTokens extends Token.Type = Token.Type,
-		TSlots extends Slot.Type = Slot.Type,
-		TVariants extends Variant.Type = Variant.Type,
+		TTokens extends Token.Type = readonly [],
+		TSlots extends Slot.Type = readonly [],
+		TVariants extends Variant.Type = {},
 	> {
 		tokens: TTokens;
 		slots: TSlots;
@@ -26,9 +27,9 @@ export namespace ContractBuilder {
 	 * Contract builder interface with fluent methods
 	 */
 	export interface Builder<
-		TTokens extends Token.Type = Token.Type,
-		TSlots extends Slot.Type = Slot.Type,
-		TVariants extends Variant.Type = Variant.Type,
+		TTokens extends Token.Type = readonly [],
+		TSlots extends Slot.Type = readonly [],
+		TVariants extends Variant.Type = {},
 	> {
 		/**
 		 * Add multiple tokens (can be called multiple times, tokens accumulate)
@@ -112,5 +113,12 @@ export namespace ContractBuilder {
 		 * Build the final contract with accumulated types
 		 */
 		build(): Contract.Type<TTokens, TSlots, TVariants>;
+
+		/**
+		 * Creates a definition builder for the contract
+		 */
+		def(): DefinitionBuilder.Builder<
+			Contract.Type<TTokens, TSlots, TVariants>
+		>;
 	}
 }

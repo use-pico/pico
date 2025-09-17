@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, cls } from "../../../src";
+import { cls, contract } from "../../../src";
 
 describe("14.3 Complete Builder - Contract to CLS", () => {
 	it("should demonstrate contract builder working perfectly with cls()", () => {

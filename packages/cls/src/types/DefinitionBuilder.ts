@@ -54,6 +54,6 @@ export namespace DefinitionBuilder {
 		/**
 		 * Create the final CLS instance with validation
 		 */
-		create(): Cls.Type<TContract>;
+		cls(): Cls.Type<TContract>;
 	}
 }

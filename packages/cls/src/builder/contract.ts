@@ -3,6 +3,7 @@ import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
 import type { Variant } from "../types/Variant";
 import { mergeVariants } from "../utils/mergeVariants";
+import { definition } from "./definition";
 
 /**
  * Creates a contract builder with the given state
@@ -83,6 +84,14 @@ function createBuilder<
 				slot: state.slots,
 				variant: state.variants,
 			};
+		},
+
+		def() {
+			return definition({
+				tokens: state.tokens,
+				slot: state.slots,
+				variant: state.variants,
+			});
 		},
 	};
 }
