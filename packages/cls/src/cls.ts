@@ -77,6 +77,7 @@ export function cls<
 			slotSet.add(slot);
 		}
 	}
+	const slotKeys = Array.from(slotSet);
 
 	// Merge defaults and rules from ALL layers in inheritance order
 	const defaultVariant = {} as Variant.VariantOf<TContract>;
@@ -122,9 +123,12 @@ export function cls<
 		}
 	}
 
-	// Base token resolution cache for the unoverridden token table
-	const baseTokenTable = tokens;
-	const baseResolvedTokenCache: Record<string, ClassName[]> =
+	// Base token resolution cache; will be rebound after global overrides are applied
+	let baseTokenTable: Record<
+		string,
+		What.Any<Contract.Type<Token.Type, CoolSlot.Type, Variant.Type>>
+	> = tokens;
+	let baseResolvedTokenCache: Record<string, ClassName[]> =
 		Object.create(null);
 
 	// Helper function to resolve a single What<T> object recursively
@@ -159,7 +163,8 @@ export function cls<
 					}
 				}
 
-				if (!tokenTable[tokenKey]) {
+				const tokenDef = tokenTable[tokenKey];
+				if (!tokenDef) {
 					continue;
 				}
 
@@ -167,11 +172,7 @@ export function cls<
 				tokenSet.add(tokenKey);
 
 				// Recursively resolve the token definition
-				const resolved = resolveWhat(
-					tokenTable[tokenKey],
-					tokenTable,
-					tokenSet,
-				);
+				const resolved = resolveWhat(tokenDef, tokenTable, tokenSet);
 				result.push(...resolved);
 
 				// Cache for base table only
@@ -192,6 +193,12 @@ export function cls<
 		return result;
 	};
 
+	// Cache keys for rule.match objects (avoids Object.entries allocation per call)
+	const matchKeysCache = new WeakMap<
+		Variant.Optional<TContract>,
+		ReadonlyArray<string>
+	>();
+
 	const matches = (
 		variant: Variant.Required<TContract>,
 		ruleMatch?: Variant.Optional<TContract>,
@@ -200,17 +207,21 @@ export function cls<
 			return true;
 		}
 
-		for (const [k, v] of Object.entries(ruleMatch)) {
-			if (variant[k] !== v) {
+		let keys = matchKeysCache.get(ruleMatch);
+		if (!keys) {
+			keys = Object.keys(ruleMatch);
+			matchKeysCache.set(ruleMatch, keys);
+		}
+
+		for (let i = 0; i < keys.length; i++) {
+			const k = keys[i] as keyof typeof variant;
+			if (variant[k] !== (ruleMatch as any)[k]) {
 				return false;
 			}
 		}
 
 		return true;
 	};
-
-	// Build the initial token table including global token overrides from tweak config
-	// (Applied later inside .create where user/internal tweaks are merged.)
 
 	// Public API
 	return {
@@ -244,7 +255,14 @@ export function cls<
 				>;
 			}
 
-			const cache = {} as Record<TSlot[number], CoolSlot.Fn<TContract>>;
+			// Rebind base token cache to include global overrides
+			baseTokenTable = tokenTable;
+			baseResolvedTokenCache = Object.create(null);
+
+			const cache = Object.create(null) as Record<
+				TSlot[number],
+				CoolSlot.Fn<TContract>
+			>;
 			const resultCache = new Map<string, string>();
 
 			// Build a cache key from already evaluated local config
@@ -296,14 +314,18 @@ export function cls<
 							}
 						}
 
+						// Merge effective variants with local overrides without allocating intermediate arrays
 						const localEffective = {
 							...effectiveVariant,
-							...Object.fromEntries(
-								Object.entries(
-									localConfig?.variant ?? {},
-								).filter(([, value]) => value !== undefined),
-							),
-						} as const;
+						};
+						if (localConfig?.variant) {
+							for (const k in localConfig.variant) {
+								const v = (localConfig.variant as any)[k];
+								if (v !== undefined) {
+									localEffective[k] = v;
+								}
+							}
+						}
 
 						// Avoid allocating a new token table if there are no local overrides
 						let localTokens:
@@ -358,14 +380,14 @@ export function cls<
 								continue;
 							}
 							const slotMap = rule.slot ?? {};
-							const what = slotMap[slotName];
-							if (!what) {
+							const w = slotMap[slotName];
+							if (!w) {
 								continue;
 							}
 							if (rule.override === true) {
 								acc = [];
 							}
-							acc.push(...resolveWhat(what, activeTokens));
+							acc.push(...resolveWhat(w, activeTokens));
 						}
 
 						// Apply slot configurations (append to rules)
@@ -374,24 +396,24 @@ export function cls<
 								slotName as keyof typeof localConfig.slot
 							]
 						) {
-							const what =
+							const w =
 								localConfig.slot[
 									slotName as keyof typeof localConfig.slot
 								];
-							if (what) {
-								acc.push(...resolveWhat(what, activeTokens));
+							if (w) {
+								acc.push(...resolveWhat(w, activeTokens));
 							}
 						}
 
 						if (
 							config.slot?.[slotName as keyof typeof config.slot]
 						) {
-							const what =
+							const w =
 								config.slot[
 									slotName as keyof typeof config.slot
 								];
-							if (what) {
-								acc.push(...resolveWhat(what, activeTokens));
+							if (w) {
+								acc.push(...resolveWhat(w, activeTokens));
 							}
 						}
 
@@ -402,12 +424,12 @@ export function cls<
 							]
 						) {
 							acc = [];
-							const what =
+							const w =
 								localConfig.override[
 									slotName as keyof typeof localConfig.override
 								];
-							if (what) {
-								acc.push(...resolveWhat(what, activeTokens));
+							if (w) {
+								acc.push(...resolveWhat(w, activeTokens));
 							}
 						}
 
@@ -417,12 +439,12 @@ export function cls<
 							]
 						) {
 							acc = [];
-							const what =
+							const w =
 								config.override[
 									slotName as keyof typeof config.override
 								];
-							if (what) {
-								acc.push(...resolveWhat(what, activeTokens));
+							if (w) {
+								acc.push(...resolveWhat(w, activeTokens));
 							}
 						}
 
@@ -437,7 +459,7 @@ export function cls<
 					return cache[slotName];
 				},
 				ownKeys() {
-					return Array.from(slotSet);
+					return slotKeys;
 				},
 				getOwnPropertyDescriptor() {
 					return {
