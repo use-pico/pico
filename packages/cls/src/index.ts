@@ -1,3 +1,4 @@
+export { contract } from "./builder/contract";
 export { cls } from "./cls";
 export * from "./react";
 export type { ClassName } from "./types/ClassName";
@@ -10,7 +11,7 @@ export type { Token } from "./types/Token";
 export type { Utils as Utility } from "./types/Utils";
 export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
-export { contract } from "./utils/contract";
+export { contract as contractHelper } from "./utils/contract";
 export { merge } from "./utils/merge";
 export { tvc } from "./utils/tvc";
 export { withVariants } from "./utils/withVariants";
