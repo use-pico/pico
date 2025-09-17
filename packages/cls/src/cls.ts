@@ -296,27 +296,19 @@ export function cls<
 							| Record<string, ClassName[]>
 							| undefined;
 
-						if (
-							local?.token &&
-							Object.keys(local.token).length > 0
-						) {
-							const overlay = Object.create(
-								tokenTable,
-							) as typeof tokenTable;
-							for (const [k, v] of Object.entries(local.token)) {
-								overlay[k] = v as What.Any<
-									Contract.Type<
-										TToken,
-										CoolSlot.Type,
-										Variant.Type
-									>
-								>;
-							}
-							activeTokens = overlay;
-							localResolvedCache = Object.create(null) as Record<
-								string,
-								ClassName[]
-							>;
+						if (local?.token && Object.keys(local.token).length) {
+							activeTokens = Object.assign(
+								Object.create(tokenTable),
+								Object.fromEntries(
+									Object.entries(local.token).map(
+										([token, what]) => [
+											token,
+											what,
+										],
+									),
+								),
+							);
+							localResolvedCache = Object.create(null);
 						}
 
 						// Pre-read per-slot extras
@@ -334,11 +326,11 @@ export function cls<
 							];
 
 						const slotRules = rulesBySlot[slotKeyStr] ?? [];
-						const len = slotRules.length;
+						const hasRules = slotRules.length;
 
 						// Fast bail: nothing contributes at all
 						if (
-							len === 0 &&
+							hasRules === 0 &&
 							!localSlotWhat &&
 							!configSlotWhat &&
 							!localOverrideWhat &&
@@ -354,8 +346,8 @@ export function cls<
 						// One pass: evaluate predicates -> matches[], find last matching override index
 						let lastOverrideIdx = -1;
 						let anyMatch = false;
-						const matches: boolean[] = new Array(len);
-						for (let i = 0; i < len; i++) {
+						const matches: boolean[] = new Array(hasRules);
+						for (let i = 0; i < hasRules; i++) {
 							const m = slotRules[i]!.predicate(localEffective);
 							matches[i] = m;
 							if (m) {
@@ -375,7 +367,7 @@ export function cls<
 
 							const sharedTokenSet = new Set<string>();
 
-							for (let i = start; i < len; i++) {
+							for (let i = start; i < hasRules; i++) {
 								if (!matches[i]) {
 									continue;
 								}
