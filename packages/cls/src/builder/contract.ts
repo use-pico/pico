@@ -74,11 +74,30 @@ function builder<
 			});
 		},
 
+		bool(name) {
+			return builder({
+				...state,
+				variant: mergeVariants(state.variant, {
+					[name]: [
+						"bool",
+					],
+				} as Record<
+					typeof name,
+					[
+						"bool",
+					]
+				>),
+			});
+		},
+
 		build() {
 			const { use, ...contract } = state;
 
 			return {
 				...contract,
+				/**
+				 * Important piece - this will enable inheritance.
+				 */
 				"~use": use,
 				/**
 				 * Definition - not yet

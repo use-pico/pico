@@ -117,6 +117,23 @@ export namespace ContractBuilder {
 			TUse
 		>;
 
+		bool<const TName extends string>(
+			name: TName,
+		): Builder<
+			TToken,
+			TSlot,
+			Utils.Merge<
+				TVariant,
+				Record<
+					TName,
+					[
+						"bool",
+					]
+				>
+			>,
+			TUse
+		>;
+
 		/**
 		 * Build the final contract with accumulated types
 		 */

@@ -13,7 +13,6 @@ export type { Token } from "./types/Token";
 export type { Utils as Utility } from "./types/Utils";
 export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
-export { contract as contractHelper } from "./utils/contract";
 export { merge } from "./utils/merge";
 export { tvc } from "./utils/tvc";
 export { withVariants } from "./utils/withVariants";
