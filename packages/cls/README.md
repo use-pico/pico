@@ -8,96 +8,79 @@
 ## 🚀 Quick Start <a id="quick-start"></a>
 
 ```typescript
-import { cls } from '@use-pico/cls';
+import { contract } from '@use-pico/cls';
 
-const ButtonCls = cls(
-  /**
-   * Contract definition - defines structure (tokens, slots, variants)
-   */
-  {
-    /**
-     * Define tokens forced in definition later on, regardless if they were defined in parent
-     */
-    tokens: ["color.bg.primary", "color.text.primary"],
-    /**
-     * Slot definitions are the individual slots available in your component to use
-     * For simple components "root" is enough, for complex ones there may be more slots
-     * 
-     * Slots are only defined, but they're not enforced to be used; one trick this allows
-     * is to create an empty slot, which can be overridden in runtime (e.g. you explicitly
-     * allow users to put styles in individual part of your component)
-     */
-    slot: ["root"],
-    /**
-     * Define individual variants: key is variant name, values defines available variant values
-     * with exception of "bool" which converts value to literal bool
-     */
-    variant: { 
-      size: ["sm", "md", "lg"] 
-    }
-  },
-  ({ what, def }) => ({
-    /**
-     * Token definitions - enforced by the contract above
-     * Both missing and excessive tokens are type-checked
-     */
-    token: def.token({
-      /**
-       * Here you can refer css classes or even other tokens defined in inheritance chain.
-       * Note: Token inheritance is replacement-based, not accumulation-based.
-       */
-      "color.bg.primary": what.css(["bg-blue-600"]),
-      "color.text.primary": what.css(["text-white"])
-    }),
-    /**
-     * Rules - conditional styling based on variants
-     * May be empty, but usually contains at least "root" rule and variant rules
-     */
-    rules: [
-      def.root({ root: what.token(["color.bg.primary", "color.text.primary"]) }),
-      def.rule(what.variant({ size: "lg" }), { root: what.css(["px-6", "py-3"]) })
-    ],
-    /**
-     * Defaults - required for all variants to ensure predictable behavior
-     * Enforced even when there are no variants to ensure default values of a component
-     * (e.g. even when inherited, children must provide new defaults)
-     * 
-     * Use "def.defaults" instead of "{}" as it provides type-safe way to check
-     * if all defaults are provided in case new variant is created; this will create
-     * nice error instead of strange method return type issues
-     */
-    defaults: def.defaults({
-      size: "md"
-    })
+// Create a styled button using the contract builder API
+const ButtonCls = contract()
+  .tokens([
+    "color.bg.primary", 
+    "color.text.primary"
+  ])
+  .slots([
+    "root", 
+    "label"
+  ])
+  .variant("size", ["sm", "md", "lg"])
+  .bool("disabled")
+  .def()
+  .token({
+    "color.bg.primary": {
+      class: ["bg-blue-600"],
+    },
+    "color.text.primary": {
+      class: ["text-white"],
+    },
   })
-);
+  .root({
+    root: {
+      token: ["color.bg.primary", "color.text.primary"],
+      class: ["px-4", "py-2", "rounded", "font-medium"],
+    },
+    label: {
+      class: ["select-none"],
+    },
+  })
+  .rule(
+    { size: "lg" },
+    {
+      root: {
+        class: ["px-6", "py-3"],
+      },
+    },
+  )
+  .rule(
+    { disabled: true },
+    {
+      root: {
+        class: ["opacity-50", "cursor-not-allowed"],
+      },
+    },
+  )
+  .defaults({
+    size: "md",
+    disabled: false,
+  })
+  .cls();
 
-/**
- * Create slots close to the component (e.g. in Component body in React) so it can be
- * directly used in component's "className" or similar prop
- */
+// Create styled instances
 const slots = ButtonCls.create(({ what }) => ({
   variant: what.variant({ size: "lg" })
 }));
-console.log(slots.root()); // "bg-blue-600 text-white px-6 py-3"
+console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-medium px-6 py-3"
 
 // With React
 import { useCls } from '@use-pico/cls/react';
 
-function MyButton({ size = "md" }) {
-  /**
-   * Create slots for usage in a React component; this is a recommended way of React usage
-   * as it also connects to context in the background, so even Themes/Design System will work out of box
-   */
+function MyButton({ size = "md", disabled = false }) {
   const slots = useCls(ButtonCls, ({ what }) => ({
-    variant: what.variant({ size })
+    variant: what.variant({ size, disabled })
   }));
   
-  /**
-   * You can use "slots.root()" which eventually receives same tweak function as "create/useCls",
-   * so styles can be changed even on slot level
-   */
-  return <button className={slots.root()}>Click me</button>;
+  return (
+    <button className={slots.root()}>
+      <span className={slots.label()}>Click me</span>
+    </button>
+  );
 }
 ```
 
@@ -122,39 +105,113 @@ yarn add @use-pico/cls
 
 ## 📖 Basic Usage <a id="basic-usage"></a>
 
-### Simple Component
+### Contract Builder API (Recommended)
+
+The **contract builder** provides a fluent, type-safe API for creating CLS instances:
+
 ```typescript
-const CardCls = cls(
-  {
-    tokens: ["color.bg", "color.text"],
-    slot: ["root", "title", "content"],
-    variant: { theme: ["light", "dark"] }
-  },
-  ({ what, def }) => ({
-    token: def.token({
-      "color.bg": { light: what.css(["bg-white"]), dark: what.css(["bg-gray-800"]) },
-      "color.text": { light: what.css(["text-gray-900"]), dark: what.css(["text-white"]) }
-    }),
-    rules: [
-      def.root({
-        /**
-         * When "both" is used, class names takes precedence over tokens when there are
-         * conflicting styles (e.g. px-4 from token and px-2 from class name -> result is px-2)
-         */
-        root: what.both(["rounded-lg", "shadow-md"], ["color.bg.light"]),
-        title: what.css(["text-xl", "font-bold"]),
-        content: what.css(["p-4"])
-      }),
-      def.rule(
-        what.variant({ theme: "dark" }),
-        { root: what.token(["color.bg.dark", "color.text.dark"]) }
-      )
-    ],
-    defaults: def.defaults({
-      theme: "light"
-    })
+import { contract } from '@use-pico/cls';
+
+const CardCls = contract()
+  .tokens([
+    "color.bg",
+    "color.text", 
+    "color.border"
+  ])
+  .slots([
+    "root",
+    "title", 
+    "content"
+  ])
+  .variant("theme", ["light", "dark"])
+  .bool("elevated")
+  .def()
+  .token({
+    "color.bg": {
+      class: ["bg-white"],
+    },
+    "color.text": {
+      class: ["text-gray-900"],
+    },
+    "color.border": {
+      class: ["border-gray-200"],
+    },
   })
-);
+  .root({
+    root: {
+      token: ["color.bg", "color.text", "color.border"],
+      class: ["rounded-lg", "shadow-md", "border"],
+    },
+    title: {
+      class: ["text-xl", "font-bold", "mb-2"],
+    },
+    content: {
+      class: ["p-4"],
+    },
+  })
+  .rule(
+    { theme: "dark" },
+    {
+      root: {
+        class: ["bg-gray-800", "text-white", "border-gray-700"],
+      },
+    },
+  )
+  .rule(
+    { elevated: true },
+    {
+      root: {
+        class: ["shadow-xl"],
+      },
+    },
+  )
+  .defaults({
+    theme: "light",
+    elevated: false,
+  })
+  .cls();
+```
+
+### Contract Builder with Separate Definition (Alternative)
+
+For more complex scenarios, you can separate the contract and definition:
+
+```typescript
+import { contract, definition } from '@use-pico/cls';
+
+// Step 1: Build the contract
+const cardContract = contract()
+  .tokens(["color.bg", "color.text"])
+  .slots(["root", "title", "content"])
+  .variant("theme", ["light", "dark"])
+  .bool("elevated")
+  .build();
+
+// Step 2: Create definition separately
+const CardCls = definition(cardContract)
+  .token({
+    "color.bg": { class: ["bg-white"] },
+    "color.text": { class: ["text-gray-900"] },
+  })
+  .root({
+    root: {
+      token: ["color.bg", "color.text"],
+      class: ["rounded-lg", "shadow-md"],
+    },
+  })
+  .rule(
+    { theme: "dark" },
+    {
+      root: {
+        class: ["bg-gray-800", "text-white"],
+      },
+    },
+  )
+  .defaults({
+    theme: "light",
+    elevated: false,
+  })
+  .cls();
 ```
 
 ### Simple React Component
@@ -194,27 +251,38 @@ const slots = ButtonCls.create(({ what }) => ({
 }));
 ```
 
-### Token Inheritance
+### Contract Inheritance
 ```typescript
-const PrimaryButtonCls = ButtonCls.extend(
-  {
-    /**
-     * Token defined, which means it gets fresh value (eventually overriding the parent)
-     * if the same token name is used
-     */
-    tokens: ["color.bg.primary"],
-    slot: ["root"],
-    variant: {}
-  },
-  ({ what, def }) => ({
-    token: def.token({
-      "color.bg.primary": what.css(["bg-blue-600"])
-      // Rest of tokens (if any) are optionally available for merge
-    }),
-    rules: [],
-    defaults: def.defaults({}),
+// Inherit from existing contracts
+const PrimaryButtonCls = contract(ButtonCls.contract)
+  .tokens([
+    "color.bg.accent",
+  ])
+  .variant("tone", ["primary", "secondary"])
+  .def()
+  .token({
+    "color.bg.accent": {
+      class: ["bg-indigo-600"],
+    },
+    // Override parent tokens
+    "color.bg.primary": {
+      class: ["bg-blue-700"],
+    },
   })
-);
+  .rule(
+    { tone: "primary" },
+    {
+      root: {
+        token: ["color.bg.accent"],
+      },
+    },
+  )
+  .defaults({
+    size: "md",      // Inherited from parent
+    disabled: false, // Inherited from parent
+    tone: "primary", // New variant
+  })
+  .cls();
 ```
 
 ### Runtime Overrides
@@ -279,63 +347,67 @@ CLS (Class List System) is a **type-safe, composable styling system** that provi
 - [3. Architecture](#3-architecture)
   - [3.1 Core Components](#31-core-components)
   - [3.2 Data Flow](#32-data-flow)
-- [4. Main API](#4-main-api)
-- [5. Key Concepts](#5-key-concepts)
-  - [5.1 What Utility](#51-what-utility)
-  - [5.2 Definition Callback](#52-definition-callback)
-  - [5.3 Tokens](#53-tokens)
-  - [5.4 Slots](#54-slots)
-  - [5.5 Variants](#55-variants)
-  - [5.6 Rules](#56-rules)
-- [6. CLS Instance Methods](#6-cls-instance-methods)
-  - [6.1 Create Method](#61-create-method)
-  - [6.1.1 Slot Configuration Merging](#611-slot-configuration-merging)
-  - [6.2 Extend Method](#62-extend-method)
-  - [6.3 Use Method](#63-use-method)
-- [7. Contract Structure](#7-contract-structure)
-  - [7.1 Token Contract](#71-token-contract)
-  - [7.2 Slot Contract](#72-slot-contract)
-  - [7.3 Variant Contract](#73-variant-contract)
-- [8. Definition Structure](#8-definition-structure)
-  - [8.1 Token Definition](#81-token-definition)
-  - [8.2 Rules](#82-rules)
-  - [8.3 Defaults](#83-defaults)
-- [9. Create Method Usage](#9-create-method-usage)
-- [10. Styling Resolution](#10-styling-resolution)
-  - [10.1 Resolution Order](#101-resolution-order)
-  - [10.2 Token Resolution Process](#102-token-resolution-process)
-  - [10.3 Rule Evaluation Process](#103-rule-evaluation-process)
-- [11. Inheritance System](#11-inheritance-system)
-  - [11.1 Contract Inheritance](#111-contract-inheritance)
-  - [11.2 Token Inheritance](#112-token-inheritance)
-  - [11.3 Variant Inheritance](#113-variant-inheritance)
-- [12. Performance Features](#12-performance-features)
-  - [12.1 Caching Strategy](#121-caching-strategy)
-  - [12.2 Memory Management](#122-memory-management)
-  - [12.3 Runtime Optimization](#123-runtime-optimization)
-- [13. Type System](#13-type-system)
-  - [13.1 Generic Constraints](#131-generic-constraints)
-  - [13.2 Type Inference](#132-type-inference)
-  - [13.3 Type Safety Features](#133-type-safety-features)
-- [14. Integration Patterns](#14-integration-patterns)
-  - [14.1 Framework Integration](#141-framework-integration)
-  - [14.2 Design System Integration](#142-design-system-integration)
-  - [14.3 Build System Integration](#143-build-system-integration)
-- [15. Best Practices](#15-best-practices)
-  - [15.1 Contract Design](#151-contract-design)
-  - [15.2 Definition Design](#152-definition-design)
-  - [15.3 Component Design](#153-component-design)
-  - [15.4 Performance Optimization](#154-performance-optimization)
-- [16. React Integration](#16-react-integration)
-  - [16.1 useCls Hook](#161-usecls-hook)
-  - [16.1.1 useClsEx Hook](#1611-useclsex-hook)
-- [16.2 Component Patterns](#162-component-patterns)
-- [16.2.1 The `cls` Prop and Slot Merging](#1621-the-cls-prop-and-slot-merging)
-- [16.3 withCls HOC](#163-withcls-hoc)
-  - [16.4 Context Integration](#164-context-integration)
-  - [16.5 Provider Architecture](#165-provider-architecture)
-  - [16.6 React Type System](#166-react-type-system)
-  - [16.7 Advanced Patterns](#167-advanced-patterns)
+- [4. Contract Builder API](#4-contract-builder-api)
+  - [4.1 Contract Builder Methods](#41-contract-builder-methods)
+  - [4.2 Definition Builder Methods](#42-definition-builder-methods)
+  - [4.3 Inheritance with Contract Builder](#43-inheritance-with-contract-builder)
+  - [4.4 Bool Helper Method](#44-bool-helper-method)
+- [6. Key Concepts](#6-key-concepts)
+  - [6.1 What Utility](#61-what-utility)
+  - [6.2 Definition Callback](#62-definition-callback)
+  - [6.3 Tokens](#63-tokens)
+  - [6.4 Slots](#64-slots)
+  - [6.5 Variants](#65-variants)
+  - [6.6 Rules](#66-rules)
+- [7. CLS Instance Methods](#7-cls-instance-methods)
+  - [7.1 Create Method](#71-create-method)
+  - [7.1.1 Slot Configuration Merging](#711-slot-configuration-merging)
+  - [7.2 Extend Method](#72-extend-method)
+  - [7.3 Use Method](#73-use-method)
+- [8. Contract Structure](#8-contract-structure)
+  - [8.1 Token Contract](#81-token-contract)
+  - [8.2 Slot Contract](#82-slot-contract)
+  - [8.3 Variant Contract](#83-variant-contract)
+- [9. Definition Structure](#9-definition-structure)
+  - [9.1 Token Definition](#91-token-definition)
+  - [9.2 Rules](#92-rules)
+  - [9.3 Defaults](#93-defaults)
+- [10. Create Method Usage](#10-create-method-usage)
+- [11. Styling Resolution](#11-styling-resolution)
+  - [11.1 Resolution Order](#111-resolution-order)
+  - [11.2 Token Resolution Process](#112-token-resolution-process)
+  - [11.3 Rule Evaluation Process](#113-rule-evaluation-process)
+- [12. Inheritance System](#12-inheritance-system)
+  - [12.1 Contract Inheritance](#121-contract-inheritance)
+  - [12.2 Token Inheritance](#122-token-inheritance)
+  - [12.3 Variant Inheritance](#123-variant-inheritance)
+- [13. Performance Features](#13-performance-features)
+  - [13.1 Caching Strategy](#131-caching-strategy)
+  - [13.2 Memory Management](#132-memory-management)
+  - [13.3 Runtime Optimization](#133-runtime-optimization)
+- [14. Type System](#14-type-system)
+  - [14.1 Generic Constraints](#141-generic-constraints)
+  - [14.2 Type Inference](#142-type-inference)
+  - [14.3 Type Safety Features](#143-type-safety-features)
+- [15. Integration Patterns](#15-integration-patterns)
+  - [15.1 Framework Integration](#151-framework-integration)
+  - [15.2 Design System Integration](#152-design-system-integration)
+  - [15.3 Build System Integration](#153-build-system-integration)
+- [16. Best Practices](#16-best-practices)
+  - [16.1 Contract Design](#161-contract-design)
+  - [16.2 Definition Design](#162-definition-design)
+  - [16.3 Component Design](#163-component-design)
+  - [16.4 Performance Optimization](#164-performance-optimization)
+- [17. React Integration](#17-react-integration)
+  - [17.1 useCls Hook](#171-usecls-hook)
+  - [17.1.1 useClsEx Hook](#1711-useclsex-hook)
+  - [17.2 Component Patterns](#172-component-patterns)
+  - [17.2.1 The `cls` Prop and Slot Merging](#1721-the-cls-prop-and-slot-merging)
+  - [17.3 withCls HOC](#173-withcls-hoc)
+  - [17.4 Context Integration](#174-context-integration)
+  - [17.5 Provider Architecture](#175-provider-architecture)
+  - [17.6 React Type System](#176-react-type-system)
+  - [17.7 Advanced Patterns](#177-advanced-patterns)
 
 
 ## 1. Core Principles <a id="1-core-principles"></a>
@@ -469,9 +541,293 @@ The CLS system consists of three main components that work together:
 
 ---
 
-## 4. Main API <a id="4-main-api"></a>
+## 4. Contract Builder API <a id="4-contract-builder-api"></a>
 
 **[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Architecture](#3-architecture)** | **[→ Next Chapter: Key Concepts](#5-key-concepts)**
+
+The **Contract Builder API** is the **recommended way** to create CLS instances. It provides a fluent, type-safe interface that guides you through creating contracts and definitions step by step.
+
+### 4.1 Contract Builder Methods <a id="41-contract-builder-methods"></a>
+
+#### `contract()` - Start Building
+
+Creates a new contract builder instance:
+
+```typescript
+import { contract } from '@use-pico/cls';
+
+const builder = contract(); // Empty contract
+const inherited = contract(ParentCls.contract); // Inherit from parent
+```
+
+#### `.tokens(tokenArray)` - Define Tokens
+
+Add tokens to your contract. Tokens can be called multiple times to accumulate:
+
+```typescript
+const builder = contract()
+  .tokens(["color.bg.primary", "color.text.primary"])
+  .tokens(["spacing.padding"]); // Accumulates with previous tokens
+```
+
+#### `.slots(slotArray)` - Define Slots  
+
+Add slots to your contract. Slots can be called multiple times to accumulate:
+
+```typescript
+const builder = contract()
+  .slots(["root", "content"])
+  .slots(["header", "footer"]); // Accumulates with previous slots
+```
+
+#### `.variant(name, values)` - Define Variants
+
+Add string variants to your contract:
+
+```typescript
+const builder = contract()
+  .variant("size", ["sm", "md", "lg"])
+  .variant("theme", ["light", "dark"]);
+```
+
+#### `.bool(name)` - Define Boolean Variants
+
+Add boolean variants using the convenient bool helper:
+
+```typescript
+const builder = contract()
+  .bool("disabled")
+  .bool("loading")
+  .bool("elevated");
+
+// Equivalent to:
+// .variant("disabled", ["bool"])
+// .variant("loading", ["bool"])  
+// .variant("elevated", ["bool"])
+```
+
+#### `.build()` - Build Contract Only
+
+Create just the contract without a definition:
+
+```typescript
+const myContract = contract()
+  .tokens(["color.bg"])
+  .slots(["root"])
+  .variant("size", ["sm", "md"])
+  .build();
+
+// Use later with definition builder
+const MyCls = definition(myContract)
+  .token({ ... })
+  .cls();
+```
+
+#### `.def()` - Start Definition Builder
+
+Transition from contract building to definition building:
+
+```typescript
+const MyCls = contract()
+  .tokens(["color.bg"])
+  .slots(["root"])
+  .def() // Now in definition builder mode
+  .token({ ... })
+  .cls();
+```
+
+### 4.2 Definition Builder Methods <a id="42-definition-builder-methods"></a>
+
+After calling `.def()`, you can use these methods to define the styling:
+
+#### `.token(tokenDefinitions)` - Define Token Values
+
+Provide concrete values for all contract tokens:
+
+```typescript
+.token({
+  "color.bg.primary": {
+    class: ["bg-blue-600"],
+  },
+  "color.text.primary": {
+    class: ["text-white"],
+  },
+})
+```
+
+#### `.root(slotConfiguration)` - Define Base Styling
+
+Set default styling for all slots:
+
+```typescript
+.root({
+  root: {
+    token: ["color.bg.primary", "color.text.primary"],
+    class: ["px-4", "py-2", "rounded"],
+  },
+  label: {
+    class: ["font-medium"],
+  },
+})
+```
+
+#### `.rule(match, slotConfiguration)` - Define Conditional Styling
+
+Add styling rules based on variant conditions:
+
+```typescript
+.rule(
+  { size: "lg" }, // When size is "lg"
+  {
+    root: {
+      class: ["px-6", "py-3"], // Apply these classes
+    },
+  },
+)
+.rule(
+  { disabled: true }, // When disabled is true
+  {
+    root: {
+      class: ["opacity-50", "cursor-not-allowed"],
+    },
+  },
+)
+```
+
+#### `.defaults(defaultValues)` - Set Default Variants
+
+Define default values for all variants:
+
+```typescript
+.defaults({
+  size: "md",
+  disabled: false,
+  theme: "light",
+})
+```
+
+#### `.cls()` - Create CLS Instance
+
+Complete the building process and create the final CLS instance:
+
+```typescript
+.cls(); // Returns the final CLS instance
+```
+
+### 4.3 Inheritance with Contract Builder <a id="43-inheritance-with-contract-builder"></a>
+
+The contract builder makes inheritance simple and type-safe:
+
+```typescript
+// Parent contract
+const BaseCls = contract()
+  .tokens(["color.bg", "color.text"])
+  .slots(["root"])
+  .variant("size", ["sm", "md", "lg"])
+  .def()
+  .token({
+    "color.bg": { class: ["bg-gray-100"] },
+    "color.text": { class: ["text-gray-900"] },
+  })
+  .root({
+    root: {
+      token: ["color.bg", "color.text"],
+      class: ["border", "rounded"],
+    },
+  })
+  .defaults({
+    size: "md",
+  })
+  .cls();
+
+// Child contract inheriting from parent
+const ButtonCls = contract(BaseCls.contract)
+  .tokens(["color.bg.primary"]) // Add new tokens
+  .bool("disabled") // Add new variants
+  .def()
+  .token({
+    "color.bg.primary": { class: ["bg-blue-600"] },
+    // Override parent token
+    "color.bg": { class: ["bg-white"] },
+  })
+  .rule(
+    { disabled: true },
+    {
+      root: {
+        class: ["opacity-50"],
+      },
+    },
+  )
+  .defaults({
+    size: "lg", // Override parent default
+    disabled: false, // New variant default
+  })
+  .cls();
+```
+
+### 4.4 Bool Helper Method <a id="44-bool-helper-method"></a>
+
+The `.bool(name)` method is a convenient shorthand for creating boolean variants:
+
+```typescript
+// Using bool helper (recommended)
+const ToggleCls = contract()
+  .bool("active")
+  .bool("disabled")
+  .bool("loading");
+
+// Equivalent to verbose variant syntax
+const ToggleCls = contract()
+  .variant("active", ["bool"])
+  .variant("disabled", ["bool"])
+  .variant("loading", ["bool"]);
+```
+
+**Boolean variants automatically:**
+- Accept `true` and `false` values in rules and defaults
+- Provide type-safe boolean props in TypeScript
+- Work seamlessly with conditional styling
+
+**Example:**
+```typescript
+const ToggleCls = contract()
+  .slots(["root"])
+  .bool("active")
+  .def()
+  .rule(
+    { active: true },
+    {
+      root: {
+        class: ["bg-green-500", "text-white"],
+      },
+    },
+  )
+  .rule(
+    { active: false },
+    {
+      root: {
+        class: ["bg-gray-200", "text-gray-700"],
+      },
+    },
+  )
+  .defaults({
+    active: false,
+  })
+  .cls();
+
+// Usage with boolean values
+const activeSlots = ToggleCls.create(({ what }) => ({
+  variant: what.variant({ active: true })
+}));
+```
+
+---
+
+## 5. Main API (Low-Level) <a id="5-main-api-low-level"></a>
+
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Contract Builder API](#4-contract-builder-api)** | **[→ Next Chapter: Key Concepts](#5-key-concepts)**
+
+> **⚠️ Advanced Usage**: The classic `cls()` function is a low-level API. For most use cases, prefer the [Contract Builder API](#4-contract-builder-api) which provides better type safety and developer experience.
 
 ### `cls(contract, definitionFn)`
 
@@ -560,11 +916,11 @@ tvc("text-sm font-medium", "text-lg font-bold", "text-gray-900");
 
 ---
 
-## 5. Key Concepts <a id="5-key-concepts"></a>
+## 6. Key Concepts <a id="6-key-concepts"></a>
 
-**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Main API](#4-main-api)** | **[→ Next Chapter: CLS Instance Methods](#6-cls-instance-methods)**
+**[↑ Back to Top](#table-of-contents)** | **[← Previous Chapter: Main API (Low-Level)](#5-main-api-low-level)** | **[→ Next Chapter: CLS Instance Methods](#7-cls-instance-methods)**
 
-### 5.1 What Utility <a id="51-what-utility"></a>
+### 6.1 What Utility <a id="61-what-utility"></a>
 
 The `what` utility is your **styling toolkit** - it provides type-safe helpers for creating styling configurations. Think of it as a set of specialized functions that ensure your styling is both correct and type-safe.
 
