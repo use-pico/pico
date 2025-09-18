@@ -17,13 +17,7 @@ function builder<
 ): DefinitionBuilder.Builder<TContract, TState> {
 	return {
 		token(token: Token.Required<TContract>) {
-			return builder<
-				TContract,
-				TState & {
-					hasToken: true;
-				},
-				TUse
-			>({
+			return builder({
 				...state,
 				token,
 			});
@@ -34,7 +28,7 @@ function builder<
 			slot: Slot.Optional<TContract>,
 			override = false,
 		) {
-			return builder<TContract, TState, TUse>({
+			return builder({
 				...state,
 				rules: [
 					...state.rules,
@@ -48,7 +42,7 @@ function builder<
 		},
 
 		root(slot: Slot.Optional<TContract>, override = false) {
-			return builder<TContract, TState, TUse>({
+			return builder({
 				...state,
 				rules: [
 					...state.rules,
@@ -62,13 +56,7 @@ function builder<
 		},
 
 		defaults(defaults: Variant.VariantOf<TContract>) {
-			return builder<
-				TContract,
-				TState & {
-					hasDefaults: true;
-				},
-				TUse
-			>({
+			return builder({
 				...state,
 				defaults,
 			});

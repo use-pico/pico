@@ -86,12 +86,22 @@ export function cls<
 		({ definition }) => definition.rules,
 	);
 
-	// Build token index with proper inheritance order
-	const tokens = Object.fromEntries(
-		layers.flatMap(({ definition }) =>
-			Object.entries(definition.token).filter(([, v]) => v !== undefined),
-		),
-	) as Record<string, What.Any<Contract.Any>>;
+	/**
+	 * Build token table across the whole inheritance chain using a prototype chain.
+	 * Order is base -> ... -> child; later layers (children) override earlier (parents).
+	 * This avoids copying and keeps lookups O(depth) while preserving overrides.
+	 */
+	const tokens: Record<string, What.Any<Contract.Any>> = layers.reduce(
+		(acc, { definition }) => {
+			const layerTokens = Object.fromEntries(
+				Object.entries(definition.token ?? {}).filter(
+					([, v]) => v !== undefined,
+				),
+			) as Record<string, What.Any<Contract.Any>>;
+			return Object.assign(Object.create(acc), layerTokens);
+		},
+		Object.create(null) as Record<string, What.Any<Contract.Any>>,
+	);
 
 	// Compile predicates once per rule.match
 	const alwaysTrue: Predicate<TContract> = () => true;
@@ -225,11 +235,13 @@ export function cls<
 
 			const config = merge(userTweakFn, internalTweakFn)();
 
-			// Global token table with overrides
-			const tokenTable: Record<string, What.Any<Contract.Any>> = {
-				...tokens,
-				...(config.token ?? {}),
-			};
+			// Global token table with overrides — keep prototype overlay to preserve chain
+			const tokenTable: Record<
+				string,
+				What.Any<Contract.Any>
+			> = config.token
+				? Object.assign(Object.create(tokens), config.token)
+				: tokens;
 
 			// Rebind base token cache to include global overrides
 			baseTokenTable = tokenTable;
@@ -299,14 +311,7 @@ export function cls<
 						if (local?.token && Object.keys(local.token).length) {
 							activeTokens = Object.assign(
 								Object.create(tokenTable),
-								Object.fromEntries(
-									Object.entries(local.token).map(
-										([token, what]) => [
-											token,
-											what,
-										],
-									),
-								),
+								local.token,
 							);
 							localResolvedCache = Object.create(null);
 						}
@@ -455,19 +460,7 @@ export function cls<
 		},
 		extend(childContract, childDefinitionFn) {
 			childContract["~use"] = contract;
-
-			return cls(
-				{
-					...childContract,
-					tokens: Array.from(
-						new Set([
-							...contract.tokens,
-							...childContract.tokens,
-						]),
-					),
-				} as any,
-				childDefinitionFn as any,
-			);
+			return cls(childContract, childDefinitionFn);
 		},
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
