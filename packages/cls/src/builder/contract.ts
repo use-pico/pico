@@ -25,7 +25,7 @@ function builder<
 					...state.tokens,
 					...tokens,
 				],
-			} as const);
+			});
 		},
 
 		token(token) {
@@ -35,7 +35,7 @@ function builder<
 					...state.tokens,
 					token,
 				],
-			} as const);
+			});
 		},
 
 		slots(slots) {
@@ -45,7 +45,7 @@ function builder<
 					...state.slot,
 					...slots,
 				],
-			} as const);
+			});
 		},
 
 		slot(slot) {
@@ -55,14 +55,14 @@ function builder<
 					...state.slot,
 					slot,
 				],
-			} as const);
+			});
 		},
 
 		variants(variants) {
 			return builder({
 				...state,
 				variant: mergeVariants(state.variant, variants),
-			} as const);
+			});
 		},
 
 		variant(name, values) {
@@ -75,11 +75,20 @@ function builder<
 		},
 
 		build() {
-			return state;
+			const { use, ...contract } = state;
+
+			return {
+				...contract,
+				"~use": use,
+				/**
+				 * Definition - not yet
+				 */
+				"~definition": undefined,
+			} satisfies Contract.Type<TToken, TSlot, TVariant, TUse>;
 		},
 
 		def() {
-			return definition(this.build());
+			return definition(this.build(), state.use);
 		},
 	};
 }
@@ -114,6 +123,6 @@ export function contract<const TUse extends Contract.Any | unknown = unknown>(
 		tokens: [],
 		slot: [],
 		variant: {},
-		"~use": use,
+		use,
 	});
 }

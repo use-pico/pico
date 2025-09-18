@@ -101,6 +101,7 @@ describe("14.5 Inheritance - Basic Inheritance", () => {
 			],
 			defaults: def.defaults({
 				size: "md",
+				tone: "dark",
 			}),
 		}));
 

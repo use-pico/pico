@@ -77,7 +77,8 @@ describe("14.5 Inheritance - Three Level Inheritance", () => {
 				},
 			})
 			.defaults({
-				state: "default", // New variant (theme is inherited, not required)
+				state: "default",
+				theme: "dark",
 			})
 			.cls();
 
@@ -142,7 +143,8 @@ describe("14.5 Inheritance - Three Level Inheritance", () => {
 			.defaults({
 				size: "md", // New variant
 				disabled: false, // New variant
-				// theme and state are inherited, not required in defaults
+				state: "focus",
+				theme: "dark",
 			})
 			.cls();
 

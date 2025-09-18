@@ -13,11 +13,15 @@ export namespace DefinitionBuilder {
 	/**
 	 * Definition builder state that accumulates definition parts
 	 */
-	export interface State<TContract extends Contract.Any> {
+	export interface State<
+		TContract extends Contract.Any,
+		TUse extends Contract.Any | unknown = unknown,
+	> {
 		contract: TContract;
 		token?: Token.Required<TContract>;
 		rules: Rule.Type<TContract>[];
 		defaults?: Variant.VariantOf<TContract>;
+		use?: TUse;
 	}
 
 	/**
