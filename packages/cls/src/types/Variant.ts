@@ -33,16 +33,15 @@ export namespace Variant {
 		: Record<string, never>;
 
 	/**
-	 * Checks if a contract has any variants declared in its inheritance chain.
-	 *
-	 * This utility type determines whether a contract (or any of its parent contracts)
-	 * has any variant declarations. It's used to conditionally apply variant-related
-	 * type constraints and ensure type safety when working with optional variant systems.
-	 *
-	 * @template TContract - The contract type to check for variants
-	 * @returns `true` if the contract has variants, `false` if it has no variants
+	 * Check if any variants are present in the contract only
 	 */
 	export type Has<TContract extends Contract.Any> =
+		keyof TContract["variant"] extends never ? false : true;
+
+	/**
+	 * Check if any variants are present in the inheritance chain
+	 */
+	export type With<TContract extends Contract.Any> =
 		keyof Raw<TContract> extends never ? false : true;
 
 	/**
@@ -62,12 +61,12 @@ export namespace Variant {
 	};
 
 	export type Required<TContract extends Contract.Any> =
-		Has<TContract> extends false
+		With<TContract> extends false
 			? Record<string, never>
 			: VariantOf<TContract>;
 
 	export type Optional<TContract extends Contract.Any> =
-		Has<TContract> extends false
+		With<TContract> extends false
 			? Record<string, never>
 			: Partial<VariantOf<TContract>>;
 

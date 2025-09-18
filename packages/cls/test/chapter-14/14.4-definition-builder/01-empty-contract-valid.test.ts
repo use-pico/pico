@@ -8,6 +8,10 @@ describe("14.4 Definition Builder - Empty Contract Valid", () => {
 			.tokens([
 				"color.primary",
 			])
+			.variant("foo", [
+				"bar",
+				"baz",
+			])
 			.def()
 			.token({
 				"color.primary": {
@@ -15,6 +19,9 @@ describe("14.4 Definition Builder - Empty Contract Valid", () => {
 						"text-blue-500",
 					],
 				},
+			})
+			.defaults({
+				foo: "bar",
 			})
 			.cls();
 

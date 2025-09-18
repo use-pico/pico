@@ -10,9 +10,6 @@ export namespace Token {
 	 */
 	export type Type = readonly string[];
 
-	export type Has<TContract extends Contract.Any> =
-		TContract["tokens"][number] extends never ? false : true;
-
 	/**
 	 * Extracts all token names from a contract and its inheritance chain
 	 */
@@ -23,6 +20,18 @@ export namespace Token {
 			? TContract["tokens"][number] | Raw<TUse>
 			: TContract["tokens"][number]
 		: TContract["tokens"][number];
+
+	/**
+	 * Check local presence of tokens
+	 */
+	export type Has<TContract extends Contract.Any> =
+		TContract["tokens"][number] extends never ? false : true;
+
+	/**
+	 * Check presence of tokens in the inheritance chain
+	 */
+	export type With<TContract extends Contract.Any> =
+		Raw<TContract> extends never ? false : true;
 
 	/**
 	 * Extended token definitions that handle both required and optional tokens
