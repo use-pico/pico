@@ -157,20 +157,26 @@ export namespace DefinitionBuilder {
 		TContract extends Contract.Any,
 		TState extends CompletionState = {},
 	> = BaseBuilder<TContract, TState> &
-		(Check.If<Token.Has<TContract>, TState["hasToken"]> extends true
-			? Check.If<
-					Variant.Has<TContract>,
-					TState["hasDefaults"]
-				> extends true
-				? CompleteBuilder<TContract>
-				: {
-						cls(
-							error: `Variants are defined on a contract, but you've not called defaults() definition method`,
-						): never;
-					}
-			: {
+		(Check.If<Token.Has<TContract>, TState["hasToken"]> extends false
+			? {
 					cls(
 						error: `Tokens are defined on a contract, but you've not called token() definition method`,
 					): never;
-				});
+				}
+			: {}) &
+		(Check.If<Variant.Has<TContract>, TState["hasDefaults"]> extends false
+			? {
+					cls(
+						error: `Variants are defined on a contract, but you've not called defaults() definition method`,
+					): never;
+				}
+			: {}) &
+		(Check.Each<
+			[
+				Check.If<Token.Has<TContract>, TState["hasToken"]>,
+				Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
+			]
+		> extends true
+			? CompleteBuilder<TContract>
+			: {});
 }
