@@ -98,22 +98,22 @@ function builder<
  * ```
  */
 export function contract(): ContractBuilder.Builder<
-	Token.Type,
-	Slot.Type,
-	Variant.Type,
+	readonly [],
+	readonly [],
+	{},
 	unknown
 >;
 export function contract<const TUse extends Contract.Any>(
 	use: TUse,
-): ContractBuilder.Builder<Token.Type, Slot.Type, Variant.Type, TUse>;
+): ContractBuilder.Builder<readonly [], readonly [], {}, TUse>;
 
 export function contract<const TUse extends Contract.Any | unknown = unknown>(
 	use?: TUse,
-): ContractBuilder.Builder<Token.Type, Slot.Type, Variant.Type, TUse> {
+): ContractBuilder.Builder<readonly [], readonly [], {}, TUse> {
 	return builder({
-		tokens: [] as Token.Type,
-		slot: [] as Slot.Type,
-		variant: {} as Variant.Type,
+		tokens: [],
+		slot: [],
+		variant: {},
 		"~use": use,
 	});
 }

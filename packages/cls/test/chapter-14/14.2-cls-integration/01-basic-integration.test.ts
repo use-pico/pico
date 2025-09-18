@@ -25,8 +25,8 @@ describe("14.2 CLS Integration - Basic Integration", () => {
 			.build();
 
 		const _variants: Variant.Optional<typeof result> = {
-            //
-        };
+			size: "md",
+		};
 
 		// Create CLS instance with the built contract
 		const Button = cls(result, ({ what, def }) => ({
