@@ -86,17 +86,25 @@ export namespace DefinitionBuilder {
 		>;
 	}
 
+	interface NoTokenCls {
+		cls(error: "There are no tokens in the contract"): never;
+	}
+
 	/**
 	 * Type to conditionally add token method based on contract capabilities
 	 */
 	type TokenBuilder<
 		TContract extends Contract.Any,
 		TState extends CompletionState = {},
-	> = Token.Raw<TContract> extends never
-		? {
-				token(error: "There are no tokens in the contract"): never;
-			}
-		: WithToken<TContract, TState>;
+	> = Token.With<TContract> extends true
+		? WithToken<TContract, TState>
+		: {
+				token(error: "There are no tokens in the contract"): NoTokenCls;
+			};
+
+	interface NoVariantCls {
+		cls(error: "There are no variants in the contract"): never;
+	}
 
 	/**
 	 * Type to conditionally add variant-related methods based on contract capabilities
@@ -106,41 +114,17 @@ export namespace DefinitionBuilder {
 		TState extends CompletionState = {},
 	> = Variant.With<TContract> extends true
 		? WithVariant<TContract, TState>
-		: {};
-
-	/**
-	 * Complete builder interface - only has .cls() when all requirements are met
-	 */
-	interface CompleteBuilder<TContract extends Contract.Any> {
-		/**
-		 * Create the final CLS instance - only available when all required methods have been called
-		 */
-		cls(): Cls.Type<TContract>;
-	}
-
-	/**
-	 * Incomplete builder interface - .cls() method is missing or has error signature
-	 */
-	interface IncompleteBuilder {
-		cls(
-			error: `Builder is incomplete - check if you've called all the available relevant builder methods. Or maybe contract is empty.`,
-		): never;
-	}
-
-	/**
-	 * Clean, declarative type to determine if the builder is complete
-	 */
-	type IsComplete<
-		TContract extends Contract.Any,
-		TState extends CompletionState,
-	> = Check.Each<
-		[
-			// If contract has tokens, token() must be called
-			Check.If<Token.Has<TContract>, TState["hasToken"]>,
-			// If contract has variants, defaults() must be called
-			Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
-		]
-	>;
+		: {
+				root(
+					error: "There are no variants in the contract",
+				): NoVariantCls;
+				rule(
+					error: "There are no variants in the contract",
+				): NoVariantCls;
+				defaults(
+					error: "There are no variants in the contract",
+				): NoVariantCls;
+			};
 
 	/**
 	 * Base builder type that combines all available methods based on contract capabilities
@@ -177,6 +161,11 @@ export namespace DefinitionBuilder {
 				Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
 			]
 		> extends true
-			? CompleteBuilder<TContract>
+			? {
+					/**
+					 * Create the final CLS instance - only available when all required methods have been called
+					 */
+					cls(): Cls.Type<TContract>;
+				}
 			: {});
 }
