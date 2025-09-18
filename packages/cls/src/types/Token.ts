@@ -17,10 +17,10 @@ export namespace Token {
 	 * Extracts all token names from a contract and its inheritance chain
 	 */
 	export type Raw<TContract extends Contract.Any> = TContract extends {
-		"~use"?: infer TExt;
+		"~use"?: infer TUse;
 	}
-		? TExt extends Contract.Any
-			? TContract["tokens"][number] | Raw<TExt>
+		? TUse extends Contract.Any
+			? TContract["tokens"][number] | Raw<TUse>
 			: TContract["tokens"][number]
 		: TContract["tokens"][number];
 

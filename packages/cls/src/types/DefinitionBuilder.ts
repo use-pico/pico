@@ -92,7 +92,11 @@ export namespace DefinitionBuilder {
 	type TokenBuilder<
 		TContract extends Contract.Any,
 		TState extends CompletionState = {},
-	> = Token.Has<TContract> extends true ? WithToken<TContract, TState> : {};
+	> = Token.Raw<TContract> extends never
+		? {
+				token(error: "There are no tokens in the contract"): never;
+			}
+		: WithToken<TContract, TState>;
 
 	/**
 	 * Type to conditionally add variant-related methods based on contract capabilities
@@ -119,12 +123,9 @@ export namespace DefinitionBuilder {
 	 */
 	interface IncompleteBuilder {
 		cls(
-			error: `Builder is incomplete - check if you've called all the available relevant builder methods.`,
+			error: `Builder is incomplete - check if you've called all the available relevant builder methods. Or maybe contract is empty.`,
 		): never;
 	}
-
-	// type HasVariants<TContract extends Contract.Any> =
-	// 	keyof TContract["variant"] extends never ? false : true;
 
 	/**
 	 * Check if contract has any meaningful content (direct or inherited)
