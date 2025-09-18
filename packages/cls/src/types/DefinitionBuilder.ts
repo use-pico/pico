@@ -1,5 +1,7 @@
+import type { Check } from "./Check";
 import type { Cls } from "./Cls";
 import type { Contract } from "./Contract";
+import type { IsCheck } from "./IsCheck";
 import type { Rule } from "./Rule";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
@@ -25,13 +27,29 @@ export namespace DefinitionBuilder {
 	}
 
 	/**
-	 * Definition builder interface with fluent methods
+	 * Type-level flags to track which required methods have been called
 	 */
-	export interface Builder<TContract extends Contract.Any> {
+	export interface CompletionState {
+		hasToken?: boolean;
+		hasDefaults?: boolean;
+	}
+
+	/**
+	 * Base builder interface with methods that don't affect completeness
+	 */
+	interface BaseBuilder<
+		TContract extends Contract.Any,
+		TState extends CompletionState = {},
+	> {
 		/**
 		 * Set token definitions (overrides previous if called multiple times)
 		 */
-		token(token: Token.Required<TContract>): Builder<TContract>;
+		token(token: Token.Required<TContract>): Builder<
+			TContract,
+			TState & {
+				hasToken: true;
+			}
+		>;
 
 		/**
 		 * Add a rule (can be called multiple times, rules accumulate)
@@ -40,7 +58,7 @@ export namespace DefinitionBuilder {
 			match: Variant.Optional<TContract>,
 			slot: Slot.Optional<TContract>,
 			override?: boolean,
-		): Builder<TContract>;
+		): Builder<TContract, TState>;
 
 		/**
 		 * Add a root rule (can be called multiple times, rules accumulate)
@@ -48,16 +66,65 @@ export namespace DefinitionBuilder {
 		root(
 			slot: Slot.Optional<TContract>,
 			override?: boolean,
-		): Builder<TContract>;
+		): Builder<TContract, TState>;
 
 		/**
 		 * Set defaults (overrides previous if called multiple times)
 		 */
-		defaults(defaults: Variant.VariantOf<TContract>): Builder<TContract>;
+		defaults(defaults: Variant.VariantOf<TContract>): Builder<
+			TContract,
+			TState & {
+				hasDefaults: true;
+			}
+		>;
+	}
 
+	/**
+	 * Complete builder interface - only has .cls() when all requirements are met
+	 */
+	interface CompleteBuilder<TContract extends Contract.Any>
+		extends BaseBuilder<TContract, any> {
 		/**
-		 * Create the final CLS instance with validation
+		 * Create the final CLS instance - only available when all required methods have been called
 		 */
 		cls(): Cls.Type<TContract>;
 	}
+
+	/**
+	 * Incomplete builder interface - .cls() method is missing
+	 */
+	interface IncompleteBuilder<
+		TContract extends Contract.Any,
+		TState extends CompletionState = {},
+	> extends BaseBuilder<TContract, TState> {
+		cls(
+			error: `Builder is incomplete - check definition of 'token' or 'defaults'`,
+		): never;
+	}
+
+	// type HasVariants<TContract extends Contract.Any> =
+	// 	keyof TContract["variant"] extends never ? false : true;
+
+	/**
+	 * Clean, declarative type to determine if the builder is complete
+	 */
+	type IsComplete<
+		TContract extends Contract.Any,
+		TState extends CompletionState,
+	> = IsCheck<
+		[
+			Check<Token.Has<TContract>, TState["hasToken"]>,
+			Check<Variant.Has<TContract>, TState["hasDefaults"]>,
+		]
+	>;
+
+	/**
+	 * Definition builder interface with fluent methods and type-level validation
+	 */
+	export type Builder<
+		TContract extends Contract.Any,
+		TState extends CompletionState = {},
+	> = IsComplete<TContract, TState> extends true
+		? CompleteBuilder<TContract>
+		: IncompleteBuilder<TContract, TState>;
 }

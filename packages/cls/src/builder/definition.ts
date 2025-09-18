@@ -7,20 +7,27 @@ import type { DefinitionBuilder } from "../types/DefinitionBuilder";
  */
 function builder<
 	const TContract extends Contract.Any,
+	const TState extends DefinitionBuilder.CompletionState = {},
 	const TUse extends Contract.Any | unknown = unknown,
 >(
 	state: DefinitionBuilder.State<TContract, TUse>,
-): DefinitionBuilder.Builder<TContract> {
+): DefinitionBuilder.Builder<TContract, TState> {
 	return {
 		token(token) {
-			return builder({
+			return builder<
+				TContract,
+				TState & {
+					hasToken: true;
+				},
+				TUse
+			>({
 				...state,
 				token,
 			});
 		},
 
 		rule(match, slot, override = false) {
-			return builder({
+			return builder<TContract, TState, TUse>({
 				...state,
 				rules: [
 					...state.rules,
@@ -34,7 +41,7 @@ function builder<
 		},
 
 		root(slot, override = false) {
-			return builder({
+			return builder<TContract, TState, TUse>({
 				...state,
 				rules: [
 					...state.rules,
@@ -48,7 +55,13 @@ function builder<
 		},
 
 		defaults(defaults) {
-			return builder({
+			return builder<
+				TContract,
+				TState & {
+					hasDefaults: true;
+				},
+				TUse
+			>({
 				...state,
 				defaults,
 			});
@@ -61,7 +74,7 @@ function builder<
 				defaults: state.defaults || ({} as any),
 			}));
 		},
-	};
+	} as DefinitionBuilder.Builder<TContract, TState>;
 }
 
 export const definition = <
@@ -70,8 +83,8 @@ export const definition = <
 >(
 	contract: TContract,
 	use?: TUse,
-): DefinitionBuilder.Builder<TContract> => {
-	return builder({
+): DefinitionBuilder.Builder<TContract, {}> => {
+	return builder<TContract, {}, TUse>({
 		contract,
 		rules: [],
 		use,

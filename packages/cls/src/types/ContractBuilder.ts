@@ -126,7 +126,8 @@ export namespace ContractBuilder {
 		 * Creates a definition builder for the contract
 		 */
 		def(): DefinitionBuilder.Builder<
-			Contract.Type<TToken, TSlot, TVariant, TUse>
+			Contract.Type<TToken, TSlot, TVariant, TUse>,
+			{}
 		>;
 	}
 }

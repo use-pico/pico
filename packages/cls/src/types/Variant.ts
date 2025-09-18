@@ -42,7 +42,7 @@ export namespace Variant {
 	 * @template TContract - The contract type to check for variants
 	 * @returns `true` if the contract has variants, `false` if it has no variants
 	 */
-	export type HasVariants<TContract extends Contract.Any> =
+	export type Has<TContract extends Contract.Any> =
 		keyof Raw<TContract> extends never ? false : true;
 
 	/**
@@ -62,12 +62,12 @@ export namespace Variant {
 	};
 
 	export type Required<TContract extends Contract.Any> =
-		HasVariants<TContract> extends false
+		Has<TContract> extends false
 			? Record<string, never>
 			: VariantOf<TContract>;
 
 	export type Optional<TContract extends Contract.Any> =
-		HasVariants<TContract> extends false
+		Has<TContract> extends false
 			? Record<string, never>
 			: Partial<VariantOf<TContract>>;
 
