@@ -28,49 +28,68 @@ export const ButtonCls = contract(PicoCls.contract)
 		"full",
 	])
 	.def()
+	.root({
+		wrapper: {
+			class: [
+				"Button-wrapper",
+			],
+		},
+		root: {
+			class: [
+				"Button-root",
+				"flex",
+				"flex-row",
+				"items-center",
+				"justify-center",
+				"gap-2",
+				"group",
+				"transition-all",
+				"cursor-pointer",
+				"select-none",
+				"active:opacity-90",
+			],
+			token: [
+				"scale.default",
+				"border.default",
+				"shadow.default",
+			],
+		},
+	})
+	/**
+	 * Size rules
+	 */
+	.rule(
+		{
+			size: "xs",
+		},
+		{
+			root: {
+				token: [
+					"size.xs",
+				],
+			},
+		},
+	)
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		disabled: false,
+		size: "md",
+		border: true,
+		round: "default",
+	})
 	.cls();
 
 // 	({ what, def }) => ({
 // 		token: def.token({}),
 // 		rules: [
 // 			def.root({
-// 				wrapper: what.css([
-// 					"Button-wrapper",
-// 				]),
-// 				root: what.both(
-// 					[
-// 						"Button-root",
-// 						"flex",
-// 						"flex-row",
-// 						"items-center",
-// 						"justify-center",
-// 						"gap-2",
-// 						"group",
-// 						"transition-all",
-// 						"cursor-pointer",
-// 						"select-none",
-// 						"active:opacity-90",
-// 					],
-// 					[
-// 						"scale.default",
-// 						"border.default",
-// 						"shadow.default",
-// 					],
-// 				),
+
 // 			}),
 // 			/**
 // 			 * Size rules
 // 			 */
-// 			def.rule(
-// 				what.variant({
-// 					size: "xs",
-// 				}),
-// 				{
-// 					root: what.token([
-// 						"size.xs",
-// 					]),
-// 				},
-// 			),
+
 // 			def.rule(
 // 				what.variant({
 // 					size: "sm",
@@ -362,12 +381,7 @@ export const ButtonCls = contract(PicoCls.contract)
 // 			),
 // 		],
 // 		defaults: def.defaults({
-// 			tone: "primary",
-// 			theme: "light",
-// 			disabled: false,
-// 			size: "md",
-// 			border: true,
-// 			round: "default",
+
 // 		}),
 // 	}),
 // );
