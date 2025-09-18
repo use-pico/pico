@@ -1,6 +1,9 @@
 import { cls } from "../cls";
 import type { Contract } from "../types/Contract";
 import type { DefinitionBuilder } from "../types/DefinitionBuilder";
+import type { Slot } from "../types/Slot";
+import type { Token } from "../types/Token";
+import type { Variant } from "../types/Variant";
 
 /**
  * Creates a definition builder with the given state
@@ -13,7 +16,7 @@ function builder<
 	state: DefinitionBuilder.State<TContract, TUse>,
 ): DefinitionBuilder.Builder<TContract, TState> {
 	return {
-		token(token) {
+		token(token: Token.Required<TContract>) {
 			return builder<
 				TContract,
 				TState & {
@@ -26,7 +29,11 @@ function builder<
 			});
 		},
 
-		rule(match, slot, override = false) {
+		rule(
+			match: Variant.Optional<TContract>,
+			slot: Slot.Optional<TContract>,
+			override = false,
+		) {
 			return builder<TContract, TState, TUse>({
 				...state,
 				rules: [
@@ -40,7 +47,7 @@ function builder<
 			});
 		},
 
-		root(slot, override = false) {
+		root(slot: Slot.Optional<TContract>, override = false) {
 			return builder<TContract, TState, TUse>({
 				...state,
 				rules: [
@@ -54,7 +61,7 @@ function builder<
 			});
 		},
 
-		defaults(defaults) {
+		defaults(defaults: Variant.VariantOf<TContract>) {
 			return builder<
 				TContract,
 				TState & {
@@ -74,7 +81,7 @@ function builder<
 				defaults: state.defaults || ({} as any),
 			}));
 		},
-	} as DefinitionBuilder.Builder<TContract, TState>;
+	} as any as DefinitionBuilder.Builder<TContract, TState>;
 }
 
 export const definition = <
