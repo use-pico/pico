@@ -106,11 +106,9 @@ function builder<
  *   .build();
  * ```
  */
-export function contract(): ContractBuilder.Builder<
-	readonly [],
-	readonly [],
-	{},
-	unknown
+export function contract(): Omit<
+	ContractBuilder.Builder<readonly [], readonly [], {}, unknown>,
+	"build"
 >;
 export function contract<const TUse extends Contract.Any>(
 	use: TUse,

@@ -106,6 +106,10 @@ export namespace DefinitionBuilder {
 		cls(error: "There are no variants in the contract"): never;
 	}
 
+	interface NoSlotCls {
+		cls(error: "There are no slots in the contract"): never;
+	}
+
 	/**
 	 * Type to conditionally add variant-related methods based on contract capabilities
 	 */
@@ -113,7 +117,17 @@ export namespace DefinitionBuilder {
 		TContract extends Contract.Any,
 		TState extends CompletionState = {},
 	> = Variant.With<TContract> extends true
-		? WithVariant<TContract, TState>
+		? Slot.With<TContract> extends true
+			? WithVariant<TContract, TState>
+			: {
+					root(
+						error: "There are no slots in the contract",
+					): NoSlotCls;
+					rule(
+						error: "There are no slots in the contract",
+					): NoSlotCls;
+					defaults: WithVariant<TContract, TState>["defaults"];
+				}
 		: {
 				root(
 					error: "There are no variants in the contract",

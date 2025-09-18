@@ -29,6 +29,12 @@ export namespace Slot {
 			: TContract["slot"][number]
 		: TContract["slot"][number];
 
+	export type Has<TContract extends Contract.Any> =
+		TContract["slot"][number] extends never ? false : true;
+
+	export type With<TContract extends Contract.Any> =
+		Raw<TContract> extends never ? false : true;
+
 	/**
 	 * Mapping type for slot styling values
 	 */
@@ -36,11 +42,8 @@ export namespace Slot {
 		[K in Raw<TContract>]?: What.Any<TContract>;
 	};
 
-	export type HasSlots<TContract extends Contract.Any> =
-		keyof Raw<TContract> extends never ? false : true;
-
 	export type Required<TContract extends Contract.Any> =
-		HasSlots<TContract> extends false
+		With<TContract> extends false
 			? Record<string, never>
 			: SlotOf<TContract>;
 
@@ -49,7 +52,7 @@ export namespace Slot {
 	) => Required<TContract>;
 
 	export type Optional<TContract extends Contract.Any> =
-		HasSlots<TContract> extends false
+		With<TContract> extends false
 			? Record<string, never>
 			: Partial<SlotOf<TContract>>;
 
@@ -61,7 +64,6 @@ export namespace Slot {
 	 * Function type for individual slot functions that return CSS class strings
 	 */
 	export type Fn<TContract extends Contract.Any> = (
-		// TODO This may need some adjustment as this should target single slot
 		props?: Tweak.Fn<TContract>,
 	) => string;
 

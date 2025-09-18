@@ -12,6 +12,7 @@ describe("14.4 Definition Builder - Empty Contract Valid", () => {
 				"bar",
 				"baz",
 			])
+			.slot("root")
 			.def()
 			.token({
 				"color.primary": {
