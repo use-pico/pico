@@ -133,17 +133,12 @@ export namespace DefinitionBuilder {
 	type IsComplete<
 		TContract extends Contract.Any,
 		TState extends CompletionState,
-	> = Check.Some<
+	> = Check.Each<
 		[
-			Token.Has<TContract>,
-			Variant.Has<TContract>,
-			TContract extends {
-				"~use": infer TUse;
-			}
-				? TUse extends Contract.Any
-					? IsComplete<TUse, TState>
-					: false
-				: false,
+			// If contract has tokens, token() must be called
+			Check.If<Token.Has<TContract>, TState["hasToken"]>,
+			// If contract has variants, defaults() must be called
+			Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
 		]
 	>;
 
