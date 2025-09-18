@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, contract } from "../../../src";
+import { cls, contract, type Variant } from "../../../src";
 
 describe("14.2 CLS Integration - Basic Integration", () => {
 	it("should create a working CLS instance from builder contract", () => {
@@ -23,6 +23,10 @@ describe("14.2 CLS Integration - Basic Integration", () => {
 				"dark",
 			])
 			.build();
+
+		const _variants: Variant.Optional<typeof result> = {
+            //
+        };
 
 		// Create CLS instance with the built contract
 		const Button = cls(result, ({ what, def }) => ({

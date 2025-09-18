@@ -22,7 +22,7 @@ export namespace ContractBuilder {
 		tokens: TToken;
 		slot: TSlot;
 		variant: TVariant;
-		use?: TUse;
+		"~use"?: TUse;
 	}
 
 	/**

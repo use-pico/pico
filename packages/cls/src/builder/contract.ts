@@ -114,6 +114,6 @@ export function contract<const TUse extends Contract.Any | unknown = unknown>(
 		tokens: [] as Token.Type,
 		slot: [] as Slot.Type,
 		variant: {} as Variant.Type,
-		use,
+		"~use": use,
 	});
 }
