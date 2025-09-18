@@ -128,9 +128,12 @@ export namespace DefinitionBuilder {
 	}
 
 	/**
-	 * Check if contract has any meaningful content (direct or inherited)
+	 * Clean, declarative type to determine if the builder is complete
 	 */
-	type HasContent<TContract extends Contract.Any> = Check.Some<
+	type IsComplete<
+		TContract extends Contract.Any,
+		TState extends CompletionState,
+	> = Check.Some<
 		[
 			Token.Has<TContract>,
 			Variant.Has<TContract>,
@@ -138,23 +141,9 @@ export namespace DefinitionBuilder {
 				"~use": infer TUse;
 			}
 				? TUse extends Contract.Any
-					? HasContent<TUse>
+					? IsComplete<TUse, TState>
 					: false
 				: false,
-		]
-	>;
-
-	/**
-	 * Clean, declarative type to determine if the builder is complete
-	 */
-	type IsComplete<
-		TContract extends Contract.Any,
-		TState extends CompletionState,
-	> = Check.Each<
-		[
-			HasContent<TContract>,
-			Check.If<Token.Has<TContract>, TState["hasToken"]>,
-			Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
 		]
 	>;
 
