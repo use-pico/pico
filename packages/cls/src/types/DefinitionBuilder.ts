@@ -1,7 +1,6 @@
 import type { Check } from "./Check";
 import type { Cls } from "./Cls";
 import type { Contract } from "./Contract";
-import type { IsCheck } from "./IsCheck";
 import type { Rule } from "./Rule";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
@@ -120,7 +119,7 @@ export namespace DefinitionBuilder {
 	 */
 	interface IncompleteBuilder {
 		cls(
-			error: `Builder is incomplete - check definition of 'token' or 'defaults'`,
+			error: `Builder is incomplete - check if you've called all the available relevant builder methods.`,
 		): never;
 	}
 
@@ -128,15 +127,33 @@ export namespace DefinitionBuilder {
 	// 	keyof TContract["variant"] extends never ? false : true;
 
 	/**
+	 * Check if contract has any meaningful content (direct or inherited)
+	 */
+	type HasContent<TContract extends Contract.Any> = Check.Some<
+		[
+			Token.Has<TContract>,
+			Variant.Has<TContract>,
+			TContract extends {
+				"~use": infer TUse;
+			}
+				? TUse extends Contract.Any
+					? HasContent<TUse>
+					: false
+				: false,
+		]
+	>;
+
+	/**
 	 * Clean, declarative type to determine if the builder is complete
 	 */
 	type IsComplete<
 		TContract extends Contract.Any,
 		TState extends CompletionState,
-	> = IsCheck<
+	> = Check.Each<
 		[
-			Check<Token.Has<TContract>, TState["hasToken"]>,
-			Check<Variant.Has<TContract>, TState["hasDefaults"]>,
+			HasContent<TContract>,
+			Check.If<Token.Has<TContract>, TState["hasToken"]>,
+			Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
 		]
 	>;
 

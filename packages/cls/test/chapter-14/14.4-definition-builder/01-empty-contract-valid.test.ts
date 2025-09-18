@@ -2,10 +2,25 @@ import { describe, expect, it } from "vitest";
 import { contract } from "../../../src";
 
 describe("14.4 Definition Builder - Empty Contract Valid", () => {
-	it("should allow creating definition without tokens/defaults when contract is empty", () => {
-		// Empty contract should not require token() or defaults() calls
+	it("should allow creating definition when inheriting from parent contract", () => {
+		// Create a parent contract with some content
+		const ParentCls = contract()
+			.tokens([
+				"color.primary",
+			])
+			.def()
+			.token({
+				"color.primary": {
+					class: [
+						"text-blue-500",
+					],
+				},
+			})
+			.cls();
+
+		// Child contract inheriting from parent should work with short chain
 		expect(() => {
-			const Component = contract().def().cls(); // Truly empty contract
+			const Component = contract(ParentCls.contract).def().cls();
 
 			expect(Component).toBeDefined();
 		}).not.toThrow();

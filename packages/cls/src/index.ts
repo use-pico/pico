@@ -2,6 +2,7 @@ export { contract } from "./builder/contract";
 export { definition } from "./builder/definition";
 export { cls } from "./cls";
 export * from "./react";
+export type { Check } from "./types/Check";
 export type { ClassName } from "./types/ClassName";
 export type { Cls } from "./types/Cls";
 export type { Contract } from "./types/Contract";

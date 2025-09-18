@@ -3,10 +3,24 @@ import { contract } from "../../../src";
 
 describe("14.4 Definition Builder - Conditional Methods", () => {
 	it("should only provide methods relevant to the contract capabilities", () => {
-		// Test 1: Empty contract - should work immediately
+		// Test 1: Inheritance contract - should work with short chain when inheriting
 		expect(() => {
-			const EmptyCls = contract().def().cls();
-			expect(EmptyCls).toBeDefined();
+			const ParentCls = contract()
+				.tokens([
+					"color.base",
+				])
+				.def()
+				.token({
+					"color.base": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				})
+				.cls();
+
+			const ChildCls = contract(ParentCls.contract).def().cls();
+			expect(ChildCls).toBeDefined();
 		}).not.toThrow();
 
 		// Test 2: Contract with tokens - should require .token() call
