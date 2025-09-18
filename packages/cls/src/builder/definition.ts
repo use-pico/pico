@@ -5,19 +5,19 @@ import type { DefinitionBuilder } from "../types/DefinitionBuilder";
 /**
  * Creates a definition builder with the given state
  */
-function createDefinitionBuilder<TContract extends Contract.Any>(
+function builder<const TContract extends Contract.Any>(
 	state: DefinitionBuilder.State<TContract>,
 ): DefinitionBuilder.Builder<TContract> {
 	return {
 		token(token) {
-			return createDefinitionBuilder({
+			return builder({
 				...state,
 				token,
 			});
 		},
 
 		rule(match, slot, override = false) {
-			return createDefinitionBuilder({
+			return builder({
 				...state,
 				rules: [
 					...state.rules,
@@ -31,7 +31,7 @@ function createDefinitionBuilder<TContract extends Contract.Any>(
 		},
 
 		root(slot, override = false) {
-			return createDefinitionBuilder({
+			return builder({
 				...state,
 				rules: [
 					...state.rules,
@@ -45,7 +45,7 @@ function createDefinitionBuilder<TContract extends Contract.Any>(
 		},
 
 		defaults(defaults) {
-			return createDefinitionBuilder({
+			return builder({
 				...state,
 				defaults,
 			});
@@ -127,10 +127,10 @@ function createDefinitionBuilder<TContract extends Contract.Any>(
 	};
 }
 
-export const definition = <TContract extends Contract.Any>(
+export const definition = <const TContract extends Contract.Any>(
 	contract: TContract,
 ): DefinitionBuilder.Builder<TContract> => {
-	return createDefinitionBuilder({
+	return builder({
 		contract,
 		rules: [],
 	});

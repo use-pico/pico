@@ -11,25 +11,28 @@ import type { Variant } from "./Variant";
  */
 export namespace ContractBuilder {
 	/**
-	 * Contract builder state that accumulates tokens, slots, and variants
+	 * State representing the accumulated contract data during building
 	 */
 	export interface State<
-		TTokens extends Token.Type = readonly [],
-		TSlots extends Slot.Type = readonly [],
-		TVariants extends Variant.Type = {},
+		TToken extends Token.Type,
+		TSlot extends Slot.Type,
+		TVariant extends Variant.Type,
+		TUse extends Contract.Any | unknown = unknown,
 	> {
-		tokens: TTokens;
-		slots: TSlots;
-		variants: TVariants;
+		tokens: TToken;
+		slot: TSlot;
+		variant: TVariant;
+		use?: TUse;
 	}
 
 	/**
 	 * Contract builder interface with fluent methods
 	 */
 	export interface Builder<
-		TTokens extends Token.Type = readonly [],
-		TSlots extends Slot.Type = readonly [],
-		TVariants extends Variant.Type = {},
+		TToken extends Token.Type,
+		TSlot extends Slot.Type,
+		TVariant extends Variant.Type,
+		TUse extends Contract.Any | unknown = unknown,
 	> {
 		/**
 		 * Add multiple tokens (can be called multiple times, tokens accumulate)
@@ -38,11 +41,12 @@ export namespace ContractBuilder {
 			tokens: TNewTokens,
 		): Builder<
 			readonly [
-				...TTokens,
+				...TToken,
 				...TNewTokens,
 			],
-			TSlots,
-			TVariants
+			TSlot,
+			TVariant,
+			TUse
 		>;
 
 		/**
@@ -52,11 +56,12 @@ export namespace ContractBuilder {
 			token: TNewToken,
 		): Builder<
 			readonly [
-				...TTokens,
+				...TToken,
 				TNewToken,
 			],
-			TSlots,
-			TVariants
+			TSlot,
+			TVariant,
+			TUse
 		>;
 
 		/**
@@ -65,12 +70,13 @@ export namespace ContractBuilder {
 		slots<const TNewSlots extends Slot.Type>(
 			slots: TNewSlots,
 		): Builder<
-			TTokens,
+			TToken,
 			readonly [
-				...TSlots,
+				...TSlot,
 				...TNewSlots,
 			],
-			TVariants
+			TVariant,
+			TUse
 		>;
 
 		/**
@@ -79,12 +85,13 @@ export namespace ContractBuilder {
 		slot<const TNewSlot extends string>(
 			slot: TNewSlot,
 		): Builder<
-			TTokens,
+			TToken,
 			readonly [
-				...TSlots,
+				...TSlot,
 				TNewSlot,
 			],
-			TVariants
+			TVariant,
+			TUse
 		>;
 
 		/**
@@ -92,7 +99,7 @@ export namespace ContractBuilder {
 		 */
 		variants<const TNewVariants extends Variant.Type>(
 			variants: TNewVariants,
-		): Builder<TTokens, TSlots, Utils.Merge<TVariants, TNewVariants>>;
+		): Builder<TToken, TSlot, Utils.Merge<TVariant, TNewVariants>, TUse>;
 
 		/**
 		 * Add a single variant (can be called multiple times, variants merge)
@@ -104,21 +111,22 @@ export namespace ContractBuilder {
 			name: TName,
 			values: TValues,
 		): Builder<
-			TTokens,
-			TSlots,
-			Utils.Merge<TVariants, Record<TName, TValues>>
+			TToken,
+			TSlot,
+			Utils.Merge<TVariant, Record<TName, TValues>>,
+			TUse
 		>;
 
 		/**
 		 * Build the final contract with accumulated types
 		 */
-		build(): Contract.Type<TTokens, TSlots, TVariants>;
+		build(): Contract.Type<TToken, TSlot, TVariant, TUse>;
 
 		/**
 		 * Creates a definition builder for the contract
 		 */
 		def(): DefinitionBuilder.Builder<
-			Contract.Type<TTokens, TSlots, TVariants>
+			Contract.Type<TToken, TSlot, TVariant, TUse>
 		>;
 	}
 }

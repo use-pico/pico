@@ -1,3 +1,4 @@
+import type { Contract } from "../types/Contract";
 import type { ContractBuilder } from "../types/ContractBuilder";
 import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
@@ -8,90 +9,77 @@ import { definition } from "./definition";
 /**
  * Creates a contract builder with the given state
  */
-function createBuilder<
-	const TTokens extends Token.Type = readonly [],
-	const TSlots extends Slot.Type = readonly [],
-	const TVariants extends Variant.Type = {},
+function builder<
+	const TToken extends Token.Type,
+	const TSlot extends Slot.Type,
+	const TVariant extends Variant.Type,
+	const TUse extends Contract.Any | unknown = unknown,
 >(
-	state: ContractBuilder.State<TTokens, TSlots, TVariants>,
-): ContractBuilder.Builder<TTokens, TSlots, TVariants> {
+	state: ContractBuilder.State<TToken, TSlot, TVariant, TUse>,
+): ContractBuilder.Builder<TToken, TSlot, TVariant, TUse> {
 	return {
 		tokens(tokens) {
-			return createBuilder({
+			return builder({
+				...state,
 				tokens: [
 					...state.tokens,
 					...tokens,
 				],
-				slots: state.slots,
-				variants: state.variants,
-			});
+			} as const);
 		},
 
 		token(token) {
-			return createBuilder({
+			return builder({
+				...state,
 				tokens: [
 					...state.tokens,
 					token,
 				],
-				slots: state.slots,
-				variants: state.variants,
-			});
+			} as const);
 		},
 
 		slots(slots) {
-			return createBuilder({
-				tokens: state.tokens,
-				slots: [
-					...state.slots,
+			return builder({
+				...state,
+				slot: [
+					...state.slot,
 					...slots,
 				],
-				variants: state.variants,
-			});
+			} as const);
 		},
 
 		slot(slot) {
-			return createBuilder({
-				tokens: state.tokens,
-				slots: [
-					...state.slots,
+			return builder({
+				...state,
+				slot: [
+					...state.slot,
 					slot,
 				],
-				variants: state.variants,
-			});
+			} as const);
 		},
 
 		variants(variants) {
-			return createBuilder({
-				tokens: state.tokens,
-				slots: state.slots,
-				variants: mergeVariants(state.variants, variants),
-			});
+			return builder({
+				...state,
+				variant: mergeVariants(state.variant, variants),
+			} as const);
 		},
 
 		variant(name, values) {
-			return createBuilder({
-				tokens: state.tokens,
-				slots: state.slots,
-				variants: mergeVariants(state.variants, {
+			return builder({
+				...state,
+				variant: mergeVariants(state.variant, {
 					[name]: values,
 				} as Record<typeof name, typeof values>),
 			});
 		},
 
 		build() {
-			return {
-				tokens: state.tokens,
-				slot: state.slots,
-				variant: state.variants,
-			};
+			return state;
 		},
 
 		def() {
-			return definition({
-				tokens: state.tokens,
-				slot: state.slots,
-				variant: state.variants,
-			});
+			return definition(this.build());
 		},
 	};
 }
@@ -109,10 +97,23 @@ function createBuilder<
  *   .build();
  * ```
  */
-export function contract(): ContractBuilder.Builder {
-	return createBuilder({
-		tokens: [] as const,
-		slots: [] as const,
-		variants: {} as const,
+export function contract(): ContractBuilder.Builder<
+	Token.Type,
+	Slot.Type,
+	Variant.Type,
+	unknown
+>;
+export function contract<const TUse extends Contract.Any>(
+	use: TUse,
+): ContractBuilder.Builder<Token.Type, Slot.Type, Variant.Type, TUse>;
+
+export function contract<const TUse extends Contract.Any | unknown = unknown>(
+	use?: TUse,
+): ContractBuilder.Builder<Token.Type, Slot.Type, Variant.Type, TUse> {
+	return builder({
+		tokens: [] as Token.Type,
+		slot: [] as Slot.Type,
+		variant: {} as Variant.Type,
+		use,
 	});
 }
