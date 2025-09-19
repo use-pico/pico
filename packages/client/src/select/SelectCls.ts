@@ -1,124 +1,101 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { FormFieldCls } from "../form/FormFieldCls";
 
-export const SelectCls = FormFieldCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"popup",
-			"item",
-		],
-		variant: {
-			disabled: [
-				"bool",
-			],
-			active: [
-				"bool",
-			],
-			selected: [
-				"bool",
+export const SelectCls = contract(FormFieldCls.contract)
+	.slots([
+		"popup",
+		"item",
+	])
+	.bool("disabled")
+	.bool("active")
+	.bool("selected")
+	.def()
+	.root({
+		input: {
+			class: [
+				"inline-flex",
+				"flex-row",
+				"w-fit",
+				"items-center",
+				"justify-between",
+				"cursor-pointer",
+				"gap-2",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.root({
-				input: what.css([
-					"inline-flex",
-					"flex-row",
-					"w-fit",
-					"items-center",
-					"justify-between",
-					"cursor-pointer",
-					"gap-2",
-				]),
-				popup: what.both(
-					[
-						"Select-popup",
-						"flex",
-						"flex-col",
-						"overflow-y-auto",
-						"bg-white",
-						"focus:outline-hidden",
-						"gap-1",
-					],
-					[
-						"border.default",
-						"shadow.default",
-						"round.default",
-						"tone.neutral.light.border",
-						"square.xs",
-					],
-				),
-				item: what.both(
-					[
-						"Select-item",
-						"focus:outline-hidden",
-						"flex",
-						"items-center",
-						"justify-between",
-						"gap-2",
-						"cursor-pointer",
-					],
-					[
-						"padding.md",
-						"round.default",
-					],
-				),
-			}),
-			def.rule(
-				what.variant({
-					disabled: true,
-				}),
-				{
-					root: what.both(
-						[
-							"cursor-not-allowed",
-							"hover:shadow-none",
-							"opacity-50",
-						],
-						[
-							"tone.neutral.light.border",
-						],
-					),
-				},
-			),
-			def.rule(
-				what.variant({
-					selected: true,
-				}),
-				{
-					item: what.token([
-						"tone.neutral.light.bg",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					active: true,
-				}),
-				{
-					item: what.token([
-						"tone.neutral.light.bg:hover",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			size: "md",
-			isError: false,
-			isLoading: false,
-			isSubmitting: false,
-			required: false,
-			disabled: false,
-			selected: false,
-			active: false,
-		}),
-	}),
-);
+		popup: {
+			class: [
+				"Select-popup",
+				"flex",
+				"flex-col",
+				"overflow-y-auto",
+				"bg-white",
+				"focus:outline-hidden",
+				"gap-1",
+			],
+			token: [
+				"border.default",
+				"shadow.default",
+				"round.default",
+				"tone.neutral.light.border",
+				"square.xs",
+			],
+		},
+		item: {
+			class: [
+				"Select-item",
+				"focus:outline-hidden",
+				"flex",
+				"items-center",
+				"justify-between",
+				"gap-2",
+				"cursor-pointer",
+			],
+			token: [
+				"padding.md",
+				"round.default",
+			],
+		},
+	})
+	.match("disabled", true, {
+		root: {
+			class: [
+				"cursor-not-allowed",
+				"hover:shadow-none",
+				"opacity-50",
+			],
+			token: [
+				"tone.neutral.light.border",
+			],
+		},
+	})
+	.match("selected", true, {
+		item: {
+			token: [
+				"tone.neutral.light.bg",
+			],
+		},
+	})
+	.match("active", true, {
+		item: {
+			token: [
+				"tone.neutral.light.bg:hover",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		size: "md",
+		isError: false,
+		isLoading: false,
+		isSubmitting: false,
+		required: false,
+		disabled: false,
+		selected: false,
+		active: false,
+	})
+	.cls();
 
 export type SelectCls = typeof SelectCls;
 

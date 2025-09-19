@@ -12,6 +12,14 @@ import type { Variant } from "./Variant";
  */
 export namespace DefinitionBuilder {
 	/**
+	 * Utility type: keys of variants that are declared as boolean ("bool")
+	 */
+	type BoolKeys<TContract extends Contract.Any> = {
+		[K in keyof Variant.Raw<TContract>]: "bool" extends Variant.Raw<TContract>[K][number]
+			? K
+			: never;
+	}[keyof Variant.Raw<TContract>];
+	/**
 	 * Definition builder state that accumulates definition parts
 	 */
 	export interface State<
@@ -76,6 +84,30 @@ export namespace DefinitionBuilder {
 		): Builder<TContract, TState>;
 
 		/**
+		 * Match helper (switch-like) to add a rule for a specific variant key/value.
+		 */
+		match<
+			const TKey extends keyof Variant.VariantOf<TContract>,
+			const TValue extends Variant.VariantOf<TContract>[TKey],
+		>(
+			key: TKey,
+			value: TValue,
+			slot: Slot.Optional<TContract>,
+			override?: boolean,
+		): Builder<TContract, TState>;
+
+		/**
+		 * Convenience helper for boolean variants. Generates two rules:
+		 * - when variant[key] is true -> applies `whenTrue` slot
+		 * - when variant[key] is false -> applies `whenFalse` slot
+		 */
+		switch<K extends BoolKeys<TContract>>(
+			key: K,
+			whenTrue: Slot.Optional<TContract>,
+			whenFalse: Slot.Optional<TContract>,
+		): Builder<TContract, TState>;
+
+		/**
 		 * Set defaults (overrides previous if called multiple times)
 		 */
 		defaults(defaults: Variant.VariantOf<TContract>): Builder<
@@ -126,6 +158,12 @@ export namespace DefinitionBuilder {
 					rule(
 						error: "There are no slots in the contract",
 					): NoSlotCls;
+					match(
+						error: "There are no slots in the contract",
+					): NoSlotCls;
+					switch(
+						error: "There are no slots in the contract",
+					): NoSlotCls;
 					defaults: WithVariant<TContract, TState>["defaults"];
 				}
 		: {
@@ -133,6 +171,12 @@ export namespace DefinitionBuilder {
 					error: "There are no variants in the contract",
 				): NoVariantCls;
 				rule(
+					error: "There are no variants in the contract",
+				): NoVariantCls;
+				match(
+					error: "There are no variants in the contract",
+				): NoVariantCls;
+				switch(
 					error: "There are no variants in the contract",
 				): NoVariantCls;
 				defaults(
@@ -162,7 +206,7 @@ export namespace DefinitionBuilder {
 					): never;
 				}
 			: {}) &
-		(Check.If<Variant.Has<TContract>, TState["hasDefaults"]> extends false
+		(Check.If<Variant.With<TContract>, TState["hasDefaults"]> extends false
 			? {
 					cls(
 						error: `Variants are defined on a contract, but you've not called defaults() definition method`,
@@ -172,7 +216,7 @@ export namespace DefinitionBuilder {
 		(Check.Each<
 			[
 				Check.If<Token.Has<TContract>, TState["hasToken"]>,
-				Check.If<Variant.Has<TContract>, TState["hasDefaults"]>,
+				Check.If<Variant.With<TContract>, TState["hasDefaults"]>,
 			]
 		> extends true
 			? {

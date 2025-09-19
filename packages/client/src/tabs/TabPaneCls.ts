@@ -1,44 +1,33 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const TabPaneCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-		],
-		variant: {
-			hidden: [
-				"bool",
+export const TabPaneCls = contract(PicoCls.contract)
+	.slots([
+		"root",
+	])
+	.bool("hidden")
+	.def()
+	.root({
+		root: {
+			class: [
+				"TabPane-root",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: {},
-		rules: [
-			def.root({
-				root: what.css([
-					"TabPane-root",
-				]),
-			}),
-			def.rule(
-				what.variant({
-					hidden: true,
-				}),
-				{
-					root: what.css([
-						"hidden",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			hidden: false,
-		}),
-	}),
-);
+	})
+	.match("hidden", true, {
+		root: {
+			class: [
+				"hidden",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		hidden: false,
+	})
+	.cls();
 
 export type TabPaneCls = typeof TabPaneCls;
 

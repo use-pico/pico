@@ -161,26 +161,16 @@ describe("7.4 Slot Caching Behavior - Slot Caching Semantics", () => {
 
 		// Step 2: First call to root() returns computed value and gets cached
 		const firstCallResult = button.root();
-		expect(firstCallResult).toContain("inline-flex");
-		expect(firstCallResult).toContain("items-center");
-		expect(firstCallResult).toContain("rounded-md");
-		expect(firstCallResult).toContain("font-medium");
-		expect(firstCallResult).toContain("bg-gray-100");
-		expect(firstCallResult).toContain("text-gray-900");
-		expect(firstCallResult).toContain("px-4");
-		expect(firstCallResult).toContain("py-2");
+		expect(firstCallResult).toBe(
+			"bg-gray-100 text-gray-900 px-4 py-2 inline-flex items-center rounded-md font-medium",
+		);
 
 		// Step 3: Second call to root() returns cached result (same reference)
 		const secondCallResult = button.root();
 		expect(secondCallResult).toBe(firstCallResult);
-		expect(secondCallResult).toContain("inline-flex");
-		expect(secondCallResult).toContain("items-center");
-		expect(secondCallResult).toContain("rounded-md");
-		expect(secondCallResult).toContain("font-medium");
-		expect(secondCallResult).toContain("bg-gray-100");
-		expect(secondCallResult).toContain("text-gray-900");
-		expect(secondCallResult).toContain("px-4");
-		expect(secondCallResult).toContain("py-2");
+		expect(secondCallResult).toBe(
+			"bg-gray-100 text-gray-900 px-4 py-2 inline-flex items-center rounded-md font-medium",
+		);
 
 		// Step 4: Call to root(() => ({ ...variant... })) computes a new result
 		const dynamicCallResult = button.root(({ what }) => ({
@@ -189,14 +179,9 @@ describe("7.4 Slot Caching Behavior - Slot Caching Semantics", () => {
 				size: "lg",
 			}),
 		}));
-		expect(dynamicCallResult).toContain("inline-flex");
-		expect(dynamicCallResult).toContain("items-center");
-		expect(dynamicCallResult).toContain("rounded-md");
-		expect(dynamicCallResult).toContain("font-medium");
-		expect(dynamicCallResult).toContain("bg-blue-600");
-		expect(dynamicCallResult).toContain("text-white");
-		expect(dynamicCallResult).toContain("px-6");
-		expect(dynamicCallResult).toContain("py-3");
+		expect(dynamicCallResult).toBe(
+			"inline-flex items-center rounded-md font-medium px-6 py-3 bg-blue-600 text-white",
+		);
 
 		// Verify that the dynamic call result is different from the cached result
 		expect(dynamicCallResult).not.toBe(firstCallResult);
@@ -217,14 +202,9 @@ describe("7.4 Slot Caching Behavior - Slot Caching Semantics", () => {
 				size: "sm",
 			}),
 		}));
-		expect(differentDynamicCallResult).toContain("inline-flex");
-		expect(differentDynamicCallResult).toContain("items-center");
-		expect(differentDynamicCallResult).toContain("rounded-md");
-		expect(differentDynamicCallResult).toContain("font-medium");
-		expect(differentDynamicCallResult).toContain("bg-gray-600");
-		expect(differentDynamicCallResult).toContain("text-white");
-		expect(differentDynamicCallResult).toContain("px-2");
-		expect(differentDynamicCallResult).toContain("py-1");
+		expect(differentDynamicCallResult).toBe(
+			"inline-flex items-center rounded-md font-medium px-2 py-1 bg-gray-600 text-white",
+		);
 
 		// Verify this is different from both cached results
 		expect(differentDynamicCallResult).not.toBe(firstCallResult);
@@ -289,14 +269,9 @@ describe("7.4 Slot Caching Behavior - Slot Caching Semantics", () => {
 
 		// But they should have different default results
 		const primaryButtonResult = primaryButton.root();
-		expect(primaryButtonResult).toContain("inline-flex");
-		expect(primaryButtonResult).toContain("items-center");
-		expect(primaryButtonResult).toContain("rounded-md");
-		expect(primaryButtonResult).toContain("font-medium");
-		expect(primaryButtonResult).toContain("bg-blue-600");
-		expect(primaryButtonResult).toContain("text-white");
-		expect(primaryButtonResult).toContain("px-4");
-		expect(primaryButtonResult).toContain("py-2");
+		expect(primaryButtonResult).toBe(
+			"px-4 py-2 inline-flex items-center rounded-md font-medium bg-blue-600 text-white",
+		);
 		expect(primaryButtonResult).not.toBe(firstCallResult);
 
 		// Step 12: Test that the same variant instance has separate slot functions but same results

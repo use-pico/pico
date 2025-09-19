@@ -41,6 +41,33 @@ function builder<
 			});
 		},
 
+		switch(
+			key: any,
+			whenTrue: Slot.Optional<TContract>,
+			whenFalse: Slot.Optional<TContract>,
+		) {
+			return builder({
+				...state,
+				rules: [
+					...state.rules,
+					{
+						match: {
+							[key]: true,
+						} as any,
+						slot: whenTrue,
+						override: false,
+					},
+					{
+						match: {
+							[key]: false,
+						} as any,
+						slot: whenFalse,
+						override: false,
+					},
+				],
+			});
+		},
+
 		root(slot: Slot.Optional<TContract>, override = false) {
 			return builder({
 				...state,
@@ -48,6 +75,30 @@ function builder<
 					...state.rules,
 					{
 						match: undefined,
+						slot,
+						override,
+					},
+				],
+			});
+		},
+
+		match<
+			const TKey extends keyof Variant.VariantOf<TContract>,
+			const TValue extends Variant.VariantOf<TContract>[TKey],
+		>(
+			key: TKey,
+			value: TValue,
+			slot: Slot.Optional<TContract>,
+			override = false,
+		) {
+			return builder({
+				...state,
+				rules: [
+					...state.rules,
+					{
+						match: {
+							[key]: value,
+						} as any,
 						slot,
 						override,
 					},

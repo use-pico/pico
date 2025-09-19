@@ -1,38 +1,35 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const LabelCountCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-			"label",
-		],
-		variant: {},
-	},
-	({ what, def }) => ({
-		token: {},
-		rules: [
-			def.root({
-				root: what.css([
-					"LabelCount-root",
-					"flex",
-					"flex-row",
-					"items-center",
-					"w-fit",
-					"gap-2",
-				]),
-				label: what.css([
-					"LabelCount-label",
-				]),
-			}),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-		}),
-	}),
-);
+export const LabelCountCls = contract(PicoCls.contract)
+	.slots([
+		"root",
+		"label",
+	])
+	.def()
+	.root({
+		root: {
+			class: [
+				"LabelCount-root",
+				"flex",
+				"flex-row",
+				"items-center",
+				"w-fit",
+				"gap-2",
+			],
+		},
+		label: {
+			class: [
+				"LabelCount-label",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+	})
+	.cls();
 
 export type LabelCountCls = typeof LabelCountCls;
 

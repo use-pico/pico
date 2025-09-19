@@ -1,45 +1,35 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const PopupSelectCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"input",
-		],
-		variant: {
-			isLoading: [
-				"bool",
-			],
-			selected: [
-				"bool",
+export const PopupSelectCls = contract(PicoCls.contract)
+	.slots([
+		"input",
+	])
+	.bool("isLoading")
+	.bool("selected")
+	.def()
+	.root({
+		input: {
+			class: [
+				"PopupSelect-input",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+				"cursor-pointer",
+				"transition-all",
+				"duration-100",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.root({
-				input: what.css([
-					"PopupSelect-input",
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-					"cursor-pointer",
-					"transition-all",
-					"duration-100",
-				]),
-			}),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			isLoading: false,
-			selected: false,
-		}),
-	}),
-);
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		isLoading: false,
+		selected: false,
+	})
+	.cls();
 
 export type PopupSelectCls = typeof PopupSelectCls;
 

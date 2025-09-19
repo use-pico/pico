@@ -54,66 +54,41 @@ export const ButtonCls = contract(PicoCls.contract)
 	/**
 	 * Size rules
 	 */
-	.rule(
-		{
-			size: "xs",
+	.match("size", "xs", {
+		root: {
+			token: [
+				"size.xs",
+			],
 		},
-		{
-			root: {
-				token: [
-					"size.xs",
-				],
-			},
+	})
+	.match("size", "sm", {
+		root: {
+			token: [
+				"size.sm",
+			],
 		},
-	)
-	.rule(
-		{
-			size: "sm",
+	})
+	.match("size", "md", {
+		root: {
+			token: [
+				"size.md",
+			],
 		},
-		{
-			root: {
-				token: [
-					"size.sm",
-				],
-			},
+	})
+	.match("size", "lg", {
+		root: {
+			token: [
+				"size.lg",
+			],
 		},
-	)
-	.rule(
-		{
-			size: "md",
+	})
+	.match("size", "xl", {
+		root: {
+			token: [
+				"size.xl",
+			],
 		},
-		{
-			root: {
-				token: [
-					"size.md",
-				],
-			},
-		},
-	)
-	.rule(
-		{
-			size: "lg",
-		},
-		{
-			root: {
-				token: [
-					"size.lg",
-				],
-			},
-		},
-	)
-	.rule(
-		{
-			size: "xl",
-		},
-		{
-			root: {
-				token: [
-					"size.xl",
-				],
-			},
-		},
-	)
+	})
 	/**
 	 * Tone rules - only for actual tone/theme combinations (no "unset")
 	 */
@@ -302,113 +277,73 @@ export const ButtonCls = contract(PicoCls.contract)
 	/**
 	 * Disabled
 	 */
-	.rule(
-		{
-			disabled: true,
+	.match("disabled", true, {
+		wrapper: {
+			class: [
+				"cursor-not-allowed",
+			],
 		},
-		{
-			wrapper: {
-				class: [
-					"cursor-not-allowed",
-				],
-			},
-			root: {
-				token: [
-					"disabled",
-				],
-			},
+		root: {
+			token: [
+				"disabled",
+			],
 		},
-	)
+	})
 	/**
 	 * Border
 	 */
-	.rule(
-		{
-			border: false,
+	.match("border", false, {
+		root: {
+			class: [
+				"border-none",
+			],
 		},
-		{
-			root: {
-				class: [
-					"border-none",
-				],
-			},
-		},
-	)
+	})
 	/**
 	 * Round rules
 	 */
-	.rule(
-		{
-			round: "default",
+	.match("round", "default", {
+		root: {
+			token: [
+				"round.default",
+			],
 		},
-		{
-			root: {
-				token: [
-					"round.default",
-				],
-			},
+	})
+	.match("round", "sm", {
+		root: {
+			token: [
+				"round.sm",
+			],
 		},
-	)
-	.rule(
-		{
-			round: "sm",
+	})
+	.match("round", "md", {
+		root: {
+			token: [
+				"round.md",
+			],
 		},
-		{
-			root: {
-				token: [
-					"round.sm",
-				],
-			},
+	})
+	.match("round", "lg", {
+		root: {
+			token: [
+				"round.lg",
+			],
 		},
-	)
-	.rule(
-		{
-			round: "md",
+	})
+	.match("round", "xl", {
+		root: {
+			token: [
+				"round.xl",
+			],
 		},
-		{
-			root: {
-				token: [
-					"round.md",
-				],
-			},
+	})
+	.match("round", "full", {
+		root: {
+			token: [
+				"round.full",
+			],
 		},
-	)
-	.rule(
-		{
-			round: "lg",
-		},
-		{
-			root: {
-				token: [
-					"round.lg",
-				],
-			},
-		},
-	)
-	.rule(
-		{
-			round: "xl",
-		},
-		{
-			root: {
-				token: [
-					"round.xl",
-				],
-			},
-		},
-	)
-	.rule(
-		{
-			round: "full",
-		},
-		{
-			root: {
-				token: [
-					"round.full",
-				],
-			},
-		},
-	)
+	})
 	.defaults({
 		tone: "primary",
 		theme: "light",

@@ -175,6 +175,11 @@ describe("10.2 Boolean Variants", () => {
 				color: "primary",
 				loading: true,
 			},
+            override: {
+                root: {
+                    class: [''],
+                }
+            }
 		}));
 		expect(primaryLoadingInstance.root()).toBe(
 			"bg-blue-500 text-white animate-pulse cursor-wait",

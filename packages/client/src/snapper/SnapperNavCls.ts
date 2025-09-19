@@ -1,218 +1,211 @@
 import { PicoCls } from "@use-pico/client";
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 
-export const SnapperNavCls = PicoCls.extend(
-	{
-		tokens: [
-			"snapper.nav.edge.common",
-			"snapper.nav.edge.enabled",
-			"snapper.nav.edge.disabled",
-		],
-		slot: [
-			"root",
-			"items",
-			"item",
-			"first",
-			"last",
-		],
-		variant: {
-			orientation: [
-				"vertical",
-				"horizontal",
-			],
-			align: [
-				"left",
-				"right",
-			],
-			active: [
-				"bool",
-			],
-			first: [
-				"bool",
-			],
-			last: [
-				"bool",
-			],
-		},
-	},
-	({ what, def }) => ({
-		token: def.token({
-			"snapper.nav.edge.common": what.css([
+export const SnapperNavCls = contract(PicoCls.contract)
+	.tokens([
+		"snapper.nav.edge.common",
+		"snapper.nav.edge.enabled",
+		"snapper.nav.edge.disabled",
+	])
+	.slots([
+		"root",
+		"items",
+		"item",
+		"first",
+		"last",
+	])
+	.variant("orientation", [
+		"vertical",
+		"horizontal",
+	])
+	.variant("align", [
+		"left",
+		"right",
+	])
+	.bool("active")
+	.bool("first")
+	.bool("last")
+	.def()
+	.token({
+		"snapper.nav.edge.common": {
+			class: [
 				"pointer-events-auto",
 				"select-none",
 				"transition",
-			]),
-			"snapper.nav.edge.enabled": what.css([
+			],
+		},
+		"snapper.nav.edge.enabled": {
+			class: [
 				"opacity-80",
 				"hover:opacity-100",
 				"cursor-pointer",
-			]),
-			"snapper.nav.edge.disabled": what.css([
+			],
+		},
+		"snapper.nav.edge.disabled": {
+			class: [
 				"opacity-40",
 				"hover:opacity-40",
 				"cursor-not-allowed",
-			]),
-		}),
-		rules: [
-			def.root({
-				root: what.both(
-					[
-						"SnapperNav-root",
-						"absolute",
-						"z-20",
-						"pointer-events-none",
-						"bg-white/70",
-					],
-					[
-						"square.sm",
-						"round.lg",
-					],
-				),
-				items: what.css([
-					"SnapperNav-items",
-					"gap-4",
-					"flex",
-					"items-center",
-					"justify-center",
-				]),
-				item: what.css([
-					"pointer-events-auto",
-					"select-none",
-					"transition",
-					"cursor-pointer",
-				]),
-				first: what.token([
-					"snapper.nav.edge.common",
-				]),
-				last: what.token([
-					"snapper.nav.edge.common",
-				]),
-			}),
-			def.rule(
-				what.variant({
-					orientation: "vertical",
-				}),
-				{
-					items: what.css([
-						"flex-col",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					orientation: "horizontal",
-				}),
-				{
-					root: what.css([
-						"bottom-4",
-						"left-1/2",
-						"-translate-x-1/2",
-					]),
-					items: what.css([
-						"flex-row",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					orientation: "vertical",
-					align: "left",
-				}),
-				{
-					root: what.css([
-						"left-1",
-						"top-1/2",
-						"-translate-y-1/2",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					orientation: "vertical",
-					align: "right",
-				}),
-				{
-					root: what.css([
-						"right-1",
-						"top-1/2",
-						"-translate-y-1/2",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					active: true,
-				}),
-				{
-					item: what.css([
-						"scale-125",
-						"opacity-100",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					active: false,
-				}),
-				{
-					item: what.css([
-						"opacity-60",
-						"hover:opacity-90",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					first: true,
-				}),
-				{
-					first: what.token([
-						"snapper.nav.edge.disabled",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					first: false,
-				}),
-				{
-					first: what.token([
-						"snapper.nav.edge.enabled",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					last: true,
-				}),
-				{
-					last: what.token([
-						"snapper.nav.edge.disabled",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					last: false,
-				}),
-				{
-					last: what.token([
-						"snapper.nav.edge.enabled",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
+			],
+		},
+	})
+	.root({
+		root: {
+			class: [
+				"SnapperNav-root",
+				"absolute",
+				"z-20",
+				"pointer-events-none",
+				"bg-white/70",
+			],
+			token: [
+				"square.sm",
+				"round.lg",
+			],
+		},
+		items: {
+			class: [
+				"SnapperNav-items",
+				"gap-4",
+				"flex",
+				"items-center",
+				"justify-center",
+			],
+		},
+		item: {
+			class: [
+				"pointer-events-auto",
+				"select-none",
+				"transition",
+				"cursor-pointer",
+			],
+		},
+		first: {
+			token: [
+				"snapper.nav.edge.common",
+			],
+		},
+		last: {
+			token: [
+				"snapper.nav.edge.common",
+			],
+		},
+	})
+	.match("orientation", "vertical", {
+		items: {
+			class: [
+				"flex-col",
+			],
+		},
+	})
+	.match("orientation", "horizontal", {
+		root: {
+			class: [
+				"bottom-4",
+				"left-1/2",
+				"-translate-x-1/2",
+			],
+		},
+		items: {
+			class: [
+				"flex-row",
+			],
+		},
+	})
+	.rule(
+		{
+			orientation: "vertical",
+			align: "left",
+		},
+		{
+			root: {
+				class: [
+					"left-1",
+					"top-1/2",
+					"-translate-y-1/2",
+				],
+			},
+		},
+	)
+	.rule(
+		{
 			orientation: "vertical",
 			align: "right",
-			active: false,
-			first: false,
-			last: false,
-		}),
-	}),
-);
+		},
+		{
+			root: {
+				class: [
+					"right-1",
+					"top-1/2",
+					"-translate-y-1/2",
+				],
+			},
+		},
+	)
+	.switch(
+		"active",
+		{
+			item: {
+				class: [
+					"scale-125",
+					"opacity-100",
+				],
+			},
+		},
+		{
+			item: {
+				class: [
+					"opacity-60",
+					"hover:opacity-90",
+				],
+			},
+		},
+	)
+	.switch(
+		"first",
+		{
+			first: {
+				token: [
+					"snapper.nav.edge.disabled",
+				],
+			},
+		},
+		{
+			first: {
+				token: [
+					"snapper.nav.edge.enabled",
+				],
+			},
+		},
+	)
+	.switch(
+		"last",
+		{
+			last: {
+				token: [
+					"snapper.nav.edge.disabled",
+				],
+			},
+		},
+		{
+			last: {
+				token: [
+					"snapper.nav.edge.enabled",
+				],
+			},
+		},
+	)
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		orientation: "vertical",
+		align: "right",
+		active: false,
+		first: false,
+		last: false,
+	})
+	.cls();
 
 export type SnapperNavCls = typeof SnapperNavCls;
 

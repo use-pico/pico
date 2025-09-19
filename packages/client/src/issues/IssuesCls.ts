@@ -1,79 +1,75 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const IssuesCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"item",
-		],
-		variant: {
-			type: [
-				"info",
-				"warning",
-				"error",
+export const IssuesCls = contract(PicoCls.contract)
+	.slot("item")
+	.variant("type", [
+		"info",
+		"warning",
+		"error",
+	])
+	.def()
+	.root({
+		item: {
+			class: [
+				"Issues-item",
+				"text-md",
+			],
+			token: [
+				"border.default",
+				"round.default",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: {},
-		rules: [
-			def.root({
-				item: what.both(
-					[
-						"Issues-item",
-						"text-md",
-					],
-					[
-						"border.default",
-						"round.default",
-					],
-				),
-			}),
-			def.rule(
-				what.variant({
-					type: "info",
-				}),
-				{
-					item: what.token([
-						"tone.primary.light.text",
-						"tone.primary.light.bg",
-						"tone.primary.light.border",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					type: "warning",
-				}),
-				{
-					item: what.token([
-						"tone.secondary.light.text",
-						"tone.secondary.light.bg",
-						"tone.secondary.light.border",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					type: "error",
-				}),
-				{
-					item: what.token([
-						"tone.danger.light.text",
-						"tone.danger.light.bg",
-						"tone.danger.light.border",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
+	})
+	.rule(
+		{
 			type: "info",
-		}),
-	}),
-);
+		},
+		{
+			item: {
+				token: [
+					"tone.primary.light.text",
+					"tone.primary.light.bg",
+					"tone.primary.light.border",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			type: "warning",
+		},
+		{
+			item: {
+				token: [
+					"tone.secondary.light.text",
+					"tone.secondary.light.bg",
+					"tone.secondary.light.border",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			type: "error",
+		},
+		{
+			item: {
+				token: [
+					"tone.danger.light.text",
+					"tone.danger.light.bg",
+					"tone.danger.light.border",
+				],
+			},
+		},
+	)
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		type: "info",
+	})
+	.cls();
 
 export type IssuesCls = typeof IssuesCls;
 

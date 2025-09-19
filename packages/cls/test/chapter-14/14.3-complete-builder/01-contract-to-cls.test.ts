@@ -81,14 +81,14 @@ describe("14.3 Complete Builder - Contract to CLS", () => {
 				size: "sm",
 			}),
 		}));
-		expect(smallInstance.root()).toContain("px-2 py-1");
+		expect(smallInstance.root()).toBe("bg-blue-500 text-white px-2 py-1");
 
 		const largeInstance = Button.create(({ what }) => ({
 			variant: what.variant({
 				size: "lg",
 			}),
 		}));
-		expect(largeInstance.root()).toContain("px-6 py-3");
+		expect(largeInstance.root()).toBe("bg-blue-500 text-white px-6 py-3");
 
 		// Verify the CLS instance has proper structure
 		expect(Button).toBeDefined();

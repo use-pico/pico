@@ -1,49 +1,42 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { IconCls } from "../icon/IconCls";
 
-export const BoolInlineCls = IconCls.extend(
-	{
-		tokens: [],
-		slot: [],
-		variant: {
-			value: [
-				"bool",
-			],
+export const BoolInlineCls = contract(IconCls.contract)
+	.bool("value")
+	.def()
+	.rule(
+		{
+			value: true,
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.rule(
-				what.variant({
-					value: true,
-				}),
-				{
-					root: what.token([
-						"tone.secondary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					value: false,
-				}),
-				{
-					root: what.token([
-						"tone.warning.light.text",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			disabled: false,
-			size: "md",
+		{
+			root: {
+				token: [
+					"tone.secondary.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
 			value: false,
-		}),
-	}),
-);
+		},
+		{
+			root: {
+				token: [
+					"tone.warning.light.text",
+				],
+			},
+		},
+	)
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		disabled: false,
+		size: "md",
+		value: false,
+	})
+	.cls();
 
 export type BoolInlineCls = typeof BoolInlineCls;
 

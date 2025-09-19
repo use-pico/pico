@@ -1,81 +1,68 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const TitlePreviewCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-			"title",
-			"subtitle",
-		],
-		variant: {
-			withSubtitle: [
-				"bool",
+export const TitlePreviewCls = contract(PicoCls.contract)
+	.slots([
+		"root",
+		"title",
+		"subtitle",
+	])
+	.bool("withSubtitle")
+	.def()
+	.root({
+		root: {
+			class: [
+				"TitlePreview-root",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+			],
+			token: [
+				"square.sm",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.root({
-				root: what.both(
-					[
-						"TitlePreview-root",
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-					],
-					[
-						"square.sm",
-					],
-				),
-				title: what.both(
-					[
-						"TitlePreview-title",
-						"flex",
-						"flex-row",
-						"gap-2",
-						"items-center",
-						"font-bold",
-					],
-					[
-						"tone.neutral.light.text",
-					],
-				),
-				subtitle: what.css([
-					"TitlePreview-subtitle",
-					"flex",
-					"flex-row",
-					"gap-4",
-					"items-center",
-				]),
-			}),
-			def.rule(
-				what.variant({
-					withSubtitle: true,
-				}),
-				{
-					title: what.both(
-						[
-							"border-r",
-							"pr-2",
-						],
-						[
-							"tone.neutral.light.border",
-						],
-					),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			withSubtitle: false,
-		}),
-	}),
-);
+		title: {
+			class: [
+				"TitlePreview-title",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
+				"font-bold",
+			],
+			token: [
+				"tone.neutral.light.text",
+			],
+		},
+		subtitle: {
+			class: [
+				"TitlePreview-subtitle",
+				"flex",
+				"flex-row",
+				"gap-4",
+				"items-center",
+			],
+		},
+	})
+	.match("withSubtitle", true, {
+		title: {
+			class: [
+				"border-r",
+				"pr-2",
+			],
+			token: [
+				"tone.neutral.light.border",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		withSubtitle: false,
+	})
+	.cls();
 
 export type TitlePreviewCls = typeof TitlePreviewCls;
 

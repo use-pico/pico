@@ -1,261 +1,260 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const IconCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-		],
-		variant: {
-			size: [
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			],
-			disabled: [
-				"bool",
+export const IconCls = contract(PicoCls.contract)
+	.slot("root")
+	.variant("size", [
+		"xs",
+		"sm",
+		"md",
+		"lg",
+		"xl",
+	])
+	.bool("disabled")
+	.def()
+	.root({
+		root: {
+			class: [
+				"Icon-root",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.root({
-				root: what.css([
-					"Icon-root",
-				]),
-			}),
-			/**
-			 * Size rules
-			 */
-			def.rule(
-				what.variant({
-					size: "xs",
-				}),
-				{
-					root: what.token([
-						"inner-icon.xs",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "sm",
-				}),
-				{
-					root: what.token([
-						"inner-icon.sm",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "md",
-				}),
-				{
-					root: what.token([
-						"inner-icon.md",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "lg",
-				}),
-				{
-					root: what.token([
-						"inner-icon.lg",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					size: "xl",
-				}),
-				{
-					root: what.token([
-						"inner-icon.xl",
-					]),
-				},
-			),
-			/**
-			 * Tone rules
-			 */
-			def.rule(
-				what.variant({
-					tone: "primary",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.primary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "primary",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.primary.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "secondary",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.secondary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "secondary",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.secondary.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "danger",
-				}),
-				{
-					root: what.token([
-						"tone.danger.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "danger",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.danger.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "warning",
-				}),
-				{
-					root: what.token([
-						"tone.warning.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "warning",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.warning.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "neutral",
-				}),
-				{
-					root: what.token([
-						"tone.neutral.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "neutral",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.neutral.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "subtle",
-				}),
-				{
-					root: what.token([
-						"tone.subtle.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "subtle",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.subtle.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "link",
-				}),
-				{
-					root: what.token([
-						"tone.link.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "link",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.link.dark.text",
-					]),
-				},
-			),
-			/**
-			 * Disabled
-			 */
-			def.rule(
-				what.variant({
-					disabled: true,
-				}),
-				{
-					root: what.css([
-						"pointer-events-none",
-						"opacity-50",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
+	})
+	// Size rules
+	.match("size", "xs", {
+		root: {
+			token: [
+				"inner-icon.xs",
+			],
+		},
+	})
+	.match("size", "sm", {
+		root: {
+			token: [
+				"inner-icon.sm",
+			],
+		},
+	})
+	.match("size", "md", {
+		root: {
+			token: [
+				"inner-icon.md",
+			],
+		},
+	})
+	.match("size", "lg", {
+		root: {
+			token: [
+				"inner-icon.lg",
+			],
+		},
+	})
+	.match("size", "xl", {
+		root: {
+			token: [
+				"inner-icon.xl",
+			],
+		},
+	})
+	// Tone rules (always include theme)
+	.rule(
+		{
 			tone: "primary",
 			theme: "light",
-			size: "md",
-			disabled: false,
-		}),
-	}),
-);
+		},
+		{
+			root: {
+				token: [
+					"tone.primary.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "primary",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.primary.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "secondary",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.secondary.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "secondary",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.secondary.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "danger",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.danger.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "danger",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.danger.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "warning",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.warning.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "warning",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.warning.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "neutral",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.neutral.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "neutral",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.neutral.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "subtle",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.subtle.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "subtle",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.subtle.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "link",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.link.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "link",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.link.dark.text",
+				],
+			},
+		},
+	)
+	// Disabled
+	.match("disabled", true, {
+		root: {
+			class: [
+				"pointer-events-none",
+				"opacity-50",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		size: "md",
+		disabled: false,
+	})
+	.cls();
 
 export type IconCls = typeof IconCls;
 

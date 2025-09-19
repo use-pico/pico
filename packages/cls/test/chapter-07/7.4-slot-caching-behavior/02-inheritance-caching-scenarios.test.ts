@@ -183,19 +183,15 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 
 		// Base button should have its own slot functions
 		const baseRoot = baseButton.root();
-		expect(baseRoot).toContain("inline-flex");
-		expect(baseRoot).toContain("items-center");
-		expect(baseRoot).toContain("bg-gray-100");
-		expect(baseRoot).toContain("text-gray-900");
+		expect(baseRoot).toBe(
+			"bg-gray-100 text-gray-900 inline-flex items-center",
+		);
 
 		// Extended button should have different slot functions (inherited but extended)
 		const extendedRoot = extendedButton.root();
-		expect(extendedRoot).toContain("inline-flex");
-		expect(extendedRoot).toContain("items-center");
-		expect(extendedRoot).toContain("bg-gray-100");
-		expect(extendedRoot).toContain("text-gray-900");
-		expect(extendedRoot).toContain("rounded-md");
-		expect(extendedRoot).toContain("font-medium");
+		expect(extendedRoot).toBe(
+			"bg-gray-100 text-gray-900 inline-flex items-center rounded-md font-medium",
+		);
 		// Note: The spacing tokens are defined but not applied by default
 		// They only get applied when specific size variants are used
 
@@ -210,16 +206,9 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 				loading: true,
 			}),
 		}));
-		expect(dynamicExtendedRoot).toContain("inline-flex");
-		expect(dynamicExtendedRoot).toContain("items-center");
-		expect(dynamicExtendedRoot).toContain("bg-red-600");
-		expect(dynamicExtendedRoot).toContain("text-white");
-		expect(dynamicExtendedRoot).toContain("rounded-md");
-		expect(dynamicExtendedRoot).toContain("font-medium");
-		expect(dynamicExtendedRoot).toContain("px-6");
-		expect(dynamicExtendedRoot).toContain("py-3");
-		expect(dynamicExtendedRoot).toContain("opacity-75");
-		expect(dynamicExtendedRoot).toContain("cursor-not-allowed");
+		expect(dynamicExtendedRoot).toBe(
+			"inline-flex items-center rounded-md font-medium px-6 py-3 bg-red-600 text-white opacity-75 cursor-not-allowed",
+		);
 
 		// Test that the dynamic call result is cached for the same parameters
 		const secondDynamicCall = extendedButton.root(({ what }) => ({
@@ -238,12 +227,9 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 				size: "sm",
 			}),
 		}));
-		expect(differentDynamicCall).toContain("inline-flex");
-		expect(differentDynamicCall).toContain("items-center");
-		expect(differentDynamicCall).toContain("bg-blue-600");
-		expect(differentDynamicCall).toContain("text-white");
-		expect(differentDynamicCall).toContain("rounded-md");
-		expect(differentDynamicCall).toContain("font-medium");
+		expect(differentDynamicCall).toBe(
+			"inline-flex items-center bg-blue-600 text-white rounded-md font-medium",
+		);
 		// Note: The spacing tokens are defined but not automatically applied
 		// They only get applied when explicitly referenced in rules
 

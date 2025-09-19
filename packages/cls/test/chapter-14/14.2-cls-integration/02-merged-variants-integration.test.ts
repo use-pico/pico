@@ -89,7 +89,7 @@ describe("14.2 CLS Integration - Merged Variants Integration", () => {
 
 		// Test default instance
 		const defaultInstance = Component.create();
-		expect(defaultInstance.wrapper()).toContain("bg-blue-600");
+		expect(defaultInstance.wrapper()).toBe("bg-blue-600");
 
 		// Test merged variant values work
 		const dangerInstance = Component.create(({ what }) => ({
@@ -97,20 +97,20 @@ describe("14.2 CLS Integration - Merged Variants Integration", () => {
 				tone: "danger", // This should work with merged values
 			}),
 		}));
-		expect(dangerInstance.wrapper()).toContain("bg-red-500");
+		expect(dangerInstance.wrapper()).toBe("bg-red-500");
 
 		const successInstance = Component.create(({ what }) => ({
 			variant: what.variant({
 				tone: "success", // This should work with merged values
 			}),
 		}));
-		expect(successInstance.wrapper()).toContain("bg-green-500");
+		expect(successInstance.wrapper()).toBe("bg-green-500");
 
 		const largeInstance = Component.create(({ what }) => ({
 			variant: what.variant({
 				size: "lg", // This should work with merged values
 			}),
 		}));
-		expect(largeInstance.wrapper()).toContain("text-lg");
+		expect(largeInstance.wrapper()).toBe("bg-blue-600 text-lg");
 	});
 });

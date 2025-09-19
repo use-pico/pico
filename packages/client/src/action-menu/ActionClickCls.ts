@@ -1,23 +1,16 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { ActionCls } from "./ActionCls";
 
-export const ActionClickCls = ActionCls.extend(
-	{
-		tokens: [],
-		slot: [],
-		variant: {},
-	},
-	({ def }) => ({
-		token: def.token({}),
-		rules: [],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			loading: false,
-			disabled: false,
-		}),
-	}),
-);
+export const ActionClickCls = contract(ActionCls.contract)
+	.def()
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		loading: false,
+		disabled: false,
+	})
+	.cls();
 
 export type ActionClickCls = typeof ActionClickCls;
 

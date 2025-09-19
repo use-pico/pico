@@ -26,9 +26,14 @@ describe("14.4 Definition Builder - Empty Contract Valid", () => {
 			})
 			.cls();
 
-		// Child contract inheriting from parent should work with short chain
+		// Child contract inheriting from parent should require defaults (parent has variants)
 		expect(() => {
-			const Component = contract(ParentCls.contract).def().cls();
+			const Component = contract(ParentCls.contract)
+				.def()
+				.defaults({
+					foo: "bar",
+				})
+				.cls();
 
 			expect(Component).toBeDefined();
 		}).not.toThrow();

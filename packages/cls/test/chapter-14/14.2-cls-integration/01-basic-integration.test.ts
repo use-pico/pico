@@ -74,7 +74,7 @@ describe("14.2 CLS Integration - Basic Integration", () => {
 				size: "sm",
 			}),
 		}));
-		expect(smallInstance.root()).toContain("px-2 py-1");
+		expect(smallInstance.root()).toBe("bg-blue-500 text-white px-2 py-1");
 
 		// Verify contract reference
 		expect(Button.contract).toBe(result);

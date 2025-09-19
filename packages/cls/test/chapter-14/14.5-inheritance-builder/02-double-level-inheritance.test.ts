@@ -199,21 +199,18 @@ describe("14.5 Inheritance Builder - Double Level", () => {
 
 		// Test level 1 (Theme)
 		const themeSlots = ThemeCls.create();
-		expect(themeSlots.root()).toContain("text-gray-900"); // color.base
-		expect(themeSlots.root()).toContain("p-1"); // spacing.unit
+		expect(themeSlots.root()).toBe("text-gray-900 p-1");
 
 		const themeDark = ThemeCls.create(({ what }) => ({
 			variant: what.variant({
 				theme: "dark",
 			}),
 		}));
-		expect(themeDark.root()).toContain("bg-gray-900"); // theme: dark rule
+		expect(themeDark.root()).toBe("text-gray-900 p-1 bg-gray-900");
 
 		// Test level 2 (Component)
 		const componentSlots = ComponentCls.create();
-		expect(componentSlots.root()).toContain("text-gray-800"); // overridden color.base
-		expect(componentSlots.root()).toContain("p-1"); // inherited spacing.unit
-		expect(componentSlots.root()).toContain("border"); // root rule
+		expect(componentSlots.root()).toBe("text-gray-800 p-1 border rounded");
 		expect(componentSlots.content).toBeDefined();
 
 		const componentLarge = ComponentCls.create(({ what }) => ({
@@ -221,8 +218,9 @@ describe("14.5 Inheritance Builder - Double Level", () => {
 				size: "lg",
 			}),
 		}));
-		expect(componentLarge.root()).toContain("text-lg"); // size: lg rule
-		expect(componentLarge.root()).toContain("p-1"); // spacing.unit in rule
+		expect(componentLarge.root()).toBe(
+			"text-gray-800 border rounded p-1 text-lg",
+		);
 
 		// Test level 3 (Button)
 		const buttonSlots = ButtonCls.create();

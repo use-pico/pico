@@ -69,7 +69,7 @@ describe("14.2 CLS Integration - Type Safety Integration", () => {
 
 		// Test functionality with type safety
 		const instance = Component.create();
-		expect(instance.root()).toContain("bg-blue-600");
+		expect(instance.root()).toBe("bg-blue-600 text-white");
 		expect(instance.content()).toBe("p-4");
 
 		// Test merged variant values
@@ -78,7 +78,7 @@ describe("14.2 CLS Integration - Type Safety Integration", () => {
 				size: "large", // This value came from merging
 			}),
 		}));
-		expect(largeInstance.root()).toContain("bg-blue-600");
+		expect(largeInstance.root()).toBe("bg-blue-600 text-white");
 
 		// Test boolean variant
 		const disabledInstance = Component.create(({ what }) => ({
@@ -86,7 +86,9 @@ describe("14.2 CLS Integration - Type Safety Integration", () => {
 				disabled: true,
 			}),
 		}));
-		expect(disabledInstance.root()).toContain("opacity-50");
+		expect(disabledInstance.root()).toBe(
+			"bg-blue-600 text-white opacity-50",
+		);
 
 		// Verify contract structure
 		expect(Component.contract).toBe(result);

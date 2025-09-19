@@ -102,8 +102,7 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 		const button = screen.getByRole?.("button");
 		expect(button).toBeInTheDocument();
 		// Button should pick up overridden tokens from CustomTheme
-		expect(button.className).toContain("bg-red-600");
-		expect(button.className).toContain("text-black");
+		expect(button.className).toBe("bg-red-600 text-black");
 		// And should not contain base Theme defaults
 		expect(button.className).not.toContain?.("bg-blue-600");
 		expect(button.className).not.toContain?.("text-white");

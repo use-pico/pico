@@ -3,6 +3,7 @@ import type { ContractBuilder } from "../types/ContractBuilder";
 import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
 import type { Variant } from "../types/Variant";
+import { dedupeConcat } from "../utils/dedupe";
 import { mergeVariants } from "../utils/mergeVariants";
 import { definition } from "./definition";
 
@@ -21,40 +22,32 @@ function builder<
 		tokens(tokens) {
 			return builder({
 				...state,
-				tokens: [
-					...state.tokens,
-					...tokens,
-				],
+				tokens: dedupeConcat(state.tokens, tokens),
 			});
 		},
 
 		token(token) {
 			return builder({
 				...state,
-				tokens: [
-					...state.tokens,
+				tokens: dedupeConcat(state.tokens, [
 					token,
-				],
+				] as const),
 			});
 		},
 
 		slots(slots) {
 			return builder({
 				...state,
-				slot: [
-					...state.slot,
-					...slots,
-				],
+				slot: dedupeConcat(state.slot, slots),
 			});
 		},
 
 		slot(slot) {
 			return builder({
 				...state,
-				slot: [
-					...state.slot,
+				slot: dedupeConcat(state.slot, [
 					slot,
-				],
+				] as const),
 			});
 		},
 

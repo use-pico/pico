@@ -1,49 +1,38 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const MenuCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-		],
-		variant: {
-			vertical: [
-				"bool",
+export const MenuCls = contract(PicoCls.contract)
+	.slots([
+		"root",
+	])
+	.bool("vertical")
+	.def()
+	.root({
+		root: {
+			class: [
+				"Menu-root",
+				"flex",
+				"flex-row",
+				"gap-2",
+				"items-center",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: {},
-		rules: [
-			def.root({
-				root: what.css([
-					"Menu-root",
-					"flex",
-					"flex-row",
-					"gap-2",
-					"items-center",
-				]),
-			}),
-			def.rule(
-				what.variant({
-					vertical: true,
-				}),
-				{
-					root: what.css([
-						"flex-col",
-						"items-start",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			tone: "primary",
-			theme: "light",
-			vertical: false,
-		}),
-	}),
-);
+	})
+	.match("vertical", true, {
+		root: {
+			class: [
+				"flex-col",
+				"items-start",
+			],
+		},
+	})
+	.defaults({
+		tone: "primary",
+		theme: "light",
+		vertical: false,
+	})
+	.cls();
 
 export type MenuCls = typeof MenuCls;
 

@@ -35,7 +35,7 @@ export namespace ContractBuilder {
 		TUse extends Contract.Any | unknown = unknown,
 	> {
 		/**
-		 * Add multiple tokens (can be called multiple times, tokens accumulate)
+		 * Add multiple tokens (can be called multiple times, tokens accumulate with deduplication)
 		 */
 		tokens<const TNewTokens extends Token.Type>(
 			tokens: TNewTokens,
@@ -50,7 +50,7 @@ export namespace ContractBuilder {
 		>;
 
 		/**
-		 * Add a single token (can be called multiple times, tokens accumulate)
+		 * Add a single token (can be called multiple times, tokens accumulate with deduplication)
 		 */
 		token<const TNewToken extends string>(
 			token: TNewToken,
@@ -65,7 +65,7 @@ export namespace ContractBuilder {
 		>;
 
 		/**
-		 * Add multiple slots (can be called multiple times, slots accumulate)
+		 * Add multiple slots (can be called multiple times, slots accumulate with deduplication)
 		 */
 		slots<const TNewSlots extends Slot.Type>(
 			slots: TNewSlots,
@@ -80,7 +80,7 @@ export namespace ContractBuilder {
 		>;
 
 		/**
-		 * Add a single slot (can be called multiple times, slots accumulate)
+		 * Add a single slot (can be called multiple times, slots accumulate with deduplication)
 		 */
 		slot<const TNewSlot extends string>(
 			slot: TNewSlot,

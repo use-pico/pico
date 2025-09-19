@@ -1,297 +1,288 @@
 import type { Cls } from "@use-pico/cls";
+import { contract } from "@use-pico/cls";
 import { PicoCls } from "../cls/PicoCls";
 
-export const TypoCls = PicoCls.extend(
-	{
-		tokens: [],
-		slot: [
-			"root",
-		],
-		variant: {
-			size: [
-				"unset",
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-			],
-			font: [
-				"unset",
-				"normal",
-				"semi",
-				"bold",
-			],
-			italic: [
-				"bool",
+export const TypoCls = contract(PicoCls.contract)
+	.slots([
+		"root",
+	])
+	.variant("size", [
+		"unset",
+		"xs",
+		"sm",
+		"md",
+		"lg",
+		"xl",
+	])
+	.variant("font", [
+		"unset",
+		"normal",
+		"semi",
+		"bold",
+	])
+	.bool("italic")
+	.def()
+	.root({
+		root: {
+			class: [
+				"Typo-root",
 			],
 		},
-	},
-	({ what, def }) => ({
-		token: def.token({}),
-		rules: [
-			def.root({
-				root: what.css([
-					"Typo-root",
-				]),
-			}),
-			def.rule(
-				{
-					size: "xs",
-				},
-				{
-					root: what.css([
-						"text-xs",
-					]),
-				},
-			),
-			def.rule(
-				{
-					size: "sm",
-				},
-				{
-					root: what.css([
-						"text-sm",
-					]),
-				},
-			),
-			def.rule(
-				{
-					size: "md",
-				},
-				{
-					root: what.css([
-						"text-base",
-					]),
-				},
-			),
-			def.rule(
-				{
-					size: "lg",
-				},
-				{
-					root: what.css([
-						"text-lg",
-					]),
-				},
-			),
-			def.rule(
-				{
-					size: "xl",
-				},
-				{
-					root: what.css([
-						"text-xl",
-					]),
-				},
-			),
-			def.rule(
-				{
-					font: "normal",
-				},
-				{
-					root: what.css([
-						"font-normal",
-					]),
-				},
-			),
-			def.rule(
-				{
-					font: "semi",
-				},
-				{
-					root: what.css([
-						"font-semibold",
-					]),
-				},
-			),
-			def.rule(
-				{
-					font: "bold",
-				},
-				{
-					root: what.css([
-						"font-bold",
-					]),
-				},
-			),
-			/**
-			 * Tone rules with theme control
-			 */
-			def.rule(
-				what.variant({
-					tone: "primary",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.primary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "primary",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.primary.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "secondary",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.secondary.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "secondary",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.secondary.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "danger",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.danger.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "danger",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.danger.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "warning",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.warning.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "warning",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.warning.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "neutral",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.neutral.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "neutral",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.neutral.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "subtle",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.subtle.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "subtle",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.subtle.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "link",
-					theme: "light",
-				}),
-				{
-					root: what.token([
-						"tone.link.light.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					tone: "link",
-					theme: "dark",
-				}),
-				{
-					root: what.token([
-						"tone.link.dark.text",
-					]),
-				},
-			),
-			def.rule(
-				what.variant({
-					italic: true,
-				}),
-				{
-					root: what.css([
-						"italic",
-					]),
-				},
-			),
-		],
-		defaults: def.defaults({
-			size: "unset",
-			font: "unset",
-			tone: "unset",
-			theme: "unset",
-			italic: false,
-		}),
-	}),
-);
+	})
+	.match("size", "xs", {
+		root: {
+			class: [
+				"text-xs",
+			],
+		},
+	})
+	.match("size", "sm", {
+		root: {
+			class: [
+				"text-sm",
+			],
+		},
+	})
+	.match("size", "md", {
+		root: {
+			class: [
+				"text-base",
+			],
+		},
+	})
+	.match("size", "lg", {
+		root: {
+			class: [
+				"text-lg",
+			],
+		},
+	})
+	.match("size", "xl", {
+		root: {
+			class: [
+				"text-xl",
+			],
+		},
+	})
+	.match("font", "normal", {
+		root: {
+			class: [
+				"font-normal",
+			],
+		},
+	})
+	.match("font", "semi", {
+		root: {
+			class: [
+				"font-semibold",
+			],
+		},
+	})
+	.match("font", "bold", {
+		root: {
+			class: [
+				"font-bold",
+			],
+		},
+	})
+	// Tone rules with theme control
+	.rule(
+		{
+			tone: "primary",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.primary.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "primary",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.primary.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "secondary",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.secondary.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "secondary",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.secondary.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "danger",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.danger.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "danger",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.danger.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "warning",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.warning.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "warning",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.warning.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "neutral",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.neutral.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "neutral",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.neutral.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "subtle",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.subtle.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "subtle",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.subtle.dark.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "link",
+			theme: "light",
+		},
+		{
+			root: {
+				token: [
+					"tone.link.light.text",
+				],
+			},
+		},
+	)
+	.rule(
+		{
+			tone: "link",
+			theme: "dark",
+		},
+		{
+			root: {
+				token: [
+					"tone.link.dark.text",
+				],
+			},
+		},
+	)
+	.match("italic", true, {
+		root: {
+			class: [
+				"italic",
+			],
+		},
+	})
+	.defaults({
+		size: "unset",
+		font: "unset",
+		tone: "unset",
+		theme: "unset",
+		italic: false,
+	})
+	.cls();
 
 export type TypoCls = typeof TypoCls;
 

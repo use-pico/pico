@@ -113,7 +113,6 @@ describe("13.1 Utility Functions - withVariants - Basic Variant Computation", ()
 
 		// Verify that the create method still works and produces the same result
 		const createResult = slots.root();
-		expect(createResult).toContain("px-6");
-		expect(createResult).toContain("py-3");
+		expect(createResult).toBe("px-6 py-3");
 	});
 });
