@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/complex/three-variants-config-root-override-and-local-icon-override", () => {
 	it("config overrides root; local overrides icon; variants still decide matches", () => {
-		const $c = cls(
+		const $cls = cls(
 			{
 				tokens: [
 					"text",
@@ -104,7 +104,7 @@ describe("cls/complex/three-variants-config-root-override-and-local-icon-overrid
 			},
 		);
 
-		const { slots } = $c.create(
+		const { slots } = $cls.create(
 			{},
 			{
 				override: {

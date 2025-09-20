@@ -1,33 +1,39 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", () => {
-	it("t1 -> t2 -> t3; config overlay on t1 removes expansion in all slots", () => {
+describe("cls/complex/multi-slot-dual-refs-config-root-overlay-user-leaf", () => {
+	it("root t1,t6; icon t6,t1; config overlays t1; user overlays t2", () => {
 		const $cls = cls(
 			{
 				tokens: [
 					"t1",
 					"t2",
 					"t3",
+					"t4",
+					"t6",
 				],
 				slot: [
 					"root",
 					"icon",
-					"label",
 				],
 				variant: {},
 			},
 			{
 				token: {
+					t4: {
+						class: [
+							"a4",
+						],
+					},
 					t3: {
+						token: [
+							"t4",
+						],
 						class: [
 							"a3",
 						],
 					},
 					t2: {
-						token: [
-							"t3",
-						],
 						class: [
 							"a2",
 						],
@@ -35,9 +41,15 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 					t1: {
 						token: [
 							"t2",
+							"t3",
 						],
 						class: [
 							"a1",
+						],
+					},
+					t6: {
+						class: [
+							"a6",
 						],
 					},
 				},
@@ -49,7 +61,31 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 									"t1",
 								],
 								class: [
-									"b-root",
+									"b1",
+								],
+							},
+						},
+					},
+					{
+						slot: {
+							root: {
+								token: [
+									"t6",
+								],
+								class: [
+									"b6",
+								],
+							},
+						},
+					},
+					{
+						slot: {
+							icon: {
+								token: [
+									"t6",
+								],
+								class: [
+									"i6",
 								],
 							},
 						},
@@ -61,19 +97,7 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 									"t1",
 								],
 								class: [
-									"b-icon",
-								],
-							},
-						},
-					},
-					{
-						slot: {
-							label: {
-								token: [
-									"t1",
-								],
-								class: [
-									"b-label",
+									"i1",
 								],
 							},
 						},
@@ -84,20 +108,27 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 		);
 
 		const { slots } = $cls.create(
-			{},
+			{
+				token: {
+					t2: {
+						class: [
+							"USER2",
+						],
+					},
+				},
+			},
 			{
 				token: {
 					t1: {
 						class: [
-							"CONF-T1",
+							"CONF1",
 						],
 					},
 				},
 			},
 		);
 
-		expect(slots.root()).toBe("CONF-T1 b-root");
-		expect(slots.icon()).toBe("CONF-T1 b-icon");
-		expect(slots.label()).toBe("CONF-T1 b-label");
+		expect(slots.root()).toBe("CONF1 b1 a6 b6");
+		expect(slots.icon()).toBe("a6 i6 CONF1 i1");
 	});
 });

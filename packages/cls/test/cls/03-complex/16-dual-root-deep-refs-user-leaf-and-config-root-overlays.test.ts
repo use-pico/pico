@@ -1,33 +1,45 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", () => {
-	it("t1 -> t2 -> t3; config overlay on t1 removes expansion in all slots", () => {
-		const $cls = cls(
+describe("cls/complex/dual-root-deep-refs-user-leaf-and-config-root-overlays", () => {
+	it("t1->(t2,t3->(t4,t5)) and t7; user overlays t2; config overlays t7", () => {
+		const $c = cls(
 			{
 				tokens: [
 					"t1",
 					"t2",
 					"t3",
+					"t4",
+					"t5",
+					"t7",
 				],
 				slot: [
 					"root",
-					"icon",
-					"label",
 				],
 				variant: {},
 			},
 			{
 				token: {
+					t5: {
+						class: [
+							"a5",
+						],
+					},
+					t4: {
+						class: [
+							"a4",
+						],
+					},
 					t3: {
+						token: [
+							"t4",
+							"t5",
+						],
 						class: [
 							"a3",
 						],
 					},
 					t2: {
-						token: [
-							"t3",
-						],
 						class: [
 							"a2",
 						],
@@ -35,9 +47,15 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 					t1: {
 						token: [
 							"t2",
+							"t3",
 						],
 						class: [
 							"a1",
+						],
+					},
+					t7: {
+						class: [
+							"a7",
 						],
 					},
 				},
@@ -49,31 +67,19 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 									"t1",
 								],
 								class: [
-									"b-root",
+									"b1",
 								],
 							},
 						},
 					},
 					{
 						slot: {
-							icon: {
+							root: {
 								token: [
-									"t1",
+									"t7",
 								],
 								class: [
-									"b-icon",
-								],
-							},
-						},
-					},
-					{
-						slot: {
-							label: {
-								token: [
-									"t1",
-								],
-								class: [
-									"b-label",
+									"b7",
 								],
 							},
 						},
@@ -83,21 +89,27 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 			},
 		);
 
-		const { slots } = $cls.create(
-			{},
+		const { slots } = $c.create(
 			{
 				token: {
-					t1: {
+					t2: {
 						class: [
-							"CONF-T1",
+							"USER2",
+						],
+					},
+				},
+			},
+			{
+				token: {
+					t7: {
+						class: [
+							"CONF7",
 						],
 					},
 				},
 			},
 		);
 
-		expect(slots.root()).toBe("CONF-T1 b-root");
-		expect(slots.icon()).toBe("CONF-T1 b-icon");
-		expect(slots.label()).toBe("CONF-T1 b-label");
+		expect(slots.root()).toBe("USER2 a4 a5 a3 a1 b1 CONF7 b7");
 	});
 });

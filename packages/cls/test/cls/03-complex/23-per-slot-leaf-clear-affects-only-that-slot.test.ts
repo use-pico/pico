@@ -1,14 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", () => {
-	it("t1 -> t2 -> t3; config overlay on t1 removes expansion in all slots", () => {
+describe("cls/complex/per-slot-leaf-clear-affects-only-that-slot", () => {
+	it("clearing t2 on icon does not clear root or label chains", () => {
 		const $cls = cls(
 			{
 				tokens: [
 					"t1",
 					"t2",
-					"t3",
 				],
 				slot: [
 					"root",
@@ -19,15 +18,7 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 			},
 			{
 				token: {
-					t3: {
-						class: [
-							"a3",
-						],
-					},
 					t2: {
-						token: [
-							"t3",
-						],
 						class: [
 							"a2",
 						],
@@ -83,21 +74,19 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 			},
 		);
 
-		const { slots } = $cls.create(
-			{},
-			{
+		const { slots } = $cls.create();
+		expect(slots.root()).toBe("a2 a1 b-root");
+		expect(slots.label()).toBe("a2 a1 b-label");
+		expect(
+			slots.icon({
 				token: {
-					t1: {
-						class: [
-							"CONF-T1",
-						],
+					t2: {
+						class: [],
 					},
 				},
-			},
-		);
-
-		expect(slots.root()).toBe("CONF-T1 b-root");
-		expect(slots.icon()).toBe("CONF-T1 b-icon");
-		expect(slots.label()).toBe("CONF-T1 b-label");
+			}),
+		).toBe("a1 b-icon");
+		expect(slots.root()).toBe("a2 a1 b-root");
+		expect(slots.label()).toBe("a2 a1 b-label");
 	});
 });

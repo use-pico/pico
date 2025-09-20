@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/complex/variant-undefined-keeps-create-values-across-multiple-variants", () => {
 	it("create selects size=md,tone=dark,on=true; local undefined keeps those", () => {
-		const $c = cls(
+		const $cls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -116,7 +116,7 @@ describe("cls/complex/variant-undefined-keeps-create-values-across-multiple-vari
 			},
 		);
 
-		const { slots } = $c.create({
+		const { slots } = $cls.create({
 			variant: {
 				size: "md",
 				tone: "dark",

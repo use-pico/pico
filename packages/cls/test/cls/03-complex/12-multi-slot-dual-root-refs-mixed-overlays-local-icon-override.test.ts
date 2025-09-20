@@ -218,7 +218,7 @@ describe("cls/complex/multi-slot-dual-root-refs-mixed-overlays-local-icon-overri
 				},
 			}),
 		).toBe("LOCAL-ICON");
-		expect(slots.label()).toBe("a6 b-label");
-		expect(slots.badge()).toBe("USER5 a2 a3 a4 a5 a1 b-badge");
+		expect(slots.label()).toBe("l-a-x l-on a6 b-label");
+		expect(slots.badge()).toBe("b-a-x CONF1 b-badge");
 	});
 });

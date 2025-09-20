@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/complex/many-matching-rules-order-preserved-across-slots-no-override", () => {
 	it("five rules match; order should be preserved for root and icon", () => {
-		const $c = cls(
+		const $cls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -120,7 +120,7 @@ describe("cls/complex/many-matching-rules-order-preserved-across-slots-no-overri
 			},
 		);
 
-		const { slots } = $c.create();
+		const { slots } = $cls.create();
 		expect(slots.root()).toBe("r1 r2 r3 r4 base");
 		expect(slots.icon()).toBe("i1 i2 i3 i4 i-base");
 	});
