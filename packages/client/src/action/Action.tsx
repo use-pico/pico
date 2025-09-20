@@ -90,15 +90,15 @@ const BaseAction: FC<Action.Props> = ({
 		theme,
 	});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			loading,
 			size,
 			border,
 			...contextTone,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

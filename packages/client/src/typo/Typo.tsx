@@ -35,16 +35,14 @@ export const BaseTypo: FC<Typo.Props> = ({
 		theme,
 	});
 
-	console.log("Typo", contextTone);
-
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			size,
 			font,
 			italic,
 			...contextTone,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

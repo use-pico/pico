@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Merge Context Tokens", () => {
 	it("should merge context tokens with component configuration", () => {
@@ -28,54 +28,74 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.light",
-							"color.text.light",
-							"spacing.padding.md",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.light",
+									"color.text.light",
+									"spacing.padding.md",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							theme: "dark",
 						},
-						{
-							root: what.css([
-								"color.bg.dark",
-								"color.text.dark",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.dark",
+									"color.text.dark",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create button cls instance
@@ -97,64 +117,74 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							variant: "secondary",
 						},
-						{
-							root: what.css([
-								"color.bg.secondary",
-								"color.text.secondary",
-							]),
+						slot: {
+							root: {
+								class: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					variant: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		const Button: FC<{
 			children: string;
 			variant?: "primary" | "secondary";
 		}> = ({ children, variant = "primary" }) => {
-			const classes = useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+			const { slots } = useCls(ButtonCls, {
+				variant: {
 					variant,
-				}),
-			}));
-
-			if (!classes) {
-				return null;
-			}
+				},
+			});
 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={slots.root()}
 				>
 					{children}
 				</button>
@@ -163,9 +193,9 @@ describe("12.5 React Integration - Merge Context Tokens", () => {
 
 		// Render with context provider
 		render(
-			<ClsProvider value={ThemeCls}>
+			<ClsContext value={ThemeCls}>
 				<Button variant="secondary">Click me</Button>
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		const button = screen.getByRole?.("button");

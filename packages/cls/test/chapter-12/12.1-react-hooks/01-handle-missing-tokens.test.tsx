@@ -21,37 +21,43 @@ describe("12.1 React Hooks - Handle Missing Tokens", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		const { result } = renderHook(() =>
-			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ButtonCls, {
+				variant: {
 					color: "secondary",
-				}),
-			})),
+				},
+			}),
 		);
 
-		const classes = result.current;
+		const { slots } = result.current;
 
 		// Should handle missing tokens gracefully
-		expect(classes.root()).toBeDefined();
-		expect(typeof classes.root()).toBe("string");
+		expect(slots.root()).toBeDefined();
+		expect(typeof slots.root()).toBe("string");
 	});
 });

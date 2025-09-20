@@ -38,136 +38,178 @@ describe("12.1 React Hooks - Conditional Logic", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-100",
-					]),
-					"color.bg.warning": what.css([
-						"bg-yellow-100",
-					]),
-					"color.bg.error": what.css([
-						"bg-red-100",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.success": what.css([
-						"text-green-900",
-					]),
-					"color.text.warning": what.css([
-						"text-yellow-900",
-					]),
-					"color.text.error": what.css([
-						"text-red-900",
-					]),
-					"border.color.default": what.css([
-						"border-gray-300",
-					]),
-					"border.color.success": what.css([
-						"border-green-300",
-					]),
-					"border.color.warning": what.css([
-						"border-yellow-300",
-					]),
-					"border.color.error": what.css([
-						"border-red-300",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-100",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-100",
+						],
+					},
+					"color.bg.error": {
+						class: [
+							"bg-red-100",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-green-900",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-yellow-900",
+						],
+					},
+					"color.text.error": {
+						class: [
+							"text-red-900",
+						],
+					},
+					"border.color.default": {
+						class: [
+							"border-gray-300",
+						],
+					},
+					"border.color.success": {
+						class: [
+							"border-green-300",
+						],
+					},
+					"border.color.warning": {
+						class: [
+							"border-yellow-300",
+						],
+					},
+					"border.color.error": {
+						class: [
+							"border-red-300",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"border.color.default",
-						]),
-						message: what.token([
-							"color.text.default",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"border.color.default",
+								],
+							},
+							message: {
+								token: [
+									"color.text.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							type: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-								"border.color.success",
-							]),
-							message: what.token([
-								"color.text.success",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+									"border.color.success",
+								],
+							},
+							message: {
+								token: [
+									"color.text.success",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							type: "warning",
 						},
-						{
-							root: what.token([
-								"color.bg.warning",
-								"color.text.warning",
-								"border.color.warning",
-							]),
-							message: what.token([
-								"color.text.warning",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.warning",
+									"color.text.warning",
+									"border.color.warning",
+								],
+							},
+							message: {
+								token: [
+									"color.text.warning",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							type: "error",
 						},
-						{
-							root: what.token([
-								"color.bg.error",
-								"color.text.error",
-								"border.color.error",
-							]),
-							message: what.token([
-								"color.text.error",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.error",
+									"color.text.error",
+									"border.color.error",
+								],
+							},
+							message: {
+								token: [
+									"color.text.error",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							interactive: true,
 						},
-						{
-							root: what.css([
-								"cursor-pointer",
-								"hover:opacity-80",
-							]),
+						slot: {
+							root: {
+								class: [
+									"cursor-pointer",
+									"hover:opacity-80",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					type: "default",
 					interactive: false,
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test with conditional logic
 		const { result } = renderHook(() =>
-			useCls(ConditionalCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ConditionalCls, {
+				variant: {
 					type: "default",
 					interactive: false,
-				}),
-			})),
+				},
+			}),
 		);
 
-		const classes = result.current;
+		const { slots } = result.current;
 
 		// Should apply default styling
-		expect(classes.root()).toBe(
-			"bg-gray-100 text-gray-900 border-gray-300",
-		);
-		expect(classes.message()).toBe("text-gray-900");
+		expect(slots.root()).toBe("bg-gray-100 text-gray-900 border-gray-300");
+		expect(slots.message()).toBe("text-gray-900");
 	});
 });

@@ -13,24 +13,30 @@ describe("1.2 Token System Basics - Single Token Definition", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100");
 	});
 });

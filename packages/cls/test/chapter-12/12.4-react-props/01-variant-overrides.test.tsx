@@ -36,109 +36,137 @@ describe("12.4 React Props - Variant Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.bg.accent": what.css([
-						"bg-purple-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"color.text.accent": what.css([
-						"text-white",
-					]),
-					"spacing.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"spacing.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"spacing.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-purple-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-							"spacing.padding.md",
-						]),
-						label: what.css([
-							"color.text.primary",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+								],
+							},
+							label: {
+								token: [
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							variant: "secondary",
 						},
-						{
-							root: what.css([
-								"color.bg.secondary",
-								"color.text.secondary",
-								"spacing.padding.md",
-							]),
-							label: what.css([
-								"color.text.secondary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+									"spacing.padding.md",
+								],
+							},
+							label: {
+								token: [
+									"color.text.secondary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"spacing.padding.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"spacing.padding.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"spacing.padding.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"spacing.padding.lg",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					variant: "primary",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		const Button: FC<Cls.Props<typeof ButtonCls, PropsWithChildren>> = ({
 			tweak: userTweak,
 			children,
 		}) => {
-			const classes = useCls(ButtonCls, userTweak);
-
-			if (!classes) {
-				return null;
-			}
+			const { slots } = useCls(ButtonCls, userTweak);
 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={slots.root()}
 				>
-					<span className={classes.label()}>{children}</span>
+					<span className={slots.label()}>{children}</span>
 				</button>
 			);
 		};
@@ -146,12 +174,12 @@ describe("12.4 React Props - Variant Overrides", () => {
 		// Test with variant override
 		render(
 			<Button
-				tweak={({ what }) => ({
-					variant: what.variant({
+				tweak={{
+					variant: {
 						variant: "secondary" as const,
 						size: "lg" as const,
-					}),
-				})}
+					},
+				}}
 			>
 				Secondary Large Button
 			</Button>,

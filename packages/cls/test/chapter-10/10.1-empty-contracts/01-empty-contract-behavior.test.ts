@@ -10,11 +10,11 @@ describe("10.1 Empty Contracts", () => {
 				slot: [],
 				variant: {},
 			},
-			({ def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Verify that empty component can be created
@@ -26,7 +26,7 @@ describe("10.1 Empty Contracts", () => {
 		expect(EmptyComponent.contract.variant).toEqual({});
 
 		// Test that empty component can create instances
-		const emptyInstance = EmptyComponent.create();
+		const { slots: emptyInstance } = EmptyComponent.create();
 		expect(emptyInstance).toBeDefined();
 		// Since there are no slots, we can't call any slot methods
 
@@ -39,18 +39,22 @@ describe("10.1 Empty Contracts", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"p-4",
-							"bg-white",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"bg-white",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Verify minimal component behavior
@@ -61,7 +65,7 @@ describe("10.1 Empty Contracts", () => {
 		expect(MinimalComponent.contract.variant).toEqual({});
 
 		// Test that minimal component can create instances with styles
-		const minimalInstance = MinimalComponent.create();
+		const { slots: minimalInstance } = MinimalComponent.create();
 		expect(minimalInstance.root()).toBe("p-4 bg-white");
 
 		// Test with contract that has tokens but no variants
@@ -76,25 +80,33 @@ describe("10.1 Empty Contracts", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Verify token-only component behavior
@@ -104,7 +116,7 @@ describe("10.1 Empty Contracts", () => {
 		expect(TokenOnlyComponent.contract.variant).toEqual({});
 
 		// Test that token-only component can create instances
-		const tokenInstance = TokenOnlyComponent.create();
+		const { slots: tokenInstance } = TokenOnlyComponent.create();
 		expect(tokenInstance.root()).toBe("bg-gray-100 text-gray-900");
 
 		// Test with contract that has variants but no tokens
@@ -122,39 +134,47 @@ describe("10.1 Empty Contracts", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"p-4",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"p-4",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"p-2",
-							]),
+						slot: {
+							root: {
+								class: [
+									"p-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"p-6",
-							]),
+						slot: {
+							root: {
+								class: [
+									"p-6",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Verify variant-only component behavior
@@ -166,18 +186,18 @@ describe("10.1 Empty Contracts", () => {
 		]);
 
 		// Test that variant-only component can create instances with variants
-		const smallInstance = VariantOnlyComponent.create(() => ({
+		const { slots: smallInstance } = VariantOnlyComponent.create({
 			variant: {
 				size: "sm",
 			},
-		}));
+		});
 		expect(smallInstance.root()).toBe("p-2");
 
-		const largeInstance = VariantOnlyComponent.create(() => ({
+		const { slots: largeInstance } = VariantOnlyComponent.create({
 			variant: {
 				size: "lg",
 			},
-		}));
+		});
 		expect(largeInstance.root()).toBe("p-6");
 
 		// Test extending empty components
@@ -191,21 +211,27 @@ describe("10.1 Empty Contracts", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-blue-500",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Verify that extending empty component works
@@ -215,7 +241,7 @@ describe("10.1 Empty Contracts", () => {
 		]);
 
 		// Test that extended empty component can create instances
-		const extendedInstance = ExtendedEmpty.create();
+		const { slots: extendedInstance } = ExtendedEmpty.create();
 		expect(extendedInstance.root()).toBe("bg-blue-500");
 
 		// Test using empty components
@@ -229,22 +255,26 @@ describe("10.1 Empty Contracts", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"p-4",
-							"bg-white",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"bg-white",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Test that extended empty component with slots works
-		const extendedWithSlotsInstance = ExtendedWithSlots.create();
+		const { slots: extendedWithSlotsInstance } = ExtendedWithSlots.create();
 		expect(extendedWithSlotsInstance.root()).toBe("p-4 bg-white");
 	});
 });

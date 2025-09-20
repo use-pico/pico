@@ -447,62 +447,62 @@ describe("14.5 Inheritance Builder - Triple Level", () => {
 			.cls();
 
 		// Test Level 1 (Foundation)
-		const foundationSlots = FoundationCls.create();
+		const { slots: foundationSlots } = FoundationCls.create();
 		expect(foundationSlots.root()).toBe("font-sans p-2 text-gray-700");
 
-		const foundationCompact = FoundationCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: foundationCompact } = FoundationCls.create({
+			variant: {
 				density: "compact",
-			}),
-		}));
+			},
+		});
 		expect(foundationCompact.root()).toBe("font-sans text-gray-700 p-1");
 
 		// Test Level 2 (UI Base)
-		const uiBaseSlots = UIBaseCls.create();
+		const { slots: uiBaseSlots } = UIBaseCls.create();
 		expect(uiBaseSlots.root()).toBe(
 			"p-2 text-gray-600 font-sans bg-white rounded",
 		);
 		expect(uiBaseSlots.content).toBeDefined();
 		expect(uiBaseSlots.header).toBeDefined();
 
-		const uiBaseRaised = UIBaseCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: uiBaseRaised } = UIBaseCls.create({
+			variant: {
 				elevation: "raised",
-			}),
-		}));
+			},
+		});
 		expect(uiBaseRaised.root()).toBe(
 			"p-2 text-gray-600 font-sans bg-white rounded shadow-md",
 		);
 
 		// Test Level 3 (Card)
-		const cardSlots = CardCls.create();
+		const { slots: cardSlots } = CardCls.create();
 		expect(cardSlots.root()).toBe(
 			"p-2 text-gray-600 font-sans bg-white shadow-md rounded-lg",
 		);
 
-		const cardOutlined = CardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: cardOutlined } = CardCls.create({
+			variant: {
 				variant: "outlined",
-			}),
-		}));
+			},
+		});
 		expect(cardOutlined.root()).toBe(
 			"p-2 text-gray-600 font-sans shadow-md rounded-lg border-2 bg-transparent",
 		);
 
 		// Test Level 4 (Product Card)
-		const productSlots = ProductCardCls.create();
+		const { slots: productSlots } = ProductCardCls.create();
 		expect(productSlots.root()).toBe(
 			"p-2 font-sans shadow-md rounded-lg text-blue-700 bg-blue-50 cursor-pointer hover:shadow-md",
 		);
 		expect(productSlots.image).toBeDefined();
 		expect(productSlots.badge).toBeDefined();
 
-		const productFeatured = ProductCardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: productFeatured } = ProductCardCls.create({
+			variant: {
 				size: "lg",
 				status: "featured",
-			}),
-		}));
+			},
+		});
 		expect(productFeatured.root()).toBe(
 			"p-2 font-sans shadow-md rounded-lg cursor-pointer hover:shadow-md max-w-lg text-white bg-red-500 ring-2 ring-yellow-400",
 		);
@@ -512,8 +512,8 @@ describe("14.5 Inheritance Builder - Triple Level", () => {
 		);
 
 		// Test complex multi-level variant combination
-		const productComplex = ProductCardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: productComplex } = ProductCardCls.create({
+			variant: {
 				density: "spacious", // From foundation
 				elevation: "floating", // From UI base
 				radius: "none", // From UI base
@@ -521,8 +521,8 @@ describe("14.5 Inheritance Builder - Triple Level", () => {
 				interactive: "hoverable", // From card
 				size: "sm", // From product card
 				status: "sold", // From product card
-			}),
-		}));
+			},
+		});
 		expect(productComplex.root()).toBe(
 			"text-gray-600 p-4 font-sans shadow-lg rounded-none border-2 bg-transparent hover:bg-gray-50 max-w-xs opacity-75",
 		);

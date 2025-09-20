@@ -33,87 +33,115 @@ describe("Rule Override Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-500",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-white",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"size.sm": what.css([
-						"px-2",
-						"py-1",
-						"text-sm",
-					]),
-					"size.md": what.css([
-						"px-4",
-						"py-2",
-						"text-base",
-					]),
-					"size.lg": what.css([
-						"px-6",
-						"py-3",
-						"text-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-500",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.sm": {
+						class: [
+							"px-2",
+							"py-1",
+							"text-sm",
+						],
+					},
+					"size.md": {
+						class: [
+							"px-4",
+							"py-2",
+							"text-base",
+						],
+					},
+					"size.lg": {
+						class: [
+							"px-6",
+							"py-3",
+							"text-lg",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.secondary",
-							"color.text.secondary",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.lg",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "primary",
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"shadow-lg",
-							]),
+						slot: {
+							root: {
+								class: [
+									"shadow-lg",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "secondary",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended component that overrides some rules
@@ -151,254 +179,288 @@ describe("Rule Override Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-600",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-white",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"size.sm": what.css([
-						"px-2",
-						"py-1",
-						"text-sm",
-					]),
-					"size.md": what.css([
-						"px-4",
-						"py-2",
-						"text-base",
-					]),
-					"size.lg": what.css([
-						"px-8",
-						"py-4",
-						"text-xl",
-					]),
-					"size.xl": what.css([
-						"px-10",
-						"py-5",
-						"text-2xl",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-600",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.sm": {
+						class: [
+							"px-2",
+							"py-1",
+							"text-sm",
+						],
+					},
+					"size.md": {
+						class: [
+							"px-4",
+							"py-2",
+							"text-base",
+						],
+					},
+					"size.lg": {
+						class: [
+							"px-8",
+							"py-4",
+							"text-xl",
+						],
+					},
+					"size.xl": {
+						class: [
+							"px-10",
+							"py-5",
+							"text-2xl",
+						],
+					},
+				},
 				rules: [
-					// Override the root to prevent inheritance of base tokens
-					def.root({
-						root: what.token([
-							"color.bg.secondary",
-							"color.text.secondary",
-						]),
-					}),
-					// Override the primary color rule with enhanced styling
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
-						}),
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
 						},
-					),
-					// Override the large size rule with different spacing
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "lg",
-						}),
-						{
-							root: what.token([
-								"size.lg",
-							]),
 						},
-					),
-					// Override the combined variant rule
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"size.lg",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 							size: "lg",
-						}),
-						{
-							root: what.css([
-								"shadow-xl",
-								"rounded-lg",
-							]),
 						},
-					),
-					// Add new rule for danger color
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								class: [
+									"shadow-xl",
+									"rounded-lg",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "danger",
-						}),
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.danger",
-							]),
 						},
-					),
-					// Add new rule for success color
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.danger",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "success",
-						}),
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
 						},
-					),
-					// Add new rule for xl size
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "xl",
-						}),
-						{
-							root: what.token([
-								"size.xl",
-							]),
 						},
-					),
-					// Add new combined variant rule
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"size.xl",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "success",
 							size: "xl",
-						}),
-						{
-							root: what.css([
-								"shadow-2xl",
-								"rounded-xl",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								class: [
+									"shadow-2xl",
+									"rounded-xl",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "secondary",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test base component behavior
-		const basePrimary = BaseComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: basePrimary } = BaseComponent.create({
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		});
 		expect(basePrimary.root()).toBe("bg-blue-500 text-white");
 
-		const baseLarge = BaseComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: baseLarge } = BaseComponent.create({
+			variant: {
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(baseLarge.root()).toBe(
 			"bg-gray-500 text-white px-6 py-3 text-lg",
 		);
 
-		const basePrimaryLarge = BaseComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: basePrimaryLarge } = BaseComponent.create({
+			variant: {
 				color: "primary",
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(basePrimaryLarge.root()).toBe(
 			"bg-blue-500 text-white px-6 py-3 text-lg shadow-lg",
 		);
 
 		// Test extended component behavior - rules should be overridden
-		const extendedPrimary = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedPrimary } = ExtendedComponent.create({
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		});
 		expect(extendedPrimary.root()).toBe("bg-blue-600 text-white");
 
-		const extendedLarge = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedLarge } = ExtendedComponent.create({
+			variant: {
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(extendedLarge.root()).toBe(
 			"bg-gray-600 text-white px-8 py-4 text-xl",
 		);
 
-		const extendedPrimaryLarge = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedPrimaryLarge } = ExtendedComponent.create({
+			variant: {
 				color: "primary",
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(extendedPrimaryLarge.root()).toBe(
 			"bg-blue-600 text-white px-8 py-4 text-xl shadow-xl rounded-lg",
 		);
 
 		// Test new variants that don't exist in base
-		const extendedSuccess = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedSuccess } = ExtendedComponent.create({
+			variant: {
 				color: "success",
-			}),
-		}));
+			},
+		});
 		expect(extendedSuccess.root()).toBe("bg-green-500 text-white");
 
-		const extendedXl = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedXl } = ExtendedComponent.create({
+			variant: {
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(extendedXl.root()).toBe(
 			"bg-gray-600 text-white px-10 py-5 text-2xl",
 		);
 
-		const extendedSuccessXl = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedSuccessXl } = ExtendedComponent.create({
+			variant: {
 				color: "success",
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(extendedSuccessXl.root()).toBe(
 			"bg-green-500 text-white px-10 py-5 text-2xl shadow-2xl rounded-xl",
 		);
 
 		// Test that non-overridden variants still work as expected
-		const extendedSecondary = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedSecondary } = ExtendedComponent.create({
+			variant: {
 				color: "secondary",
-			}),
-		}));
+			},
+		});
 		expect(extendedSecondary.root()).toBe("bg-gray-600 text-white");
 
-		const extendedDanger = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedDanger } = ExtendedComponent.create({
+			variant: {
 				color: "danger",
-			}),
-		}));
+			},
+		});
 		expect(extendedDanger.root()).toBe("bg-red-600 text-white");
 
-		const extendedSm = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedSm } = ExtendedComponent.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(extendedSm.root()).toBe("bg-gray-600 text-white");
 	});
 });

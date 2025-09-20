@@ -15,32 +15,42 @@ describe("1.2 Token System Basics - Indirect Circular Dependencies", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"token.a": what.token([
-						"token.b",
-					]),
-					"token.b": what.token([
-						"token.c",
-					]),
-					"token.c": what.token([
-						"token.a",
-					]),
-				}),
-				rules: [
-					def.root({
-						root: what.token([
+			{
+				token: {
+					"token.a": {
+						token: [
+							"token.b",
+						],
+					},
+					"token.b": {
+						token: [
+							"token.c",
+						],
+					},
+					"token.c": {
+						token: [
 							"token.a",
-						]),
-					}),
+						],
+					},
+				},
+				rules: [
+					{
+						slot: {
+							root: {
+								token: [
+									"token.a",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
+		const { slots } = Component.create();
 		expect(() => {
-			instance.root();
+			slots.root();
 		}).toThrow(
 			"Circular dependency detected in token references: token.a -> token.b -> token.c -> token.a",
 		);

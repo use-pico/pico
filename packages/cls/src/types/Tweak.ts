@@ -2,7 +2,6 @@ import type { Contract } from "./Contract";
 import type { Slot } from "./Slot";
 import type { Token } from "./Token";
 import type { Variant } from "./Variant";
-import type { What } from "./What";
 
 /**
  * Tweak - Overall tool to adjust already existing "cls" instance.
@@ -35,23 +34,4 @@ export namespace Tweak {
 			token: Token.OptionalFn<TContract>;
 		}
 	}
-
-	export interface Props<TContract extends Contract.Any> {
-		what: What.Type<TContract>;
-		override: Override.Type<TContract>;
-	}
-
-	/**
-	 * This is a config function used to provide typesafe way to tweaks.
-	 *
-	 * A function that receives the current cls properties and returns tweak modifications.
-	 * Enables dynamic, context-aware adjustments based on the current state.
-	 *
-	 * @template TContract - The contract type being tweaked
-	 * @param props - Current cls properties to base tweaks on
-	 * @returns Tweak modifications to apply
-	 */
-	export type Fn<TContract extends Contract.Any> = (
-		props: Props<TContract>,
-	) => Type<TContract>;
 }

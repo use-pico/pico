@@ -55,16 +55,18 @@ export const Icon: FC<Icon.Props> = ({
 		theme,
 	});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			size,
 			disabled,
 			...contextTone,
-		}),
-		slot: what.slot({
-			root: what.css(isString(icon) ? icon : undefined),
-		}),
-	}));
+		},
+		slot: {
+			root: {
+				class: isString(icon) ? icon : undefined,
+			},
+		},
+	});
 
 	return isString(icon) ? (
 		<div

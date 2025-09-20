@@ -90,35 +90,35 @@ describe("14.5 Inheritance Builder - Single Level", () => {
 			.cls();
 
 		// Test parent functionality
-		const parentSlots = ParentCls.create();
+		const { slots: parentSlots } = ParentCls.create();
 		expect(parentSlots.root()).toBe("text-gray-800 border");
 
 		// Test parent with size variant
-		const parentSmall = ParentCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: parentSmall } = ParentCls.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(parentSmall.root()).toBe("text-gray-800 border p-2");
 
 		// Test child functionality (inherits parent + adds new)
-		const childSlots = ChildCls.create();
+		const { slots: childSlots } = ChildCls.create();
 		expect(childSlots.root()).toBe("border text-blue-500 bg-blue-50");
 
 		// Test child with inherited variant
-		const childSmall = ChildCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: childSmall } = ChildCls.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(childSmall.root()).toBe("border p-2 text-blue-500 bg-blue-50");
 
 		// Test child with new variant
-		const childOutline = ChildCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: childOutline } = ChildCls.create({
+			variant: {
 				style: "outline",
-			}),
-		}));
+			},
+		});
 		expect(childOutline.root()).toBe("text-gray-800 border");
 
 		// Verify contracts are properly typed

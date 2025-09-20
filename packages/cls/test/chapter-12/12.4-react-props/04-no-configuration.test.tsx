@@ -21,39 +21,45 @@ describe("12.4 React Props - No Configuration", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"p-4",
-								"rounded",
-							],
-							[
-								"color.bg.default",
-								"color.text.default",
-							],
-						),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"rounded",
+								],
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		const TestComponent: FC<
 			Cls.Props<typeof TestCls, PropsWithChildren>
 		> = ({ tweak: userTweak, children }) => {
-			const classes = TestCls.create(userTweak);
+			const { slots: classes } = TestCls.create(userTweak);
 			return <div className={classes.root()}>{children}</div>;
 		};
 

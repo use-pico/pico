@@ -22,44 +22,58 @@ describe("9.1 Basic Usage", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended button component that inherits from BaseButton
@@ -91,100 +105,128 @@ describe("9.1 Basic Usage", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"size.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.padding.md", // Add default size
-						]),
-					}),
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.padding.md", // Add default size
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
-						}),
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "success",
-						}),
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
 						},
-					),
-					def.rule(
-						{
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "danger",
 						},
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.danger",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.danger",
+								],
+							},
 						},
-					),
-					def.rule(
-						what.variant({
+					},
+					{
+						match: {
 							size: "sm",
-						}),
-						{
-							root: what.token([
-								"size.padding.sm",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"size.padding.sm",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "lg",
-						}),
-						{
-							root: what.token([
-								"size.padding.lg",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								token: [
+									"size.padding.lg",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default", // Inherits from BaseButton
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test use method with compatible instances
@@ -199,16 +241,16 @@ describe("9.1 Basic Usage", () => {
 		expect(typeof ButtonGroup.definition).toBe("object");
 
 		// Test that we can create instances with the base variants
-		const defaultButton = ButtonGroup.create();
+		const { slots: defaultButton } = ButtonGroup.create();
 		expect(defaultButton.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const primaryButton = ButtonGroup.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: primaryButton } = ButtonGroup.create({
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		});
 
 		expect(primaryButton.root()).toBe("px-4 py-2 bg-blue-500 text-white");
 
@@ -224,18 +266,18 @@ describe("9.1 Basic Usage", () => {
 		// Test that we can access the extended functionality through the runtime instance
 		// even though TypeScript sees it as the base type
 		const extendedInstance = ButtonGroup as any;
-		const successButton = extendedInstance.create(() => ({
+		const { slots: successButton } = extendedInstance.create({
 			variant: {
 				color: "success",
 			},
-		}));
+		});
 		expect(successButton.root()).toBe("px-4 py-2 bg-green-500 text-white");
 
-		const largeButton = extendedInstance.create(() => ({
+		const { slots: largeButton } = extendedInstance.create({
 			variant: {
 				size: "lg",
 			},
-		}));
+		});
 		expect(largeButton.root()).toBe("bg-gray-100 text-gray-900 px-6 py-3");
 	});
 });

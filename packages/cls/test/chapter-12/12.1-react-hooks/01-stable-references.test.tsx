@@ -31,73 +31,93 @@ describe("12.1 React Hooks - Stable References", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"size.padding.small": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.medium": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.text.small": what.css([
-						"text-sm",
-					]),
-					"size.text.medium": what.css([
-						"text-base",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"size.padding.small": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.medium": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.text.small": {
+						class: [
+							"text-sm",
+						],
+					},
+					"size.text.medium": {
+						class: [
+							"text-base",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-							"size.padding.medium",
-							"size.text.medium",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"size.padding.medium",
+									"size.text.medium",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
-				}),
-			}),
+				},
+			},
 		);
 
 		// First render
 		const { result: result1 } = renderHook(() =>
-			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ButtonCls, {
+				variant: {
 					color: "primary",
 					size: "medium",
-				}),
-			})),
+				},
+			}),
 		);
 
 		// Second render with same configuration
 		const { result: result2 } = renderHook(() =>
-			useCls(ButtonCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ButtonCls, {
+				variant: {
 					color: "primary",
 					size: "medium",
-				}),
-			})),
+				},
+			}),
 		);
 
 		// Should produce same class strings
-		expect(result1.current.root()).toBe(result2.current.root());
+		expect(result1.current.slots.root()).toBe(result2.current.slots.root());
 	});
 });

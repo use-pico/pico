@@ -58,306 +58,428 @@ describe("8.1 Slot Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.warning": what.css([
-						"bg-yellow-500",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"color.text.warning": what.css([
-						"text-gray-900",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"size.spacing.sm": what.css([
-						"p-2",
-					]),
-					"size.spacing.md": what.css([
-						"p-4",
-					]),
-					"size.spacing.lg": what.css([
-						"p-6",
-					]),
-					"size.typography.sm": what.css([
-						"text-sm",
-					]),
-					"size.typography.md": what.css([
-						"text-base",
-					]),
-					"size.typography.lg": what.css([
-						"text-lg",
-					]),
-					"border.style.none": what.css([]),
-					"border.style.solid": what.css([
-						"border",
-					]),
-					"border.style.dashed": what.css([
-						"border-dashed",
-					]),
-					"border.width.0": what.css([]),
-					"border.width.1": what.css([
-						"border",
-					]),
-					"border.width.2": what.css([
-						"border-2",
-					]),
-				}),
-				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.spacing.md",
-							"size.typography.md",
-						]),
-						header: what.css([
-							"border-b",
-							"border-gray-200",
-							"pb-2",
-							"mb-2",
-							"font-semibold",
-						]),
-						content: what.css([
-							"min-h-0",
-							"flex-1",
-							"leading-relaxed",
-						]),
-						footer: what.css([
-							"border-t",
-							"border-gray-200",
-							"pt-2",
-							"mt-2",
-							"text-sm",
-							"text-gray-600",
-						]),
-						sidebar: what.css([
-							"w-64",
-							"bg-gray-50",
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-500",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.spacing.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"size.spacing.md": {
+						class: [
 							"p-4",
-							"border-r",
-							"border-gray-200",
-						]),
-						actions: what.css([
-							"flex",
-							"gap-2",
-							"justify-end",
-							"mt-4",
-						]),
-					}),
+						],
+					},
+					"size.spacing.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"size.typography.sm": {
+						class: [
+							"text-sm",
+						],
+					},
+					"size.typography.md": {
+						class: [
+							"text-base",
+						],
+					},
+					"size.typography.lg": {
+						class: [
+							"text-lg",
+						],
+					},
+					"border.style.none": {
+						class: [],
+					},
+					"border.style.solid": {
+						class: [
+							"border",
+						],
+					},
+					"border.style.dashed": {
+						class: [
+							"border-dashed",
+						],
+					},
+					"border.width.0": {
+						class: [],
+					},
+					"border.width.1": {
+						class: [
+							"border",
+						],
+					},
+					"border.width.2": {
+						class: [
+							"border-2",
+						],
+					},
+				},
+				rules: [
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.spacing.md",
+									"size.typography.md",
+								],
+							},
+							header: {
+								class: [
+									"border-b",
+									"border-gray-200",
+									"pb-2",
+									"mb-2",
+									"font-semibold",
+								],
+							},
+							content: {
+								class: [
+									"min-h-0",
+									"flex-1",
+									"leading-relaxed",
+								],
+							},
+							footer: {
+								class: [
+									"border-t",
+									"border-gray-200",
+									"pt-2",
+									"mt-2",
+									"text-sm",
+									"text-gray-600",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-64",
+									"bg-gray-50",
+									"p-4",
+									"border-r",
+									"border-gray-200",
+								],
+							},
+							actions: {
+								class: [
+									"flex",
+									"gap-2",
+									"justify-end",
+									"mt-4",
+								],
+							},
+						},
+					},
 					// Color variant rules
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
-							header: what.css([
-								"border-blue-200",
-							]),
-							footer: what.css([
-								"border-blue-200",
-								"text-blue-600",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+							header: {
+								class: [
+									"border-blue-200",
+								],
+							},
+							footer: {
+								class: [
+									"border-blue-200",
+									"text-blue-600",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
-							header: what.css([
-								"border-green-200",
-							]),
-							footer: what.css([
-								"border-green-200",
-								"text-green-600",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
+							header: {
+								class: [
+									"border-green-200",
+								],
+							},
+							footer: {
+								class: [
+									"border-green-200",
+									"text-green-600",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "warning",
 						},
-						{
-							root: what.token([
-								"color.bg.warning",
-								"color.text.warning",
-							]),
-							header: what.css([
-								"border-yellow-200",
-							]),
-							footer: what.css([
-								"border-yellow-200",
-								"text-yellow-600",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.warning",
+									"color.text.warning",
+								],
+							},
+							header: {
+								class: [
+									"border-yellow-200",
+								],
+							},
+							footer: {
+								class: [
+									"border-yellow-200",
+									"text-yellow-600",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "danger",
 						},
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.danger",
-							]),
-							header: what.css([
-								"border-red-200",
-							]),
-							footer: what.css([
-								"border-red-200",
-								"text-red-600",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.danger",
+								],
+							},
+							header: {
+								class: [
+									"border-red-200",
+								],
+							},
+							footer: {
+								class: [
+									"border-red-200",
+									"text-red-600",
+								],
+							},
 						},
-					),
+					},
 					// Size variant rules
-					def.rule(
-						{
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.token([
-								"size.spacing.sm",
-								"size.typography.sm",
-							]),
-							header: what.css([
-								"text-sm",
-								"pb-1",
-								"mb-1",
-							]),
-							content: what.css([
-								"text-sm",
-							]),
-							footer: what.css([
-								"text-xs",
-								"pt-1",
-								"mt-1",
-							]),
-							sidebar: what.css([
-								"w-48",
-								"p-2",
-							]),
-							actions: what.css([
-								"gap-1",
-								"mt-2",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.spacing.sm",
+									"size.typography.sm",
+								],
+							},
+							header: {
+								class: [
+									"text-sm",
+									"pb-1",
+									"mb-1",
+								],
+							},
+							content: {
+								class: [
+									"text-sm",
+								],
+							},
+							footer: {
+								class: [
+									"text-xs",
+									"pt-1",
+									"mt-1",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-48",
+									"p-2",
+								],
+							},
+							actions: {
+								class: [
+									"gap-1",
+									"mt-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.spacing.lg",
-								"size.typography.lg",
-							]),
-							header: what.css([
-								"text-lg",
-								"pb-3",
-								"mb-3",
-							]),
-							content: what.css([
-								"text-lg",
-							]),
-							footer: what.css([
-								"text-base",
-								"pt-3",
-								"mt-3",
-							]),
-							sidebar: what.css([
-								"w-80",
-								"p-6",
-							]),
-							actions: what.css([
-								"gap-3",
-								"mt-6",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.spacing.lg",
+									"size.typography.lg",
+								],
+							},
+							header: {
+								class: [
+									"text-lg",
+									"pb-3",
+									"mb-3",
+								],
+							},
+							content: {
+								class: [
+									"text-lg",
+								],
+							},
+							footer: {
+								class: [
+									"text-base",
+									"pt-3",
+									"mt-3",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-80",
+									"p-6",
+								],
+							},
+							actions: {
+								class: [
+									"gap-3",
+									"mt-6",
+								],
+							},
 						},
-					),
+					},
 					// Border variant rules
-					def.rule(
-						{
+					{
+						match: {
 							border: "solid",
 						},
-						{
-							root: what.token([
-								"border.style.solid",
-								"border.width.1",
-							]),
-							header: what.css([
-								"border-b-2",
-							]),
-							footer: what.css([
-								"border-t-2",
-							]),
-							sidebar: what.css([
-								"border-r-2",
-							]),
+						slot: {
+							root: {
+								token: [
+									"border.style.solid",
+									"border.width.1",
+								],
+							},
+							header: {
+								class: [
+									"border-b-2",
+								],
+							},
+							footer: {
+								class: [
+									"border-t-2",
+								],
+							},
+							sidebar: {
+								class: [
+									"border-r-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							border: "dashed",
 						},
-						{
-							root: what.token([
-								"border.style.dashed",
-								"border.width.1",
-							]),
-							header: what.css([
-								"border-b-2",
-								"border-dashed",
-							]),
-							footer: what.css([
-								"border-t-2",
-								"border-dashed",
-							]),
-							sidebar: what.css([
-								"border-r-2",
-								"border-dashed",
-							]),
+						slot: {
+							root: {
+								token: [
+									"border.style.dashed",
+									"border.width.1",
+								],
+							},
+							header: {
+								class: [
+									"border-b-2",
+									"border-dashed",
+								],
+							},
+							footer: {
+								class: [
+									"border-t-2",
+									"border-dashed",
+								],
+							},
+							sidebar: {
+								class: [
+									"border-r-2",
+									"border-dashed",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					size: "md",
 					border: "none",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test default state
-		const defaultInstance = MultiSlotComponent.create();
+		const { slots: defaultInstance } = MultiSlotComponent.create();
 		expect(defaultInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
@@ -376,20 +498,22 @@ describe("8.1 Slot Overrides", () => {
 		expect(defaultInstance.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test slot override - only override the header slot
-		const headerOverride = MultiSlotComponent.create(({ what }) => ({
+		const { slots: headerOverride } = MultiSlotComponent.create({
 			slot: {
-				header: what.css([
-					"bg-blue-50",
-					"text-blue-900",
-					"border-b-2",
-					"border-blue-300",
-					"pb-3",
-					"mb-3",
-					"font-bold",
-					"text-lg",
-				]),
+				header: {
+					class: [
+						"bg-blue-50",
+						"text-blue-900",
+						"border-b-2",
+						"border-blue-300",
+						"pb-3",
+						"mb-3",
+						"font-bold",
+						"text-lg",
+					],
+				},
 			},
-		}));
+		});
 		expect(headerOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
@@ -406,24 +530,28 @@ describe("8.1 Slot Overrides", () => {
 		expect(headerOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test slot override - override multiple slots while preserving others
-		const multipleSlotOverride = MultiSlotComponent.create(({ what }) => ({
+		const { slots: multipleSlotOverride } = MultiSlotComponent.create({
 			slot: {
-				content: what.css([
-					"bg-gray-50",
-					"p-4",
-					"rounded-lg",
-					"border",
-					"border-gray-200",
-				]),
-				actions: what.css([
-					"bg-blue-100",
-					"p-3",
-					"rounded-md",
-					"border",
-					"border-blue-200",
-				]),
+				content: {
+					class: [
+						"bg-gray-50",
+						"p-4",
+						"rounded-lg",
+						"border",
+						"border-gray-200",
+					],
+				},
+				actions: {
+					class: [
+						"bg-blue-100",
+						"p-3",
+						"rounded-md",
+						"border",
+						"border-blue-200",
+					],
+				},
 			},
-		}));
+		});
 		expect(multipleSlotOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
@@ -444,17 +572,21 @@ describe("8.1 Slot Overrides", () => {
 		);
 
 		// Test slot override with token references
-		const tokenSlotOverride = MultiSlotComponent.create(({ what }) => ({
+		const { slots: tokenSlotOverride } = MultiSlotComponent.create({
 			slot: {
-				root: what.token([
-					"color.bg.warning",
-					"color.text.warning",
-				]),
-				sidebar: what.css([
-					"p-6",
-				]),
+				root: {
+					token: [
+						"color.bg.warning",
+						"color.text.warning",
+					],
+				},
+				sidebar: {
+					class: [
+						"p-6",
+					],
+				},
 			},
-		}));
+		});
 		expect(tokenSlotOverride.root()).toBe(
 			"p-4 text-base bg-yellow-500 text-gray-900",
 		);
@@ -473,20 +605,24 @@ describe("8.1 Slot Overrides", () => {
 		expect(tokenSlotOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test slot override with mixed CSS and tokens
-		const mixedSlotOverride = MultiSlotComponent.create(({ what }) => ({
+		const { slots: mixedSlotOverride } = MultiSlotComponent.create({
 			slot: {
-				header: what.css([
-					"bg-gradient-to-r",
-					"from-blue-500",
-					"to-purple-500",
-					"text-white",
-				]),
-				footer: what.token([
-					"color.bg.danger",
-					"color.text.danger",
-				]),
+				header: {
+					class: [
+						"bg-gradient-to-r",
+						"from-blue-500",
+						"to-purple-500",
+						"text-white",
+					],
+				},
+				footer: {
+					token: [
+						"color.bg.danger",
+						"color.text.danger",
+					],
+				},
 			},
-		}));
+		});
 		expect(mixedSlotOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
@@ -505,20 +641,22 @@ describe("8.1 Slot Overrides", () => {
 		expect(mixedSlotOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test that non-overridden slots still inherit variant styles
-		const variantPreservation = MultiSlotComponent.create(({ what }) => ({
+		const { slots: variantPreservation } = MultiSlotComponent.create({
 			variant: {
 				color: "danger",
 				size: "lg",
 			},
 			slot: {
 				// Only override actions, leave others to inherit
-				actions: what.css([
-					"bg-red-100",
-					"text-red-800",
-					"border-red-300",
-				]),
+				actions: {
+					class: [
+						"bg-red-100",
+						"text-red-800",
+						"border-red-300",
+					],
+				},
 			},
-		}));
+		});
 		expect(variantPreservation.root()).toBe(
 			"bg-red-500 text-white p-6 text-lg",
 		);

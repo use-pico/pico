@@ -86,41 +86,41 @@ describe("14.6 Bool Helper - Multiple Bool Variants", () => {
 			.cls();
 
 		// Test default state (all false)
-		const defaultSlots = ButtonCls.create();
+		const { slots: defaultSlots } = ButtonCls.create();
 		expect(defaultSlots.root()).toBe(
 			"btn-base px-4 py-2 bg-blue-500 text-white",
 		);
 
 		// Test single bool variant
-		const disabledSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: disabledSlots } = ButtonCls.create({
+			variant: {
 				disabled: true,
-			}),
-		}));
+			},
+		});
 		expect(disabledSlots.root()).toBe(
 			"btn-base px-4 py-2 opacity-50 cursor-not-allowed bg-blue-500 text-white",
 		);
 
 		// Test multiple bool variants
-		const loadingOutlinedSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: loadingOutlinedSlots } = ButtonCls.create({
+			variant: {
 				loading: true,
 				outlined: true,
-			}),
-		}));
+			},
+		});
 		expect(loadingOutlinedSlots.root()).toBe(
 			"btn-base px-4 py-2 animate-pulse border-2 bg-transparent",
 		);
 		expect(loadingOutlinedSlots.icon()).toBe("animate-spin");
 
 		// Test all bool variants true
-		const allTrueSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: allTrueSlots } = ButtonCls.create({
+			variant: {
 				disabled: true,
 				loading: true,
 				outlined: true,
-			}),
-		}));
+			},
+		});
 		expect(allTrueSlots.root()).toBe(
 			"btn-base px-4 py-2 opacity-50 cursor-not-allowed animate-pulse border-2 bg-transparent",
 		);

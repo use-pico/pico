@@ -19,58 +19,74 @@ describe("1.2 Token System Basics - Token References", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
+			{
+				token: {
 					// Base color tokens
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-200",
-					]),
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-200",
+						],
+					},
 					// Base button token that references color tokens
-					"button.base": what.both(
-						[
+					"button.base": {
+						class: [
 							"px-4",
 							"py-2",
 							"rounded",
 							"font-medium",
 						],
-						[
+						token: [
 							"color.text.primary",
 						],
-					),
+					},
 					// Primary button that references base button and primary colors
-					"button.primary": what.token([
-						"button.base",
-						"color.bg.primary",
-					]),
+					"button.primary": {
+						token: [
+							"button.base",
+							"color.bg.primary",
+						],
+					},
 					// Secondary button that references base button and secondary colors
-					"button.secondary": what.token([
-						"button.base",
-						"color.bg.secondary",
-						"color.text.secondary",
-					]),
-				}),
+					"button.secondary": {
+						token: [
+							"button.base",
+							"color.bg.secondary",
+							"color.text.secondary",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"button.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"button.primary",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe(
+		const { slots } = Component.create();
+		expect(slots.root()).toBe(
 			"text-white px-4 py-2 rounded font-medium bg-blue-600",
 		);
 	});

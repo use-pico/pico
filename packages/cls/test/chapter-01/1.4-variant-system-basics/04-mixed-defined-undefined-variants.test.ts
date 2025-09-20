@@ -26,31 +26,39 @@ describe("mixed defined and undefined variants", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				defaults: def.defaults({
+			{
+				defaults: {
 					color: "blue",
 					size: "small",
 					disabled: "false",
-				}),
-				token: def.token({
-					base: what.css([
-						"base-styles",
-					]),
-				}),
+				},
+				token: {
+					base: {
+						class: [
+							"base-styles",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"base",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"base",
+								],
+							},
+						},
+					},
 					{
 						match: {
 							color: "red",
 						},
 						slot: {
-							root: what.css([
-								"text-red-500",
-							]),
+							root: {
+								class: [
+									"text-red-500",
+								],
+							},
 						},
 					},
 					{
@@ -58,9 +66,11 @@ describe("mixed defined and undefined variants", () => {
 							color: "blue",
 						},
 						slot: {
-							root: what.css([
-								"text-blue-500",
-							]),
+							root: {
+								class: [
+									"text-blue-500",
+								],
+							},
 						},
 					},
 					{
@@ -68,9 +78,11 @@ describe("mixed defined and undefined variants", () => {
 							size: "large",
 						},
 						slot: {
-							root: what.css([
-								"text-lg",
-							]),
+							root: {
+								class: [
+									"text-lg",
+								],
+							},
 						},
 					},
 					{
@@ -78,22 +90,24 @@ describe("mixed defined and undefined variants", () => {
 							disabled: "true",
 						},
 						slot: {
-							root: what.css([
-								"opacity-50",
-							]),
+							root: {
+								class: [
+									"opacity-50",
+								],
+							},
 						},
 					},
 				],
-			}),
+			},
 		);
 
-		const slots = componentCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots } = componentCls.create({
+			variant: {
 				color: undefined, // Should be filtered out, use default "blue"
 				size: "large", // Should override default
 				disabled: undefined, // Should be filtered out, use default "false"
-			}),
-		}));
+			},
+		});
 
 		// Should use default color "blue" and size "large", default disabled "false"
 		expect(slots.root()).toBe("base-styles text-blue-500 text-lg");

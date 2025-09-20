@@ -22,44 +22,58 @@ describe("9.3 Inheritance Chain", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 2: Extended button with size variants
@@ -88,83 +102,105 @@ describe("9.3 Inheritance Chain", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"size.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.padding.md",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.padding.md",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.token([
-								"size.padding.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.padding.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.lg",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 3: Extended button with state variants
@@ -200,110 +236,140 @@ describe("9.3 Inheritance Chain", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"size.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-					"state.disabled.enabled": what.css([]),
-					"state.disabled.disabled": what.css([
-						"opacity-50",
-						"cursor-not-allowed",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+					"state.disabled.enabled": {
+						class: [],
+					},
+					"state.disabled.disabled": {
+						class: [
+							"opacity-50",
+							"cursor-not-allowed",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.padding.md",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.padding.md",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "danger",
 						},
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.danger",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.danger",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.token([
-								"size.padding.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.padding.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.lg",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							state: "disabled",
 						},
-						{
-							root: what.token([
-								"state.disabled.disabled",
-							]),
+						slot: {
+							root: {
+								token: [
+									"state.disabled.disabled",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					size: "md",
 					state: "enabled",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test use method with different levels of inheritance
@@ -314,11 +380,11 @@ describe("9.3 Inheritance Chain", () => {
 
 		// Test that Level 1 can access Level 2 functionality at runtime
 		const sizedInstance = ButtonGroup1 as any;
-		const smallButton = sizedInstance.create(() => ({
+		const { slots: smallButton } = sizedInstance.create({
 			variant: {
 				size: "sm",
 			},
-		}));
+		});
 		expect(smallButton.root()).toBe("bg-gray-100 text-gray-900 px-2 py-1");
 
 		// Level 1 can use Level 3
@@ -327,18 +393,18 @@ describe("9.3 Inheritance Chain", () => {
 
 		// Test that Level 1 can access Level 3 functionality at runtime
 		const statefulInstance = ButtonGroup2 as any;
-		const dangerButton = statefulInstance.create(() => ({
+		const { slots: dangerButton } = statefulInstance.create({
 			variant: {
 				color: "danger",
 			},
-		}));
+		});
 		expect(dangerButton.root()).toBe("px-4 py-2 bg-red-500 text-white");
 
-		const disabledButton = statefulInstance.create(() => ({
+		const { slots: disabledButton } = statefulInstance.create({
 			variant: {
 				state: "disabled",
 			},
-		}));
+		});
 		expect(disabledButton.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2 opacity-50 cursor-not-allowed",
 		);
@@ -349,12 +415,12 @@ describe("9.3 Inheritance Chain", () => {
 
 		// Test that Level 2 can access Level 3 functionality at runtime
 		const level3Instance = ButtonGroup3 as any;
-		const largeDangerButton = level3Instance.create(() => ({
+		const { slots: largeDangerButton } = level3Instance.create({
 			variant: {
 				color: "danger",
 				size: "lg",
 			},
-		}));
+		});
 		expect(largeDangerButton.root()).toBe(
 			"bg-red-500 text-white px-6 py-3",
 		);
@@ -375,13 +441,13 @@ describe("9.3 Inheritance Chain", () => {
 		expect(ButtonGroup3.contract.variant?.size).toContain("lg");
 
 		// Test that we can create instances with complex combinations
-		const complexButton = level3Instance.create(() => ({
+		const { slots: complexButton } = level3Instance.create({
 			variant: {
 				color: "success",
 				size: "sm",
 				state: "disabled",
 			},
-		}));
+		});
 		expect(complexButton.root()).toBe(
 			"bg-green-500 text-white px-2 py-1 opacity-50 cursor-not-allowed",
 		);

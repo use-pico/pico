@@ -198,53 +198,53 @@ describe("14.5 Inheritance Builder - Double Level", () => {
 		};
 
 		// Test level 1 (Theme)
-		const themeSlots = ThemeCls.create();
+		const { slots: themeSlots } = ThemeCls.create();
 		expect(themeSlots.root()).toBe("text-gray-900 p-1");
 
-		const themeDark = ThemeCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: themeDark } = ThemeCls.create({
+			variant: {
 				theme: "dark",
-			}),
-		}));
+			},
+		});
 		expect(themeDark.root()).toBe("text-gray-900 p-1 bg-gray-900");
 
 		// Test level 2 (Component)
-		const componentSlots = ComponentCls.create();
+		const { slots: componentSlots } = ComponentCls.create();
 		expect(componentSlots.root()).toBe("text-gray-800 p-1 border rounded");
 		expect(componentSlots.content).toBeDefined();
 
-		const componentLarge = ComponentCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: componentLarge } = ComponentCls.create({
+			variant: {
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(componentLarge.root()).toBe(
 			"text-gray-800 border rounded p-1 text-lg",
 		);
 
 		// Test level 3 (Button)
-		const buttonSlots = ButtonCls.create();
+		const { slots: buttonSlots } = ButtonCls.create();
 		expect(buttonSlots.root()).toBe(
 			"p-1 border rounded text-blue-700 hover:bg-blue-100 bg-blue-50",
 		);
 
-		const buttonSecondary = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: buttonSecondary } = ButtonCls.create({
+			variant: {
 				variant: "secondary",
-			}),
-		}));
+			},
+		});
 		expect(buttonSecondary.root()).toBe(
 			"text-gray-800 p-1 border rounded border-blue-300 bg-transparent",
 		);
 
 		// Test complex variant combination
-		const buttonComplex = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: buttonComplex } = ButtonCls.create({
+			variant: {
 				theme: "dark",
 				size: "lg",
 				variant: "secondary",
-			}),
-		}));
+			},
+		});
 		expect(buttonComplex.root()).toBe(
 			"text-gray-800 border rounded p-1 text-lg border-blue-300 bg-transparent",
 		);

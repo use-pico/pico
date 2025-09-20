@@ -28,73 +28,99 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"spacing.tight": what.css([
-						"p-2",
-					]),
-					"spacing.normal": what.css([
-						"p-4",
-					]),
-					"spacing.loose": what.css([
-						"p-6",
-					]),
-					"typography.body": what.css([
-						"text-base",
-					]),
-					"typography.heading": what.css([
-						"text-lg",
-						"font-bold",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.tight": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.normal": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.loose": {
+						class: [
+							"p-6",
+						],
+					},
+					"typography.body": {
+						class: [
+							"text-base",
+						],
+					},
+					"typography.heading": {
+						class: [
+							"text-lg",
+							"font-bold",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"spacing.normal",
-							"typography.body",
-						]),
-					}),
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"spacing.normal",
+									"typography.body",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
-						}),
-						{
-							root: what.token([
-								"spacing.tight",
-								"typography.body",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"spacing.tight",
+									"typography.body",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "lg",
-						}),
-						{
-							root: what.token([
-								"spacing.loose",
-								"typography.heading",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								token: [
+									"spacing.loose",
+									"typography.heading",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended component that overrides some tokens and adds new ones
@@ -130,115 +156,149 @@ describe("6.2 Complex Token Overrides - Token Replacement Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-green-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-600",
-					]),
-					"color.text.default": what.css([
-						"text-green-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"spacing.tight": what.css([
-						"p-1",
-					]),
-					"spacing.normal": what.css([
-						"p-3",
-					]),
-					"spacing.loose": what.css([
-						"p-5",
-					]),
-					"spacing.xl": what.css([
-						"p-8",
-					]),
-					"typography.body": what.css([
-						"text-sm",
-					]),
-					"typography.heading": what.css([
-						"text-xl",
-						"font-semibold",
-					]),
-					"typography.caption": what.css([
-						"text-xs",
-						"text-gray-500",
-					]),
-					"border.none": what.css([]),
-					"border.rounded": what.css([
-						"rounded-md",
-					]),
-					"border.pill": what.css([
-						"rounded-full",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-green-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-600",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-green-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.tight": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.normal": {
+						class: [
+							"p-3",
+						],
+					},
+					"spacing.loose": {
+						class: [
+							"p-5",
+						],
+					},
+					"spacing.xl": {
+						class: [
+							"p-8",
+						],
+					},
+					"typography.body": {
+						class: [
+							"text-sm",
+						],
+					},
+					"typography.heading": {
+						class: [
+							"text-xl",
+							"font-semibold",
+						],
+					},
+					"typography.caption": {
+						class: [
+							"text-xs",
+							"text-gray-500",
+						],
+					},
+					"border.none": {
+						class: [],
+					},
+					"border.rounded": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.pill": {
+						class: [
+							"rounded-full",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						what.variant({
+					{
+						match: {
 							size: "xl",
-						}),
-						{
-							root: what.token([
-								"spacing.xl",
-								"typography.heading",
-								"border.rounded",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								token: [
+									"spacing.xl",
+									"typography.heading",
+									"border.rounded",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test base component with default size
-		const baseInstance = BaseComponent.create();
+		const { slots: baseInstance } = BaseComponent.create();
 		expect(baseInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 p-4 text-base",
 		);
 
 		// Test base component with small size
-		const baseSmallInstance = BaseComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: baseSmallInstance } = BaseComponent.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(baseSmallInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 p-2 text-base",
 		);
 
 		// Test extended component with default size (should use overridden tokens)
-		const extendedInstance = ExtendedComponent.create();
+		const { slots: extendedInstance } = ExtendedComponent.create();
 		expect(extendedInstance.root()).toBe(
 			"bg-green-100 text-green-900 p-3 text-sm",
 		);
 
 		// Test extended component with small size (should use overridden spacing and typography)
-		const extendedSmallInstance = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedSmallInstance } = ExtendedComponent.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(extendedSmallInstance.root()).toBe(
 			"bg-green-100 text-green-900 p-1 text-sm",
 		);
 
 		// Test extended component with xl size (should use new spacing, typography, and border tokens)
-		const extendedXlInstance = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedXlInstance } = ExtendedComponent.create({
+			variant: {
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(extendedXlInstance.root()).toBe(
 			"bg-green-100 text-green-900 p-8 text-xl font-semibold rounded-md",
 		);

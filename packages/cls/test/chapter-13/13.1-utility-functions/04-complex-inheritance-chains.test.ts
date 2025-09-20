@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { cls, withVariants } from "../../../src";
+import { cls } from "../../../src";
+import { withVariants } from "../../../src/utils/withVariants";
 
 describe("13.1 Utility Functions - withVariants - Complex Inheritance Chains", () => {
 	it("should handle complex inheritance chains correctly", () => {
@@ -19,17 +20,19 @@ describe("13.1 Utility Functions - withVariants - Complex Inheritance Chains", (
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.base": what.css([
-						"bg-gray-100",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.base": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+				},
 				rules: [], // Add empty rules array
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create middle CLS instance
@@ -54,18 +57,20 @@ describe("13.1 Utility Functions - withVariants - Complex Inheritance Chains", (
 				},
 				"~use": BaseCls.contract,
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.middle": what.css([
-						"bg-blue-200",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.middle": {
+						class: [
+							"bg-blue-200",
+						],
+					},
+				},
 				rules: [], // Add empty rules array
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create child CLS instance
@@ -95,29 +100,31 @@ describe("13.1 Utility Functions - withVariants - Complex Inheritance Chains", (
 				},
 				"~use": MiddleCls.contract,
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.child": what.css([
-						"bg-green-300",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.child": {
+						class: [
+							"bg-green-300",
+						],
+					},
+				},
 				rules: [], // Add empty rules array
-				defaults: def.defaults({
+				defaults: {
 					size: "xl",
 					theme: "light",
 					tone: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test complex inheritance with withVariants
-		const result = withVariants(ChildCls, () => ({
+		const result = withVariants(ChildCls, {
 			variant: {
 				size: "xl",
 				theme: "dark",
 				tone: "secondary",
 			},
-		}));
+		});
 
 		// Should inherit from all layers: Base (size: "md") -> Middle (theme: "light") -> Child (tone: "primary")
 		// Then override with user config: size: "xl", theme: "dark", tone: "secondary"

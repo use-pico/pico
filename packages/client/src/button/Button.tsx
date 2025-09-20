@@ -46,14 +46,14 @@ export const BaseButton: FC<Button.Props> = ({
 		theme,
 	});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			size,
 			round,
 			...contextTone,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<ToneProvider {...contextTone}>

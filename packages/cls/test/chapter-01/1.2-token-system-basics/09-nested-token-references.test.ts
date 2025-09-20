@@ -22,76 +22,94 @@ describe("1.2 Token System Basics - Nested Token References", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
+			{
+				token: {
 					// Base spacing tokens
-					"spacing.xs": what.css([
-						"px-1",
-						"py-0.5",
-					]),
-					"spacing.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"spacing.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"spacing.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
+					"spacing.xs": {
+						class: [
+							"px-1",
+							"py-0.5",
+						],
+					},
+					"spacing.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"spacing.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"spacing.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
 					// Padding tokens that reference spacing tokens
-					"padding.small": what.token([
-						"spacing.sm",
-					]),
-					"padding.medium": what.token([
-						"spacing.md",
-					]),
-					"padding.large": what.token([
-						"spacing.lg",
-					]),
+					"padding.small": {
+						token: [
+							"spacing.sm",
+						],
+					},
+					"padding.medium": {
+						token: [
+							"spacing.md",
+						],
+					},
+					"padding.large": {
+						token: [
+							"spacing.lg",
+						],
+					},
 					// Button tokens that reference padding tokens
-					"button.small": what.both(
-						[
+					"button.small": {
+						class: [
 							"rounded",
 							"font-medium",
 						],
-						[
+						token: [
 							"padding.small",
 						],
-					),
-					"button.medium": what.both(
-						[
+					},
+					"button.medium": {
+						class: [
 							"rounded",
 							"font-medium",
 						],
-						[
+						token: [
 							"padding.medium",
 						],
-					),
-					"button.large": what.both(
-						[
+					},
+					"button.large": {
+						class: [
 							"rounded",
 							"font-medium",
 						],
-						[
+						token: [
 							"padding.large",
 						],
-					),
-				}),
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"button.large",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"button.large",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("px-6 py-3 rounded font-medium");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("px-6 py-3 rounded font-medium");
 	});
 });

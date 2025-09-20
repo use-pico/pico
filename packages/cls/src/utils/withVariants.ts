@@ -18,10 +18,10 @@ export function withVariants<
 		contract,
 		definition,
 	}: Pick<Cls.Type<TContract>, "contract" | "definition">,
-	userTweakFn?: Tweak.Fn<TContract>,
-	internalTweakFn?: Tweak.Fn<TContract>,
+	userTweak?: Tweak.Type<TContract>,
+	internalTweak?: Tweak.Type<TContract>,
 ): Variant.VariantOf<TContract> {
-	const config = merge(userTweakFn, internalTweakFn)();
+	const config = merge(userTweak, internalTweak);
 
 	// Build inheritance chain (base -> child order)
 	const layers: {

@@ -114,11 +114,11 @@ function builder<
 		},
 
 		cls() {
-			return cls(state.contract, () => ({
+			return cls(state.contract, {
 				token: state.token || ({} as any),
 				rules: state.rules,
 				defaults: state.defaults || ({} as any),
-			}));
+			});
 		},
 	} as any as DefinitionBuilder.Builder<TContract, TState>;
 }

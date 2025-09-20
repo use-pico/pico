@@ -11,21 +11,25 @@ describe("1.3 Slot System Basics - Single Slot Definition", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-							"p-4",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+									"p-4",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 p-4");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100 p-4");
 	});
 });

@@ -20,7 +20,7 @@ export const Section: FC<Section.Props> = ({
 	tweak,
 	children,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div
@@ -31,11 +31,13 @@ export const Section: FC<Section.Props> = ({
 			<TitlePreview
 				icon={icon}
 				title={title}
-				tweak={({ what }) => ({
-					slot: what.slot({
-						root: what.css(slots.title()),
-					}),
-				})}
+				tweak={{
+					slot: {
+						root: {
+							class: slots.title(),
+						},
+					},
+				}}
 			/>
 
 			<div

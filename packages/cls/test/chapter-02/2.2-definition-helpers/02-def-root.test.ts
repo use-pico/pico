@@ -11,23 +11,27 @@ describe("2.2 Definition Helpers - def.root", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-							"p-4",
-							"rounded-lg",
-							"shadow-sm",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+									"p-4",
+									"rounded-lg",
+									"shadow-sm",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 p-4 rounded-lg shadow-sm");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100 p-4 rounded-lg shadow-sm");
 	});
 });

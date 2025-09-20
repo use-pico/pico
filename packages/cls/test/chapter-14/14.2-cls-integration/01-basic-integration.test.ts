@@ -29,52 +29,62 @@ describe("14.2 CLS Integration - Basic Integration", () => {
 		};
 
 		// Create CLS instance with the built contract
-		const Button = cls(result, ({ what, def }) => ({
-			token: def.token({
-				"color.bg.primary": what.css([
-					"bg-blue-500",
-				]),
-				"color.text.primary": what.css([
-					"text-white",
-				]),
-			}),
+		const Button = cls(result, {
+			token: {
+				"color.bg.primary": {
+					class: [
+						"bg-blue-500",
+					],
+				},
+				"color.text.primary": {
+					class: [
+						"text-white",
+					],
+				},
+			},
 			rules: [
-				def.root({
-					root: what.token([
-						"color.bg.primary",
-						"color.text.primary",
-					]),
-				}),
-				def.rule(
-					what.variant({
-						size: "sm",
-					}),
-					{
-						root: what.css([
-							"px-2",
-							"py-1",
-						]),
+				{
+					slot: {
+						root: {
+							token: [
+								"color.bg.primary",
+								"color.text.primary",
+							],
+						},
 					},
-				),
+				},
+				{
+					match: {
+						size: "sm",
+					},
+					slot: {
+						root: {
+							class: [
+								"px-2",
+								"py-1",
+							],
+						},
+					},
+				},
 			],
-			defaults: def.defaults({
+			defaults: {
 				size: "md",
 				tone: "light",
-			}),
-		}));
+			},
+		});
 
 		// Test basic functionality
-		const instance = Button.create();
-		expect(instance.root()).toBe("bg-blue-500 text-white");
-		expect(instance.label).toBeDefined();
+		const { slots } = Button.create();
+		expect(slots.root()).toBe("bg-blue-500 text-white");
+		expect(slots.label).toBeDefined();
 
 		// Test variant functionality
-		const smallInstance = Button.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: smallSlots } = Button.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
-		expect(smallInstance.root()).toBe("bg-blue-500 text-white px-2 py-1");
+			},
+		});
+		expect(smallSlots.root()).toBe("bg-blue-500 text-white px-2 py-1");
 
 		// Verify contract reference
 		expect(Button.contract).toBe(result);

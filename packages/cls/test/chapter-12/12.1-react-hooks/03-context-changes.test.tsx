@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 import { useCls } from "../../../src/react";
 
@@ -23,46 +23,57 @@ describe("12.1 React Hooks - Context Changes", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
-		const configFn = vi.fn?.(({ what }) => ({
-			variant: what.variant({
+		const configObj = {
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		} as const;
 
-		// Render with stable config function
-		const { result } = renderHook(() => useCls(ButtonCls, configFn));
+		// Render with stable config object
+		const { result } = renderHook(() => useCls(ButtonCls, configObj));
 
-		// Should call config function once
-		expect(configFn).toHaveBeenCalledTimes(2);
-		expect(result.current.root()).toBeDefined();
+		// Should work with object configuration
+		expect(result.current.slots.root()).toBeDefined();
 	});
 });

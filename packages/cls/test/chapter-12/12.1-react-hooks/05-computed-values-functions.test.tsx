@@ -32,68 +32,86 @@ describe("12.1 React Hooks - Computed Values and Functions", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.base": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.computed": what.css([
-						"bg-blue-100",
-					]),
-					"color.text.base": what.css([
-						"text-gray-900",
-					]),
-					"color.text.computed": what.css([
-						"text-blue-900",
-					]),
-					"spacing.padding.base": what.css([
-						"p-2",
-					]),
-					"spacing.padding.computed": what.css([
-						"p-4",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.base": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.computed": {
+						class: [
+							"bg-blue-100",
+						],
+					},
+					"color.text.base": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.computed": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"spacing.padding.base": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.computed": {
+						class: [
+							"p-4",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.base",
-							"color.text.base",
-							"spacing.padding.base",
-						]),
-					}),
-					def.rule(
-						what.variant({
-							intensity: "high",
-						}),
-						{
-							root: what.token([
-								"color.bg.computed",
-								"color.text.computed",
-								"spacing.padding.computed",
-							]),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.base",
+									"color.text.base",
+									"spacing.padding.base",
+								],
+							},
 						},
-					),
+					},
+					{
+						match: {
+							intensity: "high",
+						},
+						slot: {
+							root: {
+								token: [
+									"color.bg.computed",
+									"color.text.computed",
+									"spacing.padding.computed",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					intensity: "low",
 					scale: "medium",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test with computed values
 		const { result } = renderHook(() =>
-			useCls(ComputedCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ComputedCls, {
+				variant: {
 					intensity: "high",
 					scale: "large",
-				}),
-			})),
+				},
+			}),
 		);
 
-		const classes = result.current;
+		const { slots } = result.current;
 
 		// Should apply computed styling for high intensity
-		expect(classes.root()).toBe("bg-blue-100 text-blue-900 p-4");
+		expect(slots.root()).toBe("bg-blue-100 text-blue-900 p-4");
 	});
 });

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useClsContext } from "../../../src/react";
+import { ClsContext, useClsContext } from "../../../src/react";
 
 describe("12.2 React Context - Nested Providers", () => {
 	it("should handle nested providers correctly", () => {
@@ -23,33 +23,45 @@ describe("12.2 React Context - Nested Providers", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.light",
-							"color.text.light",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.light",
+									"color.text.light",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		const ExtendedThemeCls = cls(
@@ -73,39 +85,55 @@ describe("12.2 React Context - Nested Providers", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.bg.accent": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-					"color.text.accent": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.light",
-							"color.text.light",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.light",
+									"color.text.light",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test component that uses context
@@ -120,11 +148,11 @@ describe("12.2 React Context - Nested Providers", () => {
 
 		// Render with nested providers
 		render(
-			<ClsProvider value={BaseThemeCls}>
-				<ClsProvider value={ExtendedThemeCls}>
+			<ClsContext value={BaseThemeCls}>
+				<ClsContext value={ExtendedThemeCls}>
 					<TestComponent />
-				</ClsProvider>
-			</ClsProvider>,
+				</ClsContext>
+			</ClsContext>,
 		);
 
 		// Should show that context is provided

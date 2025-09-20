@@ -77,407 +77,539 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-500",
-					]),
-					"color.bg.accent": what.css([
-						"bg-purple-500",
-					]),
-					"color.bg.warning": what.css([
-						"bg-yellow-500",
-					]),
-					"color.bg.error": what.css([
-						"bg-red-500",
-					]),
-					"color.text.primary": what.css([
-						"text-blue-900",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"color.text.accent": what.css([
-						"text-purple-900",
-					]),
-					"color.text.warning": what.css([
-						"text-yellow-900",
-					]),
-					"color.text.error": what.css([
-						"text-red-900",
-					]),
-					"spacing.padding.xs": what.css([
-						"p-1",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-					"spacing.padding.xl": what.css([
-						"p-8",
-					]),
-					"spacing.margin.xs": what.css([
-						"m-1",
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"spacing.margin.lg": what.css([
-						"m-6",
-					]),
-					"spacing.margin.xl": what.css([
-						"m-8",
-					]),
-					"border.width.none": what.css([
-						"border-0",
-					]),
-					"border.width.thin": what.css([
-						"border",
-					]),
-					"border.width.medium": what.css([
-						"border-2",
-					]),
-					"border.width.thick": what.css([
-						"border-4",
-					]),
-					"border.radius.none": what.css([
-						"rounded-none",
-					]),
-					"border.radius.sm": what.css([
-						"rounded-sm",
-					]),
-					"border.radius.md": what.css([
-						"rounded-md",
-					]),
-					"border.radius.lg": what.css([
-						"rounded-lg",
-					]),
-					"border.radius.xl": what.css([
-						"rounded-xl",
-					]),
-					"border.radius.full": what.css([
-						"rounded-full",
-					]),
-					"shadow.depth.none": what.css([
-						"shadow-none",
-					]),
-					"shadow.depth.sm": what.css([
-						"shadow-sm",
-					]),
-					"shadow.depth.md": what.css([
-						"shadow-md",
-					]),
-					"shadow.depth.lg": what.css([
-						"shadow-lg",
-					]),
-					"shadow.depth.xl": what.css([
-						"shadow-xl",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-500",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-purple-500",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-500",
+						],
+					},
+					"color.bg.error": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-purple-900",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-yellow-900",
+						],
+					},
+					"color.text.error": {
+						class: [
+							"text-red-900",
+						],
+					},
+					"spacing.padding.xs": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"spacing.padding.xl": {
+						class: [
+							"p-8",
+						],
+					},
+					"spacing.margin.xs": {
+						class: [
+							"m-1",
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"spacing.margin.lg": {
+						class: [
+							"m-6",
+						],
+					},
+					"spacing.margin.xl": {
+						class: [
+							"m-8",
+						],
+					},
+					"border.width.none": {
+						class: [
+							"border-0",
+						],
+					},
+					"border.width.thin": {
+						class: [
+							"border",
+						],
+					},
+					"border.width.medium": {
+						class: [
+							"border-2",
+						],
+					},
+					"border.width.thick": {
+						class: [
+							"border-4",
+						],
+					},
+					"border.radius.none": {
+						class: [
+							"rounded-none",
+						],
+					},
+					"border.radius.sm": {
+						class: [
+							"rounded-sm",
+						],
+					},
+					"border.radius.md": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.lg": {
+						class: [
+							"rounded-lg",
+						],
+					},
+					"border.radius.xl": {
+						class: [
+							"rounded-xl",
+						],
+					},
+					"border.radius.full": {
+						class: [
+							"rounded-full",
+						],
+					},
+					"shadow.depth.none": {
+						class: [
+							"shadow-none",
+						],
+					},
+					"shadow.depth.sm": {
+						class: [
+							"shadow-sm",
+						],
+					},
+					"shadow.depth.md": {
+						class: [
+							"shadow-md",
+						],
+					},
+					"shadow.depth.lg": {
+						class: [
+							"shadow-lg",
+						],
+					},
+					"shadow.depth.xl": {
+						class: [
+							"shadow-xl",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-							"spacing.padding.md",
-							"spacing.margin.md",
-							"border.width.thin",
-							"border.radius.md",
-							"shadow.depth.sm",
-						]),
-						icon: what.token([
-							"color.text.primary",
-							"spacing.padding.xs",
-							"spacing.margin.xs",
-						]),
-						label: what.css([
-							"color.text.primary",
-							"spacing.padding.sm",
-							"spacing.margin.sm",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.width.thin",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 							size: "md",
 							state: "normal",
 							theme: "light",
 						},
-						{
-							root: what.css([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.width.thin",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							icon: what.css([
-								"color.text.primary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.css([
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.width.thin",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "warning",
 							size: "lg",
 							state: "hover",
 							theme: "dark",
 						},
-						{
-							root: what.css([
-								"color.bg.warning",
-								"color.text.warning",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.width.medium",
-								"border.radius.lg",
-								"shadow.depth.lg",
-							]),
-							icon: what.css([
-								"color.text.warning",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
-							label: what.css([
-								"color.text.warning",
-								"spacing.padding.md",
-								"spacing.margin.md",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.warning",
+									"color.text.warning",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.width.medium",
+									"border.radius.lg",
+									"shadow.depth.lg",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.warning",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
+							label: {
+								token: [
+									"color.text.warning",
+									"spacing.padding.md",
+									"spacing.margin.md",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "error",
 							size: "xl",
 							state: "disabled",
 							theme: "auto",
 						},
-						{
-							root: what.token([
-								"color.bg.error",
-								"color.text.error",
-								"spacing.padding.xl",
-								"spacing.margin.xl",
-								"border.width.thick",
-								"border.radius.xl",
-								"shadow.depth.xl",
-							]),
-							icon: what.token([
-								"color.text.error",
-								"spacing.padding.md",
-								"spacing.margin.md",
-							]),
-							label: what.token([
-								"color.text.error",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.error",
+									"color.text.error",
+									"spacing.padding.xl",
+									"spacing.margin.xl",
+									"border.width.thick",
+									"border.radius.xl",
+									"shadow.depth.xl",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.error",
+									"spacing.padding.md",
+									"spacing.margin.md",
+								],
+							},
+							label: {
+								token: [
+									"color.text.error",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+								],
+							},
 						},
-					),
+					},
 
 					// Additional rules for test cases
-					def.rule(
-						{
+					{
+						match: {
 							color: "secondary",
 							size: "sm",
 							state: "normal",
 							theme: "light",
 						},
-						{
-							root: what.token([
-								"color.bg.secondary",
-								"color.text.secondary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.width.thin",
-								"border.radius.sm",
-								"shadow.depth.sm",
-							]),
-							icon: what.token([
-								"color.text.secondary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.token([
-								"color.text.secondary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.width.thin",
+									"border.radius.sm",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.secondary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.secondary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "secondary",
 							size: "xs",
 							state: "normal",
 							theme: "light",
 						},
-						{
-							root: what.token([
-								"color.bg.secondary",
-								"color.text.secondary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-								"border.width.thin",
-								"border.radius.sm",
-								"shadow.depth.sm",
-							]),
-							icon: what.token([
-								"color.text.secondary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.token([
-								"color.text.secondary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+									"border.width.thin",
+									"border.radius.sm",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.secondary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.secondary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "primary",
 							size: "sm",
 							state: "normal",
 							theme: "light",
 						},
-						{
-							root: what.css([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.width.thin",
-								"border.radius.sm",
-								"shadow.depth.sm",
-							]),
-							icon: what.css([
-								"color.text.primary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.css([
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.width.thin",
+									"border.radius.sm",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "accent",
 							size: "lg",
 							state: "normal",
 							theme: "auto",
 						},
-						{
-							root: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.width.thin",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							icon: what.token([
-								"color.text.accent",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.token([
-								"color.text.accent",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.width.thin",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.accent",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.accent",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "primary",
 							size: "sm",
 							state: "disabled",
 							theme: "light",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.width.thin",
-								"border.radius.sm",
-								"shadow.depth.sm",
-							]),
-							icon: what.token([
-								"color.text.primary",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.token([
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.width.thin",
+									"border.radius.sm",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "accent",
 							size: "lg",
 							state: "loading",
 							theme: "dark",
 						},
-						{
-							root: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.width.thin",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							icon: what.token([
-								"color.text.accent",
-								"spacing.padding.xs",
-								"spacing.margin.xs",
-							]),
-							label: what.token([
-								"color.text.accent",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.width.thin",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.accent",
+									"spacing.padding.xs",
+									"spacing.margin.xs",
+								],
+							},
+							label: {
+								token: [
+									"color.text.accent",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "md",
 					state: "normal",
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Dynamic variant computation functions
@@ -523,88 +655,88 @@ describe("11.2 Dynamic Variants - Dynamic Variant Behavior", () => {
 		};
 
 		// Test dynamic variant computation with different scenarios
-		const dynamicLowPriority = DynamicComponent.create(() => ({
+		const { slots: dynamicLowPriority } = DynamicComponent.create({
 			variant: {
 				color: computeColor("low"),
 				size: computeSize(2),
 				state: computeState(true, false),
 				theme: computeTheme("light"),
 			},
-		}));
+		});
 		expect(dynamicLowPriority.root()).toBe(
 			"bg-gray-500 text-gray-900 p-2 m-2 border rounded-sm shadow-sm",
 		);
 
-		const dynamicMediumPriority = DynamicComponent.create(() => ({
+		const { slots: dynamicMediumPriority } = DynamicComponent.create({
 			variant: {
 				color: computeColor("medium"),
 				size: computeSize(4),
 				state: computeState(true, false),
 				theme: computeTheme("dark"),
 			},
-		}));
+		});
 		expect(dynamicMediumPriority.root()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border rounded-md shadow-sm",
 		);
 
-		const dynamicHighPriority = DynamicComponent.create(() => ({
+		const { slots: dynamicHighPriority } = DynamicComponent.create({
 			variant: {
 				color: computeColor("high"),
 				size: computeSize(7),
 				state: computeState(true, false),
 				theme: computeTheme("system"),
 			},
-		}));
+		});
 		expect(dynamicHighPriority.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border rounded-md shadow-sm",
 		);
 
 		// Test dynamic state computation
-		const dynamicDisabled = DynamicComponent.create(() => ({
+		const { slots: dynamicDisabled } = DynamicComponent.create({
 			variant: {
 				color: computeColor("medium"),
 				size: computeSize(3),
 				state: computeState(false, false),
 				theme: computeTheme("light"),
 			},
-		}));
+		});
 		expect(dynamicDisabled.root()).toBe(
 			"bg-blue-500 text-blue-900 p-2 m-2 border rounded-sm shadow-sm",
 		);
 
-		const dynamicLoading = DynamicComponent.create(() => ({
+		const { slots: dynamicLoading } = DynamicComponent.create({
 			variant: {
 				color: computeColor("high"),
 				size: computeSize(8),
 				state: computeState(true, true),
 				theme: computeTheme("dark"),
 			},
-		}));
+		});
 		expect(dynamicLoading.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border rounded-md shadow-sm",
 		);
 
 		// Test dynamic size computation with different counts
-		const dynamicSizeXS = DynamicComponent.create(() => ({
+		const { slots: dynamicSizeXS } = DynamicComponent.create({
 			variant: {
 				color: computeColor("low"),
 				size: computeSize(1),
 				state: computeState(true, false),
 				theme: computeTheme("light"),
 			},
-		}));
+		});
 		expect(dynamicSizeXS.root()).toBe(
 			"bg-gray-500 text-gray-900 p-1 m-1 border rounded-sm shadow-sm",
 		);
 
-		const dynamicSizeXL = DynamicComponent.create(() => ({
+		const { slots: dynamicSizeXL } = DynamicComponent.create({
 			variant: {
 				color: "error",
 				size: computeSize(15),
 				state: computeState(false, false),
 				theme: computeTheme("system"),
 			},
-		}));
+		});
 		expect(dynamicSizeXL.root()).toBe(
 			"bg-red-500 text-red-900 p-8 m-8 border-4 rounded-xl shadow-xl",
 		);

@@ -35,13 +35,15 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	tweak,
 	...props
 }) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		slot: what.slot({
-			root: what.css([
-				"relative",
-			]),
-		}),
-	}));
+	const { slots } = useCls(cls, tweak, {
+		slot: {
+			root: {
+				class: [
+					"relative",
+				],
+			},
+		},
+	});
 
 	return (
 		<FloatingTree>
@@ -54,13 +56,13 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 							iconEnabled={icon}
 							iconProps={iconProps}
 							size={"sm"}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									border: true,
 									tone: "neutral",
 									theme: "light",
-								}),
-							})}
+								},
+							}}
 							{...actionProps}
 							{...props}
 						/>

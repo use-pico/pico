@@ -24,7 +24,7 @@ export const Issues: FC<Issues.Props> = ({
 	tweak,
 	...props
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
 		error: ErrorIcon,
@@ -61,17 +61,17 @@ export const Issues: FC<Issues.Props> = ({
 					<Badge
 						key={`issues-${entity.id}-inline`}
 						data-ui="Issues-item"
-						tweak={({ what }) => ({
-							slot: what.slot({
-								root: what.css(
-									slots.item(({ what }) => ({
-										variant: what.variant({
+						tweak={{
+							slot: {
+								root: {
+									class: slots.item({
+										variant: {
 											type: entity.type,
-										}),
-									})),
-								),
-							}),
-						})}
+										},
+									}),
+								},
+							},
+						}}
 					>
 						<Icon icon={icons[entity.type]} />
 						<Tx label={entity.message} />

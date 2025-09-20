@@ -41,140 +41,182 @@ describe("12.3 React Components - Component Identity and Type Safety", () => {
 					] as const,
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-200",
-					]),
-					"spacing.padding.small": what.css([
-						"p-2",
-					]),
-					"spacing.padding.medium": what.css([
-						"p-4",
-					]),
-					"spacing.padding.large": what.css([
-						"p-6",
-					]),
-					"border.radius.small": what.css([
-						"rounded",
-					]),
-					"border.radius.medium": what.css([
-						"rounded-md",
-					]),
-					"border.radius.large": what.css([
-						"rounded-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-200",
+						],
+					},
+					"spacing.padding.small": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.medium": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.large": {
+						class: [
+							"p-6",
+						],
+					},
+					"border.radius.small": {
+						class: [
+							"rounded",
+						],
+					},
+					"border.radius.medium": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.large": {
+						class: [
+							"rounded-lg",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-							"spacing.padding.medium",
-							"border.radius.medium",
-						]),
-						icon: what.both(
-							[
-								"w-4",
-								"h-4",
-							],
-							[
-								"color.text.primary",
-							],
-						),
-						label: what.both(
-							[
-								"font-medium",
-							],
-							[
-								"color.text.primary",
-							],
-						),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.medium",
+									"border.radius.medium",
+								],
+							},
+							icon: {
+								class: [
+									"w-4",
+									"h-4",
+								],
+								token: [
+									"color.text.primary",
+								],
+							},
+							label: {
+								class: [
+									"font-medium",
+								],
+								token: [
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "secondary",
 						},
-						{
-							root: what.token([
-								"color.bg.secondary",
-								"color.text.secondary",
-							]),
-							icon: what.token([
-								"color.text.secondary",
-							]),
-							label: what.token([
-								"color.text.secondary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
+							icon: {
+								token: [
+									"color.text.secondary",
+								],
+							},
+							label: {
+								token: [
+									"color.text.secondary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "small",
 						},
-						{
-							root: what.token([
-								"spacing.padding.small",
-							]),
-							icon: what.css([
-								"w-3",
-								"h-3",
-							]),
+						slot: {
+							root: {
+								token: [
+									"spacing.padding.small",
+								],
+							},
+							icon: {
+								class: [
+									"w-3",
+									"h-3",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "large",
 						},
-						{
-							root: what.token([
-								"spacing.padding.large",
-							]),
-							icon: what.css([
-								"w-6",
-								"h-6",
-							]),
+						slot: {
+							root: {
+								token: [
+									"spacing.padding.large",
+								],
+							},
+							icon: {
+								class: [
+									"w-6",
+									"h-6",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							variant: "outlined",
 						},
-						{
-							root: what.css([
-								"border",
-								"border-current",
-								"bg-transparent",
-							]),
+						slot: {
+							root: {
+								class: [
+									"border",
+									"border-current",
+									"bg-transparent",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							variant: "ghost",
 						},
-						{
-							root: what.css([
-								"bg-transparent",
-								"hover:bg-opacity-10",
-							]),
+						slot: {
+							root: {
+								class: [
+									"bg-transparent",
+									"hover:bg-opacity-10",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
 					variant: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		interface ButtonProps {

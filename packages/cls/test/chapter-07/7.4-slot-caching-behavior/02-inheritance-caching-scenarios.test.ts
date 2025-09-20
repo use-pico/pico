@@ -25,51 +25,63 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"inline-flex",
-								"items-center",
-							],
-							[
-								"color.bg.default",
-								"color.text.default",
-							],
-						),
-					}),
-					def.rule(
-						what.variant({
-							variant: "primary",
-						}),
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+					{
+						slot: {
+							root: {
+								class: [
+									"inline-flex",
+									"items-center",
+								],
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
 						},
-					),
+					},
+					{
+						match: {
+							variant: "primary",
+						},
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
 					variant: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		const ExtendedButton = BaseButton.extend(
@@ -102,84 +114,108 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-600",
-					]),
-					"spacing.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"spacing.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"spacing.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-600",
+						],
+					},
+					"spacing.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"spacing.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"spacing.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"rounded-md",
-							"font-medium",
-						]),
-						label: what.css([
-							"font-medium",
-						]),
-					}),
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								class: [
+									"rounded-md",
+									"font-medium",
+								],
+							},
+							label: {
+								class: [
+									"font-medium",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "lg",
-						}),
-						{
-							root: what.token([
-								"spacing.lg",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"spacing.lg",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							variant: "danger",
-						}),
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.primary",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							loading: true,
-						}),
-						{
-							root: what.css([
-								"opacity-75",
-								"cursor-not-allowed",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								class: [
+									"opacity-75",
+									"cursor-not-allowed",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
 					variant: "default",
 					loading: false,
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test inheritance caching behavior
-		const baseButton = BaseButton.create();
-		const extendedButton = ExtendedButton.create();
+		const { slots: baseButton } = BaseButton.create();
+		const { slots: extendedButton } = ExtendedButton.create();
 
 		// Base button should have its own slot functions
 		const baseRoot = baseButton.root();
@@ -199,34 +235,34 @@ describe("7.4 Slot Caching Behavior - Inheritance Caching Scenarios", () => {
 		expect(baseButton.root).not.toBe(extendedButton.root);
 
 		// Test that extended button can still use dynamic calls
-		const dynamicExtendedRoot = extendedButton.root(({ what }) => ({
-			variant: what.variant({
+		const dynamicExtendedRoot = extendedButton.root({
+			variant: {
 				variant: "danger",
 				size: "lg",
 				loading: true,
-			}),
-		}));
+			},
+		});
 		expect(dynamicExtendedRoot).toBe(
 			"inline-flex items-center rounded-md font-medium px-6 py-3 bg-red-600 text-white opacity-75 cursor-not-allowed",
 		);
 
 		// Test that the dynamic call result is cached for the same parameters
-		const secondDynamicCall = extendedButton.root(({ what }) => ({
-			variant: what.variant({
+		const secondDynamicCall = extendedButton.root({
+			variant: {
 				variant: "danger",
 				size: "lg",
 				loading: true,
-			}),
-		}));
+			},
+		});
 		expect(secondDynamicCall).toBe(dynamicExtendedRoot);
 
 		// Test that different parameters still compute new results
-		const differentDynamicCall = extendedButton.root(({ what }) => ({
-			variant: what.variant({
+		const differentDynamicCall = extendedButton.root({
+			variant: {
 				variant: "primary",
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(differentDynamicCall).toBe(
 			"inline-flex items-center bg-blue-600 text-white rounded-md font-medium",
 		);

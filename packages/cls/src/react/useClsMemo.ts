@@ -1,10 +1,11 @@
 import { type DependencyList, useMemo } from "react";
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
-import type { Slot } from "../types/Slot";
 import type { Tweak } from "../types/Tweak";
-import { tweakWithContextToken } from "./tweakWithContextToken";
+import { clsTweakToken } from "../utils/clsTweakToken";
+import { merge } from "../utils/merge";
 import { useClsContext } from "./useClsContext";
+import { useTweakContext } from "./useTweakContext";
 
 /**
  * Memoized version of `useCls` that optimizes performance by memoizing the CLS slot creation.
@@ -30,19 +31,19 @@ import { useClsContext } from "./useClsContext";
  * @example
  * ```tsx
  * // Basic usage with memoization
- * const slots = useClsMemo(ButtonCls, ({ what }) => ({
- *   variant: what.variant({ size: "lg", tone: "primary" })
- * }));
+ * const slots = useClsMemo(ButtonCls, {
+ *   variant: { size: "lg", tone: "primary" }
+ * });
  *
  * // With user and internal tweak functions
  * const slots = useClsMemo(
  *   ButtonCls,
  *   userTweak, // User customization from props
- *   ({ what }) => ({ // Internal component logic
- *     variant: what.variant({
+ *   { // Internal component logic
+ *     variant: {
  *       disabled: disabled || loading // Component-controlled state
- *     })
- *   })
+ *     }
+ *   }
  * );
  *
  * // Use in JSX
@@ -60,15 +61,15 @@ import { useClsContext } from "./useClsContext";
  *   // This will only recompute when size, tone, disabled, or loading change
  *   const slots = useClsMemo(
  *     ButtonCls,
- *     ({ what }) => ({
- *       variant: what.variant({ size, tone }),
- *       slot: what.slot({
- *         root: what.css(["transition-all", "duration-200"])
- *       })
- *     }),
- *     ({ what }) => ({
- *       variant: what.variant({ disabled: disabled || loading })
- *     })
+ *     {
+ *       variant: { size, tone },
+ *       slot: {
+ *         root: { class: ["transition-all", "duration-200"] }
+ *       }
+ *     },
+ *     {
+ *       variant: { disabled: disabled || loading }
+ *     }
  *   );
  *
  *   return <button className={slots.root()}>Button</button>;
@@ -77,17 +78,27 @@ import { useClsContext } from "./useClsContext";
  */
 export function useClsMemo<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
-	userTweakFn?: Tweak.Fn<TContract>,
-	internalTweakFn?: Tweak.Fn<TContract>,
+	userTweak?: Tweak.Type<TContract>,
+	internalTweak?: Tweak.Type<TContract>,
 	deps: DependencyList = [],
-): Slot.Kit<TContract> {
-	const clsContext = useClsContext<Cls.Type<TContract>>();
+): Cls.Kit<TContract> {
+	const context = useClsContext();
+	const tweak = useTweakContext();
 
 	return useMemo(
 		() =>
 			cls.create(
-				userTweakFn,
-				tweakWithContextToken(clsContext, internalTweakFn),
+				merge<TContract>(userTweak, tweak as Tweak.Type<TContract>),
+				clsTweakToken<TContract>(
+					/**
+					 * This is a lie, but because CLS is quite flexible, it does not really matter.
+					 *
+					 * Overall, it's much simpler to use "general" context than connect also all components
+					 * using custom "cls".
+					 */
+					context as Cls.Type<TContract>,
+					internalTweak,
+				),
 			),
 		// biome-ignore lint/correctness/useExhaustiveDependencies: User driven
 		deps,

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import type { Cls } from "../types/Cls";
+import type { Contract } from "../types/Contract";
 import { ClsContext } from "./ClsContext";
 
 /**
@@ -19,10 +20,10 @@ import { ClsContext } from "./ClsContext";
  * }
  * ```
  */
-export function useClsContext<TCls extends Cls.Type<any>>(): TCls | undefined {
+export function useClsContext(): Cls.Type<Contract.Any> | undefined {
 	/**
 	 * This is not nice to override return type, we're expecting a user knows, what he
 	 * does (hopefully).
 	 */
-	return useContext(ClsContext) as TCls;
+	return useContext(ClsContext);
 }

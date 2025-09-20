@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Context Token Inheritance", () => {
 	it("should handle context token inheritance correctly", () => {
@@ -25,56 +25,66 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"p-4",
-								"rounded",
-							],
-							[
-								"color.bg.light",
-								"color.text.light",
-							],
-						),
-					}),
-					def.rule(
-						{
-							theme: "dark",
-						},
-						{
-							root: what.both(
-								[
+					{
+						slot: {
+							root: {
+								class: [
 									"p-4",
 									"rounded",
 								],
-								[
+								token: [
+									"color.bg.light",
+									"color.text.light",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							theme: "dark",
+						},
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"rounded",
+								],
+								token: [
 									"color.bg.dark",
 									"color.text.dark",
 								],
-							),
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create extended theme cls instance
@@ -94,65 +104,71 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.accent.blue": what.css([
-						"border-blue-500",
-					]),
-					"color.accent.green": what.css([
-						"border-green-500",
-					]),
-				}),
+			{
+				token: {
+					"color.accent.blue": {
+						class: [
+							"border-blue-500",
+						],
+					},
+					"color.accent.green": {
+						class: [
+							"border-green-500",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"p-4",
-								"rounded",
-							],
-							[
-								"color.bg.light",
-								"color.text.light",
-								"color.accent.blue",
-							],
-						),
-					}),
-					def.rule(
-						{
-							theme: "dark",
-							accent: "green",
-						},
-						{
-							root: what.both(
-								[
+					{
+						slot: {
+							root: {
+								class: [
 									"p-4",
 									"rounded",
 								],
-								[
+								token: [
+									"color.bg.light",
+									"color.text.light",
+									"color.accent.blue",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							theme: "dark",
+							accent: "green",
+						},
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"rounded",
+								],
+								token: [
 									"color.bg.dark",
 									"color.text.dark",
 									"color.accent.green",
 								],
-							),
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
 					accent: "blue",
-				}),
-			}),
+				},
+			},
 		);
 
 		const TestComponent: FC<{
 			variant?: "default" | "highlighted";
 		}> = ({ variant = "default" }) => {
-			const classes = useCls(ExtendedThemeCls, ({ what }) => ({
-				variant: what.variant({
+			const { slots: classes } = useCls(ExtendedThemeCls, {
+				variant: {
 					theme: variant === "highlighted" ? "dark" : "light",
 					accent: variant === "highlighted" ? "green" : "blue",
-				}),
-			}));
+				},
+			});
 
 			if (!classes) {
 				return null;
@@ -163,9 +179,9 @@ describe("12.5 React Integration - Context Token Inheritance", () => {
 
 		// Render with extended context provider
 		render(
-			<ClsProvider value={ExtendedThemeCls}>
+			<ClsContext value={ExtendedThemeCls}>
 				<TestComponent variant="highlighted" />
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		const component = screen.getByText("Test Component");

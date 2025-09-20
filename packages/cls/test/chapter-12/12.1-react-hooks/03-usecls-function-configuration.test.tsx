@@ -23,58 +23,72 @@ describe("12.1 React Hooks - Basic useCls - Function Configuration", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							variant: "secondary",
 						},
-						{
-							root: what.token([
-								"color.bg.secondary",
-								"color.text.secondary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					variant: "primary",
-				}),
+				},
+			},
+		);
+
+		// Test useCls with object configuration
+		const { result } = renderHook(() =>
+			useCls(VariantCls, {
+				variant: {
+					variant: "secondary",
+				},
 			}),
 		);
 
-		// Test useCls with function configuration
-		const { result } = renderHook(() =>
-			useCls(VariantCls, ({ what }) => ({
-				variant: what.variant({
-					variant: "secondary",
-				}),
-			})),
-		);
-
-		const classes = result.current;
+		const { slots } = result.current;
 
 		// Should apply secondary variant
-		expect(classes.root()).toBe("bg-gray-600 text-gray-900");
+		expect(slots.root()).toBe("bg-gray-600 text-gray-900");
 	});
 });

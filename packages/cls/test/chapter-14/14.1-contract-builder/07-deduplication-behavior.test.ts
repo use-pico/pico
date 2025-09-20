@@ -138,17 +138,17 @@ describe("14.1 Contract Builder - Deduplication Behavior", () => {
 		]);
 
 		// Verify functionality still works correctly
-		const defaultSlots = TestCls.create();
+		const { slots: defaultSlots } = TestCls.create();
 		expect(defaultSlots.root()).toBe("base");
 
-		const customSlots = TestCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: customSlots } = TestCls.create({
+			variant: {
 				size: "lg",
 				theme: "dark",
 				disabled: true,
 				loading: true,
-			}),
-		}));
+			},
+		});
 		expect(customSlots.root()).toBe("base");
 	});
 });

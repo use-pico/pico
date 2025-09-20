@@ -18,29 +18,37 @@ describe("local slot undefined variants", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				defaults: def.defaults({
+			{
+				defaults: {
 					type: "primary",
-				}),
-				token: def.token({
-					base: what.css([
-						"base-styles",
-					]),
-				}),
+				},
+				token: {
+					base: {
+						class: [
+							"base-styles",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"base",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"base",
+								],
+							},
+						},
+					},
 					{
 						match: {
 							type: "primary",
 						},
 						slot: {
-							root: what.css([
-								"bg-blue-500",
-							]),
+							root: {
+								class: [
+									"bg-blue-500",
+								],
+							},
 						},
 					},
 					{
@@ -48,23 +56,25 @@ describe("local slot undefined variants", () => {
 							type: "secondary",
 						},
 						slot: {
-							root: what.css([
-								"bg-gray-500",
-							]),
+							root: {
+								class: [
+									"bg-gray-500",
+								],
+							},
 						},
 					},
 				],
-			}),
+			},
 		);
 
-		const slots = buttonCls.create();
+		const { slots } = buttonCls.create();
 
 		// Test local configuration with undefined variant
-		const result = slots.root(({ what }) => ({
-			variant: what.variant({
+		const result = slots.root({
+			variant: {
 				type: undefined, // Should be filtered out, use default "primary"
-			}),
-		}));
+			},
+		});
 
 		// Should use default type "primary"
 		expect(result).toBe("base-styles bg-blue-500");

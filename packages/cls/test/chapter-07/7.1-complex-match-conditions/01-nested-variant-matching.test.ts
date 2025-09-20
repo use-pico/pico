@@ -50,361 +50,431 @@ describe("7.1 Complex Match Conditions - Nested Variant Matching", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.warning": what.css([
-						"bg-yellow-500",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"color.text.warning": what.css([
-						"text-white",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"size.sm": what.css([
-						"text-xs",
-						"px-2",
-						"py-1",
-					]),
-					"size.md": what.css([
-						"text-sm",
-						"px-3",
-						"py-2",
-					]),
-					"size.lg": what.css([
-						"text-base",
-						"px-4",
-						"py-2",
-					]),
-					"size.xl": what.css([
-						"text-lg",
-						"px-6",
-						"py-3",
-					]),
-					"state.default": what.css([]),
-					"state.hover": what.css([]),
-					"state.active": what.css([]),
-					"state.disabled": what.css([]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-500",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.sm": {
+						class: [
+							"text-xs",
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.md": {
+						class: [
+							"text-sm",
+							"px-3",
+							"py-2",
+						],
+					},
+					"size.lg": {
+						class: [
+							"text-base",
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.xl": {
+						class: [
+							"text-lg",
+							"px-6",
+							"py-3",
+						],
+					},
+					"state.default": {
+						class: [],
+					},
+					"state.hover": {
+						class: [],
+					},
+					"state.active": {
+						class: [],
+					},
+					"state.disabled": {
+						class: [],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.md",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.md",
+								],
+							},
+						},
+					},
 					// Color-specific rules
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "warning",
 						},
-						{
-							root: what.token([
-								"color.bg.warning",
-								"color.text.warning",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.warning",
+									"color.text.warning",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "danger",
 						},
-						{
-							root: what.token([
-								"color.bg.danger",
-								"color.text.danger",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.danger",
+									"color.text.danger",
+								],
+							},
 						},
-					),
+					},
 					// Size-specific rules
-					def.rule(
-						{
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.token([
-								"size.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.lg",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "xl",
 						},
-						{
-							root: what.token([
-								"size.xl",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.xl",
+								],
+							},
 						},
-					),
+					},
 					// State-specific rules
-					def.rule(
-						{
+					{
+						match: {
 							state: "hover",
 						},
-						{
-							root: what.css([
-								"hover:bg-opacity-90",
-								"transition-colors",
-							]),
+						slot: {
+							root: {
+								class: [
+									"hover:bg-opacity-90",
+									"transition-colors",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							state: "active",
 						},
-						{
-							root: what.css([
-								"active:bg-opacity-75",
-								"transform",
-								"scale-95",
-							]),
+						slot: {
+							root: {
+								class: [
+									"active:bg-opacity-75",
+									"transform",
+									"scale-95",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							state: "disabled",
 						},
-						{
-							root: what.css([
-								"opacity-50",
-								"cursor-not-allowed",
-							]),
+						slot: {
+							root: {
+								class: [
+									"opacity-50",
+									"cursor-not-allowed",
+								],
+							},
 						},
-					),
+					},
 					// Complex nested matching - color + size combinations
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"shadow-lg",
-								"border-2",
-								"border-blue-600",
-							]),
+						slot: {
+							root: {
+								class: [
+									"shadow-lg",
+									"border-2",
+									"border-blue-600",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 							size: "xl",
 						},
-						{
-							root: what.css([
-								"shadow-xl",
-								"border-2",
-								"border-green-600",
-								"rounded-xl",
-							]),
+						slot: {
+							root: {
+								class: [
+									"shadow-xl",
+									"border-2",
+									"border-green-600",
+									"rounded-xl",
+								],
+							},
 						},
-					),
+					},
 					// Complex nested matching - color + state combinations
-					def.rule(
-						{
+					{
+						match: {
 							color: "danger",
 							state: "hover",
 						},
-						{
-							root: what.css([
-								"hover:bg-red-600",
-								"hover:shadow-md",
-							]),
+						slot: {
+							root: {
+								class: [
+									"hover:bg-red-600",
+									"hover:shadow-md",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "warning",
 							state: "active",
 						},
-						{
-							root: what.css([
-								"active:bg-yellow-600",
-								"active:shadow-inner",
-							]),
+						slot: {
+							root: {
+								class: [
+									"active:bg-yellow-600",
+									"active:shadow-inner",
+								],
+							},
 						},
-					),
+					},
 					// Triple nested matching - color + size + state
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 							size: "lg",
 							state: "hover",
 						},
-						{
-							root: what.css([
-								"hover:shadow-2xl",
-								"hover:border-blue-700",
-							]),
+						slot: {
+							root: {
+								class: [
+									"hover:shadow-2xl",
+									"hover:border-blue-700",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					size: "md",
 					state: "default",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test default state
-		const defaultInstance = Component.create();
+		const { slots: defaultInstance } = Component.create();
 		expect(defaultInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 text-sm px-3 py-2",
 		);
 
 		// Test color variants
-		const primaryInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: primaryInstance } = Component.create({
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		});
 		expect(primaryInstance.root()).toBe(
 			"text-sm px-3 py-2 bg-blue-500 text-white",
 		);
 
-		const successInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: successInstance } = Component.create({
+			variant: {
 				color: "success",
-			}),
-		}));
+			},
+		});
 		expect(successInstance.root()).toBe(
 			"text-sm px-3 py-2 bg-green-500 text-white",
 		);
 
 		// Test size variants
-		const largeInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: largeInstance } = Component.create({
+			variant: {
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(largeInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 text-base px-4 py-2",
 		);
 
-		const xlInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: xlInstance } = Component.create({
+			variant: {
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(xlInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 text-lg px-6 py-3",
 		);
 
 		// Test state variants
-		const hoverInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: hoverInstance } = Component.create({
+			variant: {
 				state: "hover",
-			}),
-		}));
+			},
+		});
 		expect(hoverInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 text-sm px-3 py-2 hover:bg-opacity-90 transition-colors",
 		);
 
-		const activeInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: activeInstance } = Component.create({
+			variant: {
 				state: "active",
-			}),
-		}));
+			},
+		});
 		expect(activeInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 text-sm px-3 py-2 active:bg-opacity-75 transform scale-95",
 		);
 
 		// Test complex nested matching - color + size
-		const primaryLargeInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: primaryLargeInstance } = Component.create({
+			variant: {
 				color: "primary",
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(primaryLargeInstance.root()).toBe(
 			"bg-blue-500 text-white text-base px-4 py-2 shadow-lg border-2 border-blue-600",
 		);
 
-		const successXlInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: successXlInstance } = Component.create({
+			variant: {
 				color: "success",
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(successXlInstance.root()).toBe(
 			"bg-green-500 text-white text-lg px-6 py-3 shadow-xl border-2 border-green-600 rounded-xl",
 		);
 
 		// Test complex nested matching - color + state
-		const dangerHoverInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: dangerHoverInstance } = Component.create({
+			variant: {
 				color: "danger",
 				state: "hover",
-			}),
-		}));
+			},
+		});
 		expect(dangerHoverInstance.root()).toBe(
 			"text-sm px-3 py-2 bg-red-500 text-white transition-colors hover:bg-red-600 hover:shadow-md",
 		);
 
 		// Test triple nested matching - color + size + state
-		const primaryLargeHoverInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: primaryLargeHoverInstance } = Component.create({
+			variant: {
 				color: "primary",
 				size: "lg",
 				state: "hover",
-			}),
-		}));
+			},
+		});
 		expect(primaryLargeHoverInstance.root()).toBe(
 			"bg-blue-500 text-white text-base px-4 py-2 hover:bg-opacity-90 transition-colors shadow-lg border-2 border-blue-600 hover:shadow-2xl hover:border-blue-700",
 		);

@@ -55,31 +55,31 @@ describe("14.6 Bool Helper - Duplicate Bool Variant", () => {
 			.cls();
 
 		// Test that functionality works normally despite duplicate calls
-		const defaultSlots = ButtonCls.create();
+		const { slots: defaultSlots } = ButtonCls.create();
 		expect(defaultSlots.root()).toBe("btn-base px-4 py-2");
 
-		const disabledSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: disabledSlots } = ButtonCls.create({
+			variant: {
 				disabled: true,
-			}),
-		}));
+			},
+		});
 		expect(disabledSlots.root()).toBe(
 			"btn-base px-4 py-2 opacity-50 cursor-not-allowed",
 		);
 
-		const loadingSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: loadingSlots } = ButtonCls.create({
+			variant: {
 				loading: true,
-			}),
-		}));
+			},
+		});
 		expect(loadingSlots.root()).toBe("btn-base px-4 py-2 animate-pulse");
 
-		const bothSlots = ButtonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: bothSlots } = ButtonCls.create({
+			variant: {
 				disabled: true,
 				loading: true,
-			}),
-		}));
+			},
+		});
 		expect(bothSlots.root()).toBe(
 			"btn-base px-4 py-2 opacity-50 cursor-not-allowed animate-pulse",
 		);

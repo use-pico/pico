@@ -46,7 +46,7 @@ export const BaseCursor: FC<Cursor.Props> = ({
 		],
 	);
 
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div

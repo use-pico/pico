@@ -17,45 +17,53 @@ describe("3.1 Basic Rule Matching - Simple Rule Matching", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-							"rounded",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+									"rounded",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"text-sm",
-								"p-2",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-sm",
+									"p-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"text-lg",
-								"p-6",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-lg",
+									"p-6",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "sm",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 rounded text-sm p-2");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100 rounded text-sm p-2");
 	});
 });

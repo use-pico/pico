@@ -34,97 +34,125 @@ describe("12.4 React Props - Slot Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-white",
-					]),
-					"color.bg.highlighted": what.css([
-						"bg-blue-50",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.highlighted": what.css([
-						"text-blue-900",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.highlighted": {
+						class: [
+							"bg-blue-50",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.highlighted": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.default",
-							"color.text.default",
-							"spacing.padding.md",
-						]),
-						header: what.both(
-							[
-								"font-bold",
-							],
-							[
-								"color.text.default",
-							],
-						),
-						content: what.css([
-							"color.text.default",
-						]),
-					}),
-					def.rule(
-						{
-							theme: "highlighted",
-						},
-						{
-							root: what.css([
-								"color.bg.highlighted",
-								"color.text.highlighted",
-							]),
-							header: what.both(
-								[
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.default",
+									"color.text.default",
+									"spacing.padding.md",
+								],
+							},
+							header: {
+								class: [
 									"font-bold",
 								],
-								[
+								token: [
+									"color.text.default",
+								],
+							},
+							content: {
+								class: [
+									"color.text.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							theme: "highlighted",
+						},
+						slot: {
+							root: {
+								class: [
+									"color.bg.highlighted",
 									"color.text.highlighted",
 								],
-							),
-							content: what.css([
-								"color.text.highlighted",
-							]),
+							},
+							header: {
+								class: [
+									"font-bold",
+								],
+								token: [
+									"color.text.highlighted",
+								],
+							},
+							content: {
+								class: [
+									"color.text.highlighted",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"spacing.padding.sm",
-							]),
+						slot: {
+							root: {
+								class: [
+									"spacing.padding.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"spacing.padding.lg",
-							]),
+						slot: {
+							root: {
+								class: [
+									"spacing.padding.lg",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "default",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		const Card: FC<
@@ -133,11 +161,11 @@ describe("12.4 React Props - Slot Overrides", () => {
 				children: string;
 			}
 		> = ({ tweak: userTweak, title, children }) => {
-			const classes = CardCls.create(userTweak);
+			const { slots } = CardCls.create(userTweak);
 			return (
-				<div className={classes.root()}>
-					<h3 className={classes.header()}>{title}</h3>
-					<div className={classes.content()}>{children}</div>
+				<div className={slots.root()}>
+					<h3 className={slots.header()}>{title}</h3>
+					<div className={slots.content()}>{children}</div>
 				</div>
 			);
 		};
@@ -145,12 +173,12 @@ describe("12.4 React Props - Slot Overrides", () => {
 		// Test with slot-specific overrides
 		render(
 			<Card
-				tweak={({ what }) => ({
-					variant: what.variant({
+				tweak={{
+					variant: {
 						theme: "highlighted",
 						size: "lg",
-					}),
-				})}
+					},
+				}}
 				title="Test Card"
 			>
 				Card content

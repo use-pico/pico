@@ -24,61 +24,75 @@ describe("12.4 React Props - Token Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "secondary",
 						},
-						{
-							root: what.token([
-								"color.bg.secondary",
-								"color.text.secondary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		const SimpleComponent: FC<
 			Cls.Props<typeof SimpleCls, PropsWithChildren>
 		> = ({ tweak: userTweak, children }) => {
-			const classes = SimpleCls.create(userTweak);
+			const { slots: classes } = SimpleCls.create(userTweak);
 			return <div className={classes.root()}>{children}</div>;
 		};
 
 		// Test with token overrides
 		render(
 			<SimpleComponent
-				tweak={({ what }) => ({
-					variant: what.variant({
+				tweak={{
+					variant: {
 						color: "secondary",
-					}),
-				})}
+					},
+				}}
 			>
 				Simple Component
 			</SimpleComponent>,

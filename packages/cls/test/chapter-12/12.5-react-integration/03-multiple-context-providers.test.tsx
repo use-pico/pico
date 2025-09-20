@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Multiple Context Providers", () => {
 	it("should handle multiple context providers correctly", () => {
@@ -25,81 +25,91 @@ describe("12.5 React Integration - Multiple Context Providers", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"p-4",
-								"rounded",
-							],
-							[
-								"color.bg.light",
-								"color.text.light",
-							],
-						),
-					}),
-					def.rule(
-						{
-							theme: "dark",
-						},
-						{
-							root: what.both(
-								[
+					{
+						slot: {
+							root: {
+								class: [
 									"p-4",
 									"rounded",
 								],
-								[
+								token: [
+									"color.bg.light",
+									"color.text.light",
+								],
+							},
+						},
+					},
+					{
+						match: {
+							theme: "dark",
+						},
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"rounded",
+								],
+								token: [
 									"color.bg.dark",
 									"color.text.dark",
 								],
-							),
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create nested component that uses context
 		const NestedComponent: FC = () => {
-			const classes = useCls(BaseThemeCls, ({ what }) => ({
-				variant: what.variant({
+			const { slots } = useCls(BaseThemeCls, {
+				variant: {
 					theme: "dark",
-				}),
-			}));
+				},
+			});
 
-			if (!classes) {
+			if (!slots) {
 				return null;
 			}
 
-			return <div className={classes.root()}>Nested Component</div>;
+			return <div className={slots.root()}>Nested Component</div>;
 		};
 
 		// Render with nested context providers
 		render(
-			<ClsProvider value={BaseThemeCls}>
+			<ClsContext value={BaseThemeCls}>
 				<div>Outer Context</div>
-				<ClsProvider value={BaseThemeCls}>
+				<ClsContext value={BaseThemeCls}>
 					<NestedComponent />
-				</ClsProvider>
-			</ClsProvider>,
+				</ClsContext>
+			</ClsContext>,
 		);
 
 		expect(screen.getByText("Outer Context")).toBeInTheDocument();

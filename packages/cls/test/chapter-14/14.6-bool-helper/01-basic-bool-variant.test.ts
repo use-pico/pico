@@ -49,25 +49,25 @@ describe("14.6 Bool Helper - Basic Bool Variant", () => {
 			.cls();
 
 		// Test default state (active: false)
-		const defaultSlots = ToggleCls.create();
+		const { slots: defaultSlots } = ToggleCls.create();
 		expect(defaultSlots.root()).toBe(
 			"toggle-base bg-gray-200 text-gray-700",
 		);
 
 		// Test active state (active: true)
-		const activeSlots = ToggleCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: activeSlots } = ToggleCls.create({
+			variant: {
 				active: true,
-			}),
-		}));
+			},
+		});
 		expect(activeSlots.root()).toBe("toggle-base bg-blue-500 text-white");
 
 		// Test explicit false state
-		const inactiveSlots = ToggleCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: inactiveSlots } = ToggleCls.create({
+			variant: {
 				active: false,
-			}),
-		}));
+			},
+		});
 		expect(inactiveSlots.root()).toBe(
 			"toggle-base bg-gray-200 text-gray-700",
 		);

@@ -125,56 +125,56 @@ describe("14.6 Bool Helper - Bool Inheritance", () => {
 			.cls();
 
 		// Test parent functionality
-		const baseSlots = BaseCls.create();
+		const { slots: baseSlots } = BaseCls.create();
 		expect(baseSlots.root()).toBe("base-component");
 
-		const baseFocused = BaseCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: baseFocused } = BaseCls.create({
+			variant: {
 				focused: true,
 				size: "lg",
-			}),
-		}));
+			},
+		});
 		expect(baseFocused.root()).toBe(
 			"base-component ring-2 ring-blue-500 text-lg",
 		);
 
 		// Test child inheriting parent bool variants
-		const inputSlots = InputCls.create();
+		const { slots: inputSlots } = InputCls.create();
 		expect(inputSlots.root()).toBe("base-component");
 
 		// Test inherited bool variants
-		const inputDisabled = InputCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: inputDisabled } = InputCls.create({
+			variant: {
 				disabled: true,
 				focused: true,
-			}),
-		}));
+			},
+		});
 		expect(inputDisabled.root()).toBe(
 			"base-component opacity-50 ring-2 ring-blue-500",
 		);
 
 		// Test new bool variants
-		const inputRequired = InputCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: inputRequired } = InputCls.create({
+			variant: {
 				required: true,
 				readonly: true,
-			}),
-		}));
+			},
+		});
 		expect(inputRequired.root()).toBe(
 			"base-component border-red-300 bg-gray-100 cursor-not-allowed",
 		);
 
 		// Test complex combination of inherited and new variants
-		const inputComplex = InputCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: inputComplex } = InputCls.create({
+			variant: {
 				disabled: true,
 				focused: false,
 				size: "lg",
 				required: true,
 				readonly: false,
 				type: "password",
-			}),
-		}));
+			},
+		});
 		expect(inputComplex.root()).toBe(
 			"base-component opacity-50 text-lg border-red-300 font-mono",
 		);

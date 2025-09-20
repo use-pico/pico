@@ -71,12 +71,12 @@ export const JustDropZone: FC<JustDropZone.Props> = ({
 			...props,
 		});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			active: isDragActive,
 			rejected: isDragReject,
-		}),
-	}));
+		},
+	});
 
 	const clear = useCallback(() => setFiles([]), []);
 	const remove = useCallback(

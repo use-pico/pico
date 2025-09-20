@@ -11,6 +11,7 @@
 - [🛠 Installation](#-installation)
 - [🚀 Quick Start](#-quick-start)
 - [✨ Core Features](#-core-features)
+- [🏆 Quality & Reliability](#-quality--reliability)
 - [🏗️ Contract Builder API](#️-contract-builder-api)
   - [🚀 Basic Button Example](#-basic-button-example)
   - [🎯 Using Your Button](#-using-your-button)
@@ -89,9 +90,9 @@ const ButtonCls = contract()
   .cls();                                                             // Create CLS instance
 
 // Step 2: Use it!
-const slots = ButtonCls.create(({ what }) => ({
-  variant: what.variant({ size: "lg" })
-}));
+const slots = ButtonCls.create({
+  variant: { size: "lg" }
+});
 console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-medium px-6 py-3"
 ```
 
@@ -101,9 +102,9 @@ console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-med
 import { useCls } from '@use-pico/cls';
 
 function MyButton({ size = "md", disabled = false }) {
-  const slots = useCls(ButtonCls, ({ what }) => ({
-    variant: what.variant({ size, disabled })
-  }));
+  const { slots, variants } = useCls(ButtonCls, {
+    variant: { size, disabled }
+  });
 
   return (
     <button className={slots.root()}>
@@ -121,6 +122,20 @@ function MyButton({ size = "md", disabled = false }) {
 - **🌐 Framework Agnostic** - Works with React, Vue, Svelte, vanilla JS, or any framework
 - **🎨 Design System Ready** - Tokens, variants, and slots for scalable styling
 - **🛠 Developer Experience** - Excellent IDE support and intuitive API
+
+## 🏆 Quality & Reliability
+
+CLS isn't just another styling library - it's a **heavily polished, battle-tested solution** that's ready for production use.
+
+### ✨ Heavily Polished & Production-Ready
+
+CLS has been refined through *countless iterations* to achieve **maximum convenience** and developer experience. Every piece has been *carefully crafted* and polished to perfection. While the project powers several **larger applications**, its primary development is driven by *side projects* – ensuring the library maintains the **highest quality standards*.
+
+**Production-ready stability** is guaranteed with **zero breaking changes** going forward. When we added the powerful Contract Builder API, it was built *on top of* the main `cls()` function without affecting the overall API - ensuring existing code continues to work perfectly while new features enhance the experience. **Your investment in CLS is safe** - we're committed to maintaining backward compatibility and stable APIs.
+
+### 🧪 Extensively Tested
+
+CLS is *thoroughly tested* with comprehensive test suites covering all features, edge cases, and integration scenarios. **Every bug that has been found gets a new test** to ensure it never happens again - creating a robust safety net that grows stronger with each discovery. This rigorous testing approach means you can trust CLS to work reliably in production environments.
 
 ## 🏗️ Contract Builder API
 
@@ -168,20 +183,25 @@ const ButtonCls = contract()
 ### 🎯 Using Your Button
 
 ```typescript
-// Create styled slots
-const slots = ButtonCls.create(({ what }) => ({
-  variant: what.variant({
+// Create styled slots and variants
+const { slots, variants } = ButtonCls.create({
+  variant: {
     size: "lg",
     tone: "primary",
     disabled: false
-  })
-}));
+  }
+});
 
 // Use in your component
 <button className={slots.root()}>
   <Icon className={slots.icon()} />
   <span className={slots.label()}>Click me!</span>
 </button>
+
+// Access resolved variants for component logic
+console.log(variants.size);     // "lg"
+console.log(variants.tone);     // "primary"
+console.log(variants.disabled); // false
 ```
 
 ### 🔧 Contract Builder Methods
@@ -545,136 +565,57 @@ const ButtonCls = contract()
   .cls();                                                       // Create instance
 ```
 
-### The "What" Utility - Available in Specific Contexts
+### Low-Level API - Advanced Usage
 
-The `what` utility is available in **two specific contexts**:
+> **⚠️ Advanced Usage Warning:** The low-level `cls()` function is available but **quite complicated** and should generally be avoided in favor of the Contract Builder API. It's included here for completeness, but most developers should stick with the `contract()` approach.
 
 #### **1. Low-Level `cls()` Function** 
 ```typescript
 import { cls } from '@use-pico/cls';
 
+// Call cls() with everything embedded for maximum type safety
 const ButtonCls = cls(
+  // Contract (structure) - embedded inline
   {
     tokens: ["color.bg.primary"],
     slot: ["root"],
     variant: { size: ["sm", "md"] }
   },
-  ({ what, def }) => ({  // ← what utility available here
-    token: def.token({
-      "color.bg.primary": what.css(["bg-blue-600"])  // ← Use what utility
-    }),
+  // Definition (styling) - embedded inline
+  {
+    token: {
+      "color.bg.primary": { class: ["bg-blue-600"] }
+    },
     rules: [
-      def.root({
-        root: what.both(["px-4", "py-2"], ["color.bg.primary"])
-      })
+      {
+        match: {}, // No conditions (root rule)
+        slot: {
+          root: { 
+            class: ["px-4", "py-2"], 
+            token: ["color.bg.primary"] 
+          }
+        }
+      }
     ],
-    defaults: def.defaults({ size: "md" })
-  })
+    defaults: { size: "md" }
+  }
 );
 ```
 
 #### **2. Runtime Overrides (Tweak Functions)**
 ```typescript
-// ✅ Use what utility in tweak functions for runtime overrides
-const slots = ButtonCls.create(({ what, override }) => ({
-  variant: what.variant({ size: "lg" }),
-  slot: what.slot({
-    root: what.css(["shadow-lg"])
-  }),
-  override: override.token({
-    "color.bg.primary": what.css(["bg-indigo-600"]) // Override token value
-  })
-}));
+// ✅ Runtime overrides using plain objects
+const { slots, variants } = ButtonCls.create({
+  variant: { size: "lg" },
+  slot: {
+    root: { class: ["shadow-lg"] }
+  },
+  token: {
+    "color.bg.primary": { class: ["bg-indigo-600"] } // Override token value
+  }
+});
 ```
 
-#### **What Utility Methods:**
-```typescript
-what.css(classes)           // Pure CSS classes only
-what.token(tokens)          // Design token references only  
-what.both(classes, tokens)  // Both CSS classes + token references
-what.variant(variant)       // Type-safe variant values
-what.slot(slotConfig)       // Slot configuration object
-```
-
-#### **Override Utility Methods:**
-```typescript
-override.token(tokenOverrides)  // Override token values at runtime
-```
-
-### The `switch()` Helper - Boolean Variant Magic 🎛️
-
-The `switch()` method is a **convenience helper** for boolean variants that automatically generates two rules:
-
-```typescript
-// ✅ Instead of writing two separate rules...
-def.rule({ disabled: true }, { root: { class: ["opacity-50"] } }),
-def.rule({ disabled: false }, { root: { class: ["opacity-100"] } })
-
-// ✅ Use switch() for cleaner code!
-def.switch("disabled", 
-  { root: { class: ["opacity-50"] } },    // when disabled = true
-  { root: { class: ["opacity-100"] } }    // when disabled = false
-)
-
-// Or use match() for single variant matching
-def.match("size", "lg", { root: { class: ["text-lg"] } })
-```
-
-### The `match()` Helper - Single Variant Matching 🎯
-
-The `match()` helper is a **convenience method** for matching a single variant key-value pair:
-
-```typescript
-// Instead of writing a full rule object...
-def.rule({ size: "lg" }, { root: { class: ["text-lg"] } })
-
-// ✅ Use match() for cleaner single-variant rules!
-def.match("size", "lg", { root: { class: ["text-lg"] } })
-def.match("tone", "danger", { root: { class: ["text-red-600"] } })
-def.match("variant", "outline", { root: { class: ["border-2"] } })
-```
-
-**Key Features:**
-- ✅ **Type-safe** - Full TypeScript support with variant validation
-- ✅ **Convenient** - Shorter syntax for single variant matching
-- ✅ **Consistent** - Uses the same `rule()` method under the hood
-- ✅ **Flexible** - Supports any variant type (string, boolean, etc.)
-
-> **💡 Pro Tip:** Use `match()` when you have a single variant to match, `switch()` for boolean variants, and `rule()` for complex multi-variant combinations.
-
-**Real-world example:**
-```typescript
-const ToggleButtonCls = contract()
-  .slots(["root", "icon"])
-  .bool("active")
-  .bool("disabled")
-  .def()
-  .root({
-    root: { class: ["px-4", "py-2", "rounded", "border"] },
-    icon: { class: ["w-4", "h-4"] }
-  })
-  .switch("active",
-    { root: { class: ["bg-blue-600", "text-white"] } },    // when active = true
-    { root: { class: ["bg-gray-200", "text-gray-700"] } }  // when active = false
-  )
-  .switch("disabled",
-    { root: { class: ["opacity-50", "cursor-not-allowed"] } }, // when disabled = true
-    { root: { class: ["hover:bg-blue-700", "cursor-pointer"] } } // when disabled = false
-  )
-  .cls();
-```
-
-**What `switch()` does under the hood:**
-```typescript
-// This:
-def.switch("disabled", whenTrue, whenFalse)
-
-// Is equivalent to:
-def.rule({ disabled: true }, whenTrue)
-def.rule({ disabled: false }, whenFalse)
-```
-
-> **⚠️ Important**: The `what` utility is **NOT** available in the Contract Builder API (`.def()` phase). Contract builder uses a different, simpler syntax for styling values.
 
 ## 🧬 Inheritance
 
@@ -782,29 +723,19 @@ export const BaseButton: FC<Button.Props> = ({
   ...props 
 }) => {
   // 5. useCls with internal and user configs
-  const slots = useCls(cls, tweak, ({ what }) => ({
-    variant: what.variant({
+  const { slots, variants } = useCls(cls, tweak, {
+    variant: {
       disabled: disabled || loading,
       size,
       tone,
-    }),
-  }));
+    },
+  });
 
-  // If you need resolved variants as a single source of truth, you can use useClsEx.
-  // Normally you don't need this; prefer useCls for simplicity and performance.
-  // This is useful because a variant can be set in TWO places:
-  // 1) via component props (e.g. size, tone, disabled)
-  // 2) via the "tweak" function (where users can override variant values)
-  // useClsEx merges both sources and gives you the FINAL resolved values.
-  // Uncomment to access the fully-resolved variant state alongside slots.
-  // const { slots: slotsEx, variants } = useClsEx(cls, tweak, ({ what }) => ({
-  //   variant: what.variant({
-  //     disabled: disabled || loading,
-  //     size,
-  //     tone,
-  //   }),
-  // }));
-  // Now `variants` contains the resolved variant values, e.g. variants.tone/variants.size.
+  // `variants` contains the resolved variant values from both component props and user tweaks
+  // This gives you access to the final resolved state for component logic if needed
+  // console.log(variants.size);     // "lg" (from props or tweak override)
+  // console.log(variants.disabled); // true/false (component logic or tweak override)
+  // console.log(variants.tone);     // "primary" (from props or tweak override)
   
   return (
     <div
@@ -844,20 +775,20 @@ export interface Props extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonEl
 
 #### **2. useCls with Multiple Configs** ⚙️
 ```tsx
-const slots = useCls(
+const { slots, variants } = useCls(
   cls,     // CLS instance (can be overridden)
   tweak,   // User config (from tweak prop)
-  ({ what }) => ({  // Internal config (component logic)
-    variant: what.variant({
+  {  // Internal config (component logic)
+    variant: {
       disabled: disabled || loading,  // Component-controlled logic
       size,
       tone,
-    }),
-  })
+    },
+  }
 );
 ```
 
-> **💡 Precedence Rule:** User `tweak` prop has **higher precedence** than component props. If a user passes `tweak={({ what }) => ({ variant: what.variant({ size: "lg" }) })}`, it will override the component's `size` prop! This gives users full control over styling.
+> **💡 Precedence Rule:** User `tweak` prop has **higher precedence** than component props. If a user passes `tweak={{ variant: { size: "lg" } }}`, it will override the component's `size` prop! This gives users full control over styling.
 
 #### **3. withCls HOC** 🎭
 ```tsx
@@ -911,11 +842,11 @@ const CustomButtonCls = contract(ButtonCls.contract)
 <Button 
   size="lg"
   tone="primary"
-  tweak={({ what }) => ({
+  tweak={{
     slot: what.slot({
-      root: what.css(["shadow-lg", "hover:shadow-xl"])
+      root: { class: ["shadow-lg", "hover:shadow-xl"] }
     }),
-    variant: what.variant({ tone: "secondary" }) // Override tone
+    variant: { tone: "secondary" } // Override tone
   })}
 >
   Customized Button
@@ -924,16 +855,25 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Context Integration**
 ```tsx
-import { ClsProvider } from '@use-pico/cls';
+import { ClsContext, TweakContext, tweak } from '@use-pico/cls';
 
 const App = () => (
-  <ClsProvider value={ThemeCls}>
+  <ClsContext value={ThemeCls}>
     <div>
       {/* All buttons inherit theme tokens */}
       <Button tone="primary">Themed Button</Button>
       <Button tone="secondary">Another Themed Button</Button>
+      
+      {/* Scope tweak overrides to a subtree with type safety */}
+      <TweakContext value={tweak(ButtonCls, { variant: { size: "lg" } })}>
+        <div>
+          {/* All buttons in this subtree will be large */}
+          <Button tone="primary">Large Themed Button</Button>
+          <Button tone="secondary">Another Large Themed Button</Button>
+        </div>
+      </TweakContext>
     </div>
-  </ClsProvider>
+  </ClsContext>
 );
 ```
 
@@ -941,63 +881,46 @@ const App = () => (
 
 ### Available React Hooks
 
-#### **useCls** - The Common Way 🎯
+#### **useCls** - The Main Hook 🎯
 ```tsx
-const slots = useCls(ButtonCls, userTweakFn, internalTweakFn);
+const { slots, variants } = useCls(ButtonCls, userTweakFn, internalTweakFn);
 ```
 
-**`useCls` is the common way** of how CLS should be used in React components. Usually only the **first two arguments** are needed:
+**`useCls` is the main hook** for CLS in React components. It returns both **slots** and **variants** for maximum flexibility:
 
 ```tsx
 // Simple usage - most common pattern
-const slots = useCls(ButtonCls, tweak);
+const { slots, variants } = useCls(ButtonCls, tweak);
 
 // With internal logic
-const slots = useCls(ButtonCls, tweak, ({ what }) => ({
-  variant: what.variant({ disabled: disabled || loading })
-}));
-```
+const { slots, variants } = useCls(ButtonCls, tweak, {
+  variant: { disabled: disabled || loading }
+});
 
-**Key Features:**
-- ✅ **Automatically connected to ClsContext** - Global theme inheritance works seamlessly
-- ✅ **Performance optimized** - Minimal overhead for common use cases
-- ✅ **Type-safe** - Full TypeScript support with proper inference
-- ✅ **Simple API** - Just slots, no extra complexity
+// Use slots for styling
+<button className={slots.root()}>Button</button>
 
-> **💡 Pro Tip:** This is the hook you'll use **90% of the time**. It handles theme inheritance automatically and provides the cleanest API for styling components.
-
-#### **useClsEx** - Slots + Variants (Special Cases) 🔍
-```tsx
-const { slots, variants } = useClsEx(ButtonCls, ({ what }) => ({
-  variant: what.variant({ size: "lg" })
-}));
-
-console.log(variants.size); // "lg"
-```
-
-**`useClsEx` is a special version** that behaves exactly the same as `useCls`, but **returns resolved variants** as a single source of truth:
-
-```tsx
-const { slots, variants } = useClsEx(ButtonCls, tweak, ({ what }) => ({
-  variant: what.variant({
-    size: "lg",
-    disabled: loading
-  })
-}));
-
-// Access resolved variant values
+// Use variants for component logic
 console.log(variants.size);     // "lg"
 console.log(variants.disabled); // true/false
 console.log(variants.tone);     // resolved from theme or props
 ```
 
-**When to Use `useClsEx`:**
+**Key Features:**
+- ✅ **Automatically connected to ClsContext** - Global theme inheritance works seamlessly
+- ✅ **Automatically connected to TweakContext** - Scoped tweak overrides work automatically
+- ✅ **Performance optimized** - Minimal overhead for common use cases
+- ✅ **Type-safe** - Full TypeScript support with proper inference
+- ✅ **Complete API** - Both slots and variants in one hook
+- ✅ **Single source of truth** - Access resolved variant values when needed
+
+**When to Use Variants:**
 - 🎯 **Component logic** that needs to access resolved variant values
 - 🎯 **Conditional rendering** based on variant combinations
 - 🎯 **Debugging** - Inspect what variants are actually applied
 - 🎯 **Analytics** - Track which variant combinations users interact with
 
-> **⚠️ Use Sparingly:** Only use `useClsEx` when you actually need the resolved variants. For most styling, stick with `useCls` for better performance.
+> **💡 Pro Tip:** This is the hook you'll use **100% of the time**. It provides everything you need - slots for styling and variants for component logic - all in one convenient, type-safe package!
 
 #### **useClsContext** - Access Context 🔗
 ```tsx
@@ -1021,27 +944,52 @@ const buttonTheme = useClsContext<ButtonCls>();
 
 > **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically connects to context.
 
-#### **useClsMemo** - Memoized CLS Slots 🚀
+#### **useTweakContext** - Access Tweak Context 🎛️
 ```tsx
-const slots = useClsMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
+const tweakContext = useTweakContext();
 ```
 
-**Performance-optimized version** of `useCls` that memoizes slot creation using `useMemo`:
+**Hook** for accessing the current TweakContext values:
+
+```tsx
+// Access current tweak context
+const tweak = useTweakContext();
+```
+
+**When to Use:**
+- 🎯 **Custom hooks** that need tweak access
+- 🎯 **Conditional logic** based on tweak values
+- 🎯 **Advanced composition patterns**
+
+> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakContext.
+
+#### **useClsMemo** - Memoized CLS Hook 🚀
+```tsx
+const { slots, variants } = useClsMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
+```
+
+**Performance-optimized version** of `useCls` that memoizes both slots and variants using `useMemo`:
 
 ```tsx
 const MyButton = ({ size, tone, disabled, loading, tweak }) => {
-  const slots = useClsMemo(
+  const { slots, variants } = useClsMemo(
     ButtonCls,
     tweak, // User customization from props
-    ({ what }) => ({
-      variant: what.variant({ 
+    {
+      variant: { 
         size, 
         tone, 
         disabled: disabled || loading // Component-controlled logic
-      })
-    }),
+      }
+    },
     [size, tone, disabled, loading] // Only recompute when these change
   );
+
+  // Use slots for styling
+  // Use variants for component logic
+  console.log(variants.size);     // "lg"
+  console.log(variants.disabled); // true/false
+  console.log(variants.tone);     // resolved from theme or props
 
   return <button className={slots.root()}>Button</button>;
 };
@@ -1051,70 +999,37 @@ const MyButton = ({ size, tone, disabled, loading, tweak }) => {
 - 🎯 **Performance-critical components** with stable props
 - 🎯 **Large component trees** where memoization prevents cascading re-renders
 - 🎯 **Components with expensive CLS computations**
-
-#### **useClsExMemo** - Memoized Slots + Variants 🔍
-```tsx
-const { slots, variants } = useClsExMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
-```
-
-**Performance-optimized version** of `useClsEx` that memoizes both slots and variants:
-
-```tsx
-const MyButton = ({ size, tone, disabled, loading, tweak }) => {
-  const { slots, variants } = useClsExMemo(
-    ButtonCls,
-    tweak, // User customization from props
-    ({ what }) => ({
-      variant: what.variant({ 
-        size, 
-        tone, 
-        disabled: disabled || loading // Component-controlled logic
-      })
-    }),
-    [size, tone, disabled, loading] // Only recompute when these change
-  );
-
-  // Access resolved variant values
-  console.log(variants.size);     // "lg"
-  console.log(variants.disabled); // true/false
-  console.log(variants.tone);     // resolved from theme or props
-
-  return <button className={slots.root()}>Button</button>;
-};
-```
-
-**When to Use `useClsExMemo`:**
-- 🎯 **Performance-critical components** that need resolved variants
 - 🎯 **Analytics or logging** based on variant combinations
 - 🎯 **Conditional rendering** based on resolved variant states
 
-> **⚠️ Important Dependency Note:** Both `useClsMemo` and `useClsExMemo` are **dependency-driven**. If a user provides a dynamic `tweak` prop to a component, the memoized hooks won't automatically detect changes in the tweak function's behavior. You must include all relevant dependencies in the `deps` array, or the hooks will use stale values. For dynamic user tweaks, consider using the non-memoized versions (`useCls` or `useClsEx`) instead.
+> **⚠️ Important Dependency Note:** `useClsMemo` is **dependency-driven**. If a user provides a dynamic `tweak` prop to a component, the memoized hook won't automatically detect changes in the tweak function's behavior. You must include all relevant dependencies in the `deps` array, or the hook will use stale values. For dynamic user tweaks, consider using the non-memoized version (`useCls`) instead.
 
 ## 🎯 Advanced Features
 
 ### Runtime Overrides
 ```typescript
 // Override tokens at creation time
-const slots = ButtonCls.create(({ what, override }) => ({
-  variant: what.variant({ size: "lg" }),
-  override: override.token({
-    "color.bg.primary": what.css(["bg-indigo-600"]) // Runtime override
-  })
-}));
+const { slots, variants } = ButtonCls.create({
+  variant: { size: "lg" },
+  token: {
+    // Runtime override of token values
+    "color.bg.primary": { class: ["bg-indigo-600"] }
+  }
+});
 ```
 
 ### Token Chains
 ```typescript
 // Tokens can reference other tokens
-    token: def.token({
-  "color.bg.primary": what.css(["bg-blue-600"]),
-  "color.text.primary": what.css(["text-white"]),
+token: def.token({
+  "color.bg.primary": { class: ["bg-blue-600"] },
+  "color.text.primary": { class: ["text-white"] },
   
   // Composite token that references base tokens
-  "button.primary": what.token([
+  "button.primary": { token: [
     "color.bg.primary",    // References another token
     "color.text.primary"   // References another token
-  ])
+  ] }
 })
 ```
 
@@ -1133,32 +1048,13 @@ tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
 
 ### Utility Functions
 
-#### **`merge()` - Tweak Function Merging**
+#### **`merge()` - Tweak Object Merging**
 ```typescript
 import { merge } from '@use-pico/cls';
 
-// Merge user and internal tweak functions
-const mergedConfig = merge(userTweakFn, internalTweakFn);
-
-// Used internally by useCls for combining user and component configs
-const finalConfig = mergedConfig();
+// Merge user and internal tweak objects
+const finalConfig = merge(userTweak, internalTweak);
 ```
-
-#### **`withVariants()` - Standalone Variant Computation**
-```typescript
-import { withVariants } from '@use-pico/cls';
-
-// Compute resolved variants without creating slots
-const variants = withVariants(
-  { contract: ButtonCls.contract, definition: ButtonCls.definition },
-  userTweakFn,
-  internalTweakFn
-);
-
-console.log(variants.size); // "lg"
-console.log(variants.disabled); // true
-```
-
 
 ## 🚀 Performance
 

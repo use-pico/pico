@@ -37,61 +37,87 @@ describe("12.3 React Components - Attach Cls Instance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-white",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"spacing.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"spacing.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"spacing.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-							"spacing.padding.md",
-						]),
-						icon: what.css([
-							"color.text.primary",
-							"spacing.padding.sm",
-						]),
-						label: what.css([
-							"color.text.primary",
-							"spacing.padding.sm",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+								],
+							},
+							icon: {
+								class: [
+									"color.text.primary",
+									"spacing.padding.sm",
+								],
+							},
+							label: {
+								class: [
+									"color.text.primary",
+									"spacing.padding.sm",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create a base component

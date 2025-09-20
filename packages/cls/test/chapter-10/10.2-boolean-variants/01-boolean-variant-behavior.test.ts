@@ -32,76 +32,102 @@ describe("10.2 Boolean Variants", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"state.disabled.enabled": what.css([]),
-					"state.disabled.disabled": what.css([
-						"opacity-50",
-						"cursor-not-allowed",
-					]),
-					"state.loading.idle": what.css([]),
-					"state.loading.loading": what.css([
-						"animate-pulse",
-						"cursor-wait",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"state.disabled.enabled": {
+						class: [],
+					},
+					"state.disabled.disabled": {
+						class: [
+							"opacity-50",
+							"cursor-not-allowed",
+						],
+					},
+					"state.loading.idle": {
+						class: [],
+					},
+					"state.loading.loading": {
+						class: [
+							"animate-pulse",
+							"cursor-wait",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							disabled: true,
 						},
-						{
-							root: what.token([
-								"state.disabled.disabled",
-							]),
+						slot: {
+							root: {
+								token: [
+									"state.disabled.disabled",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							loading: true,
 						},
-						{
-							root: what.token([
-								"state.loading.loading",
-							]),
+						slot: {
+							root: {
+								token: [
+									"state.loading.loading",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					disabled: false,
 					loading: false,
-				}),
-			}),
+				},
+			},
 		);
 
 		const _foo: Cls.VariantOf<typeof BooleanComponent, "disabled"> = true;
@@ -109,90 +135,85 @@ describe("10.2 Boolean Variants", () => {
 			"default";
 
 		// Test basic boolean variant behavior
-		const defaultInstance = BooleanComponent.create();
+		const { slots: defaultInstance } = BooleanComponent.create();
 		expect(defaultInstance.root()).toBe("bg-gray-100 text-gray-900");
 
 		// Test boolean variant: disabled = true
-		const disabledInstance = BooleanComponent.create(() => ({
+		const { slots: disabledInstance } = BooleanComponent.create({
 			variant: {
 				disabled: true,
 			},
-		}));
+		});
 		expect(disabledInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 opacity-50 cursor-not-allowed",
 		);
 
 		// Test boolean variant: loading = true
-		const loadingInstance = BooleanComponent.create(() => ({
+		const { slots: loadingInstance } = BooleanComponent.create({
 			variant: {
 				loading: true,
 			},
-		}));
+		});
 		expect(loadingInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 animate-pulse cursor-wait",
 		);
 
 		// Test boolean variant: disabled = false (explicit)
-		const enabledInstance = BooleanComponent.create(() => ({
+		const { slots: enabledInstance } = BooleanComponent.create({
 			variant: {
 				disabled: false,
 			},
-		}));
+		});
 		expect(enabledInstance.root()).toBe("bg-gray-100 text-gray-900");
 
 		// Test boolean variant: loading = false (explicit)
-		const idleInstance = BooleanComponent.create(() => ({
+		const { slots: idleInstance } = BooleanComponent.create({
 			variant: {
 				loading: false,
 			},
-		}));
+		});
 		expect(idleInstance.root()).toBe("bg-gray-100 text-gray-900");
 
 		// Test multiple boolean variants together
-		const disabledLoadingInstance = BooleanComponent.create(() => ({
+		const { slots: disabledLoadingInstance } = BooleanComponent.create({
 			variant: {
 				disabled: true,
 				loading: true,
 			},
-		}));
+		});
 		expect(disabledLoadingInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 opacity-50 animate-pulse cursor-wait",
 		);
 
 		// Test boolean variants with other variants
-		const primaryDisabledInstance = BooleanComponent.create(() => ({
+		const { slots: primaryDisabledInstance } = BooleanComponent.create({
 			variant: {
 				color: "primary",
 				disabled: true,
 			},
-		}));
+		});
 		expect(primaryDisabledInstance.root()).toBe(
 			"bg-blue-500 text-white opacity-50 cursor-not-allowed",
 		);
 
-		const primaryLoadingInstance = BooleanComponent.create(() => ({
+		const { slots: primaryLoadingInstance } = BooleanComponent.create({
 			variant: {
 				color: "primary",
 				loading: true,
 			},
-            override: {
-                root: {
-                    class: [''],
-                }
-            }
-		}));
+		});
 		expect(primaryLoadingInstance.root()).toBe(
 			"bg-blue-500 text-white animate-pulse cursor-wait",
 		);
 
 		// Test all variants together
-		const complexInstance = BooleanComponent.create(() => ({
+		const { slots: complexInstance } = BooleanComponent.create({
 			variant: {
 				color: "primary",
 				disabled: true,
 				loading: true,
 			},
-		}));
+		});
 		expect(complexInstance.root()).toBe(
 			"bg-blue-500 text-white opacity-50 animate-pulse cursor-wait",
 		);
@@ -229,132 +250,159 @@ describe("10.2 Boolean Variants", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"size.padding.sm": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.padding.lg": what.css([
-						"px-6",
-						"py-3",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"size.padding.sm": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.padding.lg": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"size.padding.md",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"size.padding.md",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							color: "primary",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "success",
 						},
-						{
-							root: what.token([
-								"color.bg.success",
-								"color.text.success",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.success",
+									"color.text.success",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							disabled: true,
 						},
-						{
-							root: what.token([
-								"state.disabled.disabled",
-							]),
+						slot: {
+							root: {
+								token: [
+									"state.disabled.disabled",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							loading: true,
 						},
-						{
-							root: what.token([
-								"state.loading.loading",
-							]),
+						slot: {
+							root: {
+								token: [
+									"state.loading.loading",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.token([
-								"size.padding.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.sm",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.token([
-								"size.padding.lg",
-							]),
+						slot: {
+							root: {
+								token: [
+									"size.padding.lg",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					disabled: false,
 					loading: false,
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test that extended component preserves boolean variant behavior
-		const extendedDefaultInstance = ExtendedBooleanComponent.create();
+		const { slots: extendedDefaultInstance } =
+			ExtendedBooleanComponent.create();
 		expect(extendedDefaultInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2",
 		);
 
-		const extendedDisabledInstance = ExtendedBooleanComponent.create(
-			() => ({
+		const { slots: extendedDisabledInstance } =
+			ExtendedBooleanComponent.create({
 				variant: {
 					disabled: true,
 				},
-			}),
-		);
+			});
 		expect(extendedDisabledInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 px-4 py-2 opacity-50 cursor-not-allowed",
 		);
 
-		const extendedComplexInstance = ExtendedBooleanComponent.create(() => ({
-			variant: {
-				color: "success",
-				disabled: true,
-				loading: true,
-				size: "lg",
-			},
-		}));
+		const { slots: extendedComplexInstance } =
+			ExtendedBooleanComponent.create({
+				variant: {
+					color: "success",
+					disabled: true,
+					loading: true,
+					size: "lg",
+				},
+			});
 		expect(extendedComplexInstance.root()).toBe(
 			"bg-green-500 text-white opacity-50 animate-pulse cursor-wait px-6 py-3",
 		);
@@ -365,14 +413,14 @@ describe("10.2 Boolean Variants", () => {
 
 		// Test runtime access to extended boolean variants
 		const groupInstance = BooleanGroup as any;
-		const groupComplexInstance = groupInstance.create(() => ({
+		const { slots: groupComplexInstance } = groupInstance.create({
 			variant: {
 				color: "success",
 				disabled: true,
 				loading: true,
 				size: "lg",
 			},
-		}));
+		});
 		expect(groupComplexInstance.root()).toBe(
 			"bg-green-500 text-white opacity-50 animate-pulse cursor-wait px-6 py-3",
 		);

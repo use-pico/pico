@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useClsContext } from "../../../src/react";
+import { ClsContext, useClsContext } from "../../../src/react";
 
 describe("12.2 React Context - Provide Cls Instance", () => {
 	it("should provide cls instance through context", () => {
@@ -26,54 +26,74 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.light",
-							"color.text.light",
-							"spacing.padding.md",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.light",
+									"color.text.light",
+									"spacing.padding.md",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							theme: "dark",
 						},
-						{
-							root: what.css([
-								"color.bg.dark",
-								"color.text.dark",
-							]),
+						slot: {
+							root: {
+								class: [
+									"color.bg.dark",
+									"color.text.dark",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test component that uses context
@@ -88,9 +108,9 @@ describe("12.2 React Context - Provide Cls Instance", () => {
 
 		// Render with provider
 		render(
-			<ClsProvider value={ThemeCls}>
+			<ClsContext value={ThemeCls}>
 				<TestComponent />
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		// Should show that context is provided

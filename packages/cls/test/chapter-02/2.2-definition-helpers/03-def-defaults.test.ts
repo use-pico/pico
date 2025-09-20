@@ -21,23 +21,27 @@ describe("2.2 Definition Helpers - def.defaults", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100");
 	});
 });

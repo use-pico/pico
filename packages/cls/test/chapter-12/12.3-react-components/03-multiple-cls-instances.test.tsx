@@ -21,27 +21,35 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create second cls instance
@@ -60,27 +68,35 @@ describe("12.3 React Components - Multiple Cls Instances", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.secondary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.secondary",
-							"color.text.secondary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.secondary",
+									"color.text.secondary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "secondary",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create a base component

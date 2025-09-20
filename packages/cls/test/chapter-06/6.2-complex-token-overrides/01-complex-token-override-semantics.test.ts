@@ -49,91 +49,131 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-500",
-					]),
-					"color.bg.neutral": what.css([
-						"bg-gray-100",
-					]),
-					"color.text.primary": what.css([
-						"text-blue-900",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"color.text.neutral": what.css([
-						"text-gray-600",
-					]),
-					"spacing.padding.xs": what.css([
-						"p-1",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.margin.xs": what.css([
-						"m-1",
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"border.width.thin": what.css([
-						"border",
-					]),
-					"border.width.medium": what.css([
-						"border-2",
-					]),
-					"border.width.thick": what.css([
-						"border-4",
-					]),
-					"border.radius.none": what.css([
-						"rounded-none",
-					]),
-					"border.radius.sm": what.css([
-						"rounded-sm",
-					]),
-					"border.radius.md": what.css([
-						"rounded-md",
-					]),
-					"border.radius.lg": what.css([
-						"rounded-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-500",
+						],
+					},
+					"color.bg.neutral": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.neutral": {
+						class: [
+							"text-gray-600",
+						],
+					},
+					"spacing.padding.xs": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.margin.xs": {
+						class: [
+							"m-1",
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"border.width.thin": {
+						class: [
+							"border",
+						],
+					},
+					"border.width.medium": {
+						class: [
+							"border-2",
+						],
+					},
+					"border.width.thick": {
+						class: [
+							"border-4",
+						],
+					},
+					"border.radius.none": {
+						class: [
+							"rounded-none",
+						],
+					},
+					"border.radius.sm": {
+						class: [
+							"rounded-sm",
+						],
+					},
+					"border.radius.md": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.lg": {
+						class: [
+							"rounded-lg",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 							size: "medium",
 							theme: "light",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.width.thin",
-								"border.radius.md",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.width.thin",
+									"border.radius.md",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended component that overrides and extends tokens
@@ -203,204 +243,278 @@ describe("6.2 Complex Token Overrides - Complex Token Override Semantics", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]), // Override base primary
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]), // Override base secondary
-					"color.bg.neutral": what.css([
-						"bg-gray-200",
-					]), // Override base neutral
-					"color.bg.accent": what.css([
-						"bg-purple-500",
-					]), // New token
-					"color.bg.warning": what.css([
-						"bg-yellow-500",
-					]), // New token
-					"color.text.primary": what.css([
-						"text-blue-800",
-					]), // Override base primary
-					"color.text.secondary": what.css([
-						"text-gray-800",
-					]), // Override base secondary
-					"color.text.neutral": what.css([
-						"text-gray-700",
-					]), // Override base neutral
-					"color.text.accent": what.css([
-						"text-purple-900",
-					]), // New token
-					"color.text.warning": what.css([
-						"text-yellow-900",
-					]), // New token
-					"spacing.padding.xs": what.css([
-						"p-1",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]), // New token
-					"spacing.padding.xl": what.css([
-						"p-8",
-					]), // New token
-					"spacing.margin.xs": what.css([
-						"m-1",
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"spacing.margin.lg": what.css([
-						"m-6",
-					]), // New token
-					"spacing.margin.xl": what.css([
-						"m-8",
-					]), // New token
-					"border.width.thin": what.css([
-						"border",
-					]),
-					"border.width.medium": what.css([
-						"border-2",
-					]),
-					"border.width.thick": what.css([
-						"border-4",
-					]),
-					"border.width.dashed": what.css([
-						"border-dashed",
-					]), // New token
-					"border.radius.none": what.css([
-						"rounded-none",
-					]),
-					"border.radius.sm": what.css([
-						"rounded-sm",
-					]),
-					"border.radius.md": what.css([
-						"rounded-md",
-					]),
-					"border.radius.lg": what.css([
-						"rounded-lg",
-					]),
-					"border.radius.xl": what.css([
-						"rounded-xl",
-					]), // New token
-					"border.radius.full": what.css([
-						"rounded-full",
-					]), // New token
-					"shadow.depth.none": what.css([
-						"shadow-none",
-					]),
-					"shadow.depth.sm": what.css([
-						"shadow-sm",
-					]),
-					"shadow.depth.md": what.css([
-						"shadow-md",
-					]),
-					"shadow.depth.lg": what.css([
-						"shadow-lg",
-					]),
-					"shadow.depth.xl": what.css([
-						"shadow-xl",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.bg.neutral": {
+						class: [
+							"bg-gray-200",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-purple-500",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-500",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-800",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-800",
+						],
+					},
+					"color.text.neutral": {
+						class: [
+							"text-gray-700",
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-purple-900",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-yellow-900",
+						],
+					},
+					"spacing.padding.xs": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"spacing.padding.xl": {
+						class: [
+							"p-8",
+						],
+					},
+					"spacing.margin.xs": {
+						class: [
+							"m-1",
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"spacing.margin.lg": {
+						class: [
+							"m-6",
+						],
+					},
+					"spacing.margin.xl": {
+						class: [
+							"m-8",
+						],
+					},
+					"border.width.thin": {
+						class: [
+							"border",
+						],
+					},
+					"border.width.medium": {
+						class: [
+							"border-2",
+						],
+					},
+					"border.width.thick": {
+						class: [
+							"border-4",
+						],
+					},
+					"border.width.dashed": {
+						class: [
+							"border-dashed",
+						],
+					},
+					"border.radius.none": {
+						class: [
+							"rounded-none",
+						],
+					},
+					"border.radius.sm": {
+						class: [
+							"rounded-sm",
+						],
+					},
+					"border.radius.md": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.lg": {
+						class: [
+							"rounded-lg",
+						],
+					},
+					"border.radius.xl": {
+						class: [
+							"rounded-xl",
+						],
+					},
+					"border.radius.full": {
+						class: [
+							"rounded-full",
+						],
+					},
+					"shadow.depth.none": {
+						class: [
+							"shadow-none",
+						],
+					},
+					"shadow.depth.sm": {
+						class: [
+							"shadow-sm",
+						],
+					},
+					"shadow.depth.md": {
+						class: [
+							"shadow-md",
+						],
+					},
+					"shadow.depth.lg": {
+						class: [
+							"shadow-lg",
+						],
+					},
+					"shadow.depth.xl": {
+						class: [
+							"shadow-xl",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "accent",
 							size: "large",
 							theme: "dark",
 						},
-						{
-							root: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.width.medium",
-								"border.radius.lg",
-								"shadow.depth.md",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.width.medium",
+									"border.radius.lg",
+									"shadow.depth.md",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							color: "warning",
 							size: "xl",
 							theme: "auto",
 						},
-						{
-							root: what.token([
-								"color.bg.warning",
-								"color.text.warning",
-								"spacing.padding.xl",
-								"spacing.margin.xl",
-								"border.width.dashed",
-								"border.radius.full",
-								"shadow.depth.xl",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.warning",
+									"color.text.warning",
+									"spacing.padding.xl",
+									"spacing.margin.xl",
+									"border.width.dashed",
+									"border.radius.full",
+									"shadow.depth.xl",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "accent",
 					size: "large",
 					theme: "dark",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test BaseComponent default behavior
-		const baseDefault = BaseComponent.create();
+		const { slots: baseDefault } = BaseComponent.create();
 		expect(baseDefault.root()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border rounded-md",
 		);
 
 		// Test ExtendedComponent default behavior (should use overridden tokens)
-		const extendedDefault = ExtendedComponent.create();
+		const { slots: extendedDefault } = ExtendedComponent.create();
 		expect(extendedDefault.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-2 rounded-lg shadow-md",
 		);
 
 		// Test ExtendedComponent with new variants
-		const extendedAccent = ExtendedComponent.create(() => ({
+		const { slots: extendedAccent } = ExtendedComponent.create({
 			variant: {
 				color: "accent",
 				size: "large",
 				theme: "dark",
 			},
-		}));
+		});
 		expect(extendedAccent.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-2 rounded-lg shadow-md",
 		);
 
 		// Test ExtendedComponent with warning variant
-		const extendedWarning = ExtendedComponent.create(() => ({
+		const { slots: extendedWarning } = ExtendedComponent.create({
 			variant: {
 				color: "warning",
 				size: "xl",
 				theme: "auto",
 			},
-		}));
+		});
 		expect(extendedWarning.root()).toBe(
 			"bg-yellow-500 text-yellow-900 p-8 m-8 border-dashed rounded-full shadow-xl",
 		);
 
 		// Test that inherited variants still work with overridden tokens
-		const extendedInherited = ExtendedComponent.create(() => ({
+		const { slots: extendedInherited } = ExtendedComponent.create({
 			variant: {
 				color: "primary",
 				size: "medium",
 				theme: "light",
 			},
-		}));
+		});
 		expect(extendedInherited.root()).toBe(
 			"bg-blue-600 text-blue-800 p-4 m-4 border rounded-md",
 		);

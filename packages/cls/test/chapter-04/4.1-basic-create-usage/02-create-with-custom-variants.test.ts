@@ -17,60 +17,70 @@ describe("4.1 Basic Create Usage - Create with Custom Variants", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-							"rounded",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+									"rounded",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"text-sm",
-								"p-2",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-sm",
+									"p-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "md",
 						},
-						{
-							root: what.css([
-								"text-base",
-								"p-4",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-base",
+									"p-4",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"text-lg",
-								"p-6",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-lg",
+									"p-6",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots } = Component.create({
+			variant: {
 				size: "lg",
-			}),
-		}));
-		expect(instance.root()).toBe("bg-gray-100 rounded text-lg p-6");
+			},
+		});
+		expect(slots.root()).toBe("bg-gray-100 rounded text-lg p-6");
 	});
 });

@@ -88,12 +88,12 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			size,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<ModalContext value={useModalStore}>
@@ -165,12 +165,12 @@ export const Modal: FC<Modal.Props> = ({
 										<Action
 											iconEnabled={CloseIcon}
 											onClick={() => close()}
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													tone: "neutral",
 													theme: "light",
-												}),
-											})}
+												},
+											}}
 											size={"sm"}
 										/>
 									</div>

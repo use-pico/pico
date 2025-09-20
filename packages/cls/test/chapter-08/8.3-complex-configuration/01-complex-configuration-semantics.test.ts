@@ -77,181 +77,259 @@ describe("8.3 Complex Configuration", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.light": what.css([
-						"bg-white",
-					]),
-					"color.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"color.text.light": what.css([
-						"text-gray-900",
-					]),
-					"color.text.dark": what.css([
-						"text-white",
-					]),
-					"color.border.light": what.css([
-						"border-gray-200",
-					]),
-					"color.border.dark": what.css([
-						"border-gray-700",
-					]),
-					"color.shadow.none": what.css([]),
-					"color.shadow.light": what.css([
-						"shadow-sm",
-					]),
-					"color.shadow.dark": what.css([
-						"shadow-lg",
-					]),
-					"size.spacing.xs": what.css([
-						"p-1",
-					]),
-					"size.spacing.sm": what.css([
-						"p-2",
-					]),
-					"size.spacing.md": what.css([
-						"p-4",
-					]),
-					"size.spacing.lg": what.css([
-						"p-6",
-					]),
-					"size.spacing.xl": what.css([
-						"p-8",
-					]),
-					"size.typography.xs": what.css([
-						"text-xs",
-					]),
-					"size.typography.sm": what.css([
-						"text-sm",
-					]),
-					"size.typography.md": what.css([
-						"text-base",
-					]),
-					"size.typography.lg": what.css([
-						"text-lg",
-					]),
-					"size.typography.xl": what.css([
-						"text-xl",
-					]),
-					"size.border.none": what.css([]),
-					"size.border.thin": what.css([
-						"border",
-					]),
-					"size.border.medium": what.css([
-						"border-2",
-					]),
-					"size.border.thick": what.css([
-						"border-4",
-					]),
-					"layout.direction.horizontal": what.css([
-						"flex-row",
-					]),
-					"layout.direction.vertical": what.css([
-						"flex-col",
-					]),
-					"layout.alignment.start": what.css([
-						"justify-start",
-					]),
-					"layout.alignment.center": what.css([
-						"justify-center",
-					]),
-					"layout.alignment.end": what.css([
-						"justify-end",
-					]),
-					"state.interactive.idle": what.css([]),
-					"state.interactive.hover": what.css([
-						"hover:opacity-80",
-					]),
-					"state.interactive.active": what.css([
-						"active:scale-95",
-					]),
-					"state.interactive.disabled": what.css([
-						"opacity-50",
-						"cursor-not-allowed",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"color.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.border.light": {
+						class: [
+							"border-gray-200",
+						],
+					},
+					"color.border.dark": {
+						class: [
+							"border-gray-700",
+						],
+					},
+					"color.shadow.none": {
+						class: [],
+					},
+					"color.shadow.light": {
+						class: [
+							"shadow-sm",
+						],
+					},
+					"color.shadow.dark": {
+						class: [
+							"shadow-lg",
+						],
+					},
+					"size.spacing.xs": {
+						class: [
+							"p-1",
+						],
+					},
+					"size.spacing.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"size.spacing.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"size.spacing.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"size.spacing.xl": {
+						class: [
+							"p-8",
+						],
+					},
+					"size.typography.xs": {
+						class: [
+							"text-xs",
+						],
+					},
+					"size.typography.sm": {
+						class: [
+							"text-sm",
+						],
+					},
+					"size.typography.md": {
+						class: [
+							"text-base",
+						],
+					},
+					"size.typography.lg": {
+						class: [
+							"text-lg",
+						],
+					},
+					"size.typography.xl": {
+						class: [
+							"text-xl",
+						],
+					},
+					"size.border.none": {
+						class: [],
+					},
+					"size.border.thin": {
+						class: [
+							"border",
+						],
+					},
+					"size.border.medium": {
+						class: [
+							"border-2",
+						],
+					},
+					"size.border.thick": {
+						class: [
+							"border-4",
+						],
+					},
+					"layout.direction.horizontal": {
+						class: [
+							"flex-row",
+						],
+					},
+					"layout.direction.vertical": {
+						class: [
+							"flex-col",
+						],
+					},
+					"layout.alignment.start": {
+						class: [
+							"justify-start",
+						],
+					},
+					"layout.alignment.center": {
+						class: [
+							"justify-center",
+						],
+					},
+					"layout.alignment.end": {
+						class: [
+							"justify-end",
+						],
+					},
+					"state.interactive.idle": {
+						class: [],
+					},
+					"state.interactive.hover": {
+						class: [
+							"hover:opacity-80",
+						],
+					},
+					"state.interactive.active": {
+						class: [
+							"active:scale-95",
+						],
+					},
+					"state.interactive.disabled": {
+						class: [
+							"opacity-50",
+							"cursor-not-allowed",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "light",
 							size: "md",
 							layout: "horizontal",
 							alignment: "start",
 							state: "idle",
 						},
-						{
-							root: what.token([
-								"color.bg.light",
-								"color.text.light",
-								"color.border.light",
-								"size.spacing.md",
-								"size.typography.md",
-								"size.border.thin",
-								"layout.direction.horizontal",
-								"layout.alignment.start",
-								"state.interactive.idle",
-							]),
-							header: what.css([
-								"border-b",
-								"border-gray-200",
-								"pb-2",
-								"mb-2",
-								"font-semibold",
-							]),
-							content: what.css([
-								"min-h-0",
-								"flex-1",
-								"leading-relaxed",
-							]),
-							footer: what.css([
-								"border-t",
-								"border-gray-200",
-								"pt-2",
-								"mt-2",
-								"text-sm",
-								"text-gray-600",
-							]),
-							sidebar: what.css([
-								"w-64",
-								"bg-gray-50",
-								"p-4",
-								"border-r",
-								"border-gray-200",
-							]),
-							actions: what.css([
-								"flex",
-								"gap-2",
-								"justify-end",
-								"mt-4",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.light",
+									"color.text.light",
+									"color.border.light",
+									"size.spacing.md",
+									"size.typography.md",
+									"size.border.thin",
+									"layout.direction.horizontal",
+									"layout.alignment.start",
+									"state.interactive.idle",
+								],
+							},
+							header: {
+								class: [
+									"border-b",
+									"border-gray-200",
+									"pb-2",
+									"mb-2",
+									"font-semibold",
+								],
+							},
+							content: {
+								class: [
+									"min-h-0",
+									"flex-1",
+									"leading-relaxed",
+								],
+							},
+							footer: {
+								class: [
+									"border-t",
+									"border-gray-200",
+									"pt-2",
+									"mt-2",
+									"text-sm",
+									"text-gray-600",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-64",
+									"bg-gray-50",
+									"p-4",
+									"border-r",
+									"border-gray-200",
+								],
+							},
+							actions: {
+								class: [
+									"flex",
+									"gap-2",
+									"justify-end",
+									"mt-4",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "light",
 					size: "md",
 					layout: "horizontal",
 					alignment: "start",
 					state: "idle",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test complex configuration 1: Multiple variant overrides
-		const complexConfig1 = ComplexComponent.create(({ what }) => ({
+		const { slots: complexConfig1 } = ComplexComponent.create({
 			variant: {
 				color: "dark",
 				size: "lg",
 				state: "hover",
 			},
 			slot: {
-				sidebar: what.css([
-					"p-8",
-					"bg-yellow-500",
-				]),
+				sidebar: {
+					class: [
+						"p-8",
+						"bg-yellow-500",
+					],
+				},
 			},
-		}));
+		});
 		expect(complexConfig1.root()).toBe("");
 		expect(complexConfig1.header()).toBe("");
 		expect(complexConfig1.content()).toBe("");
@@ -260,25 +338,29 @@ describe("8.3 Complex Configuration", () => {
 		expect(complexConfig1.actions()).toBe("");
 
 		// Test complex configuration 2: Token overrides with variants
-		const complexConfig2 = ComplexComponent.create(
-			({ what, override }) => ({
-				variant: what.variant({
-					size: "sm",
-					state: "active",
-				}),
-				token: override.token({
-					"size.spacing.sm": what.css([
+		const { slots: complexConfig2 } = ComplexComponent.create({
+			variant: {
+				size: "sm",
+				state: "active",
+			},
+			token: {
+				"size.spacing.sm": {
+					class: [
 						"p-1",
-					]),
-					"size.typography.sm": what.css([
+					],
+				},
+				"size.typography.sm": {
+					class: [
 						"text-xl",
-					]),
-					"color.shadow.light": what.css([
+					],
+				},
+				"color.shadow.light": {
+					class: [
 						"shadow-lg",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(complexConfig2.root()).toBe("");
 		expect(complexConfig2.header()).toBe("");
 		expect(complexConfig2.content()).toBe("");
@@ -287,37 +369,45 @@ describe("8.3 Complex Configuration", () => {
 		expect(complexConfig2.actions()).toBe("");
 
 		// Test complex configuration 3: Mixed slot and token overrides
-		const complexConfig3 = ComplexComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: complexConfig3 } = ComplexComponent.create({
+			variant: {
 				color: "dark",
 				layout: "vertical",
 				alignment: "center",
-			}),
-			slot: what.slot({
-				root: what.token([
-					"color.bg.dark",
-					"color.text.dark",
-					"color.shadow.dark",
-				]),
-				header: what.css([
-					"bg-blue-500",
-					"text-white",
-					"p-4",
-					"rounded-t-lg",
-				]),
-				content: what.css([
-					"bg-gray-800",
-					"p-6",
-					"text-center",
-				]),
-				footer: what.css([
-					"bg-red-500",
-					"text-white",
-					"p-4",
-					"rounded-b-lg",
-				]),
-			}),
-		}));
+			},
+			slot: {
+				root: {
+					token: [
+						"color.bg.dark",
+						"color.text.dark",
+						"color.shadow.dark",
+					],
+				},
+				header: {
+					class: [
+						"bg-blue-500",
+						"text-white",
+						"p-4",
+						"rounded-t-lg",
+					],
+				},
+				content: {
+					class: [
+						"bg-gray-800",
+						"p-6",
+						"text-center",
+					],
+				},
+				footer: {
+					class: [
+						"bg-red-500",
+						"text-white",
+						"p-4",
+						"rounded-b-lg",
+					],
+				},
+			},
+		});
 		expect(complexConfig3.root()).toBe("bg-gray-900 text-white shadow-lg");
 		expect(complexConfig3.header()).toBe(
 			"bg-blue-500 text-white p-4 rounded-t-lg",
@@ -330,15 +420,15 @@ describe("8.3 Complex Configuration", () => {
 		expect(complexConfig3.actions()).toBe("");
 
 		// Test complex configuration 4: Minimal overrides
-		const complexConfig4 = ComplexComponent.create(
-			({ what, override }) => ({
-				token: override.token({
-					"color.shadow.light": what.css([
+		const { slots: complexConfig4 } = ComplexComponent.create({
+			token: {
+				"color.shadow.light": {
+					class: [
 						"shadow",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(complexConfig4.root()).toBe(
 			"bg-white text-gray-900 border-gray-200 p-4 text-base border flex-row justify-start",
 		);
@@ -355,36 +445,42 @@ describe("8.3 Complex Configuration", () => {
 		expect(complexConfig4.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test complex configuration 5: All overrides
-		const complexConfig5 = ComplexComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: complexConfig5 } = ComplexComponent.create({
+			variant: {
 				color: "dark",
 				size: "xl",
 				layout: "vertical",
 				alignment: "center",
 				state: "disabled",
-			}),
-			slot: what.slot({
-				root: what.css([
-					"bg-gradient-to-b",
-					"from-purple-500",
-					"to-pink-500",
-					"text-white",
-					"shadow-2xl",
-				]),
-				header: what.css([
-					"bg-black",
-					"bg-opacity-20",
-					"p-6",
-					"text-2xl",
-					"font-bold",
-				]),
-				content: what.css([
-					"min-h-0",
-					"flex-1",
-					"leading-relaxed",
-				]),
-			}),
-		}));
+			},
+			slot: {
+				root: {
+					class: [
+						"bg-gradient-to-b",
+						"from-purple-500",
+						"to-pink-500",
+						"text-white",
+						"shadow-2xl",
+					],
+				},
+				header: {
+					class: [
+						"bg-black",
+						"bg-opacity-20",
+						"p-6",
+						"text-2xl",
+						"font-bold",
+					],
+				},
+				content: {
+					class: [
+						"min-h-0",
+						"flex-1",
+						"leading-relaxed",
+					],
+				},
+			},
+		});
 		expect(complexConfig5.root()).toBe(
 			"bg-gradient-to-b from-purple-500 to-pink-500 text-white shadow-2xl",
 		);

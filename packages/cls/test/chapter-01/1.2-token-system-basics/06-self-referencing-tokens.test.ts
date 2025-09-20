@@ -13,26 +13,32 @@ describe("1.2 Token System Basics - Self Referencing Tokens", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"token.self": what.token([
-						"token.self",
-					]),
-				}),
-				rules: [
-					def.root({
-						root: what.token([
+			{
+				token: {
+					"token.self": {
+						token: [
 							"token.self",
-						]),
-					}),
+						],
+					},
+				},
+				rules: [
+					{
+						slot: {
+							root: {
+								token: [
+									"token.self",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = Component.create();
+		const { slots } = Component.create();
 		expect(() => {
-			instance.root();
+			slots.root();
 		}).toThrow(
 			"Circular dependency detected in token references: token.self",
 		);

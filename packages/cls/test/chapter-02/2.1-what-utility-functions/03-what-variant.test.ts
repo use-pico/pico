@@ -17,55 +17,65 @@ describe("2.1 What Utility Functions - what.variant", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
 						},
-						{
-							root: what.css([
-								"text-sm",
-								"p-2",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-sm",
+									"p-2",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "md",
 						},
-						{
-							root: what.css([
-								"text-base",
-								"p-4",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-base",
+									"p-4",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 						},
-						{
-							root: what.css([
-								"text-lg",
-								"p-6",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-lg",
+									"p-6",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100 text-base p-4");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100 text-base p-4");
 	});
 });

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Theme use() chain token overrides", () => {
 	it("should override Button tokens from CustomTheme provided via ThemeCls.use(CustomThemeCls)", () => {
@@ -16,18 +16,22 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				slot: [],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Simple Button extended from Theme; uses Theme tokens in its rules
@@ -39,18 +43,22 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({}),
+			{
+				token: {},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Custom theme that overrides some Theme tokens
@@ -63,29 +71,33 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 				slot: [],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-red-600",
-					]),
-					"color.text.primary": what.css([
-						"text-black",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-red-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-black",
+						],
+					},
+				},
 				rules: [],
-				defaults: def.defaults({}),
-			}),
+				defaults: {},
+			},
 		);
 
 		// Testing Button that uses useCls (hooks into context)
 		const Button: FC<{
 			children: string;
 		}> = ({ children }) => {
-			const classes = useCls(ButtonCls);
+			const { slots } = useCls(ButtonCls);
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={slots.root()}
 				>
 					{children}
 				</button>
@@ -94,9 +106,9 @@ describe("12.5 React Integration - Theme use() chain token overrides", () => {
 
 		// Provide CustomTheme via ThemeCls.use(CustomThemeCls)
 		render(
-			<ClsProvider value={ThemeCls.use(CustomThemeCls)}>
+			<ClsContext value={ThemeCls.use(CustomThemeCls)}>
 				<Button>Click me</Button>
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		const button = screen.getByRole?.("button");

@@ -38,79 +38,91 @@ describe("14.2 CLS Integration - Merged Variants Integration", () => {
 		]);
 
 		// Create CLS instance with merged variants
-		const Component = cls(result, ({ what, def }) => ({
-			token: def.token({
-				"theme.primary": what.css([
-					"bg-blue-600",
-				]),
-			}),
+		const Component = cls(result, {
+			token: {
+				"theme.primary": {
+					class: [
+						"bg-blue-600",
+					],
+				},
+			},
 			rules: [
-				def.root({
-					wrapper: what.token([
-						"theme.primary",
-					]),
-				}),
-				def.rule(
-					what.variant({
+				{
+					slot: {
+						wrapper: {
+							token: [
+								"theme.primary",
+							],
+						},
+					},
+				},
+				{
+					match: {
 						tone: "danger",
-					}),
-					{
-						wrapper: what.css([
-							"bg-red-500",
-						]),
 					},
-				),
-				def.rule(
-					what.variant({
+					slot: {
+						wrapper: {
+							class: [
+								"bg-red-500",
+							],
+						},
+					},
+				},
+				{
+					match: {
 						tone: "success",
-					}),
-					{
-						wrapper: what.css([
-							"bg-green-500",
-						]),
 					},
-				),
-				def.rule(
-					what.variant({
+					slot: {
+						wrapper: {
+							class: [
+								"bg-green-500",
+							],
+						},
+					},
+				},
+				{
+					match: {
 						size: "lg",
-					}),
-					{
-						wrapper: what.css([
-							"text-lg",
-						]),
 					},
-				),
+					slot: {
+						wrapper: {
+							class: [
+								"text-lg",
+							],
+						},
+					},
+				},
 			],
-			defaults: def.defaults({
+			defaults: {
 				tone: "primary",
 				size: "md",
-			}),
-		}));
+			},
+		});
 
 		// Test default instance
-		const defaultInstance = Component.create();
+		const { slots: defaultInstance } = Component.create();
 		expect(defaultInstance.wrapper()).toBe("bg-blue-600");
 
 		// Test merged variant values work
-		const dangerInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: dangerInstance } = Component.create({
+			variant: {
 				tone: "danger", // This should work with merged values
-			}),
-		}));
+			},
+		});
 		expect(dangerInstance.wrapper()).toBe("bg-red-500");
 
-		const successInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: successInstance } = Component.create({
+			variant: {
 				tone: "success", // This should work with merged values
-			}),
-		}));
+			},
+		});
 		expect(successInstance.wrapper()).toBe("bg-green-500");
 
-		const largeInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: largeInstance } = Component.create({
+			variant: {
 				size: "lg", // This should work with merged values
-			}),
-		}));
+			},
+		});
 		expect(largeInstance.wrapper()).toBe("bg-blue-600 text-lg");
 	});
 });

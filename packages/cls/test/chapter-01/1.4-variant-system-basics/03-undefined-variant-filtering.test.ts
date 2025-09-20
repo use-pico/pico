@@ -24,30 +24,36 @@ describe("undefined variant filtering", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				defaults: def.defaults({
+			{
+				defaults: {
 					type: "primary",
 					size: "md",
-				}),
-				token: def.token({
-					primary: what.css([
-						"bg-blue-500",
-						"text-white",
-					]),
-					secondary: what.css([
-						"bg-gray-500",
-						"text-white",
-					]),
-				}),
+				},
+				token: {
+					primary: {
+						class: [
+							"bg-blue-500",
+							"text-white",
+						],
+					},
+					secondary: {
+						class: [
+							"bg-gray-500",
+							"text-white",
+						],
+					},
+				},
 				rules: [
 					{
 						match: {
 							type: "primary",
 						},
 						slot: {
-							root: what.token([
-								"primary",
-							]),
+							root: {
+								token: [
+									"primary",
+								],
+							},
 						},
 					},
 					{
@@ -55,22 +61,24 @@ describe("undefined variant filtering", () => {
 							type: "secondary",
 						},
 						slot: {
-							root: what.token([
-								"secondary",
-							]),
+							root: {
+								token: [
+									"secondary",
+								],
+							},
 						},
 					},
 				],
-			}),
+			},
 		);
 
 		// Test that undefined values don't override defaults
-		const slots = buttonCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots } = buttonCls.create({
+			variant: {
 				type: undefined, // This should be filtered out
 				size: "lg", // This should override the default
-			}),
-		}));
+			},
+		});
 
 		// Should use default type "primary" and override size to "lg"
 		expect(slots.root()).toBe("bg-blue-500 text-white");

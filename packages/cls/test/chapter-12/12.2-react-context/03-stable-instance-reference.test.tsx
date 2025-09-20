@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useClsContext } from "../../../src/react";
+import { ClsContext, useClsContext } from "../../../src/react";
 
 describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 	it("should provide stable cls instance reference", () => {
@@ -15,21 +15,27 @@ describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.default",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"color.bg.default",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
 		// Test component that checks context reference
@@ -46,9 +52,9 @@ describe("12.2 React Context - ClsProvider - Stable Instance Reference", () => {
 
 		// Render with provider
 		render(
-			<ClsProvider value={SimpleCls}>
+			<ClsContext value={SimpleCls}>
 				<TestComponent />
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		// Should have same reference

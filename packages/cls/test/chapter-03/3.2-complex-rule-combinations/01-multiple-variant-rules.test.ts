@@ -21,53 +21,61 @@ describe("3.2 Complex Rule Combinations - Multiple Variant Rules", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"rounded",
-							"font-medium",
-						]),
-					}),
-					def.rule(
-						{
+					{
+						slot: {
+							root: {
+								class: [
+									"rounded",
+									"font-medium",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
 							color: "primary",
 						},
-						{
-							root: what.css([
-								"text-sm",
-								"p-2",
-								"bg-blue-500",
-								"text-white",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-sm",
+									"p-2",
+									"bg-blue-500",
+									"text-white",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							size: "lg",
 							color: "secondary",
 						},
-						{
-							root: what.css([
-								"text-lg",
-								"p-6",
-								"bg-green-500",
-								"text-white",
-							]),
+						slot: {
+							root: {
+								class: [
+									"text-lg",
+									"p-6",
+									"bg-green-500",
+									"text-white",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "sm",
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe(
+		const { slots } = Component.create();
+		expect(slots.root()).toBe(
 			"rounded font-medium text-sm p-2 bg-blue-500 text-white",
 		);
 	});

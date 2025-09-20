@@ -24,11 +24,11 @@ export const BaseActionModal: FC<ActionModal.Props> = ({
 	tweak,
 	...props
 }) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
-		}),
-	}));
+		},
+	});
 
 	return hidden ? null : (
 		<div className={slots.wrapper()}>

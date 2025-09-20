@@ -43,7 +43,7 @@ export const BasePreview = <TValues extends Record<string, any>>({
 	cls = PreviewCls,
 	tweak,
 }: Preview.Props<TValues>) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<InlineContext
@@ -106,5 +106,4 @@ export const BasePreview = <TValues extends Record<string, any>>({
 		</InlineContext>
 	);
 };
-
 export const Preview = withCls(BasePreview, PreviewCls);

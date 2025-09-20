@@ -41,101 +41,139 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-500",
-					]),
-					"color.text.primary": what.css([
-						"text-blue-900",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"spacing.margin.lg": what.css([
-						"m-6",
-					]),
-					"border.style.solid": what.css([
-						"border-solid",
-					]),
-					"border.style.dashed": what.css([
-						"border-dashed",
-					]),
-					"border.radius.sm": what.css([
-						"rounded-sm",
-					]),
-					"border.radius.md": what.css([
-						"rounded-md",
-					]),
-					"border.radius.lg": what.css([
-						"rounded-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-500",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"spacing.margin.lg": {
+						class: [
+							"m-6",
+						],
+					},
+					"border.style.solid": {
+						class: [
+							"border-solid",
+						],
+					},
+					"border.style.dashed": {
+						class: [
+							"border-dashed",
+						],
+					},
+					"border.radius.sm": {
+						class: [
+							"rounded-sm",
+						],
+					},
+					"border.radius.md": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.lg": {
+						class: [
+							"rounded-lg",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "primary",
 							size: "medium",
 						},
-						{
-							root: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.style.solid",
-								"border.radius.md",
-							]),
-							header: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.style.solid",
-								"border.radius.sm",
-							]),
-							content: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.style.solid",
-								"border.radius.md",
-							]),
-							footer: what.token([
-								"color.bg.primary",
-								"color.text.primary",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.style.solid",
-								"border.radius.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.style.solid",
+									"border.radius.md",
+								],
+							},
+							header: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.style.solid",
+									"border.radius.sm",
+								],
+							},
+							content: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.style.solid",
+									"border.radius.md",
+								],
+							},
+							footer: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.style.solid",
+									"border.radius.sm",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended component that adds new slots and overrides existing ones
@@ -191,160 +229,224 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600", // Override base primary
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600", // Override base secondary
-					]),
-					"color.bg.accent": what.css([
-						"bg-purple-500", // New token
-					]),
-					"color.text.primary": what.css([
-						"text-blue-800", // Override base primary
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-800", // Override base secondary
-					]),
-					"color.text.accent": what.css([
-						"text-purple-900", // New token
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-					"spacing.padding.xl": what.css([
-						"p-8", // New token
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"spacing.margin.lg": what.css([
-						"m-6",
-					]),
-					"spacing.margin.xl": what.css([
-						"m-8", // New token
-					]),
-					"border.style.solid": what.css([
-						"border-solid",
-					]),
-					"border.style.dashed": what.css([
-						"border-dashed",
-					]),
-					"border.style.dotted": what.css([
-						"border-dotted", // New token
-					]),
-					"border.radius.sm": what.css([
-						"rounded-sm",
-					]),
-					"border.radius.md": what.css([
-						"rounded-md",
-					]),
-					"border.radius.lg": what.css([
-						"rounded-lg",
-					]),
-					"border.radius.xl": what.css([
-						"rounded-xl", // New token
-					]),
-					"border.radius.full": what.css([
-						"rounded-full", // New token
-					]),
-					"shadow.depth.none": what.css([
-						"shadow-none",
-					]),
-					"shadow.depth.sm": what.css([
-						"shadow-sm",
-					]),
-					"shadow.depth.md": what.css([
-						"shadow-md",
-					]),
-					"shadow.depth.lg": what.css([
-						"shadow-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600", // Override base primary
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600", // Override base secondary
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-purple-500", // New token
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-800", // Override base primary
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-800", // Override base secondary
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-purple-900", // New token
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"spacing.padding.xl": {
+						class: [
+							"p-8", // New token
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"spacing.margin.lg": {
+						class: [
+							"m-6",
+						],
+					},
+					"spacing.margin.xl": {
+						class: [
+							"m-8", // New token
+						],
+					},
+					"border.style.solid": {
+						class: [
+							"border-solid",
+						],
+					},
+					"border.style.dashed": {
+						class: [
+							"border-dashed",
+						],
+					},
+					"border.style.dotted": {
+						class: [
+							"border-dotted", // New token
+						],
+					},
+					"border.radius.sm": {
+						class: [
+							"rounded-sm",
+						],
+					},
+					"border.radius.md": {
+						class: [
+							"rounded-md",
+						],
+					},
+					"border.radius.lg": {
+						class: [
+							"rounded-lg",
+						],
+					},
+					"border.radius.xl": {
+						class: [
+							"rounded-xl", // New token
+						],
+					},
+					"border.radius.full": {
+						class: [
+							"rounded-full", // New token
+						],
+					},
+					"shadow.depth.none": {
+						class: [
+							"shadow-none",
+						],
+					},
+					"shadow.depth.sm": {
+						class: [
+							"shadow-sm",
+						],
+					},
+					"shadow.depth.md": {
+						class: [
+							"shadow-md",
+						],
+					},
+					"shadow.depth.lg": {
+						class: [
+							"shadow-lg",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "accent",
 							size: "large",
 						},
-						{
-							root: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.style.dotted",
-								"border.radius.lg",
-								"shadow.depth.md",
-							]),
-							header: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.style.dotted",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							content: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.lg",
-								"spacing.margin.lg",
-								"border.style.dotted",
-								"border.radius.lg",
-								"shadow.depth.md",
-							]),
-							footer: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.style.dotted",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							sidebar: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.md",
-								"spacing.margin.md",
-								"border.style.dotted",
-								"border.radius.md",
-								"shadow.depth.sm",
-							]),
-							navigation: what.token([
-								"color.bg.accent",
-								"color.text.accent",
-								"spacing.padding.sm",
-								"spacing.margin.sm",
-								"border.style.dotted",
-								"border.radius.sm",
-								"shadow.depth.sm",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.style.dotted",
+									"border.radius.lg",
+									"shadow.depth.md",
+								],
+							},
+							header: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.style.dotted",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							content: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.lg",
+									"spacing.margin.lg",
+									"border.style.dotted",
+									"border.radius.lg",
+									"shadow.depth.md",
+								],
+							},
+							footer: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.style.dotted",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							sidebar: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.md",
+									"spacing.margin.md",
+									"border.style.dotted",
+									"border.radius.md",
+									"shadow.depth.sm",
+								],
+							},
+							navigation: {
+								token: [
+									"color.bg.accent",
+									"color.text.accent",
+									"spacing.padding.sm",
+									"spacing.margin.sm",
+									"border.style.dotted",
+									"border.radius.sm",
+									"shadow.depth.sm",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "accent",
 					size: "large",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test BaseComponent default behavior with all slots
-		const baseDefault = BaseComponent.create();
+		const { slots: baseDefault } = BaseComponent.create();
 		expect(baseDefault.root()).toBe(
 			"bg-blue-500 text-blue-900 p-4 m-4 border-solid rounded-md",
 		);
@@ -359,7 +461,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 		);
 
 		// Test ExtendedComponent default behavior with all slots
-		const extendedDefault = ExtendedComponent.create();
+		const { slots: extendedDefault } = ExtendedComponent.create();
 		expect(extendedDefault.root()).toBe(
 			"bg-purple-500 text-purple-900 p-6 m-6 border-dotted rounded-lg shadow-md",
 		);
@@ -380,12 +482,12 @@ describe("6.3 Slot Inheritance - Slot Inheritance Semantics", () => {
 		);
 
 		// Test that inherited variants still work with overridden tokens
-		const extendedInherited = ExtendedComponent.create(() => ({
+		const { slots: extendedInherited } = ExtendedComponent.create({
 			variant: {
 				color: "primary",
 				size: "medium",
 			},
-		}));
+		});
 		expect(extendedInherited.root()).toBe(
 			"bg-blue-600 text-blue-800 p-4 m-4 border-solid rounded-md",
 		);

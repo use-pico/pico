@@ -17,22 +17,26 @@ describe("1.4 Variant System Basics - Single Variant", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
+			{
 				token: {},
 				rules: [
-					def.root({
-						root: what.css([
-							"bg-gray-100",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"bg-gray-100",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "sm",
-				}),
-			}),
+				},
+			},
 		);
 
-		const instance = Component.create();
-		expect(instance.root()).toBe("bg-gray-100");
+		const { slots } = Component.create();
+		expect(slots.root()).toBe("bg-gray-100");
 	});
 });

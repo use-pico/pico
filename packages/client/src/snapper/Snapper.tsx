@@ -1,5 +1,5 @@
 import { Icon, type IconCls, useDoubleTap } from "@use-pico/client";
-import { type Cls, useClsEx, withCls } from "@use-pico/cls";
+import { type Cls, useCls, withCls } from "@use-pico/cls";
 import {
 	type FC,
 	type Ref,
@@ -67,14 +67,14 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	const isFirst = active === 0;
 	const isLast = active === pages.length - 1;
 
-	const { slots, variants } = useClsEx(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots, variants } = useCls(cls, tweak, {
+		variant: {
 			orientation,
 			align,
 			first: isFirst,
 			last: isLast,
-		}),
-	}));
+		},
+	});
 
 	const scrollToIndex = useCallback(
 		(index: number, behavior: ScrollBehavior = "smooth") => {
@@ -212,11 +212,13 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					icon={leftIcon}
 					tone={tone}
 					size="md"
-					tweak={({ what }) => ({
-						slot: what.slot({
-							root: what.css(slots.first()),
-						}),
-					})}
+					tweak={{
+						slot: {
+							root: {
+								class: slots.first(),
+							},
+						},
+					}}
 					{...iconProps?.({
 						limit: true,
 						active: false,
@@ -241,17 +243,17 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 							icon={page.icon}
 							tone={tone}
 							size="md"
-							tweak={({ what }) => ({
-								slot: what.slot({
-									root: what.css(
-										slots.item(({ what }) => ({
-											variant: what.variant({
+							tweak={{
+								slot: {
+									root: {
+										class: slots.item({
+											variant: {
 												active: isActive,
-											}),
-										})),
-									),
-								}),
-							})}
+											},
+										}),
+									},
+								},
+							}}
 							{...iconProps?.({
 								limit: false,
 								active: isActive,
@@ -274,11 +276,13 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					icon={rightIcon}
 					tone={tone}
 					size="md"
-					tweak={({ what }) => ({
-						slot: what.slot({
-							root: what.css(slots.last()),
-						}),
-					})}
+					tweak={{
+						slot: {
+							root: {
+								class: slots.last(),
+							},
+						},
+					}}
 					{...iconProps?.({
 						limit: true,
 						active: false,
@@ -316,16 +320,18 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 							icon={page.icon}
 							tone={tone}
 							size="md"
-							tweak={({ what }) => ({
-								slot: what.slot({
-									root: what.css([
-										"pointer-events-auto select-none transition cursor-pointer",
-										isActive
-											? "scale-125 opacity-100"
-											: "opacity-60 hover:opacity-90",
-									]),
-								}),
-							})}
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"pointer-events-auto select-none transition cursor-pointer",
+											isActive
+												? "scale-125 opacity-100"
+												: "opacity-60 hover:opacity-90",
+										],
+									},
+								},
+							}}
 							{...iconProps?.({
 								limit: false,
 								active: isActive,

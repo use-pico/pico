@@ -35,13 +35,13 @@ export const BaseBadge: FC<Badge.Props> = ({
 		theme,
 	});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			size,
 			...contextTone,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<ToneProvider {...contextTone}>

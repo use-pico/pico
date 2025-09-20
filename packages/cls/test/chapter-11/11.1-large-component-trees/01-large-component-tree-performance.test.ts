@@ -22,34 +22,40 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"level.base.1": what.css([
-						"level-1-base",
-					]),
-					"feature.type.a": what.css([
-						"feature-a",
-					]),
-				}),
+			{
+				token: {
+					"level.base.1": {
+						class: [
+							"level-1-base",
+						],
+					},
+					"feature.type.a": {
+						class: [
+							"feature-a",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							level: "1",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.a",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					level: "1",
 					feature: "a",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 2: Independent component with level 2
@@ -73,49 +79,59 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"level.base.1": what.css([
-						"level-1-base",
-					]),
-					"level.base.2": what.css([
-						"level-2-base",
-					]),
-					"feature.type.a": what.css([
-						"feature-a",
-					]),
-				}),
+			{
+				token: {
+					"level.base.1": {
+						class: [
+							"level-1-base",
+						],
+					},
+					"level.base.2": {
+						class: [
+							"level-2-base",
+						],
+					},
+					"feature.type.a": {
+						class: [
+							"feature-a",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							level: "1",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.a",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					level: "2",
 					feature: "a",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 3: Independent component with level 3
@@ -141,64 +157,78 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"level.base.1": what.css([
-						"level-1-base",
-					]),
-					"level.base.2": what.css([
-						"level-2-base",
-					]),
-					"level.base.3": what.css([
-						"level-3-base",
-					]),
-					"feature.type.a": what.css([
-						"feature-a",
-					]),
-				}),
+			{
+				token: {
+					"level.base.1": {
+						class: [
+							"level-1-base",
+						],
+					},
+					"level.base.2": {
+						class: [
+							"level-2-base",
+						],
+					},
+					"level.base.3": {
+						class: [
+							"level-3-base",
+						],
+					},
+					"feature.type.a": {
+						class: [
+							"feature-a",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							level: "1",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "3",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.3",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.3",
+									"feature.type.a",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					level: "3",
 					feature: "a",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 4: Independent component with feature b
@@ -226,103 +256,125 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"level.base.1": what.css([
-						"level-1-base",
-					]),
-					"level.base.2": what.css([
-						"level-2-base",
-					]),
-					"level.base.3": what.css([
-						"level-3-base",
-					]),
-					"feature.type.a": what.css([
-						"feature-a",
-					]),
-					"feature.type.b": what.css([
-						"feature-b",
-					]),
-				}),
+			{
+				token: {
+					"level.base.1": {
+						class: [
+							"level-1-base",
+						],
+					},
+					"level.base.2": {
+						class: [
+							"level-2-base",
+						],
+					},
+					"level.base.3": {
+						class: [
+							"level-3-base",
+						],
+					},
+					"feature.type.a": {
+						class: [
+							"feature-a",
+						],
+					},
+					"feature.type.b": {
+						class: [
+							"feature-b",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							level: "1",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "3",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.3",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.3",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "1",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "3",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.3",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.3",
+									"feature.type.b",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					level: "3",
 					feature: "b",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Level 5: Independent component with level 5
@@ -354,209 +406,243 @@ describe("11.1 Large Component Trees - Performance with Deep Inheritance", () =>
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"level.base.1": what.css([
-						"level-1-base",
-					]),
-					"level.base.2": what.css([
-						"level-2-base",
-					]),
-					"level.base.3": what.css([
-						"level-3-base",
-					]),
-					"level.base.4": what.css([
-						"level-4-base",
-					]),
-					"level.base.5": what.css([
-						"level-5-base",
-					]),
-					"feature.type.a": what.css([
-						"feature-a",
-					]),
-					"feature.type.b": what.css([
-						"feature-b",
-					]),
-				}),
+			{
+				token: {
+					"level.base.1": {
+						class: [
+							"level-1-base",
+						],
+					},
+					"level.base.2": {
+						class: [
+							"level-2-base",
+						],
+					},
+					"level.base.3": {
+						class: [
+							"level-3-base",
+						],
+					},
+					"level.base.4": {
+						class: [
+							"level-4-base",
+						],
+					},
+					"level.base.5": {
+						class: [
+							"level-5-base",
+						],
+					},
+					"feature.type.a": {
+						class: [
+							"feature-a",
+						],
+					},
+					"feature.type.b": {
+						class: [
+							"feature-b",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							level: "1",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "3",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.3",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.3",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "4",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.4",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.4",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "5",
 							feature: "a",
 						},
-						{
-							root: what.token([
-								"level.base.5",
-								"feature.type.a",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.5",
+									"feature.type.a",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "1",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.1",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.1",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "2",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.2",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.2",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "3",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.3",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.3",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "4",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.4",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.4",
+									"feature.type.b",
+								],
+							},
 						},
-					),
-					def.rule(
-						{
+					},
+					{
+						match: {
 							level: "5",
 							feature: "b",
 						},
-						{
-							root: what.token([
-								"level.base.5",
-								"feature.type.b",
-							]),
+						slot: {
+							root: {
+								token: [
+									"level.base.5",
+									"feature.type.b",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					level: "5",
 					feature: "b",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test Level1 default behavior
-		const level1Default = Level1.create();
+		const { slots: level1Default } = Level1.create();
 		expect(level1Default.root()).toBe("level-1-base feature-a");
 
 		// Test Level2 default behavior (should use Level2 defaults)
-		const level2Default = Level2.create();
+		const { slots: level2Default } = Level2.create();
 		expect(level2Default.root()).toBe("level-2-base feature-a");
 
 		// Test Level3 default behavior
-		const level3Default = Level3.create();
+		const { slots: level3Default } = Level3.create();
 		expect(level3Default.root()).toBe("level-3-base feature-a");
 
 		// Test Level4 default behavior
-		const level4Default = Level4.create();
+		const { slots: level4Default } = Level4.create();
 		expect(level4Default.root()).toBe("level-3-base feature-b");
 
 		// Test Level5 default behavior
-		const level5Default = Level5.create();
+		const { slots: level5Default } = Level5.create();
 		expect(level5Default.root()).toBe("level-5-base feature-b");
 
 		// Test Level2 with explicit variants
-		const level2Explicit = Level2.create(() => ({
+		const { slots: level2Explicit } = Level2.create({
 			variant: {
 				level: "1",
 			},
-		}));
+		});
 		expect(level2Explicit.root()).toBe("level-1-base feature-a");
 
 		// Test Level3 with explicit variants
-		const level3Explicit = Level3.create(() => ({
+		const { slots: level3Explicit } = Level3.create({
 			variant: {
 				level: "2",
 			},
-		}));
+		});
 		expect(level3Explicit.root()).toBe("level-2-base feature-a");
 
 		// Test Level5 with explicit variants
-		const level5Explicit = Level5.create(() => ({
+		const { slots: level5Explicit } = Level5.create({
 			variant: {
 				level: "4",
 			},
-		}));
+		});
 		expect(level5Explicit.root()).toBe("level-4-base feature-b");
 
 		// Test inheritance chain maintains proper precedence
-		const level5Level1 = Level5.create(() => ({
+		const { slots: level5Level1 } = Level5.create({
 			variant: {
 				level: "1",
 			},
-		}));
+		});
 		expect(level5Level1.root()).toBe("level-1-base feature-b");
 	});
 });

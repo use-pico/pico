@@ -8,27 +8,9 @@ import type { Token } from "./types/Token";
 import type { Tweak } from "./types/Tweak";
 import type { Variant } from "./types/Variant";
 import type { What } from "./types/What";
-import { def } from "./utils/definition/def";
-import { override as defOverride } from "./utils/definition/override";
 import { merge } from "./utils/merge";
 import { tvc } from "./utils/tvc";
-import { override as tweakOverride } from "./utils/tweak/override";
-import { what } from "./utils/what";
 import { withVariants } from "./utils/withVariants";
-
-/**
- * Utility objects passed to factory callbacks
- */
-const defUtils = {
-	what: what<any>(),
-	def: def<any>(),
-	override: defOverride<any>(),
-} as const;
-
-const tweakUtils = {
-	...defUtils,
-	override: tweakOverride<any>(),
-} as const;
 
 // -----------------------------------------------------------------------------
 // Local types
@@ -223,8 +205,8 @@ function createResolver(
 					);
 				}
 
-				if (cacheRef && (cacheRef as any)[tokenKey]) {
-					out.push(...(cacheRef as any)[tokenKey]);
+				if (cacheRef?.[tokenKey]) {
+					out.push(...cacheRef[tokenKey]);
 					return;
 				}
 
@@ -243,14 +225,14 @@ function createResolver(
 				visiting.delete(tokenKey);
 
 				if (cacheRef) {
-					(cacheRef as any)[tokenKey] = resolved;
+					cacheRef[tokenKey] = resolved;
 				}
 				out.push(...resolved);
 			});
 		}
 
-		if ("class" in whatValue && (whatValue as any).class) {
-			out.push((whatValue as any).class);
+		if ("class" in whatValue && whatValue.class) {
+			out.push(whatValue.class);
 		}
 
 		return out;
@@ -273,12 +255,12 @@ export function cls<
 	const TContract extends Contract.Type<TToken, TSlot, TVariant, any>,
 >(
 	contract: TContract,
-	definitionFn: Definition.Factory.Fn<TContract>,
+	definition: Definition.Type<TContract>,
 ): Cls.Type<TContract> {
-	const definition = definitionFn(defUtils);
+	// definition now passed directly
 
 	// Attach definition to contract for inheritance
-	(contract as any)["~definition"] = definition;
+	contract["~definition"] = definition;
 
 	// Precompile layers, slots, rules and base token table
 	const { slotKeys, rulesBySlot, tokensProto } = compileContract(
@@ -287,16 +269,17 @@ export function cls<
 	);
 
 	return {
-		create(userTweakFn, internalTweakFn) {
-			const effectiveVariant = withVariants(
+		// TODO: Change API - return {slots, variants; we'll be eventually open to more props}
+		create(userTweak, internalTweak) {
+			const variant = withVariants(
 				{
 					contract,
 					definition,
 				},
-				userTweakFn,
-				internalTweakFn,
+				userTweak,
+				internalTweak,
 			);
-			const config = merge(userTweakFn, internalTweakFn)();
+			const config = merge(userTweak, internalTweak);
 
 			// Global token table with overrides via prototype chain
 			const tokenTable: Record<
@@ -323,6 +306,8 @@ export function cls<
 			/**
 			 * Recursively stringify an arbitrary POJO with sorted keys for determinism.
 			 * Mirrors JSON semantics for primitives and arrays; skips undefined values.
+			 *
+			 * TODO Revisit this - we know what the input is
 			 */
 			function stableStringifySorted(value: unknown): string {
 				if (value === null || typeof value !== "object") {
@@ -421,18 +406,18 @@ export function cls<
 
 					const slotKeyStr = String(slotName);
 
-					const slotFunction: CoolSlot.Fn<TContract> = (call) => {
-						const local = call?.(tweakUtils);
-
+					const slotFunction: CoolSlot.Fn<TContract> = (local) => {
 						// Merge variants (shallow, only defined values)
-						const localEffective: any = {
-							...effectiveVariant,
+						const localEffective = {
+							...variant,
 						};
-						if (local && local.variant) {
+						if (local?.variant) {
 							Object.entries(local.variant)
 								.filter(([, value]) => value !== undefined)
 								.forEach(([key, value]) => {
-									localEffective[key] = value;
+									localEffective[
+										key as keyof typeof localEffective
+									] = value;
 								});
 						}
 
@@ -450,8 +435,7 @@ export function cls<
 							| Record<string, ClassName[]>
 							| undefined;
 						if (
-							local &&
-							local.token &&
+							local?.token &&
 							Object.keys(local.token).length > 0
 						) {
 							activeTokens = Object.assign(
@@ -462,19 +446,37 @@ export function cls<
 						}
 
 						// Read per-slot customizations
-						const localSlotWhat =
-							local && local.slot
-								? (local.slot as any)[slotName as any]
-								: undefined;
-						const configSlotWhat = config.slot
-							? (config.slot as any)[slotName as any]
+						const localSlotWhat = local?.slot
+							? (
+									local.slot as Record<
+										string,
+										What.Any<Contract.Any>
+									>
+								)[slotName]
 							: undefined;
-						const localOverrideWhat =
-							local && local.override
-								? (local.override as any)[slotName as any]
-								: undefined;
+						const configSlotWhat = config.slot
+							? (
+									config.slot as Record<
+										string,
+										What.Any<Contract.Any>
+									>
+								)[slotName]
+							: undefined;
+						const localOverrideWhat = local?.override
+							? (
+									local.override as Record<
+										string,
+										What.Any<Contract.Any>
+									>
+								)[slotName]
+							: undefined;
 						const configOverrideWhat = config.override
-							? (config.override as any)[slotName as any]
+							? (
+									config.override as Record<
+										string,
+										What.Any<Contract.Any>
+									>
+								)[slotName]
 							: undefined;
 
 						const slotRules = rulesBySlot[slotKeyStr] ?? [];
@@ -592,10 +594,13 @@ export function cls<
 				},
 			};
 
-			return new Proxy(
-				{} as Record<TSlot[number], CoolSlot.Fn<TContract>>,
-				handler,
-			);
+			return {
+				slots: new Proxy(
+					{} as Record<TSlot[number], CoolSlot.Fn<TContract>>,
+					handler,
+				),
+				variants: variant,
+			};
 		},
 		extend(childContract, childDefinitionFn) {
 			(childContract as any)["~use"] = contract;
@@ -604,8 +609,11 @@ export function cls<
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
 		},
-		tweak(userTweakFn, internalTweakFn) {
-			return merge(userTweakFn, internalTweakFn) as Tweak.Fn<TContract>;
+		tweak(userTweak, internalTweak) {
+			const out = merge(userTweak, internalTweak);
+			return Object.keys(out).length === 0
+				? undefined
+				: (out as Tweak.Type<TContract>);
 		},
 		contract,
 		definition,

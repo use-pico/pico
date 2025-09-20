@@ -138,44 +138,44 @@ describe("14.6 Bool Helper - Bool with Other Variants", () => {
 			.cls();
 
 		// Test default state
-		const defaultSlots = CardCls.create();
+		const { slots: defaultSlots } = CardCls.create();
 		expect(defaultSlots.root()).toBe(
 			"card-base rounded border shadow-none bg-white text-gray-900",
 		);
 
 		// Test bool variants only
-		const elevatedSlots = CardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: elevatedSlots } = CardCls.create({
+			variant: {
 				elevated: true,
 				interactive: true,
-			}),
-		}));
+			},
+		});
 		expect(elevatedSlots.root()).toBe(
 			"card-base rounded shadow-lg border-0 cursor-pointer hover:shadow-xl bg-white text-gray-900",
 		);
 
 		// Test mixed bool and regular variants
-		const mixedSlots = CardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: mixedSlots } = CardCls.create({
+			variant: {
 				size: "lg",
 				elevated: true,
 				theme: "dark",
-			}),
-		}));
+			},
+		});
 		expect(mixedSlots.root()).toBe(
 			"card-base rounded p-6 shadow-lg border-0 bg-gray-900 text-white",
 		);
 		expect(mixedSlots.content()).toBe("text-lg");
 
 		// Test complex combination
-		const complexSlots = CardCls.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: complexSlots } = CardCls.create({
+			variant: {
 				size: "sm",
 				elevated: false,
 				interactive: true,
 				theme: "dark",
-			}),
-		}));
+			},
+		});
 		expect(complexSlots.root()).toBe(
 			"card-base rounded p-2 border shadow-none cursor-pointer hover:shadow-xl bg-gray-900 text-white",
 		);

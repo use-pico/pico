@@ -54,197 +54,273 @@ describe("12.1 React Hooks - Array-Based Configurations", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.base": what.css([
-						"bg-white",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-50",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-50",
-					]),
-					"color.bg.accent": what.css([
-						"bg-purple-50",
-					]),
-					"color.text.base": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-blue-900",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-700",
-					]),
-					"color.text.accent": what.css([
-						"text-purple-900",
-					]),
-					"spacing.margin.none": what.css([
-						"m-0",
-					]),
-					"spacing.margin.xs": what.css([
-						"m-1",
-					]),
-					"spacing.margin.sm": what.css([
-						"m-2",
-					]),
-					"spacing.margin.md": what.css([
-						"m-4",
-					]),
-					"spacing.margin.lg": what.css([
-						"m-6",
-					]),
-					"spacing.margin.xl": what.css([
-						"m-8",
-					]),
-					"spacing.padding.none": what.css([
-						"p-0",
-					]),
-					"spacing.padding.xs": what.css([
-						"p-1",
-					]),
-					"spacing.padding.sm": what.css([
-						"p-2",
-					]),
-					"spacing.padding.md": what.css([
-						"p-4",
-					]),
-					"spacing.padding.lg": what.css([
-						"p-6",
-					]),
-					"spacing.padding.xl": what.css([
-						"p-8",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.base": {
+						class: [
+							"bg-white",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-50",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-50",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-purple-50",
+						],
+					},
+					"color.text.base": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-700",
+						],
+					},
+					"color.text.accent": {
+						class: [
+							"text-purple-900",
+						],
+					},
+					"spacing.margin.none": {
+						class: [
+							"m-0",
+						],
+					},
+					"spacing.margin.xs": {
+						class: [
+							"m-1",
+						],
+					},
+					"spacing.margin.sm": {
+						class: [
+							"m-2",
+						],
+					},
+					"spacing.margin.md": {
+						class: [
+							"m-4",
+						],
+					},
+					"spacing.margin.lg": {
+						class: [
+							"m-6",
+						],
+					},
+					"spacing.margin.xl": {
+						class: [
+							"m-8",
+						],
+					},
+					"spacing.padding.none": {
+						class: [
+							"p-0",
+						],
+					},
+					"spacing.padding.xs": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.padding.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.padding.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.padding.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"spacing.padding.xl": {
+						class: [
+							"p-8",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.base",
-							"color.text.base",
-							"spacing.margin.md",
-							"spacing.padding.md",
-						]),
-						header: what.token([
-							"color.bg.primary",
-							"color.text.primary",
-							"spacing.padding.sm",
-						]),
-						content: what.token([
-							"color.bg.base",
-							"color.text.base",
-							"spacing.padding.md",
-						]),
-						footer: what.token([
-							"color.bg.secondary",
-							"color.text.secondary",
-							"spacing.padding.sm",
-						]),
-					}),
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.base",
+									"color.text.base",
+									"spacing.margin.md",
+									"spacing.padding.md",
+								],
+							},
+							header: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"spacing.padding.sm",
+								],
+							},
+							content: {
+								token: [
+									"color.bg.base",
+									"color.text.base",
+									"spacing.padding.md",
+								],
+							},
+							footer: {
+								token: [
+									"color.bg.secondary",
+									"color.text.secondary",
+									"spacing.padding.sm",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							layout: "horizontal",
-						}),
-						{
-							root: what.css([
-								"flex",
-								"flex-row",
-								"items-center",
-							]),
-							header: what.css([
-								"flex-shrink-0",
-							]),
-							content: what.css([
-								"flex-1",
-							]),
-							footer: what.css([
-								"flex-shrink-0",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								class: [
+									"flex",
+									"flex-row",
+									"items-center",
+								],
+							},
+							header: {
+								class: [
+									"flex-shrink-0",
+								],
+							},
+							content: {
+								class: [
+									"flex-1",
+								],
+							},
+							footer: {
+								class: [
+									"flex-shrink-0",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							layout: "grid",
-						}),
-						{
-							root: what.css([
-								"grid",
-								"grid-cols-3",
-								"gap-4",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								class: [
+									"grid",
+									"grid-cols-3",
+									"gap-4",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							spacing: "compact",
-						}),
-						{
-							root: what.token([
-								"spacing.margin.sm",
-								"spacing.padding.sm",
-							]),
-							header: what.token([
-								"spacing.padding.xs",
-							]),
-							content: what.token([
-								"spacing.padding.sm",
-							]),
-							footer: what.token([
-								"spacing.padding.xs",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"spacing.margin.sm",
+									"spacing.padding.sm",
+								],
+							},
+							header: {
+								token: [
+									"spacing.padding.xs",
+								],
+							},
+							content: {
+								token: [
+									"spacing.padding.sm",
+								],
+							},
+							footer: {
+								token: [
+									"spacing.padding.xs",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							spacing: "spacious",
-						}),
-						{
-							root: what.token([
-								"spacing.margin.lg",
-								"spacing.padding.lg",
-							]),
-							header: what.token([
-								"spacing.padding.md",
-							]),
-							content: what.token([
-								"spacing.padding.lg",
-							]),
-							footer: what.token([
-								"spacing.padding.md",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								token: [
+									"spacing.margin.lg",
+									"spacing.padding.lg",
+								],
+							},
+							header: {
+								token: [
+									"spacing.padding.md",
+								],
+							},
+							content: {
+								token: [
+									"spacing.padding.lg",
+								],
+							},
+							footer: {
+								token: [
+									"spacing.padding.md",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					layout: "stacked",
 					spacing: "comfortable",
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test with array-based configuration
 		const { result } = renderHook(() =>
-			useCls(ArrayCls, ({ what }) => ({
-				variant: what.variant({
+			useCls(ArrayCls, {
+				variant: {
 					layout: "horizontal",
 					spacing: "spacious",
 					theme: "dark",
-				}),
-			})),
+				},
+			}),
 		);
 
-		const classes = result.current;
+		const { slots } = result.current;
 
 		// Should apply horizontal layout and spacious spacing
-		expect(classes.root()).toBe(
+		expect(slots.root()).toBe(
 			"bg-white text-gray-900 flex flex-row items-center m-6 p-6",
 		);
-		expect(classes.header()).toBe(
+		expect(slots.header()).toBe(
 			"bg-blue-50 text-blue-900 flex-shrink-0 p-4",
 		);
-		expect(classes.content()).toBe("bg-white text-gray-900 flex-1 p-6");
-		expect(classes.footer()).toBe(
+		expect(slots.content()).toBe("bg-white text-gray-900 flex-1 p-6");
+		expect(slots.footer()).toBe(
 			"bg-gray-50 text-gray-700 flex-shrink-0 p-4",
 		);
 	});

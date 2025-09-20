@@ -19,7 +19,7 @@ export const BaseDetail: FC<Detail.Props> = ({
 	cls = DetailCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<InlineContext
@@ -37,5 +37,4 @@ export const BaseDetail: FC<Detail.Props> = ({
 		</InlineContext>
 	);
 };
-
 export const Detail = withCls(BaseDetail, DetailCls);

@@ -16,44 +16,54 @@ describe("1.2 Token System Basics - Valid Token References", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.primary": what.css([
-						"bg-blue-600",
-						"text-white",
-					]),
-					"spacing.md": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"button.base": what.both(
-						[
+			{
+				token: {
+					"color.primary": {
+						class: [
+							"bg-blue-600",
+							"text-white",
+						],
+					},
+					"spacing.md": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"button.base": {
+						class: [
 							"rounded",
 							"font-medium",
 						],
-						[
+						token: [
 							"spacing.md",
 						],
-					),
-					"button.primary": what.token([
-						"button.base",
-						"color.primary",
-					]),
-				}),
+					},
+					"button.primary": {
+						token: [
+							"button.base",
+							"color.primary",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"button.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"button.primary",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
 		// This should not throw an error
-		const instance = Component.create();
-		expect(instance.root()).toBe(
+		const { slots } = Component.create();
+		expect(slots.root()).toBe(
 			"px-4 py-2 rounded font-medium bg-blue-600 text-white",
 		);
 	});

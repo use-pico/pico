@@ -10,11 +10,26 @@ import type { Variant } from "./Variant";
  * Namespace for CLS helper types
  */
 export namespace Cls {
+	/**
+	 * Various interesting things returned from the create method
+	 */
+	export interface Kit<TContract extends Contract.Any> {
+		/**
+		 * Slots for your component(s) to style
+		 */
+		slots: Slot.Kit<TContract>;
+		/**
+		 * Resolved variants - if you need to access them as a single source of truth,
+		 * this is the way.
+		 */
+		variants: Variant.VariantOf<TContract>;
+	}
+
 	export interface Type<TContract extends Contract.Any> {
 		create(
-			userTweakFn?: Tweak.Fn<TContract>,
-			internalTweakFn?: Tweak.Fn<TContract>,
-		): Slot.Kit<TContract>;
+			userTweak?: Tweak.Type<TContract>,
+			internalTweak?: Tweak.Type<TContract>,
+		): Kit<TContract>;
 
 		extend<
 			const TToken extends Token.Type,
@@ -22,7 +37,7 @@ export namespace Cls {
 			const TVariant extends Variant.Type,
 		>(
 			contract: Contract.Type<TToken, TSlot, TVariant, TContract>,
-			definition: Definition.Factory.Fn<
+			definition: Definition.Type<
 				Contract.Type<TToken, TSlot, TVariant, TContract>
 			>,
 		): Type<Contract.Type<TToken, TSlot, TVariant, TContract>>;
@@ -42,17 +57,17 @@ export namespace Cls {
 		): Type<TContract>;
 
 		tweak<Sub extends Contract.Any = TContract>(
-			userTweakFn?: {
-				hack: Tweak.Fn<
+			userTweak?: {
+				hack: Tweak.Type<
 					IsChildrenOf<Sub, TContract> extends true ? Sub : never
 				>;
 			}["hack"],
-			internalTweakFn?: {
-				hack: Tweak.Fn<
+			internalTweak?: {
+				hack: Tweak.Type<
 					IsChildrenOf<Sub, TContract> extends true ? Sub : never
 				>;
 			}["hack"],
-		): Tweak.Fn<TContract> | undefined;
+		): Tweak.Type<TContract> | undefined;
 
 		contract: TContract;
 
@@ -110,6 +125,6 @@ export namespace Cls {
 		/** Optional CLS instance to use for styling */
 		cls?: TCls;
 		/** Optional tweak function to modify styles on existing component */
-		tweak?: Tweak.Fn<TCls["contract"]>;
+		tweak?: Tweak.Type<TCls["contract"]>;
 	} & Omit<P, "cls" | "tweak">;
 }

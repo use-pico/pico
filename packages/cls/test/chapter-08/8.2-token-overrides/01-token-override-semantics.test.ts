@@ -63,134 +63,198 @@ describe("8.2 Token Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.warning": what.css([
-						"bg-yellow-500",
-					]),
-					"color.bg.danger": what.css([
-						"bg-red-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"color.text.warning": what.css([
-						"text-gray-900",
-					]),
-					"color.text.danger": what.css([
-						"text-white",
-					]),
-					"color.border.default": what.css([
-						"border-gray-300",
-					]),
-					"color.border.primary": what.css([
-						"border-blue-600",
-					]),
-					"color.border.success": what.css([
-						"border-green-600",
-					]),
-					"color.border.warning": what.css([
-						"border-yellow-600",
-					]),
-					"color.border.danger": what.css([
-						"border-red-600",
-					]),
-					"size.spacing.sm": what.css([
-						"p-2",
-					]),
-					"size.spacing.md": what.css([
-						"p-4",
-					]),
-					"size.spacing.lg": what.css([
-						"p-6",
-					]),
-					"size.typography.sm": what.css([
-						"text-sm",
-					]),
-					"size.typography.md": what.css([
-						"text-base",
-					]),
-					"size.typography.lg": what.css([
-						"text-lg",
-					]),
-					"size.border.none": what.css([]),
-					"size.border.thin": what.css([
-						"border",
-					]),
-					"size.border.medium": what.css([
-						"border-2",
-					]),
-					"size.border.thick": what.css([
-						"border-4",
-					]),
-					"state.interactive.idle": what.css([]),
-					"state.interactive.hover": what.css([
-						"hover:opacity-80",
-					]),
-					"state.interactive.active": what.css([
-						"active:scale-95",
-					]),
-					"state.interactive.disabled": what.css([
-						"opacity-50",
-						"cursor-not-allowed",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.warning": {
+						class: [
+							"bg-yellow-500",
+						],
+					},
+					"color.bg.danger": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.warning": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.danger": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.border.default": {
+						class: [
+							"border-gray-300",
+						],
+					},
+					"color.border.primary": {
+						class: [
+							"border-blue-600",
+						],
+					},
+					"color.border.success": {
+						class: [
+							"border-green-600",
+						],
+					},
+					"color.border.warning": {
+						class: [
+							"border-yellow-600",
+						],
+					},
+					"color.border.danger": {
+						class: [
+							"border-red-600",
+						],
+					},
+					"size.spacing.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"size.spacing.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"size.spacing.lg": {
+						class: [
+							"p-6",
+						],
+					},
+					"size.typography.sm": {
+						class: [
+							"text-sm",
+						],
+					},
+					"size.typography.md": {
+						class: [
+							"text-base",
+						],
+					},
+					"size.typography.lg": {
+						class: [
+							"text-lg",
+						],
+					},
+					"size.border.none": {
+						class: [],
+					},
+					"size.border.thin": {
+						class: [
+							"border",
+						],
+					},
+					"size.border.medium": {
+						class: [
+							"border-2",
+						],
+					},
+					"size.border.thick": {
+						class: [
+							"border-4",
+						],
+					},
+					"state.interactive.idle": {
+						class: [],
+					},
+					"state.interactive.hover": {
+						class: [
+							"hover:opacity-80",
+						],
+					},
+					"state.interactive.active": {
+						class: [
+							"active:scale-95",
+						],
+					},
+					"state.interactive.disabled": {
+						class: [
+							"opacity-50",
+							"cursor-not-allowed",
+						],
+					},
+				},
 				rules: [
-					def.rule(
-						{
+					{
+						match: {
 							color: "default",
 							size: "md",
 							state: "idle",
 						},
-						{
-							root: what.token([
-								"color.bg.default",
-								"color.text.default",
-								"color.border.default",
-								"size.spacing.md",
-								"size.typography.md",
-								"size.border.thin",
-								"state.interactive.idle",
-							]),
-							content: what.css([
-								"min-h-0",
-								"flex-1",
-								"leading-relaxed",
-							]),
-							actions: what.css([
-								"flex",
-								"gap-2",
-								"justify-end",
-								"mt-4",
-							]),
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"color.border.default",
+									"size.spacing.md",
+									"size.typography.md",
+									"size.border.thin",
+									"state.interactive.idle",
+								],
+							},
+							content: {
+								class: [
+									"min-h-0",
+									"flex-1",
+									"leading-relaxed",
+								],
+							},
+							actions: {
+								class: [
+									"flex",
+									"gap-2",
+									"justify-end",
+									"mt-4",
+								],
+							},
 						},
-					),
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "default",
 					size: "md",
 					state: "idle",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test default behavior
-		const defaultInstance = TokenComponent.create();
+		const { slots: defaultInstance } = TokenComponent.create();
 		expect(defaultInstance.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -200,21 +264,25 @@ describe("8.2 Token Overrides", () => {
 		expect(defaultInstance.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test color token override
-		const colorTokenOverride = TokenComponent.create(
-			({ what, override }) => ({
-				token: override.token({
-					"color.bg.primary": what.css([
+		const { slots: colorTokenOverride } = TokenComponent.create({
+			token: {
+				"color.bg.primary": {
+					class: [
 						"bg-purple-500",
-					]),
-					"color.text.primary": what.css([
+					],
+				},
+				"color.text.primary": {
+					class: [
 						"text-purple-900",
-					]),
-					"color.border.primary": what.css([
+					],
+				},
+				"color.border.primary": {
+					class: [
 						"border-purple-600",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(colorTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -226,21 +294,25 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test size token override
-		const sizeTokenOverride = TokenComponent.create(
-			({ what, override }) => ({
-				token: override.token({
-					"size.spacing.sm": what.css([
+		const { slots: sizeTokenOverride } = TokenComponent.create({
+			token: {
+				"size.spacing.sm": {
+					class: [
 						"p-1",
-					]),
-					"size.typography.sm": what.css([
+					],
+				},
+				"size.typography.sm": {
+					class: [
 						"text-xs",
-					]),
-					"size.border.medium": what.css([
+					],
+				},
+				"size.border.medium": {
+					class: [
 						"border-2",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(sizeTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -250,22 +322,26 @@ describe("8.2 Token Overrides", () => {
 		expect(sizeTokenOverride.actions()).toBe("flex gap-2 justify-end mt-4");
 
 		// Test state token override
-		const stateTokenOverride = TokenComponent.create(
-			({ what, override }) => ({
-				token: override.token({
-					"state.interactive.hover": what.css([
+		const { slots: stateTokenOverride } = TokenComponent.create({
+			token: {
+				"state.interactive.hover": {
+					class: [
 						"hover:bg-blue-100",
-					]),
-					"state.interactive.active": what.css([
+					],
+				},
+				"state.interactive.active": {
+					class: [
 						"active:bg-blue-200",
-					]),
-					"state.interactive.disabled": what.css([
+					],
+				},
+				"state.interactive.disabled": {
+					class: [
 						"opacity-30",
 						"pointer-events-none",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(stateTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -277,27 +353,35 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test multiple token overrides
-		const multiTokenOverride = TokenComponent.create(
-			({ what, override }) => ({
-				token: override.token({
-					"color.bg.primary": what.css([
+		const { slots: multiTokenOverride } = TokenComponent.create({
+			token: {
+				"color.bg.primary": {
+					class: [
 						"bg-indigo-500",
-					]),
-					"color.text.primary": what.css([
+					],
+				},
+				"color.text.primary": {
+					class: [
 						"text-indigo-900",
-					]),
-					"size.spacing.lg": what.css([
+					],
+				},
+				"size.spacing.lg": {
+					class: [
 						"p-8",
-					]),
-					"size.typography.lg": what.css([
+					],
+				},
+				"size.typography.lg": {
+					class: [
 						"text-xl",
-					]),
-					"state.interactive.hover": what.css([
+					],
+				},
+				"state.interactive.hover": {
+					class: [
 						"hover:shadow-lg",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(multiTokenOverride.root()).toBe(
 			"bg-gray-100 text-gray-900 border-gray-300 p-4 text-base border",
 		);
@@ -309,48 +393,54 @@ describe("8.2 Token Overrides", () => {
 		);
 
 		// Test mixed token override (some tokens, some variants)
-		const mixedTokenOverride = TokenComponent.create(
-			({ what, override }) => ({
-				variant: what.variant({
-					color: "primary",
-					size: "lg",
-					state: "hover",
-				}),
-				token: override.token({
-					"color.bg.primary": what.css([
+		const { slots: mixedTokenOverride } = TokenComponent.create({
+			variant: {
+				color: "primary",
+				size: "lg",
+				state: "hover",
+			},
+			token: {
+				"color.bg.primary": {
+					class: [
 						"bg-teal-500",
-					]),
-					"color.text.primary": what.css([
+					],
+				},
+				"color.text.primary": {
+					class: [
 						"text-teal-900",
-					]),
-					"size.spacing.lg": what.css([
+					],
+				},
+				"size.spacing.lg": {
+					class: [
 						"p-8",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(mixedTokenOverride.root()).toBe("");
 		expect(mixedTokenOverride.content()).toBe("");
 		expect(mixedTokenOverride.actions()).toBe("");
 
 		// Test that variants are preserved when overriding tokens
-		const variantPreservation = TokenComponent.create(
-			({ what, override }) => ({
-				variant: what.variant({
-					color: "success",
-					size: "lg",
-					state: "active",
-				}),
-				token: override.token({
-					"color.bg.success": what.css([
+		const { slots: variantPreservation } = TokenComponent.create({
+			variant: {
+				color: "success",
+				size: "lg",
+				state: "active",
+			},
+			token: {
+				"color.bg.success": {
+					class: [
 						"bg-emerald-500",
-					]),
-					"color.text.success": what.css([
+					],
+				},
+				"color.text.success": {
+					class: [
 						"text-emerald-900",
-					]),
-				}),
-			}),
-		);
+					],
+				},
+			},
+		});
 		expect(variantPreservation.root()).toBe("");
 		expect(variantPreservation.content()).toBe("");
 		expect(variantPreservation.actions()).toBe("");

@@ -33,7 +33,7 @@ export const BaseStatus: FC<Status.Props> = ({
 	tweak,
 	children,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div
@@ -50,13 +50,15 @@ export const BaseStatus: FC<Status.Props> = ({
 					size="xl"
 					tone={tone}
 					theme={theme}
-					tweak={({ what }) => ({
-						slot: what.slot({
-							root: what.css([
-								"opacity-50",
-							]),
-						}),
-					})}
+					tweak={{
+						slot: {
+							root: {
+								class: [
+									"opacity-50",
+								],
+							},
+						},
+					}}
 					{...iconProps}
 				/>
 
@@ -85,5 +87,4 @@ export const BaseStatus: FC<Status.Props> = ({
 		</div>
 	);
 };
-
 export const Status = withCls(BaseStatus, StatusCls);

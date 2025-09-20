@@ -104,11 +104,13 @@ export const BasePopupSelect = <
 	cls = PopupSelectCls,
 	tweak,
 }: PopupSelect.Props<TQuery, TItem>) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		slot: what.slot({
-			input: what.css(className),
-		}),
-	}));
+	const { slots } = useCls(cls, tweak, {
+		slot: {
+			input: {
+				class: className,
+			},
+		},
+	});
 
 	const modalId = useId();
 
@@ -143,5 +145,4 @@ export const BasePopupSelect = <
 		</Modal>
 	);
 };
-
 export const PopupSelect = withCls(BasePopupSelect, PopupSelectCls);

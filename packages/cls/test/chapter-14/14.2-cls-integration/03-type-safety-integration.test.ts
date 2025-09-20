@@ -26,66 +26,79 @@ describe("14.2 CLS Integration - Type Safety Integration", () => {
 			.build();
 
 		// Create CLS instance
-		const Component = cls(result, ({ what, def }) => ({
-			token: def.token({
-				"bg.primary": what.css([
-					"bg-blue-600",
-				]),
-				"text.primary": what.css([
-					"text-white",
-				]),
-			}),
+		const Component = cls(result, {
+			token: {
+				"bg.primary": {
+					class: [
+						"bg-blue-600",
+					],
+				},
+				"text.primary": {
+					class: [
+						"text-white",
+					],
+				},
+			},
 			rules: [
-				def.root({
-					root: what.token([
-						"bg.primary",
-						"text.primary",
-					]),
-					content: what.css([
-						"p-4",
-					]),
-				}),
-				def.rule(
-					what.variant({
-						disabled: true,
-					}),
-					{
-						root: what.css([
-							"opacity-50",
-						]),
+				{
+					slot: {
+						root: {
+							token: [
+								"bg.primary",
+								"text.primary",
+							],
+						},
+						content: {
+							class: [
+								"p-4",
+							],
+						},
 					},
-				),
+				},
+				{
+					match: {
+						disabled: true,
+					},
+					slot: {
+						root: {
+							class: [
+								"opacity-50",
+							],
+						},
+					},
+				},
 			],
-			defaults: def.defaults({
+			defaults: {
 				size: "medium",
 				disabled: false,
-			}),
-		}));
+			},
+		});
 
 		// Type safety verification - these should all compile without errors
 		const _sizeType: Cls.VariantOf<typeof Component, "size"> = "large"; // From merged values
 		const _disabledType: Cls.VariantOf<typeof Component, "disabled"> = true;
-		const _slotsType: Cls.SlotsOf<typeof Component> = Component.create();
+		const _slotsType: Cls.SlotsOf<typeof Component> =
+			Component.create().slots;
 
 		// Test functionality with type safety
-		const instance = Component.create();
+		const { slots: instance } = Component.create();
 		expect(instance.root()).toBe("bg-blue-600 text-white");
 		expect(instance.content()).toBe("p-4");
 
 		// Test merged variant values
-		const largeInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: largeInstance } = Component.create({
+			variant: {
 				size: "large", // This value came from merging
-			}),
-		}));
+			},
+		});
 		expect(largeInstance.root()).toBe("bg-blue-600 text-white");
 
 		// Test boolean variant
-		const disabledInstance = Component.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: disabledInstance } = Component.create({
+			variant: {
 				disabled: true,
-			}),
-		}));
+			},
+		});
 		expect(disabledInstance.root()).toBe(
 			"bg-blue-600 text-white opacity-50",
 		);

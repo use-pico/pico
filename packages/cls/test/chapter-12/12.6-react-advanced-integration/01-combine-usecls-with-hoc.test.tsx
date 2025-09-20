@@ -35,57 +35,81 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"size.padding.small": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.medium": what.css([
-						"px-4",
-						"py-2",
-					]),
-					"size.padding.large": what.css([
-						"px-6",
-						"py-3",
-					]),
-					"size.text.small": what.css([
-						"text-sm",
-					]),
-					"size.text.medium": what.css([
-						"text-base",
-					]),
-					"size.text.large": what.css([
-						"text-lg",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"size.padding.small": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.medium": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+					"size.padding.large": {
+						class: [
+							"px-6",
+							"py-3",
+						],
+					},
+					"size.text.small": {
+						class: [
+							"text-sm",
+						],
+					},
+					"size.text.medium": {
+						class: [
+							"text-base",
+						],
+					},
+					"size.text.large": {
+						class: [
+							"text-lg",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-							"size.padding.medium",
-							"size.text.medium",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"size.padding.medium",
+									"size.text.medium",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
-				}),
-			}),
+				},
+			},
 		);
 
 		const IconButtonCls = cls(
@@ -106,33 +130,45 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"icon.position.left": what.css([
-						"flex-row",
-					]),
-					"icon.position.right": what.css([
-						"flex-row-reverse",
-					]),
-				}),
+			{
+				token: {
+					"icon.position.left": {
+						class: [
+							"flex-row",
+						],
+					},
+					"icon.position.right": {
+						class: [
+							"flex-row-reverse",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"icon.position.left",
-						]),
-						icon: what.css([
-							"w-4",
-							"h-4",
-						]),
-						label: what.css([
-							"font-medium",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"icon.position.left",
+								],
+							},
+							icon: {
+								class: [
+									"w-4",
+									"h-4",
+								],
+							},
+							label: {
+								class: [
+									"font-medium",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					iconPosition: "left",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create base button component
@@ -156,11 +192,11 @@ describe("12.6 React Advanced Integration - Combine useCls with HOC", () => {
 				icon: string;
 			}
 		>) => {
-			const classes = useCls(IconButtonCls, ({ what }) => ({
-				variant: what.variant({
+			const { slots: classes } = useCls(IconButtonCls, {
+				variant: {
 					iconPosition: "left",
-				}),
-			}));
+				},
+			});
 
 			if (!classes) {
 				return null;

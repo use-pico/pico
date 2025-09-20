@@ -64,7 +64,7 @@ export namespace Slot {
 	 * Function type for individual slot functions that return CSS class strings
 	 */
 	export type Fn<TContract extends Contract.Any> = (
-		props?: Tweak.Fn<TContract>,
+		props?: Tweak.Type<TContract>,
 	) => string;
 
 	/**

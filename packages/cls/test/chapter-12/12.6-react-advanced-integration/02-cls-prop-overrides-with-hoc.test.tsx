@@ -24,33 +24,45 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
 		const CustomButtonCls = BaseButtonCls.extend(
@@ -68,27 +80,35 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.custom": what.css([
-						"bg-purple-600",
-					]),
-					"color.text.custom": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.custom": {
+						class: [
+							"bg-purple-600",
+						],
+					},
+					"color.text.custom": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.custom",
-							"color.text.custom",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.custom",
+									"color.text.custom",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "custom",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Create button component that accepts cls prop
@@ -97,11 +117,11 @@ describe("12.6 React Advanced Integration - cls Prop Overrides with HOC", () => 
 			cls = BaseButtonCls,
 			...props
 		}: Cls.Props<typeof BaseButtonCls, PropsWithChildren>) => {
-			const classes = useCls(cls, ({ what }) => ({
-				variant: what.variant({
+			const { slots: classes } = useCls(cls, {
+				variant: {
 					color: "primary",
-				}),
-			}));
+				},
+			});
 
 			if (!classes) {
 				return null;

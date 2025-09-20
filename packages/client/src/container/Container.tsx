@@ -55,11 +55,13 @@ export const BaseContainer: FC<Container.Props> = ({
 		theme,
 	});
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		slot: what.slot({
-			root: what.css(className),
-		}),
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		slot: {
+			root: {
+				class: className,
+			},
+		},
+		variant: {
 			height,
 			width,
 			orientation,
@@ -73,8 +75,8 @@ export const BaseContainer: FC<Container.Props> = ({
 			round,
 			shadow,
 			...contextTone,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

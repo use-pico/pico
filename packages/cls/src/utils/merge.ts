@@ -4,8 +4,8 @@ import type { Token } from "../types/Token";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
 import type { What } from "../types/What";
-import { override } from "./tweak/override";
-import { what } from "./what";
+
+// Callbacks removed: no runtime utils needed here
 
 /**
  * Filters out undefined values from an object
@@ -94,11 +94,6 @@ function combineWhat<T extends Contract.Any>(
 	return undefined;
 }
 
-const utils = {
-	what: what<any>(),
-	override: override<any>(),
-} as const;
-
 /**
  * merge(user, internal)
  *
@@ -108,22 +103,22 @@ const utils = {
  * - Slots are combined by appending What objects, not overriding them
  */
 export function merge<const TContract extends Contract.Any>(
-	userTweakFn?: Tweak.Fn<TContract>,
-	internalTweakFn?: Tweak.Fn<TContract>,
-): () => Tweak.Type<TContract> {
-	const $user = userTweakFn?.(utils);
-	const $internal = internalTweakFn?.(utils);
+	user?: Tweak.Type<TContract>,
+	internal?: Tweak.Type<TContract>,
+): Tweak.Type<TContract> {
+	const $user = user ?? {};
+	const $internal = internal ?? {};
 
-	return () => ({
-		...($internal ?? {}),
-		...($user ?? {}),
+	return {
+		...$internal,
+		...$user,
 		variant: {
-			...filter($internal?.variant),
-			...filter($user?.variant),
+			...filter($internal.variant),
+			...filter($user.variant),
 		} as Variant.Optional<TContract>,
 		slot: (() => {
-			const internalSlot = $internal?.slot;
-			const userSlot = $user?.slot;
+			const internalSlot = $internal.slot;
+			const userSlot = $user.slot;
 
 			if (!internalSlot && !userSlot) {
 				return undefined;
@@ -144,20 +139,20 @@ export function merge<const TContract extends Contract.Any>(
 
 			for (const slotKey of allSlotKeys) {
 				combinedSlot[slotKey] = combineWhat(
-					internalSlot[slotKey as keyof typeof internalSlot],
-					userSlot[slotKey as keyof typeof userSlot],
+					(internalSlot as any)[slotKey as any],
+					(userSlot as any)[slotKey as any],
 				);
 			}
 
 			return combinedSlot;
 		})(),
 		override: {
-			...$internal?.override,
-			...$user?.override,
+			...$internal.override,
+			...$user.override,
 		} as Slot.Optional<TContract>,
 		token: {
-			...$internal?.token,
-			...$user?.token,
+			...$internal.token,
+			...$user.token,
 		} as Token.Optional<TContract>,
-	});
+	};
 }

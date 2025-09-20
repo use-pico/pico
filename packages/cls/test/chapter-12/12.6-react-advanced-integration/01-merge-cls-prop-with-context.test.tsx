@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
 import { type Cls, cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => {
 	it("should merge cls prop with context tokens", () => {
@@ -24,33 +24,45 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"theme.bg.light": what.css([
-						"bg-white",
-					]),
-					"theme.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"theme.text.light": what.css([
-						"text-gray-900",
-					]),
-					"theme.text.dark": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"theme.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"theme.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"theme.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"theme.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"theme.bg.light",
-							"theme.text.light",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"theme.bg.light",
+									"theme.text.light",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		const ButtonCls = cls(
@@ -77,43 +89,59 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-					"size.padding.small": what.css([
-						"px-2",
-						"py-1",
-					]),
-					"size.padding.medium": what.css([
-						"px-4",
-						"py-2",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"size.padding.small": {
+						class: [
+							"px-2",
+							"py-1",
+						],
+					},
+					"size.padding.medium": {
+						class: [
+							"px-4",
+							"py-2",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-							"size.padding.medium",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+									"size.padding.medium",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
 					size: "medium",
-				}),
-			}),
+				},
+			},
 		);
 
 		const Button = ({
@@ -121,16 +149,12 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 			tweak: tweakProp,
 			...props
 		}: Cls.Props<typeof ButtonCls, PropsWithChildren>) => {
-			const classes = useCls(ButtonCls, tweakProp);
-
-			if (!classes) {
-				return null;
-			}
+			const { slots } = useCls(ButtonCls, tweakProp);
 
 			return (
 				<button
 					type="button"
-					className={classes.root()}
+					className={slots.root()}
 					{...props}
 				>
 					{children}
@@ -140,18 +164,18 @@ describe("12.6 React Advanced Integration - Merge cls Prop with Context", () => 
 
 		// Render with context and cls prop override
 		render(
-			<ClsProvider value={ThemeCls}>
+			<ClsContext value={ThemeCls}>
 				<Button
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							color: "secondary",
 							size: "small",
-						}),
-					})}
+						},
+					}}
 				>
 					Context Button
 				</Button>
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		const button = screen.getByRole?.("button");

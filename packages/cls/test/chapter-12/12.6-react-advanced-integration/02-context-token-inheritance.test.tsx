@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
 import { type Cls, cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 	it("should handle context token inheritance with cls prop overrides", () => {
@@ -24,33 +24,45 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"theme.bg.light": what.css([
-						"bg-white",
-					]),
-					"theme.bg.dark": what.css([
-						"bg-gray-900",
-					]),
-					"theme.text.light": what.css([
-						"text-gray-900",
-					]),
-					"theme.text.dark": what.css([
-						"text-white",
-					]),
-				}),
+			{
+				token: {
+					"theme.bg.light": {
+						class: [
+							"bg-white",
+						],
+					},
+					"theme.bg.dark": {
+						class: [
+							"bg-gray-900",
+						],
+					},
+					"theme.text.light": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"theme.text.dark": {
+						class: [
+							"text-white",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"theme.bg.light",
-							"theme.text.light",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"theme.bg.light",
+									"theme.text.light",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "light",
-				}),
-			}),
+				},
+			},
 		);
 
 		const CardCls = cls(
@@ -69,26 +81,34 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"elevation.shadow.low": what.css([
-						"shadow-sm",
-					]),
-					"elevation.shadow.high": what.css([
-						"shadow-lg",
-					]),
-				}),
+			{
+				token: {
+					"elevation.shadow.low": {
+						class: [
+							"shadow-sm",
+						],
+					},
+					"elevation.shadow.high": {
+						class: [
+							"shadow-lg",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"elevation.shadow.low",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"elevation.shadow.low",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					elevation: "low",
-				}),
-			}),
+				},
+			},
 		);
 
 		const Card = ({
@@ -96,15 +116,11 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 			tweak: tweakProp,
 			...props
 		}: Cls.Props<typeof CardCls, PropsWithChildren>) => {
-			const classes = useCls(CardCls, tweakProp);
-
-			if (!classes) {
-				return null;
-			}
+			const { slots } = useCls(CardCls, tweakProp);
 
 			return (
 				<div
-					className={classes.root()}
+					className={slots.root()}
 					{...props}
 				>
 					{children}
@@ -114,19 +130,19 @@ describe("12.6 React Advanced Integration - Context Token Inheritance", () => {
 
 		// Render with nested context providers
 		render(
-			<ClsProvider value={ThemeCls}>
-				<ClsProvider value={CardCls}>
+			<ClsContext value={ThemeCls}>
+				<ClsContext value={CardCls}>
 					<Card
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								elevation: "high",
-							}),
-						})}
+							},
+						}}
 					>
 						Nested Context Card
 					</Card>
-				</ClsProvider>
-			</ClsProvider>,
+				</ClsContext>
+			</ClsContext>,
 		);
 
 		const card = screen.getByText?.("Nested Context Card");

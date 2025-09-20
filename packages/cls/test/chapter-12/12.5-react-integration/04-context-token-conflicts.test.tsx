@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
-import { ClsProvider, useCls } from "../../../src/react";
+import { ClsContext, useCls } from "../../../src/react";
 
 describe("12.5 React Integration - Context Token Conflicts", () => {
 	it("should handle context token conflicts correctly", () => {
@@ -22,41 +22,47 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.conflict": what.css([
-						"bg-red-500",
-					]),
-					"color.text.conflict": what.css([
-						"text-red-100",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.conflict": {
+						class: [
+							"bg-red-500",
+						],
+					},
+					"color.text.conflict": {
+						class: [
+							"text-red-100",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.both(
-							[
-								"p-4",
-								"rounded",
-							],
-							[
-								"color.bg.conflict",
-								"color.text.conflict",
-							],
-						),
-					}),
+					{
+						slot: {
+							root: {
+								class: [
+									"p-4",
+									"rounded",
+								],
+								token: [
+									"color.bg.conflict",
+									"color.text.conflict",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					theme: "conflict",
-				}),
-			}),
+				},
+			},
 		);
 
 		const ConflictComponent: FC = () => {
-			const classes = useCls(ConflictingThemeCls, ({ what }) => ({
-				variant: what.variant({
+			const { slots: classes } = useCls(ConflictingThemeCls, {
+				variant: {
 					theme: "conflict" as const,
-				}),
-			}));
+				},
+			});
 
 			if (!classes) {
 				return null;
@@ -67,9 +73,9 @@ describe("12.5 React Integration - Context Token Conflicts", () => {
 
 		// Render with conflicting context provider
 		render(
-			<ClsProvider value={ConflictingThemeCls}>
+			<ClsContext value={ConflictingThemeCls}>
 				<ConflictComponent />
-			</ClsProvider>,
+			</ClsContext>,
 		);
 
 		const component = screen.getByText("Conflict Component");

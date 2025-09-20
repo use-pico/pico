@@ -14,25 +14,33 @@ describe("1.2 Token System Basics - Token Type System", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.text.primary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
 		const ExtendedComponent = BaseComponent.extend(
@@ -47,31 +55,41 @@ describe("1.2 Token System Basics - Token Type System", () => {
 				],
 				variant: {},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-blue-100",
-					]),
-					"color.text.primary": what.css([
-						"text-blue-900",
-					]),
-					"color.bg.accent": what.css([
-						"bg-blue-500",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-blue-100",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-blue-900",
+						],
+					},
+					"color.bg.accent": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
 				defaults: {},
-			}),
+			},
 		);
 
-		const instance = ExtendedComponent.create();
-		expect(instance.root()).toBe("bg-blue-100 text-blue-900");
+		const { slots } = ExtendedComponent.create();
+		expect(slots.root()).toBe("bg-blue-100 text-blue-900");
 	});
 });

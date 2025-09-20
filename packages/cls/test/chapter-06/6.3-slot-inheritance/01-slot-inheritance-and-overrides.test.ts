@@ -29,98 +29,138 @@ describe("6.3 Slot Inheritance - Slot Inheritance and Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-gray-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-blue-500",
-					]),
-					"color.text.default": what.css([
-						"text-gray-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"spacing.sm": what.css([
-						"p-2",
-					]),
-					"spacing.md": what.css([
-						"p-4",
-					]),
-					"spacing.lg": what.css([
-						"p-6",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-gray-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-blue-500",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-gray-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.sm": {
+						class: [
+							"p-2",
+						],
+					},
+					"spacing.md": {
+						class: [
+							"p-4",
+						],
+					},
+					"spacing.lg": {
+						class: [
+							"p-6",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.token([
-							"color.bg.default",
-							"color.text.default",
-							"spacing.md",
-						]),
-						header: what.css([
-							"border-b",
-							"border-gray-200",
-							"pb-2",
-							"mb-2",
-						]),
-						content: what.css([
-							"min-h-0",
-							"flex-1",
-						]),
-						footer: what.css([
-							"border-t",
-							"border-gray-200",
-							"pt-2",
-							"mt-2",
-						]),
-					}),
-					def.rule(
-						what.variant({
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.default",
+									"color.text.default",
+									"spacing.md",
+								],
+							},
+							header: {
+								class: [
+									"border-b",
+									"border-gray-200",
+									"pb-2",
+									"mb-2",
+								],
+							},
+							content: {
+								class: [
+									"min-h-0",
+									"flex-1",
+								],
+							},
+							footer: {
+								class: [
+									"border-t",
+									"border-gray-200",
+									"pt-2",
+									"mt-2",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "sm",
-						}),
-						{
-							root: what.token([
-								"spacing.sm",
-							]),
-							header: what.css([
-								"text-sm",
-							]),
-							content: what.css([
-								"text-sm",
-							]),
-							footer: what.css([
-								"text-sm",
-							]),
 						},
-					),
-					def.rule(
-						what.variant({
+						slot: {
+							root: {
+								token: [
+									"spacing.sm",
+								],
+							},
+							header: {
+								class: [
+									"text-sm",
+								],
+							},
+							content: {
+								class: [
+									"text-sm",
+								],
+							},
+							footer: {
+								class: [
+									"text-sm",
+								],
+							},
+						},
+					},
+					{
+						match: {
 							size: "lg",
-						}),
-						{
-							root: what.css([
-								"spacing.lg",
-							]),
-							header: what.css([
-								"text-lg",
-								"font-semibold",
-							]),
-							content: what.css([
-								"text-lg",
-							]),
-							footer: what.css([
-								"text-lg",
-							]),
 						},
-					),
+						slot: {
+							root: {
+								class: [
+									"spacing.lg",
+								],
+							},
+							header: {
+								class: [
+									"text-lg",
+									"font-semibold",
+								],
+							},
+							content: {
+								class: [
+									"text-lg",
+								],
+							},
+							footer: {
+								class: [
+									"text-lg",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Extended component that adds new slots and overrides existing ones
@@ -155,86 +195,122 @@ describe("6.3 Slot Inheritance - Slot Inheritance and Overrides", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.default": what.css([
-						"bg-green-100",
-					]),
-					"color.bg.primary": what.css([
-						"bg-green-500",
-					]),
-					"color.bg.success": what.css([
-						"bg-green-600",
-					]),
-					"color.text.default": what.css([
-						"text-green-900",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.success": what.css([
-						"text-white",
-					]),
-					"spacing.sm": what.css([
-						"p-1",
-					]),
-					"spacing.md": what.css([
-						"p-3",
-					]),
-					"spacing.lg": what.css([
-						"p-5",
-					]),
-					"spacing.xl": what.css([
-						"p-8",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.default": {
+						class: [
+							"bg-green-100",
+						],
+					},
+					"color.bg.primary": {
+						class: [
+							"bg-green-500",
+						],
+					},
+					"color.bg.success": {
+						class: [
+							"bg-green-600",
+						],
+					},
+					"color.text.default": {
+						class: [
+							"text-green-900",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.success": {
+						class: [
+							"text-white",
+						],
+					},
+					"spacing.sm": {
+						class: [
+							"p-1",
+						],
+					},
+					"spacing.md": {
+						class: [
+							"p-3",
+						],
+					},
+					"spacing.lg": {
+						class: [
+							"p-5",
+						],
+					},
+					"spacing.xl": {
+						class: [
+							"p-8",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						header: what.css([
-							"bg-green-50",
-							"border-green-200",
-						]),
-						sidebar: what.css([
-							"w-64",
-							"bg-gray-50",
-							"border-r",
-							"border-gray-200",
-						]),
-						actions: what.css([
-							"flex",
-							"gap-2",
-							"justify-end",
-						]),
-					}),
-					def.rule(
-						what.variant({
-							size: "xl",
-						}),
-						{
-							root: what.token([
-								"spacing.xl",
-							]),
-							header: what.css([
-								"text-xl",
-								"font-bold",
-							]),
-							sidebar: what.css([
-								"w-80",
-							]),
-							actions: what.css([
-								"gap-3",
-							]),
+					{
+						slot: {
+							header: {
+								class: [
+									"bg-green-50",
+									"border-green-200",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-64",
+									"bg-gray-50",
+									"border-r",
+									"border-gray-200",
+								],
+							},
+							actions: {
+								class: [
+									"flex",
+									"gap-2",
+									"justify-end",
+								],
+							},
 						},
-					),
+					},
+					{
+						match: {
+							size: "xl",
+						},
+						slot: {
+							root: {
+								token: [
+									"spacing.xl",
+								],
+							},
+							header: {
+								class: [
+									"text-xl",
+									"font-bold",
+								],
+							},
+							sidebar: {
+								class: [
+									"w-80",
+								],
+							},
+							actions: {
+								class: [
+									"gap-3",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					size: "md",
-				}),
-			}),
+				},
+			},
 		);
 
 		// Test base component with default size
-		const baseInstance = BaseComponent.create();
+		const { slots: baseInstance } = BaseComponent.create();
 		expect(baseInstance.root()).toBe("bg-gray-100 text-gray-900 p-4");
 		expect(baseInstance.header()).toBe(
 			"border-b border-gray-200 pb-2 mb-2",
@@ -245,11 +321,11 @@ describe("6.3 Slot Inheritance - Slot Inheritance and Overrides", () => {
 		);
 
 		// Test base component with small size
-		const baseSmallInstance = BaseComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: baseSmallInstance } = BaseComponent.create({
+			variant: {
 				size: "sm",
-			}),
-		}));
+			},
+		});
 		expect(baseSmallInstance.header()).toBe(
 			"border-b border-gray-200 pb-2 mb-2 text-sm",
 		);
@@ -259,7 +335,7 @@ describe("6.3 Slot Inheritance - Slot Inheritance and Overrides", () => {
 		);
 
 		// Test extended component with default size (should inherit and override slots)
-		const extendedInstance = ExtendedComponent.create();
+		const { slots: extendedInstance } = ExtendedComponent.create();
 		expect(extendedInstance.root()).toBe("bg-green-100 text-green-900 p-3");
 		expect(extendedInstance.header()).toBe(
 			"border-b pb-2 mb-2 bg-green-50 border-green-200",
@@ -274,11 +350,11 @@ describe("6.3 Slot Inheritance - Slot Inheritance and Overrides", () => {
 		expect(extendedInstance.actions()).toBe("flex gap-2 justify-end");
 
 		// Test extended component with xl size (should use new spacing and typography)
-		const extendedXlInstance = ExtendedComponent.create(({ what }) => ({
-			variant: what.variant({
+		const { slots: extendedXlInstance } = ExtendedComponent.create({
+			variant: {
 				size: "xl",
-			}),
-		}));
+			},
+		});
 		expect(extendedXlInstance.root()).toBe(
 			"bg-green-100 text-green-900 p-8",
 		);

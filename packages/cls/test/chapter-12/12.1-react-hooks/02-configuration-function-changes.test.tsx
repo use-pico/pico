@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 import { useCls } from "../../../src/react";
 
@@ -23,53 +23,64 @@ describe("12.1 React Hooks - Configuration Function Changes", () => {
 					],
 				},
 			},
-			({ what, def }) => ({
-				token: def.token({
-					"color.bg.primary": what.css([
-						"bg-blue-600",
-					]),
-					"color.bg.secondary": what.css([
-						"bg-gray-600",
-					]),
-					"color.text.primary": what.css([
-						"text-white",
-					]),
-					"color.text.secondary": what.css([
-						"text-gray-900",
-					]),
-				}),
+			{
+				token: {
+					"color.bg.primary": {
+						class: [
+							"bg-blue-600",
+						],
+					},
+					"color.bg.secondary": {
+						class: [
+							"bg-gray-600",
+						],
+					},
+					"color.text.primary": {
+						class: [
+							"text-white",
+						],
+					},
+					"color.text.secondary": {
+						class: [
+							"text-gray-900",
+						],
+					},
+				},
 				rules: [
-					def.root({
-						root: what.css([
-							"color.bg.primary",
-							"color.text.primary",
-						]),
-					}),
+					{
+						slot: {
+							root: {
+								token: [
+									"color.bg.primary",
+									"color.text.primary",
+								],
+							},
+						},
+					},
 				],
-				defaults: def.defaults({
+				defaults: {
 					color: "primary",
-				}),
-			}),
+				},
+			},
 		);
 
-		const configFn = vi.fn?.(({ what }) => ({
-			variant: what.variant({
+		const configObj = {
+			variant: {
 				color: "primary",
-			}),
-		}));
+			},
+		} as const;
 
 		// First render
 		const { result: result1 } = renderHook(() =>
-			useCls(ButtonCls, configFn),
+			useCls(ButtonCls, configObj),
 		);
 
-		// Second render with same function reference
+		// Second render with same object reference
 		const { result: result2 } = renderHook(() =>
-			useCls(ButtonCls, configFn),
+			useCls(ButtonCls, configObj),
 		);
 
-		// Should call config function only once per render
-		expect(configFn).toHaveBeenCalledTimes(4);
-		expect(result1.current.root()).toBe(result2.current.root());
+		// Should produce same class strings
+		expect(result1.current.slots.root()).toBe(result2.current.slots.root());
 	});
 });
