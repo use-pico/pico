@@ -44,13 +44,13 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									theme: "light",
 									tone: "danger",
 									size: "xs",
-								}),
-							})}
+								},
+							}}
 						>
 							{entity.component}
 						</Badge>
@@ -59,13 +59,13 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									theme: "light",
 									tone: "danger",
 									size: "xs",
-								}),
-							})}
+								},
+							}}
 						>
 							{translator.rich(entity.message)}
 						</Badge>
@@ -77,12 +77,12 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									theme: "light",
 									tone: "danger",
-								}),
-							})}
+								},
+							}}
 						>
 							{entity.component}
 						</Badge>
@@ -91,12 +91,12 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 					return (
 						<Badge
 							key={`${entity.id}`}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									theme: "light",
 									tone: "danger",
-								}),
-							})}
+								},
+							}}
 						>
 							{translator.rich(entity.message)}
 						</Badge>
@@ -105,13 +105,11 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 			}}
 			actionProps={{
 				iconEnabled: ErrorIcon,
-				tweak({ what }) {
-					return {
-						variant: what.variant({
-							theme: "light",
-							tone: "danger",
-						}),
-					};
+				tweak: {
+					variant: {
+						theme: "light",
+						tone: "danger",
+					},
 				},
 			}}
 			modalProps={{
