@@ -533,17 +533,7 @@ export function cls<
 							});
 						}
 
-						// Append slot-level whats
-						if (localSlotWhat) {
-							acc = acc.concat(
-								resolve(
-									localSlotWhat,
-									activeTokens,
-									new Set<string>(),
-									localResolvedCache,
-								),
-							);
-						}
+						// Append slot-level whats (config first, user last)
 						if (configSlotWhat) {
 							acc = acc.concat(
 								resolve(
@@ -554,19 +544,30 @@ export function cls<
 								),
 							);
 						}
+						if (localSlotWhat) {
+							acc = acc.concat(
+								resolve(
+									localSlotWhat,
+									activeTokens,
+									new Set<string>(),
+									localResolvedCache,
+								),
+							);
+						}
 
 						// Apply overrides (clear & replace)
-						if (localOverrideWhat) {
+						// Config first, user last so user override wins
+						if (configOverrideWhat) {
 							acc = resolve(
-								localOverrideWhat,
+								configOverrideWhat,
 								activeTokens,
 								new Set<string>(),
 								localResolvedCache,
 							);
 						}
-						if (configOverrideWhat) {
+						if (localOverrideWhat) {
 							acc = resolve(
-								configOverrideWhat,
+								localOverrideWhat,
 								activeTokens,
 								new Set<string>(),
 								localResolvedCache,
