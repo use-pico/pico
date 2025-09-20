@@ -60,18 +60,9 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 
 		const $child = $base.extend(
 			{
-				tokens: [
-					"color.text",
-				],
-				slot: [
-					"root",
-				],
-				variant: {
-					size: [
-						"sm",
-						"md",
-					],
-				},
+				tokens: [],
+				slot: [],
+				variant: {},
 			},
 			{
 				token: {
@@ -100,18 +91,9 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 
 		const $grandchild = $child.extend(
 			{
-				tokens: [
-					"color.text",
-				],
-				slot: [
-					"root",
-				],
-				variant: {
-					size: [
-						"sm",
-						"md",
-					],
-				},
+				tokens: [],
+				slot: [],
+				variant: {},
 			},
 			{
 				token: {

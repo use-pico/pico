@@ -50,15 +50,8 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 		const $child = $base.extend(
 			{
 				tokens: [],
-				slot: [
-					"root",
-				],
-				variant: {
-					size: [
-						"sm",
-						"md",
-					],
-				},
+				slot: [],
+				variant: {},
 			},
 			{
 				token: {},

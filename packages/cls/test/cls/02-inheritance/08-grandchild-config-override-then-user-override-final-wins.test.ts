@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
-	it("child adds classes; config then user appends order preserved", () => {
+describe("cls/inheritance/grandchild-config-override-then-user-override-final-wins", () => {
+	it("in 3-level chain, local user override wins over config override", () => {
 		const $base = cls(
 			{
 				tokens: [],
@@ -31,7 +31,9 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 		const $child = $base.extend(
 			{
 				tokens: [],
-				slot: [],
+				slot: [
+					"root",
+				],
 				variant: {},
 			},
 			{
@@ -51,27 +53,42 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 			},
 		);
 
-		const { slots } = $child.create(undefined, {
-			slot: {
+		const $grand = $child.extend(
+			{
+				tokens: [],
+				slot: [
+					"root",
+				],
+				variant: {},
+			},
+			{
+				token: {},
+				rules: [],
+				defaults: {},
+			},
+		);
+
+		const { slots } = $grand.create(undefined, {
+			override: {
 				root: {
 					class: [
-						"config",
+						"CONF-OVR",
 					],
 				},
 			},
 		});
 
-		expect(slots.root()).toBe("base child config");
+		// local user override wins
 		expect(
 			slots.root({
-				slot: {
+				override: {
 					root: {
 						class: [
-							"user",
+							"USER-OVR",
 						],
 					},
 				},
 			}),
-		).toBe("base child config user");
+		).toBe("USER-OVR");
 	});
 });

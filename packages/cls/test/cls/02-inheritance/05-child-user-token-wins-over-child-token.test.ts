@@ -1,22 +1,33 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
-	it("child adds classes; config then user appends order preserved", () => {
+describe("cls/inheritance/child-user-token-wins-over-child-token", () => {
+	it("user token overlay wins over child token override", () => {
 		const $base = cls(
 			{
-				tokens: [],
+				tokens: [
+					"color.text",
+				],
 				slot: [
 					"root",
 				],
 				variant: {},
 			},
 			{
-				token: {},
+				token: {
+					"color.text": {
+						class: [
+							"text-red-500",
+						],
+					},
+				},
 				rules: [
 					{
 						slot: {
 							root: {
+								token: [
+									"color.text",
+								],
 								class: [
 									"base",
 								],
@@ -35,7 +46,13 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 				variant: {},
 			},
 			{
-				token: {},
+				token: {
+					"color.text": {
+						class: [
+							"text-blue-500",
+						],
+					},
+				},
 				rules: [
 					{
 						slot: {
@@ -51,27 +68,16 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 			},
 		);
 
-		const { slots } = $child.create(undefined, {
-			slot: {
-				root: {
+		const { slots } = $child.create({
+			token: {
+				"color.text": {
 					class: [
-						"config",
+						"text-yellow-500",
 					],
 				},
 			},
 		});
 
-		expect(slots.root()).toBe("base child config");
-		expect(
-			slots.root({
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
-					},
-				},
-			}),
-		).toBe("base child config user");
+		expect(slots.root()).toBe("text-yellow-500 base child");
 	});
 });
