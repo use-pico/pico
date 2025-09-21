@@ -15,4 +15,3 @@ export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
 export { merge } from "./utils/merge";
 export { tvc } from "./utils/tvc";
-export { tweak } from "./utils/tweak";

@@ -1,5 +1,5 @@
 export { ClsContext } from "./ClsContext";
-export { TweakContext } from "./TweakContext";
+export { TweakProvider } from "./TweakProvider";
 export { useCls } from "./useCls";
 export { useClsContext } from "./useClsContext";
 export { useClsMemo } from "./useClsMemo";

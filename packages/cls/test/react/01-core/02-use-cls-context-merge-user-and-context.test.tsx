@@ -1,8 +1,8 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, tweak } from "../../../src";
-import { TweakContext, useCls } from "../../../src/react";
+import { contract } from "../../../src";
+import { TweakProvider, useCls } from "../../../src/react";
 
 describe("react/01-core/use-cls-context-merge-user-and-context", () => {
 	it("merges user tweak with tweak from context and returns expected classes", () => {
@@ -35,15 +35,16 @@ describe("react/01-core/use-cls-context-merge-user-and-context", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakContext
-				value={tweak($cls, {
+			<TweakProvider
+				cls={$cls}
+				tweak={{
 					variant: {
 						size: "md",
 					},
-				})}
+				}}
 			>
 				{children}
-			</TweakContext>
+			</TweakProvider>
 		);
 
 		const { result } = renderHook(() => useCls($cls), {
