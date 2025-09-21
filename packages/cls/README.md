@@ -102,7 +102,7 @@ console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-med
 import { useCls } from '@use-pico/cls';
 
 function MyButton({ size = "md", disabled = false }) {
-  const { slots, variants } = useCls(ButtonCls, {
+  const { slots, variant } = useCls(ButtonCls, {
     variant: { size, disabled }
   });
 
@@ -184,7 +184,7 @@ const ButtonCls = contract()
 
 ```typescript
 // Create styled slots and variants
-const { slots, variants } = ButtonCls.create({
+const { slots, variant } = ButtonCls.create({
   variant: {
     size: "lg",
     tone: "primary",
@@ -199,9 +199,9 @@ const { slots, variants } = ButtonCls.create({
 </button>
 
 // Access resolved variants for component logic
-console.log(variants.size);     // "lg"
-console.log(variants.tone);     // "primary"
-console.log(variants.disabled); // false
+console.log(variant.size);     // "lg"
+console.log(variant.tone);     // "primary"
+console.log(variant.disabled); // false
 ```
 
 ### 🔧 Contract Builder Methods
@@ -605,7 +605,7 @@ const ButtonCls = cls(
 #### **2. Runtime Overrides (Tweak Functions)**
 ```typescript
 // ✅ Runtime overrides using plain objects
-const { slots, variants } = ButtonCls.create({
+const { slots, variant } = ButtonCls.create({
   variant: { size: "lg" },
   slot: {
     root: { class: ["shadow-lg"] }
@@ -723,7 +723,7 @@ export const BaseButton: FC<Button.Props> = ({
   ...props 
 }) => {
   // 5. useCls with internal and user configs
-  const { slots, variants } = useCls(cls, tweak, {
+  const { slots, variant } = useCls(cls, tweak, {
     variant: {
       disabled: disabled || loading,
       size,
@@ -731,11 +731,11 @@ export const BaseButton: FC<Button.Props> = ({
     },
   });
 
-  // `variants` contains the resolved variant values from both component props and user tweaks
+  // `variant` contains the resolved variant values from both component props and user tweaks
   // This gives you access to the final resolved state for component logic if needed
-  // console.log(variants.size);     // "lg" (from props or tweak override)
-  // console.log(variants.disabled); // true/false (component logic or tweak override)
-  // console.log(variants.tone);     // "primary" (from props or tweak override)
+  // console.log(variant.size);     // "lg" (from props or tweak override)
+  // console.log(variant.disabled); // true/false (component logic or tweak override)
+  // console.log(variant.tone);     // "primary" (from props or tweak override)
   
   return (
     <div
@@ -775,7 +775,7 @@ export interface Props extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonEl
 
 #### **2. useCls with Multiple Configs** ⚙️
 ```tsx
-const { slots, variants } = useCls(
+const { slots, variant } = useCls(
   cls,     // CLS instance (can be overridden)
   tweak,   // User config (from tweak prop)
   {  // Internal config (component logic)
@@ -892,17 +892,17 @@ const App = () => (
 
 #### **useCls** - The Main Hook 🎯
 ```tsx
-const { slots, variants } = useCls(ButtonCls, userTweakFn, internalTweakFn);
+const { slots, variant } = useCls(ButtonCls, userTweakFn, internalTweakFn);
 ```
 
 **`useCls` is the main hook** for CLS in React components. It returns both **slots** and **variants** for maximum flexibility:
 
 ```tsx
 // Simple usage - most common pattern (automatically subscribes to both TokenContext and VariantContext)
-const { slots, variants } = useCls(ButtonCls, tweak);
+const { slots, variant } = useCls(ButtonCls, tweak);
 
 // With internal logic
-const { slots, variants } = useCls(ButtonCls, tweak, {
+const { slots, variant } = useCls(ButtonCls, tweak, {
   variant: { disabled: disabled || loading }
 });
 
@@ -910,9 +910,9 @@ const { slots, variants } = useCls(ButtonCls, tweak, {
 <button className={slots.root()}>Button</button>
 
 // Use variants for component logic
-console.log(variants.size);     // "lg"
-console.log(variants.disabled); // true/false
-console.log(variants.tone);     // resolved from theme or props
+console.log(variant.size);     // "lg"
+console.log(variant.disabled); // true/false
+console.log(variant.tone);     // resolved from theme or props
 ```
 
 **Key Features:**
@@ -1064,14 +1064,14 @@ const ButtonWrapper = wrap(ButtonCls);
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
-const { slots, variants } = useClsMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
+const { slots, variant } = useClsMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
 ```
 
 **Performance-optimized version** of `useCls` that memoizes both slots and variants using `useMemo`:
 
 ```tsx
 const MyButton = ({ size, tone, disabled, loading, tweak }) => {
-  const { slots, variants } = useClsMemo(
+  const { slots, variant } = useClsMemo(
     ButtonCls,
     tweak, // User customization from props
     {
@@ -1086,9 +1086,9 @@ const MyButton = ({ size, tone, disabled, loading, tweak }) => {
 
   // Use slots for styling
   // Use variants for component logic
-  console.log(variants.size);     // "lg"
-  console.log(variants.disabled); // true/false
-  console.log(variants.tone);     // resolved from theme or props
+  console.log(variant.size);     // "lg"
+  console.log(variant.disabled); // true/false
+  console.log(variant.tone);     // resolved from theme or props
 
   return <button className={slots.root()}>Button</button>;
 };
@@ -1107,7 +1107,7 @@ const MyButton = ({ size, tone, disabled, loading, tweak }) => {
 ```tsx
 // Performance-critical button with memoization
 const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
-  const { slots, variants } = useClsMemo(
+  const { slots, variant } = useClsMemo(
     ButtonCls,
     tweak,
     {
@@ -1122,7 +1122,7 @@ const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
   
   return (
     <button className={slots.root()}>
-      {variants.loading ? "Loading..." : "Click me"}
+      {variant.loading ? "Loading..." : "Click me"}
     </button>
   );
 };
@@ -1133,7 +1133,7 @@ const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
 ### Runtime Overrides
 ```typescript
 // Override tokens at creation time
-const { slots, variants } = ButtonCls.create({
+const { slots, variant } = ButtonCls.create({
   variant: { size: "lg" },
   token: {
     // Runtime override of token values
