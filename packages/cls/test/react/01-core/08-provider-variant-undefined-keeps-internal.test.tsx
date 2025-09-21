@@ -44,9 +44,7 @@ describe("react/01-core/provider-variant-undefined-keeps-internal", () => {
 			<VariantProvider
 				cls={$cls}
 				variant={{
-					variant: {
-						size: undefined,
-					},
+					size: undefined,
 				}}
 			>
 				{children}
