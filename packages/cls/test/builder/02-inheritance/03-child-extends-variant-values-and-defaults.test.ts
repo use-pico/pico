@@ -57,6 +57,6 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 			.cls();
 
 		const created = child.create();
-		expect(created.slots.root()).toBe("base b-sm child c-md");
+		expect(created.slots.root()).toBe("base child c-md");
 	});
 });

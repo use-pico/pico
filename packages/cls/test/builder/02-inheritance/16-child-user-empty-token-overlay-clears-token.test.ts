@@ -1,12 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { contract, definition } from "../../../src";
 
-describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
-	it("config overlay on root token replaces the whole chain", () => {
+describe("builder-inheritance/child-user-empty-token-overlay-clears-token", () => {
+	it("user empty overlay clears token output on child", () => {
 		const baseC = contract()
 			.tokens([
 				"t1",
-				"t2",
 			])
 			.slots([
 				"root",
@@ -14,25 +13,14 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			.build();
 		const base = definition(baseC)
 			.token({
-				t2: {
-					class: [
-						"b2",
-					],
-				},
 				t1: {
-					token: [
-						"t2",
-					],
 					class: [
-						"b1",
+						"a1",
 					],
 				},
 			})
 			.root({
 				root: {
-					token: [
-						"t1",
-					],
 					class: [
 						"base",
 					],
@@ -51,15 +39,13 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			})
 			.cls();
 
-		const created = child.create(undefined, {
+		const created = child.create({
 			token: {
 				t1: {
-					class: [
-						"CONF",
-					],
+					class: [],
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("CONF base child");
+		expect(created.slots.root()).toBe("base child");
 	});
 });

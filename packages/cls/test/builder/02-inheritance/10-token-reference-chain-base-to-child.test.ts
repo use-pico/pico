@@ -30,6 +30,9 @@ describe("builder-inheritance/token-reference-chain-base-to-child", () => {
 			})
 			.root({
 				root: {
+					token: [
+						"t1",
+					],
 					class: [
 						"base",
 					],
