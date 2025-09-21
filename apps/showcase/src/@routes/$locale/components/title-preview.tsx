@@ -179,23 +179,29 @@ export const Route = createFileRoute("/$locale/components/title-preview")({
 								icon="SettingsIcon"
 								title="Custom Styled"
 								subtitle="With additional styling applied"
-								tweak={({ what }) => ({
-									slot: what.slot({
-										root: what.css([
-											"bg-blue-50",
-											"p-4",
-											"rounded-lg",
-											"border",
-											"border-blue-200",
-										]),
-										title: what.css([
-											"text-blue-800",
-										]),
-										subtitle: what.css([
-											"text-blue-600",
-										]),
-									}),
-								})}
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"bg-blue-50",
+												"p-4",
+												"rounded-lg",
+												"border",
+												"border-blue-200",
+											],
+										},
+										title: {
+											class: [
+												"text-blue-800",
+											],
+										},
+										subtitle: {
+											class: [
+												"text-blue-600",
+											],
+										},
+									},
+								}}
 							/>
 						</Column>
 						<Column label={<Tx label={"Compact Layout"} />}>
@@ -203,19 +209,25 @@ export const Route = createFileRoute("/$locale/components/title-preview")({
 								icon="UserIcon"
 								title="Compact Title"
 								subtitle="With reduced spacing"
-								tweak={({ what }) => ({
-									slot: what.slot({
-										root: what.css([
-											"gap-1",
-										]),
-										title: what.css([
-											"text-base",
-										]),
-										subtitle: what.css([
-											"text-sm",
-										]),
-									}),
-								})}
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"gap-1",
+											],
+										},
+										title: {
+											class: [
+												"text-base",
+											],
+										},
+										subtitle: {
+											class: [
+												"text-sm",
+											],
+										},
+									},
+								}}
 							/>
 						</Column>
 					</div>

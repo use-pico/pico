@@ -143,11 +143,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							disabled: !isBold,
-						}),
-					})}
+						},
+					}}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-italic]"}
@@ -155,11 +155,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							disabled: !isItalic,
-						}),
-					})}
+						},
+					}}
 				/>
 				<Action
 					iconEnabled={"icon-[material-symbols--format-underlined]"}
@@ -170,11 +170,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"underline",
 						);
 					}}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							disabled: !isUnderline,
-						}),
-					})}
+						},
+					}}
 				/>
 				<Action
 					iconEnabled={
@@ -189,11 +189,11 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"strikethrough",
 						);
 					}}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							disabled: !isStrikethrough,
-						}),
-					})}
+						},
+					}}
 				/>
 			</div>
 			<Divider />

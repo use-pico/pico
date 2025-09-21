@@ -4,8 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
 	type Cls,
 	contract,
-	TweakProvider,
 	useCls,
+	VariantProvider,
 	withCls,
 } from "../../../src";
 
@@ -73,28 +73,14 @@ const Tag = withCls(BaseTag, TagCls);
 describe("react/02-component/tweak-provider-influences-component-output", () => {
 	it("applies provider variant and slot append without local overrides", () => {
 		const { container } = render(
-			<TweakProvider
+			<VariantProvider
 				cls={TagCls}
-				tweak={{
-					variant: {
-						tone: "success",
-					},
-					slot: {
-						root: {
-							class: [
-								"P",
-							],
-						},
-						icon: {
-							class: [
-								"P-i",
-							],
-						},
-					},
+				variant={{
+					tone: "success",
 				}}
 			>
 				<Tag>hello</Tag>
-			</TweakProvider>,
+			</VariantProvider>,
 		);
 
 		const root = container.querySelector(
@@ -103,7 +89,7 @@ describe("react/02-component/tweak-provider-influences-component-output", () => 
 		const icon = container.querySelector(
 			'[data-ui="Tag-icon"]',
 		) as HTMLElement;
-		expect(root.className).toBe("tag ok P");
-		expect(icon.className).toBe("i ok-i P-i");
+		expect(root.className).toBe("tag ok");
+		expect(icon.className).toBe("i ok-i");
 	});
 });

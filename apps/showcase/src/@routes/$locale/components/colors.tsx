@@ -105,12 +105,12 @@ const Swatch: FC<{
 	theme: "light" | "dark";
 	label: string;
 }> = ({ tone, theme, label }) => {
-	const slots = useCls(ColorsCls, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(ColorsCls, {
+		variant: {
 			tone,
 			theme,
-		}),
-	}));
+		},
+	});
 	return (
 		<div
 			className={tvc([

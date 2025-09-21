@@ -63,12 +63,12 @@ export const Target = <
 			data-ui="PopupSelect-input"
 			htmlFor={modalId}
 			ref={ref}
-			className={slots.input(({ what }) => ({
-				variant: what.variant({
+			className={slots.input({
+				variant: {
 					isLoading: selected.isFetching,
 					selected: Boolean(selected.data?.length),
-				}),
-			}))}
+				},
+			})}
 		>
 			<Icon
 				icon={

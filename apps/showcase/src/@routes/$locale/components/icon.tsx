@@ -75,11 +75,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "xs",
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										xs
@@ -88,11 +88,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "sm",
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										sm
@@ -101,11 +101,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "md",
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										md
@@ -114,11 +114,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "lg",
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										lg
@@ -127,11 +127,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-1">
 									<Icon
 										icon={UserIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "xl",
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										xl
@@ -143,43 +143,43 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "xs",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "sm",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "md",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "lg",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "xl",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -244,25 +244,29 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={SpinnerIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"animate-spin",
-												"text-blue-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"animate-spin",
+													"text-blue-500",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={LoaderIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"animate-pulse",
-												"text-green-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"animate-pulse",
+													"text-green-500",
+												],
+											},
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -276,35 +280,35 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={EditIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											disabled: true,
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											disabled: true,
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={DownloadIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											disabled: true,
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={FavouriteIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											disabled: true,
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -319,11 +323,11 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex flex-col items-center space-y-2">
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												disabled: true,
-											}),
-										})}
+											},
+										}}
 									/>
 									<span className="text-xs text-gray-500">
 										Disabled
@@ -341,43 +345,51 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-green-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-green-500",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={ErrorIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-red-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-red-500",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={FavouriteIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-pink-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-pink-500",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={SettingsIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-blue-500",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-blue-500",
+												],
+											},
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -385,42 +397,48 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={FavouriteIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-gray-400",
-												"hover:text-pink-500",
-												"cursor-pointer",
-												"transition-colors",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-gray-400",
+													"hover:text-pink-500",
+													"cursor-pointer",
+													"transition-colors",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={EditIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-gray-400",
-												"hover:text-blue-500",
-												"cursor-pointer",
-												"transition-colors",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-gray-400",
+													"hover:text-blue-500",
+													"cursor-pointer",
+													"transition-colors",
+												],
+											},
+										},
+									}}
 								/>
 								<Icon
 									icon={TrashIcon}
-									tweak={({ what }) => ({
-										slot: what.slot({
-											root: what.css([
-												"text-gray-400",
-												"hover:text-red-500",
-												"cursor-pointer",
-												"transition-colors",
-											]),
-										}),
-									})}
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"text-gray-400",
+													"hover:text-red-500",
+													"cursor-pointer",
+													"transition-colors",
+												],
+											},
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -436,66 +454,66 @@ export const Route = createFileRoute("/$locale/components/icon")({
 							<div className="flex items-center space-x-4">
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "primary",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "secondary",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "danger",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "warning",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "neutral",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "subtle",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 								<Icon
 									icon={CheckIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "link",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -527,66 +545,66 @@ export const Route = createFileRoute("/$locale/components/icon")({
 								<div className="flex items-center space-x-4">
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "primary",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "secondary",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "danger",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "warning",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "neutral",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "subtle",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 									<Icon
 										icon={CheckIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "link",
 												theme: "dark",
-											}),
-										})}
+											},
+										}}
 									/>
 								</div>
 							</div>

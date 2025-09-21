@@ -68,19 +68,19 @@ export const Route = createFileRoute("/$locale/components/bool-inline")({
 							<div className="space-y-2">
 								<BoolInline
 									value={true}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "sm",
-										}),
-									})}
+										},
+									}}
 								/>
 								<BoolInline
 									value={false}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "sm",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -88,19 +88,19 @@ export const Route = createFileRoute("/$locale/components/bool-inline")({
 							<div className="space-y-2">
 								<BoolInline
 									value={true}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "lg",
-										}),
-									})}
+										},
+									}}
 								/>
 								<BoolInline
 									value={false}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "lg",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -114,19 +114,19 @@ export const Route = createFileRoute("/$locale/components/bool-inline")({
 							<div className="space-y-2">
 								<BoolInline
 									value={true}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "sm",
-										}),
-									})}
+										},
+									}}
 								/>
 								<BoolInline
 									value={false}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "sm",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -134,19 +134,19 @@ export const Route = createFileRoute("/$locale/components/bool-inline")({
 							<div className="space-y-2">
 								<BoolInline
 									value={true}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "md",
-										}),
-									})}
+										},
+									}}
 								/>
 								<BoolInline
 									value={false}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "md",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>
@@ -154,19 +154,19 @@ export const Route = createFileRoute("/$locale/components/bool-inline")({
 							<div className="space-y-2">
 								<BoolInline
 									value={true}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "lg",
-										}),
-									})}
+										},
+									}}
 								/>
 								<BoolInline
 									value={false}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											size: "lg",
-										}),
-									})}
+										},
+									}}
 								/>
 							</div>
 						</Column>

@@ -1,7 +1,6 @@
 import { type Cls, useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common";
 import type { FC, HTMLAttributes, ReactNode, Ref } from "react";
-import { useTone } from "../tone/useTone";
 import { IconCls } from "./IconCls";
 
 /**
@@ -50,16 +49,12 @@ export const Icon: FC<Icon.Props> = ({
 	tweak,
 	...props
 }) => {
-	const contextTone = useTone({
-		tone,
-		theme,
-	});
-
 	const { slots } = useCls(cls, tweak, {
 		variant: {
 			size,
 			disabled,
-			...contextTone,
+			theme,
+			tone,
 		},
 		slot: {
 			root: {

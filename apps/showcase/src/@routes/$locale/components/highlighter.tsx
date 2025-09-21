@@ -109,13 +109,15 @@ export const Route = createFileRoute("/$locale/components/highlighter")({
 					rect={rect}
 					padding={12}
 					onBackdropClick={handleClose}
-					tweak={({ what }) => ({
-						slot: what.slot({
-							hole: what.css([
-								"ring-red-500",
-							]),
-						}),
-					})}
+					tweak={{
+						slot: {
+							hole: {
+								class: [
+									"ring-red-500",
+								],
+							},
+						},
+					}}
 				/>
 
 				<HighlighterTarget
@@ -123,13 +125,15 @@ export const Route = createFileRoute("/$locale/components/highlighter")({
 					visible={isTargetHighlighted}
 					padding={12}
 					onBackdropClick={handleTargetClose}
-					tweak={({ what }) => ({
-						slot: what.slot({
-							hole: what.css([
-								"ring-blue-500",
-							]),
-						}),
-					})}
+					tweak={{
+						slot: {
+							hole: {
+								class: [
+									"ring-blue-500",
+								],
+							},
+						},
+					}}
 				/>
 			</div>
 		);

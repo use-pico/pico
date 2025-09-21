@@ -107,31 +107,31 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={smallValue}
 								onChange={setSmallValue}
 								label="Small toggle"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										size: "sm",
-									}),
-								})}
+									},
+								}}
 							/>
 							<BoolInput
 								value={mediumValue}
 								onChange={setMediumValue}
 								label="Medium toggle (default)"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										size: "md",
-									}),
-								})}
+									},
+								}}
 							/>
 							<BoolInput
 								value={largeValue}
 								onChange={setLargeValue}
 								label="Large toggle"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										size: "lg",
-									}),
-								})}
+									},
+								}}
 							/>
 						</div>
 					</div>
@@ -146,41 +146,41 @@ export const Route = createFileRoute("/$locale/components/bool-input")({
 								value={neutralValue}
 								onChange={setNeutralValue}
 								label="Neutral tone (default)"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone: "neutral",
-									}),
-								})}
+									},
+								}}
 							/>
 							<BoolInput
 								value={primaryValue}
 								onChange={setPrimaryValue}
 								label="Primary tone"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone: "primary",
-									}),
-								})}
+									},
+								}}
 							/>
 							<BoolInput
 								value={dangerValue}
 								onChange={setDangerValue}
 								label="Danger tone"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone: "danger",
-									}),
-								})}
+									},
+								}}
 							/>
 							<BoolInput
 								value={warningValue}
 								onChange={setWarningValue}
 								label="Warning tone"
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone: "warning",
-									}),
-								})}
+									},
+								}}
 							/>
 						</div>
 					</div>

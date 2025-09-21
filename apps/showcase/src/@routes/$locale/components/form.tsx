@@ -276,21 +276,21 @@ export const Route = createFileRoute("/$locale/components/form")({
 
 								<div className="flex gap-2">
 									<Button
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "sm",
-											}),
-										})}
+											},
+										}}
 									>
 										Submit
 									</Button>
 									<Button
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												size: "sm",
 												tone: "secondary",
-											}),
-										})}
+											},
+										}}
 									>
 										Cancel
 									</Button>

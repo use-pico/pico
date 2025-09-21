@@ -4,8 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
 	type Cls,
 	contract,
-	TweakProvider,
 	useCls,
+	VariantProvider,
 	withCls,
 } from "../../../src";
 
@@ -73,24 +73,10 @@ const Tag = withCls(BaseTag, TagCls);
 describe("react/02-component/tweak-provider-merges-with-component-tweak", () => {
 	it("combines provider and component tweak; user wins and appends after provider", () => {
 		const { container } = render(
-			<TweakProvider
+			<VariantProvider
 				cls={TagCls}
-				tweak={{
-					variant: {
-						tone: "success",
-					},
-					slot: {
-						root: {
-							class: [
-								"P",
-							],
-						},
-						icon: {
-							class: [
-								"P-i",
-							],
-						},
-					},
+				variant={{
+					tone: "success",
 				}}
 			>
 				{/* Without component tweak: provider-only applies */}
@@ -117,18 +103,18 @@ describe("react/02-component/tweak-provider-merges-with-component-tweak", () => 
 				>
 					user
 				</Tag>
-			</TweakProvider>,
+			</VariantProvider>,
 		);
 
 		const tags = container.querySelectorAll('[data-ui="Tag-root"]');
 		const icons = container.querySelectorAll('[data-ui="Tag-icon"]');
 
 		// First tag: provider-only
-		expect(tags[0]?.className).toBe("tag ok P");
-		expect(icons[0]?.className).toBe("i ok-i P-i");
+		expect(tags[0]?.className).toBe("tag ok");
+		expect(icons[0]?.className).toBe("i ok-i");
 
-		// Second tag: user tweak overrides provider variant and appends after provider
-		expect(tags[1]?.className).toBe("tag P U");
-		expect(icons[1]?.className).toBe("i P-i U-i");
+		// Second tag: user tweak overrides provider variant
+		expect(tags[1]?.className).toBe("tag U");
+		expect(icons[1]?.className).toBe("i U-i");
 	});
 });

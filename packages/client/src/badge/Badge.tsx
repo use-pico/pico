@@ -1,7 +1,5 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
-import { ToneProvider } from "../tone/ToneProvider";
-import { useTone } from "../tone/useTone";
 import { BadgeCls } from "./BadgeCls";
 
 /**
@@ -30,28 +28,22 @@ export const BaseBadge: FC<Badge.Props> = ({
 	cls = BadgeCls,
 	...props
 }) => {
-	const contextTone = useTone({
-		tone,
-		theme,
-	});
-
 	const { slots } = useCls(cls, tweak, {
 		variant: {
 			disabled,
 			size,
-			...contextTone,
+			tone,
+			theme,
 		},
 	});
 
 	return (
-		<ToneProvider {...contextTone}>
-			<div
-				ref={ref}
-				data-ui="Badge-root"
-				className={slots.root()}
-				{...props}
-			/>
-		</ToneProvider>
+		<div
+			ref={ref}
+			data-ui="Badge-root"
+			className={slots.root()}
+			{...props}
+		/>
 	);
 };
 

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider } from "../../../src";
+import { contract, VariantProvider } from "../../../src";
 import { useCls } from "../../../src/react";
 
 describe("react/01-core/user-override-wins-over-context-override", () => {
@@ -27,9 +27,9 @@ describe("react/01-core/user-override-wins-over-context-override", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
+				variant={{
 					override: {
 						icon: {
 							class: [
@@ -40,7 +40,7 @@ describe("react/01-core/user-override-wins-over-context-override", () => {
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(

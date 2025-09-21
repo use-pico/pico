@@ -108,12 +108,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Primary tone - Edit action */}
 								<ActionClick
 									onClick={() => console.log("Edit customer")}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "primary",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--pencil]" />
 									<Tx label="Edit" />
@@ -122,12 +122,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Secondary tone - View details */}
 								<ActionClick
 									onClick={() => console.log("View details")}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "secondary",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--eye]" />
 									<Tx label="View Details" />
@@ -138,12 +138,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Suspend customer")
 									}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "warning",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--pause]" />
 									<Tx label="Suspend" />
@@ -154,12 +154,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Delete customer")
 									}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "danger",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--trash]" />
 									<Tx label="Delete" />
@@ -168,12 +168,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 								{/* Neutral tone - Export data */}
 								<ActionClick
 									onClick={() => console.log("Export data")}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "neutral",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--download]" />
 									<Tx label="Export" />
@@ -184,12 +184,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Send notification")
 									}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "subtle",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--bell]" />
 									<Tx label="Notify" />
@@ -208,13 +208,13 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 									onClick={() =>
 										console.log("Premium feature")
 									}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "primary",
 											theme: "light",
 											disabled: true,
-										}),
-									})}
+										},
+									}}
 								>
 									<Icon icon="icon-[ph--crown]" />
 									<Tx label="Premium Feature" />
@@ -238,53 +238,53 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 				<div className="flex gap-4 p-4 bg-slate-50 rounded-lg">
 					<Button
 						onClick={() => setSelectedTab("overview")}
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								tone:
 									selectedTab === "overview"
 										? "primary"
 										: "secondary",
-							}),
-						})}
+							},
+						}}
 					>
 						<Tx label="Overview" />
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("subscription")}
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								tone:
 									selectedTab === "subscription"
 										? "primary"
 										: "secondary",
-							}),
-						})}
+							},
+						}}
 					>
 						<Tx label="Subscription" />
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("usage")}
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								tone:
 									selectedTab === "usage"
 										? "primary"
 										: "secondary",
-							}),
-						})}
+							},
+						}}
 					>
 						<Tx label="Usage" />
 					</Button>
 					<Button
 						onClick={() => setSelectedTab("activity")}
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								tone:
 									selectedTab === "activity"
 										? "primary"
 										: "secondary",
-							}),
-						})}
+							},
+						}}
 					>
 						<Tx label="Activity" />
 					</Button>

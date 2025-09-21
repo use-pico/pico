@@ -81,11 +81,11 @@ export const BoolInline: FC<BoolInline.Props> = ({
 			<Icon
 				icon={value ? checkIcon : unCheckIcon}
 				cls={IconCls.use(cls)}
-				tweak={IconCls.tweak(tweak, ({ what }) => ({
-					variant: what.variant({
+				tweak={IconCls.tweak(tweak, {
+					variant: {
 						value,
-					}),
-				}))}
+					},
+				})}
 				{...props}
 			/>
 		</div>

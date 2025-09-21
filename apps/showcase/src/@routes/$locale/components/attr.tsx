@@ -128,11 +128,11 @@ export const Route = createFileRoute("/$locale/components/attr")({
 										{sampleData.skills.map((skill) => (
 											<Badge
 												key={skill}
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														theme: "light",
-													}),
-												})}
+													},
+												}}
 											>
 												{skill}
 											</Badge>

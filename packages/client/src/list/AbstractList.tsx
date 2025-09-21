@@ -221,7 +221,7 @@ export const AbstractList = <
 	cls = AbstractListCls,
 	tweak,
 }: AbstractList.Props<TQuery, TItem>) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	/**
 	 * Here we're expecting basically only two states - success or

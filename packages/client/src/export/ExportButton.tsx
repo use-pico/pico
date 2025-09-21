@@ -120,13 +120,15 @@ export const ExportButton = <TItem extends EntitySchema.Type>({
 			textTitle={<Tx label={"Export settings (title)"} />}
 			icon={mutation.isPending ? LoaderIcon : ExportIcon}
 			disabled={mutation.isPending}
-			tweak={({ what }) => ({
+			tweak={{
 				slot: {
-					modal: what.css([
-						"w-1/2",
-					]),
+					modal: {
+						class: [
+							"w-1/2",
+						],
+					},
 				},
-			})}
+			}}
 			{...modalProps}
 			target={<Button {...props} />}
 		>

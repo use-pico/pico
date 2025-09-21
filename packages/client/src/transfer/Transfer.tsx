@@ -138,20 +138,19 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 									>
 										<Render item={item} />
 										<Action
-											tweak={({ what }) => ({
+											tweak={{
 												slot: {
-													root: what.css([
-														"invisible",
-														"group-hover:visible",
-													]),
-													action: what.css([
-														"transition-none",
-													]),
+													root: {
+														class: [
+															"invisible",
+															"group-hover:visible",
+														],
+													},
 												},
-												variant: what.variant({
+												variant: {
 													tone: "subtle",
-												}),
-											})}
+												},
+											}}
 											iconEnabled={ArrowRightIcon}
 											onClick={withHandleSelect(
 												group,
@@ -199,20 +198,19 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 								<Render item={item} />
 							</div>
 							<Action
-								tweak={({ what }) => ({
+								tweak={{
 									slot: {
-										root: what.css([
-											"invisible",
-											"group-hover:visible",
-										]),
-										action: what.css([
-											"transition-none",
-										]),
+										root: {
+											class: [
+												"invisible",
+												"group-hover:visible",
+											],
+										},
 									},
-									variant: what.variant({
+									variant: {
 										tone: "subtle",
-									}),
-								})}
+									},
+								}}
 								iconEnabled={CloseIcon}
 								onClick={withHandleDeselect(item)}
 							/>

@@ -31,7 +31,7 @@ export const AppLayout: React.FC<AppLayout.Props> = ({
 	tweak,
 	children,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div

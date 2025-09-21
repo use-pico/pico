@@ -21,7 +21,7 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	cls = LabelCountCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div
@@ -37,13 +37,13 @@ export const LabelCount: FC<LabelCount.Props> = ({
 			</div>
 			<Badge
 				{...badgeProps}
-				tweak={({ what }) => ({
-					variant: what.variant({
+				tweak={{
+					variant: {
 						size: "xs",
 						theme: "light",
 						border: false,
-					}),
-				})}
+					},
+				}}
 			>
 				{toHumanNumber({
 					number: count,

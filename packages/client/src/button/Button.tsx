@@ -2,8 +2,6 @@ import { type Cls, useCls, withCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
-import { ToneProvider } from "../tone/ToneProvider";
-import { useTone } from "../tone/useTone";
 import { ButtonCls } from "./ButtonCls";
 
 export namespace Button {
@@ -41,56 +39,54 @@ export const BaseButton: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const contextTone = useTone({
-		tone,
-		theme,
-	});
-
-	const { slots } = useCls(cls, tweak, {
+	const { slots, variants } = useCls(cls, tweak, {
 		variant: {
 			disabled,
 			size,
 			round,
-			...contextTone,
+			tone,
+			theme,
 		},
 	});
 
 	return (
-		<ToneProvider {...contextTone}>
-			<div
-				data-ui="Button-wrapper"
-				ref={wrapperRef}
-				className={slots.wrapper()}
+		<div
+			data-ui="Button-wrapper"
+			ref={wrapperRef}
+			className={slots.wrapper()}
+		>
+			<button
+				data-ui="Button-root"
+				ref={buttonRef}
+				className={slots.root()}
+				type={"button"}
+				disabled={disabled}
+				{...props}
 			>
-				<button
-					data-ui="Button-root"
-					ref={buttonRef}
-					className={slots.root()}
-					type={"button"}
-					disabled={disabled}
-					{...props}
-				>
-					{disabled ? (
-						<Icon
-							icon={
-								loading === true
-									? iconLoading
-									: (iconDisabled ?? iconEnabled)
-							}
-							size={"sm"}
-							{...iconProps}
-						/>
-					) : (
-						<Icon
-							icon={loading === true ? iconLoading : iconEnabled}
-							size={"sm"}
-							{...iconProps}
-						/>
-					)}
-					{children}
-				</button>
-			</div>
-		</ToneProvider>
+				{disabled ? (
+					<Icon
+						icon={
+							loading === true
+								? iconLoading
+								: (iconDisabled ?? iconEnabled)
+						}
+						size={variants.size}
+						theme={variants.theme}
+						tone={variants.tone}
+						{...iconProps}
+					/>
+				) : (
+					<Icon
+						icon={loading === true ? iconLoading : iconEnabled}
+						size={variants.size}
+						theme={variants.theme}
+						tone={variants.tone}
+						{...iconProps}
+					/>
+				)}
+				{children}
+			</button>
+		</div>
 	);
 };
 

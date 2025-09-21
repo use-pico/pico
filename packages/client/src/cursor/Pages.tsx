@@ -23,7 +23,7 @@ export const Pages: FC<Pages.Props> = ({
 	cls = PagesCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<nav
@@ -40,11 +40,11 @@ export const Pages: FC<Pages.Props> = ({
 						<li
 							key={`page-${current}`}
 							data-ui="Pages-page"
-							className={slots.page(({ what }) => ({
-								variant: what.variant({
+							className={slots.page({
+								variant: {
 									current: page === current - 1,
-								}),
-							}))}
+								},
+							})}
 							onClick={() => onPage(current - 1)}
 						>
 							{current}

@@ -1,6 +1,6 @@
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
-import { TweakProvider } from "./TweakProvider";
+import { VariantProvider } from "./VariantProvider";
 
 export namespace wrap {
 	export interface Props<TContract extends Contract.Any> {
@@ -15,9 +15,9 @@ export const wrap = <TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
 ) => {
 	return {
-		TweakProvider(props: Omit<TweakProvider.Props<TContract>, "cls">) {
+		VariantProvider(props: Omit<VariantProvider.Props<TContract>, "cls">) {
 			return (
-				<TweakProvider
+				<VariantProvider
 					cls={cls}
 					{...props}
 				/>

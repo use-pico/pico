@@ -33,12 +33,12 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	tweak,
 	...props
 }) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled: props.disabled,
 			value: value ?? false,
-		}),
-	}));
+		},
+	});
 
 	const handleKeyDown = (event: React.KeyboardEvent) => {
 		if (event.key === "Enter" || event.key === " ") {
@@ -124,12 +124,12 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			</div>
 			{(textOn || textOff) && (
 				<Badge
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: value ? "secondary" : "neutral",
 							theme: "light",
-						}),
-					})}
+						},
+					}}
 				>
 					{value ? textOn : textOff}
 				</Badge>

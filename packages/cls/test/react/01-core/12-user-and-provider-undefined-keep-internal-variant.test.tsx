@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/user-and-provider-undefined-keep-internal-variant", () => {
 	it("uses internal variant when user and provider supply undefined", () => {
@@ -41,16 +41,16 @@ describe("react/01-core/user-and-provider-undefined-keep-internal-variant", () =
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
+				variant={{
 					variant: {
 						size: undefined,
 					},
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(

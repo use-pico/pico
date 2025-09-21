@@ -31,12 +31,12 @@ export const EqualFilter = <
 		<Action
 			iconEnabled={FilterApplyIcon}
 			size={"xs"}
-			tweak={({ what }) => ({
-				variant: what.variant({
+			tweak={{
+				variant: {
 					tone: "primary",
 					theme: "light",
-				}),
-			})}
+				},
+			}}
 			onClick={() => {
 				state.set({
 					...state.value,

@@ -1,13 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-	Button,
-	createToneStore,
-	type PicoCls,
-	ToneContext,
-	ToneProvider,
-	Tx,
-} from "@use-pico/client";
-import { type Cls, tvc } from "@use-pico/cls";
+import { Button, PicoCls, Tx } from "@use-pico/client";
+import { type Cls, TweakProvider, tvc } from "@use-pico/cls";
 import { type ReactNode, useState } from "react";
 
 const tones: Cls.VariantOf<PicoCls, "tone">[] = [
@@ -93,11 +86,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-light-borderless-${tone}`}
 									tone={tone}
 									theme="light"
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											border: false,
-										}),
-									})}
+										},
+									}}
 								>
 									<Tx label={`${tone} borderless`} />
 								</Button>
@@ -124,11 +117,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="light"
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											border: false,
-										}),
-									})}
+										},
+									}}
 								>
 									<Tx label={`${tone} borderless disabled`} />
 								</Button>
@@ -158,11 +151,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-dark-borderless-${tone}`}
 									tone={tone}
 									theme="dark"
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											border: false,
-										}),
-									})}
+										},
+									}}
 								>
 									<Tx label={`${tone} borderless`} />
 								</Button>
@@ -189,11 +182,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="dark"
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											border: false,
-										}),
-									})}
+										},
+									}}
 								>
 									<Tx label={`${tone} borderless disabled`} />
 								</Button>
@@ -279,9 +272,14 @@ export const Route = createFileRoute("/$locale/components/button")({
 							</div>
 							<div className="grid grid-cols-2 gap-8">
 								{/* Danger + Dark Context */}
-								<ToneProvider
-									tone="danger"
-									theme="dark"
+								<TweakProvider
+									cls={PicoCls}
+									tweak={{
+										variant: {
+											tone: "danger",
+											theme: "dark",
+										},
+									}}
 								>
 									<div className="p-4 bg-slate-100 rounded-lg">
 										<div className="text-xs text-slate-600 mb-3">
@@ -325,12 +323,17 @@ export const Route = createFileRoute("/$locale/components/button")({
 											</Button>
 										</div>
 									</div>
-								</ToneProvider>
+								</TweakProvider>
 
 								{/* Secondary + Light Context */}
-								<ToneProvider
-									tone="secondary"
-									theme="light"
+								<TweakProvider
+									cls={PicoCls}
+									tweak={{
+										variant: {
+											tone: "secondary",
+											theme: "light",
+										},
+									}}
 								>
 									<div className="p-4 bg-slate-100 rounded-lg">
 										<div className="text-xs text-slate-600 mb-3">
@@ -374,7 +377,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 											</Button>
 										</div>
 									</div>
-								</ToneProvider>
+								</TweakProvider>
 							</div>
 						</div>
 
@@ -399,9 +402,14 @@ export const Route = createFileRoute("/$locale/components/button")({
 									}
 								/>
 							</div>
-							<ToneProvider
-								tone="neutral"
-								theme="light"
+							<TweakProvider
+								cls={PicoCls}
+								tweak={{
+									variant: {
+										tone: "neutral",
+										theme: "light",
+									},
+								}}
 							>
 								<div className="p-4 bg-slate-100 rounded-lg">
 									<div className="text-xs text-slate-600 mb-3">
@@ -418,9 +426,14 @@ export const Route = createFileRoute("/$locale/components/button")({
 											/>
 										</Button>
 
-										<ToneProvider
-											tone="warning"
-											theme="dark"
+										<TweakProvider
+											cls={PicoCls}
+											tweak={{
+												variant: {
+													tone: "warning",
+													theme: "dark",
+												},
+											}}
 										>
 											<div className="p-3 bg-slate-200 rounded border-2 border-dashed border-slate-400">
 												<div className="text-xs text-slate-600 mb-2">
@@ -447,7 +460,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 													</Button>
 												</div>
 											</div>
-										</ToneProvider>
+										</TweakProvider>
 
 										<Button>
 											<Tx
@@ -456,7 +469,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 										</Button>
 									</div>
 								</div>
-							</ToneProvider>
+							</TweakProvider>
 						</div>
 					</div>
 				</Section>
@@ -515,118 +528,105 @@ function ToneContextDemo() {
 	const [contextTheme, setContextTheme] =
 		useState<(typeof themes)[number]>("light");
 
-	const toneStore = createToneStore({
-		defaultTone: contextTone,
-		defaultTheme: contextTheme,
-	});
-
-	// Update the store when state changes
-	toneStore.getState().setTone(contextTone);
-	toneStore.getState().setTheme(contextTheme);
-
 	return (
-		<ToneContext value={toneStore}>
-			<div className="p-4 bg-slate-100 rounded-lg">
-				<div className="flex flex-col space-y-4">
-					{/* Controls */}
-					<div className="flex flex-wrap gap-4">
-						<div className="flex flex-col space-y-2">
-							<div className="text-xs font-medium text-slate-600">
-								<Tx label={"Context Tone"} />
-							</div>
-							<div className="flex flex-wrap gap-1">
-								{tones.map((tone) => (
-									<button
-										key={tone}
-										type="button"
-										onClick={() => setContextTone(tone)}
-										className={tvc([
-											"px-2 py-1 text-xs rounded border",
-											contextTone === tone
-												? "bg-blue-100 border-blue-300 text-blue-800"
-												: "bg-white border-gray-300 text-gray-700 hover:bg-gray-50",
-										])}
-									>
-										{tone}
-									</button>
-								))}
-							</div>
+		<div className="p-4 bg-slate-100 rounded-lg">
+			<div className="flex flex-col space-y-4">
+				{/* Controls */}
+				<div className="flex flex-wrap gap-4">
+					<div className="flex flex-col space-y-2">
+						<div className="text-xs font-medium text-slate-600">
+							<Tx label={"Context Tone"} />
 						</div>
-
-						<div className="flex flex-col space-y-2">
-							<div className="text-xs font-medium text-slate-600">
-								<Tx label={"Context Theme"} />
-							</div>
-							<div className="flex gap-1">
-								{themes.map((theme) => (
-									<button
-										key={theme}
-										type="button"
-										onClick={() => setContextTheme(theme)}
-										className={tvc([
-											"px-2 py-1 text-xs rounded border",
-											contextTheme === theme
-												? "bg-blue-100 border-blue-300 text-blue-800"
-												: "bg-white border-gray-300 text-gray-700 hover:bg-gray-50",
-										])}
-									>
-										{theme}
-									</button>
-								))}
-							</div>
+						<div className="flex flex-wrap gap-1">
+							{tones.map((tone) => (
+								<button
+									key={tone}
+									type="button"
+									onClick={() => setContextTone(tone)}
+									className={tvc([
+										"px-2 py-1 text-xs rounded border",
+										contextTone === tone
+											? "bg-blue-100 border-blue-300 text-blue-800"
+											: "bg-white border-gray-300 text-gray-700 hover:bg-gray-50",
+									])}
+								>
+									{tone}
+								</button>
+							))}
 						</div>
 					</div>
 
-					{/* Current Context Display */}
-					<div className="text-xs text-slate-600">
-						<Tx
-							label={`Active ToneContext: ${contextTone} + ${contextTheme}`}
-						/>
-					</div>
-
-					{/* Example Buttons */}
-					<div className="grid grid-cols-2 gap-4">
-						<div className="flex flex-col space-y-2">
-							<div className="text-xs font-medium text-slate-600">
-								<Tx label={"Buttons using context"} />
-							</div>
-							<Button>
-								<Tx label={"Default (inherits context)"} />
-							</Button>
-							<Button disabled>
-								<Tx label={"Disabled (inherits context)"} />
-							</Button>
-							<Button size="sm">
-								<Tx label={"Small size (inherits context)"} />
-							</Button>
+					<div className="flex flex-col space-y-2">
+						<div className="text-xs font-medium text-slate-600">
+							<Tx label={"Context Theme"} />
 						</div>
-
-						<div className="flex flex-col space-y-2">
-							<div className="text-xs font-medium text-slate-600">
-								<Tx label={"Buttons overriding context"} />
-							</div>
-							<Button tone="danger">
-								<Tx label={"Override tone to danger"} />
-							</Button>
-							<Button
-								theme={
-									contextTheme === "light" ? "dark" : "light"
-								}
-							>
-								<Tx
-									label={`Override theme to ${contextTheme === "light" ? "dark" : "light"}`}
-								/>
-							</Button>
-							<Button
-								tone="neutral"
-								theme="light"
-							>
-								<Tx label={"Override both to neutral+light"} />
-							</Button>
+						<div className="flex gap-1">
+							{themes.map((theme) => (
+								<button
+									key={theme}
+									type="button"
+									onClick={() => setContextTheme(theme)}
+									className={tvc([
+										"px-2 py-1 text-xs rounded border",
+										contextTheme === theme
+											? "bg-blue-100 border-blue-300 text-blue-800"
+											: "bg-white border-gray-300 text-gray-700 hover:bg-gray-50",
+									])}
+								>
+									{theme}
+								</button>
+							))}
 						</div>
 					</div>
 				</div>
+
+				{/* Current Context Display */}
+				<div className="text-xs text-slate-600">
+					<Tx
+						label={`Active ToneContext: ${contextTone} + ${contextTheme}`}
+					/>
+				</div>
+
+				{/* Example Buttons */}
+				<div className="grid grid-cols-2 gap-4">
+					<div className="flex flex-col space-y-2">
+						<div className="text-xs font-medium text-slate-600">
+							<Tx label={"Buttons using context"} />
+						</div>
+						<Button>
+							<Tx label={"Default (inherits context)"} />
+						</Button>
+						<Button disabled>
+							<Tx label={"Disabled (inherits context)"} />
+						</Button>
+						<Button size="sm">
+							<Tx label={"Small size (inherits context)"} />
+						</Button>
+					</div>
+
+					<div className="flex flex-col space-y-2">
+						<div className="text-xs font-medium text-slate-600">
+							<Tx label={"Buttons overriding context"} />
+						</div>
+						<Button tone="danger">
+							<Tx label={"Override tone to danger"} />
+						</Button>
+						<Button
+							theme={contextTheme === "light" ? "dark" : "light"}
+						>
+							<Tx
+								label={`Override theme to ${contextTheme === "light" ? "dark" : "light"}`}
+							/>
+						</Button>
+						<Button
+							tone="neutral"
+							theme="light"
+						>
+							<Tx label={"Override both to neutral+light"} />
+						</Button>
+					</div>
+				</div>
 			</div>
-		</ToneContext>
+		</div>
 	);
 }

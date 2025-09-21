@@ -68,19 +68,19 @@ export const Row = <
 	return (
 		<div
 			data-ui="Table-row"
-			className={slots.row(({ what }) => ({
-				variant: what.variant({
+			className={slots.row({
+				variant: {
 					selected: isSelected,
-				}),
+				},
 				slot: {
-					row: what.css(
-						rowCls?.({
+					row: {
+						class: rowCls?.({
 							data: row.data,
 							context,
 						}),
-					),
+					},
 				},
-			}))}
+			})}
 			style={{
 				gridTemplateColumns: grid,
 			}}
@@ -105,17 +105,17 @@ export const Row = <
 					<Icon
 						icon={isSelected ? SelectionOnIcon : SelectionOffIcon}
 						size={"sm"}
-						tweak={({ what }) => ({
-							slot: what.slot({
-								root: what.css(
-									slots.select(({ what }) => ({
-										variant: what.variant({
+						tweak={{
+							slot: {
+								root: {
+									class: slots.select({
+										variant: {
 											selected: isSelected,
-										}),
-									})),
-								),
-							}),
-						})}
+										},
+									}),
+								},
+							},
+						}}
 						onClick={() => {
 							selection?.toggle(item);
 						}}

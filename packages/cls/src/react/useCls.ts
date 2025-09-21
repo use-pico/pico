@@ -1,28 +1,53 @@
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
+import type { Variant } from "../types/Variant";
 import { clsTweakToken } from "../utils/clsTweakToken";
 import { merge } from "../utils/merge";
 import { useTokenContext } from "./useTokenContext";
-import { useTweakContext } from "./useTweakContext";
+import { useVariantContext } from "./useVariantContext";
 
 /**
  * React hook to create a CLS kit from a cls instance, merging tweaks and token context.
  *
- * Precedence:
- * - user tweak (arg 2) wins over
- * - TweakProvider (context) which wins over
- * - internal tweak (arg 3)
+ * **Tweak Precedence (highest to lowest):**
+ * 1. **User tweak** (arg 2) - Direct user customization
+ * 2. **TweakProvider context** - Scoped tweak overrides
+ * 3. **Internal tweak** (arg 3) - Component logic
  *
- * Tokens:
+ * **Token Merging:**
  * - Tokens from `TokenContext` are merged with `internalTweak.token` via `clsTweakToken`
- *   and internal tokens win over context tokens.
+ * - Internal tokens win over context tokens on conflicts
  *
- * @template TContract - CLS contract type
+ * **Context Subscription Control:**
+ * - Use `use` parameter to control which contexts the component subscribes to
+ * - `["token"]` (default) - Subscribe to TokenContext only
+ * - `["tweak"]` - Subscribe to TweakProvider only
+ * - `["token", "tweak"]` - Subscribe to both contexts
+ * - `[]` - Subscribe to neither (isolated component)
+ *
+ * @template TContract - CLS contract type defining tokens, slots, and variants
  * @param cls - CLS instance to create kit from
  * @param userTweak - Optional user-provided tweak (variant/slot/token/override)
  * @param internalTweak - Optional internal tweak for component logic
- * @returns A `Cls.Kit<TContract>` with slot functions (e.g., `slots.root()`).
+ * @param use - Array controlling context subscription: "token" for TokenContext, "tweak" for TweakProvider
+ * @returns A `Cls.Kit<TContract>` with slot functions (e.g., `slots.root()`) and resolved variants
+ *
+ * @example
+ * ```tsx
+ * // Default usage - subscribes to TokenContext only
+ * const { slots, variants } = useCls(ButtonCls, tweak);
+ *
+ * @example
+ * ```tsx
+ * // Subscribe to both contexts
+ * const { slots, variants } = useCls(ButtonCls, tweak, internal, ["token", "tweak"]);
+ *
+ * @example
+ * ```tsx
+ * // Isolated component - not affected by any context
+ * const { slots, variants } = useCls(ButtonCls, tweak, internal, []);
+ * ```
  */
 export function useCls<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
@@ -30,13 +55,12 @@ export function useCls<TContract extends Contract.Any>(
 	internalTweak?: Tweak.Type<TContract>,
 ) {
 	const context = useTokenContext();
-	const tweak = useTweakContext();
+	const variant = useVariantContext();
 
 	return cls.create(
-		/**
-		 * Again, a little lie here, but it may overall work.
-		 */
-		merge<TContract>(userTweak, tweak as Tweak.Type<TContract>),
+		merge<TContract>(userTweak, {
+			variant: variant as Variant.Optional<TContract>,
+		}),
 		clsTweakToken<TContract>(
 			/**
 			 * This is a lie, but because CLS is quite flexible, it does not really matter.

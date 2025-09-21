@@ -43,11 +43,11 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 		<Button
 			iconEnabled={DownloadIcon}
 			iconDisabled={DownloadIcon}
-			tweak={({ what }) => ({
-				variant: what.variant({
+			tweak={{
+				variant: {
 					tone: "secondary",
-				}),
-			})}
+				},
+			}}
 			disabled={isLoading}
 			loading={isLoading}
 			onClick={() => {

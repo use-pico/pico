@@ -125,7 +125,6 @@ export { Section } from "./section/Section";
 export { Select } from "./select/Select";
 export { useSelection } from "./selection/useSelection";
 export { Sheet } from "./sheet/Sheet";
-export { renderSlot } from "./slot/renderSlot";
 export { DeleteControl } from "./source/DeleteControl";
 export { withCount } from "./source/withCount";
 export { withFetch } from "./source/withFetch";

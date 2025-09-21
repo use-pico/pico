@@ -23,14 +23,14 @@ export const BaseSheet: FC<Sheet.Props> = ({
 	tweak,
 	...props
 }) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			tone,
 			theme,
 			round,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

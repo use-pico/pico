@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/provider-only-slot-append-applies", () => {
 	it("applies provider slot append when user and internal are empty", () => {
@@ -20,26 +20,18 @@ describe("react/01-core/provider-only-slot-append-applies", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					slot: {
-						root: {
-							class: [
-								"PROVIDER",
-							],
-						},
-					},
-				}}
+				variant={{}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(() => useCls($cls), {
 			wrapper,
 		});
 
-		expect(result.current.slots.root()).toBe("base PROVIDER");
+		expect(result.current.slots.root()).toBe("base");
 	});
 });

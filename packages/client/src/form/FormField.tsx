@@ -54,15 +54,15 @@ export const FormField: FC<FormField.Props> = (props) => {
 
 	const isError = meta?.isTouched && meta.errors && meta.errors.length > 0;
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			isSubmitting: false,
 			isLoading: false,
 			isError,
 			required,
 			disabled,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

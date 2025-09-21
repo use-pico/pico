@@ -93,15 +93,15 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 								update(type?.sort === "asc" ? "desc" : "asc");
 							}}
 							size={actionSize}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									...actionVariant,
 									tone:
 										type?.sort === "asc"
 											? "secondary"
 											: actionVariant.tone,
-								}),
-							})}
+								},
+							}}
 							{...props}
 						/>
 					)}
@@ -126,15 +126,15 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 								update("asc");
 							}}
 							size={actionSize}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									...actionVariant,
 									tone:
 										type?.sort === "desc"
 											? "secondary"
 											: actionVariant.tone,
-								}),
-							})}
+								},
+							}}
 							{...props}
 						/>
 					)}
@@ -154,15 +154,15 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 							update(undefined);
 						}}
 						size={actionSize}
-						tweak={({ what }) => ({
-							variant: what.variant({
+						tweak={{
+							variant: {
 								...actionVariant,
 								tone:
 									type?.sort === undefined
 										? "secondary"
 										: actionVariant.tone,
-							}),
-						})}
+							},
+						}}
 						{...props}
 					/>
 				)}

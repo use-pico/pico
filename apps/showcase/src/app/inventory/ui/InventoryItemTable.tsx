@@ -136,11 +136,11 @@ export const InventoryItemTable: FC<InventoryItemTable.Props> = (props) => {
 
 						<ActionClick
 							icon={TrashIcon}
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "danger",
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Remove all"} />
 						</ActionClick>

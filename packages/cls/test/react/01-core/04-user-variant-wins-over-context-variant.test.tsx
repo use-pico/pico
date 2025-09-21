@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider } from "../../../src";
+import { contract, VariantProvider } from "../../../src";
 import { useCls } from "../../../src/react";
 
 describe("react/01-core/user-variant-wins-over-context-variant", () => {
@@ -35,16 +35,14 @@ describe("react/01-core/user-variant-wins-over-context-variant", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					variant: {
-						size: "md",
-					},
+				variant={{
+					size: "md",
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(

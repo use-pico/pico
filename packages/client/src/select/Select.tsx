@@ -143,12 +143,12 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			disabled,
 			size: $size,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<FormField {...props}>
@@ -164,14 +164,16 @@ export const Select = <TItem extends EntitySchema.Type>({
 						<Icon
 							icon={icon}
 							size="sm"
-							tweak={({ what }) => ({
-								slot: what.slot({
-									root: what.css([
-										"text-slate-400",
-										"group-hover:text-slate-600",
-									]),
-								}),
-							})}
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"text-slate-400",
+											"group-hover:text-slate-600",
+										],
+									},
+								},
+							}}
 						/>
 						{item ? (
 							<Render entity={item} />
@@ -191,28 +193,28 @@ export const Select = <TItem extends EntitySchema.Type>({
 										e.stopPropagation();
 										e.preventDefault();
 									}}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone: "neutral",
 											theme: "light",
-										}),
-									})}
+										},
+									}}
 								/>
 							) : null}
 							<Icon
 								icon={"icon-[gg--select]"}
 								size="sm"
-								tweak={({ what }) => ({
-									slot: what.slot({
-										root: what.css(
-											[
+								tweak={{
+									slot: {
+										root: {
+											class: [
 												!isOpen && "text-slate-400",
 												isOpen && "text-slate-600",
 												"group-hover:text-slate-600",
-											].filter(Boolean),
-										),
-									}),
-								})}
+											],
+										},
+									},
+								}}
 							/>
 						</div>
 					</div>
@@ -242,16 +244,13 @@ export const Select = <TItem extends EntitySchema.Type>({
 												i === activeIndex ? 0 : -1
 											}
 											data-ui="Select-item"
-											className={slots.item(
-												({ what }) => ({
-													variant: what.variant({
-														selected:
-															i === selectedIndex,
-														active:
-															i === activeIndex,
-													}),
-												}),
-											)}
+											className={slots.item({
+												variant: {
+													selected:
+														i === selectedIndex,
+													active: i === activeIndex,
+												},
+											})}
 											{...getItemProps({
 												onClick() {
 													handleSelect(i);

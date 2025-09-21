@@ -26,17 +26,17 @@ export const Upload: FC<Upload.Props> = ({ ref, progressProps, ...props }) => {
 		>
 			<Progress
 				{...progressProps}
-				tweak={({ what }) => ({
+				tweak={{
 					slot: {
-						progress: what.css(
-							[
+						progress: {
+							class: [
 								isSuccess && "bg-green-400",
 								isRunning && "bg-blue-400",
 								isError && "bg-red-400",
 							].filter(Boolean),
-						),
+						},
 					},
-				})}
+				}}
 				value={percent()}
 			/>
 		</div>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, PicoCls, Tx } from "@use-pico/client";
-import { ClsProvider, tvc } from "@use-pico/cls";
+import { TokenContext, tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
 const OverriddenCls = PicoCls.extend(
@@ -9,14 +9,14 @@ const OverriddenCls = PicoCls.extend(
 		tokens: [],
 		variant: {},
 	},
-	() => ({
+	{
 		token: {},
 		rules: [],
 		defaults: {
 			tone: "primary",
 			theme: "light",
 		},
-	}),
+	},
 );
 
 const tones = [
@@ -44,7 +44,7 @@ const themes = [
 export const Route = createFileRoute("/$locale/components/badge")({
 	component() {
 		return (
-			<ClsProvider value={PicoCls.use(OverriddenCls)}>
+			<TokenContext value={PicoCls.use(OverriddenCls)}>
 				<div
 					className={tvc([
 						"flex",
@@ -100,11 +100,11 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										key={`tone-light-no-border-${tone}`}
 										tone={tone}
 										theme="light"
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												border: false,
-											}),
-										})}
+											},
+										}}
 									>
 										<Tx label={`${tone} no border`} />
 									</Badge>
@@ -133,11 +133,11 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										tone={tone}
 										theme="light"
 										disabled
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												border: false,
-											}),
-										})}
+											},
+										}}
 									>
 										<Tx
 											label={`${tone} no border disabled`}
@@ -169,11 +169,11 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										key={`tone-dark-no-border-${tone}`}
 										tone={tone}
 										theme="dark"
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												border: false,
-											}),
-										})}
+											},
+										}}
 									>
 										<Tx label={`${tone} no border`} />
 									</Badge>
@@ -202,11 +202,11 @@ export const Route = createFileRoute("/$locale/components/badge")({
 										tone={tone}
 										theme="dark"
 										disabled
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												border: false,
-											}),
-										})}
+											},
+										}}
 									>
 										<Tx
 											label={`${tone} no border disabled`}
@@ -282,7 +282,7 @@ export const Route = createFileRoute("/$locale/components/badge")({
 						</div>
 					</Section>
 				</div>
-			</ClsProvider>
+			</TokenContext>
 		);
 	},
 });

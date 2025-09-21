@@ -94,7 +94,7 @@ export const Data = <
 				(r) => r.isSuccess,
 				(r) =>
 					renderSuccess({
-						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess
+						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess,
 						data: r.data!,
 					}),
 			)
@@ -102,7 +102,7 @@ export const Data = <
 				(r) => r.isError,
 				(r) =>
 					renderError({
-						// biome-ignore lint/style/noNonNullAssertion: We've already checked isError
+						// biome-ignore lint/style/noNonNullAssertion: We've already checked isError,
 						error: r.error!,
 					}),
 			)
@@ -114,7 +114,7 @@ export const Data = <
 				(r) => r.isFetching,
 				(r) =>
 					renderFetching({
-						// biome-ignore lint/style/noNonNullAssertion: We've data
+						// biome-ignore lint/style/noNonNullAssertion: We've data,
 						data: r.data!,
 					}),
 			)

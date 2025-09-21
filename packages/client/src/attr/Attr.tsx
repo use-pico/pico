@@ -29,11 +29,11 @@ export const BaseAttr: FC<Attr.Props> = ({
 	tweak,
 }) => {
 	const inlineContext = useContext(InlineContext);
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			inline: inline ?? inlineContext?.inline,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<div

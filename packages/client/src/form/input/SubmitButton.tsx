@@ -11,11 +11,11 @@ export const SubmitButton: FC<SubmitButton.Props> = (props) => {
 	return (
 		<Button
 			type={"submit"}
-			tweak={({ what }) => ({
-				variant: what.variant({
+			tweak={{
+				variant: {
 					tone: "primary",
-				}),
-			})}
+				},
+			}}
 			{...props}
 		/>
 	);

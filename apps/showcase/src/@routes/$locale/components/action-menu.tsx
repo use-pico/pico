@@ -23,12 +23,12 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 						{tones.map((tone) => (
 							<ActionClick
 								key={`dark-${tone}`}
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone,
 										theme: "dark",
-									}),
-								})}
+									},
+								}}
 							>
 								<Tx label={`${tone} (dark)`} />
 							</ActionClick>
@@ -45,12 +45,12 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 						{tones.map((tone) => (
 							<ActionClick
 								key={`light-${tone}`}
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone,
 										theme: "light",
-									}),
-								})}
+									},
+								}}
 							>
 								<Tx label={`${tone} (light)`} />
 							</ActionClick>
@@ -65,35 +65,35 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 					</h3>
 					<ActionMenu>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "primary",
 									theme: "dark",
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Primary (disabled)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "danger",
 									theme: "light",
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Danger (disabled)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "warning",
 									theme: "dark",
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Warning (disabled)"} />
 						</ActionClick>
@@ -107,35 +107,35 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 					</h3>
 					<ActionMenu>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "primary",
 									theme: "dark",
 									loading: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Primary (loading)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "secondary",
 									theme: "light",
 									loading: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Secondary (loading)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "neutral",
 									theme: "dark",
 									loading: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Neutral (loading)"} />
 						</ActionClick>
@@ -147,36 +147,36 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 					<h3 className="text-lg font-semibold mb-4">Mixed States</h3>
 					<ActionMenu>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "danger",
 									theme: "dark",
 									loading: true,
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Danger (loading + disabled)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "warning",
 									theme: "light",
 									loading: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Warning (loading)"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "subtle",
 									theme: "dark",
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Subtle (disabled)"} />
 						</ActionClick>
@@ -193,33 +193,33 @@ export const Route = createFileRoute("/$locale/components/action-menu")({
 							<Tx label={"Default Action"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "danger",
 									theme: "dark",
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Danger Action"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "warning",
 									theme: "light",
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Warning Action"} />
 						</ActionClick>
 						<ActionClick
-							tweak={({ what }) => ({
-								variant: what.variant({
+							tweak={{
+								variant: {
 									tone: "primary",
 									theme: "dark",
 									disabled: true,
-								}),
-							})}
+								},
+							}}
 						>
 							<Tx label={"Disabled Action"} />
 						</ActionClick>

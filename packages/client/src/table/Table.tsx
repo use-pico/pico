@@ -383,7 +383,7 @@ export const BaseTable = <
 	tweak,
 	...props
 }: Table.Props<TQuery, TData, TContext>) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 
 	const visibleColumns = useVisibleColumns<TQuery, TData>({
 		columns,

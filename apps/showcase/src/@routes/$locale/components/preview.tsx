@@ -74,21 +74,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View Profile
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
@@ -114,31 +114,31 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View Details
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "danger",
-												}),
-											})}
+												},
+											}}
 										>
 											Delete
 										</Button>
@@ -166,21 +166,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
@@ -214,21 +214,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											Download
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Share
 										</Button>
@@ -237,31 +237,31 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											Open
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "danger",
-												}),
-											})}
+												},
+											}}
 										>
 											Delete
 										</Button>
@@ -297,11 +297,11 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.size}
 										</span>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											Download
 										</Button>
@@ -341,31 +341,31 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View Profile
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "danger",
-												}),
-											})}
+												},
+											}}
 										>
 											Deactivate
 										</Button>
@@ -398,11 +398,11 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.role}
 										</span>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View
 										</Button>
@@ -443,21 +443,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											View Project
 										</Button>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
 													tone: "secondary",
-												}),
-											})}
+												},
+											}}
 										>
 											Edit
 										</Button>
@@ -487,11 +487,11 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.status}
 										</span>
 										<Button
-											tweak={({ what }) => ({
-												variant: what.variant({
+											tweak={{
+												variant: {
 													size: "xs",
-												}),
-											})}
+												},
+											}}
 										>
 											Open
 										</Button>
@@ -514,15 +514,17 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										title={entity.name}
 									/>
 								)}
-								tweak={({ what }) => ({
-									slot: what.slot({
-										root: what.css([
-											"bg-blue-50",
-											"border-blue-200",
-											"border-2",
-										]),
-									}),
-								})}
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"bg-blue-50",
+												"border-blue-200",
+												"border-2",
+											],
+										},
+									},
+								}}
 							/>
 						</Column>
 						<Column label={<Tx label={"Compact Layout"} />}>
@@ -534,14 +536,16 @@ export const Route = createFileRoute("/$locale/components/preview")({
 										title={entity.title}
 									/>
 								)}
-								tweak={({ what }) => ({
-									slot: what.slot({
-										root: what.css([
-											"p-1",
-											"gap-1",
-										]),
-									}),
-								})}
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"p-1",
+												"gap-1",
+											],
+										},
+									},
+								}}
 							/>
 						</Column>
 					</div>
@@ -577,21 +581,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
-													}),
-												})}
+													},
+												}}
 											>
 												View
 											</Button>
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
 														tone: "secondary",
-													}),
-												})}
+													},
+												}}
 											>
 												Edit
 											</Button>
@@ -635,21 +639,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
-													}),
-												})}
+													},
+												}}
 											>
 												View
 											</Button>
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
 														tone: "secondary",
-													}),
-												})}
+													},
+												}}
 											>
 												Edit
 											</Button>
@@ -676,21 +680,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									links={() => (
 										<div className="flex items-center gap-2">
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
-													}),
-												})}
+													},
+												}}
 											>
 												Download
 											</Button>
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
 														tone: "secondary",
-													}),
-												})}
+													},
+												}}
 											>
 												Share
 											</Button>
@@ -699,21 +703,21 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
-													}),
-												})}
+													},
+												}}
 											>
 												Open
 											</Button>
 											<Button
-												tweak={({ what }) => ({
-													variant: what.variant({
+												tweak={{
+													variant: {
 														size: "xs",
 														tone: "secondary",
-													}),
-												})}
+													},
+												}}
 											>
 												Edit
 											</Button>

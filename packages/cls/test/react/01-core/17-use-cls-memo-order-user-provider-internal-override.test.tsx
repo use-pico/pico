@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useClsMemo } from "../../../src";
+import { contract, useClsMemo, VariantProvider } from "../../../src";
 
 describe("react/01-core/use-cls-memo-order-user-provider-internal-override", () => {
 	it("per-slot override precedence is user > provider > internal", () => {
@@ -26,9 +26,9 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-override", () 
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
+				variant={{
 					override: {
 						icon: {
 							class: [
@@ -39,7 +39,7 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-override", () 
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(

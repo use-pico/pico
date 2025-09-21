@@ -34,13 +34,13 @@ const BaseMenuLink: FC<BaseMenuLinkProps> = ({
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			type: variantType,
 			active: active ?? isActive,
 			vertical,
-		}),
-	}));
+		},
+	});
 
 	return (
 		<a

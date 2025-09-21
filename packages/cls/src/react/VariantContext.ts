@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import type { Contract } from "../types/Contract";
-import type { Tweak } from "../types/Tweak";
+import type { Variant } from "../types/Variant";
 
 /**
  * React context for "user-land" tweaks.
@@ -26,4 +26,4 @@ import type { Tweak } from "../types/Tweak";
  * const tweak = useTweakContext();
  * ```
  */
-export const TweakContext = createContext<Tweak.Type<Contract.Any>>({});
+export const VariantContext = createContext<Variant.Optional<Contract.Any>>({});

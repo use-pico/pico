@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls, withCls } from "../../../src";
+import { contract, useCls, VariantProvider, withCls } from "../../../src";
 
 const SwitchCls = contract()
 	.slots([
@@ -54,34 +54,30 @@ const BaseSwitch: FC<SwitchProps> = ({ cls = SwitchCls }) => {
 const Switch = withCls(BaseSwitch, SwitchCls);
 
 describe("react/02-component/provider-reactivity-updates-on-rerender", () => {
-	it("updates classes when TweakProvider variant changes on rerender", () => {
+	it("updates classes when VariantProvider variant changes on rerender", () => {
 		const { container, rerender } = render(
-			<TweakProvider
+			<VariantProvider
 				cls={SwitchCls}
-				tweak={{
-					variant: {
-						on: false,
-					},
+				variant={{
+					on: false,
 				}}
 			>
 				<Switch />
-			</TweakProvider>,
+			</VariantProvider>,
 		);
 		const root = () =>
 			container.querySelector('[data-ui="Switch-root"]') as HTMLElement;
 		expect(root().className).toBe("S OFF");
 
 		rerender(
-			<TweakProvider
+			<VariantProvider
 				cls={SwitchCls}
-				tweak={{
-					variant: {
-						on: true,
-					},
+				variant={{
+					on: true,
 				}}
 			>
 				<Switch />
-			</TweakProvider>,
+			</VariantProvider>,
 		);
 		expect(root().className).toBe("S ON");
 	});

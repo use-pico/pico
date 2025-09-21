@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/order-user-provider-internal-append-and-variant", () => {
 	it("applies internal slot first, then provider, then user; variant user>provider>internal", () => {
@@ -41,23 +41,14 @@ describe("react/01-core/order-user-provider-internal-append-and-variant", () => 
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"P",
-							],
-						},
-					},
+				variant={{
+					size: "md",
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(
@@ -95,7 +86,7 @@ describe("react/01-core/order-user-provider-internal-append-and-variant", () => 
 		);
 
 		// Variant: user(sm) overrides provider(md) and internal(md) -> SM
-		// Slot appends: internal(I) then provider(P) then user(U)
-		expect(result.current.slots.root()).toBe("base SM I P U");
+		// Slot appends: internal(I) then user(U) - provider no longer provides slot appends
+		expect(result.current.slots.root()).toBe("base SM I U");
 	});
 });

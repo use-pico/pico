@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useClsMemo } from "../../../src";
+import { contract, useClsMemo, VariantProvider } from "../../../src";
 
 describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-variant", () => {
 	it("applies user variant over provider over internal; appends I -> P -> U", () => {
@@ -41,23 +41,14 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"P",
-							],
-						},
-					},
+				variant={{
+					size: "md",
 				}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(
@@ -95,6 +86,6 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base SM I P U");
+		expect(result.current.slots.root()).toBe("base SM I U");
 	});
 });

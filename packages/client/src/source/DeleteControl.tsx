@@ -32,7 +32,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	cls = DeleteControlCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();
@@ -67,11 +67,11 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				className={slots.footer()}
 			>
 				<Button
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "secondary",
-						}),
-					})}
+						},
+					}}
 					iconEnabled={BackIcon}
 					onClick={() => {
 						close();
@@ -82,11 +82,11 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				</Button>
 
 				<Button
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "primary",
-						}),
-					})}
+						},
+					}}
 					iconEnabled={TrashIcon}
 					onClick={() => {
 						mutation.mutate();

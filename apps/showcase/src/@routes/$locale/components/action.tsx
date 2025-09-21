@@ -156,13 +156,13 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									disabled
 									iconDisabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone,
 											theme,
 											border: false,
-										}),
-									})}
+										},
+									}}
 								/>
 							</Column>
 
@@ -172,13 +172,13 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 								<Action
 									loading
 									iconEnabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone,
 											theme,
 											border: false,
-										}),
-									})}
+										},
+									}}
 								/>
 							</Column>
 
@@ -187,12 +187,12 @@ function CombinedStatesRow({ tone }: { tone: (typeof tones)[number] }) {
 									disabled
 									loading
 									iconDisabled={TrashIcon}
-									tweak={({ what }) => ({
-										variant: what.variant({
+									tweak={{
+										variant: {
 											tone,
 											theme,
-										}),
-									})}
+										},
+									}}
 								/>
 							</Column>
 						</div>
@@ -222,12 +222,12 @@ function SizeRow({ size }: { size: (typeof sizes)[number] }) {
 							<Action
 								iconEnabled={TrashIcon}
 								size={size}
-								tweak={({ what }) => ({
-									variant: what.variant({
+								tweak={{
+									variant: {
 										tone: "primary",
 										theme,
-									}),
-								})}
+									},
+								}}
 							/>
 						</div>
 					</div>

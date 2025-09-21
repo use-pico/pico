@@ -118,17 +118,17 @@ export const TableHeader = <
 							}
 							disabled={selection.mode === "single"}
 							size="sm"
-							tweak={({ what }) => ({
-								slot: what.slot({
-									root: what.css(
-										slots.select(({ what }) => ({
-											variant: what.variant({
+							tweak={{
+								slot: {
+									root: {
+										class: slots.select({
+											variant: {
 												selected: isAny,
-											}),
-										})),
-									),
-								}),
-							})}
+											},
+										}),
+									},
+								},
+							}}
 							onClick={onSelectAll}
 						/>
 					) : null}
@@ -170,12 +170,12 @@ export const TableHeader = <
 								{isFilter ? (
 									<Action
 										iconEnabled={FilterRemoveIcon}
-										tweak={({ what }) => ({
-											variant: what.variant({
+										tweak={{
+											variant: {
 												tone: "primary",
 												theme: "light",
-											}),
-										})}
+											},
+										}}
 										size={"xs"}
 										onClick={() => {
 											column.filter?.reset({

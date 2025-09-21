@@ -34,12 +34,12 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					size={"xs"}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "primary",
 							theme: "light",
-						}),
-					})}
+						},
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -55,12 +55,12 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 				<Action
 					iconEnabled={LteIcon}
 					size={"xs"}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "primary",
 							theme: "light",
-						}),
-					})}
+						},
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -77,12 +77,12 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 				<Action
 					iconEnabled={FilterRemoveIcon}
 					size={"xs"}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "primary",
 							theme: "light",
-						}),
-					})}
+						},
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,
@@ -98,12 +98,12 @@ export const RangeFilter = <TFilter extends withQuerySchema.Query>({
 				<Action
 					iconEnabled={GteIcon}
 					size={"xs"}
-					tweak={({ what }) => ({
-						variant: what.variant({
+					tweak={{
+						variant: {
 							tone: "primary",
 							theme: "light",
-						}),
-					})}
+						},
+					}}
 					onClick={() => {
 						state.set({
 							...state.value,

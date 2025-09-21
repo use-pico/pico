@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/provider-override-wins-over-internal-append", () => {
 	it("provider per-slot override replaces internal slot append", () => {
@@ -26,20 +26,12 @@ describe("react/01-core/provider-override-wins-over-internal-append", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					override: {
-						icon: {
-							class: [
-								"PROVIDER",
-							],
-						},
-					},
-				}}
+				variant={{}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(
@@ -59,6 +51,6 @@ describe("react/01-core/provider-override-wins-over-internal-append", () => {
 		);
 
 		expect(result.current.slots.root()).toBe("base");
-		expect(result.current.slots.icon()).toBe("PROVIDER");
+		expect(result.current.slots.icon()).toBe("i-base INTERNAL");
 	});
 });

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 	it("appends in order internal, then provider, then user across root and icon", () => {
@@ -26,25 +26,12 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 			.cls();
 
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TweakProvider
+			<VariantProvider
 				cls={$cls}
-				tweak={{
-					slot: {
-						root: {
-							class: [
-								"P-root",
-							],
-						},
-						icon: {
-							class: [
-								"P-icon",
-							],
-						},
-					},
-				}}
+				variant={{}}
 			>
 				{children}
-			</TweakProvider>
+			</VariantProvider>
 		);
 
 		const { result } = renderHook(
@@ -85,7 +72,7 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base I-root P-root U-root");
-		expect(result.current.slots.icon()).toBe("i-base I-icon P-icon U-icon");
+		expect(result.current.slots.root()).toBe("base I-root U-root");
+		expect(result.current.slots.icon()).toBe("i-base I-icon U-icon");
 	});
 });

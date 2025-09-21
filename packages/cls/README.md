@@ -855,7 +855,7 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Context Integration**
 ```tsx
-import { TokenContext, TweakProvider } from '@use-pico/cls';
+import { TokenContext, VariantProvider } from '@use-pico/cls';
 
 const App = () => (
   <TokenContext value={ThemeCls}>
@@ -864,23 +864,23 @@ const App = () => (
       <Button tone="primary">Themed Button</Button>
       <Button tone="secondary">Another Themed Button</Button>
       
-      {/* Scope tweak overrides to a subtree with automatic type inference */}
-      <TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }}>
+      {/* Scope variant overrides to a subtree with automatic type inference */}
+      <VariantProvider cls={ButtonCls} variant={{ size: "lg" }}>
         <div>
           {/* All buttons in this subtree will be large */}
           <Button tone="primary">Large Themed Button</Button>
           <Button tone="secondary">Another Large Themed Button</Button>
 
-          {/* Nested TweakProvider with inheritance - merges parent tweaks */}
-          <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }} inherit>
+          {/* Nested VariantProvider with inheritance - merges parent variants */}
+          <VariantProvider cls={ButtonCls} variant={{ tone: "danger" }} inherit>
             <div>
               {/* These buttons will be large AND danger (inherited size + new tone) */}
               <Button>Large Danger Button</Button>
               <Button>Another Large Danger Button</Button>
             </div>
-          </TweakProvider>
+          </VariantProvider>
         </div>
-      </TweakProvider>
+      </VariantProvider>
     </div>
   </TokenContext>
 );
@@ -898,7 +898,7 @@ const { slots, variants } = useCls(ButtonCls, userTweakFn, internalTweakFn);
 **`useCls` is the main hook** for CLS in React components. It returns both **slots** and **variants** for maximum flexibility:
 
 ```tsx
-// Simple usage - most common pattern
+// Simple usage - most common pattern (automatically subscribes to both TokenContext and VariantContext)
 const { slots, variants } = useCls(ButtonCls, tweak);
 
 // With internal logic
@@ -917,7 +917,7 @@ console.log(variants.tone);     // resolved from theme or props
 
 **Key Features:**
 - ✅ **Automatically connected to TokenContext** - Global theme inheritance works seamlessly
-- ✅ **Automatically connected to TweakContext** - Scoped tweak overrides work automatically
+- ✅ **Automatically connected to VariantContext** - Scoped variant overrides work automatically
 - ✅ **Performance optimized** - Minimal overhead for common use cases
 - ✅ **Type-safe** - Full TypeScript support with proper inference
 - ✅ **Complete API** - Both slots and variants in one hook
@@ -953,64 +953,88 @@ const buttonTheme = useTokenContext<ButtonCls>();
 
 > **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically connects to context.
 
-#### **useTweakContext** - Access Tweak Context 🎛️
+#### **useVariantContext** - Access Variant Context 🎛️
 ```tsx
-const tweakContext = useTweakContext();
+const variantContext = useVariantContext();
 ```
 
-**Hook** for accessing the current TweakContext values:
+**Hook** for accessing the current VariantContext values:
 
 ```tsx
-// Access current tweak context
-const tweak = useTweakContext();
+// Access current variant context
+const variants = useVariantContext();
 ```
 
 **When to Use:**
-- 🎯 **Custom hooks** that need tweak access
-- 🎯 **Conditional logic** based on tweak values
+- 🎯 **Custom hooks** that need variant access
+- 🎯 **Conditional logic** based on variant values
 - 🎯 **Advanced composition patterns**
 
-> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakContext.
+> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with VariantContext.
 
-#### **TweakProvider** - Scoped Tweak Context 🎛️
+#### **VariantProvider** - Scoped Variant Context 🎛️
 
-**React component** for providing type-safe tweak overrides to a subtree:
+**React component** for providing type-safe variant overrides to a subtree:
 
 ```tsx
-<TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }} inherit>
+<VariantProvider cls={ButtonCls} variant={{ size: "lg" }} inherit>
   <YourComponents />
-</TweakProvider>
+</VariantProvider>
 ```
 
 **Props:**
 - **`cls`** - CLS instance (used for type inference)
-- **`tweak`** - Tweak object with overrides
-- **`inherit`** - Whether to merge with parent TweakContext (default: `false`)
+- **`variant`** - Variant object with overrides (not whole tweak)
+- **`inherit`** - Whether to merge with parent VariantContext (default: `false`)
 
 **Inheritance Behavior:**
-- **`inherit={false}`** (default) - Replaces parent tweaks completely
-- **`inherit={true}`** - Merges with parent tweaks, lower TweakProvider takes precedence
+- **`inherit={false}`** (default) - Replaces parent variants completely
+- **`inherit={true}`** - Merges with parent variants, lower VariantProvider takes precedence
 
 ```tsx
 // Parent provides size: "lg"
-<TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }}>
+<VariantProvider cls={ButtonCls} variant={{ size: "lg" }}>
   
   {/* Child replaces parent completely */}
-  <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }}>
+  <VariantProvider cls={ButtonCls} variant={{ tone: "danger" }}>
     {/* Result: { tone: "danger" } - size is lost */}
-  </TweakProvider>
+  </VariantProvider>
   
   {/* Child inherits and merges with parent */}
-  <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }} inherit>
+  <VariantProvider cls={ButtonCls} variant={{ tone: "danger" }} inherit>
     {/* Result: { size: "lg", tone: "danger" } - both preserved */}
-  </TweakProvider>
-</TweakProvider>
+  </VariantProvider>
+  
+  {/* Reset all variants from parent - provide empty variants and disable inheritance */}
+  <VariantProvider cls={ButtonCls} variant={{}}>
+    {/* Result: {} - no variants from parent or child */}
+  </VariantProvider>
+</VariantProvider>
 ```
 
 **When to Use:**
-- 🎯 **Scoped overrides** for specific UI sections
+- 🎯 **Scoped variant overrides** for specific UI sections
 - 🎯 **Nested theming** with inheritance
-- 🎯 **Conditional styling** based on context
+- 🎯 **Conditional styling** based on variant context
+- 🎯 **Resetting variants** - Use `variant={{}}` to clear all parent variants
+
+**Common Patterns:**
+```tsx
+// Override specific variants
+<VariantProvider cls={ButtonCls} variant={{ size: "lg" }}>
+  <Button>Large Button</Button>
+</VariantProvider>
+
+// Inherit and extend parent variants
+<VariantProvider cls={ButtonCls} variant={{ tone: "danger" }} inherit>
+  <Button>Danger Button with inherited size</Button>
+</VariantProvider>
+
+// Reset all variants (clear parent context)
+<VariantProvider cls={ButtonCls} variant={{}}>
+  <Button>Button with default variants only</Button>
+</VariantProvider>
+```
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
@@ -1052,6 +1076,31 @@ const MyButton = ({ size, tone, disabled, loading, tweak }) => {
 - 🎯 **Conditional rendering** based on resolved variant states
 
 > **⚠️ Important Dependency Note:** `useClsMemo` is **dependency-driven**. If a user provides a dynamic `tweak` prop to a component, the memoized hook won't automatically detect changes in the tweak function's behavior. You must include all relevant dependencies in the `deps` array, or the hook will use stale values. For dynamic user tweaks, consider using the non-memoized version (`useCls`) instead.
+
+**Practical Example - Performance Optimization:**
+```tsx
+// Performance-critical button with memoization
+const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
+  const { slots, variants } = useClsMemo(
+    ButtonCls,
+    tweak,
+    {
+      variant: { 
+        size, 
+        tone,
+        disabled: disabled || loading 
+      }
+    },
+    [size, tone, disabled, loading, tweak] // All dependencies included
+  );
+  
+  return (
+    <button className={slots.root()}>
+      {variants.loading ? "Loading..." : "Click me"}
+    </button>
+  );
+};
+```
 
 ## 🎯 Advanced Features
 

@@ -17,11 +17,11 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	cls = LoadingOverlayCls,
 	tweak,
 }) => {
-	const slots = useCls(cls, tweak, ({ what }) => ({
-		variant: what.variant({
+	const { slots } = useCls(cls, tweak, {
+		variant: {
 			show,
-		}),
-	}));
+		},
+	});
 
 	return show ? (
 		<div
@@ -31,15 +31,17 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 		>
 			<Icon
 				icon={SpinnerIcon}
-				tweak={({ what }) => ({
-					slot: what.slot({
-						root: what.css([
-							"w-24",
-							"h-24",
-							"text-sky-400",
-						]),
-					}),
-				})}
+				tweak={{
+					slot: {
+						root: {
+							class: [
+								"w-24",
+								"h-24",
+								"text-sky-400",
+							],
+						},
+					},
+				}}
 			/>
 		</div>
 	) : null;
