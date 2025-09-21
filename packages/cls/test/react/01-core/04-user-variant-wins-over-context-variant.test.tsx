@@ -1,10 +1,11 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TweakProvider, useCls } from "../../../src";
+import { contract, TweakProvider } from "../../../src";
+import { useCls } from "../../../src/react";
 
-describe("react/01-core/use-cls-context-merge-user-and-context", () => {
-	it("merges user tweak with tweak from context and returns expected classes", () => {
+describe("react/01-core/user-variant-wins-over-context-variant", () => {
+	it("applies user variant over context variant when both provided", () => {
 		const $cls = contract()
 			.slots([
 				"root",
@@ -46,9 +47,18 @@ describe("react/01-core/use-cls-context-merge-user-and-context", () => {
 			</TweakProvider>
 		);
 
-		const { result } = renderHook(() => useCls($cls), {
-			wrapper,
-		});
-		expect(result.current.slots.root()).toBe("base md");
+		const { result } = renderHook(
+			() =>
+				useCls($cls, {
+					variant: {
+						size: "sm",
+					},
+				}),
+			{
+				wrapper,
+			},
+		);
+
+		expect(result.current.slots.root()).toBe("base");
 	});
 });
