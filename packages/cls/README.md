@@ -855,7 +855,7 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Context Integration**
 ```tsx
-import { ClsContext, TweakContext, tweak } from '@use-pico/cls';
+import { ClsContext, TweakProvider } from '@use-pico/cls';
 
 const App = () => (
   <ClsContext value={ThemeCls}>
@@ -864,14 +864,14 @@ const App = () => (
       <Button tone="primary">Themed Button</Button>
       <Button tone="secondary">Another Themed Button</Button>
       
-      {/* Scope tweak overrides to a subtree with type safety */}
-      <TweakContext value={tweak(ButtonCls, { variant: { size: "lg" } })}>
+      {/* Scope tweak overrides to a subtree with automatic type inference */}
+      <TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }}>
         <div>
           {/* All buttons in this subtree will be large */}
           <Button tone="primary">Large Themed Button</Button>
           <Button tone="secondary">Another Large Themed Button</Button>
         </div>
-      </TweakContext>
+      </TweakProvider>
     </div>
   </ClsContext>
 );
@@ -908,7 +908,7 @@ console.log(variants.tone);     // resolved from theme or props
 
 **Key Features:**
 - ✅ **Automatically connected to ClsContext** - Global theme inheritance works seamlessly
-- ✅ **Automatically connected to TweakContext** - Scoped tweak overrides work automatically
+- ✅ **Automatically connected to TweakProvider** - Scoped tweak overrides work automatically
 - ✅ **Performance optimized** - Minimal overhead for common use cases
 - ✅ **Type-safe** - Full TypeScript support with proper inference
 - ✅ **Complete API** - Both slots and variants in one hook
@@ -949,7 +949,7 @@ const buttonTheme = useClsContext<ButtonCls>();
 const tweakContext = useTweakContext();
 ```
 
-**Hook** for accessing the current TweakContext values:
+**Hook** for accessing the current TweakProvider values:
 
 ```tsx
 // Access current tweak context
@@ -961,7 +961,7 @@ const tweak = useTweakContext();
 - 🎯 **Conditional logic** based on tweak values
 - 🎯 **Advanced composition patterns**
 
-> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakContext.
+> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakProvider.
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
