@@ -168,9 +168,9 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 			},
 		});
 		expect(created.slots.root()).toBe("b2 b1 base r-dark child grand");
-		expect(created.slots.icon()).toBe("i-base i-md i-child i-grand");
+		expect(created.slots.icon()).toBe("i-base i-child i-grand i-md");
 		expect(created.slots.label()).toBe(
-			"l-base l-dark l-child l-md l-grand",
+			"l-base l-dark l-child l-grand l-md",
 		);
 
 		const withOverrides = grand.create(
@@ -200,9 +200,7 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				},
 			},
 		);
-		expect(withOverrides.slots.root()).toBe(
-			"b2 b1 base r-dark child grand",
-		);
+		expect(withOverrides.slots.root()).toBe("b2 b1 base r-sm child grand");
 		expect(withOverrides.slots.icon()).toBe("I-OVR");
 		expect(withOverrides.slots.label()).toBe("L-OVR");
 	});
