@@ -1,7 +1,13 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { type Cls, ClsContext, contract, useCls, withCls } from "../../../src";
+import {
+	type Cls,
+	contract,
+	TokenContext,
+	useCls,
+	withCls,
+} from "../../../src";
 
 // Theme-like provider cls that only carries tokens
 const ThemeTokens = contract()
@@ -67,9 +73,9 @@ const Label = withCls(BaseLabel, LabelCls);
 describe("react/02-component/cls-provider-provides-tokens", () => {
 	it("provider tokens apply when not overridden; component tokens win when provided via tweak", () => {
 		const { container, rerender } = render(
-			<ClsContext value={ThemeTokens}>
+			<TokenContext value={ThemeTokens}>
 				<Label>no-override</Label>
-			</ClsContext>,
+			</TokenContext>,
 		);
 
 		const root = () =>
@@ -79,7 +85,7 @@ describe("react/02-component/cls-provider-provides-tokens", () => {
 
 		// Now override tokens via component tweak; user token wins over provider token
 		rerender(
-			<ClsContext value={ThemeTokens}>
+			<TokenContext value={ThemeTokens}>
 				<Label
 					tweak={{
 						token: {
@@ -93,7 +99,7 @@ describe("react/02-component/cls-provider-provides-tokens", () => {
 				>
 					user
 				</Label>
-			</ClsContext>,
+			</TokenContext>,
 		);
 		expect(root().className).toBe("USER1 base");
 	});

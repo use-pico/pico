@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { ClsContext, contract, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -120,11 +120,11 @@ const Badge = withCls(BaseBadge, BadgeCls);
 describe("react/02-component/nested-cls-providers-last-wins-on-tokens", () => {
 	it("innermost ClsProvider tokens are used for token chain expansion", () => {
 		const { container } = render(
-			<ClsContext value={ProviderA}>
-				<ClsContext value={ProviderB}>
+			<TokenContext value={ProviderA}>
+				<TokenContext value={ProviderB}>
 					<Badge>content</Badge>
-				</ClsContext>
-			</ClsContext>,
+				</TokenContext>
+			</TokenContext>,
 		);
 		const root = container.querySelector(
 			'[data-ui="Badge-root"]',

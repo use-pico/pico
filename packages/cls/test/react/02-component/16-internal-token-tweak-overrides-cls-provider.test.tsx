@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { ClsContext, contract, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -81,9 +81,9 @@ const Label = withCls(BaseLabel, LabelCls);
 describe("react/02-component/internal-token-tweak-overrides-cls-provider", () => {
 	it("internal tokens override ClsProvider tokens in final output", () => {
 		const { container } = render(
-			<ClsContext value={ProviderCls}>
+			<TokenContext value={ProviderCls}>
 				<Label />
-			</ClsContext>,
+			</TokenContext>,
 		);
 		const root = container.querySelector(
 			'[data-ui="Label-root"]',

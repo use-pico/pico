@@ -4,77 +4,37 @@ import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
 import { clsTweakToken } from "../utils/clsTweakToken";
 import { merge } from "../utils/merge";
-import { useClsContext } from "./useClsContext";
+import { useTokenContext } from "./useTokenContext";
 import { useTweakContext } from "./useTweakContext";
 
 /**
- * Memoized version of `useCls` that optimizes performance by memoizing the CLS slot creation.
+ * Memoized version of `useCls` with an explicit dependency list.
  *
- * This hook provides the same functionality as `useCls` but with performance optimizations
- * for scenarios where the CLS configuration doesn't change frequently. It's particularly
- * useful for components that receive stable props or when you want to prevent unnecessary
- * re-computations of CLS slots.
+ * Combines tweaks in this precedence: user tweak (arg 2) > TweakProvider
+ * (context) > internal tweak (arg 3). Tokens from `TokenContext` are merged
+ * with internal tokens using `clsTweakToken`, where internal tokens win.
  *
- * @template TContract - The CLS contract type that defines the structure of tokens, slots, and variants
+ * @template TContract - CLS contract type defining tokens, slots, and variants
  *
- * @param cls - The CLS instance to use for slot creation
- * @param userTweakFn - Optional user-provided tweak function for runtime customization.
- *                      This function receives `what` and `override` utilities and should return
- *                      a configuration object with variant, slot, token, or override properties.
- * @param internalTweakFn - Optional internal tweak function for component-controlled logic.
- *                          This is typically used for component-internal variant computation
- *                          (e.g., disabled state based on loading + disabled props).
+ * @param cls - CLS instance used for slot creation
+ * @param userTweak - Optional user-provided tweak object (variant/slot/token/override)
+ * @param internalTweak - Optional internal tweak object for component logic
+ * @param deps - Dependency list controlling memoization of the created kit
  *
- * @returns A memoized CLS slots object with slot functions (e.g., `slots.root()`, `slots.label()`)
- *          that return computed class strings based on the current configuration.
+ * @returns A memoized `Cls.Kit<TContract>` with slot functions (e.g., `slots.root()`).
  *
  * @example
- * ```tsx
- * // Basic usage with memoization
  * const slots = useClsMemo(ButtonCls, {
- *   variant: { size: "lg", tone: "primary" }
+ *   variant: { size: "lg", tone: "primary" },
  * });
  *
- * // With user and internal tweak functions
+ * @example
  * const slots = useClsMemo(
  *   ButtonCls,
- *   userTweak, // User customization from props
- *   { // Internal component logic
- *     variant: {
- *       disabled: disabled || loading // Component-controlled state
- *     }
- *   }
+ *   { variant: { size, tone } },
+ *   { variant: { disabled: disabled || loading } },
+ *   [size, tone, disabled, loading],
  * );
- *
- * // Use in JSX
- * return (
- *   <button className={slots.root()}>
- *     <span className={slots.label()}>Click me</span>
- *   </button>
- * );
- * ```
- *
- * @example
- * ```tsx
- * // Performance optimization example
- * const MyButton = ({ size, tone, disabled, loading }) => {
- *   // This will only recompute when size, tone, disabled, or loading change
- *   const slots = useClsMemo(
- *     ButtonCls,
- *     {
- *       variant: { size, tone },
- *       slot: {
- *         root: { class: ["transition-all", "duration-200"] }
- *       }
- *     },
- *     {
- *       variant: { disabled: disabled || loading }
- *     }
- *   );
- *
- *   return <button className={slots.root()}>Button</button>;
- * };
- * ```
  */
 export function useClsMemo<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
@@ -82,7 +42,7 @@ export function useClsMemo<TContract extends Contract.Any>(
 	internalTweak?: Tweak.Type<TContract>,
 	deps: DependencyList = [],
 ): Cls.Kit<TContract> {
-	const context = useClsContext();
+	const context = useTokenContext();
 	const tweak = useTweakContext();
 
 	return useMemo(

@@ -3,8 +3,8 @@ import type { FC } from "react";
 import { describe, expect, it } from "vitest";
 import {
 	type Cls,
-	ClsContext,
 	contract,
+	TokenContext,
 	TweakProvider,
 	useCls,
 	withCls,
@@ -88,7 +88,7 @@ const Pill = withCls(BasePill, PillCls);
 describe("react/02-component/cls-provider-with-tweak-provider-combine", () => {
 	it("combines provider tokens and provider tweaks; component tweak overrides and appends last", () => {
 		const { container, rerender } = render(
-			<ClsContext value={ThemeTokens}>
+			<TokenContext value={ThemeTokens}>
 				<TweakProvider
 					cls={PillCls}
 					tweak={{
@@ -106,7 +106,7 @@ describe("react/02-component/cls-provider-with-tweak-provider-combine", () => {
 				>
 					<Pill>provider-only</Pill>
 				</TweakProvider>
-			</ClsContext>,
+			</TokenContext>,
 		);
 
 		const root = () =>
@@ -116,7 +116,7 @@ describe("react/02-component/cls-provider-with-tweak-provider-combine", () => {
 
 		// Now component tweak overrides token and variant, appends U after provider
 		rerender(
-			<ClsContext value={ThemeTokens}>
+			<TokenContext value={ThemeTokens}>
 				<TweakProvider
 					cls={PillCls}
 					tweak={{
@@ -156,7 +156,7 @@ describe("react/02-component/cls-provider-with-tweak-provider-combine", () => {
 						user
 					</Pill>
 				</TweakProvider>
-			</ClsContext>,
+			</TokenContext>,
 		);
 		// Order: user token overrides CTX1; variant neutral removes ok; provider P then user U
 		expect(root().className).toBe("USER1 base P U");

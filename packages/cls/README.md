@@ -855,10 +855,10 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Context Integration**
 ```tsx
-import { ClsContext, TweakProvider } from '@use-pico/cls';
+import { TokenContext, TweakProvider } from '@use-pico/cls';
 
 const App = () => (
-  <ClsContext value={ThemeCls}>
+  <TokenContext value={ThemeCls}>
     <div>
       {/* All buttons inherit theme tokens */}
       <Button tone="primary">Themed Button</Button>
@@ -882,7 +882,7 @@ const App = () => (
         </div>
       </TweakProvider>
     </div>
-  </ClsContext>
+  </TokenContext>
 );
 ```
 
@@ -916,7 +916,7 @@ console.log(variants.tone);     // resolved from theme or props
 ```
 
 **Key Features:**
-- ✅ **Automatically connected to ClsContext** - Global theme inheritance works seamlessly
+- ✅ **Automatically connected to TokenContext** - Global theme inheritance works seamlessly
 - ✅ **Automatically connected to TweakContext** - Scoped tweak overrides work automatically
 - ✅ **Performance optimized** - Minimal overhead for common use cases
 - ✅ **Type-safe** - Full TypeScript support with proper inference
@@ -931,19 +931,19 @@ console.log(variants.tone);     // resolved from theme or props
 
 > **💡 Pro Tip:** This is the hook you'll use **100% of the time**. It provides everything you need - slots for styling and variants for component logic - all in one convenient, type-safe package!
 
-#### **useClsContext** - Access Context 🔗
+#### **useTokenContext** - Access Token Context 🔗
 ```tsx
-const contextCls = useClsContext<ButtonCls>();
+const context = useTokenContext<ButtonCls>();
 ```
 
 **Low-level hook** for accessing the current CLS context:
 
 ```tsx
 // Access current theme
-const themeCls = useClsContext();
+const themeCls = useTokenContext();
 
 // With type safety
-const buttonTheme = useClsContext<ButtonCls>();
+const buttonTheme = useTokenContext<ButtonCls>();
 ```
 
 **When to Use:**
