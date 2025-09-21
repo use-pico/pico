@@ -87,15 +87,8 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 		expect(created.slots.icon()).toBe("CONF1 i-base");
 
 		expect(
-			definition(base.contract)
-				// .token({
-				// 	t1: {
-				// 		class: [],
-				// 	},
-				// 	t2: {
-				// 		class: [],
-				// 	},
-				// })
+			contract(base.contract)
+				.def()
 				.root({
 					icon: {
 						class: [
@@ -114,6 +107,6 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 				.cls()
 				.create()
 				.slots.icon(),
-		).toBe("I-OVR");
+		).toBe("a2 a1 i-base I-OVR");
 	});
 });
