@@ -150,8 +150,14 @@ export namespace DefinitionBuilder {
 		TState extends CompletionState = {},
 	> = Variant.With<TContract> extends true
 		? Slot.With<TContract> extends true
-			? WithVariant<TContract, TState>
-			: {
+			? /**
+				 * We've Variants AND Slots, so everything is available
+				 */
+				WithVariant<TContract, TState>
+			: /**
+				 * We've Variants, but there are not slots, so nothing is available
+				 */
+				{
 					root(
 						error: "There are no slots in the contract",
 					): NoSlotCls;
@@ -166,23 +172,45 @@ export namespace DefinitionBuilder {
 					): NoSlotCls;
 					defaults: WithVariant<TContract, TState>["defaults"];
 				}
-		: {
-				root(
-					error: "There are no variants in the contract",
-				): NoVariantCls;
-				rule(
-					error: "There are no variants in the contract",
-				): NoVariantCls;
-				match(
-					error: "There are no variants in the contract",
-				): NoVariantCls;
-				switch(
-					error: "There are no variants in the contract",
-				): NoVariantCls;
-				defaults(
-					error: "There are no variants in the contract",
-				): NoVariantCls;
-			};
+		: Slot.With<TContract> extends true
+			? /**
+				 * We don't have variants, but we've slots, only "root" is available
+				 */
+				{
+					root: WithVariant<TContract, TState>["root"];
+					rule(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					match(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					switch(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					defaults(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+				}
+			: /**
+				 * There are no slots nor variants, nothing is available
+				 */
+				{
+					root(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					rule(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					match(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					switch(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+					defaults(
+						error: "There are no variants in the contract",
+					): NoVariantCls;
+				};
 
 	/**
 	 * Base builder type that combines all available methods based on contract capabilities
