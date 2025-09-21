@@ -1,13 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import {
-	contract,
-	TokenContext,
-	TweakProvider,
-	useCls,
-	withCls,
-} from "../../../src";
+import { contract, TokenContext, useCls, withCls, wrap } from "../../../src";
 
 const TagCls = contract()
 	.tokens([
@@ -44,6 +38,8 @@ const TagCls = contract()
 		},
 	})
 	.cls();
+
+const TagClsWrap = wrap(TagCls);
 
 const ProviderTokens = contract()
 	.tokens([
@@ -95,8 +91,7 @@ describe("react/02-component/tweak-provider-overlays-win-over-cls-provider-token
 	it("TweakProvider token overlays replace ClsProvider tokens for same keys", () => {
 		const { container } = render(
 			<TokenContext value={ProviderTokens}>
-				<TweakProvider
-					cls={TagCls}
+				<TagClsWrap.TweakProvider
 					tweak={{
 						token: {
 							t1: {
@@ -113,7 +108,7 @@ describe("react/02-component/tweak-provider-overlays-win-over-cls-provider-token
 					}}
 				>
 					<Tag />
-				</TweakProvider>
+				</TagClsWrap.TweakProvider>
 			</TokenContext>,
 		);
 		const root = container.querySelector(
