@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, PicoCls, Tx } from "@use-pico/client";
-import { type Cls, TweakProvider, tvc } from "@use-pico/cls";
+import { type Cls, tvc, VariantProvider } from "@use-pico/cls";
 import { type ReactNode, useState } from "react";
 
 const tones: Cls.VariantOf<PicoCls, "tone">[] = [
@@ -272,13 +272,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 							</div>
 							<div className="grid grid-cols-2 gap-8">
 								{/* Danger + Dark Context */}
-								<TweakProvider
+								<VariantProvider
 									cls={PicoCls}
-									tweak={{
-										variant: {
-											tone: "danger",
-											theme: "dark",
-										},
+									variant={{
+										tone: "danger",
+										theme: "dark",
 									}}
 								>
 									<div className="p-4 bg-slate-100 rounded-lg">
@@ -323,16 +321,14 @@ export const Route = createFileRoute("/$locale/components/button")({
 											</Button>
 										</div>
 									</div>
-								</TweakProvider>
+								</VariantProvider>
 
 								{/* Secondary + Light Context */}
-								<TweakProvider
+								<VariantProvider
 									cls={PicoCls}
-									tweak={{
-										variant: {
-											tone: "secondary",
-											theme: "light",
-										},
+									variant={{
+										tone: "secondary",
+										theme: "light",
 									}}
 								>
 									<div className="p-4 bg-slate-100 rounded-lg">
@@ -377,7 +373,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 											</Button>
 										</div>
 									</div>
-								</TweakProvider>
+								</VariantProvider>
 							</div>
 						</div>
 
@@ -402,13 +398,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 									}
 								/>
 							</div>
-							<TweakProvider
+							<VariantProvider
 								cls={PicoCls}
-								tweak={{
-									variant: {
-										tone: "neutral",
-										theme: "light",
-									},
+								variant={{
+									tone: "neutral",
+									theme: "light",
 								}}
 							>
 								<div className="p-4 bg-slate-100 rounded-lg">
@@ -426,13 +420,11 @@ export const Route = createFileRoute("/$locale/components/button")({
 											/>
 										</Button>
 
-										<TweakProvider
+										<VariantProvider
 											cls={PicoCls}
-											tweak={{
-												variant: {
-													tone: "warning",
-													theme: "dark",
-												},
+											variant={{
+												tone: "warning",
+												theme: "dark",
 											}}
 										>
 											<div className="p-3 bg-slate-200 rounded border-2 border-dashed border-slate-400">
@@ -460,7 +452,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 													</Button>
 												</div>
 											</div>
-										</TweakProvider>
+										</VariantProvider>
 
 										<Button>
 											<Tx
@@ -469,7 +461,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 										</Button>
 									</div>
 								</div>
-							</TweakProvider>
+							</VariantProvider>
 						</div>
 					</div>
 				</Section>
