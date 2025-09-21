@@ -7,7 +7,6 @@ describe("builder/user-override-then-user-slot-append-no-effect", () => {
 			.slots([
 				"root",
 			])
-			.bool("on")
 			.def()
 			.root({
 				root: {
@@ -15,9 +14,6 @@ describe("builder/user-override-then-user-slot-append-no-effect", () => {
 						"base",
 					],
 				},
-			})
-			.defaults({
-				on: true,
 			})
 			.cls();
 
