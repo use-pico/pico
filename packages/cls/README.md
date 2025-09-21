@@ -870,6 +870,15 @@ const App = () => (
           {/* All buttons in this subtree will be large */}
           <Button tone="primary">Large Themed Button</Button>
           <Button tone="secondary">Another Large Themed Button</Button>
+
+          {/* Nested TweakProvider with inheritance - merges parent tweaks */}
+          <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }} inherit>
+            <div>
+              {/* These buttons will be large AND danger (inherited size + new tone) */}
+              <Button>Large Danger Button</Button>
+              <Button>Another Large Danger Button</Button>
+            </div>
+          </TweakProvider>
         </div>
       </TweakProvider>
     </div>
@@ -962,6 +971,46 @@ const tweak = useTweakContext();
 - 🎯 **Advanced composition patterns**
 
 > **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakContext.
+
+#### **TweakProvider** - Scoped Tweak Context 🎛️
+
+**React component** for providing type-safe tweak overrides to a subtree:
+
+```tsx
+<TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }} inherit>
+  <YourComponents />
+</TweakProvider>
+```
+
+**Props:**
+- **`cls`** - CLS instance (used for type inference)
+- **`tweak`** - Tweak object with overrides
+- **`inherit`** - Whether to merge with parent TweakContext (default: `false`)
+
+**Inheritance Behavior:**
+- **`inherit={false}`** (default) - Replaces parent tweaks completely
+- **`inherit={true}`** - Merges with parent tweaks, lower TweakProvider takes precedence
+
+```tsx
+// Parent provides size: "lg"
+<TweakProvider cls={ButtonCls} tweak={{ variant: { size: "lg" } }}>
+  
+  {/* Child replaces parent completely */}
+  <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }}>
+    {/* Result: { tone: "danger" } - size is lost */}
+  </TweakProvider>
+  
+  {/* Child inherits and merges with parent */}
+  <TweakProvider cls={ButtonCls} tweak={{ variant: { tone: "danger" } }} inherit>
+    {/* Result: { size: "lg", tone: "danger" } - both preserved */}
+  </TweakProvider>
+</TweakProvider>
+```
+
+**When to Use:**
+- 🎯 **Scoped overrides** for specific UI sections
+- 🎯 **Nested theming** with inheritance
+- 🎯 **Conditional styling** based on context
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
