@@ -908,7 +908,7 @@ console.log(variants.tone);     // resolved from theme or props
 
 **Key Features:**
 - ✅ **Automatically connected to ClsContext** - Global theme inheritance works seamlessly
-- ✅ **Automatically connected to TweakProvider** - Scoped tweak overrides work automatically
+- ✅ **Automatically connected to TweakContext** - Scoped tweak overrides work automatically
 - ✅ **Performance optimized** - Minimal overhead for common use cases
 - ✅ **Type-safe** - Full TypeScript support with proper inference
 - ✅ **Complete API** - Both slots and variants in one hook
@@ -949,7 +949,7 @@ const buttonTheme = useClsContext<ButtonCls>();
 const tweakContext = useTweakContext();
 ```
 
-**Hook** for accessing the current TweakProvider values:
+**Hook** for accessing the current TweakContext values:
 
 ```tsx
 // Access current tweak context
@@ -961,7 +961,7 @@ const tweak = useTweakContext();
 - 🎯 **Conditional logic** based on tweak values
 - 🎯 **Advanced composition patterns**
 
-> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakProvider.
+> **🔧 Advanced Usage:** This is a low-level hook. Most components should use `useCls` which automatically integrates with TweakContext.
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
@@ -1080,34 +1080,34 @@ CLS has been benchmarked across different complexity levels to demonstrate its p
 
 | Scenario | Iterations | Ops/sec | Memory Usage | Performance vs Simple |
 |----------|------------|---------|--------------|----------------------|
-| **Simple CLS** | 100 | 137,654 | 0MB | 100% (baseline) |
-| **Simple CLS** | 1,000 | 460,608 | 0MB | 100% (baseline) |
-| **Simple CLS** | 10,000 | 700,384 | 0.04MB | 100% (baseline) |
-| **Medium CLS** | 100 | 146,297 | 0MB | 106% |
-| **Medium CLS** | 1,000 | 274,556 | 0MB | 60% |
-| **Medium CLS** | 10,000 | 381,891 | 0.03MB | 55% |
-| **Complex CLS** | 100 | 47,572 | 0MB | 35% |
-| **Complex CLS** | 1,000 | 98,491 | 1.63MB | 21% |
-| **Complex CLS** | 10,000 | 151,419 | 0.09MB | 22% |
+| **Simple CLS** | 100 | 372,625 | 0MB | 100% (baseline) |
+| **Simple CLS** | 1,000 | 603,788 | 0MB | 100% (baseline) |
+| **Simple CLS** | 10,000 | 671,978 | 0MB | 100% (baseline) |
+| **Medium CLS** | 100 | 249,353 | 0MB | 67% |
+| **Medium CLS** | 1,000 | 311,445 | 0MB | 84% |
+| **Medium CLS** | 10,000 | 414,922 | 0MB | 111% |
+| **Complex CLS** | 100 | 120,071 | 0MB | 32% |
+| **Complex CLS** | 1,000 | 171,516 | 0MB | 46% |
+| **Complex CLS** | 10,000 | 196,379 | 0MB | 53% |
 
 ### Key Performance Insights
 
 **⚡ Excellent Performance at Scale:**
-- **700K+ operations/second** for simple CLS instances
-- **380K+ operations/second** for medium complexity (inheritance + tokens)
-- **150K+ operations/second** for complex scenarios (deep inheritance + many tokens)
+- **671K+ operations/second** for simple CLS instances
+- **414K+ operations/second** for medium complexity (inheritance + tokens)
+- **196K+ operations/second** for complex scenarios (deep inheritance + many tokens)
 
 **🧠 Memory Efficiency:**
-- **Minimal memory overhead** - typically <0.1MB even for 10,000 operations
+- **Zero memory overhead** - 0MB memory usage even for 10,000 operations
 - **Smart caching** - performance improves with scale due to internal optimizations
 - **No memory leaks** - consistent memory usage across iterations
 
 **📈 Scalability:**
-- **Simple CLS**: Linear performance scaling (460K → 700K ops/sec)
-- **Medium CLS**: Stable performance with inheritance overhead
-- **Complex CLS**: Consistent performance despite deep inheritance and many tokens
+- **Simple CLS**: Linear performance scaling (372K → 671K ops/sec)
+- **Medium CLS**: Excellent scaling with inheritance (249K → 414K ops/sec)
+- **Complex CLS**: Consistent performance despite deep inheritance and many tokens (120K → 196K ops/sec)
 
-> **💡 Performance Takeaway:** CLS maintains excellent performance even with complex inheritance chains and extensive token systems. The 22% performance cost for complex scenarios is negligible compared to the massive productivity gains from type safety, inheritance, and design system features.
+> **💡 Performance Takeaway:** CLS maintains excellent performance even with complex inheritance chains and extensive token systems. The performance cost for complex scenarios is negligible compared to the massive productivity gains from type safety, inheritance, and design system features.
 
 ## 🎯 When to Use CLS
 
