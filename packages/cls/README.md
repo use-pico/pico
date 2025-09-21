@@ -135,7 +135,7 @@ CLS has been refined through *countless iterations* to achieve **maximum conveni
 
 ### 🧪 Extensively Tested
 
-CLS is *thoroughly tested* with comprehensive test suites covering all features, edge cases, and integration scenarios. **Every bug that has been found gets a new test** to ensure it never happens again - creating a robust safety net that grows stronger with each discovery. This rigorous testing approach means you can trust CLS to work reliably in production environments.
+CLS is *thoroughly tested* with comprehensive test suites covering all features, edge cases, and integration scenarios. The test coverage deeply encompasses all **three main APIs** of CLS: the **Contract Builder API** (fluent contract and definition building), the **low-level `cls()` function** (direct contract and definition usage), and the **React integration** (hooks, context, and component patterns). **Every bug that has been found gets a new test** to ensure it never happens again - creating a robust safety net that grows stronger with each discovery. This rigorous testing approach means you can trust CLS to work reliably in production environments.
 
 ## 🏗️ Contract Builder API
 

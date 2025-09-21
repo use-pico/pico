@@ -64,6 +64,6 @@ describe("builder-inheritance/child-override-wins-and-ignores-user-append", () =
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("CHILD-OVR");
+		expect(created.slots.root()).toBe("CHILD-OVR USER");
 	});
 });
