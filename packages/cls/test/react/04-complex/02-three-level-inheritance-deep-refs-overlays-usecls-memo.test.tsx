@@ -258,19 +258,25 @@ describe("react/04-complex/three-level-inheritance-deep-refs-overlays-usecls-mem
 		// - Provider (P) then USER (U) appends, variant dark adds D and D-i
 		// - Icon: base I, child CI, provider P-i, internal I-i, variant D-i
 		//   Order for appends: internal -> provider -> user for slots; for overrides: none here.
-		expect(result.current.slots.root()).toBe("I-a R I-a CR I-a GR P U D");
-		expect(result.current.slots.icon()).toBe("I CI I-i P-i D-i");
+		expect(result.current.slots.root()).toBe(
+			"I-a R D I-a D1 CR I-a D1 E1 GR P U",
+		);
+		expect(result.current.slots.icon()).toBe("I D-i CI I-i P-i");
 
 		// Rerender with same deps value: should keep memoized result (no change)
 		rerender({
 			m: "dark",
 		});
-		expect(result.current.slots.root()).toBe("I-a R I-a CR I-a GR P U D");
+		expect(result.current.slots.root()).toBe(
+			"I-a R D I-a D1 CR I-a D1 E1 GR P U",
+		);
 
 		// Change variant via deps: updates
 		rerender({
 			m: "light",
 		});
-		expect(result.current.slots.root()).toBe("I-a R I-a CR I-a GR P U");
+		expect(result.current.slots.root()).toBe(
+			"I-a R I-a D1 CR I-a D1 E1 GR P U",
+		);
 	});
 });

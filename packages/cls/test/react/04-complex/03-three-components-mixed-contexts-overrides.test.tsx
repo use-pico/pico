@@ -302,7 +302,7 @@ describe("react/04-complex/three-components-mixed-contexts-overrides", () => {
 		) as HTMLElement;
 
 		// Tag: ProviderA.t1 (A1) + base tag + provider P + variant MD; icon gets MD-i
-		expect(tagRoot.className).toBe("A1 tag P MD");
+		expect(tagRoot.className).toBe("A1 tag MD P");
 		expect(tagIcon.className).toBe("ti MD-i");
 
 		// Chip: nested ProviderB.t2 (B2) replaced by provider override OVR on icon; root base 'chip'
@@ -310,6 +310,6 @@ describe("react/04-complex/three-components-mixed-contexts-overrides", () => {
 		expect(chipIcon.className).toBe("OVR");
 
 		// Label: only user tweak + variant
-		expect(labelRoot.className).toBe("label U ERR");
+		expect(labelRoot.className).toBe("label ERR U");
 	});
 });

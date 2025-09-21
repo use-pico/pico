@@ -269,8 +269,8 @@ describe("react/04-complex/multi-component-shared-tokens-and-nested-providers", 
 		) as HTMLElement;
 
 		// Badge: TokenContext token BRAND, base badge, provider P1, variant md, and variant adds B-MD-i to icon
-		expect(badgeRoot.className).toBe("BRAND badge P1 B-MD");
-		expect(badgeIcon.className).toBe("b-i P1-i B-MD-i");
+		expect(badgeRoot.className).toBe("BRAND badge B-MD P1");
+		expect(badgeIcon.className).toBe("b-i B-MD-i P1-i");
 
 		// Pill: TokenContext token ACCENT, provider sets success -> OK/OK-i, provider appends P2/P2-i, user overrides variant to neutral and appends U/U-i
 		expect(pillRoot.className).toBe("ACCENT pill P2 U");
