@@ -22,7 +22,7 @@ export namespace Cls {
 		 * Resolved variants - if you need to access them as a single source of truth,
 		 * this is the way.
 		 */
-		variants: Variant.VariantOf<TContract>;
+		variant: Variant.VariantOf<TContract>;
 	}
 
 	export interface Type<TContract extends Contract.Any> {

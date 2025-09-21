@@ -600,7 +600,7 @@ export function cls<
 					{} as Record<TSlot[number], CoolSlot.Fn<TContract>>,
 					handler,
 				),
-				variants: variant,
+				variant,
 			};
 		},
 		extend(childContract, childDefinitionFn) {

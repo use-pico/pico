@@ -37,13 +37,13 @@ import { useVariantContext } from "./useVariantContext";
  * @example
  * ```tsx
  * // Default usage - subscribes to TokenContext only
- * const { slots, variants } = useClsMemo(ButtonCls, tweak, internal, [size, tone]);
+ * const { slots, variant } = useClsMemo(ButtonCls, tweak, internal, [size, tone]);
  * ```
  *
  * @example
  * ```tsx
  * // Subscribe to both contexts with memoization
- * const { slots, variants } = useClsMemo(
+ * const { slots, variant } = useClsMemo(
  *   ButtonCls,
  *   { variant: { size, tone } },
  *   { variant: { disabled: disabled || loading } },

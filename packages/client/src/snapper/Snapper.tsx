@@ -67,7 +67,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	const isFirst = active === 0;
 	const isLast = active === pages.length - 1;
 
-	const { slots, variants } = useCls(cls, tweak, {
+	const { slots, variant } = useCls(cls, tweak, {
 		variant: {
 			orientation,
 			align,
@@ -92,7 +92,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				return;
 			}
 
-			if (variants.orientation === "vertical") {
+			if (variant.orientation === "vertical") {
 				container.scrollTo({
 					top: item.offsetTop,
 					behavior,
@@ -106,7 +106,7 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		},
 		[
 			containerRef,
-			variants.orientation,
+			variant.orientation,
 		],
 	);
 

@@ -39,7 +39,7 @@ export const BaseButton: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots, variants } = useCls(cls, tweak, {
+	const { slots, variant } = useCls(cls, tweak, {
 		variant: {
 			disabled,
 			size,
@@ -70,17 +70,17 @@ export const BaseButton: FC<Button.Props> = ({
 								? iconLoading
 								: (iconDisabled ?? iconEnabled)
 						}
-						size={variants.size}
-						theme={variants.theme}
-						tone={variants.tone}
+						size={variant.size}
+						theme={variant.theme}
+						tone={variant.tone}
 						{...iconProps}
 					/>
 				) : (
 					<Icon
 						icon={loading === true ? iconLoading : iconEnabled}
-						size={variants.size}
-						theme={variants.theme}
-						tone={variants.tone}
+						size={variant.size}
+						theme={variant.theme}
+						tone={variant.tone}
 						{...iconProps}
 					/>
 				)}
