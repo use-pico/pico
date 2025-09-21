@@ -33,7 +33,7 @@
 		"preferred-locale": "2.0.2",
 		"read-excel-file": "6.0.1",
 		"timer-node": "5.0.9",
-		"zod": "4.1.9"
+		"zod": "4.1.11"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "28.0.6",
@@ -42,7 +42,7 @@
 		"@types/node": "^24.1.0",
 		"@types/react": "19.1.13",
 		"@use-pico/tsconfig": "4.0.22",
-		"rollup": "4.50.2",
+		"rollup": "4.52.0",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},

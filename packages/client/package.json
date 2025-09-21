@@ -15,9 +15,9 @@
 		"@lexical/react": "0.35.0",
 		"@lexical/utils": "0.35.0",
 		"@standard-schema/spec": "1.0.0",
-		"@tanstack/react-form": "1.20.0",
+		"@tanstack/react-form": "1.23.0",
 		"@tanstack/react-query": "5.89.0",
-		"@tanstack/react-router": "1.131.44",
+		"@tanstack/react-router": "1.131.49",
 		"@types/luxon": "^3.6.2",
 		"@use-pico/cls": "5.0.37",
 		"@use-pico/common": "5.0.44",
@@ -37,7 +37,7 @@
 		"use-debounce": "10.0.6",
 		"uuid": "13.0.0",
 		"write-excel-file": "2.3.10",
-		"zod": "4.1.9",
+		"zod": "4.1.11",
 		"zustand": "^5.0.6"
 	},
 	"devDependencies": {
@@ -49,7 +49,7 @@
 		"@types/react": "19.1.13",
 		"@use-pico/tsconfig": "4.0.22",
 		"npm-run-all2": "8.0.4",
-		"rollup": "4.51.0",
+		"rollup": "4.52.0",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},

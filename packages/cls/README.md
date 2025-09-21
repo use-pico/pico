@@ -1036,6 +1036,32 @@ const variants = useVariantContext();
 </VariantProvider>
 ```
 
+#### **wrap** - Type-Safe VariantProvider Factory 🏭
+
+**Utility function** for creating type-safe `VariantProvider` components:
+
+```tsx
+import { wrap } from '@use-pico/cls';
+
+// Create a type-safe VariantProvider factory for a specific CLS
+const ButtonWrapper = wrap(ButtonCls);
+
+// Use it without needing to pass cls prop
+<ButtonWrapper.VariantProvider variant={{ size: "lg" }}>
+  <YourComponents />
+</ButtonWrapper.VariantProvider>
+```
+
+**Benefits:**
+- 🎯 **Type safety** - VariantProvider is pre-configured with the correct CLS type
+- 🎯 **Cleaner syntax** - No need to pass `cls` prop every time
+- 🎯 **Reusable** - Create once, use everywhere with the same CLS
+
+**When to Use:**
+- 🎯 **Component libraries** - Pre-configure VariantProviders for your components
+- 🎯 **Design systems** - Create typed providers for consistent usage
+- 🎯 **Large applications** - Reduce boilerplate when using the same CLS repeatedly
+
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
 const { slots, variants } = useClsMemo(ButtonCls, userTweakFn, internalTweakFn, deps);
