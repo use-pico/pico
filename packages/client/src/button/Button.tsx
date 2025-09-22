@@ -1,5 +1,12 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import {
+    type Cls,
+    merge,
+    useCls,
+    VariantProvider,
+    withCls,
+} from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
+import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { ButtonCls } from "./ButtonCls";
@@ -39,54 +46,77 @@ export const BaseButton: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			size,
-			round,
-			tone,
-			theme,
+	const { slots, variant } = useCls(
+		cls,
+        /**
+         * TODO - instead of static two props, put an array here:
+         * from first to last wins
+         */
+		merge(tweak, {
+			variant: {
+				theme,
+				tone,
+				size,
+				round,
+			},
+		}),
+		{
+			variant: {
+				disabled,
+                theme,
+				tone,
+				size,
+				round,
+			},
 		},
-	});
+	);
 
 	return (
-		<div
-			data-ui="Button-wrapper"
-			ref={wrapperRef}
-			className={slots.wrapper()}
+		<VariantProvider
+			cls={PicoCls}
+			variant={{
+				tone: variant.tone,
+				theme: variant.theme,
+			}}
 		>
-			<button
-				data-ui="Button-root"
-				ref={buttonRef}
-				className={slots.root()}
-				type={"button"}
-				disabled={disabled}
-				{...props}
+			<div
+				data-ui="Button-wrapper"
+				ref={wrapperRef}
+				className={slots.wrapper()}
 			>
-				{disabled ? (
-					<Icon
-						icon={
-							loading === true
-								? iconLoading
-								: (iconDisabled ?? iconEnabled)
-						}
-						size={variant.size}
-						theme={variant.theme}
-						tone={variant.tone}
-						{...iconProps}
-					/>
-				) : (
-					<Icon
-						icon={loading === true ? iconLoading : iconEnabled}
-						size={variant.size}
-						theme={variant.theme}
-						tone={variant.tone}
-						{...iconProps}
-					/>
-				)}
-				{children}
-			</button>
-		</div>
+				<button
+					data-ui="Button-root"
+					ref={buttonRef}
+					className={slots.root()}
+					type={"button"}
+					disabled={disabled}
+					{...props}
+				>
+					{disabled ? (
+						<Icon
+							icon={
+								loading === true
+									? iconLoading
+									: (iconDisabled ?? iconEnabled)
+							}
+							size={variant.size}
+							theme={variant.theme}
+							tone={variant.tone}
+							{...iconProps}
+						/>
+					) : (
+						<Icon
+							icon={loading === true ? iconLoading : iconEnabled}
+							size={variant.size}
+							theme={variant.theme}
+							tone={variant.tone}
+							{...iconProps}
+						/>
+					)}
+					{children}
+				</button>
+			</div>
+		</VariantProvider>
 	);
 };
 

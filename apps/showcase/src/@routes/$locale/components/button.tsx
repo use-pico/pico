@@ -258,15 +258,15 @@ export const Route = createFileRoute("/$locale/components/button")({
 					</div>
 				</Section>
 
-				{/* ToneContext Examples */}
-				<Section title={<Tx label={"ToneContext Examples"} />}>
+				{/* VariantProvider Examples */}
+				<Section title={<Tx label={"VariantProvider Examples"} />}>
 					<div className="flex flex-col space-y-8">
 						{/* Context Provided Tone/Theme */}
 						<div className="flex flex-col space-y-4">
 							<div className="text-sm font-medium text-slate-600">
 								<Tx
 									label={
-										"Using ToneProvider - Buttons inherit context values"
+										"Using VariantProvider - Buttons inherit context values"
 									}
 								/>
 							</div>
@@ -282,8 +282,10 @@ export const Route = createFileRoute("/$locale/components/button")({
 									<div className="p-4 bg-slate-100 rounded-lg">
 										<div className="text-xs text-slate-600 mb-3">
 											<Tx
+												tone="primary"
+												theme="light"
 												label={
-													"ToneProvider: danger + dark"
+													"VariantProvider: danger + dark"
 												}
 											/>
 										</div>
@@ -335,7 +337,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 										<div className="text-xs text-slate-600 mb-3">
 											<Tx
 												label={
-													"ToneProvider: secondary + light"
+													"VariantProvider: secondary + light"
 												}
 											/>
 										</div>
@@ -386,7 +388,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 									}
 								/>
 							</div>
-							<ToneContextDemo />
+							<VariantProviderDemo />
 						</div>
 
 						{/* Nested Context */}
@@ -394,7 +396,7 @@ export const Route = createFileRoute("/$locale/components/button")({
 							<div className="text-sm font-medium text-slate-600">
 								<Tx
 									label={
-										"Nested ToneContext - Inner context overrides outer"
+										"Nested VariantProvider - Inner context overrides outer"
 									}
 								/>
 							</div>
@@ -514,7 +516,7 @@ function Column({
 	);
 }
 
-function ToneContextDemo() {
+function VariantProviderDemo() {
 	const [contextTone, setContextTone] =
 		useState<(typeof tones)[number]>("primary");
 	const [contextTheme, setContextTheme] =
@@ -575,7 +577,7 @@ function ToneContextDemo() {
 				{/* Current Context Display */}
 				<div className="text-xs text-slate-600">
 					<Tx
-						label={`Active ToneContext: ${contextTone} + ${contextTheme}`}
+						label={`Active VariantProvider: ${contextTone} + ${contextTheme}`}
 					/>
 				</div>
 

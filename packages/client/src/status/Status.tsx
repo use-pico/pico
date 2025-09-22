@@ -34,7 +34,12 @@ export const BaseStatus: FC<Status.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots, variant } = useCls(cls, tweak);
+	const { slots, variant } = useCls(cls, tweak, {
+		variant: {
+			tone,
+			theme,
+		},
+	});
 
 	return (
 		<VariantProvider
@@ -56,8 +61,6 @@ export const BaseStatus: FC<Status.Props> = ({
 					<Icon
 						icon={icon}
 						size="xl"
-						tone={tone}
-						theme={theme}
 						tweak={{
 							slot: {
 								root: {
@@ -74,14 +77,10 @@ export const BaseStatus: FC<Status.Props> = ({
 						label={textTitle}
 						size="xl"
 						font="bold"
-						tone={tone}
-						theme={theme}
 						{...titleProps}
 					/>
 					<Typo
 						label={textMessage}
-						tone={tone}
-						theme={theme}
 						{...messageProps}
 					/>
 				</div>
@@ -90,7 +89,12 @@ export const BaseStatus: FC<Status.Props> = ({
 					data-ui="Status-body"
 					className={slots.body()}
 				>
-					{children}
+					<VariantProvider
+						cls={PicoCls}
+						variant={{}}
+					>
+						{children}
+					</VariantProvider>
 				</div>
 			</div>
 		</VariantProvider>
