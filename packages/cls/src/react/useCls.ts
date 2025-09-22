@@ -2,7 +2,6 @@ import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
-import { clsTweakToken } from "../utils/clsTweakToken";
 import { merge } from "../utils/merge";
 import { useTokenContext } from "./useTokenContext";
 import { useVariantContext } from "./useVariantContext";
@@ -51,25 +50,16 @@ import { useVariantContext } from "./useVariantContext";
  */
 export function useCls<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
-	userTweak?: Tweak.Type<TContract>,
-	internalTweak?: Tweak.Type<TContract>,
+	tweaks?: Tweak.Tweaks<TContract>,
 ) {
 	const context = useTokenContext();
-	const variant = useVariantContext();
+	const variant = useVariantContext() as Variant.Optional<TContract>;
 
 	return cls.create(
-		merge<TContract>(userTweak, {
-			variant: variant as Variant.Optional<TContract>,
-		}),
-		clsTweakToken<TContract>(
-			/**
-			 * This is a lie, but because CLS is quite flexible, it does not really matter.
-			 *
-			 * Overall, it's much simpler to use "general" context than connect also all components
-			 * using custom "cls".
-			 */
-			context as Cls.Type<TContract>,
-			internalTweak,
-		),
+		merge<TContract>(tweaks, [
+			{
+				variant,
+			},
+		]),
 	);
 }

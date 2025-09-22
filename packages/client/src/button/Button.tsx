@@ -1,9 +1,9 @@
 import {
-    type Cls,
-    merge,
-    useCls,
-    VariantProvider,
-    withCls,
+	type Cls,
+	merge,
+	useCls,
+	VariantProvider,
+	withCls,
 } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
@@ -48,27 +48,30 @@ export const BaseButton: FC<Button.Props> = ({
 }) => {
 	const { slots, variant } = useCls(
 		cls,
-        /**
-         * TODO - instead of static two props, put an array here:
-         * from first to last wins
-         */
-		merge(tweak, {
-			variant: {
-				theme,
-				tone,
-				size,
-				round,
+		/**
+		 * TODO - instead of static two props, put an array here:
+		 * from first to last wins
+		 */
+		merge([
+			tweak,
+			{
+				variant: {
+					theme,
+					tone,
+					size,
+					round,
+				},
 			},
-		}),
-		{
-			variant: {
-				disabled,
-                theme,
-				tone,
-				size,
-				round,
+			{
+				variant: {
+					disabled,
+					theme,
+					tone,
+					size,
+					round,
+				},
 			},
-		},
+		]),
 	);
 
 	return (

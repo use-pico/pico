@@ -257,9 +257,6 @@ export function cls<
 	contract: TContract,
 	definition: Definition.Type<TContract>,
 ): Cls.Type<TContract> {
-	// definition now passed directly
-
-	// Attach definition to contract for inheritance
 	contract["~definition"] = definition;
 
 	// Precompile layers, slots, rules and base token table
@@ -269,24 +266,18 @@ export function cls<
 	);
 
 	return {
-		// TODO: Change API - return {slots, variants; we'll be eventually open to more props}
-		create(userTweak, internalTweak) {
-			const variant = withVariants(
-				{
-					contract,
-					definition,
-				},
-				userTweak,
-				internalTweak,
-			);
-			const config = merge(userTweak, internalTweak);
+		create(tweak) {
+			const variant = withVariants(tweak, {
+				contract,
+				definition,
+			});
 
 			// Global token table with overrides via prototype chain
 			const tokenTable: Record<
 				string,
 				What.Any<Contract.Any>
-			> = config.token
-				? Object.assign(Object.create(tokensProto), config.token)
+			> = tweak?.token
+				? Object.assign(Object.create(tokensProto), tweak.token)
 				: tokensProto;
 
 			// Resolver bound to the token table after global overrides
@@ -454,9 +445,9 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const configSlotWhat = config.slot
+						const configSlotWhat = tweak?.slot
 							? (
-									config.slot as Record<
+									tweak.slot as Record<
 										string,
 										What.Any<Contract.Any>
 									>
@@ -470,9 +461,9 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const configOverrideWhat = config.override
+						const configOverrideWhat = tweak?.override
 							? (
-									config.override as Record<
+									tweak.override as Record<
 										string,
 										What.Any<Contract.Any>
 									>
@@ -611,7 +602,15 @@ export function cls<
 			return sub as unknown as Cls.Type<TContract>;
 		},
 		tweak(userTweak, internalTweak) {
-			const out = merge(userTweak, internalTweak);
+			const out = merge(
+				[
+					userTweak,
+					internalTweak,
+				].filter(Boolean) as [
+					Tweak.Type<TContract>,
+					...Tweak.Type<TContract>[],
+				],
+			);
 			return Object.keys(out).length === 0
 				? undefined
 				: (out as Tweak.Type<TContract>);

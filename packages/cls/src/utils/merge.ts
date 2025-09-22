@@ -28,30 +28,45 @@ function filter<T extends Record<string, any>>(
  * - Shallow merge per field to match cls.create() semantics
  * - Slots are combined by appending What objects, not overriding them
  */
-export function merge<const TContract extends Contract.Any>([
-	root,
-	...tweaks
-]: Tweak.Tweaks<TContract>): Tweak.Type<TContract> {
-	return tweaks
+export function merge<const TContract extends Contract.Any>(
+	...tweaks: ((Tweak.Type<TContract> | undefined)[] | undefined)[]
+): Tweak.Type<TContract> {
+	if (!tweaks || tweaks.length === 0) {
+		return {};
+	}
+
+	const list = tweaks
+		.flat()
+		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined);
+
+	if (list.length === 0) {
+		return {};
+	}
+
+	const [root, ...rest] = list as [
+		Tweak.Type<TContract>,
+		...Tweak.Type<TContract>[],
+	];
+
+	return rest
 		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined)
 		.reduce((root, current) => {
-			const tweak = filter(current);
 			return {
 				token: {
-					...tweak.token,
-					...root.token,
+					...filter(current.token),
+					...filter(root.token),
 				},
 				slot: {
-					...tweak.slot,
-					...root.slot,
+					...filter(current.slot),
+					...filter(root.slot),
 				},
 				override: {
-					...tweak.override,
-					...root.override,
+					...filter(current.override),
+					...filter(root.override),
 				},
 				variant: {
-					...tweak.variant,
-					...root.variant,
+					...filter(current.variant),
+					...filter(root.variant),
 				},
 			} as Tweak.Type<TContract>;
 		}, root);

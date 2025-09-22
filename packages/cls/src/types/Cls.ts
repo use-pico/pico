@@ -26,10 +26,7 @@ export namespace Cls {
 	}
 
 	export interface Type<TContract extends Contract.Any> {
-		create(
-			userTweak?: Tweak.Type<TContract>,
-			internalTweak?: Tweak.Type<TContract>,
-		): Kit<TContract>;
+		create(tweak?: Tweak.Type<TContract>): Kit<TContract>;
 
 		extend<
 			const TToken extends Token.Type,

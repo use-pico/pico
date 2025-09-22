@@ -5,7 +5,6 @@ import type { Slot } from "../types/Slot";
 import type { Token } from "../types/Token";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
-import { merge } from "./merge";
 
 // Standalone function to compute variants
 export function withVariants<
@@ -14,15 +13,12 @@ export function withVariants<
 	const TVariant extends Variant.Type,
 	const TContract extends Contract.Type<TToken, TSlot, TVariant, any>,
 >(
+	tweak: Tweak.Type<TContract> | undefined,
 	{
 		contract,
 		definition,
 	}: Pick<Cls.Type<TContract>, "contract" | "definition">,
-	userTweak?: Tweak.Type<TContract>,
-	internalTweak?: Tweak.Type<TContract>,
 ): Variant.VariantOf<TContract> {
-	const config = merge(userTweak, internalTweak);
-
 	// Build inheritance chain (base -> child order)
 	const layers: {
 		contract: Contract.Type<Token.Type, Slot.Type, Variant.Type>;
@@ -56,18 +52,13 @@ export function withVariants<
 	const defaultVariant = {} as Variant.VariantOf<TContract>;
 
 	// Process layers in inheritance order (base first, child last)
-	for (const { definition: d } of layers) {
+	for (const { definition } of layers) {
 		// Merge defaults (child overrides base)
-		Object.assign(defaultVariant, d.defaults);
+		Object.assign(defaultVariant, definition.defaults);
 	}
 
-	// Compute effective variant by merging defaults with config
 	return {
 		...defaultVariant,
-		...Object.fromEntries(
-			Object.entries(config.variant ?? {}).filter(
-				([, value]) => value !== undefined,
-			),
-		),
-	};
+		...tweak?.variant,
+	} as const;
 }
