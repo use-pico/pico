@@ -4,50 +4,46 @@ import { contract, merge } from "../../../src";
 const TestCls = contract()
 	.tokens([
 		"t1",
-		"t2",
+	])
+	.slots([
+		"root",
 	])
 	.def()
 	.token({
 		t1: {
-			class: [
-				"t1",
-			],
-		},
-		t2: {
-			class: [
-				"t2",
-			],
+			token: [],
 		},
 	})
 	.cls();
 
 type TestContract = (typeof TestCls)["contract"];
 
-describe("utils/merge/token user wins", () => {
-	it("user token overlay should override internal token overlay", () => {
+describe("utils/merge/slots: class beats later token on same slot", () => {
+	it("keeps class from first tweak when second sets token for same slot", () => {
 		const out = merge<TestContract>([
 			{
-				token: {
-					t1: {
+				slot: {
+					root: {
 						class: [
-							"t2",
+							"base",
 						],
 					},
 				},
 			},
 			{
-				token: {
-					t1: {
-						class: [
-							"t3",
+				slot: {
+					root: {
+						token: [
+							"t1",
 						],
 					},
 				},
 			},
 		]);
-		expect(out.token?.t1).toEqual({
+
+		expect(out.slot?.root).toEqual({
 			class: [
-				"t2",
+				"base",
 			],
 		});
 	});

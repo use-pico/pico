@@ -4,12 +4,14 @@ import { contract, merge } from "../../../src";
 const TestCls = contract()
 	.tokens([
 		"t1",
-		"t2",
+	])
+	.slots([
+		"root",
 	])
 	.variants({
-		tone: [
-			"red",
-			"blue",
+		size: [
+			"sm",
+			"md",
 		],
 	})
 	.def()
@@ -17,23 +19,25 @@ const TestCls = contract()
 		t1: {
 			token: [],
 		},
-		t2: {
-			token: [],
-		},
 	})
 	.defaults({
-		tone: "blue",
+		size: "md",
 	})
 	.cls();
 
 type TestContract = (typeof TestCls)["contract"];
 
-describe("utils/merge/variant + token combo", () => {
-	it("earlier variant wins; token overlays last for same key", () => {
+describe("utils/merge/full props in middle propagates", () => {
+	it("later full-tweak contributes tokens/slots; earlier variant stays", () => {
 		const out = merge<TestContract>([
 			{
 				variant: {
-					tone: "red",
+					size: "sm",
+				},
+			},
+			{
+				variant: {
+					size: "md",
 				},
 				token: {
 					t1: {
@@ -42,25 +46,41 @@ describe("utils/merge/variant + token combo", () => {
 						],
 					},
 				},
+				slot: {
+					root: {
+						class: [
+							"x2",
+						],
+					},
+				},
 			},
 			{
-				variant: {
-					tone: "blue",
-				},
 				token: {
 					t1: {
 						token: [
-							"t2",
+							"t1",
+						],
+					},
+				},
+				slot: {
+					root: {
+						class: [
+							"x3",
 						],
 					},
 				},
 			},
 		]);
 
-		expect(out.variant?.tone).toBe("red");
+		expect(out.variant?.size).toBe("sm");
 		expect(out.token?.t1).toEqual({
 			token: [
 				"t1",
+			],
+		});
+		expect(out.slot?.root).toEqual({
+			class: [
+				"x2",
 			],
 		});
 	});

@@ -4,12 +4,14 @@ import { contract, merge } from "../../../src";
 const TestCls = contract()
 	.tokens([
 		"t1",
-		"t2",
+	])
+	.slots([
+		"root",
 	])
 	.variants({
-		tone: [
-			"red",
-			"blue",
+		size: [
+			"sm",
+			"md",
 		],
 	})
 	.def()
@@ -17,24 +19,23 @@ const TestCls = contract()
 		t1: {
 			token: [],
 		},
-		t2: {
-			token: [],
-		},
 	})
 	.defaults({
-		tone: "blue",
+		size: "md",
 	})
 	.cls();
 
 type TestContract = (typeof TestCls)["contract"];
 
-describe("utils/merge/variant + token combo", () => {
-	it("earlier variant wins; token overlays last for same key", () => {
+describe("utils/merge/disjoint: variant + token + slot", () => {
+	it("collects fields from separate tweaks without overlay", () => {
 		const out = merge<TestContract>([
 			{
 				variant: {
-					tone: "red",
+					size: "sm",
 				},
+			},
+			{
 				token: {
 					t1: {
 						token: [
@@ -44,23 +45,25 @@ describe("utils/merge/variant + token combo", () => {
 				},
 			},
 			{
-				variant: {
-					tone: "blue",
-				},
-				token: {
-					t1: {
-						token: [
-							"t2",
+				slot: {
+					root: {
+						class: [
+							"x",
 						],
 					},
 				},
 			},
 		]);
 
-		expect(out.variant?.tone).toBe("red");
+		expect(out.variant?.size).toBe("sm");
 		expect(out.token?.t1).toEqual({
 			token: [
 				"t1",
+			],
+		});
+		expect(out.slot?.root).toEqual({
+			class: [
+				"x",
 			],
 		});
 	});

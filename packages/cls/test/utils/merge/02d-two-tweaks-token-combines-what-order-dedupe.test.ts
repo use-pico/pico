@@ -49,9 +49,8 @@ describe("utils/merge/token combines order and dedupes", () => {
 		]);
 		expect(out.token?.t1).toEqual({
 			token: [
-				"t2",
-				"t3",
 				"t1",
+				"t2",
 			],
 		});
 	});

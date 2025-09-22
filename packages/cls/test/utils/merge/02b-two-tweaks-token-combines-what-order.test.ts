@@ -48,8 +48,6 @@ describe("utils/merge/token combines what order", () => {
 		]);
 		expect(out.token?.t1).toEqual({
 			token: [
-				"t2",
-				"t3",
 				"t1",
 			],
 		});

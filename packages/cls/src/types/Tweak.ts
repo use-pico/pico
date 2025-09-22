@@ -29,6 +29,11 @@ export namespace Tweak {
 		token?: Token.Optional<TContract>;
 	};
 
+	export type Tweaks<TContract extends Contract.Any> = [
+		Type<TContract>,
+		...(Type<TContract> | undefined)[],
+	];
+
 	export namespace Override {
 		export interface Type<TContract extends Contract.Any> {
 			token: Token.OptionalFn<TContract>;

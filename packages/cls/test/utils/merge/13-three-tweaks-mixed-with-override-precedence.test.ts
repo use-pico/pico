@@ -2,11 +2,9 @@ import { describe, expect, it } from "vitest";
 import { contract, merge } from "../../../src";
 
 const TestCls = contract()
-	.tokens([
-		"t1",
-	])
 	.slots([
 		"root",
+		"label",
 	])
 	.variants({
 		v: [
@@ -15,20 +13,15 @@ const TestCls = contract()
 		],
 	})
 	.def()
-	.token({
-		t1: {
-			token: [],
-		},
-	})
 	.defaults({
-		v: "a",
+		v: "b",
 	})
 	.cls();
 
 type TestContract = (typeof TestCls)["contract"];
 
-describe("utils/merge/slot + override + token combo", () => {
-	it("override wins for slot, tokens overlay last, variant earlier wins", () => {
+describe("utils/merge/mixed with override precedence", () => {
+	it("override first wins; slots merge; variant earlier wins", () => {
 		const out = merge<TestContract>([
 			{
 				variant: {
@@ -37,14 +30,35 @@ describe("utils/merge/slot + override + token combo", () => {
 				slot: {
 					root: {
 						class: [
-							"a",
+							"one",
 						],
 					},
 				},
-				token: {
-					t1: {
-						token: [
-							"t1",
+				override: {
+					root: {
+						class: [
+							"OVR1",
+						],
+					},
+				},
+			},
+			{
+				slot: {
+					root: {
+						class: [
+							"two",
+						],
+					},
+					label: {
+						class: [
+							"lab2",
+						],
+					},
+				},
+				override: {
+					root: {
+						class: [
+							"OVR2",
 						],
 					},
 				},
@@ -54,23 +68,9 @@ describe("utils/merge/slot + override + token combo", () => {
 					v: "b",
 				},
 				slot: {
-					root: {
+					label: {
 						class: [
-							"b",
-						],
-					},
-				},
-				override: {
-					root: {
-						class: [
-							"c",
-						],
-					},
-				},
-				token: {
-					t1: {
-						token: [
-							"t1",
+							"lab3",
 						],
 					},
 				},
@@ -80,17 +80,17 @@ describe("utils/merge/slot + override + token combo", () => {
 		expect(out.variant?.v).toBe("a");
 		expect(out.slot?.root).toEqual({
 			class: [
-				"a",
+				"one",
+			],
+		});
+		expect(out.slot?.label).toEqual({
+			class: [
+				"lab2",
 			],
 		});
 		expect(out.override?.root).toEqual({
 			class: [
-				"c",
-			],
-		});
-		expect(out.token?.t1).toEqual({
-			token: [
-				"t1",
+				"OVR1",
 			],
 		});
 	});

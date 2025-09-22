@@ -4,14 +4,21 @@ import { contract, merge } from "../../../src";
 const TestCls = contract()
 	.tokens([
 		"t1",
+		"t2",
+		"t3",
 	])
 	.slots([
 		"root",
+		"label",
 	])
 	.variants({
-		v: [
-			"a",
-			"b",
+		size: [
+			"sm",
+			"md",
+		],
+		tone: [
+			"red",
+			"blue",
 		],
 	})
 	.def()
@@ -19,20 +26,27 @@ const TestCls = contract()
 		t1: {
 			token: [],
 		},
+		t2: {
+			token: [],
+		},
+		t3: {
+			token: [],
+		},
 	})
 	.defaults({
-		v: "a",
+		size: "md",
+		tone: "blue",
 	})
 	.cls();
 
 type TestContract = (typeof TestCls)["contract"];
 
-describe("utils/merge/slot + override + token combo", () => {
-	it("override wins for slot, tokens overlay last, variant earlier wins", () => {
+describe("utils/merge/three tweaks mixed fields", () => {
+	it("variant earlier wins; slots and tokens merge across all participants", () => {
 		const out = merge<TestContract>([
 			{
 				variant: {
-					v: "a",
+					size: "sm",
 				},
 				slot: {
 					root: {
@@ -44,14 +58,14 @@ describe("utils/merge/slot + override + token combo", () => {
 				token: {
 					t1: {
 						token: [
-							"t1",
+							"t2",
 						],
 					},
 				},
 			},
 			{
 				variant: {
-					v: "b",
+					tone: "red",
 				},
 				slot: {
 					root: {
@@ -60,37 +74,65 @@ describe("utils/merge/slot + override + token combo", () => {
 						],
 					},
 				},
-				override: {
-					root: {
+				token: {
+					t1: {
+						token: [
+							"t3",
+						],
+					},
+					t2: {
+						token: [
+							"t2",
+						],
+					},
+				},
+			},
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					label: {
 						class: [
 							"c",
 						],
 					},
 				},
 				token: {
-					t1: {
+					t3: {
 						token: [
-							"t1",
+							"t3",
 						],
 					},
 				},
 			},
 		]);
 
-		expect(out.variant?.v).toBe("a");
+		expect(out.variant?.size).toBe("sm");
+		expect(out.variant?.tone).toBe("red");
 		expect(out.slot?.root).toEqual({
 			class: [
 				"a",
 			],
 		});
-		expect(out.override?.root).toEqual({
+		expect(out.slot?.label).toEqual({
 			class: [
 				"c",
 			],
 		});
 		expect(out.token?.t1).toEqual({
 			token: [
-				"t1",
+				"t2",
+			],
+		});
+		expect(out.token?.t2).toEqual({
+			token: [
+				"t2",
+			],
+		});
+		expect(out.token?.t3).toEqual({
+			token: [
+				"t3",
 			],
 		});
 	});
