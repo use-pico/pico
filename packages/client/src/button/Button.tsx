@@ -1,10 +1,4 @@
-import {
-	type Cls,
-	merge,
-	useCls,
-	VariantProvider,
-	withCls,
-} from "@use-pico/cls";
+import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
@@ -52,7 +46,7 @@ export const BaseButton: FC<Button.Props> = ({
 		 * TODO - instead of static two props, put an array here:
 		 * from first to last wins
 		 */
-		merge([
+		tweak([
 			tweak,
 			{
 				variant: {

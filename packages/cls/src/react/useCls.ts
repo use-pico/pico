@@ -1,8 +1,7 @@
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
-import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
-import { merge } from "../utils/merge";
+import { tweak } from "../utils/tweak";
 import { useTokenContext } from "./useTokenContext";
 import { useVariantContext } from "./useVariantContext";
 
@@ -50,14 +49,18 @@ import { useVariantContext } from "./useVariantContext";
  */
 export function useCls<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
-	tweaks?: Tweak.Tweaks<TContract>,
+	tweaks?: tweak.Tweaks<TContract>,
 ) {
 	const context = useTokenContext();
 	const variant = useVariantContext() as Variant.Optional<TContract>;
 
 	return cls.create(
-		merge<TContract>(tweaks, [
+		tweak<TContract>(tweaks, [
+			/**
+			 * Context tweak has lowest priority
+			 */
 			{
+				token: context,
 				variant,
 			},
 		]),
