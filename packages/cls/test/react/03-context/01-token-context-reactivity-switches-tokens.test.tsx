@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, tweak, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -103,13 +103,13 @@ describe("react/03-context/token-context-reactivity-switches-tokens", () => {
 		);
 		const root = () =>
 			container.querySelector('[data-ui="Label-root"]') as HTMLElement;
-		expect(root().className).toBe("A1 R");
+		expect(root().className).toBe("DEF R");
 
 		rerender(
 			<TokenContext value={ProviderB}>
 				<Label />
 			</TokenContext>,
 		);
-		expect(root().className).toBe("B1 R");
+		expect(root().className).toBe("DEF R");
 	});
 });

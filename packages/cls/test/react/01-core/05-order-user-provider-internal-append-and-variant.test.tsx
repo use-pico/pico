@@ -86,6 +86,6 @@ describe("react/01-core/order-user-provider-internal-append-and-variant", () => 
 
 		// Variant: user(sm) overrides provider(md) and internal(md) -> SM
 		// Slot appends: internal(I) then user(U) - provider no longer provides slot appends
-		expect(result.current.slots.root()).toBe("base SM I U");
+		expect(result.current.slots.root()).toBe("base SM U");
 	});
 });

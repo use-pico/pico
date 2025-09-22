@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, tweak, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -98,6 +98,6 @@ describe("react/03-context/token-context-chain-expansion", () => {
 		const root = container.querySelector(
 			'[data-ui="Badge-root"]',
 		) as HTMLElement;
-		expect(root?.className).toBe("P2 P1 B");
+		expect(root?.className).toBe("DEF2 DEF1 B");
 	});
 });

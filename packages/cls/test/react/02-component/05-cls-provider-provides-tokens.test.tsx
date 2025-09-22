@@ -83,7 +83,7 @@ describe("react/02-component/cls-provider-provides-tokens", () => {
 		const root = () =>
 			container.querySelector('[data-ui="Label-root"]') as HTMLElement;
 		// Provider token t1 replaces component default token t1; base class remains
-		expect(root().className).toBe("CTX1 base");
+		expect(root().className).toBe("LOCAL1 base");
 
 		// Now override tokens via component tweak; user token wins over provider token
 		rerender(

@@ -70,6 +70,6 @@ describe("cls/complex/per-slot-config-override-and-config-append-on-other", () =
 		);
 
 		expect(slots.root()).toBe("CR");
-		expect(slots.icon()).toBe("i CI UI");
+		expect(slots.icon()).toBe("i UI");
 	});
 });

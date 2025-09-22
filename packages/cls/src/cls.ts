@@ -8,6 +8,7 @@ import type { Token } from "./types/Token";
 import type { Tweak } from "./types/Tweak";
 import type { Variant } from "./types/Variant";
 import type { What } from "./types/What";
+import { cleanup } from "./utils/cleanup";
 import { tvc } from "./utils/tvc";
 import { withVariants } from "./utils/withVariants";
 
@@ -266,7 +267,9 @@ export function cls<
 
 	return {
 		create(tweak) {
-			const variant = withVariants(tweak, {
+			const $tweak = cleanup(tweak ?? {});
+
+			const variant = withVariants($tweak, {
 				contract,
 				definition,
 			});
@@ -275,8 +278,8 @@ export function cls<
 			const tokenTable: Record<
 				string,
 				What.Any<Contract.Any>
-			> = tweak?.token
-				? Object.assign(Object.create(tokensProto), tweak.token)
+			> = $tweak?.token
+				? Object.assign(Object.create(tokensProto), $tweak.token)
 				: tokensProto;
 
 			// Resolver bound to the token table after global overrides
@@ -444,9 +447,9 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const configSlotWhat = tweak?.slot
+						const configSlotWhat = $tweak?.slot
 							? (
-									tweak.slot as Record<
+									$tweak.slot as Record<
 										string,
 										What.Any<Contract.Any>
 									>
@@ -460,9 +463,9 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const configOverrideWhat = tweak?.override
+						const configOverrideWhat = $tweak?.override
 							? (
-									tweak.override as Record<
+									$tweak.override as Record<
 										string,
 										What.Any<Contract.Any>
 									>

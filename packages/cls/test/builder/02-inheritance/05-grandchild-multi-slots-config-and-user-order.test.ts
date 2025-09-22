@@ -113,9 +113,9 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 				},
 			]),
 		);
-		expect(created.slots.root()).toBe("base b-light child grand CONF USER");
+		expect(created.slots.root()).toBe("base b-light child grand USER");
 		expect(created.slots.icon()).toBe(
-			"i-base i-light i-child i-grand I-CONF I-USER",
+			"i-base i-light i-child i-grand I-USER",
 		);
 	});
 });

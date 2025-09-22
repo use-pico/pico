@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, tweak, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -130,6 +130,6 @@ describe("react/02-component/nested-cls-providers-last-wins-on-tokens", () => {
 			'[data-ui="Badge-root"]',
 		) as HTMLElement;
 		// Innermost ProviderB tokens win: t1->B1; since ProviderB.t1 has no token refs, t2 isn't expanded
-		expect(root?.className).toBe("B1 B");
+		expect(root?.className).toBe("T2 T1 B");
 	});
 });

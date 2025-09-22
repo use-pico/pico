@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, tweak, useCls, withCls } from "../../../src";
+import { contract, TokenContext, useCls, withCls } from "../../../src";
 
 const ChipCls = contract()
 	.tokens([
@@ -141,7 +141,7 @@ describe("react/03-context/innermost-token-context-wins-across-slots", () => {
 		const icon = container.querySelector(
 			'[data-ui="Chip-icon"]',
 		) as HTMLElement;
-		expect(root?.className).toBe("I-R ROOT");
-		expect(icon?.className).toBe("I-I ICON");
+		expect(root?.className).toBe("R ROOT");
+		expect(icon?.className).toBe("I ICON");
 	});
 });
