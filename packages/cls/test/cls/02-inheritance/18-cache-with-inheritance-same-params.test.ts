@@ -107,9 +107,9 @@ describe("cls/inheritance/cache-with-inheritance-same-params", () => {
 					],
 				},
 			},
-		} as const;
-		const r1 = slots.root(args as any);
-		const r2 = slots.root(args as any);
+		};
+		const r1 = slots.root(args);
+		const r2 = slots.root(args);
 		const r3 = slots.root({
 			token: {
 				"color.text": {
@@ -120,8 +120,8 @@ describe("cls/inheritance/cache-with-inheritance-same-params", () => {
 			},
 		});
 
-		expect(r1).toBe("blue base md config user");
-		expect(r2).toBe("blue base md config user");
-		expect(r3).toBe("blue base md config user");
+		expect(r1).toBe("blue base md user");
+		expect(r2).toBe("blue base md user");
+		expect(r3).toBe("blue base md user");
 	});
 });

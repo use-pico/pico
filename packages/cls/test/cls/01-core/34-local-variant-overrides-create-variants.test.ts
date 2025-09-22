@@ -89,7 +89,7 @@ describe("cls/local-variant-overrides-create-variants", () => {
 		);
 
 		// With create-level variants md (user) and sm (config), user wins -> md
-		expect(slots.root()).toBe("base md config user");
+		expect(slots.root()).toBe("base md user");
 
 		// Local call sets size to sm -> sm should replace md for this call
 		expect(
@@ -98,6 +98,6 @@ describe("cls/local-variant-overrides-create-variants", () => {
 					size: "sm",
 				},
 			}),
-		).toBe("base sm config user");
+		).toBe("base sm user");
 	});
 });

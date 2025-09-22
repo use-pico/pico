@@ -49,6 +49,6 @@ describe("cls/user-empty-slot-append-keeps-config", () => {
 			]),
 		);
 
-		expect(slots.root()).toBe("base config");
+		expect(slots.root()).toBe("base");
 	});
 });

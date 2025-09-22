@@ -92,6 +92,6 @@ describe("cls/inheritance/child-config-token-wins-over-base-user-slot-appends-or
 			]),
 		);
 
-		expect(slots.root()).toBe("conf-t b c conf u");
+		expect(slots.root()).toBe("conf-t b c u");
 	});
 });

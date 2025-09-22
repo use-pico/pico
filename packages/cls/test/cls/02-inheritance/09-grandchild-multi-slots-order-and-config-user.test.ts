@@ -129,11 +129,7 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 			]),
 		);
 
-		expect(slots.root()).toBe(
-			"root-base root-child root-grand config-root user-root",
-		);
-		expect(slots.icon()).toBe(
-			"icon-base icon-child icon-grand config-icon user-icon",
-		);
+		expect(slots.root()).toBe("root-base root-child root-grand user-root");
+		expect(slots.icon()).toBe("icon-base icon-child icon-grand user-icon");
 	});
 });

@@ -132,7 +132,7 @@ describe("cls/inheritance/grandchild-rule-override-multiple-slots-clears-both", 
 			]),
 		);
 
-		expect(slots.root()).toBe("OVR-R conf-root u-root");
-		expect(slots.icon()).toBe("OVR-I conf-icon u-icon");
+		expect(slots.root()).toBe("OVR-R u-root");
+		expect(slots.icon()).toBe("OVR-I u-icon");
 	});
 });

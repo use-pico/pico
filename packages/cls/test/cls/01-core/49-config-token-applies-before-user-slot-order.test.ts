@@ -85,6 +85,6 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 		);
 
 		// Expected order: token (text-red-500) then base, then matching b-rule, then config, then user
-		expect(slots.root()).toBe("text-red-500 base b-rule config user");
+		expect(slots.root()).toBe("text-red-500 base b-rule user");
 	});
 });

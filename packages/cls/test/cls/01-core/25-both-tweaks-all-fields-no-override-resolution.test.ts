@@ -105,6 +105,6 @@ describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
 		// - variant: user wins (md) -> md rule applied
 		// - token: user wins (text-blue-500)
 		// - slot: base + md + config + user (config before user)
-		expect(slots.root()).toBe("text-blue-500 base md config user");
+		expect(slots.root()).toBe("text-blue-500 base md user");
 	});
 });

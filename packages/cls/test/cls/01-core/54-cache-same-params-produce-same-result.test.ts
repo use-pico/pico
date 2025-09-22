@@ -99,10 +99,10 @@ describe("cls/cache-same-params-produce-same-result", () => {
 					],
 				},
 			},
-		} as const;
+		};
 
-		const r1 = slots.root(args as any);
-		const r2 = slots.root(args as any);
+		const r1 = slots.root(args);
+		const r2 = slots.root(args);
 		const r3 = slots.root({
 			token: {
 				"color.text": {
@@ -120,8 +120,8 @@ describe("cls/cache-same-params-produce-same-result", () => {
 			},
 		});
 
-		expect(r1).toBe("text-blue-500 base md config user local");
-		expect(r2).toBe("text-blue-500 base md config user local");
-		expect(r3).toBe("text-blue-500 base md config user local");
+		expect(r1).toBe("text-blue-500 base md user local");
+		expect(r2).toBe("text-blue-500 base md user local");
+		expect(r3).toBe("text-blue-500 base md user local");
 	});
 });

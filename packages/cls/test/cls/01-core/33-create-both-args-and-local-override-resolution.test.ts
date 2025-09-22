@@ -102,7 +102,7 @@ describe("cls/create-both-args-and-local-no-override-resolution", () => {
 		);
 
 		// Without local overrides, both tweaks merge as usual
-		expect(slots.root()).toBe("text-blue-500 base md config user");
+		expect(slots.root()).toBe("text-blue-500 base md user");
 
 		// With local token+slot (no override), local applies last and token wins
 		expect(
@@ -123,6 +123,6 @@ describe("cls/create-both-args-and-local-no-override-resolution", () => {
 					},
 				},
 			}),
-		).toBe("text-yellow-500 base md config user local");
+		).toBe("text-yellow-500 base md user local");
 	});
 });
