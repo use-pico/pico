@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-duplicate-classes-are-not-deduped-across-levels", () => {
 	it("base and child can both add 'base' and it is not deduped", () => {

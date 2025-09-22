@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/local-override", () => {
 	it("replaces accumulated classes for the 'root' slot when local override is provided", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 	it("local token overlay takes precedence over user and config token", () => {
@@ -37,24 +37,26 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			{
-				token: {
-					"color.text": {
-						class: [
-							"text-blue-500",
-						],
+			tweak([
+				{
+					token: {
+						"color.text": {
+							class: [
+								"text-blue-500",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					"color.text": {
-						class: [
-							"text-green-500",
-						],
+				{
+					token: {
+						"color.text": {
+							class: [
+								"text-green-500",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("text-blue-500");

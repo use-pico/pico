@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/token-reference-per-slot-different-refs", () => {
 	it("root uses t1 (-> t2), icon uses t3; all expand correctly", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/config-empty-token-overlay-clears-child-token-in-chain", () => {
 	it("config empty overlay clears child token while preserving others", () => {
@@ -84,14 +84,16 @@ describe("cls/inheritance/config-empty-token-overlay-clears-child-token-in-chain
 		);
 
 		const { slots } = $grand.create(
-			{},
-			{
-				token: {
-					"t.text": {
-						class: [],
+			tweak([
+				{},
+				{
+					token: {
+						"t.text": {
+							class: [],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("bg-black base");

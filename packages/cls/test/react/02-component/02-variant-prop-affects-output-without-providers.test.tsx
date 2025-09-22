@@ -49,11 +49,14 @@ const BaseBadge: FC<BadgeProps> = ({
 	tweak,
 	children,
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			intent,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				intent,
+			},
 		},
-	});
+	]);
 	return (
 		<span
 			data-ui="Badge-root"

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/rule-level-per-slot-override-interacts-with-user-appends", () => {
 	it("rule override on root clears previous root; user appends after override; other slots unaffected", () => {

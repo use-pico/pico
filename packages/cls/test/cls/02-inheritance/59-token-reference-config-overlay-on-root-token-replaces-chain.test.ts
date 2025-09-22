@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/token-reference-config-overlay-on-root-token-replaces-chain", () => {
 	it("config overlay on t1 replaces whole t1 chain expansion", () => {
@@ -49,16 +49,18 @@ describe("cls/inheritance/token-reference-config-overlay-on-root-token-replaces-
 		);
 
 		const { slots } = $base.create(
-			{},
-			{
-				token: {
-					t1: {
-						class: [
-							"conf1",
-						],
+			tweak([
+				{},
+				{
+					token: {
+						t1: {
+							class: [
+								"conf1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("conf1 base");

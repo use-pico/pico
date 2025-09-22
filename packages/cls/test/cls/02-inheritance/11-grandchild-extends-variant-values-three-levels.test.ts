@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-extends-variant-values-three-levels", () => {
 	it("base adds sm, child adds md, grandchild adds lg; all usable", () => {

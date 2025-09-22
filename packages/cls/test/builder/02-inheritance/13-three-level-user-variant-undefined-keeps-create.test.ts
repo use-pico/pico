@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", () => {
 	it("user undefined keeps create-provided variant across three levels", () => {
@@ -68,16 +68,18 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 		expect(created.slots.root()).toBe("base b-md child grand");
 
 		const userUndefined = grand.create(
-			{
-				variant: {
-					size: undefined,
+			tweak([
+				{
+					variant: {
+						size: undefined,
+					},
 				},
-			},
-			{
-				variant: {
-					size: "md",
+				{
+					variant: {
+						size: "md",
+					},
 				},
-			},
+			]),
 		);
 		expect(userUndefined.slots.root()).toBe("base b-md child grand");
 	});

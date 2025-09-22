@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 	it("maintains per-slot order base→child→grandchild then config→user", () => {
@@ -97,34 +97,36 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 		);
 
 		const { slots } = $grand.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"user-root",
-						],
-					},
-					icon: {
-						class: [
-							"user-icon",
-						],
-					},
-				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config-root",
-						],
-					},
-					icon: {
-						class: [
-							"config-icon",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"user-root",
+							],
+						},
+						icon: {
+							class: [
+								"user-icon",
+							],
+						},
 					},
 				},
-			},
+				{
+					slot: {
+						root: {
+							class: [
+								"config-root",
+							],
+						},
+						icon: {
+							class: [
+								"config-icon",
+							],
+						},
+					},
+				},
+			]),
 		);
 
 		expect(slots.root()).toBe(

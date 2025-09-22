@@ -46,7 +46,9 @@ const CustomCls = contract()
 interface ButtonProps extends Cls.Props<typeof ButtonCls> {}
 
 const BaseButton: FC<ButtonProps> = ({ cls = ButtonCls, tweak }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 	return (
 		<button
 			type="button"

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/multi-slot-dual-refs-config-root-overlay-user-leaf", () => {
 	it("root t1,t6; icon t6,t1; config overlays t1; user overlays t2", () => {
@@ -108,24 +108,26 @@ describe("cls/complex/multi-slot-dual-refs-config-root-overlay-user-leaf", () =>
 		);
 
 		const { slots } = $cls.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"USER2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"CONF1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("CONF1 b1 a6 b6");

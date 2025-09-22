@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/multi-token-reference-branching-non-circular", () => {
 	it("t1 references t2 and t3; both resolve with child overlay on t3", () => {

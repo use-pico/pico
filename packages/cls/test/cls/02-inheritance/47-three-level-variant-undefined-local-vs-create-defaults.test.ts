@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/three-level-variant-undefined-local-vs-create-defaults", () => {
 	it("local undefined keeps create variant; create undefined keeps defaults", () => {

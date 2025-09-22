@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 	it("child rule with override clears base and beats config/user appends", () => {
@@ -77,27 +77,29 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 		);
 
 		const { slots } = $child.create(
-			{
-				variant: {
-					size: "md",
-				},
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
+			tweak([
+				{
+					variant: {
+						size: "md",
+					},
+					slot: {
+						root: {
+							class: [
+								"user",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("CHILD-OVR config user");

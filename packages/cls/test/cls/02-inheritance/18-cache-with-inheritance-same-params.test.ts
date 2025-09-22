@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/cache-with-inheritance-same-params", () => {
 	it("returns same output for identical params across repeated calls", () => {
@@ -74,27 +74,29 @@ describe("cls/inheritance/cache-with-inheritance-same-params", () => {
 		);
 
 		const { slots } = $child.create(
-			{
-				variant: {
-					size: "md",
-				},
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
+			tweak([
+				{
+					variant: {
+						size: "md",
+					},
+					slot: {
+						root: {
+							class: [
+								"user",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		const args = {

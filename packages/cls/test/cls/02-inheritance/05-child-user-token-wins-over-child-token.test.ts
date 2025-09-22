@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-user-token-wins-over-child-token", () => {
 	it("user token overlay wins over child token override", () => {

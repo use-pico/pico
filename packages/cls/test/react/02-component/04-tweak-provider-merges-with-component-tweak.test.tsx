@@ -53,7 +53,9 @@ interface TagProps extends Cls.Props<typeof TagCls> {
 }
 
 const BaseTag: FC<TagProps> = ({ cls = TagCls, tweak, children }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 	return (
 		<span
 			data-ui="Tag-root"

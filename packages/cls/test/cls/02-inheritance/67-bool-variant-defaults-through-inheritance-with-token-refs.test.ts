@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/bool-variant-defaults-through-inheritance-with-token-refs", () => {
 	it("child default true keeps true; token refs still expand", () => {

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, useClsMemo, VariantProvider } from "../../../src";
+import { contract, tweak, useClsMemo, VariantProvider } from "../../../src";
 
 describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-variant", () => {
 	it("applies user variant over provider over internal; appends I -> P -> U", () => {
@@ -55,30 +55,32 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			() =>
 				useClsMemo(
 					$cls,
-					{
-						variant: {
-							size: "sm",
-						},
-						slot: {
-							root: {
-								class: [
-									"U",
-								],
+					[
+						{
+							variant: {
+								size: "sm",
+							},
+							slot: {
+								root: {
+									class: [
+										"U",
+									],
+								},
 							},
 						},
-					},
-					{
-						variant: {
-							size: "md",
-						},
-						slot: {
-							root: {
-								class: [
-									"I",
-								],
+						{
+							variant: {
+								size: "md",
+							},
+							slot: {
+								root: {
+									class: [
+										"I",
+									],
+								},
 							},
 						},
-					},
+					],
 					[],
 				),
 			{

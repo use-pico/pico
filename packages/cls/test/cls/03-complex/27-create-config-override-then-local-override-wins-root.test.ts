@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/create-config-override-then-local-override-wins-root", () => {
 	it("config sets root override; local call overrides again and wins", () => {
@@ -35,16 +35,18 @@ describe("cls/complex/create-config-override-then-local-override-wins-root", () 
 		);
 
 		const { slots } = $cls.create(
-			{},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF",
-						],
+			tweak([
+				{},
+				{
+					override: {
+						root: {
+							class: [
+								"CONF",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(slots.root()).toBe("CONF");
 		expect(slots.icon()).toBe("i");

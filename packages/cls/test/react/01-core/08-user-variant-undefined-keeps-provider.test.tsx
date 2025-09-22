@@ -53,11 +53,13 @@ describe("react/01-core/user-variant-undefined-keeps-provider", () => {
 
 		const { result } = renderHook(
 			() =>
-				useCls($cls, {
-					variant: {
-						size: undefined,
+				useCls($cls, [
+					{
+						variant: {
+							size: undefined,
+						},
 					},
-				}),
+				]),
 			{
 				wrapper,
 			},

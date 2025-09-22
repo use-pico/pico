@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/five-slot-stress-many-rules-order-verified", () => {
 	it("5 slots with many rules; verify deterministic order across slots", () => {

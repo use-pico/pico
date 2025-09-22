@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder/config-override-ignores-user-slot-append", () => {
 	it("config override replaces classes; user slot append has no effect", () => {
@@ -45,29 +45,31 @@ describe("builder/config-override-ignores-user-slot-append", () => {
 			.cls();
 
 		const created = $cls.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"USER",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
 					},
 				},
-			},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF-OVR-R",
-						],
-					},
-					icon: {
-						class: [
-							"CONF-OVR-I",
-						],
+				{
+					override: {
+						root: {
+							class: [
+								"CONF-OVR-R",
+							],
+						},
+						icon: {
+							class: [
+								"CONF-OVR-I",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("CONF-OVR-R");
 		expect(created.slots.icon()).toBe("CONF-OVR-I");

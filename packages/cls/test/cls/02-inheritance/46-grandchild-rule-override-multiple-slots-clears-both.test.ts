@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-rule-override-multiple-slots-clears-both", () => {
 	it("override rule on root+icon clears both, then config/user append", () => {
@@ -100,34 +100,36 @@ describe("cls/inheritance/grandchild-rule-override-multiple-slots-clears-both", 
 		);
 
 		const { slots } = $grand.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"u-root",
-						],
-					},
-					icon: {
-						class: [
-							"u-icon",
-						],
-					},
-				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"conf-root",
-						],
-					},
-					icon: {
-						class: [
-							"conf-icon",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"u-root",
+							],
+						},
+						icon: {
+							class: [
+								"u-icon",
+							],
+						},
 					},
 				},
-			},
+				{
+					slot: {
+						root: {
+							class: [
+								"conf-root",
+							],
+						},
+						icon: {
+							class: [
+								"conf-icon",
+							],
+						},
+					},
+				},
+			]),
 		);
 
 		expect(slots.root()).toBe("OVR-R conf-root u-root");

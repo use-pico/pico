@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/deep-token-refs-across-slots-with-dual-overlays", () => {
 	it("expands deep refs and applies config root overlay + user leaf overlay across slots", () => {
@@ -69,24 +69,26 @@ describe("builder-03-complex/deep-token-refs-across-slots-with-dual-overlays", (
 			.cls();
 
 		const created = base.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"USER2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"CONF1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("CONF1 r");
 		expect(created.slots.icon()).toBe("CONF1 i");

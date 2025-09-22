@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-extends-slots-adds-icon", () => {
 	it("child adds new slot 'icon' and both slots work", () => {

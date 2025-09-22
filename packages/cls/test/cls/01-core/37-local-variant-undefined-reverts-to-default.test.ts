@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/local-variant-undefined-keeps-create-variant", () => {
 	it("local variant undefined does not change create-level variant", () => {

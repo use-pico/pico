@@ -59,15 +59,18 @@ interface LabelProps {
 }
 
 const BaseLabel: FC<LabelProps> = ({ cls = LabelCls }) => {
-	const { slots } = useCls(cls, undefined, {
-		token: {
-			t1: {
-				class: [
-					"INTERNAL",
-				],
+	const { slots } = useCls(cls, [
+		undefined,
+		{
+			token: {
+				t1: {
+					class: [
+						"INTERNAL",
+					],
+				},
 			},
 		},
-	});
+	]);
 	return (
 		<span
 			data-ui="Label-root"

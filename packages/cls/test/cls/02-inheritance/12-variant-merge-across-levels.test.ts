@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/variant-merge-across-levels", () => {
 	it("merges variant values provided by base and child", () => {

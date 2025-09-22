@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-config-override-vs-user-override-precedence", () => {
 	it("user local override wins over child config override", () => {
@@ -41,15 +41,20 @@ describe("cls/inheritance/child-config-override-vs-user-override-precedence", ()
 			},
 		);
 
-		const { slots } = $child.create(undefined, {
-			override: {
-				root: {
-					class: [
-						"CONF-OVR",
-					],
+		const { slots } = $child.create(
+			tweak([
+				undefined,
+				{
+					override: {
+						root: {
+							class: [
+								"CONF-OVR",
+							],
+						},
+					},
 				},
-			},
-		});
+			]),
+		);
 
 		expect(
 			slots.root({

@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, useCls, VariantProvider } from "../../../src";
+import { contract, tweak, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/provider-only-slot-append-applies", () => {
 	it("applies provider slot append when user and internal are empty", () => {

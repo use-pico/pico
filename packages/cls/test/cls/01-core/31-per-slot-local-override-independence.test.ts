@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/per-slot-local-override-independence", () => {
 	it("local override on one slot does not affect other slots", () => {

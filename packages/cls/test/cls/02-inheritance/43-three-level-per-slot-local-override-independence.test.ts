@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/three-level-per-slot-local-override-independence", () => {
 	it("local override on icon does not affect root across base→child→grand", () => {

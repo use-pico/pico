@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/local-empty-token-overlay-clears-only-token", () => {
 	it("local empty token overlay clears token class but keeps base", () => {

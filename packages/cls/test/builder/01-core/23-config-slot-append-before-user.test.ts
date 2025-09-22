@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder/config-slot-append-before-user", () => {
 	it("config slot append applies before user slot append", () => {
@@ -22,25 +22,27 @@ describe("builder/config-slot-append-before-user", () => {
 			.cls();
 
 		const created = $cls.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"USER",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
-		expect(created.slots.root()).toBe("base config USER");
+		expect(created.slots.root()).toBe("base USER");
 	});
 });

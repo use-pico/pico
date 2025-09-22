@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/grandchild-config-override-then-user-append-no-effect", () => {
 	it("user slot append after config override has no effect on that slot", () => {
@@ -51,24 +51,26 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 			.cls();
 
 		const created = grand.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"USER",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
 					},
 				},
-			},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF",
-						],
+				{
+					override: {
+						root: {
+							class: [
+								"CONF",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("CONF");
 	});

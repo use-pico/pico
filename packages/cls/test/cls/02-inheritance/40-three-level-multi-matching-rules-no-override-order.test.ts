@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/three-level-multi-matching-rules-no-override-order", () => {
 	it("appends in order base→child→grand then config→user for md", () => {
@@ -104,27 +104,29 @@ describe("cls/inheritance/three-level-multi-matching-rules-no-override-order", (
 		);
 
 		const { slots } = $grand.create(
-			{
-				variant: {
-					size: "md",
-				},
-				slot: {
-					root: {
-						class: [
-							"u",
-						],
+			tweak([
+				{
+					variant: {
+						size: "md",
+					},
+					slot: {
+						root: {
+							class: [
+								"u",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"conf",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"conf",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(slots.root()).toBe("b b-md c-md g-md conf u");
 	});

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/deep-branching-refs-per-slot-with-dual-overlays", () => {
 	it("resolves per-slot branching refs and applies config root + user leaf overlays", () => {
@@ -78,24 +78,26 @@ describe("builder-03-complex/deep-branching-refs-per-slot-with-dual-overlays", (
 			.cls();
 
 		const created = base.create(
-			{
-				token: {
-					t3: {
-						class: [
-							"U3",
-						],
+			tweak([
+				{
+					token: {
+						t3: {
+							class: [
+								"U3",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"C1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"C1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("C1 r");
 		expect(created.slots.icon()).toBe("U3 d2 i");

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder/partial-token-overlay-affects-only-that-token", () => {
 	it("overlay on leaf token does not affect referenced token", () => {
@@ -43,15 +43,20 @@ describe("builder/partial-token-overlay-affects-only-that-token", () => {
 			})
 			.cls();
 
-		const created = $cls.create(undefined, {
-			token: {
-				t2: {
-					class: [
-						"USER2",
-					],
+		const created = $cls.create(
+			tweak([
+				undefined,
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
+					},
 				},
-			},
-		});
+			]),
+		);
 		expect(created.slots.root()).toBe("USER2 a1 base");
 	});
 });

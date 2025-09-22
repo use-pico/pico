@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-effect", () => {
 	it("config override at create clears; user local append has no effect", () => {
@@ -75,16 +75,18 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 		);
 
 		const { slots } = $grand.create(
-			{},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF-OVR",
-						],
+			tweak([
+				{},
+				{
+					override: {
+						root: {
+							class: [
+								"CONF-OVR",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(

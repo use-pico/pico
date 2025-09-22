@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/multi-branch-token-refs-with-config-and-user-overlays", () => {
 	it("t1→(t2,t3), config overlays t2, user overlays t3; order preserved", () => {
@@ -56,24 +56,26 @@ describe("cls/inheritance/multi-branch-token-refs-with-config-and-user-overlays"
 		);
 
 		const { slots } = $base.create(
-			{
-				token: {
-					t3: {
-						class: [
-							"user3",
-						],
+			tweak([
+				{
+					token: {
+						t3: {
+							class: [
+								"user3",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t2: {
-						class: [
-							"conf2",
-						],
+				{
+					token: {
+						t2: {
+							class: [
+								"conf2",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// t1 expands to (t2, t3, a1). Config overlays t2, user overlays t3.

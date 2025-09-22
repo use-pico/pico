@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/nested-token-reference-two-levels-non-circular", () => {
 	it("t1 → t2 → t3 resolves fully; child overlays intermediate t2", () => {

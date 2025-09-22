@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder/slots-calls-cumulate-names", () => {
 	it("repeated slots() calls cumulate unique slot names", () => {

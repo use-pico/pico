@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", () => {
 	it("keeps create-provided values when user passes undefined across two variants", () => {
@@ -80,18 +80,20 @@ describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", (
 		expect(created.slots.label()).toBe("l l-dark cl");
 
 		const u = child.create(
-			{
-				variant: {
-					size: undefined,
-					tone: undefined,
+			tweak([
+				{
+					variant: {
+						size: undefined,
+						tone: undefined,
+					},
 				},
-			},
-			{
-				variant: {
-					size: "md",
-					tone: "dark",
+				{
+					variant: {
+						size: "md",
+						tone: "dark",
+					},
 				},
-			},
+			]),
 		);
 		expect(u.slots.root()).toBe("r r-md c");
 		expect(u.slots.label()).toBe("l l-dark cl");

@@ -41,11 +41,13 @@ describe("react/03-context/use-cls-memo-matches-use-cls-and-deps-update", () => 
 	it("produces the same output as useCls and updates only when deps change", () => {
 		const { result: r1, rerender: re1 } = renderHook(
 			({ size }) =>
-				useCls(ButtonCls, {
-					variant: {
-						size,
+				useCls(ButtonCls, [
+					{
+						variant: {
+							size,
+						},
 					},
-				}),
+				]),
 			{
 				initialProps: {
 					size: "sm" as Cls.VariantOf<typeof ButtonCls, "size">,
@@ -56,12 +58,14 @@ describe("react/03-context/use-cls-memo-matches-use-cls-and-deps-update", () => 
 			({ size }) =>
 				useClsMemo(
 					ButtonCls,
-					{
-						variant: {
-							size,
+					[
+						{
+							variant: {
+								size,
+							},
 						},
-					},
-					undefined,
+						undefined,
+					],
 					[
 						size,
 					],

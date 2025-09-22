@@ -19,15 +19,18 @@ describe("react/01-core/internal-only-tweak-works-without-provider", () => {
 			.cls();
 
 		const { result } = renderHook(() =>
-			useCls($cls, undefined, {
-				slot: {
-					root: {
-						class: [
-							"I",
-						],
+			useCls($cls, [
+				undefined,
+				{
+					slot: {
+						root: {
+							class: [
+								"I",
+							],
+						},
 					},
 				},
-			}),
+			]),
 		);
 		expect(result.current.slots.root()).toBe("base I");
 	});

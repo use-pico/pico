@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config", () => {
 	it("config token beats base, user token beats config", () => {
@@ -53,24 +53,26 @@ describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config"
 		);
 
 		const { slots } = $child.create(
-			{
-				token: {
-					"color.text": {
-						class: [
-							"text-yellow-500",
-						],
+			tweak([
+				{
+					token: {
+						"color.text": {
+							class: [
+								"text-yellow-500",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					"color.text": {
-						class: [
-							"text-blue-500",
-						],
+				{
+					token: {
+						"color.text": {
+							class: [
+								"text-blue-500",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("text-yellow-500 base");

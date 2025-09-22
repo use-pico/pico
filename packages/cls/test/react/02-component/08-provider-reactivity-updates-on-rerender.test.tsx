@@ -1,7 +1,13 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, useCls, VariantProvider, withCls } from "../../../src";
+import {
+	contract,
+	tweak,
+	useCls,
+	VariantProvider,
+	withCls,
+} from "../../../src";
 
 const SwitchCls = contract()
 	.slots([

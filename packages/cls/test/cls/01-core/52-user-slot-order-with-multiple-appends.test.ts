@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/user-slot-order-with-multiple-appends", () => {
 	it("keeps order base → variant → config → user1 → user2 for multiple local calls", () => {
@@ -47,18 +47,23 @@ describe("cls/user-slot-order-with-multiple-appends", () => {
 			},
 		);
 
-		const { slots } = $cls.create(undefined, {
-			slot: {
-				root: {
-					class: [
-						"config",
-					],
+		const { slots } = $cls.create(
+			tweak([
+				undefined,
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
+					},
+					variant: {
+						size: "md",
+					},
 				},
-			},
-			variant: {
-				size: "md",
-			},
-		});
+			]),
+		);
 
 		const first = slots.root({
 			slot: {

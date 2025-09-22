@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", () => {
 	it("root overridden by config; icon overridden by user; label/token overlays mix", () => {
@@ -163,38 +163,40 @@ describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", (
 		);
 
 		const { slots } = $c.create(
-			{
-				token: {
-					t3: {
-						class: [
-							"USER3",
-						],
+			tweak([
+				{
+					token: {
+						t3: {
+							class: [
+								"USER3",
+							],
+						},
+					},
+					override: {
+						icon: {
+							class: [
+								"USER-ICON",
+							],
+						},
 					},
 				},
-				override: {
-					icon: {
-						class: [
-							"USER-ICON",
-						],
+				{
+					token: {
+						t2: {
+							class: [
+								"CONF2",
+							],
+						},
+					},
+					override: {
+						root: {
+							class: [
+								"CONF-ROOT",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t2: {
-						class: [
-							"CONF2",
-						],
-					},
-				},
-				override: {
-					root: {
-						class: [
-							"CONF-ROOT",
-						],
-					},
-				},
-			},
+			]),
 		);
 
 		// Root is overridden by config

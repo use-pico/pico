@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/cache-check-with-user-and-config-overlays-same-params", () => {
 	it("two calls with identical overlays produce same output strings for all slots", () => {
@@ -62,44 +62,48 @@ describe("cls/complex/cache-check-with-user-and-config-overlays-same-params", ()
 		);
 
 		const one = $c.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"USER2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"CONF1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		const two = $c.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"USER2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"CONF1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(one.slots.root()).toBe(two.slots.root());

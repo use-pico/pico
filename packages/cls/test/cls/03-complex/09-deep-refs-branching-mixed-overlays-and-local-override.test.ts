@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", () => {
 	it("t1 -> (t2 -> t5, t3, t4); user overlays t5; config overlays t3; local override on label", () => {
@@ -135,24 +135,26 @@ describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", ()
 		);
 
 		const { slots } = $c.create(
-			{
-				token: {
-					t5: {
-						class: [
-							"USER5",
-						],
+			tweak([
+				{
+					token: {
+						t5: {
+							class: [
+								"USER5",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t3: {
-						class: [
-							"CONF3",
-						],
+				{
+					token: {
+						t3: {
+							class: [
+								"CONF3",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// Order follows rule order: matches first, then token expansions and base

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/token-reference-user-vs-config-on-different-levels", () => {
 	it("user overlays leaf t2; config overlays root t1; root overlay wins for t1, leaf stays for t2", () => {
@@ -49,24 +49,26 @@ describe("cls/inheritance/token-reference-user-vs-config-on-different-levels", (
 		);
 
 		const { slots } = $base.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"user2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"user2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"conf1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"conf1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// config overlay replaces t1 chain, but user overlay on t2 should not impact replaced chain

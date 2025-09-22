@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/create-both-args-and-local-no-override-resolution", () => {
 	it("merges user+config tweaks, then local slot tweaks (no override) apply last", () => {
@@ -59,44 +59,46 @@ describe("cls/create-both-args-and-local-no-override-resolution", () => {
 		);
 
 		const { slots } = $cls.create(
-			{
-				variant: {
-					size: "md",
-				},
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
+			tweak([
+				{
+					variant: {
+						size: "md",
+					},
+					slot: {
+						root: {
+							class: [
+								"user",
+							],
+						},
+					},
+					token: {
+						"color.text": {
+							class: [
+								"text-blue-500",
+							],
+						},
 					},
 				},
-				token: {
-					"color.text": {
-						class: [
-							"text-blue-500",
-						],
+				{
+					variant: {
+						size: "sm",
+					},
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
+					},
+					token: {
+						"color.text": {
+							class: [
+								"text-green-500",
+							],
+						},
 					},
 				},
-			},
-			{
-				variant: {
-					size: "sm",
-				},
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
-					},
-				},
-				token: {
-					"color.text": {
-						class: [
-							"text-green-500",
-						],
-					},
-				},
-			},
+			]),
 		);
 
 		// Without local overrides, both tweaks merge as usual

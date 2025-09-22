@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 	it("applies multi-rules across slots with per-slot overrides through inheritance", () => {
@@ -174,31 +174,33 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 		);
 
 		const withOverrides = grand.create(
-			{
-				override: {
-					label: {
-						class: [
-							"L-OVR",
-						],
+			tweak([
+				{
+					override: {
+						label: {
+							class: [
+								"L-OVR",
+							],
+						},
+					},
+					slot: {
+						icon: {
+							class: [
+								"I-USER",
+							],
+						},
 					},
 				},
-				slot: {
-					icon: {
-						class: [
-							"I-USER",
-						],
+				{
+					override: {
+						icon: {
+							class: [
+								"I-OVR",
+							],
+						},
 					},
 				},
-			},
-			{
-				override: {
-					icon: {
-						class: [
-							"I-OVR",
-						],
-					},
-				},
-			},
+			]),
 		);
 		expect(withOverrides.slots.root()).toBe("b2 b1 base r-sm child grand");
 		expect(withOverrides.slots.icon()).toBe("I-OVR");

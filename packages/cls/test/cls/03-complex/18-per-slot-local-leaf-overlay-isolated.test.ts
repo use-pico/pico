@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/per-slot-local-leaf-overlay-isolated", () => {
 	it("local overlay on icon leaf token does not affect root or label", () => {

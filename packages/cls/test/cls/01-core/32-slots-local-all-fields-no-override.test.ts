@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/slots-local-all-fields-no-override", () => {
 	it("merges local (slot call) variant, token and slot with create tweaks", () => {
@@ -58,22 +58,27 @@ describe("cls/slots-local-all-fields-no-override", () => {
 			},
 		);
 
-		const { slots } = $cls.create(undefined, {
-			slot: {
-				root: {
-					class: [
-						"config",
-					],
+		const { slots } = $cls.create(
+			tweak([
+				undefined,
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
+					},
+					token: {
+						"color.text": {
+							class: [
+								"text-green-500",
+							],
+						},
+					},
 				},
-			},
-			token: {
-				"color.text": {
-					class: [
-						"text-green-500",
-					],
-				},
-			},
-		});
+			]),
+		);
 
 		expect(
 			slots.root({

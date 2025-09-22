@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenContext, tweak, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([

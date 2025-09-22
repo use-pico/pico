@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-local-override-ignores-local-slot-append-in-chain", () => {
 	it("local override replaces all classes even if local slot append provided", () => {

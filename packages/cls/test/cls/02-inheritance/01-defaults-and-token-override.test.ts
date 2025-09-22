@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/defaults-and-token-override", () => {
 	it("child defaults override base defaults and child tokens override base tokens", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/bool-variant-across-slots-with-local-root-override", () => {
 	it("on true applies across slots; local root override wins for root only", () => {

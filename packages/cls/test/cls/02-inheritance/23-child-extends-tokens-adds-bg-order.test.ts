@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-extends-tokens-adds-bg-order", () => {
 	it("base text then child bg; user/local overlays win with correct order", () => {
@@ -72,16 +72,18 @@ describe("cls/inheritance/child-extends-tokens-adds-bg-order", () => {
 		);
 
 		const { slots } = $child.create(
-			{
-				token: {
-					"color.bg": {
-						class: [
-							"bg-black",
-						],
+			tweak([
+				{
+					token: {
+						"color.bg": {
+							class: [
+								"bg-black",
+							],
+						},
 					},
 				},
-			},
-			{},
+				{},
+			]),
 		);
 
 		// user overlay wins for bg; current implementation appends base before token classes

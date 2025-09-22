@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rule-override", () => {
 	it("config root overlay replaces chain; user leaf overlay applies on icon; icon rule override wins", () => {
@@ -64,24 +64,26 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 			.cls();
 
 		const created = base.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"USER2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"USER2",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"CONF1",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF1",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("CONF1 base");
 		expect(created.slots.icon()).toBe("CONF1 i-base");

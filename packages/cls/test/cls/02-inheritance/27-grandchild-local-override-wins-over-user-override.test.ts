@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-local-override-wins-over-user-override", () => {
 	it("local slot override wins over user override across a 3-level chain", () => {
@@ -75,16 +75,18 @@ describe("cls/inheritance/grandchild-local-override-wins-over-user-override", ()
 		);
 
 		const { slots } = $grand.create(
-			{
-				override: {
-					root: {
-						class: [
-							"USER",
-						],
+			tweak([
+				{
+					override: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
 					},
 				},
-			},
-			{},
+				{},
+			]),
 		);
 
 		// local override should replace everything

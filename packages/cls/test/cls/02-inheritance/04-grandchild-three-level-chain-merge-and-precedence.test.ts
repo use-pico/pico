@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", () => {
 	it("merges base→child→grandchild with correct precedence and orders", () => {
@@ -124,24 +124,26 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 		);
 
 		const { slots } = $grandchild.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"user",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// Token resolved from grandchild (text-green-500), then base, base md rule, child extra class, grandchild g-md, then config then user

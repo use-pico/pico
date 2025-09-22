@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays", () => {
 	it("handles mixed per-slot overrides and dual overlays across four slots", () => {
@@ -147,38 +147,40 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 			.cls();
 
 		const created = grand.create(
-			{
-				token: {
-					t2: {
-						class: [
-							"U2",
-						],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [
+								"U2",
+							],
+						},
+					},
+					slot: {
+						badge: {
+							class: [
+								"U-B",
+							],
+						},
 					},
 				},
-				slot: {
-					badge: {
-						class: [
-							"U-B",
-						],
+				{
+					token: {
+						t1: {
+							class: [
+								"C1",
+							],
+						},
+					},
+					override: {
+						label: {
+							class: [
+								"L-OVR",
+							],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t1: {
-						class: [
-							"C1",
-						],
-					},
-				},
-				override: {
-					label: {
-						class: [
-							"L-OVR",
-						],
-					},
-				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("C1 r-base r-child r-grand");
 		expect(created.slots.icon()).toBe("C1 i-base i-child i-grand");

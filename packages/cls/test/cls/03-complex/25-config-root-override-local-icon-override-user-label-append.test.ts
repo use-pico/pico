@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/config-root-override-local-icon-override-user-label-append", () => {
 	it("config overrides root; local overrides icon; user appends label", () => {
@@ -41,24 +41,26 @@ describe("cls/complex/config-root-override-local-icon-override-user-label-append
 		);
 
 		const { slots } = $cls.create(
-			{
-				slot: {
-					label: {
-						class: [
-							"USER-L",
-						],
+			tweak([
+				{
+					slot: {
+						label: {
+							class: [
+								"USER-L",
+							],
+						},
 					},
 				},
-			},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF-R",
-						],
+				{
+					override: {
+						root: {
+							class: [
+								"CONF-R",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("CONF-R");

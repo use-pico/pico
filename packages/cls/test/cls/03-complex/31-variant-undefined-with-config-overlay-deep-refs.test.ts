@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/variant-undefined-with-config-overlay-deep-refs", () => {
 	it("size undefined at local keeps create value; config overlays t2 root", () => {
@@ -100,20 +100,22 @@ describe("cls/complex/variant-undefined-with-config-overlay-deep-refs", () => {
 		);
 
 		const created = $cls.create(
-			{
-				variant: {
-					size: "md",
-				},
-			},
-			{
-				token: {
-					t2: {
-						class: [
-							"CONF2",
-						],
+			tweak([
+				{
+					variant: {
+						size: "md",
 					},
 				},
-			},
+				{
+					token: {
+						t2: {
+							class: [
+								"CONF2",
+							],
+						},
+					},
+				},
+			]),
 		);
 		expect(created.slots.root()).toBe("CONF2 r-md");
 		expect(created.slots.icon()).toBe("CONF2 a1 i-md");

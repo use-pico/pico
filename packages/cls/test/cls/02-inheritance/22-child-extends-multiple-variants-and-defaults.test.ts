@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-extends-multiple-variants-and-defaults", () => {
 	it("child adds tone variant and sets defaults merging with base size", () => {

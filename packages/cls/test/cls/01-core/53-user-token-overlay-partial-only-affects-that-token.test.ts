@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 	it("overriding one token does not affect other tokens in order", () => {

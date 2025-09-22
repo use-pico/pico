@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/variant-conditional-token-expansion-across-slots", () => {
 	it("size controls token usage across slots while tone/on add classes", () => {

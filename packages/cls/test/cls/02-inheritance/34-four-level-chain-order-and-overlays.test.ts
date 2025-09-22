@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/four-level-chain-order-and-overlays", () => {
 	it("maintains base→child→grand→great order; config→user appends; local tokens win", () => {
@@ -127,24 +127,26 @@ describe("cls/inheritance/four-level-chain-order-and-overlays", () => {
 		);
 
 		const { slots } = $great.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"u",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"u",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"conf",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"conf",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// token resolves to latest (tt), then base class accumulation order, then config, then user

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/per-slot-local-override-on-icon-with-refs-keeps-root", () => {
 	it("local override on icon replaces icon only; root with refs stays", () => {

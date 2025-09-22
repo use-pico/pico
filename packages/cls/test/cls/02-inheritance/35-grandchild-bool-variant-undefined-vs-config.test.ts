@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-bool-variant-undefined-vs-config", () => {
 	it("user undefined keeps config bool value across inheritance", () => {
@@ -89,16 +89,18 @@ describe("cls/inheritance/grandchild-bool-variant-undefined-vs-config", () => {
 		);
 
 		const { slots } = $grand.create(
-			{
-				variant: {
-					on: undefined,
+			tweak([
+				{
+					variant: {
+						on: undefined,
+					},
 				},
-			},
-			{
-				variant: {
-					on: true,
+				{
+					variant: {
+						on: true,
+					},
 				},
-			},
+			]),
 		);
 		expect(slots.root()).toBe("base on");
 	});

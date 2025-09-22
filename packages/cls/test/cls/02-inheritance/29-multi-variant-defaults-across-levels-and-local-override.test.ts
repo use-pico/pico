@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/multi-variant-defaults-across-levels-and-local-override", () => {
 	it("defaults merge across levels; local variant overrides create-level variants", () => {

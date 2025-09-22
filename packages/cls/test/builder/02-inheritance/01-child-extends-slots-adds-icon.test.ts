@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder-inheritance/child-extends-slots-adds-icon", () => {
 	it("child adds icon slot and rules apply across both", () => {

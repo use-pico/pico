@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () => {
 	it("fluent three-level chain composes and matches variants across levels", () => {

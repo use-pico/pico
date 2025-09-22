@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/branching-user-empty-one-leaf-config-other-leaf", () => {
 	it("user clears t2; config overlays t3; chain t1 -> (t2, t3)", () => {
@@ -56,22 +56,24 @@ describe("cls/inheritance/branching-user-empty-one-leaf-config-other-leaf", () =
 		);
 
 		const { slots } = $base.create(
-			{
-				token: {
-					t2: {
-						class: [],
+			tweak([
+				{
+					token: {
+						t2: {
+							class: [],
+						},
 					},
 				},
-			},
-			{
-				token: {
-					t3: {
-						class: [
-							"conf3",
-						],
+				{
+					token: {
+						t3: {
+							class: [
+								"conf3",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("conf3 a1 base");

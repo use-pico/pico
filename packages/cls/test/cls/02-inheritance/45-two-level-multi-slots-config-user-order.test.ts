@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/two-level-multi-slots-config-user-order", () => {
 	it("root and icon accumulate base→child then config→user", () => {
@@ -71,34 +71,36 @@ describe("cls/inheritance/two-level-multi-slots-config-user-order", () => {
 		);
 
 		const { slots } = $child.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"u-root",
-						],
-					},
-					icon: {
-						class: [
-							"u-icon",
-						],
-					},
-				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"conf-root",
-						],
-					},
-					icon: {
-						class: [
-							"conf-icon",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"u-root",
+							],
+						},
+						icon: {
+							class: [
+								"u-icon",
+							],
+						},
 					},
 				},
-			},
+				{
+					slot: {
+						root: {
+							class: [
+								"conf-root",
+							],
+						},
+						icon: {
+							class: [
+								"conf-icon",
+							],
+						},
+					},
+				},
+			]),
 		);
 
 		expect(slots.root()).toBe("b-root c-root conf-root u-root");

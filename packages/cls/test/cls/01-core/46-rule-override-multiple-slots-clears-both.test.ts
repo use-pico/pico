@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/rule-override-multiple-slots-clears-both", () => {
 	it("override rule clears both slots and replaces with its classes", () => {

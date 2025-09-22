@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-per-slot-override-keeps-other-slots", () => {
 	it("child override on root keeps icon intact; config/user appends still apply", () => {
@@ -63,24 +63,26 @@ describe("cls/inheritance/child-per-slot-override-keeps-other-slots", () => {
 		);
 
 		const { slots } = $child.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"user",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"user",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"config",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"config",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		expect(slots.root()).toBe("ROOT-OVR config user");

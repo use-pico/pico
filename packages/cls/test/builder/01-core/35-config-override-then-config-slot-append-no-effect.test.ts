@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, tweak } from "../../../src";
 
 describe("builder/config-override-then-config-slot-append-no-effect", () => {
 	it("config slot append after config override has no effect", () => {
@@ -21,22 +21,27 @@ describe("builder/config-override-then-config-slot-append-no-effect", () => {
 			})
 			.cls();
 
-		const created = $cls.create(undefined, {
-			override: {
-				root: {
-					class: [
-						"CONF-OVR",
-					],
+		const created = $cls.create(
+			tweak([
+				undefined,
+				{
+					override: {
+						root: {
+							class: [
+								"CONF-OVR",
+							],
+						},
+					},
+					slot: {
+						root: {
+							class: [
+								"conf-append",
+							],
+						},
+					},
 				},
-			},
-			slot: {
-				root: {
-					class: [
-						"conf-append",
-					],
-				},
-			},
-		});
+			]),
+		);
 		expect(created.slots.root()).toBe("CONF-OVR");
 	});
 });

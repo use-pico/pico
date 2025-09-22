@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 	it("user override wins over config override in create()", () => {
@@ -47,24 +47,26 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 			.cls();
 
 		const created = child.create(
-			{
-				override: {
-					root: {
-						class: [
-							"USER",
-						],
+			tweak([
+				{
+					override: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
 					},
 				},
-			},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF",
-						],
+				{
+					override: {
+						root: {
+							class: [
+								"CONF",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("USER");
 	});

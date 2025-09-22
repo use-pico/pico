@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/child-token-partial-overlay-only-affects-that-token", () => {
 	it("overlaying one token leaves the other token intact across levels", () => {

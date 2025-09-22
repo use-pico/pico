@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, useCls, VariantProvider } from "../../../src";
+import { contract, tweak, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 	it("appends in order internal, then provider, then user across root and icon", () => {
@@ -36,8 +36,7 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 
 		const { result } = renderHook(
 			() =>
-				useCls(
-					$cls,
+				useCls($cls, [
 					{
 						slot: {
 							root: {
@@ -66,7 +65,7 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 							},
 						},
 					},
-				),
+				]),
 			{
 				wrapper,
 			},

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/multi-variant-undefined-and-flips-across-slots", () => {
 	it("create picks values; local undefined keeps them; flips on subsets reflect correctly per slot", () => {

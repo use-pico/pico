@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/inheritance/grandchild-config-override-then-local-override-wins", () => {
 	it("config override at create is replaced by local slot override", () => {
@@ -75,16 +75,18 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 		);
 
 		const { slots } = $grand.create(
-			{},
-			{
-				override: {
-					root: {
-						class: [
-							"CONF",
-						],
+			tweak([
+				{},
+				{
+					override: {
+						root: {
+							class: [
+								"CONF",
+							],
+						},
 					},
 				},
-			},
+			]),
 		);
 
 		// local override replaces config override as the final step

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () => {
 	it("applies base, child, grandchild rules then config then user in order", () => {
@@ -82,34 +82,36 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 			.cls();
 
 		const created = grand.create(
-			{
-				slot: {
-					root: {
-						class: [
-							"USER",
-						],
-					},
-					icon: {
-						class: [
-							"I-USER",
-						],
-					},
-				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"CONF",
-						],
-					},
-					icon: {
-						class: [
-							"I-CONF",
-						],
+			tweak([
+				{
+					slot: {
+						root: {
+							class: [
+								"USER",
+							],
+						},
+						icon: {
+							class: [
+								"I-USER",
+							],
+						},
 					},
 				},
-			},
+				{
+					slot: {
+						root: {
+							class: [
+								"CONF",
+							],
+						},
+						icon: {
+							class: [
+								"I-CONF",
+							],
+						},
+					},
+				},
+			]),
 		);
 		expect(created.slots.root()).toBe("base b-light child grand CONF USER");
 		expect(created.slots.icon()).toBe(

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/default-variant-rule-applies", () => {
 	it("applies rule based on defaults when no variant provided", () => {

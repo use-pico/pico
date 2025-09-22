@@ -53,8 +53,7 @@ describe("react/01-core/order-user-provider-internal-append-and-variant", () => 
 
 		const { result } = renderHook(
 			() =>
-				useCls(
-					$cls,
+				useCls($cls, [
 					{
 						variant: {
 							size: "sm",
@@ -79,7 +78,7 @@ describe("react/01-core/order-user-provider-internal-append-and-variant", () => 
 							},
 						},
 					},
-				),
+				]),
 			{
 				wrapper,
 			},

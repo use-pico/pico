@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 	it("config overlay on root token replaces the whole chain", () => {
@@ -51,15 +51,20 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			})
 			.cls();
 
-		const created = child.create(undefined, {
-			token: {
-				t1: {
-					class: [
-						"CONF",
-					],
+		const created = child.create(
+			tweak([
+				undefined,
+				{
+					token: {
+						t1: {
+							class: [
+								"CONF",
+							],
+						},
+					},
 				},
-			},
-		});
+			]),
+		);
 		expect(created.slots.root()).toBe("CONF base child");
 	});
 });

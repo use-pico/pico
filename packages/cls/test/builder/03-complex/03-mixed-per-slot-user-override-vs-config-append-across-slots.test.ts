@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition } from "../../../src";
+import { contract, definition, tweak } from "../../../src";
 
 describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-across-slots", () => {
 	it("user override on root ignores config append; other slots append in order", () => {
@@ -32,41 +32,43 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 			.cls();
 
 		const created = base.create(
-			{
-				override: {
-					root: {
-						class: [
-							"U-ROOT",
-						],
+			tweak([
+				{
+					override: {
+						root: {
+							class: [
+								"U-ROOT",
+							],
+						},
+					},
+					slot: {
+						label: {
+							class: [
+								"U-L",
+							],
+						},
 					},
 				},
-				slot: {
-					label: {
-						class: [
-							"U-L",
-						],
+				{
+					slot: {
+						root: {
+							class: [
+								"C-ROOT",
+							],
+						},
+						icon: {
+							class: [
+								"C-ICON",
+							],
+						},
+						label: {
+							class: [
+								"C-LABEL",
+							],
+						},
 					},
 				},
-			},
-			{
-				slot: {
-					root: {
-						class: [
-							"C-ROOT",
-						],
-					},
-					icon: {
-						class: [
-							"C-ICON",
-						],
-					},
-					label: {
-						class: [
-							"C-LABEL",
-						],
-					},
-				},
-			},
+			]),
 		);
 		expect(created.slots.root()).toBe("U-ROOT");
 		expect(created.slots.icon()).toBe("i C-ICON");

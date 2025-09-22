@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/multi-root-multi-token-order-user-and-local-overlays", () => {
 	it("two roots t1,t6 then t7; user overlays t2; local overlays t4 on icon", () => {

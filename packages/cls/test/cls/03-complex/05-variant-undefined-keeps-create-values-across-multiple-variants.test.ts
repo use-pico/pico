@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls } from "../../../src";
+import { cls, tweak } from "../../../src";
 
 describe("cls/complex/variant-undefined-keeps-create-values-across-multiple-variants", () => {
 	it("create selects size=md,tone=dark,on=true; local undefined keeps those", () => {
