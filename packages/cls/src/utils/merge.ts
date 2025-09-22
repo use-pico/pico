@@ -94,6 +94,13 @@ function combineWhat<T extends Contract.Any>(
 	return undefined;
 }
 
+export namespace merge {
+	export type Tweaks<TContract extends Contract.Any> = [
+		Tweak.Type<TContract>,
+		...(Tweak.Type<TContract> | undefined)[],
+	];
+}
+
 /**
  * merge(user, internal)
  *
@@ -103,56 +110,64 @@ function combineWhat<T extends Contract.Any>(
  * - Slots are combined by appending What objects, not overriding them
  */
 export function merge<const TContract extends Contract.Any>(
-	user?: Tweak.Type<TContract>,
-	internal?: Tweak.Type<TContract>,
+	tweaks: merge.Tweaks<TContract>,
 ): Tweak.Type<TContract> {
-	const $user = user ?? {};
-	const $internal = internal ?? {};
+	return tweaks.filter(Boolean).reduceRight<Tweak.Type<TContract>>(
+		(acc, primaryCurrent) => {
+			const primary = primaryCurrent ?? {};
+			const secondary = acc ?? {};
 
-	return {
-		...$internal,
-		...$user,
-		variant: {
-			...filter($internal.variant),
-			...filter($user.variant),
-		} as Variant.Optional<TContract>,
-		slot: (() => {
-			const internalSlot = $internal.slot;
-			const userSlot = $user.slot;
+			return {
+				...secondary,
+				...primary,
+				variant: {
+					...filter(secondary.variant),
+					...filter(primary.variant),
+				} as Variant.Optional<TContract>,
+				slot: (() => {
+					if (!secondary.slot && !primary.slot) {
+						return undefined;
+					}
+					if (!secondary.slot) {
+						return primary.slot;
+					}
+					if (!primary.slot) {
+						return secondary.slot;
+					}
 
-			if (!internalSlot && !userSlot) {
-				return undefined;
-			}
-			if (!internalSlot) {
-				return userSlot;
-			}
-			if (!userSlot) {
-				return internalSlot;
-			}
+					// Combine slots by merging What objects for each slot
+					const slots: Record<
+						string,
+						What.Any<TContract> | undefined
+					> = {};
+					const keys = new Set([
+						...Object.keys(secondary.slot),
+						...Object.keys(primary.slot),
+					]);
 
-			// Combine slots by merging What objects for each slot
-			const combinedSlot: any = {};
-			const allSlotKeys = new Set([
-				...Object.keys(internalSlot),
-				...Object.keys(userSlot),
-			]);
+					for (const slotKey of keys) {
+						slots[slotKey] = combineWhat(
+							secondary.slot[
+								slotKey as keyof Slot.Optional<TContract>
+							],
+							primary.slot[
+								slotKey as keyof Slot.Optional<TContract>
+							],
+						);
+					}
 
-			for (const slotKey of allSlotKeys) {
-				combinedSlot[slotKey] = combineWhat(
-					(internalSlot as any)[slotKey as any],
-					(userSlot as any)[slotKey as any],
-				);
-			}
-
-			return combinedSlot;
-		})(),
-		override: {
-			...$internal.override,
-			...$user.override,
-		} as Slot.Optional<TContract>,
-		token: {
-			...$internal.token,
-			...$user.token,
-		} as Token.Optional<TContract>,
-	};
+					return slots;
+				})(),
+				override: {
+					...secondary.override,
+					...primary.override,
+				} as Slot.Optional<TContract>,
+				token: {
+					...secondary.token,
+					...primary.token,
+				} as Token.Optional<TContract>,
+			};
+		},
+		{} as Tweak.Type<TContract>,
+	);
 }

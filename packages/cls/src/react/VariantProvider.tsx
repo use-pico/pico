@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
+import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
 import { merge } from "../utils/merge";
 import { useVariantContext } from "./useVariantContext";
@@ -24,24 +25,24 @@ export const VariantProvider = <TContract extends Contract.Any>({
 	inherit = false,
 	children,
 }: VariantProvider.Props<TContract>) => {
-	const parent = useVariantContext();
+	/**
+	 * A little lie here, but in general it should be somehow OK.
+	 */
+	const parent = useVariantContext() as Tweak.Type<TContract>["variant"];
 
 	return (
 		<VariantContext
 			value={
-				(inherit
-					? merge(
-							{
-								variant,
-							},
-							{
+				merge<TContract>([
+					{
+						variant,
+					},
+					inherit
+						? {
 								variant: parent,
-							},
-						)
-					: {
-							variant,
-						}
-				).variant ?? {}
+							}
+						: undefined,
+				]).variant ?? {}
 			}
 		>
 			{children}
