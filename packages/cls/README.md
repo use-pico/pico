@@ -915,7 +915,6 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Tweak Utility for Advanced Merging**
 ```tsx
-import { tweaks } from '@use-pico/cls';
 
 // Manual tweak merging for advanced scenarios
 const MyButton = ({ userTweak, size, tone, disabled }) => {
@@ -1307,7 +1306,6 @@ tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
 
 #### **`tweaks()` - Tweak Merging**
 ```typescript
-import { tweaks } from '@use-pico/cls';
 
 // Single tweak (simplest usage)
 const finalTweak = tweaks(userTweak);
@@ -1329,7 +1327,6 @@ const { slots, variant } = ButtonCls.create(
 
 #### **`tweaks()` - Multiple Parameters (Advanced)**
 ```typescript
-import { tweaks } from '@use-pico/cls';
 
 // Multiple tweaks as parameters (first takes precedence)
 const finalTweak = tweaks(
