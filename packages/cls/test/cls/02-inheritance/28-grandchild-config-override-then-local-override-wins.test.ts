@@ -77,12 +77,12 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 		const { slots } = $grand.create(
 			{},
 			{
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"CONF",
 						],
+						override: true,
 					},
 				},
 			},
@@ -91,15 +91,15 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 		// local override replaces config override as the final step
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"LOCAL",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("base child grand CONF LOCAL");
+		).toBe("LOCAL");
 	});
 });

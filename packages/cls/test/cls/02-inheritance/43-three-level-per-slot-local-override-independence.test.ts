@@ -106,16 +106,16 @@ describe("cls/inheritance/three-level-per-slot-local-override-independence", () 
 		expect(slots.root()).toBe("b-root c-root g-root");
 		expect(
 			slots.icon({
-				override: true,
 				slot: {
 					icon: {
 						class: [
 							"OVR",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("b-icon c-icon g-icon OVR");
+		).toBe("OVR");
 		// root remains unaffected
 		expect(slots.root()).toBe("b-root c-root g-root");
 	});
