@@ -145,6 +145,8 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 		);
 
 		// Token resolved from grandchild (text-green-500), then base, base md rule, child extra class, grandchild g-md, then config then user
-		expect(slots.root()).toBe("text-green-500 base md child g-md user");
+		expect(slots.root()).toBe(
+			"text-green-500 base md child g-md user config",
+		);
 	});
 });
