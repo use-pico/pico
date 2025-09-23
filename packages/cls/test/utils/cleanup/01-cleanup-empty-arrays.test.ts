@@ -6,7 +6,6 @@ describe("utils/cleanup/cleanup-empty-arrays", () => {
 		const tweak = {
 			token: {},
 			slot: {},
-			override: {},
 			variant: {},
 		};
 
@@ -15,7 +14,6 @@ describe("utils/cleanup/cleanup-empty-arrays", () => {
 		expect(result).toEqual({
 			token: {},
 			slot: {},
-			override: {},
 			variant: {},
 		});
 	});

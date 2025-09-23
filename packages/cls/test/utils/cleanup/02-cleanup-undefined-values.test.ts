@@ -20,19 +20,11 @@ describe("utils/cleanup/cleanup-undefined-values", () => {
 				},
 				icon: undefined,
 			},
-			override: {
-				root: {
-					class: [
-						"override",
-					],
-				},
-				icon: undefined,
-			},
 			variant: {
 				size: "md",
 				variant: undefined,
 			},
-		} as any;
+		};
 
 		const result = cleanup(tweak);
 
@@ -48,13 +40,6 @@ describe("utils/cleanup/cleanup-undefined-values", () => {
 					class: [
 						"base",
 						"px-4",
-					],
-				},
-			},
-			override: {
-				root: {
-					class: [
-						"override",
 					],
 				},
 			},

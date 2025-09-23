@@ -30,18 +30,6 @@ describe("utils/cleanup/cleanup-mixed-valid-invalid", () => {
 					],
 				},
 			},
-			override: {
-				root: undefined,
-				icon: {
-					class: [
-						"icon-override",
-					],
-				},
-				content: {
-					class: [],
-				},
-				footer: undefined,
-			},
 			variant: {
 				size: "md",
 				variant: undefined,
@@ -75,16 +63,6 @@ describe("utils/cleanup/cleanup-mixed-valid-invalid", () => {
 					class: [
 						"footer-base",
 					],
-				},
-			},
-			override: {
-				icon: {
-					class: [
-						"icon-override",
-					],
-				},
-				content: {
-					class: [],
 				},
 			},
 			variant: {

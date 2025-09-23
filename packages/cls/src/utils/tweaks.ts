@@ -42,10 +42,6 @@ export function tweaks<const TContract extends Contract.Any>(
 					...filter(current.slot),
 					...filter(root.slot),
 				},
-				override: {
-					...filter(current.override),
-					...filter(root.override),
-				},
 				variant: {
 					...filter(current.variant),
 					...filter(root.variant),

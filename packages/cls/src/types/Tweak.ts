@@ -23,8 +23,6 @@ export namespace Tweak {
 		variant?: Variant.Optional<TContract>;
 		/** Optional slot modifications */
 		slot?: Slot.Optional<TContract>;
-		/** Optional slot overrides */
-		override?: Slot.Optional<TContract>;
 		/** Optional token modifications */
 		token?: Token.Optional<TContract>;
 	};

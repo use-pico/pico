@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/config-tweak-all-fields", () => {
-	it("applies config variant, token, slot and override (override wins)", () => {
+	it("applies config variant, token, slot and slot classes (config slot appends)", () => {
 		const $cls = cls(
 			{
 				tokens: [
@@ -76,15 +76,8 @@ describe("cls/config-tweak-all-fields", () => {
 					],
 				},
 			},
-			override: {
-				root: {
-					class: [
-						"CONF-OVR",
-					],
-				},
-			},
 		});
 
-		expect(slots.root()).toBe("CONF-OVR");
+		expect(slots.root()).toBe("text-blue-500 base md config");
 	});
 });

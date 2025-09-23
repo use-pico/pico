@@ -26,18 +26,6 @@ describe("utils/cleanup/cleanup-preserves-valid-values", () => {
 					],
 				},
 			},
-			override: {
-				root: {
-					class: [
-						"override",
-					],
-				},
-				icon: {
-					class: [
-						"icon-override",
-					],
-				},
-			},
 			variant: {
 				size: "md",
 				variant: "solid",

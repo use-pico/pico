@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/user-tweak-all-fields", () => {
-	it("applies user variant, token, slot and override (override wins)", () => {
+	it("applies user variant, token, slot and slot classes (user slot appends)", () => {
 		const $cls = cls(
 			{
 				tokens: [
@@ -76,15 +76,8 @@ describe("cls/user-tweak-all-fields", () => {
 					],
 				},
 			},
-			override: {
-				root: {
-					class: [
-						"USER-OVR",
-					],
-				},
-			},
 		});
 
-		expect(slots.root()).toBe("USER-OVR");
+		expect(slots.root()).toBe("text-blue-500 base md user");
 	});
 });

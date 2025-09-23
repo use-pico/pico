@@ -353,7 +353,6 @@ export function cls<
 				const normalized: {
 					variant?: unknown;
 					slot?: unknown;
-					override?: unknown;
 					token?: unknown;
 				} = {};
 				if (local.variant) {
@@ -365,17 +364,6 @@ export function cls<
 				if (localSlotTable && Object.hasOwn(localSlotTable, slotName)) {
 					normalized.slot = {
 						[slotName]: (localSlotTable as any)[slotName],
-					};
-				}
-				const localOverrideTable = local.override as unknown as
-					| Record<string, unknown>
-					| undefined;
-				if (
-					localOverrideTable &&
-					Object.hasOwn(localOverrideTable, slotName)
-				) {
-					normalized.override = {
-						[slotName]: (localOverrideTable as any)[slotName],
 					};
 				}
 				if (local.token) {
@@ -458,22 +446,6 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const localOverrideWhat = $local?.override
-							? (
-									$local.override as Record<
-										string,
-										What.Any<Contract.Any>
-									>
-								)[slotName]
-							: undefined;
-						const configOverrideWhat = $tweak?.override
-							? (
-									$tweak.override as Record<
-										string,
-										What.Any<Contract.Any>
-									>
-								)[slotName]
-							: undefined;
 
 						const slotRules = rulesBySlot[slotKeyStr] ?? [];
 
@@ -482,8 +454,6 @@ export function cls<
 							slotRules.length === 0,
 							!localSlotWhat,
 							!configSlotWhat,
-							!localOverrideWhat,
-							!configOverrideWhat,
 						].every(Boolean);
 						if (nothingContributes) {
 							if (key !== null) {
@@ -548,25 +518,6 @@ export function cls<
 									new Set<string>(),
 									localResolvedCache,
 								),
-							);
-						}
-
-						// Apply overrides (clear & replace)
-						// Config first, user last so user override wins
-						if (configOverrideWhat) {
-							acc = resolve(
-								configOverrideWhat,
-								activeTokens,
-								new Set<string>(),
-								localResolvedCache,
-							);
-						}
-						if (localOverrideWhat) {
-							acc = resolve(
-								localOverrideWhat,
-								activeTokens,
-								new Set<string>(),
-								localResolvedCache,
 							);
 						}
 
