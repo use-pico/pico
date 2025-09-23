@@ -23,16 +23,8 @@ describe("builder/local-override-wins-over-user-override", () => {
 
 		const created = $cls.create(
 			{
-				override: {
-					root: {
-						class: [
-							"USER-OVR",
-						],
-					},
-				},
-			},
-			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-OVR",
@@ -40,7 +32,17 @@ describe("builder/local-override-wins-over-user-override", () => {
 					},
 				},
 			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"USER-OVR",
+						],
+					},
+				},
+			},
 		);
-		expect(created.slots.root()).toBe("USER-OVR");
+		expect(created.slots.root()).toBe("base USER-OVR");
 	});
 });

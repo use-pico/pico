@@ -28,7 +28,8 @@ describe("react/01-core/use-cls-per-slot-override-wins", () => {
 		const { result } = renderHook(() =>
 			useCls($cls, [
 				{
-					override: {
+					override: true,
+					slot: {
 						icon: {
 							class: [
 								"I-OVR",

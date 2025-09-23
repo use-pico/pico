@@ -32,26 +32,18 @@ export function tweaks<const TContract extends Contract.Any>(
 		...Tweak.Type<TContract>[],
 	];
 
-	return (
-		rest
-			// .filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined)
-			.reduce((acc, current) => {
-				const override = current.override ?? false;
+	return rest.reduce((acc, current) => {
+		const override = current.override ?? false;
 
-				return {
-					token: merge(
-						acc.token ?? {},
-						current.token ?? {},
-						override,
-					),
-					slot: merge(acc.slot ?? {}, current.slot ?? {}, override),
-					variant: {
-						...filter(acc.variant),
-						...filter(current.variant),
-					},
-				} as Tweak.Type<TContract>;
-			}, root)
-	);
+		return {
+			token: merge(acc.token ?? {}, current.token ?? {}, override),
+			slot: merge(acc.slot ?? {}, current.slot ?? {}, override),
+			variant: {
+				...filter(acc.variant),
+				...filter(current.variant),
+			},
+		} as Tweak.Type<TContract>;
+	}, root);
 }
 
 const merge = (

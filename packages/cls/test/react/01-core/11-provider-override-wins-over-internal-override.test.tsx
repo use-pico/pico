@@ -39,7 +39,8 @@ describe("react/01-core/provider-override-wins-over-internal-override", () => {
 				useCls($cls, [
 					undefined,
 					{
-						override: {
+						override: true,
+						slot: {
 							icon: {
 								class: [
 									"INTERNAL",

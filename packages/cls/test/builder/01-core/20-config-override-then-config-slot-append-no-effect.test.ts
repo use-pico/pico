@@ -17,22 +17,27 @@ describe("builder/user-override-then-user-slot-append-no-effect", () => {
 			})
 			.cls();
 
-		const created = $cls.create({
-			override: {
-				root: {
-					class: [
-						"USER-OVR",
-					],
+		const created = $cls.create(
+			{
+				slot: {
+					root: {
+						class: [
+							"user-append",
+						],
+					},
 				},
 			},
-			slot: {
-				root: {
-					class: [
-						"user-append",
-					],
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"USER-OVR",
+						],
+					},
 				},
 			},
-		});
-		expect(created.slots.root()).toBe("USER-OVR");
+		);
+		expect(created.slots.root()).toBe("base USER-OVR");
 	});
 });

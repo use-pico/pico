@@ -16,16 +16,8 @@ describe("utils/merge/override user wins", () => {
 	it("user override should override internal override on same slot", () => {
 		const out = tweaks<TestContract>([
 			{
-				override: {
-					root: {
-						class: [
-							"user",
-						],
-					},
-				},
-			},
-			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"internal",
@@ -33,8 +25,18 @@ describe("utils/merge/override user wins", () => {
 					},
 				},
 			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
+					},
+				},
+			},
 		]);
-		expect(out.override?.root).toEqual({
+		expect(out.slot?.root).toEqual({
 			class: [
 				"user",
 			],

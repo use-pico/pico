@@ -37,6 +37,25 @@ describe("cls/complex/per-slot-config-override-and-config-append-on-other", () =
 		const { slots } = $cls.create(
 			{
 				slot: {
+					icon: {
+						class: [
+							"CI",
+						],
+					},
+				},
+			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"CR",
+						],
+					},
+				},
+			},
+			{
+				slot: {
 					root: {
 						class: [
 							"UR",
@@ -49,25 +68,9 @@ describe("cls/complex/per-slot-config-override-and-config-append-on-other", () =
 					},
 				},
 			},
-			{
-				override: {
-					root: {
-						class: [
-							"CR",
-						],
-					},
-				},
-				slot: {
-					icon: {
-						class: [
-							"CI",
-						],
-					},
-				},
-			},
 		);
 
-		expect(slots.root()).toBe("CR");
-		expect(slots.icon()).toBe("i UI");
+		expect(slots.root()).toBe("r CR UR");
+		expect(slots.icon()).toBe("i CI UI");
 	});
 });

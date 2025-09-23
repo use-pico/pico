@@ -62,7 +62,8 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 			.cls();
 
 		const created = child.create(undefined, {
-			override: {
+			override: true,
+			slot: {
 				root: {
 					class: [
 						"OVR",
@@ -70,7 +71,7 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("OVR");
+		expect(created.slots.root()).toBe("base b-sm child OVR");
 		expect(created.slots.icon()).toBe("i-base i-sm i-child");
 	});
 });

@@ -64,7 +64,8 @@ describe("cls/complex/bool-variant-across-slots-with-local-root-override", () =>
 		expect(slots.icon()).toBe("i-on");
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"LOCAL",
@@ -72,6 +73,6 @@ describe("cls/complex/bool-variant-across-slots-with-local-root-override", () =>
 					},
 				},
 			}),
-		).toBe("LOCAL");
+		).toBe("r-on LOCAL");
 	});
 });
