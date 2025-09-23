@@ -22,13 +22,4 @@ export namespace Definition {
 		rules: Rule.Type<T>[];
 		defaults: Variant.VariantOf<T>;
 	};
-
-	export namespace Def {
-		export interface Type<TContract extends Contract.Any> {
-			root: Rule.Match.RootFn<TContract>;
-			rule: Rule.Match.RuleFn<TContract>;
-			token: Token.RequiredFn<TContract>;
-			defaults: Variant.RequiredFn<TContract>;
-		}
-	}
 }

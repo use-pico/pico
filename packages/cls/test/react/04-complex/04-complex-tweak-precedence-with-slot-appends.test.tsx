@@ -410,17 +410,17 @@ describe("react/04-complex/complex-tweak-precedence-with-slot-appends", () => {
 		// All user tweaks are applied in order, with later tweaks overriding earlier ones
 		// Final result: md/outlined/light + loading + interactive + disabled + all slot configs
 		expect(result.current.slots.root()).toBe(
-			"card-base rounded-lg transition-all p-4 text-base border-2 border-gray-300 bg-white text-gray-900 opacity-50 pointer-events-none animate-pulse hover:shadow-md hover:scale-105 cursor-pointer base-config",
+			"card-base rounded-lg transition-all p-6 text-lg shadow-lg border-0 bg-gray-800 text-white opacity-50 pointer-events-none animate-pulse hover:shadow-md hover:scale-105 cursor-pointer base-config loading-config interactive-config final-config important-override",
 		);
 		expect(result.current.slots.header()).toBe(
-			"card-header font-semibold text-base mb-3 text-gray-800 header-append",
+			"card-header font-semibold text-lg mb-4 text-gray-100 header-append",
 		);
 		expect(result.current.slots.content()).toBe(
-			"card-content text-sm text-gray-700 opacity-60 content-append",
+			"card-content text-base text-gray-200 opacity-60 content-append",
 		);
 		expect(result.current.slots.footer()).toBe(
-			"card-footer opacity-75 text-sm mt-3 text-gray-500",
+			"card-footer opacity-75 text-base mt-4 text-gray-400",
 		);
-		expect(result.current.slots.actions()).toBe("card-actions flex gap-2");
+		expect(result.current.slots.actions()).toBe("card-actions flex gap-3");
 	});
 });

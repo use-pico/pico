@@ -49,12 +49,4 @@ export namespace Token {
 	export type Optional<TContract extends Contract.Any> = Partial<{
 		[K in Raw<TContract>]: What.Any<TContract>;
 	}>;
-
-	export type RequiredFn<TContract extends Contract.Any> = (
-		token: Token.Required<TContract>,
-	) => Token.Required<TContract>;
-
-	export type OptionalFn<TContract extends Contract.Any> = (
-		token: Token.Optional<TContract>,
-	) => Token.Optional<TContract>;
 }

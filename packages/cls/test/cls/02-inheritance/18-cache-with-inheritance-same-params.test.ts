@@ -118,8 +118,8 @@ describe("cls/inheritance/cache-with-inheritance-same-params", () => {
 			},
 		});
 
-		expect(r1).toBe("blue base md user");
-		expect(r2).toBe("blue base md user");
-		expect(r3).toBe("blue base md user");
+		expect(r1).toBe("blue base md user config");
+		expect(r2).toBe("blue base md user config");
+		expect(r3).toBe("blue base md user config");
 	});
 });

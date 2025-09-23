@@ -48,10 +48,4 @@ export namespace Tweak {
 	export type TweaksFn<TContract extends Contract.Any> = (
 		...tweaks: Tweak.Tweaks<TContract>[]
 	) => Tweak.Type<TContract>;
-
-	export namespace Override {
-		export interface Type<TContract extends Contract.Any> {
-			token: Token.OptionalFn<TContract>;
-		}
-	}
 }

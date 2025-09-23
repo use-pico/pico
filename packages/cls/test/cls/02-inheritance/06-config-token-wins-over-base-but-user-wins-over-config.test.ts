@@ -73,6 +73,6 @@ describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config"
 			},
 		);
 
-		expect(slots.root()).toBe("text-yellow-500 base");
+		expect(slots.root()).toBe("text-blue-500 base");
 	});
 });

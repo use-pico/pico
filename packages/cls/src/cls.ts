@@ -27,6 +27,11 @@ type CompiledRule<TContract extends Contract.Any> = {
 	override: boolean;
 };
 
+type ResolvedWhat = {
+	classes: ClassName[];
+	override: boolean;
+};
+
 // -----------------------------------------------------------------------------
 // Compile-time utilities (pure)
 // -----------------------------------------------------------------------------
@@ -193,7 +198,7 @@ function createResolver(
 		tokenTable: Record<string, What.Any<Contract.Any>> = baseTokenTable,
 		visiting: Set<string> = new Set<string>(),
 		localCache?: Record<string, ClassName[]>,
-	): ClassName[] {
+	): ResolvedWhat {
 		const out: ClassName[] = [];
 		const cacheRef =
 			tokenTable === baseTokenTable ? baseResolvedTokenCache : localCache;
@@ -226,9 +231,9 @@ function createResolver(
 				visiting.delete(tokenKey);
 
 				if (cacheRef) {
-					cacheRef[tokenKey] = resolved;
+					cacheRef[tokenKey] = resolved.classes;
 				}
-				out.push(...resolved);
+				out.push(...resolved.classes);
 			});
 		}
 
@@ -236,7 +241,10 @@ function createResolver(
 			out.push(whatValue.class);
 		}
 
-		return out;
+		return {
+			classes: out,
+			override: whatValue.override === true,
+		};
 	}
 
 	return {
@@ -488,37 +496,46 @@ export function cls<
 								if (!matches[startIndex + idx]) {
 									return;
 								}
-								acc = acc.concat(
-									resolve(
-										rule.what,
-										activeTokens,
-										visiting,
-										localResolvedCache,
-									),
+								const resolved = resolve(
+									rule.what,
+									activeTokens,
+									visiting,
+									localResolvedCache,
 								);
+								if (resolved.override) {
+									acc = resolved.classes;
+								} else {
+									acc = acc.concat(resolved.classes);
+								}
 							});
 						}
 
 						// Append slot-level whats (config first, user last)
 						if (configSlotWhat) {
-							acc = acc.concat(
-								resolve(
-									configSlotWhat,
-									activeTokens,
-									new Set<string>(),
-									localResolvedCache,
-								),
+							const resolved = resolve(
+								configSlotWhat,
+								activeTokens,
+								new Set<string>(),
+								localResolvedCache,
 							);
+							if (resolved.override) {
+								acc = resolved.classes;
+							} else {
+								acc = acc.concat(resolved.classes);
+							}
 						}
 						if (localSlotWhat) {
-							acc = acc.concat(
-								resolve(
-									localSlotWhat,
-									activeTokens,
-									new Set<string>(),
-									localResolvedCache,
-								),
+							const resolved = resolve(
+								localSlotWhat,
+								activeTokens,
+								new Set<string>(),
+								localResolvedCache,
 							);
+							if (resolved.override) {
+								acc = resolved.classes;
+							} else {
+								acc = acc.concat(resolved.classes);
+							}
 						}
 
 						const out = acc.length === 0 ? "" : tvc(acc);

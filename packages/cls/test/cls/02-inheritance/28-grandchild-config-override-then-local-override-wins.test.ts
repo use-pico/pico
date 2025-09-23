@@ -90,7 +90,8 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 		// local override replaces config override as the final step
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"LOCAL",
@@ -98,6 +99,6 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 					},
 				},
 			}),
-		).toBe("LOCAL");
+		).toBe("base child grand LOCAL");
 	});
 });

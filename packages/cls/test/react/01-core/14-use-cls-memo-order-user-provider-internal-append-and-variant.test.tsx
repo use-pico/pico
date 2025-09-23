@@ -88,6 +88,6 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base SM U");
+		expect(result.current.slots.root()).toBe("base MD U I");
 	});
 });

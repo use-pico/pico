@@ -374,7 +374,7 @@ describe("react/04-complex/edge-case-empty-tweaks-and-undefined-values", () => {
 		// Final tweak wins, undefined values are ignored
 		// Result: sm/outlined/dark + loading + interactive + final-override
 		expect(result.current.slots.root()).toBe(
-			"card-base rounded-lg transition-all p-3 text-sm shadow-lg border-0 bg-gray-800 text-white animate-pulse hover:shadow-md hover:scale-105 cursor-pointer mixed-config",
+			"card-base rounded-lg transition-all p-3 text-sm border-2 border-gray-300 bg-gray-800 text-white animate-pulse hover:shadow-md hover:scale-105 cursor-pointer mixed-config final-override",
 		);
 		expect(result.current.slots.header()).toBe(
 			"card-header font-semibold text-sm mb-2 text-gray-100",

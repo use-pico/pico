@@ -69,12 +69,4 @@ export namespace Variant {
 		With<TContract> extends false
 			? Record<string, never>
 			: Partial<VariantOf<TContract>>;
-
-	export type RequiredFn<TContract extends Contract.Any> = (
-		variant: Required<TContract>,
-	) => Required<TContract>;
-
-	export type OptionalFn<TContract extends Contract.Any> = (
-		variant: Optional<TContract>,
-	) => Optional<TContract>;
 }

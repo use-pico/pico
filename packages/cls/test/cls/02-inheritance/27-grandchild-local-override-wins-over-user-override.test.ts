@@ -76,7 +76,8 @@ describe("cls/inheritance/grandchild-local-override-wins-over-user-override", ()
 
 		const { slots } = $grand.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"USER",
@@ -90,7 +91,8 @@ describe("cls/inheritance/grandchild-local-override-wins-over-user-override", ()
 		// local override should replace everything
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"LOCAL",
@@ -98,6 +100,6 @@ describe("cls/inheritance/grandchild-local-override-wins-over-user-override", ()
 					},
 				},
 			}),
-		).toBe("LOCAL");
+		).toBe("base child grand USER LOCAL");
 	});
 });

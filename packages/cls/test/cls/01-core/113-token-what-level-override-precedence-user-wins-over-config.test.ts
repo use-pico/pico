@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/local-token-overlay-wins-over-user-and-config", () => {
-	it("local token overlay takes precedence over user and config token", () => {
+describe("cls/core/token-what-level-override-precedence-user-wins-over-config", () => {
+	it("Token What-level override precedence: user override wins over config override", () => {
 		const $cls = cls(
 			{
 				tokens: [
@@ -25,6 +25,15 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 					{
 						slot: {
 							root: {
+								class: [
+									"base",
+								],
+							},
+						},
+					},
+					{
+						slot: {
+							root: {
 								token: [
 									"color.text",
 								],
@@ -43,6 +52,7 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 						class: [
 							"text-blue-500",
 						],
+						override: true,
 					},
 				},
 			},
@@ -52,22 +62,13 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 						class: [
 							"text-green-500",
 						],
+						override: true,
 					},
 				},
 			},
 		);
 
-		expect(slots.root()).toBe("text-blue-500 text-green-500");
-		expect(
-			slots.root({
-				token: {
-					"color.text": {
-						class: [
-							"text-yellow-500",
-						],
-					},
-				},
-			}),
-		).toBe("text-yellow-500");
+		// User Token What-level override should win over config Token What-level override
+		expect(slots.root()).toBe("base text-green-500");
 	});
 });

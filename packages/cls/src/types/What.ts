@@ -47,10 +47,5 @@ export namespace What {
 		 * What was set - class or token).
 		 */
 		override?: boolean;
-		/**
-		 * Kills both token and class - so if only class is specified, tokens are
-		 * cleared and vice versa.
-		 */
-		clear?: boolean;
 	};
 }

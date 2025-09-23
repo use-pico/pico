@@ -1318,6 +1318,128 @@ const { slots, variant } = ButtonCls.create(
 > - **`override: true`** - Overrides only the specific fields set in that tweak, while preserving other fields from previous tweaks
 > - **`clear: true`** - Completely resets and starts fresh, ignoring ALL previous tweaks and only applying the current one
 
+### What-Level Override Flag 🎯
+
+CLS supports **What-level override flags** for fine-grained control over individual styling values. This gives you the power to specify exactly which What values should override accumulated classes instead of just appending to them.
+
+```typescript
+// What-level override replaces accumulated classes
+const { slots, variant } = ButtonCls.create();
+
+// Normal behavior - appends to accumulated classes
+<button className={slots.root({
+  slot: {
+    root: {
+      class: ["append-class"],
+      override: false, // or omit - this appends to previous classes
+    },
+  },
+})}>Button</button>
+// Result: "base-classes append-class"
+
+// What-level override - replaces accumulated classes
+<button className={slots.root({
+  slot: {
+    root: {
+      class: ["override-class"],
+      override: true, // This replaces all accumulated classes
+    },
+  },
+})}>Button</button>
+// Result: "override-class" (previous classes are replaced)
+```
+
+**🎨 What-Level Override in Action:**
+
+```typescript
+const ButtonCls = contract()
+  .slots(["root"])
+  .def()
+  .root({ 
+    root: { 
+      class: ["base", "px-4", "py-2"] 
+    } 
+  })
+  .rule({ size: "lg" }, { 
+    root: { 
+      class: ["px-6", "py-3"] 
+    } 
+  })
+  .cls();
+
+const { slots } = ButtonCls.create({ variant: { size: "lg" } });
+
+// Normal append behavior
+slots.root({
+  slot: {
+    root: {
+      class: ["shadow-lg"],
+      override: false, // Appends to existing classes
+    },
+  },
+});
+// Result: "base px-4 py-2 px-6 py-3 shadow-lg"
+
+// What-level override behavior
+slots.root({
+  slot: {
+    root: {
+      class: ["custom-button"],
+      override: true, // Replaces all accumulated classes
+    },
+  },
+});
+// Result: "custom-button" (all previous classes replaced)
+```
+
+**🔧 Advanced What-Level Override Patterns:**
+
+```typescript
+// What-level override with tokens
+const { slots } = ButtonCls.create();
+
+slots.root({
+  slot: {
+    root: {
+      token: ["color.bg.primary"], // Token reference
+      class: ["custom-class"],
+      override: true, // Replaces accumulated classes
+    },
+  },
+});
+// Result: "bg-blue-600 custom-class" (token resolved + custom class, previous classes replaced)
+
+// What-level override precedence: user wins over config
+const { slots } = ButtonCls.create(undefined, {
+  slot: {
+    root: {
+      class: ["config-override"],
+      override: true, // Config-level override
+    },
+  },
+});
+
+slots.root({
+  slot: {
+    root: {
+      class: ["user-override"],
+      override: true, // User-level override wins
+    },
+  },
+});
+// Result: "user-override" (user What-level override wins over config)
+```
+
+**🎯 When to Use What-Level Override:**
+
+- **🎨 Fine-grained control** - Override specific styling values without affecting the entire tweak
+- **🔄 Conditional replacement** - Replace accumulated classes based on specific conditions
+- **🎪 Slot-specific overrides** - Different override behavior per slot
+- **🧩 Component composition** - Override inherited styles in child components
+- **🎭 Theme switching** - Replace theme classes with custom overrides
+
+> **💡 Pro Tip:** What-level overrides work at the individual What value level, giving you surgical precision over which styling values replace accumulated classes versus which ones append. This is perfect for scenarios where you need to override specific inherited styles while preserving others!
+
 ### Token Chains
 ```typescript
 // Tokens can reference other tokens

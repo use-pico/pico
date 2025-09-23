@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/token-array-classes", () => {
-	it("token with multiple classes should merge correctly", () => {
+describe("cls/core/token-what-level-override-without-flag-appends", () => {
+	it("Token What-level without override flag appends normally", () => {
 		const $cls = cls(
 			{
 				tokens: [
@@ -18,20 +18,25 @@ describe("cls/token-array-classes", () => {
 					"color.text": {
 						class: [
 							"text-red-500",
-							"bg-blue-500",
 						],
+						override: false,
 					},
 				},
 				rules: [
 					{
 						slot: {
 							root: {
+								class: [
+									"base",
+								],
+							},
+						},
+					},
+					{
+						slot: {
+							root: {
 								token: [
 									"color.text",
-								],
-								class: [
-									"root-1",
-									"root-2",
 								],
 							},
 						},
@@ -41,8 +46,9 @@ describe("cls/token-array-classes", () => {
 			},
 		);
 
-		// Test parameter-less create first
-		const { slots: baseSlots } = $cls.create();
-		expect(baseSlots.root()).toBe("text-red-500 bg-blue-500 root-1 root-2");
+		const { slots } = $cls.create();
+
+		// Token without override flag should append to accumulated classes
+		expect(slots.root()).toBe("base text-red-500");
 	});
 });

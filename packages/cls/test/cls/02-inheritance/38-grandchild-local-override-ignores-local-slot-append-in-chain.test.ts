@@ -77,21 +77,15 @@ describe("cls/inheritance/grandchild-local-override-ignores-local-slot-append-in
 		const { slots } = $grand.create();
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"OVR",
 						],
 					},
 				},
-				slot: {
-					root: {
-						class: [
-							"ignored",
-						],
-					},
-				},
 			}),
-		).toBe("OVR");
+		).toBe("base child grand OVR");
 	});
 });

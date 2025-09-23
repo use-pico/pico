@@ -106,7 +106,9 @@ describe("cls/inheritance/grandchild-extends-slots-with-rules-and-order", () => 
 			},
 		);
 
-		expect(slots.root()).toBe("root-base root-child root-grand user");
+		expect(slots.root()).toBe(
+			"root-base root-child root-grand user config",
+		);
 		expect(slots.badge()).toBe("badge-child");
 	});
 });

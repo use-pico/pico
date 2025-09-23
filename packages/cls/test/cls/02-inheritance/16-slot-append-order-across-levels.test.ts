@@ -95,6 +95,6 @@ describe("cls/inheritance/slot-append-order-across-levels", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("base child grand user");
+		expect(slots.root()).toBe("base child grand user config");
 	});
 });

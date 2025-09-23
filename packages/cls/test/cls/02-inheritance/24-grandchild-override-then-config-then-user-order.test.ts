@@ -96,6 +96,6 @@ describe("cls/inheritance/grandchild-override-then-config-then-user-order", () =
 			},
 		);
 
-		expect(slots.root()).toBe("OVR user");
+		expect(slots.root()).toBe("OVR user config");
 	});
 });

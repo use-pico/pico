@@ -148,7 +148,7 @@ describe("cls/inheritance/four-level-chain-order-and-overlays", () => {
 		);
 
 		// token resolves to latest (tt), then base class accumulation order, then config, then user
-		expect(slots.root()).toBe("tt b c g t u");
+		expect(slots.root()).toBe("tt b c g t u conf");
 		// local token overlay wins
 		expect(
 			slots.root({
@@ -160,6 +160,6 @@ describe("cls/inheritance/four-level-chain-order-and-overlays", () => {
 					},
 				},
 			}),
-		).toBe("tl b c g t u");
+		).toBe("tl b c g t u conf");
 	});
 });

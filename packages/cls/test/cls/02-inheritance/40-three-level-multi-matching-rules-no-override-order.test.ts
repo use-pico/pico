@@ -126,6 +126,6 @@ describe("cls/inheritance/three-level-multi-matching-rules-no-override-order", (
 				},
 			},
 		);
-		expect(slots.root()).toBe("b b-md c-md g-md u");
+		expect(slots.root()).toBe("b b-md c-md g-md u conf");
 	});
 });

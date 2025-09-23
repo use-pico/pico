@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/inheritance/child-config-override-vs-user-override-precedence", () => {
-	it("user local override wins over child config override", () => {
-		const $base = cls(
+describe("cls/core/what-level-override-precedence-user-wins-over-config", () => {
+	it("What-level override precedence: user override wins over config override", () => {
+		const $cls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,41 +28,29 @@ describe("cls/inheritance/child-config-override-vs-user-override-precedence", ()
 			},
 		);
 
-		const $child = $base.extend(
-			{
-				tokens: [],
-				slot: [],
-				variant: {},
-			},
-			{
-				token: {},
-				rules: [],
-				defaults: {},
-			},
-		);
-
-		const { slots } = $child.create(undefined, {
-			override: true,
+		const { slots } = $cls.create(undefined, {
 			slot: {
 				root: {
 					class: [
-						"CONF-OVR",
+						"config-override",
 					],
+					override: true,
 				},
 			},
 		});
 
+		// User What-level override should win over config What-level override
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"user-override",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("base CONF-OVR USER-OVR");
+		).toBe("user-override");
 	});
 });

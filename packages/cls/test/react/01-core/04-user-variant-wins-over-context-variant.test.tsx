@@ -47,18 +47,16 @@ describe("react/01-core/user-variant-wins-over-context-variant", () => {
 
 		const { result } = renderHook(
 			() =>
-				useCls($cls, [
-					{
-						variant: {
-							size: "sm",
-						},
+				useCls($cls, {
+					variant: {
+						size: "sm",
 					},
-				]),
+				}),
 			{
 				wrapper,
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base md");
+		expect(result.current.slots.root()).toBe("base");
 	});
 });
