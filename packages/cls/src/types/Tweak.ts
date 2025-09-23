@@ -19,6 +19,10 @@ export namespace Tweak {
 	 * @template TContract - The contract type to tweak
 	 */
 	export type Type<TContract extends Contract.Any> = {
+		/**
+		 * When set to true, this tweak will override the previous tweak(s).
+		 */
+		override?: boolean;
 		/** Optional variant modifications */
 		variant?: Variant.Optional<TContract>;
 		/** Optional slot modifications */

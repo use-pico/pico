@@ -107,8 +107,8 @@ import { useCls } from '@use-pico/cls';
 
 function MyButton({ size = "md", disabled = false, tweak }) {
   const { slots, variant } = useCls(ButtonCls, 
-    tweak,                    // User tweak (highest precedence)
-    { variant: { size, disabled } }  // Component props (lower precedence)
+    { variant: { size, disabled } },  // Component props (lower precedence)
+    tweak                             // User tweak (highest precedence)
   );
 
   return (
@@ -730,14 +730,14 @@ export const BaseButton: FC<Button.Props> = ({
 }) => {
   // 5. useCls with internal and user configs
   const { slots, variant } = useCls(cls, 
-    tweak,  // User tweak (highest precedence)
     {       // Internal config (lower precedence)
       variant: {
         disabled: disabled || loading,
         size,
         tone,
       },
-    }
+    },
+    tweak   // User tweak (highest precedence)
   );
 
   // `variant` contains the resolved variant values from both component props and user tweaks
@@ -786,19 +786,19 @@ export interface Props extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonEl
 ```tsx
 const { slots, variant } = useCls(
   cls,     // CLS instance (can be overridden)
-  tweak,   // User config (from tweak prop) - HIGHEST PRECEDENCE
-  {        // Props config (from component props) - MEDIUM PRECEDENCE
-    variant: { size, tone }
-  },
   {        // Internal config (component logic) - LOWEST PRECEDENCE
     variant: {
       disabled: disabled || loading,  // Component-controlled logic
     },
-  }
+  },
+  {        // Props config (from component props) - MEDIUM PRECEDENCE
+    variant: { size, tone }
+  },
+  tweak    // User config (from tweak prop) - HIGHEST PRECEDENCE
 );
 ```
 
-> **💡 Precedence Rule:** Tweaks are processed in order, with **first tweak taking precedence** over later ones. All tweaks are cleaned up (undefined values removed), so you can safely pass partial objects without affecting the final result.
+> **💡 Precedence Rule:** Tweaks are processed in order, with **last tweak taking precedence** over earlier ones. All tweaks are cleaned up (undefined values removed), so you can safely pass partial objects without affecting the final result.
 
 #### **3. withCls HOC** 🎭
 ```tsx
@@ -848,15 +848,15 @@ const Button: FC<ButtonProps> = ({
   children 
 }) => {
   const { slots, variant } = useCls(ButtonCls, 
-    tweak,                    // 1. User tweak (highest precedence)
-    {                         // 2. Props from component (medium precedence)
-      variant: { size, tone }
-    },
-    {                         // 3. Component logic (lowest precedence)
+    {                         // 1. Component logic (lowest precedence)
       variant: {
         disabled: disabled || loading
       }
-    }
+    },
+    {                         // 2. Props from component (medium precedence)
+      variant: { size, tone }
+    },
+    tweak                     // 3. User tweak (highest precedence)
   );
 
   return (
@@ -919,9 +919,9 @@ const CustomButtonCls = contract(ButtonCls.contract)
 // Manual tweak merging for advanced scenarios
 const MyButton = ({ userTweak, size, tone, disabled }) => {
   const finalTweak = ButtonCls.tweak(
-    userTweak,                    // User customization (highest precedence)
+    { variant: { disabled } },    // Component logic (lowest precedence)
     { variant: { size, tone } },  // Props (medium precedence)
-    { variant: { disabled } }     // Component logic (lowest precedence)
+    userTweak                     // User customization (highest precedence)
   );
 
   const { slots, variant } = ButtonCls.create(finalTweak);
@@ -985,11 +985,11 @@ const { slots, variant } = useCls(ButtonCls, ...tweaks);
 // Simple usage - single tweak (automatically subscribes to TokenContext and VariantContext)
 const { slots, variant } = useCls(ButtonCls, tweak);
 
-// Multiple tweaks with precedence (first takes precedence)
+// Multiple tweaks with precedence (last takes precedence)
 const { slots, variant } = useCls(ButtonCls, 
-  userTweak,     // Highest precedence
-  propsTweak,    // Medium precedence  
-  internalTweak  // Lowest precedence
+  internalTweak,  // Lowest precedence
+  propsTweak,     // Medium precedence
+  userTweak       // Highest precedence
 );
 
 // Use slots for styling
@@ -1169,16 +1169,16 @@ const { slots, variant } = useClsMemo(ButtonCls, tweak, [tweak]);
 const MyButton = ({ size, tone, disabled, loading, tweak }) => {
   const { slots, variant } = useClsMemo(
     ButtonCls,
-    [        // Array of tweaks (first takes precedence)
-      tweak,   // User customization from props - HIGHEST PRECEDENCE
-      {        // Props from component - MEDIUM PRECEDENCE
-        variant: { size, tone }
-      },
+    [        // Array of tweaks (last takes precedence)
       {        // Component logic - LOWEST PRECEDENCE
         variant: { 
           disabled: disabled || loading // Component-controlled logic
         }
-      }
+      },
+      {        // Props from component - MEDIUM PRECEDENCE
+        variant: { size, tone }
+      },
+      tweak   // User customization from props - HIGHEST PRECEDENCE
     ],
     [size, tone, disabled, loading, tweak] // Only recompute when these change
   );
@@ -1209,14 +1209,14 @@ const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
   const { slots, variant } = useClsMemo(
     ButtonCls,
     [
-      tweak,  // User tweak (highest precedence)
       {       // Internal config (lower precedence)
         variant: { 
           size, 
           tone,
           disabled: disabled || loading 
         }
-      }
+      },
+      tweak  // User tweak (highest precedence)
     ],
     [size, tone, disabled, loading, tweak] // All dependencies included
   );
@@ -1244,9 +1244,9 @@ const { slots, variant } = ButtonCls.create({
 
 // Multiple tweaks with precedence
 const { slots, variant } = ButtonCls.create(
-  userTweak,     // Highest precedence
-  propsTweak,    // Medium precedence
-  internalTweak  // Lowest precedence
+  internalTweak,  // Lowest precedence
+  propsTweak,     // Medium precedence
+  userTweak       // Highest precedence
 );
 ```
 
@@ -1271,6 +1271,27 @@ const { slots, variant } = ButtonCls.create();
 <button className={slots.root({
   token: { "color.bg.primary": { class: ["bg-purple-600"] } }
 })}>Purple Button</button>
+```
+
+### Override Flag
+```typescript
+// Use the override flag to explicitly override previous tweaks
+const { slots, variant } = ButtonCls.create(
+  { variant: { size: "md" } },           // This will be overridden
+  { 
+    override: true,                      // Override flag
+    variant: { size: "lg" }              // This will override the previous size
+  }
+);
+
+// Override flag works with slots too
+<button className={slots.root(
+  { slot: { root: { class: ["px-4"] } } },  // This will be overridden
+  { 
+    override: true,                         // Override flag
+    slot: { root: { class: ["px-8"] } }     // This will override the previous padding
+  }
+)}>Button</button>
 ```
 
 ### Token Chains
@@ -1310,9 +1331,9 @@ const { slots, variant } = ButtonCls.create();
 
 // Use cls.tweak() for manual tweak merging
 const finalTweak = ButtonCls.tweak(
-  userTweak,     // Highest precedence
-  propsTweak,    // Medium precedence
-  internalTweak  // Lowest precedence
+  internalTweak,  // Lowest precedence
+  propsTweak,     // Medium precedence
+  userTweak       // Highest precedence
 );
 
 // Use the merged tweak with cls.create()
@@ -1323,9 +1344,9 @@ const { slots: customSlots, variant: customVariant } = ButtonCls.create(finalTwe
 ```typescript
 // Prefer direct variadic usage - no need for manual merging
 const { slots, variant } = ButtonCls.create(
-  userTweak,     // Highest precedence
-  propsTweak,    // Medium precedence
-  internalTweak  // Lowest precedence
+  internalTweak,  // Lowest precedence
+  propsTweak,     // Medium precedence
+  userTweak       // Highest precedence
 );
 
 // Individual slots also support variadic tweaks
@@ -1335,7 +1356,7 @@ const { slots, variant } = ButtonCls.create(
 )}>Button</button>
 ```
 
-> **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Everything works with variadic parameters directly!
+> **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Tweaks are processed from lowest to highest precedence (last parameter wins), and the `override` flag allows explicit overriding of previous tweaks!
 
 ## 🚀 Performance
 

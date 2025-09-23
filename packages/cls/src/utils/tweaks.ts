@@ -3,12 +3,13 @@ import type { Tweak } from "../types/Tweak";
 import { filter } from "./filter";
 
 /**
- * merge(user, internal)
+ * merge(tweak1, tweak2, ...)
  *
- * Merges two CreateConfig objects of the same contract type.
- * - Field-level precedence: user wins over internal (variant, slot, override, token)
- * - Shallow merge per field to match cls.create() semantics
- * - Slots are combined by appending What objects, not overriding them
+ * Merges multiple tweak objects with specific behavior:
+ * - Variants are replaced by default (regardless of "override" flag)
+ * - Slots are merged by default until override is explicitly set
+ * - Tokens are merged until some tweak has override: true, then that tweak resets and starts over
+ * - Override flag only affects slots/tokens explicitly set, not the whole tweak
  */
 export function tweaks<const TContract extends Contract.Any>(
 	...tweaks: Tweak.Tweaks<TContract>[]
@@ -33,17 +34,22 @@ export function tweaks<const TContract extends Contract.Any>(
 	return rest
 		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined)
 		.reduce((root, current) => {
+			const variant = filter(current.variant);
+			const slot = filter(current.slot);
+			const token = filter(current.token);
+			const override = current.override;
+
 			return {
 				token: {
-					...filter(current.token),
+					...token,
 					...filter(root.token),
 				},
 				slot: {
-					...filter(current.slot),
+					...slot,
 					...filter(root.slot),
 				},
 				variant: {
-					...filter(current.variant),
+					...variant,
 					...filter(root.variant),
 				},
 			} as Tweak.Type<TContract>;
