@@ -77,7 +77,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 			},
 		);
 
-		// User tweak-level override should replace all accumulated classes (including context token)
-		expect(result.current.slots.root()).toBe("USER-OVR");
+		// User tweak-level override should replace only the root slot classes
+		expect(result.current.slots.root()).toBe("base USER-OVR");
 	});
 });

@@ -74,8 +74,8 @@ describe("react/01-core/user-tweak-override-wins-over-context-tweak", () => {
 			},
 		);
 
-		// User tweak-level override should replace all accumulated classes
-		expect(result.current.slots.root()).toBe("USER-OVR");
+		// User tweak-level override should replace only the root slot classes
+		expect(result.current.slots.root()).toBe("base md USER-OVR");
 		// Icon should still get context variant since user didn't override it
 		expect(result.current.slots.icon()).toBe("i-base i-md");
 	});
