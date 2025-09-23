@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/combined-overlays-on-different-leaves-in-branching-chain", () => {
 	it("t1 -> (t2, t3); config overlays t2; user overlays t3; both apply in order", () => {
@@ -56,26 +56,24 @@ describe("cls/inheritance/combined-overlays-on-different-leaves-in-branching-cha
 		);
 
 		const { slots } = $base.create(
-			tweaks([
-				{
-					token: {
-						t3: {
-							class: [
-								"user3",
-							],
-						},
+			{
+				token: {
+					t3: {
+						class: [
+							"user3",
+						],
 					},
 				},
-				{
-					token: {
-						t2: {
-							class: [
-								"conf2",
-							],
-						},
+			},
+			{
+				token: {
+					t2: {
+						class: [
+							"conf2",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("conf2 user3 a1 base");

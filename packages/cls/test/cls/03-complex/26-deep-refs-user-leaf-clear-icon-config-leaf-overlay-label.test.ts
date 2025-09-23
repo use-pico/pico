@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/deep-refs-user-leaf-clear-icon-config-leaf-overlay-label", () => {
 	it("user clears t2 on icon; config overlays t2 on label; root unaffected", () => {
@@ -75,24 +75,22 @@ describe("cls/complex/deep-refs-user-leaf-clear-icon-config-leaf-overlay-label",
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					token: {
-						t2: {
-							class: [],
-						},
+			{
+				token: {
+					t2: {
+						class: [],
 					},
 				},
-				{
-					token: {
-						t2: {
-							class: [
-								"CONF2",
-							],
-						},
+			},
+			{
+				token: {
+					t2: {
+						class: [
+							"CONF2",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("a1 r");

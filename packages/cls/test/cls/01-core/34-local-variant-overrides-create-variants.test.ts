@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/local-variant-overrides-create-variants", () => {
 	it("local slot variant overrides user/config variants for that call", () => {
@@ -60,32 +60,30 @@ describe("cls/local-variant-overrides-create-variants", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"user",
-							],
-						},
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					variant: {
-						size: "sm",
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
+			},
+			{
+				variant: {
+					size: "sm",
+				},
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		// With create-level variants md (user) and sm (config), user wins -> md

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/multi-root-token-refs-with-dual-overlays-order", () => {
 	it("two root refs t1,t6; user overlays t2 leaf; config overlays t6 root; order correct", () => {
@@ -90,26 +90,24 @@ describe("cls/complex/multi-root-token-refs-with-dual-overlays-order", () => {
 		);
 
 		const { slots } = $c.create(
-			tweaks([
-				{
-					token: {
-						t2: {
-							class: [
-								"USER2",
-							],
-						},
+			{
+				token: {
+					t2: {
+						class: [
+							"USER2",
+						],
 					},
 				},
-				{
-					token: {
-						t6: {
-							class: [
-								"CONF6",
-							],
-						},
+			},
+			{
+				token: {
+					t6: {
+						class: [
+							"CONF6",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		// Actual order: within t3, referenced tokens expand first (t4,t5) before its own class

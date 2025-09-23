@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 	it("child adds classes; config then user appends order preserved", () => {
@@ -51,20 +51,15 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 			},
 		);
 
-		const { slots } = $child.create(
-			tweaks([
-				undefined,
-				{
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
-					},
+		const { slots } = $child.create(undefined, {
+			slot: {
+				root: {
+					class: [
+						"config",
+					],
 				},
-			]),
-		);
+			},
+		});
 
 		expect(slots.root()).toBe("base child config");
 		expect(

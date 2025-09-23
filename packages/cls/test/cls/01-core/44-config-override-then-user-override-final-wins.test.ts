@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/config-override-then-user-override-final-wins", () => {
 	it("user override applied at call time replaces earlier config override", () => {
@@ -28,20 +28,15 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
-			tweaks([
-				undefined,
-				{
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
-					},
+		const { slots } = $cls.create(undefined, {
+			override: {
+				root: {
+					class: [
+						"CONF-OVR",
+					],
 				},
-			]),
-		);
+			},
+		});
 
 		// local user override wins over prior config override
 		expect(

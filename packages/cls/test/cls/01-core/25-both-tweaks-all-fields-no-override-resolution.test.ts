@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
 	it("resolves variant, token and slot without overrides (user wins for variant/token)", () => {
@@ -59,46 +59,44 @@ describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"user",
-							],
-						},
-					},
-					token: {
-						"color.text": {
-							class: [
-								"text-blue-500",
-							],
-						},
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					variant: {
-						size: "sm",
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
-					},
-					token: {
-						"color.text": {
-							class: [
-								"text-green-500",
-							],
-						},
+				token: {
+					"color.text": {
+						class: [
+							"text-blue-500",
+						],
 					},
 				},
-			]),
+			},
+			{
+				variant: {
+					size: "sm",
+				},
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
+					},
+				},
+				token: {
+					"color.text": {
+						class: [
+							"text-green-500",
+						],
+					},
+				},
+			},
 		);
 
 		// Expectations without override:

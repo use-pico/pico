@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-config-override-then-user-override-final-wins", () => {
 	it("in 3-level chain, local user override wins over config override", () => {
@@ -68,20 +68,15 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 			},
 		);
 
-		const { slots } = $grand.create(
-			tweaks([
-				undefined,
-				{
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
-					},
+		const { slots } = $grand.create(undefined, {
+			override: {
+				root: {
+					class: [
+						"CONF-OVR",
+					],
 				},
-			]),
-		);
+			},
+		});
 
 		// local user override wins
 		expect(

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, tweaks } from "../../../src";
+import { contract } from "../../../src";
 
 describe("builder/local-override-wins-over-user-override", () => {
 	it("local override replaces config override output", () => {
@@ -22,26 +22,24 @@ describe("builder/local-override-wins-over-user-override", () => {
 			.cls();
 
 		const created = $cls.create(
-			tweaks([
-				{
-					override: {
-						root: {
-							class: [
-								"USER-OVR",
-							],
-						},
+			{
+				override: {
+					root: {
+						class: [
+							"USER-OVR",
+						],
 					},
 				},
-				{
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
+			},
+			{
+				override: {
+					root: {
+						class: [
+							"CONF-OVR",
+						],
 					},
 				},
-			]),
+			},
 		);
 		expect(created.slots.root()).toBe("USER-OVR");
 	});

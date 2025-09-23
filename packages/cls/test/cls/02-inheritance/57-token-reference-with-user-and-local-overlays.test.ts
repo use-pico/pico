@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-reference-with-user-and-local-overlays", () => {
 	it("t1 references t2; user overlays t2; local overlays t1", () => {
@@ -62,18 +62,16 @@ describe("cls/inheritance/token-reference-with-user-and-local-overlays", () => {
 		);
 
 		const { slots } = $child.create(
-			tweaks([
-				{
-					token: {
-						t2: {
-							class: [
-								"user2",
-							],
-						},
+			{
+				token: {
+					t2: {
+						class: [
+							"user2",
+						],
 					},
 				},
-				{},
-			]),
+			},
+			{},
 		);
 
 		// user overlays t2, then local overlay on t1 wins over user overlay on t2

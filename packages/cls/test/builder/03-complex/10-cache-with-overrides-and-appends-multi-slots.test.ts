@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweaks } from "../../../src";
+import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () => {
 	it("returns identical output for identical complex tweaks across slots", () => {
@@ -32,62 +32,58 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 			.cls();
 
 		const a = $cls.create(
-			tweaks([
-				{
-					override: {
-						root: {
-							class: [
-								"R-OVR",
-							],
-						},
-					},
-					slot: {
-						icon: {
-							class: [
-								"I-U",
-							],
-						},
+			{
+				override: {
+					root: {
+						class: [
+							"R-OVR",
+						],
 					},
 				},
-				{
-					slot: {
-						label: {
-							class: [
-								"L-C",
-							],
-						},
+				slot: {
+					icon: {
+						class: [
+							"I-U",
+						],
 					},
 				},
-			]),
+			},
+			{
+				slot: {
+					label: {
+						class: [
+							"L-C",
+						],
+					},
+				},
+			},
 		);
 		const b = $cls.create(
-			tweaks([
-				{
-					override: {
-						root: {
-							class: [
-								"R-OVR",
-							],
-						},
-					},
-					slot: {
-						icon: {
-							class: [
-								"I-U",
-							],
-						},
+			{
+				override: {
+					root: {
+						class: [
+							"R-OVR",
+						],
 					},
 				},
-				{
-					slot: {
-						label: {
-							class: [
-								"L-C",
-							],
-						},
+				slot: {
+					icon: {
+						class: [
+							"I-U",
+						],
 					},
 				},
-			]),
+			},
+			{
+				slot: {
+					label: {
+						class: [
+							"L-C",
+						],
+					},
+				},
+			},
 		);
 		expect(a.slots.root()).toBe(b.slots.root());
 		expect(a.slots.icon()).toBe(b.slots.icon());

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, tweaks } from "../../../src";
+import { contract } from "../../../src";
 
 describe("builder/empty-token-overlay-clears-token", () => {
 	it("empty overlay on token clears that token only", () => {
@@ -34,17 +34,13 @@ describe("builder/empty-token-overlay-clears-token", () => {
 			})
 			.cls();
 
-		const created = $cls.create(
-			tweaks(undefined, [
-				{
-					token: {
-						t1: {
-							class: [],
-						},
-					},
+		const created = $cls.create(undefined, {
+			token: {
+				t1: {
+					class: [],
 				},
-			]),
-		);
+			},
+		});
 		expect(created.slots.root()).toBe("base");
 	});
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/multi-slot-dual-root-refs-mixed-overlays-local-icon-override", () => {
 	it("root uses t1 then t6; config overlays t1; user overlays t5; local icon override", () => {
@@ -184,26 +184,24 @@ describe("cls/complex/multi-slot-dual-root-refs-mixed-overlays-local-icon-overri
 		);
 
 		const { slots } = $c.create(
-			tweaks([
-				{
-					token: {
-						t5: {
-							class: [
-								"USER5",
-							],
-						},
+			{
+				token: {
+					t5: {
+						class: [
+							"USER5",
+						],
 					},
 				},
-				{
-					token: {
-						t1: {
-							class: [
-								"CONF1",
-							],
-						},
+			},
+			{
+				token: {
+					t1: {
+						class: [
+							"CONF1",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		// root accumulates: from matches first, then config root overlay for t1, then t6 chain

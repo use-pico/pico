@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/create-with-empty-user-and-config-results-in-base", () => {
 	it("when both user and config provide empty slot arrays, only base remains", () => {
@@ -29,22 +29,20 @@ describe("cls/create-with-empty-user-and-config-results-in-base", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					slot: {
-						root: {
-							class: [],
-						},
+			{
+				slot: {
+					root: {
+						class: [],
 					},
 				},
-				{
-					slot: {
-						root: {
-							class: [],
-						},
+			},
+			{
+				slot: {
+					root: {
+						class: [],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("base");

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/three-level-user-token-wins-over-config-with-local-override", () => {
 	it("user token beats config token; local override replaces all", () => {
@@ -98,26 +98,24 @@ describe("cls/inheritance/three-level-user-token-wins-over-config-with-local-ove
 		);
 
 		const { slots } = $grand.create(
-			tweaks([
-				{
-					token: {
-						t: {
-							class: [
-								"user",
-							],
-						},
+			{
+				token: {
+					t: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					token: {
-						t: {
-							class: [
-								"conf",
-							],
-						},
+			},
+			{
+				token: {
+					t: {
+						class: [
+							"conf",
+						],
 					},
 				},
-			]),
+			},
 		);
 		expect(slots.root()).toBe("user b c g");
 		expect(

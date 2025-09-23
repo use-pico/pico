@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/per-slot-config-override-blocks-user-only-that-slot", () => {
 	it("config override on root blocks user append on root; icon user still applies", () => {
@@ -35,31 +35,29 @@ describe("cls/complex/per-slot-config-override-blocks-user-only-that-slot", () =
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					slot: {
-						root: {
-							class: [
-								"USER-R",
-							],
-						},
-						icon: {
-							class: [
-								"USER-I",
-							],
-						},
+			{
+				slot: {
+					root: {
+						class: [
+							"USER-R",
+						],
+					},
+					icon: {
+						class: [
+							"USER-I",
+						],
 					},
 				},
-				{
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
+			},
+			{
+				override: {
+					root: {
+						class: [
+							"CONF-OVR",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("CONF-OVR");

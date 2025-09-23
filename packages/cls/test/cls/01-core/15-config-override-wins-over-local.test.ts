@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/config-override-wins-over-local", () => {
 	it("uses config override as the final result even if local override is provided", () => {
@@ -47,20 +47,15 @@ describe("cls/config-override-wins-over-local", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
-			tweaks([
-				undefined,
-				{
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
-					},
+		const { slots } = $cls.create(undefined, {
+			override: {
+				root: {
+					class: [
+						"CONF-OVR",
+					],
 				},
-			]),
-		);
+			},
+		});
 
 		// Default (sm): config override applies, but local override would win if provided
 		expect(slots.root()).toBe("CONF-OVR");

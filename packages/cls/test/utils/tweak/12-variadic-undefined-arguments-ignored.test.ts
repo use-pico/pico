@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { contract, tweaks } from "../../../src";
+import { contract } from "../../../src";
+import { tweaks } from "../../../src/utils/tweaks";
 
 const TestCls = contract()
 	.variants({

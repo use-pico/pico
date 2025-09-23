@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/create-variant-undefined-prefers-config", () => {
 	it("uses internal config variant when user variant is undefined", () => {
@@ -48,32 +48,30 @@ describe("cls/create-variant-undefined-prefers-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					variant: {
-						size: undefined,
-					},
-					slot: {
-						root: {
-							class: [
-								"user",
-							],
-						},
+			{
+				variant: {
+					size: undefined,
+				},
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
+			},
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		// internal (config) provides size: "md"; user provides undefined -> config wins

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/config-override-then-config-slot-append-no-effect", () => {
 	it("slot class in config has no effect after config override", () => {
@@ -28,27 +28,22 @@ describe("cls/config-override-then-config-slot-append-no-effect", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
-			tweaks([
-				undefined,
-				{
-					override: {
-						root: {
-							class: [
-								"OVR",
-							],
-						},
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
-					},
+		const { slots } = $cls.create(undefined, {
+			override: {
+				root: {
+					class: [
+						"OVR",
+					],
 				},
-			]),
-		);
+			},
+			slot: {
+				root: {
+					class: [
+						"config",
+					],
+				},
+			},
+		});
 
 		expect(slots.root()).toBe("OVR");
 	});

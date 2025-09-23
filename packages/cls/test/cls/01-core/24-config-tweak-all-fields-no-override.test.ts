@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/config-tweak-all-fields-no-override", () => {
 	it("applies config variant, token and slot; config slot before user", () => {
@@ -58,30 +58,25 @@ describe("cls/config-tweak-all-fields-no-override", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
-			tweaks([
-				undefined,
-				{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
-					},
-					token: {
-						"color.text": {
-							class: [
-								"text-blue-500",
-							],
-						},
-					},
+		const { slots } = $cls.create(undefined, {
+			variant: {
+				size: "md",
+			},
+			slot: {
+				root: {
+					class: [
+						"config",
+					],
 				},
-			]),
-		);
+			},
+			token: {
+				"color.text": {
+					class: [
+						"text-blue-500",
+					],
+				},
+			},
+		});
 
 		expect(slots.root()).toBe("text-blue-500 base md config");
 	});

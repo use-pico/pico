@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/user-vs-config-overlay-on-referenced-leaf-precedence", () => {
 	it("user overlay on t2 should win over config overlay on t2", () => {
@@ -49,26 +49,24 @@ describe("cls/inheritance/user-vs-config-overlay-on-referenced-leaf-precedence",
 		);
 
 		const { slots } = $base.create(
-			tweaks([
-				{
-					token: {
-						t2: {
-							class: [
-								"user2",
-							],
-						},
+			{
+				token: {
+					t2: {
+						class: [
+							"user2",
+						],
 					},
 				},
-				{
-					token: {
-						t2: {
-							class: [
-								"conf2",
-							],
-						},
+			},
+			{
+				token: {
+					t2: {
+						class: [
+							"conf2",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("user2 a1 base");

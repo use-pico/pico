@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-override-then-config-then-user-order", () => {
 	it("override clears, then config appends, then user appends last", () => {
@@ -76,26 +76,24 @@ describe("cls/inheritance/grandchild-override-then-config-then-user-order", () =
 		);
 
 		const { slots } = $grand.create(
-			tweaks([
-				{
-					slot: {
-						root: {
-							class: [
-								"user",
-							],
-						},
+			{
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
+			},
+			{
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("OVR user");

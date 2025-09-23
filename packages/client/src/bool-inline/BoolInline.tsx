@@ -1,4 +1,3 @@
-import { tweaks as coolTweak } from "@use-pico/cls";
 import type { FC, Ref } from "react";
 import { CheckIcon } from "../icon/CheckIcon";
 import { Icon } from "../icon/Icon";
@@ -82,16 +81,11 @@ export const BoolInline: FC<BoolInline.Props> = ({
 			<Icon
 				icon={value ? checkIcon : unCheckIcon}
 				cls={IconCls.use(cls)}
-				tweak={IconCls.tweak(
-					coolTweak([
-						tweak,
-						{
-							variant: {
-								value,
-							},
-						},
-					]),
-				)}
+				tweak={IconCls.tweak(tweak, {
+					variant: {
+						value,
+					},
+				})}
 				{...props}
 			/>
 		</div>

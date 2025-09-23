@@ -606,8 +606,8 @@ export function cls<
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
 		},
-		tweak(tweak) {
-			return tweaks(tweak as Tweak.Type<TContract>);
+		tweak(...tweak) {
+			return tweaks(...(tweak as Tweak.Tweaks<TContract>[]));
 		},
 		contract,
 		definition,

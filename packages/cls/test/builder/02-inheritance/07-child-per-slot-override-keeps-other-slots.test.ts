@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweaks } from "../../../src";
+import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => {
 	it("per-slot local override clears only that slot", () => {
@@ -61,20 +61,15 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 			})
 			.cls();
 
-		const created = child.create(
-			tweaks([
-				undefined,
-				{
-					override: {
-						root: {
-							class: [
-								"OVR",
-							],
-						},
-					},
+		const created = child.create(undefined, {
+			override: {
+				root: {
+					class: [
+						"OVR",
+					],
 				},
-			]),
-		);
+			},
+		});
 		expect(created.slots.root()).toBe("OVR");
 		expect(created.slots.icon()).toBe("i-base i-sm i-child");
 	});

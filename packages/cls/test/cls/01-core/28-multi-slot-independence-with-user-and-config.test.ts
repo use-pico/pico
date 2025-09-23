@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/multi-slot-independence-with-user-and-config", () => {
 	it("applies tweaks independently per slot with correct order", () => {
@@ -59,39 +59,37 @@ describe("cls/multi-slot-independence-with-user-and-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					variant: {
-						size: "md",
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					root: {
+						class: [
+							"root-user",
+						],
 					},
-					slot: {
-						root: {
-							class: [
-								"root-user",
-							],
-						},
-						icon: {
-							class: [
-								"icon-user",
-							],
-						},
+					icon: {
+						class: [
+							"icon-user",
+						],
 					},
 				},
-				{
-					slot: {
-						root: {
-							class: [
-								"root-config",
-							],
-						},
-						icon: {
-							class: [
-								"icon-config",
-							],
-						},
+			},
+			{
+				slot: {
+					root: {
+						class: [
+							"root-config",
+						],
+					},
+					icon: {
+						class: [
+							"icon-config",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("root-base root-md root-user");

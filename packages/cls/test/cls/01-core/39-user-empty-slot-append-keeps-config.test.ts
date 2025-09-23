@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/user-empty-slot-append-keeps-config", () => {
 	it("empty user slot classes do not remove config classes", () => {
@@ -29,24 +29,22 @@ describe("cls/user-empty-slot-append-keeps-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					slot: {
-						root: {
-							class: [],
-						},
+			{
+				slot: {
+					root: {
+						class: [],
 					},
 				},
-				{
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
+			},
+			{
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
 					},
 				},
-			]),
+			},
 		);
 
 		expect(slots.root()).toBe("base");

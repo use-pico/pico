@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/both-tweaks-all-fields-resolution", () => {
 	it("resolves variant, token, slot and override with correct precedence", () => {
@@ -59,60 +59,58 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweaks([
-				{
-					variant: {
-						size: "md",
-					},
-					slot: {
-						root: {
-							class: [
-								"user",
-							],
-						},
-					},
-					token: {
-						"color.text": {
-							class: [
-								"text-blue-500",
-							],
-						},
-					},
-					override: {
-						root: {
-							class: [
-								"USER-OVR",
-							],
-						},
+			{
+				variant: {
+					size: "md",
+				},
+				slot: {
+					root: {
+						class: [
+							"user",
+						],
 					},
 				},
-				{
-					variant: {
-						size: "sm",
-					},
-					slot: {
-						root: {
-							class: [
-								"config",
-							],
-						},
-					},
-					token: {
-						"color.text": {
-							class: [
-								"text-green-500",
-							],
-						},
-					},
-					override: {
-						root: {
-							class: [
-								"CONF-OVR",
-							],
-						},
+				token: {
+					"color.text": {
+						class: [
+							"text-blue-500",
+						],
 					},
 				},
-			]),
+				override: {
+					root: {
+						class: [
+							"USER-OVR",
+						],
+					},
+				},
+			},
+			{
+				variant: {
+					size: "sm",
+				},
+				slot: {
+					root: {
+						class: [
+							"config",
+						],
+					},
+				},
+				token: {
+					"color.text": {
+						class: [
+							"text-green-500",
+						],
+					},
+				},
+				override: {
+					root: {
+						class: [
+							"CONF-OVR",
+						],
+					},
+				},
+			},
 		);
 
 		// Precedence expectations:

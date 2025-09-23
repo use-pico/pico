@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweaks } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-extension-and-overlay-order", () => {
 	it("base token then child token override; user/local overlay win in order", () => {
@@ -59,18 +59,16 @@ describe("cls/inheritance/token-extension-and-overlay-order", () => {
 		);
 
 		const { slots } = $child.create(
-			tweaks([
-				{
-					token: {
-						"color.text": {
-							class: [
-								"user",
-							],
-						},
+			{
+				token: {
+					"color.text": {
+						class: [
+							"user",
+						],
 					},
 				},
-				{},
-			]),
+			},
+			{},
 		);
 
 		// user overlay wins
