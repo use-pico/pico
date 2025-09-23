@@ -20,14 +20,11 @@ export const TitlePreview: FC<TitlePreview.Props> = ({
 	cls = TitlePreviewCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				withSubtitle: Boolean(subtitle),
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			withSubtitle: Boolean(subtitle),
 		},
-	]);
+	});
 
 	return (
 		<div

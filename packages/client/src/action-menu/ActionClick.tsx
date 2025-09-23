@@ -24,15 +24,12 @@ export const BaseActionClick: FC<ActionClick.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				loading,
-				disabled,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			loading,
+			disabled,
 		},
-	]);
+	});
 
 	return (
 		<div className={slots.wrapper()}>

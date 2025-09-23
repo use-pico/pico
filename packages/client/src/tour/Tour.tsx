@@ -224,9 +224,7 @@ export const Tour: FC<Tour.Props> = ({
 	cls = TourCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	const [currentStepIndex, setCurrentStepIndex] = useState(initialStepIndex);
 
 	const currentStep = steps[currentStepIndex];

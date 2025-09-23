@@ -20,9 +20,7 @@ export const Section: FC<Section.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div

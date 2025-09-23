@@ -32,9 +32,7 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 	cls = DeleteControlCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	const useModalStore = useContext(ModalContext);
 	const close = useModalStore((state) => state.close);
 	const queryClient = useQueryClient();

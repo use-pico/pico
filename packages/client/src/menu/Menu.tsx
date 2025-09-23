@@ -16,14 +16,11 @@ export const Menu: FC<Menu.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				vertical,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			vertical,
 		},
-	]);
+	});
 
 	return (
 		<div

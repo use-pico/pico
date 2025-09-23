@@ -35,18 +35,15 @@ export const BaseActionMenu: FC<ActionMenu.Props> = ({
 	tweak,
 	...props
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			slot: {
-				root: {
-					class: [
-						"relative",
-					],
-				},
+	const { slots } = useCls(cls, tweak, {
+		slot: {
+			root: {
+				class: [
+					"relative",
+				],
 			},
 		},
-	]);
+	});
 
 	return (
 		<FloatingTree>

@@ -19,9 +19,7 @@ export const BaseDetail: FC<Detail.Props> = ({
 	cls = DetailCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<InlineContext

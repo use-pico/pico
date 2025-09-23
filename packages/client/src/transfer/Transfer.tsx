@@ -72,9 +72,7 @@ export const Transfer = <TItem extends EntitySchema.Type>({
 		};
 	});
 
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 
 	const withHandleSelect = (group: ReactNode, item: TItem) => () => {
 		onChange?.(

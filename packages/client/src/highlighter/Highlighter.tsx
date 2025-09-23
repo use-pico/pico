@@ -22,14 +22,11 @@ export const BaseHighlighter: FC<Highlighter.Props> = ({
 	cls = HighlighterCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				center: rect === undefined,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			center: rect === undefined,
 		},
-	]);
+	});
 
 	return (
 		<AnimatePresence>

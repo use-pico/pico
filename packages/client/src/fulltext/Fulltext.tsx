@@ -24,9 +24,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	cls = FulltextCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	const [search, setSearch] = useState(value || "");
 	const debounced = useDebouncedCallback((value) => {
 		set(value);

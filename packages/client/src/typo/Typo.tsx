@@ -29,18 +29,15 @@ export const BaseTypo: FC<Typo.Props> = ({
 	tweak,
 	ref,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				size,
-				font,
-				italic,
-				tone,
-				theme,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			size,
+			font,
+			italic,
+			tone,
+			theme,
 		},
-	]);
+	});
 
 	return (
 		<div

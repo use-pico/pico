@@ -74,14 +74,11 @@ export const Card = <TValues extends Record<string, any>>({
 	tweak,
 	inline = false,
 }: Card.Props<TValues>) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				inline,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			inline,
 		},
-	]);
+	});
 
 	return (
 		<InlineContext

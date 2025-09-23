@@ -64,9 +64,7 @@ export const More = <TValues extends EntitySchema.Type>({
 	tweak,
 }: More.Props<TValues>) => {
 	const $items = limit === undefined ? items : items.slice(0, limit);
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 
 	return (
 		<div

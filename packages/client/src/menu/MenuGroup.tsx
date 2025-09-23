@@ -36,16 +36,13 @@ export const MenuGroup: FC<MenuGroup.Props> = ({
 	const matchRoute = useMatchRoute();
 	const isActive = match.some((options) => Boolean(matchRoute(options)));
 
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				type,
-				active: active ?? isActive,
-				vertical,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			type,
+			active: active ?? isActive,
+			vertical,
 		},
-	]);
+	});
 
 	return (
 		<Float

@@ -49,32 +49,29 @@ export const BaseContainer: FC<Container.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			slot: {
-				root: {
-					class: className,
-				},
-			},
-			variant: {
-				height,
-				width,
-				orientation,
-				overflow,
-				snap,
-				item,
-				square,
-				gap,
-				position,
-				border,
-				round,
-				shadow,
-				tone,
-				theme,
+	const { slots } = useCls(cls, tweak, {
+		slot: {
+			root: {
+				class: className,
 			},
 		},
-	]);
+		variant: {
+			height,
+			width,
+			orientation,
+			overflow,
+			snap,
+			item,
+			square,
+			gap,
+			position,
+			border,
+			round,
+			shadow,
+			tone,
+			theme,
+		},
+	});
 
 	return (
 		<div

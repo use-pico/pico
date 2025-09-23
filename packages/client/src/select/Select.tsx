@@ -143,15 +143,12 @@ export const Select = <TItem extends EntitySchema.Type>({
 
 	const item = selectedIndex === null ? undefined : items[selectedIndex];
 
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				disabled,
-				size: $size,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			disabled,
+			size: $size,
 		},
-	]);
+	});
 
 	return (
 		<FormField {...props}>

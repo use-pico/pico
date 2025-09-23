@@ -40,18 +40,15 @@ export const BaseButton: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots, variant } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				disabled,
-				theme,
-				tone,
-				size,
-				round,
-			},
+	const { slots, variant } = useCls(cls, tweak, {
+		variant: {
+			disabled,
+			theme,
+			tone,
+			size,
+			round,
 		},
-	]);
+	});
 
 	return (
 		<VariantProvider

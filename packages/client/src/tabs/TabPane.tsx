@@ -19,14 +19,11 @@ export const TabPane: FC<TabPane.Props> = ({
 	const hidden = useStore((state) => state.hidden);
 	const currentTab = useStore((state) => state.tab);
 
-	const { slots } = useCls(cls, [
-		tweak,
-		{
-			variant: {
-				hidden: tab !== currentTab,
-			},
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			hidden: tab !== currentTab,
 		},
-	]);
+	});
 
 	return hidden.includes(tab) ? null : (
 		<div
