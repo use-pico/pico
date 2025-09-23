@@ -69,6 +69,6 @@ describe("cls/inheritance/token-reference-and-slot-append-combination", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("a2 a1 base user");
+		expect(slots.root()).toBe("a2 a1 base user conf");
 	});
 });

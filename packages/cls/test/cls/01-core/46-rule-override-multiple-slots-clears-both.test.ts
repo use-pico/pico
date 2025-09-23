@@ -38,17 +38,18 @@ describe("cls/rule-override-multiple-slots-clears-both", () => {
 						match: {
 							danger: "on",
 						},
-						override: true,
 						slot: {
 							root: {
 								class: [
 									"ROOT-OVR",
 								],
+								override: true,
 							},
 							icon: {
 								class: [
 									"ICON-OVR",
 								],
+								override: true,
 							},
 						},
 					},

@@ -42,27 +42,27 @@ describe("cls/inheritance/child-config-override-vs-user-override-precedence", ()
 		);
 
 		const { slots } = $child.create(undefined, {
-			override: true,
 			slot: {
 				root: {
 					class: [
 						"CONF-OVR",
 					],
+					override: true,
 				},
 			},
 		});
 
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"USER-OVR",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("base CONF-OVR USER-OVR");
+		).toBe("USER-OVR");
 	});
 });

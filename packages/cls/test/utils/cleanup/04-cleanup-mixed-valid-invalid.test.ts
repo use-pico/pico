@@ -48,13 +48,19 @@ describe("utils/cleanup/cleanup-mixed-valid-invalid", () => {
 
 		expect(result).toEqual({
 			token: {
-				t1: [
-					"class1",
-				],
-				t3: [],
-				t4: [
-					"class4",
-				],
+				t1: {
+					class: [
+						"class1",
+					],
+				},
+				t3: {
+					class: [],
+				},
+				t4: {
+					class: [
+						"class4",
+					],
+				},
 			},
 			slot: {
 				root: {

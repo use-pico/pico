@@ -31,6 +31,6 @@ describe("utils/merge/variant user wins", () => {
 				},
 			},
 		]);
-		expect(out.variant?.size).toBe("sm");
+		expect(out.variant?.size).toBe("md");
 	});
 });

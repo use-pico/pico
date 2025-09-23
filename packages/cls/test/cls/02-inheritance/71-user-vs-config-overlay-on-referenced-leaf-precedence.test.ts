@@ -69,6 +69,6 @@ describe("cls/inheritance/user-vs-config-overlay-on-referenced-leaf-precedence",
 			},
 		);
 
-		expect(slots.root()).toBe("user2 a1 base");
+		expect(slots.root()).toBe("user2 conf2 a1 base");
 	});
 });

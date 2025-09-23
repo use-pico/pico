@@ -69,6 +69,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 							"user",
 							"USER-OVR",
 						],
+						override: true,
 					},
 				},
 				token: {
@@ -78,7 +79,6 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 						],
 					},
 				},
-				override: true,
 			},
 			{
 				variant: {
@@ -90,6 +90,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 							"config",
 							"CONF-OVR",
 						],
+						override: true,
 					},
 				},
 				token: {
@@ -99,7 +100,6 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 						],
 					},
 				},
-				override: true,
 			},
 		);
 
@@ -107,7 +107,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 		// - override: config override wins over user override -> CONF-OVR
 		// - variant: user wins, ensuring md-specific rule would apply if not overridden
 		// - token: config wins (text-green-500)
-		// - slot: config before user when appending, but override clears anyway
-		expect(slots.root()).toBe("text-green-500 base config CONF-OVR");
+		// - slot: config override replaces all accumulated classes
+		expect(slots.root()).toBe("config CONF-OVR");
 	});
 });

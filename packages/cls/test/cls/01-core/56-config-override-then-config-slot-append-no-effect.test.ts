@@ -31,12 +31,12 @@ describe("cls/config-override-then-config-slot-append-no-effect", () => {
 		const { slots } = $cls.create(
 			undefined,
 			{
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"OVR",
 						],
+						override: true,
 					},
 				},
 			},
@@ -51,6 +51,6 @@ describe("cls/config-override-then-config-slot-append-no-effect", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("base OVR config");
+		expect(slots.root()).toBe("OVR config");
 	});
 });

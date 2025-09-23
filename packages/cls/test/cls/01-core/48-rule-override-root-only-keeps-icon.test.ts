@@ -38,12 +38,12 @@ describe("cls/rule-override-root-only-keeps-icon", () => {
 						match: {
 							danger: "on",
 						},
-						override: true,
 						slot: {
 							root: {
 								class: [
 									"ROOT-OVR",
 								],
+								override: true,
 							},
 							// icon omitted intentionally
 						},

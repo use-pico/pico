@@ -68,6 +68,7 @@ describe("cls/local-override-wins-over-user-override", () => {
 						"user",
 						"USER-OVR",
 					],
+					override: true,
 				},
 			},
 			token: {
@@ -77,20 +78,19 @@ describe("cls/local-override-wins-over-user-override", () => {
 					],
 				},
 			},
-			override: true,
 		});
 
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"LOCAL-OVR",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("text-blue-500 base md user USER-OVR LOCAL-OVR");
+		).toBe("LOCAL-OVR");
 	});
 });

@@ -57,10 +57,10 @@ export function tweaks<const TContract extends Contract.Any>(
 }
 
 const merge = (
-	acc: Record<string, What.Any<Contract.Any> | undefined>,
-	current: Record<string, What.Any<Contract.Any> | undefined>,
+	acc: Record<string, What.AnyOverride<Contract.Any> | undefined>,
+	current: Record<string, What.AnyOverride<Contract.Any> | undefined>,
 	override: boolean,
-): Record<string, What.Any<Contract.Any>> => {
+): Record<string, What.AnyOverride<Contract.Any>> => {
 	const result = filter({
 		...acc,
 	});
@@ -70,7 +70,10 @@ const merge = (
 			return;
 		}
 
-		if (override) {
+		// Check both top-level override and What-level override
+		const hasOverride = override || value.override === true;
+
+		if (hasOverride) {
 			result[key] = value;
 			return;
 		}
@@ -95,5 +98,5 @@ const merge = (
 		}
 	});
 
-	return result as Record<string, What.Any<Contract.Any>>;
+	return result as Record<string, What.AnyOverride<Contract.Any>>;
 };

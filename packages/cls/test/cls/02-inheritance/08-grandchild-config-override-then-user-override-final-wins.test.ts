@@ -69,12 +69,12 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 		);
 
 		const { slots } = $grand.create(undefined, {
-			override: true,
 			slot: {
 				root: {
 					class: [
 						"CONF-OVR",
 					],
+					override: true,
 				},
 			},
 		});
@@ -82,15 +82,15 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 		// local user override wins
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"USER-OVR",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("base child CONF-OVR USER-OVR");
+		).toBe("USER-OVR");
 	});
 });
