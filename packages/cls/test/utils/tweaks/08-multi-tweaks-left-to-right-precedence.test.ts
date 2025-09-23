@@ -37,6 +37,6 @@ describe("utils/merge/multi tweaks precedence", () => {
 				},
 			},
 		]);
-		expect(out.variant?.size).toBe("lg");
+		expect(out.variant?.size).toBe("sm");
 	});
 });

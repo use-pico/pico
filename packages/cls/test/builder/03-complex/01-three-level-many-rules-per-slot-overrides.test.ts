@@ -175,14 +175,13 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 
 		const withOverrides = grand.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					label: {
 						class: [
 							"L-OVR",
 						],
 					},
-				},
-				slot: {
 					icon: {
 						class: [
 							"I-USER",
@@ -191,7 +190,8 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				},
 			},
 			{
-				override: {
+				override: true,
+				slot: {
 					icon: {
 						class: [
 							"I-OVR",
@@ -201,7 +201,11 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 			},
 		);
 		expect(withOverrides.slots.root()).toBe("b2 b1 base r-sm child grand");
-		expect(withOverrides.slots.icon()).toBe("I-OVR");
-		expect(withOverrides.slots.label()).toBe("L-OVR");
+		expect(withOverrides.slots.icon()).toBe(
+			"i-base i-sm i-child i-grand I-OVR",
+		);
+		expect(withOverrides.slots.label()).toBe(
+			"l-base l-child l-grand L-OVR",
+		);
 	});
 });

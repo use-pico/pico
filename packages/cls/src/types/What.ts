@@ -38,5 +38,14 @@ export namespace What {
 	 *
 	 * @template TContract - The contract type for token-based styling
 	 */
-	export type Any<TContract extends Contract.Any> = Class | Token<TContract>;
+	export type Any<TContract extends Contract.Any> = (
+		| Class
+		| Token<TContract>
+	) & {
+		/**
+		 * If specified, this What will override the previous value (regardless of
+		 * What was set - class or token).
+		 */
+		override?: boolean;
+	};
 }

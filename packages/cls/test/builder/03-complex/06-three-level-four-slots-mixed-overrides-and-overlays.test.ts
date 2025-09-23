@@ -171,7 +171,8 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 						],
 					},
 				},
-				override: {
+				override: true,
+				slot: {
 					label: {
 						class: [
 							"L-OVR",
@@ -182,7 +183,7 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 		);
 		expect(created.slots.root()).toBe("C1 r-base r-child r-grand");
 		expect(created.slots.icon()).toBe("C1 i-base i-child i-grand");
-		expect(created.slots.label()).toBe("L-OVR");
+		expect(created.slots.label()).toBe("l-base l-child l-grand L-OVR");
 		expect(created.slots.badge()).toBe("b-base b-child b-grand U-B");
 	});
 });

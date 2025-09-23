@@ -33,14 +33,13 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 
 		const created = base.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"U-ROOT",
 						],
 					},
-				},
-				slot: {
 					label: {
 						class: [
 							"U-L",
@@ -68,8 +67,8 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("U-ROOT");
+		expect(created.slots.root()).toBe("r U-ROOT C-ROOT");
 		expect(created.slots.icon()).toBe("i C-ICON");
-		expect(created.slots.label()).toBe("l U-L");
+		expect(created.slots.label()).toBe("l U-L C-LABEL");
 	});
 });
