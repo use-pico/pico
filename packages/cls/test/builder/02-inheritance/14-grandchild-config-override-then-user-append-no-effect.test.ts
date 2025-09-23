@@ -61,16 +61,16 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 				},
 			},
 			{
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"CONF",
 						],
+						override: true,
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("base child grand CONF");
+		expect(created.slots.root()).toBe("CONF");
 	});
 });

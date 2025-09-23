@@ -48,26 +48,26 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 
 		const created = child.create(
 			{
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"CONF",
 						],
+						override: true,
 					},
 				},
 			},
 			{
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"USER",
 						],
+						override: true,
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("base child USER");
+		expect(created.slots.root()).toBe("USER");
 	});
 });
