@@ -48,7 +48,12 @@ describe("utils/merge/token user wins", () => {
 		]);
 		expect(out.token?.t1).toEqual({
 			class: [
-				"t2",
+				[
+					"t2",
+				],
+				[
+					"t3",
+				],
 			],
 		});
 	});

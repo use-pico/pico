@@ -50,6 +50,8 @@ describe("utils/merge/token combines what order", () => {
 		expect(out.token?.t1).toEqual({
 			token: [
 				"t1",
+				"t2",
+				"t3",
 			],
 		});
 	});

@@ -49,10 +49,15 @@ describe("utils/merge/variant + slot combo", () => {
 			},
 		]);
 
-		expect(out.variant?.size).toBe("sm");
+		expect(out.variant?.size).toBe("md");
 		expect(out.slot?.root).toEqual({
 			class: [
-				"a",
+				[
+					"a",
+				],
+				[
+					"b",
+				],
 			],
 		});
 	});

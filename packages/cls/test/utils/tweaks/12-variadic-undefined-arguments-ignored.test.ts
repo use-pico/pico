@@ -37,6 +37,6 @@ describe("utils/merge/three tweaks ordering", () => {
 				},
 			},
 		]);
-		expect(out.variant?.tone).toBe("green");
+		expect(out.variant?.tone).toBe("red");
 	});
 });

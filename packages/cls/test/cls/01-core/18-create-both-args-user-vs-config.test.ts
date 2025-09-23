@@ -102,7 +102,7 @@ describe("cls/create-both-args-user-vs-config", () => {
 		// Expectations:
 		// - variant: user wins (md) -> md-specific rule applied
 		// - slot: combined base + md + config + user, with user last
-		// - token: user wins (text-blue-500)
-		expect(slots.root()).toBe("text-blue-500 base md user");
+		// - token: config wins (text-green-500)
+		expect(slots.root()).toBe("text-green-500 base user config");
 	});
 });

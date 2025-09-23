@@ -1,6 +1,7 @@
 import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
 import type { What } from "../types/What";
+import { dedupe } from "./dedupe";
 import { filter } from "./filter";
 
 /**
@@ -78,10 +79,10 @@ const merge = (
 		}
 
 		if ("token" in result[key] && "token" in value) {
-			result[key].token = [
+			result[key].token = dedupe([
 				...result[key].token,
 				...value.token,
-			];
+			]);
 		}
 	});
 

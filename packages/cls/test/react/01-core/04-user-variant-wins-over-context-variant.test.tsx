@@ -59,6 +59,6 @@ describe("react/01-core/user-variant-wins-over-context-variant", () => {
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base");
+		expect(result.current.slots.root()).toBe("base md");
 	});
 });

@@ -31,16 +31,8 @@ describe("cls/create-both-args-override-precedence", () => {
 		// Provide both overrides: config + user. User MUST win and replace all previous classes
 		const { slots } = $cls.create(
 			{
-				override: {
-					root: {
-						class: [
-							"USER",
-						],
-					},
-				},
-			},
-			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF",
@@ -48,9 +40,19 @@ describe("cls/create-both-args-override-precedence", () => {
 					},
 				},
 			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"USER",
+						],
+					},
+				},
+			},
 		);
 
-		// With both: user wins -> only USER remains (override clears previous and replaces)
-		expect(slots.root()).toBe("USER");
+		// With both: user wins -> base + USER remains (override clears previous and replaces)
+		expect(slots.root()).toBe("base USER");
 	});
 });

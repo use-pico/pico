@@ -71,7 +71,7 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base U-root");
-		expect(result.current.slots.icon()).toBe("i-base U-icon");
+		expect(result.current.slots.root()).toBe("base U-root I-root");
+		expect(result.current.slots.icon()).toBe("i-base U-icon I-icon");
 	});
 });

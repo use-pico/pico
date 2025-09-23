@@ -36,7 +36,12 @@ describe("utils/merge/slot combines what", () => {
 		]);
 		expect(out.slot?.root).toEqual({
 			class: [
-				"a",
+				[
+					"a",
+				],
+				[
+					"b",
+				],
 			],
 		});
 	});

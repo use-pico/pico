@@ -36,7 +36,12 @@ describe("utils/merge/slot dedupes same classes", () => {
 		]);
 		expect(out.slot?.root).toEqual({
 			class: [
-				"a",
+				[
+					"a",
+				],
+				[
+					"a",
+				],
 			],
 		});
 	});

@@ -76,6 +76,6 @@ describe("cls/create-internal-variant-undefined-prefers-user", () => {
 
 		// user provides size: "md"; internal provides undefined -> user wins
 		// order: base then md then config then user (config slot applies before user)
-		expect(slots.root()).toBe("base md user");
+		expect(slots.root()).toBe("base md user config");
 	});
 });

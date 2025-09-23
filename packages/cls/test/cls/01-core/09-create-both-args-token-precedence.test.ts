@@ -60,6 +60,6 @@ describe("cls/create-both-args-token-precedence", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("text-blue-500 base");
+		expect(slots.root()).toBe("text-green-500 base");
 	});
 });

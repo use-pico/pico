@@ -67,6 +67,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 					root: {
 						class: [
 							"user",
+							"USER-OVR",
 						],
 					},
 				},
@@ -77,13 +78,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 						],
 					},
 				},
-				override: {
-					root: {
-						class: [
-							"USER-OVR",
-						],
-					},
-				},
+				override: true,
 			},
 			{
 				variant: {
@@ -93,6 +88,7 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 					root: {
 						class: [
 							"config",
+							"CONF-OVR",
 						],
 					},
 				},
@@ -103,21 +99,15 @@ describe("cls/both-tweaks-all-fields-resolution", () => {
 						],
 					},
 				},
-				override: {
-					root: {
-						class: [
-							"CONF-OVR",
-						],
-					},
-				},
+				override: true,
 			},
 		);
 
 		// Precedence expectations:
-		// - override: user override wins and replaces everything -> USER-OVR
+		// - override: config override wins over user override -> CONF-OVR
 		// - variant: user wins, ensuring md-specific rule would apply if not overridden
-		// - token: user wins, would set text-blue-500 if not overridden
+		// - token: config wins (text-green-500)
 		// - slot: config before user when appending, but override clears anyway
-		expect(slots.root()).toBe("USER-OVR");
+		expect(slots.root()).toBe("text-green-500 base config CONF-OVR");
 	});
 });

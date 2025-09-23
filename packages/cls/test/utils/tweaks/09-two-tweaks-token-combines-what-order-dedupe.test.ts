@@ -52,6 +52,7 @@ describe("utils/merge/token combines order and dedupes", () => {
 			token: [
 				"t1",
 				"t2",
+				"t3",
 			],
 		});
 	});

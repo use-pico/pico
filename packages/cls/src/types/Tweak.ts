@@ -21,6 +21,8 @@ export namespace Tweak {
 	export type Type<TContract extends Contract.Any> = {
 		/**
 		 * When set to true, this tweak will override the previous tweak(s).
+		 *
+		 * From user's perspective this allows to brute force user's tweak.
 		 */
 		override?: boolean;
 		/** Optional variant modifications */
