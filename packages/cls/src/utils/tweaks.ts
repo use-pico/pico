@@ -1,5 +1,6 @@
 import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
+import type { What } from "../types/What";
 import { filter } from "./filter";
 
 /**
@@ -31,27 +32,32 @@ export function tweaks<const TContract extends Contract.Any>(
 		...Tweak.Type<TContract>[],
 	];
 
-	return rest
-		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined)
-		.reduce((root, current) => {
-			const variant = filter(current.variant);
-			const slot = filter(current.slot);
-			const token = filter(current.token);
-			const override = current.override;
+	return (
+		rest
+			// .filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined)
+			.reduce((acc, current) => {
+				const override = current.override ?? false;
 
-			return {
-				token: {
-					...token,
-					...filter(root.token),
-				},
-				slot: {
-					...slot,
-					...filter(root.slot),
-				},
-				variant: {
-					...variant,
-					...filter(root.variant),
-				},
-			} as Tweak.Type<TContract>;
-		}, root);
+				return {
+					token: merge(
+						acc.token ?? {},
+						filter(current.token),
+						override,
+					),
+					slot: merge(acc.slot ?? {}, filter(current.slot), override),
+					variant: {
+						...filter(acc.variant),
+						...filter(current.variant),
+					},
+				} as Tweak.Type<TContract>;
+			}, root)
+	);
 }
+
+const merge = (
+	acc: Record<string, What.Any<Contract.Any> | undefined>,
+	current: Record<string, What.Any<Contract.Any> | undefined>,
+	override: boolean,
+): Record<string, What.Any<Contract.Any>> => {
+	//
+};
