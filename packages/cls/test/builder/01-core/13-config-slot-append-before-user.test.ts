@@ -23,19 +23,21 @@ describe("builder/local-override-wins-over-user-override", () => {
 
 		const created = $cls.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"CONF-OVR",
 						],
 					},
 				},
 			},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
-							"CONF-OVR",
+							"USER-OVR",
 						],
 					},
 				},
