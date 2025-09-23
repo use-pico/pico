@@ -37,7 +37,8 @@ describe("cls/complex/create-config-override-then-local-override-wins-root", () 
 		const { slots } = $cls.create(
 			{},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF",
@@ -46,13 +47,14 @@ describe("cls/complex/create-config-override-then-local-override-wins-root", () 
 				},
 			},
 		);
-		expect(slots.root()).toBe("CONF");
+		expect(slots.root()).toBe("r CONF");
 		expect(slots.icon()).toBe("i");
 
 		const local = $cls.create();
 		expect(
 			local.slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"LOCAL",
@@ -60,6 +62,6 @@ describe("cls/complex/create-config-override-then-local-override-wins-root", () 
 					},
 				},
 			}),
-		).toBe("LOCAL");
+		).toBe("r LOCAL");
 	});
 });

@@ -51,7 +51,8 @@ describe("cls/complex/config-root-override-local-icon-override-user-label-append
 				},
 			},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-R",
@@ -61,10 +62,11 @@ describe("cls/complex/config-root-override-local-icon-override-user-label-append
 			},
 		);
 
-		expect(slots.root()).toBe("CONF-R");
+		expect(slots.root()).toBe("r-base CONF-R");
 		expect(
 			slots.icon({
-				override: {
+				override: true,
+				slot: {
 					icon: {
 						class: [
 							"LOCAL-I",
@@ -72,7 +74,7 @@ describe("cls/complex/config-root-override-local-icon-override-user-label-append
 					},
 				},
 			}),
-		).toBe("LOCAL-I");
+		).toBe("i-base LOCAL-I");
 		expect(slots.label()).toBe("l-base USER-L");
 	});
 });

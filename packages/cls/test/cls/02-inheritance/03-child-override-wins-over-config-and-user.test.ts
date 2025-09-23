@@ -100,6 +100,6 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("CHILD-OVR user");
+		expect(slots.root()).toBe("CHILD-OVR user config");
 	});
 });

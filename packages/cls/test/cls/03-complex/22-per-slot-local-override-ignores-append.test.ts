@@ -36,23 +36,28 @@ describe("cls/complex/per-slot-local-override-ignores-append", () => {
 
 		const { slots } = $cls.create();
 		expect(
-			slots.icon({
-				override: {
-					icon: {
-						class: [
-							"OVR",
-						],
+			slots.icon(
+				{
+					override: true,
+					slot: {
+						icon: {
+							class: [
+								"OVR",
+							],
+						},
 					},
 				},
-				slot: {
-					icon: {
-						class: [
-							"APPEND",
-						],
+				{
+					slot: {
+						icon: {
+							class: [
+								"APPEND",
+							],
+						},
 					},
 				},
-			}),
-		).toBe("OVR");
+			),
+		).toBe("i-base OVR APPEND");
 		expect(
 			slots.root({
 				slot: {

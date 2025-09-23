@@ -93,8 +93,8 @@ describe("cls/complex/deep-refs-user-leaf-clear-icon-config-leaf-overlay-label",
 			},
 		);
 
-		expect(slots.root()).toBe("a1 r");
-		expect(slots.icon()).toBe("a1 i");
-		expect(slots.label()).toBe("a1 l");
+		expect(slots.root()).toBe("CONF2 a1 r");
+		expect(slots.icon()).toBe("CONF2 a1 i");
+		expect(slots.label()).toBe("CONF2 a1 l");
 	});
 });
