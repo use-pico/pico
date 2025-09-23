@@ -918,7 +918,7 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 // Manual tweak merging for advanced scenarios
 const MyButton = ({ userTweak, size, tone, disabled }) => {
-  const finalTweak = tweaks(
+  const finalTweak = ButtonCls.tweak(
     userTweak,                    // User customization (highest precedence)
     { variant: { size, tone } },  // Props (medium precedence)
     { variant: { disabled } }     // Component logic (lowest precedence)
@@ -929,10 +929,9 @@ const MyButton = ({ userTweak, size, tone, disabled }) => {
   return <button className={slots.root()}>Button</button>;
 };
 
-// Alternative: Single tweak usage (simplest)
+// Alternative: Direct usage (simplest)
 const SimpleButton = ({ userTweak }) => {
-  const finalTweak = tweaks(userTweak);
-  const { slots, variant } = ButtonCls.create(finalTweak);
+  const { slots, variant } = ButtonCls.create(userTweak);
   
   return <button className={slots.root()}>Button</button>;
 };
@@ -1304,49 +1303,39 @@ tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
 
 ### Utility Functions
 
-#### **`tweaks()` - Tweak Merging**
+#### **`cls.tweak()` - Tweak Merging**
 ```typescript
+// Tweak merging is now integrated into cls instances
+const { slots, variant } = ButtonCls.create();
 
-// Single tweak (simplest usage)
-const finalTweak = tweaks(userTweak);
-
-// Multiple tweaks as parameters (first takes precedence, undefined values cleaned up)
-const finalTweak = tweaks(
+// Use cls.tweak() for manual tweak merging
+const finalTweak = ButtonCls.tweak(
   userTweak,     // Highest precedence
   propsTweak,    // Medium precedence
   internalTweak  // Lowest precedence
 );
 
-// Use with cls.create() (now supports variadic parameters directly)
+// Use the merged tweak with cls.create()
+const { slots: customSlots, variant: customVariant } = ButtonCls.create(finalTweak);
+```
+
+#### **Direct Variadic Usage (Recommended)**
+```typescript
+// Prefer direct variadic usage - no need for manual merging
 const { slots, variant } = ButtonCls.create(
   userTweak,     // Highest precedence
   propsTweak,    // Medium precedence
   internalTweak  // Lowest precedence
 );
+
+// Individual slots also support variadic tweaks
+<button className={slots.root(
+  { variant: { size: "lg" } },
+  { slot: { root: { class: ["shadow-lg"] } } }
+)}>Button</button>
 ```
 
-#### **`tweaks()` - Multiple Parameters (Advanced)**
-```typescript
-
-// Multiple tweaks as parameters (first takes precedence)
-const finalTweak = tweaks(
-  userTweak,       // First tweak (highest precedence)
-  propsTweak,      // Second tweak (medium precedence)  
-  internalTweak    // Third tweak (lowest precedence)
-);
-
-// Mixed single tweaks and arrays
-const finalTweak = tweaks(
-  userTweak,       // Single tweak (highest precedence)
-  [propsTweak],    // Array (medium precedence)
-  internalTweak    // Single tweak (lowest precedence)
-);
-
-// All tweaks are cleaned up (undefined values removed)
-// Safe to pass partial objects without affecting results
-```
-
-> **💡 Key Point:** `tweaks()` accepts **variadic tweaks** - you can pass single tweaks, arrays of tweaks, or a mix of both. The function flattens all arrays and processes them with proper precedence.
+> **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Everything works with variadic parameters directly!
 
 ## 🚀 Performance
 
