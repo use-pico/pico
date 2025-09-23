@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/create-both-args-and-local-no-override-resolution", () => {
 	it("merges user+config tweaks, then local slot tweaks (no override) apply last", () => {
@@ -59,7 +59,7 @@ describe("cls/create-both-args-and-local-no-override-resolution", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

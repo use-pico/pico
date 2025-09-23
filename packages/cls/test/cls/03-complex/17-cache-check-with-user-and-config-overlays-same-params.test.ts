@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/cache-check-with-user-and-config-overlays-same-params", () => {
 	it("two calls with identical overlays produce same output strings for all slots", () => {
@@ -62,7 +62,7 @@ describe("cls/complex/cache-check-with-user-and-config-overlays-same-params", ()
 		);
 
 		const one = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t2: {
@@ -84,7 +84,7 @@ describe("cls/complex/cache-check-with-user-and-config-overlays-same-params", ()
 			]),
 		);
 		const two = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t2: {

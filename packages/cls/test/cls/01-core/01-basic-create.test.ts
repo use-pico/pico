@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/basic-create", () => {
 	it("returns empty classes for the single 'root' slot when there are no rules", () => {

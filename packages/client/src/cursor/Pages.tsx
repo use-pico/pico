@@ -23,7 +23,9 @@ export const Pages: FC<Pages.Props> = ({
 	cls = PagesCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 
 	return (
 		<nav

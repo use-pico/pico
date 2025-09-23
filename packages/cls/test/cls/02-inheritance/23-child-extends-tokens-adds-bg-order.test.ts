@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/child-extends-tokens-adds-bg-order", () => {
 	it("base text then child bg; user/local overlays win with correct order", () => {
@@ -72,7 +72,7 @@ describe("cls/inheritance/child-extends-tokens-adds-bg-order", () => {
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						"color.bg": {

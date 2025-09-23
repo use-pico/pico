@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/per-slot-local-override-ignores-append", () => {
 	it("local override on icon ignores provided local append for icon", () => {

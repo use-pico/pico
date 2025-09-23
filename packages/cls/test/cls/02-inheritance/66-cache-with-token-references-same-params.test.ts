@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/cache-with-token-references-same-params", () => {
 	it("same params with token references yield identical results", () => {

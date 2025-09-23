@@ -40,33 +40,18 @@ export const BaseButton: FC<Button.Props> = ({
 	children,
 	...props
 }) => {
-	const { slots, variant } = useCls(
-		cls,
-		/**
-		 * TODO - instead of static two props, put an array here:
-		 * from first to last wins
-		 */
-		tweak([
-			tweak,
-			{
-				variant: {
-					theme,
-					tone,
-					size,
-					round,
-				},
+	const { slots, variant } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				disabled,
+				theme,
+				tone,
+				size,
+				round,
 			},
-			{
-				variant: {
-					disabled,
-					theme,
-					tone,
-					size,
-					round,
-				},
-			},
-		]),
-	);
+		},
+	]);
 
 	return (
 		<VariantProvider

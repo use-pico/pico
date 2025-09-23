@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/many-matching-rules-order-preserved-across-slots-no-override", () => {
 	it("five rules match; order should be preserved for root and icon", () => {

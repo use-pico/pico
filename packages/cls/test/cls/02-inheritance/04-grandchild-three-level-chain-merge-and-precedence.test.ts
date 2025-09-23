@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", () => {
 	it("merges base→child→grandchild with correct precedence and orders", () => {
@@ -124,7 +124,7 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 		);
 
 		const { slots } = $grandchild.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

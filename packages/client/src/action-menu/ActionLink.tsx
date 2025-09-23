@@ -23,7 +23,9 @@ const BaseActionLink: FC<BaseActionLinkProps> = ({
 	/**
 	 * Slots, because we're using `ref` here and `tva` does not support `ref`s.
 	 */
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 
 	return (
 		<div className={slots.wrapper()}>

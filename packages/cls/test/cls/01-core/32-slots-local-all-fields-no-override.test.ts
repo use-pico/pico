@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/slots-local-all-fields-no-override", () => {
 	it("merges local (slot call) variant, token and slot with create tweaks", () => {
@@ -59,7 +59,7 @@ describe("cls/slots-local-all-fields-no-override", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					slot: {

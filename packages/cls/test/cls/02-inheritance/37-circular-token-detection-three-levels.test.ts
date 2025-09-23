@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/circular-token-detection-three-levels", () => {
 	it("detects circular token references spread across base→child→grand", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/circular-token-detection", () => {
 	it("throws when tokens reference each other circularly for the 'root' slot", () => {

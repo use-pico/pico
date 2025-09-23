@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
 	it("resolves variant, token and slot without overrides (user wins for variant/token)", () => {
@@ -59,7 +59,7 @@ describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

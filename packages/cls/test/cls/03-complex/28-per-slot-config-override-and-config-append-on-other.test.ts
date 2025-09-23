@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/per-slot-config-override-and-config-append-on-other", () => {
 	it("config override on root; config append on icon; user appends both", () => {
@@ -35,7 +35,7 @@ describe("cls/complex/per-slot-config-override-and-config-append-on-other", () =
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

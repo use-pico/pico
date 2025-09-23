@@ -3,7 +3,7 @@ import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
-import { tweak } from "../utils/tweak";
+import { tweaks } from "../utils/tweaks";
 import { useVariantContext } from "./useVariantContext";
 import { VariantContext } from "./VariantContext";
 
@@ -33,7 +33,7 @@ export const VariantProvider = <TContract extends Contract.Any>({
 	return (
 		<VariantContext
 			value={
-				tweak([
+				tweaks([
 					{
 						variant,
 					},

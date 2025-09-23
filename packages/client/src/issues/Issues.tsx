@@ -24,7 +24,9 @@ export const Issues: FC<Issues.Props> = ({
 	tweak,
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 
 	const icons: Record<IssueSchema.Type["type"], string> = {
 		error: ErrorIcon,

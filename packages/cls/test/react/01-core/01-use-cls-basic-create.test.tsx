@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { contract, tweak } from "../../../src";
+import { contract } from "../../../src";
 import { useCls } from "../../../src/react";
 
 describe("react/01-core/use-cls-basic-create", () => {

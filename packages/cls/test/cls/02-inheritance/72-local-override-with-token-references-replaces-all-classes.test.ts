@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/local-override-with-token-references-replaces-all-classes", () => {
 	it("even with expanded references, local override should replace everything", () => {

@@ -14,4 +14,4 @@ export type { Utils } from "./types/Utils";
 export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
 export { tvc } from "./utils/tvc";
-export { tweak } from "./utils/tweak";
+export { tweaks } from "./utils/tweaks";

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/user-override-ignores-config-slot-append", () => {
 	it("user override replaces result even if config adds slot classes", () => {
@@ -29,7 +29,7 @@ describe("cls/user-override-ignores-config-slot-append", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					slot: {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/bool-variant-match", () => {
 	it("matches boolean variant values true/false and applies appropriate classes", () => {

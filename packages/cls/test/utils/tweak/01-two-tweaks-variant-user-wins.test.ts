@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, tweak } from "../../../src";
+import { contract, tweaks } from "../../../src";
 
 const TestCls = contract()
 	.variants({
@@ -18,7 +18,7 @@ type TestContract = (typeof TestCls)["contract"];
 
 describe("utils/merge/variant user wins", () => {
 	it("user variant should override internal variant", () => {
-		const out = tweak<TestContract>([
+		const out = tweaks<TestContract>([
 			{
 				variant: {
 					size: "sm",

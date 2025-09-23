@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-user-empty-token-overlay-clears-child-token", () => {
 	it("user empty overlay clears child token while preserving others", () => {

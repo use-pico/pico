@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays", () => {
 	it("handles mixed per-slot overrides and dual overlays across four slots", () => {
@@ -147,7 +147,7 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 			.cls();
 
 		const created = grand.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t2: {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/child-user-undefined-keeps-config-variant", () => {
 	it("user undefined keeps config-set variant value", () => {
@@ -63,7 +63,7 @@ describe("cls/inheritance/child-user-undefined-keeps-config-variant", () => {
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: undefined,

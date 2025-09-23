@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/variant-rule-override-on-label-user-append-after", () => {
 	it("rule with override on label clears base; user append still applies after", () => {

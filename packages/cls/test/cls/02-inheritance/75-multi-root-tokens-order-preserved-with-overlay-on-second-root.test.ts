@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/multi-root-tokens-order-preserved-with-overlay-on-second-root", () => {
 	it("two root tokens t1, t4; overlay on t4 preserves order", () => {

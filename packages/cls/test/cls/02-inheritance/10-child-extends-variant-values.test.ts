@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/child-extends-variant-values", () => {
 	it("child adds new variant option and all values are usable", () => {

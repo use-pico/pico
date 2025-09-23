@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 	it("applies multi-rules across slots with per-slot overrides through inheritance", () => {
@@ -174,7 +174,7 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 		);
 
 		const withOverrides = grand.create(
-			tweak([
+			tweaks([
 				{
 					override: {
 						label: {

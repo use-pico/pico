@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, tweak, useTokenContext } from "../../../src";
+import { contract, TokenContext, useTokenContext } from "../../../src";
 
 const Theme = contract()
 	.tokens([

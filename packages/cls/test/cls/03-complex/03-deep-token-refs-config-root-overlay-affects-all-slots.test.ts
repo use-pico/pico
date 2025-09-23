@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", () => {
 	it("t1 -> t2 -> t3; config overlay on t1 removes expansion in all slots", () => {
@@ -84,7 +84,7 @@ describe("cls/complex/deep-token-refs-config-root-overlay-affects-all-slots", ()
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{},
 				{
 					token: {

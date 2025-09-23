@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/config-tweak-basic", () => {
 	it("applies only config (second arg) variant and slot classes", () => {
@@ -48,7 +48,7 @@ describe("cls/config-tweak-basic", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					variant: {

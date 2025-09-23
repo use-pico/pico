@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/user-override-then-user-slot-append-no-effect", () => {
 	it("slot class in local call has no effect after local override", () => {

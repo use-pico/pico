@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/local-variant-overrides-create-variants", () => {
 	it("local slot variant overrides user/config variants for that call", () => {
@@ -60,7 +60,7 @@ describe("cls/local-variant-overrides-create-variants", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

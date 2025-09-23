@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () => {
 	it("applies base, child, grandchild rules then config then user in order", () => {
@@ -82,7 +82,7 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 			.cls();
 
 		const created = grand.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

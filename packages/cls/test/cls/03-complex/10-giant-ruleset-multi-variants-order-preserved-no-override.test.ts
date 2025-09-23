@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/giant-ruleset-multi-variants-order-preserved-no-override", () => {
 	it("large matrix of variant matches across 3 slots keeps strict order", () => {

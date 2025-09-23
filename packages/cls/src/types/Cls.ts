@@ -53,18 +53,13 @@ export namespace Cls {
 			},
 		): Type<TContract>;
 
-		// tweak<Sub extends Contract.Any = TContract>(
-		// 	userTweak?: {
-		// 		hack: Tweak.Type<
-		// 			IsChildrenOf<Sub, TContract> extends true ? Sub : never
-		// 		>;
-		// 	}["hack"],
-		// 	internalTweak?: {
-		// 		hack: Tweak.Type<
-		// 			IsChildrenOf<Sub, TContract> extends true ? Sub : never
-		// 		>;
-		// 	}["hack"],
-		// ): Tweak.Type<TContract> | undefined;
+		tweak<Sub extends Contract.Any = TContract>(
+			tweak?: {
+				hack: Tweak.Type<
+					IsChildrenOf<Sub, TContract> extends true ? Sub : never
+				>;
+			}["hack"],
+		): Tweak.Type<TContract> | undefined;
 
 		contract: TContract;
 

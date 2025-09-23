@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/user-vs-config-overlay-on-referenced-leaf-precedence", () => {
 	it("user overlay on t2 should win over config overlay on t2", () => {
@@ -49,7 +49,7 @@ describe("cls/inheritance/user-vs-config-overlay-on-referenced-leaf-precedence",
 		);
 
 		const { slots } = $base.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t2: {

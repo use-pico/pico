@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/local-override-wins-over-user-override", () => {
 	it("local call override replaces user override", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-across-slots", () => {
 	it("user override on root ignores config append; other slots append in order", () => {
@@ -32,7 +32,7 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 			.cls();
 
 		const created = base.create(
-			tweak([
+			tweaks([
 				{
 					override: {
 						root: {

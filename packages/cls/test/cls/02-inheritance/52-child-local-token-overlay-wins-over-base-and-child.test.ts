@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/child-local-token-overlay-wins-over-base-and-child", () => {
 	it("local overlay replaces token class from base and child", () => {

@@ -17,11 +17,14 @@ export const LoadingOverlay: FC<LoadingOverlay.Props> = ({
 	cls = LoadingOverlayCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			show,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				show,
+			},
 		},
-	});
+	]);
 
 	return show ? (
 		<div

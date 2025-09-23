@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", () => {
 	it("t1 -> (t2 -> t5, t3, t4); user overlays t5; config overlays t3; local override on label", () => {
@@ -135,7 +135,7 @@ describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", ()
 		);
 
 		const { slots } = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t5: {

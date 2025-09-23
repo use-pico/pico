@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-reference-leaf-empty-overlay-clears-only-leaf", () => {
 	it("empty overlay on t2 clears t2 while keeping t3 and t1 classes", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-local-variant-overrides-create-variants-per-slot", () => {
 	it("local variant change affects only that call and slot outputs", () => {

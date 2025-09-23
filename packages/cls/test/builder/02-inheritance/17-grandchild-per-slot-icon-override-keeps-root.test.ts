@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () => {
 	it("per-slot override on icon keeps root slot output", () => {
@@ -57,7 +57,7 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 			.cls();
 
 		const created = grand.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					override: {

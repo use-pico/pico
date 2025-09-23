@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/cache-same-params-produce-same-result", () => {
 	it("returns same output for identical tweaks across repeated calls", () => {
@@ -59,7 +59,7 @@ describe("cls/cache-same-params-produce-same-result", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

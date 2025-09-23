@@ -10,6 +10,7 @@ import type { Variant } from "./types/Variant";
 import type { What } from "./types/What";
 import { cleanup } from "./utils/cleanup";
 import { tvc } from "./utils/tvc";
+import { tweaks } from "./utils/tweaks";
 import { withVariants } from "./utils/withVariants";
 
 // -----------------------------------------------------------------------------
@@ -603,15 +604,11 @@ export function cls<
 		use<Sub extends Contract.Any>(sub: Cls.Type<Sub>) {
 			return sub as unknown as Cls.Type<TContract>;
 		},
-		// tweak(userTweak, internalTweak) {
-		// 	const out = tweak([
-		// 		userTweak,
-		// 		internalTweak,
-		// 	]);
-		// 	return Object.keys(out).length === 0
-		// 		? undefined
-		// 		: (out as Tweak.Type<TContract>);
-		// },
+		tweak(tweak) {
+			return tweaks([
+				tweak as Tweak.Type<TContract>,
+			]);
+		},
 		contract,
 		definition,
 	};

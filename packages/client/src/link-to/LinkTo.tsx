@@ -24,12 +24,15 @@ const BaseLinkTo: FC<BaseLinkToProps> = ({
 	children,
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			tone,
-			theme,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				tone,
+				theme,
+			},
 		},
-	});
+	]);
 
 	return (
 		<a

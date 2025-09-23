@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/two-level-multi-slots-config-user-order", () => {
 	it("root and icon accumulate base→child then config→user", () => {
@@ -71,7 +71,7 @@ describe("cls/inheritance/two-level-multi-slots-config-user-order", () => {
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

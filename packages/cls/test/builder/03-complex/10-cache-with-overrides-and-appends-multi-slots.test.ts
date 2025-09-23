@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () => {
 	it("returns identical output for identical complex tweaks across slots", () => {
@@ -32,7 +32,7 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 			.cls();
 
 		const a = $cls.create(
-			tweak([
+			tweaks([
 				{
 					override: {
 						root: {
@@ -61,7 +61,7 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 			]),
 		);
 		const b = $cls.create(
-			tweak([
+			tweaks([
 				{
 					override: {
 						root: {

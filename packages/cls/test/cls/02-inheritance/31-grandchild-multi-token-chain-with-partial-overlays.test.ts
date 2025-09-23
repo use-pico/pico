@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/grandchild-multi-token-chain-with-partial-overlays", () => {
 	it("token chain base→child; user overlays one token; local overlays the other", () => {
@@ -84,7 +84,7 @@ describe("cls/inheritance/grandchild-multi-token-chain-with-partial-overlays", (
 		);
 
 		const { slots } = $grand.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						"t.text": {

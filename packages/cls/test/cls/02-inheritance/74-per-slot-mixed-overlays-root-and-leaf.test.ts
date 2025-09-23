@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/per-slot-mixed-overlays-root-and-leaf", () => {
 	it("root: config overlays root token; icon: user overlays leaf token", () => {
@@ -69,7 +69,7 @@ describe("cls/inheritance/per-slot-mixed-overlays-root-and-leaf", () => {
 		);
 
 		const { slots } = $base.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t3: {

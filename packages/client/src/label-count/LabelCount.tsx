@@ -21,7 +21,9 @@ export const LabelCount: FC<LabelCount.Props> = ({
 	cls = LabelCountCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 
 	return (
 		<div

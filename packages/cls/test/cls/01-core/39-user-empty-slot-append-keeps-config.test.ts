@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/user-empty-slot-append-keeps-config", () => {
 	it("empty user slot classes do not remove config classes", () => {
@@ -29,7 +29,7 @@ describe("cls/user-empty-slot-append-keeps-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

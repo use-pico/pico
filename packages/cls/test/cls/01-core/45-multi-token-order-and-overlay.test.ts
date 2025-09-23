@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/multi-token-order-and-overlay", () => {
 	it("applies tokens in declared order; user/local overlays override per token", () => {

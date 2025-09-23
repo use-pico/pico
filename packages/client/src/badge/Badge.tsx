@@ -28,14 +28,17 @@ export const BaseBadge: FC<Badge.Props> = ({
 	cls = BadgeCls,
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			size,
-			tone,
-			theme,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				disabled,
+				size,
+				tone,
+				theme,
+			},
 		},
-	});
+	]);
 
 	return (
 		<div

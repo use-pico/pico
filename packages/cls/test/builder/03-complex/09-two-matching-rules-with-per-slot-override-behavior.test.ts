@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/two-matching-rules-with-per-slot-override-behavior", () => {
 	it("applies both rules for root while icon is overridden by second", () => {

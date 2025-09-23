@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/multi-matching-rules-no-override-order", () => {
 	it("applies multiple matching rules in order without overrides", () => {

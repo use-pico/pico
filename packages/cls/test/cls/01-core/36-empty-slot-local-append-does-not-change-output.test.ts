@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/empty-slot-local-append-does-not-change-output", () => {
 	it("empty local slot class array does not change result", () => {

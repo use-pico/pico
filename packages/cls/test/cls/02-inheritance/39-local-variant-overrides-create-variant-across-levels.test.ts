@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/local-variant-overrides-create-variant-across-levels", () => {
 	it("local call variant beats create-level variant through base→child→grand", () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, tweak } from "../../../src";
+import { contract, tweaks } from "../../../src";
 
 const TestCls = contract()
 	.slots([
@@ -13,7 +13,7 @@ type TestContract = (typeof TestCls)["contract"];
 
 describe("utils/merge/override user wins", () => {
 	it("user override should override internal override on same slot", () => {
-		const out = tweak<TestContract>([
+		const out = tweaks<TestContract>([
 			{
 				override: {
 					root: {

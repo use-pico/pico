@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/child-config-token-wins-over-base-user-slot-appends-order", () => {
 	it("config token applies before base classes; slot order base→child→conf→user", () => {
@@ -63,7 +63,7 @@ describe("cls/inheritance/child-config-token-wins-over-base-user-slot-appends-or
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

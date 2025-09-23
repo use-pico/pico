@@ -88,12 +88,15 @@ export const Modal: FC<Modal.Props> = ({
 		dismiss,
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			size,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				disabled,
+				size,
+			},
 		},
-	});
+	]);
 
 	return (
 		<ModalContext value={useModalStore}>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/create-both-args-override-precedence", () => {
 	it("uses user override last (wins) over config override and clears previous classes", () => {
@@ -30,7 +30,7 @@ describe("cls/create-both-args-override-precedence", () => {
 
 		// Provide both overrides: config + user. User MUST win and replace all previous classes
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					override: {
 						root: {

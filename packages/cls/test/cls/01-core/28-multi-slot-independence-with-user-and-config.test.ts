@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/multi-slot-independence-with-user-and-config", () => {
 	it("applies tweaks independently per slot with correct order", () => {
@@ -59,7 +59,7 @@ describe("cls/multi-slot-independence-with-user-and-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

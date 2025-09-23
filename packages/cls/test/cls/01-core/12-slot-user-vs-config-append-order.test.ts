@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/slot-user-vs-config-append-order", () => {
 	it("appends config classes first and user classes last for the 'root' slot", () => {
@@ -29,7 +29,7 @@ describe("cls/slot-user-vs-config-append-order", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					slot: {

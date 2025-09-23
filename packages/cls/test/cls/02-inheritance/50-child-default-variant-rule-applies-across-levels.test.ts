@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/child-default-variant-rule-applies-across-levels", () => {
 	it("child default md triggers base md rule without explicit variant", () => {

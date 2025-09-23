@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override", () => {
 	it("config overlays t1; user overlays t3; local overrides badge only; multi-slot", () => {
@@ -185,7 +185,7 @@ describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override",
 		);
 
 		const { slots } = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t3: {

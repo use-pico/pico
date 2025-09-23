@@ -2,7 +2,7 @@ import { type DependencyList, useMemo } from "react";
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
 import type { Variant } from "../types/Variant";
-import { tweak } from "../utils/tweak";
+import { tweaks as tweaksFn } from "../utils/tweaks";
 import { useTokenContext } from "./useTokenContext";
 import { useVariantContext } from "./useVariantContext";
 
@@ -59,7 +59,7 @@ import { useVariantContext } from "./useVariantContext";
  */
 export function useClsMemo<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
-	tweaks?: tweak.Tweaks<TContract>,
+	tweaks?: tweaksFn.Tweaks<TContract>,
 	deps: DependencyList = [],
 ): Cls.Kit<TContract> {
 	const context = useTokenContext();
@@ -68,7 +68,7 @@ export function useClsMemo<TContract extends Contract.Any>(
 	return useMemo(
 		() =>
 			cls.create(
-				tweak<TContract>(tweaks, [
+				tweaksFn<TContract>(tweaks, [
 					/**
 					 * Context tweak has lowest priority
 					 */

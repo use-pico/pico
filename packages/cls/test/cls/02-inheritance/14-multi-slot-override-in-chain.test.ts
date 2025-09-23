@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/multi-slot-override-in-chain", () => {
 	it("grandchild override on root leaves icon from base/child intact", () => {

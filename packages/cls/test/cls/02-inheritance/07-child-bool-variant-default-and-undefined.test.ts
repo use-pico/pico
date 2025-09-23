@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/child-bool-variant-default-and-undefined", () => {
 	it("child default true; undefined keeps true; false flips", () => {

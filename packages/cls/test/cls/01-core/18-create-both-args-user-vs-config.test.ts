@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/create-both-args-user-vs-config", () => {
 	it("merges both create() args with user winning per field and appending slots", () => {
@@ -59,7 +59,7 @@ describe("cls/create-both-args-user-vs-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

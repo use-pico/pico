@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contract, definition, tweak } from "../../../src";
+import { contract, definition, tweaks } from "../../../src";
 
 describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 	it("config overlay on root token replaces the whole chain", () => {
@@ -52,7 +52,7 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			.cls();
 
 		const created = child.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					token: {

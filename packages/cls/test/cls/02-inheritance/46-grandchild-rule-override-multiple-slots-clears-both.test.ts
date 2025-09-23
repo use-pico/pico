@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/grandchild-rule-override-multiple-slots-clears-both", () => {
 	it("override rule on root+icon clears both, then config/user append", () => {
@@ -100,7 +100,7 @@ describe("cls/inheritance/grandchild-rule-override-multiple-slots-clears-both", 
 		);
 
 		const { slots } = $grand.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

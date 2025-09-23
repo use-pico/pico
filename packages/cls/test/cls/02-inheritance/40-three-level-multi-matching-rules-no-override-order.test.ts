@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/three-level-multi-matching-rules-no-override-order", () => {
 	it("appends in order base→child→grand then config→user for md", () => {
@@ -104,7 +104,7 @@ describe("cls/inheritance/three-level-multi-matching-rules-no-override-order", (
 		);
 
 		const { slots } = $grand.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

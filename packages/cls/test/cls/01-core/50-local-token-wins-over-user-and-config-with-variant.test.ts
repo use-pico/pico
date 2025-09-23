@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/local-token-wins-over-user-and-config-with-variant", () => {
 	it("local token overlay wins even when variant rules add class", () => {
@@ -59,7 +59,7 @@ describe("cls/local-token-wins-over-user-and-config-with-variant", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						"color.text": {

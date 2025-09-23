@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-reference-order-preservation-with-multiple-leaves", () => {
 	it("expansion preserves referenced token order before root token classes", () => {

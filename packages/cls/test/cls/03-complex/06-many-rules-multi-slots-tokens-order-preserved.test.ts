@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/many-rules-multi-slots-tokens-order-preserved", () => {
 	it("ten+ rules across 4 slots and 4 tokens; order preserved; no override", () => {

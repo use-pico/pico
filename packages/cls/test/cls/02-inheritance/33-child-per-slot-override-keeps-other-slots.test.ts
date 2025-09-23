@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/child-per-slot-override-keeps-other-slots", () => {
 	it("child override on root keeps icon intact; config/user appends still apply", () => {
@@ -63,7 +63,7 @@ describe("cls/inheritance/child-per-slot-override-keeps-other-slots", () => {
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

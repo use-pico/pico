@@ -2,7 +2,7 @@ import type { Contract } from "../types/Contract";
 import type { Tweak } from "../types/Tweak";
 import { filter } from "./filter";
 
-export namespace tweak {
+export namespace tweaks {
 	export type Tweaks<TContract extends Contract.Any> =
 		| (Tweak.Type<TContract> | undefined)[]
 		| undefined;
@@ -16,8 +16,8 @@ export namespace tweak {
  * - Shallow merge per field to match cls.create() semantics
  * - Slots are combined by appending What objects, not overriding them
  */
-export function tweak<const TContract extends Contract.Any>(
-	...tweaks: tweak.Tweaks<TContract>[]
+export function tweaks<const TContract extends Contract.Any>(
+	...tweaks: tweaks.Tweaks<TContract>[]
 ): Tweak.Type<TContract> {
 	if (!tweaks || tweaks.length === 0) {
 		return {};

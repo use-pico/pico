@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 	it("maintains per-slot order base→child→grandchild then config→user", () => {
@@ -97,7 +97,7 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 		);
 
 		const { slots } = $grand.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

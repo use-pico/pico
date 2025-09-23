@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/three-variants-config-root-override-and-local-icon-override", () => {
 	it("config overrides root; local overrides icon; variants still decide matches", () => {
@@ -105,7 +105,7 @@ describe("cls/complex/three-variants-config-root-override-and-local-icon-overrid
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{},
 				{
 					override: {

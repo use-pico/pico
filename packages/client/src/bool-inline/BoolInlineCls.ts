@@ -5,21 +5,14 @@ import { IconCls } from "../icon/IconCls";
 export const BoolInlineCls = contract(IconCls.contract)
 	.bool("value")
 	.def()
-	.rule(
-		{
-			value: true,
-		},
+	.switch(
+		"value",
 		{
 			root: {
 				token: [
 					"tone.secondary.light.text",
 				],
 			},
-		},
-	)
-	.rule(
-		{
-			value: false,
 		},
 		{
 			root: {

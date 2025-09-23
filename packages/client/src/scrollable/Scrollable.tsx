@@ -24,11 +24,14 @@ export const BaseScrollable: FC<Scrollable.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			layout,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				layout,
+			},
 		},
-	});
+	]);
 
 	const fadePx = 32;
 	const fadeSolid = 1;

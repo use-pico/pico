@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/config-override-then-config-slot-append-no-effect", () => {
 	it("slot class in config has no effect after config override", () => {
@@ -29,7 +29,7 @@ describe("cls/config-override-then-config-slot-append-no-effect", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					override: {

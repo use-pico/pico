@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 	it("child rule with override clears base and beats config/user appends", () => {
@@ -77,7 +77,7 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 		);
 
 		const { slots } = $child.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

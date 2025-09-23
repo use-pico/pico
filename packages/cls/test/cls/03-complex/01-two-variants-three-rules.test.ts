@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/two-variants-three-rules", () => {
 	it("applies classes from rules that match first variant, second variant, and both", () => {

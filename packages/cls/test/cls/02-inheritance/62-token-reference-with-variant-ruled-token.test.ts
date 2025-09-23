@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-reference-with-variant-ruled-token", () => {
 	it("t1 references t2; rule for md adds extra class; reference still expands", () => {

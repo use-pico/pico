@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/inheritance/token-reference-chain-base-to-child", () => {
 	it("t1 → t2 chain resolves with child t2 override", () => {

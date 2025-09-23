@@ -34,12 +34,15 @@ export const BaseStatus: FC<Status.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			tone,
-			theme,
+	const { slots, variant } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				tone,
+				theme,
+			},
 		},
-	});
+	]);
 
 	return (
 		<VariantProvider

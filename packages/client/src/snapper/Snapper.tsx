@@ -67,14 +67,17 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	const isFirst = active === 0;
 	const isLast = active === pages.length - 1;
 
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			orientation,
-			align,
-			first: isFirst,
-			last: isLast,
+	const { slots, variant } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				orientation,
+				align,
+				first: isFirst,
+				last: isLast,
+			},
 		},
-	});
+	]);
 
 	const scrollToIndex = useCallback(
 		(index: number, behavior: ScrollBehavior = "smooth") => {

@@ -15,11 +15,14 @@ export const BaseProgress: FC<Progress.Props> = ({
 	cls = ProgressCls,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			size,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				size,
+			},
 		},
-	});
+	]);
 
 	return (
 		<div

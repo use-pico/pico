@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/multi-root-token-refs-with-dual-overlays-order", () => {
 	it("two root refs t1,t6; user overlays t2 leaf; config overlays t6 root; order correct", () => {
@@ -90,7 +90,7 @@ describe("cls/complex/multi-root-token-refs-with-dual-overlays-order", () => {
 		);
 
 		const { slots } = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t2: {

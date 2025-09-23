@@ -92,11 +92,14 @@ export const Float: FC<Float.Props> = ({
 		useDismiss(context),
 	]);
 	const { isMounted, styles } = useTransitionStyles(context);
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			mounted: isMounted,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				mounted: isMounted,
+			},
 		},
-	});
+	]);
 
 	return (
 		<>

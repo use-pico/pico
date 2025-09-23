@@ -14,7 +14,9 @@ export const TabList: FC<TabList.Props> = ({
 	tweak,
 	children,
 }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, [
+		tweak,
+	]);
 
 	return (
 		<div

@@ -13,11 +13,14 @@ export const Tab: FC<Tab.Props> = ({ tab, cls = TabCls, tweak, children }) => {
 	const useStore = useContext(TabsContext);
 	const store = useStore();
 
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			active: tab === store.tab,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				active: tab === store.tab,
+			},
 		},
-	});
+	]);
 
 	return store.hidden.includes(tab) ? null : (
 		<div

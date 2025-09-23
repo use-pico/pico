@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/rule-override-multi-slots-and-user-appends-after", () => {
 	it("override clears root+label; user appends still apply; icon unaffected", () => {

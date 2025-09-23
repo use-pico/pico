@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/create-both-args-token-precedence", () => {
 	it("uses user token overlay over config token overlay for the 'root' slot", () => {
@@ -40,7 +40,7 @@ describe("cls/create-both-args-token-precedence", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						"color.text": {

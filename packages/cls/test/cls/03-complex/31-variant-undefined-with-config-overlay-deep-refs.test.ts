@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/variant-undefined-with-config-overlay-deep-refs", () => {
 	it("size undefined at local keeps create value; config overlays t2 root", () => {
@@ -100,7 +100,7 @@ describe("cls/complex/variant-undefined-with-config-overlay-deep-refs", () => {
 		);
 
 		const created = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

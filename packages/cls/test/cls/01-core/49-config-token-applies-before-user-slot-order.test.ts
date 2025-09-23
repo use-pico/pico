@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/config-token-applies-before-user-slot-order", () => {
 	it("ensures token classes resolve before slot and follow config→user order", () => {
@@ -59,7 +59,7 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/boolean-default-true-and-undefined-keeps-true", () => {
 	it("default true applies; undefined keeps true; false flips", () => {

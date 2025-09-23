@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/complex/per-slot-leaf-clear-affects-only-that-slot", () => {
 	it("clearing t2 on icon does not clear root or label chains", () => {

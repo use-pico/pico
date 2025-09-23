@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls } from "../../../src";
 
 describe("cls/empty-token-overlay-clears-default-token-class", () => {
 	it("allows empty overlay to clear token-provided classes for that call", () => {

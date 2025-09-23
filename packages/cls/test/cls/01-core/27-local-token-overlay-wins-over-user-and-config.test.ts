@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 	it("local token overlay takes precedence over user and config token", () => {
@@ -37,7 +37,7 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						"color.text": {

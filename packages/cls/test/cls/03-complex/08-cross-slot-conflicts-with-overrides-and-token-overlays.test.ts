@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", () => {
 	it("root overridden by config; icon overridden by user; label/token overlays mix", () => {
@@ -163,7 +163,7 @@ describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", (
 		);
 
 		const { slots } = $c.create(
-			tweak([
+			tweaks([
 				{
 					token: {
 						t3: {

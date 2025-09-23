@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/create-internal-variant-undefined-prefers-user", () => {
 	it("uses user variant when internal variant is undefined", () => {
@@ -48,7 +48,7 @@ describe("cls/create-internal-variant-undefined-prefers-user", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",

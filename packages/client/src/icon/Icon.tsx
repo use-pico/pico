@@ -49,19 +49,22 @@ export const Icon: FC<Icon.Props> = ({
 	tweak,
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			size,
-			disabled,
-			theme,
-			tone,
-		},
-		slot: {
-			root: {
-				class: isString(icon) ? icon : undefined,
+	const { slots } = useCls(cls, [
+		tweak,
+		{
+			variant: {
+				size,
+				disabled,
+				theme,
+				tone,
+			},
+			slot: {
+				root: {
+					class: isString(icon) ? icon : undefined,
+				},
 			},
 		},
-	});
+	]);
 
 	return isString(icon) ? (
 		<div

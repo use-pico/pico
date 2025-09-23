@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/token-reference-and-slot-append-combination", () => {
 	it("reference expansion precedes slot appends; config then user", () => {
@@ -49,7 +49,7 @@ describe("cls/inheritance/token-reference-and-slot-append-combination", () => {
 		);
 
 		const { slots } = $base.create(
-			tweak([
+			tweaks([
 				{
 					slot: {
 						root: {

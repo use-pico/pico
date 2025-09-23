@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/config-tweak-all-fields", () => {
 	it("applies config variant, token, slot and override (override wins)", () => {
@@ -59,7 +59,7 @@ describe("cls/config-tweak-all-fields", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					variant: {

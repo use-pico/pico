@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/inheritance/variant-undefined-precedence-across-levels", () => {
 	it("user undefined keeps config value; local undefined keeps create value", () => {
@@ -64,7 +64,7 @@ describe("cls/inheritance/variant-undefined-precedence-across-levels", () => {
 
 		// user provides undefined, config provides md -> md wins
 		const t1 = $child.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: undefined,

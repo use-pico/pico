@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/config-override-wins-over-local", () => {
 	it("uses config override as the final result even if local override is provided", () => {
@@ -48,7 +48,7 @@ describe("cls/config-override-wins-over-local", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				undefined,
 				{
 					override: {

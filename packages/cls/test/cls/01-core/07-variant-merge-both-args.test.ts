@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cls, tweak } from "../../../src";
+import { cls, tweaks } from "../../../src";
 
 describe("cls/variant-merge-both-args", () => {
 	it("merges disjoint variants from user and config and applies both rules", () => {
@@ -65,7 +65,7 @@ describe("cls/variant-merge-both-args", () => {
 		);
 
 		const { slots } = $cls.create(
-			tweak([
+			tweaks([
 				{
 					variant: {
 						size: "md",
