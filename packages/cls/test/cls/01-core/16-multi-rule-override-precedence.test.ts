@@ -47,12 +47,12 @@ describe("cls/multi-rule-override-precedence", () => {
 						match: {
 							size: "md",
 						},
-						override: true,
 						slot: {
 							root: {
 								class: [
 									"OVR",
 								],
+								override: true,
 							},
 						},
 					},

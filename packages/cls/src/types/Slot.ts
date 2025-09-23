@@ -39,7 +39,7 @@ export namespace Slot {
 	 * Mapping type for slot styling values
 	 */
 	export type SlotOf<TContract extends Contract.Any> = {
-		[K in Raw<TContract>]?: What.Any<TContract>;
+		[K in Raw<TContract>]?: What.AnyOverride<TContract>;
 	};
 
 	export type Required<TContract extends Contract.Any> =

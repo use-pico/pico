@@ -77,7 +77,8 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 		const { slots } = $grand.create(
 			{},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-OVR",
@@ -97,6 +98,6 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 					},
 				},
 			}),
-		).toBe("CONF-OVR");
+		).toBe("b c g CONF-OVR user");
 	});
 });

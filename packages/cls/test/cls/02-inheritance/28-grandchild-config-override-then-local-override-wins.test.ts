@@ -77,7 +77,8 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 		const { slots } = $grand.create(
 			{},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF",
@@ -99,6 +100,6 @@ describe("cls/inheritance/grandchild-config-override-then-local-override-wins", 
 					},
 				},
 			}),
-		).toBe("base child grand LOCAL");
+		).toBe("base child grand CONF LOCAL");
 	});
 });

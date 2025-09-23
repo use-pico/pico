@@ -38,7 +38,17 @@ export namespace What {
 	 *
 	 * @template TContract - The contract type for token-based styling
 	 */
-	export type Any<TContract extends Contract.Any> = (
+	export type Any<TContract extends Contract.Any> = Class | Token<TContract>;
+
+	/**
+	 * Union type for styling values with override support.
+	 *
+	 * Can be either CSS class-based or token-based styling with override behavior.
+	 * This type is used for slot-level What values where override behavior is meaningful.
+	 *
+	 * @template TContract - The contract type for token-based styling
+	 */
+	export type AnyOverride<TContract extends Contract.Any> = (
 		| Class
 		| Token<TContract>
 	) & {

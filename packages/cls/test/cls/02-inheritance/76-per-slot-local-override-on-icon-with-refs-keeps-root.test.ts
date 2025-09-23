@@ -65,11 +65,12 @@ describe("cls/inheritance/per-slot-local-override-on-icon-with-refs-keeps-root",
 		expect(slots.root()).toBe("a2 a1 b-root");
 		expect(
 			slots.icon({
-				override: {
+				slot: {
 					icon: {
 						class: [
 							"ICON",
 						],
+						override: true,
 					},
 				},
 			}),

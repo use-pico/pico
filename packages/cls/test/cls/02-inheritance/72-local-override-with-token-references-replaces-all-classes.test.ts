@@ -52,11 +52,12 @@ describe("cls/inheritance/local-override-with-token-references-replaces-all-clas
 		expect(slots.root()).toBe("a2 a1 base");
 		expect(
 			slots.root({
-				override: {
+				slot: {
 					root: {
 						class: [
 							"OVR",
 						],
+						override: true,
 					},
 				},
 			}),

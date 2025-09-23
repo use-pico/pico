@@ -120,11 +120,12 @@ describe("cls/inheritance/three-level-user-token-wins-over-config-with-local-ove
 		expect(slots.root()).toBe("user b c g");
 		expect(
 			slots.root({
-				override: {
+				slot: {
 					root: {
 						class: [
 							"LOCAL",
 						],
+						override: true,
 					},
 				},
 			}),

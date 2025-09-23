@@ -23,7 +23,7 @@ type Predicate<TContract extends Contract.Any> = (
 
 type CompiledRule<TContract extends Contract.Any> = {
 	predicate: Predicate<TContract>;
-	what: What.Any<Contract.Any>;
+	what: What.AnyOverride<Contract.Any>;
 	override: boolean;
 };
 
@@ -194,7 +194,7 @@ function createResolver(
 		Object.create(null);
 
 	function resolve(
-		whatValue: What.Any<Contract.Any>,
+		whatValue: What.AnyOverride<Contract.Any>,
 		tokenTable: Record<string, What.Any<Contract.Any>> = baseTokenTable,
 		visiting: Set<string> = new Set<string>(),
 		localCache?: Record<string, ClassName[]>,
@@ -442,7 +442,7 @@ export function cls<
 							? (
 									$local.slot as Record<
 										string,
-										What.Any<Contract.Any>
+										What.AnyOverride<Contract.Any>
 									>
 								)[slotName]
 							: undefined;
@@ -450,7 +450,7 @@ export function cls<
 							? (
 									$tweak.slot as Record<
 										string,
-										What.Any<Contract.Any>
+										What.AnyOverride<Contract.Any>
 									>
 								)[slotName]
 							: undefined;

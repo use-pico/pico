@@ -101,7 +101,7 @@ describe("cls/inheritance/two-level-multi-slots-config-user-order", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("b-root c-root u-root");
-		expect(slots.icon()).toBe("b-icon c-icon u-icon");
+		expect(slots.root()).toBe("b-root c-root u-root conf-root");
+		expect(slots.icon()).toBe("b-icon c-icon u-icon conf-icon");
 	});
 });

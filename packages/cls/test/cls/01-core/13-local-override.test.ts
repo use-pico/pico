@@ -43,15 +43,15 @@ describe("cls/local-override", () => {
 		expect(slots.root()).toBe("bg-gray-100 base");
 		expect(
 			slots.root({
-				override: true,
 				slot: {
 					root: {
 						class: [
 							"custom",
 						],
+						override: true,
 					},
 				},
 			}),
-		).toBe("bg-gray-100 base custom");
+		).toBe("custom");
 	});
 });
