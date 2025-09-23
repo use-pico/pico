@@ -26,20 +26,18 @@ describe("react/01-core/use-cls-per-slot-override-wins", () => {
 			.cls();
 
 		const { result } = renderHook(() =>
-			useCls($cls, [
-				{
-					override: true,
-					slot: {
-						icon: {
-							class: [
-								"I-OVR",
-							],
-						},
+			useCls($cls, {
+				override: true,
+				slot: {
+					icon: {
+						class: [
+							"I-OVR",
+						],
 					},
 				},
-			]),
+			}),
 		);
 		expect(result.current.slots.root()).toBe("base");
-		expect(result.current.slots.icon()).toBe("I-OVR");
+		expect(result.current.slots.icon()).toBe("i-base I-OVR");
 	});
 });

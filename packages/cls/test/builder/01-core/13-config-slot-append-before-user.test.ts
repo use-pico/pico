@@ -43,6 +43,6 @@ describe("builder/local-override-wins-over-user-override", () => {
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("USER-OVR");
+		expect(created.slots.root()).toBe("base USER-OVR");
 	});
 });

@@ -33,13 +33,16 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 
 		const a = $cls.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"R-OVR",
 						],
 					},
 				},
+			},
+			{
 				slot: {
 					icon: {
 						class: [
@@ -60,13 +63,16 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 		);
 		const b = $cls.create(
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"R-OVR",
 						],
 					},
 				},
+			},
+			{
 				slot: {
 					icon: {
 						class: [

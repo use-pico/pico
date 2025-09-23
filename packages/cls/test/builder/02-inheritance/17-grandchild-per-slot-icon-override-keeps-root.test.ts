@@ -57,7 +57,8 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 			.cls();
 
 		const created = grand.create(undefined, {
-			override: {
+			override: true,
+			slot: {
 				icon: {
 					class: [
 						"I-OVR",
@@ -66,6 +67,6 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 			},
 		});
 		expect(created.slots.root()).toBe("base child grand");
-		expect(created.slots.icon()).toBe("I-OVR");
+		expect(created.slots.icon()).toBe("i-base i-child i-grand I-OVR");
 	});
 });

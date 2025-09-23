@@ -36,8 +36,8 @@ describe("react/01-core/provider-override-wins-over-internal-override", () => {
 
 		const { result } = renderHook(
 			() =>
-				useCls($cls, [
-					undefined,
+				useCls(
+					$cls,
 					{
 						override: true,
 						slot: {
@@ -48,13 +48,14 @@ describe("react/01-core/provider-override-wins-over-internal-override", () => {
 							},
 						},
 					},
-				]),
+					undefined,
+				),
 			{
 				wrapper,
 			},
 		);
 
 		expect(result.current.slots.root()).toBe("base");
-		expect(result.current.slots.icon()).toBe("INTERNAL");
+		expect(result.current.slots.icon()).toBe("i-base INTERNAL");
 	});
 });
