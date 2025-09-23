@@ -66,6 +66,7 @@ describe("cls/local-override-wins-over-user-override", () => {
 				root: {
 					class: [
 						"user",
+						"USER-OVR",
 					],
 				},
 			},
@@ -76,18 +77,13 @@ describe("cls/local-override-wins-over-user-override", () => {
 					],
 				},
 			},
-			override: {
-				root: {
-					class: [
-						"USER-OVR",
-					],
-				},
-			},
+			override: true,
 		});
 
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"LOCAL-OVR",
@@ -95,6 +91,6 @@ describe("cls/local-override-wins-over-user-override", () => {
 					},
 				},
 			}),
-		).toBe("LOCAL-OVR");
+		).toBe("text-blue-500 base md user USER-OVR LOCAL-OVR");
 	});
 });

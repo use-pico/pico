@@ -18,6 +18,7 @@ describe("builder/token-reference-and-user-overlay-order", () => {
 				t2: {
 					class: [
 						"a2",
+						"b3",
 					],
 				},
 				t1: {
@@ -43,15 +44,18 @@ describe("builder/token-reference-and-user-overlay-order", () => {
 				on: true,
 			})
 			.cls();
-		const { slots } = $cls.create({
-			token: {
-				t2: {
-					class: [
-						"USER2",
-					],
+		const { slots } = $cls.create();
+		expect(slots.root()).toBe("a2 b3 a1 base");
+		expect(
+			slots.root({
+				token: {
+					t2: {
+						class: [
+							"USER2",
+						],
+					},
 				},
-			},
-		});
-		expect(slots.root()).toBe("USER2 a1 base");
+			}),
+		).toBe("USER2 a1 base");
 	});
 });

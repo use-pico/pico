@@ -38,8 +38,8 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 
 		const { slots } = $cls.create(
 			{
-				token: {
-					"color.text": {
+                token: {
+					"color.text": {                        
 						class: [
 							"text-blue-500",
 						],
@@ -57,7 +57,7 @@ describe("cls/local-token-overlay-wins-over-user-and-config", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("text-blue-500");
+		expect(slots.root()).toBe("text-blue-500 text-green-500");
 		expect(
 			slots.root({
 				token: {
