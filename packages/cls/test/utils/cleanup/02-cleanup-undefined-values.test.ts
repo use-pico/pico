@@ -5,10 +5,12 @@ describe("utils/cleanup/cleanup-undefined-values", () => {
 	it("cleans up tweak with undefined values", () => {
 		const tweak = {
 			token: {
-				t1: [
-					"class1",
-					"class2",
-				],
+				t1: {
+					class: [
+						"class1",
+						"class2",
+					],
+				},
 				t2: undefined,
 			},
 			slot: {
@@ -30,10 +32,12 @@ describe("utils/cleanup/cleanup-undefined-values", () => {
 
 		expect(result).toEqual({
 			token: {
-				t1: [
-					"class1",
-					"class2",
-				],
+				t1: {
+					class: [
+						"class1",
+						"class2",
+					],
+				},
 			},
 			slot: {
 				root: {

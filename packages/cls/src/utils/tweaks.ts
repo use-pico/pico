@@ -41,10 +41,10 @@ export function tweaks<const TContract extends Contract.Any>(
 				return {
 					token: merge(
 						acc.token ?? {},
-						filter(current.token),
+						current.token ?? {},
 						override,
 					),
-					slot: merge(acc.slot ?? {}, filter(current.slot), override),
+					slot: merge(acc.slot ?? {}, current.slot ?? {}, override),
 					variant: {
 						...filter(acc.variant),
 						...filter(current.variant),
@@ -59,5 +59,39 @@ const merge = (
 	current: Record<string, What.Any<Contract.Any> | undefined>,
 	override: boolean,
 ): Record<string, What.Any<Contract.Any>> => {
-	//
+	const result = filter({
+		...acc,
+	});
+
+	Object.entries(filter(current)).forEach(([key, value]) => {
+		if (!value) {
+			return;
+		}
+
+		if (override) {
+			result[key] = value;
+			return;
+		}
+
+		if (!result[key]) {
+			result[key] = value;
+			return;
+		}
+
+		if ("class" in result[key] && "class" in value) {
+			result[key].class = [
+				result[key].class,
+				value.class,
+			];
+		}
+
+		if ("token" in result[key] && "token" in value) {
+			result[key].token = [
+				...result[key].token,
+				...value.token,
+			];
+		}
+	});
+
+	return result as Record<string, What.Any<Contract.Any>>;
 };

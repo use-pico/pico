@@ -5,14 +5,20 @@ describe("utils/cleanup/cleanup-mixed-valid-invalid", () => {
 	it("handles mixed valid and invalid values", () => {
 		const tweak = {
 			token: {
-				t1: [
-					"class1",
-				],
+				t1: {
+					class: [
+						"class1",
+					],
+				},
 				t2: undefined,
-				t3: [],
-				t4: [
-					"class4",
-				],
+				t3: {
+					class: [],
+				},
+				t4: {
+					class: [
+						"class4",
+					],
+				},
 			},
 			slot: {
 				root: {
@@ -36,7 +42,7 @@ describe("utils/cleanup/cleanup-mixed-valid-invalid", () => {
 				theme: "light",
 				disabled: "false",
 			},
-		} as any;
+		};
 
 		const result = cleanup(tweak);
 
