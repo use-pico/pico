@@ -58,13 +58,10 @@ export function useCls<TContract extends Contract.Any>(
 	const variant = useVariantContext() as Variant.Optional<TContract>;
 
 	return cls.create(
-		...tweaks,
-		/**
-		 * Context tweak has lowest priority
-		 */
 		{
 			token: context,
 			variant,
 		},
+		...tweaks,
 	);
 }

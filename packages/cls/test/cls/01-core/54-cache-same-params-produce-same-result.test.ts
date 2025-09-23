@@ -118,8 +118,8 @@ describe("cls/cache-same-params-produce-same-result", () => {
 			},
 		});
 
-		expect(r1).toBe("text-blue-500 base md user local");
-		expect(r2).toBe("text-blue-500 base md user local");
-		expect(r3).toBe("text-blue-500 base md user local");
+		expect(r1).toBe("text-blue-500 base md user config local");
+		expect(r2).toBe("text-blue-500 base md user config local");
+		expect(r3).toBe("text-blue-500 base md user config local");
 	});
 });

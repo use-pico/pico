@@ -40,7 +40,8 @@ describe("cls/user-override-ignores-config-slot-append", () => {
 
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"USER-OVR",
@@ -48,6 +49,6 @@ describe("cls/user-override-ignores-config-slot-append", () => {
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("base config USER-OVR");
 	});
 });

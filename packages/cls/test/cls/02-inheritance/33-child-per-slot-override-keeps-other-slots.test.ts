@@ -83,7 +83,7 @@ describe("cls/inheritance/child-per-slot-override-keeps-other-slots", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("ROOT-OVR user");
+		expect(slots.root()).toBe("ROOT-OVR user config");
 		expect(slots.icon()).toBe("icon-base");
 	});
 });

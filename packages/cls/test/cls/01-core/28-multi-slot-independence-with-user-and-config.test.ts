@@ -92,7 +92,7 @@ describe("cls/multi-slot-independence-with-user-and-config", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("root-base root-md root-user");
-		expect(slots.icon()).toBe("icon-base icon-md icon-user");
+		expect(slots.root()).toBe("root-base root-md root-user root-config");
+		expect(slots.icon()).toBe("icon-base icon-md icon-user icon-config");
 	});
 });

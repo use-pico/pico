@@ -209,7 +209,8 @@ describe("cls/complex/multi-slot-dual-root-refs-mixed-overlays-local-icon-overri
 		// icon overridden locally, label and badge follow token expansions and base order
 		expect(
 			slots.icon({
-				override: {
+				override: true,
+				slot: {
 					icon: {
 						class: [
 							"LOCAL-ICON",
@@ -217,7 +218,7 @@ describe("cls/complex/multi-slot-dual-root-refs-mixed-overlays-local-icon-overri
 					},
 				},
 			}),
-		).toBe("LOCAL-ICON");
+		).toBe("i-a-x CONF1 b-icon LOCAL-ICON");
 		expect(slots.label()).toBe("l-a-x l-on a6 b-label");
 		expect(slots.badge()).toBe("b-a-x CONF1 b-badge");
 	});

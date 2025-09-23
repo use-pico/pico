@@ -29,7 +29,8 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 		);
 
 		const { slots } = $cls.create(undefined, {
-			override: {
+			override: true,
+			slot: {
 				root: {
 					class: [
 						"CONF-OVR",
@@ -41,7 +42,8 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 		// local user override wins over prior config override
 		expect(
 			slots.root({
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"USER-OVR",
@@ -49,6 +51,6 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("base CONF-OVR USER-OVR");
 	});
 });

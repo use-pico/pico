@@ -161,7 +161,8 @@ describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", ()
 		// Local override on label wins
 		expect(
 			slots.label({
-				override: {
+				override: true,
+				slot: {
 					label: {
 						class: [
 							"LOCAL-LABEL",
@@ -169,6 +170,6 @@ describe("cls/complex/deep-refs-branching-mixed-overlays-and-local-override", ()
 					},
 				},
 			}),
-		).toBe("LOCAL-LABEL");
+		).toBe("l-on USER5 a2 CONF3 a4 a1 b-label LOCAL-LABEL");
 	});
 });

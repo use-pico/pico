@@ -35,6 +35,15 @@ export function tweaks<const TContract extends Contract.Any>(
 
 	return rest.reduce((acc, current) => {
 		const override = current.override ?? false;
+		const clear = current.clear ?? false;
+
+		if (clear) {
+			return {
+				token: filter(current.token),
+				slot: filter(current.slot),
+				variant: filter(current.variant),
+			} as Tweak.Type<TContract>;
+		}
 
 		return {
 			token: merge(acc.token ?? {}, current.token ?? {}, override),

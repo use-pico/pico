@@ -1273,7 +1273,7 @@ const { slots, variant } = ButtonCls.create();
 })}>Purple Button</button>
 ```
 
-### Override Flag
+### Override and Clear Flags
 ```typescript
 // Use the override flag to explicitly override previous tweaks
 const { slots, variant } = ButtonCls.create(
@@ -1281,6 +1281,16 @@ const { slots, variant } = ButtonCls.create(
   { 
     override: true,                      // Override flag
     variant: { size: "lg" }              // This will override the previous size
+  }
+);
+
+// Use the clear flag to completely reset and start fresh
+const { slots, variant } = ButtonCls.create(
+  { variant: { size: "md" } },           // This will be completely ignored
+  { slot: { root: { class: ["px-4"] } } }, // This will be completely ignored
+  { 
+    clear: true,                         // Clear flag - kills all previous tweaks
+    variant: { size: "lg" }              // Only this will be applied
   }
 );
 
@@ -1292,7 +1302,21 @@ const { slots, variant } = ButtonCls.create(
     slot: { root: { class: ["px-8"] } }     // This will override the previous padding
   }
 )}>Button</button>
+
+// Clear flag works with slots too
+<button className={slots.root(
+  { slot: { root: { class: ["px-4"] } } },  // This will be completely ignored
+  { slot: { root: { class: ["py-2"] } } },  // This will be completely ignored
+  { 
+    clear: true,                            // Clear flag - kills all previous tweaks
+    slot: { root: { class: ["px-8", "py-4"] } } // Only this will be applied
+  }
+)}>Button</button>
 ```
+
+> **🔍 Flag Behavior:**
+> - **`override: true`** - Overrides only the specific fields set in that tweak, while preserving other fields from previous tweaks
+> - **`clear: true`** - Completely resets and starts fresh, ignoring ALL previous tweaks and only applying the current one
 
 ### Token Chains
 ```typescript
@@ -1356,7 +1380,7 @@ const { slots, variant } = ButtonCls.create(
 )}>Button</button>
 ```
 
-> **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Tweaks are processed from lowest to highest precedence (last parameter wins), and the `override` flag allows explicit overriding of previous tweaks!
+> **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Tweaks are processed from lowest to highest precedence (last parameter wins), with `override` flag for explicit overriding and `clear` flag for complete reset!
 
 ## 🚀 Performance
 

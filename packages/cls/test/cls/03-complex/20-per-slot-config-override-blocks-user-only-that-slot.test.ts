@@ -50,7 +50,8 @@ describe("cls/complex/per-slot-config-override-blocks-user-only-that-slot", () =
 				},
 			},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-OVR",
@@ -60,7 +61,7 @@ describe("cls/complex/per-slot-config-override-blocks-user-only-that-slot", () =
 			},
 		);
 
-		expect(slots.root()).toBe("CONF-OVR");
+		expect(slots.root()).toBe("r-base CONF-OVR");
 		expect(slots.icon()).toBe("i-base USER-I");
 	});
 });

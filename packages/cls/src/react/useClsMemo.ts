@@ -78,7 +78,6 @@ export function useClsMemo<TContract extends Contract.Any>(
 	return useMemo(
 		() =>
 			cls.create(
-				tweaks,
 				/**
 				 * Context tweak has lowest priority
 				 */
@@ -86,6 +85,7 @@ export function useClsMemo<TContract extends Contract.Any>(
 					token: context,
 					variant,
 				},
+				tweaks,
 			),
 		// biome-ignore lint/correctness/useExhaustiveDependencies: User driven
 		deps,

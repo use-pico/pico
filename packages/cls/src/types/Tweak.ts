@@ -25,6 +25,10 @@ export namespace Tweak {
 		 * From user's perspective this allows to brute force user's tweak.
 		 */
 		override?: boolean;
+		/**
+		 * Brute force - kills previous tweaks and set this as a new baseline.
+		 */
+		clear?: boolean;
 		/** Optional variant modifications */
 		variant?: Variant.Optional<TContract>;
 		/** Optional slot modifications */
