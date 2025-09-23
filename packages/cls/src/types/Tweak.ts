@@ -29,6 +29,18 @@ export namespace Tweak {
 		token?: Token.Optional<TContract>;
 	};
 
+	/**
+	 * Tweaks are used as an input to make... a tweak
+	 */
+	export type Tweaks<TContract extends Contract.Any> =
+		| (Tweak.Type<TContract> | undefined)[]
+		| Tweak.Type<TContract>
+		| undefined;
+
+	export type TweaksFn<TContract extends Contract.Any> = (
+		...tweaks: Tweak.Tweaks<TContract>[]
+	) => Tweak.Type<TContract>;
+
 	export namespace Override {
 		export interface Type<TContract extends Contract.Any> {
 			token: Token.OptionalFn<TContract>;

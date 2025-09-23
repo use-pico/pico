@@ -267,8 +267,8 @@ export function cls<
 	);
 
 	return {
-		create(tweak) {
-			const $tweak = cleanup(tweak ?? {});
+		create(...tweak) {
+			const $tweak = cleanup(tweaks(...tweak));
 
 			const variant = withVariants($tweak, {
 				contract,
@@ -400,13 +400,15 @@ export function cls<
 
 					const slotKeyStr = String(slotName);
 
-					const slotFunction: CoolSlot.Fn<TContract> = (local) => {
+					const slotFunction: CoolSlot.Fn<TContract> = (...local) => {
+						const $local = cleanup(tweaks(...local));
+
 						// Merge variants (shallow, only defined values)
 						const localEffective = {
 							...variant,
 						};
-						if (local?.variant) {
-							Object.entries(local.variant)
+						if ($local?.variant) {
+							Object.entries($local.variant)
 								.filter(([, value]) => value !== undefined)
 								.forEach(([key, value]) => {
 									localEffective[
@@ -415,7 +417,7 @@ export function cls<
 								});
 						}
 
-						const key = computeKeyFromLocal(slotKeyStr, local);
+						const key = computeKeyFromLocal(slotKeyStr, $local);
 						if (key !== null) {
 							const cached = resultCache.get(key);
 							if (cached !== undefined) {
@@ -429,20 +431,20 @@ export function cls<
 							| Record<string, ClassName[]>
 							| undefined;
 						if (
-							local?.token &&
-							Object.keys(local.token).length > 0
+							$local?.token &&
+							Object.keys($local.token).length > 0
 						) {
 							activeTokens = Object.assign(
 								Object.create(tokenTable),
-								local.token,
+								$local.token,
 							);
 							localResolvedCache = Object.create(null);
 						}
 
 						// Read per-slot customizations
-						const localSlotWhat = local?.slot
+						const localSlotWhat = $local?.slot
 							? (
-									local.slot as Record<
+									$local.slot as Record<
 										string,
 										What.Any<Contract.Any>
 									>
@@ -456,9 +458,9 @@ export function cls<
 									>
 								)[slotName]
 							: undefined;
-						const localOverrideWhat = local?.override
+						const localOverrideWhat = $local?.override
 							? (
-									local.override as Record<
+									$local.override as Record<
 										string,
 										What.Any<Contract.Any>
 									>
@@ -605,9 +607,7 @@ export function cls<
 			return sub as unknown as Cls.Type<TContract>;
 		},
 		tweak(tweak) {
-			return tweaks([
-				tweak as Tweak.Type<TContract>,
-			]);
+			return tweaks(tweak as Tweak.Type<TContract>);
 		},
 		contract,
 		definition,

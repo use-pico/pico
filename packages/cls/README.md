@@ -89,11 +89,15 @@ const ButtonCls = contract()
   .defaults({ size: "md", disabled: false })                          // Default values
   .cls();                                                             // Create CLS instance
 
-// Step 2: Use it! (single tweak parameter, undefined values cleaned up)
+// Step 2: Use it! (variadic tweak parameters, undefined values cleaned up)
 const slots = ButtonCls.create({
   variant: { size: "lg" }
 });
 console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-medium px-6 py-3"
+
+// Individual slots also support tweaks!
+const customSlots = ButtonCls.create();
+console.log(customSlots.root({ variant: { size: "sm" } })); // "bg-blue-600 text-white px-3 py-1 text-sm"
 ```
 
 ### With React (because who doesn't love React? 💙)
@@ -102,10 +106,10 @@ console.log(slots.root()); // "bg-blue-600 text-white px-4 py-2 rounded font-med
 import { useCls } from '@use-pico/cls';
 
 function MyButton({ size = "md", disabled = false, tweak }) {
-  const { slots, variant } = useCls(ButtonCls, [
+  const { slots, variant } = useCls(ButtonCls, 
     tweak,                    // User tweak (highest precedence)
     { variant: { size, disabled } }  // Component props (lower precedence)
-  ]);
+  );
 
   return (
     <button className={slots.root()}>
@@ -122,6 +126,7 @@ function MyButton({ size = "md", disabled = false, tweak }) {
 - **⚡ Performance** - Lazy evaluation, smart caching, and minimal runtime overhead
 - **🌐 Framework Agnostic** - Works with React, Vue, Svelte, vanilla JS, or any framework
 - **🎨 Design System Ready** - Tokens, variants, and slots for scalable styling
+- **🎯 Granular Control** - Individual slots support tweaks for fine-grained customization
 - **🛠 Developer Experience** - Excellent IDE support and intuitive API
 
 ## 🏆 Quality & Reliability
@@ -184,7 +189,7 @@ const ButtonCls = contract()
 ### 🎯 Using Your Button
 
 ```typescript
-// Create styled slots and variants (single tweak parameter)
+// Create styled slots and variants (variadic tweak parameters)
 const { slots, variant } = ButtonCls.create({
   variant: {
     size: "lg",
@@ -724,13 +729,16 @@ export const BaseButton: FC<Button.Props> = ({
   ...props 
 }) => {
   // 5. useCls with internal and user configs
-  const { slots, variant } = useCls(cls, tweak, {
-    variant: {
-      disabled: disabled || loading,
-      size,
-      tone,
-    },
-  });
+  const { slots, variant } = useCls(cls, 
+    tweak,  // User tweak (highest precedence)
+    {       // Internal config (lower precedence)
+      variant: {
+        disabled: disabled || loading,
+        size,
+        tone,
+      },
+    }
+  );
 
   // `variant` contains the resolved variant values from both component props and user tweaks
   // This gives you access to the final resolved state for component logic if needed
@@ -774,21 +782,19 @@ export interface Props extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonEl
 }
 ```
 
-#### **2. useCls with Array of Tweaks** ⚙️
+#### **2. useCls with Multiple Tweaks** ⚙️
 ```tsx
 const { slots, variant } = useCls(
   cls,     // CLS instance (can be overridden)
-  [        // Array of tweaks (first takes precedence)
-    tweak,   // User config (from tweak prop) - HIGHEST PRECEDENCE
-    {        // Props config (from component props) - MEDIUM PRECEDENCE
-      variant: { size, tone }
+  tweak,   // User config (from tweak prop) - HIGHEST PRECEDENCE
+  {        // Props config (from component props) - MEDIUM PRECEDENCE
+    variant: { size, tone }
+  },
+  {        // Internal config (component logic) - LOWEST PRECEDENCE
+    variant: {
+      disabled: disabled || loading,  // Component-controlled logic
     },
-    {        // Internal config (component logic) - LOWEST PRECEDENCE
-      variant: {
-        disabled: disabled || loading,  // Component-controlled logic
-      },
-    },
-  ]
+  }
 );
 ```
 
@@ -841,7 +847,7 @@ const Button: FC<ButtonProps> = ({
   tweak, // User tweak - HIGHEST PRECEDENCE
   children 
 }) => {
-  const { slots, variant } = useCls(ButtonCls, [
+  const { slots, variant } = useCls(ButtonCls, 
     tweak,                    // 1. User tweak (highest precedence)
     {                         // 2. Props from component (medium precedence)
       variant: { size, tone }
@@ -851,7 +857,7 @@ const Button: FC<ButtonProps> = ({
         disabled: disabled || loading
       }
     }
-  ]);
+  );
 
   return (
     <button className={slots.root()}>
@@ -913,12 +919,20 @@ import { tweaks } from '@use-pico/cls';
 
 // Manual tweak merging for advanced scenarios
 const MyButton = ({ userTweak, size, tone, disabled }) => {
-  const finalTweak = tweaks([
+  const finalTweak = tweaks(
     userTweak,                    // User customization (highest precedence)
     { variant: { size, tone } },  // Props (medium precedence)
     { variant: { disabled } }     // Component logic (lowest precedence)
-  ]);
+  );
 
+  const { slots, variant } = ButtonCls.create(finalTweak);
+  
+  return <button className={slots.root()}>Button</button>;
+};
+
+// Alternative: Single tweak usage (simplest)
+const SimpleButton = ({ userTweak }) => {
+  const finalTweak = tweaks(userTweak);
   const { slots, variant } = ButtonCls.create(finalTweak);
   
   return <button className={slots.root()}>Button</button>;
@@ -964,7 +978,7 @@ const App = () => (
 
 #### **useCls** - The Main Hook 🎯
 ```tsx
-const { slots, variant } = useCls(ButtonCls, tweaksArray);
+const { slots, variant } = useCls(ButtonCls, ...tweaks);
 ```
 
 **`useCls` is the main hook** for CLS in React components. It returns both **slots** and **variants** for maximum flexibility:
@@ -974,14 +988,20 @@ const { slots, variant } = useCls(ButtonCls, tweaksArray);
 const { slots, variant } = useCls(ButtonCls, tweak);
 
 // Multiple tweaks with precedence (first takes precedence)
-const { slots, variant } = useCls(ButtonCls, [
+const { slots, variant } = useCls(ButtonCls, 
   userTweak,     // Highest precedence
   propsTweak,    // Medium precedence  
   internalTweak  // Lowest precedence
-]);
+);
 
 // Use slots for styling
 <button className={slots.root()}>Button</button>
+
+// Individual slots also support tweaks!
+<button className={slots.root(
+  { variant: { size: "lg" } },  // Override size for this specific slot
+  { slot: { root: { class: ["shadow-lg"] } } }  // Add custom classes
+)}>Button</button>
 
 // Use variants for component logic
 console.log(variant.size);     // "lg"
@@ -1138,12 +1158,16 @@ const ButtonWrapper = wrap(ButtonCls);
 
 #### **useClsMemo** - Memoized CLS Hook 🚀
 ```tsx
-const { slots, variant } = useClsMemo(ButtonCls, tweaksArray, deps);
+const { slots, variant } = useClsMemo(ButtonCls, tweaks, deps);
 ```
 
 **Performance-optimized version** of `useCls` that memoizes both slots and variants using `useMemo`:
 
 ```tsx
+// Simple usage - single tweak with memoization
+const { slots, variant } = useClsMemo(ButtonCls, tweak, [tweak]);
+
+// Array of tweaks with memoization
 const MyButton = ({ size, tone, disabled, loading, tweak }) => {
   const { slots, variant } = useClsMemo(
     ButtonCls,
@@ -1186,14 +1210,16 @@ const MyButton = ({ size, tone, disabled, loading, tweak }) => {
 const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
   const { slots, variant } = useClsMemo(
     ButtonCls,
-    tweak,
-    {
-      variant: { 
-        size, 
-        tone,
-        disabled: disabled || loading 
+    [
+      tweak,  // User tweak (highest precedence)
+      {       // Internal config (lower precedence)
+        variant: { 
+          size, 
+          tone,
+          disabled: disabled || loading 
+        }
       }
-    },
+    ],
     [size, tone, disabled, loading, tweak] // All dependencies included
   );
   
@@ -1209,7 +1235,7 @@ const OptimizedButton = ({ size, tone, disabled, loading, tweak }) => {
 
 ### Runtime Overrides
 ```typescript
-// Override tokens at creation time (single tweak parameter)
+// Override tokens at creation time (variadic tweak parameters)
 const { slots, variant } = ButtonCls.create({
   variant: { size: "lg" },
   token: {
@@ -1217,6 +1243,36 @@ const { slots, variant } = ButtonCls.create({
     "color.bg.primary": { class: ["bg-indigo-600"] }
   }
 });
+
+// Multiple tweaks with precedence
+const { slots, variant } = ButtonCls.create(
+  userTweak,     // Highest precedence
+  propsTweak,    // Medium precedence
+  internalTweak  // Lowest precedence
+);
+```
+
+### Individual Slot Tweaks
+```typescript
+// Individual slots support variadic tweaks too!
+const { slots, variant } = ButtonCls.create();
+
+// Basic slot usage
+<button className={slots.root()}>Button</button>
+
+// Slot with variant override
+<button className={slots.root({ variant: { size: "lg" } })}>Large Button</button>
+
+// Slot with multiple tweaks
+<button className={slots.root(
+  { variant: { size: "lg" } },           // Override size
+  { slot: { root: { class: ["shadow-lg"] } } }  // Add custom classes
+)}>Custom Button</button>
+
+// Slot with token override
+<button className={slots.root({
+  token: { "color.bg.primary": { class: ["bg-purple-600"] } }
+})}>Purple Button</button>
 ```
 
 ### Token Chains
@@ -1249,37 +1305,51 @@ tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
 
 ### Utility Functions
 
-#### **`tweak()` - Tweak Array Merging**
+#### **`tweaks()` - Tweak Merging**
 ```typescript
 import { tweaks } from '@use-pico/cls';
 
-// Process single array of tweaks (first takes precedence, undefined values cleaned up)
-const finalTweak = tweaks([
+// Single tweak (simplest usage)
+const finalTweak = tweaks(userTweak);
+
+// Multiple tweaks as parameters (first takes precedence, undefined values cleaned up)
+const finalTweak = tweaks(
   userTweak,     // Highest precedence
   propsTweak,    // Medium precedence
   internalTweak  // Lowest precedence
-]);
+);
 
-// Use with cls.create() for single tweak parameter
-const { slots, variant } = ButtonCls.create(finalTweak);
+// Use with cls.create() (now supports variadic parameters directly)
+const { slots, variant } = ButtonCls.create(
+  userTweak,     // Highest precedence
+  propsTweak,    // Medium precedence
+  internalTweak  // Lowest precedence
+);
 ```
 
-#### **`tweak()` - Multiple Arrays (Advanced)**
+#### **`tweaks()` - Multiple Parameters (Advanced)**
 ```typescript
 import { tweaks } from '@use-pico/cls';
 
-// Merge multiple arrays of tweaks (first array takes precedence)
+// Multiple tweaks as parameters (first takes precedence)
 const finalTweak = tweaks(
-  [userTweak],     // First array (highest precedence)
-  [propsTweak],    // Second array (medium precedence)  
-  [internalTweak]  // Third array (lowest precedence)
+  userTweak,       // First tweak (highest precedence)
+  propsTweak,      // Second tweak (medium precedence)  
+  internalTweak    // Third tweak (lowest precedence)
+);
+
+// Mixed single tweaks and arrays
+const finalTweak = tweaks(
+  userTweak,       // Single tweak (highest precedence)
+  [propsTweak],    // Array (medium precedence)
+  internalTweak    // Single tweak (lowest precedence)
 );
 
 // All tweaks are cleaned up (undefined values removed)
 // Safe to pass partial objects without affecting results
 ```
 
-> **💡 Key Point:** `tweak()` accepts **variadic arrays** - you can pass either a single array or multiple arrays. The function flattens all arrays and processes them with proper precedence.
+> **💡 Key Point:** `tweaks()` accepts **variadic tweaks** - you can pass single tweaks, arrays of tweaks, or a mix of both. The function flattens all arrays and processes them with proper precedence.
 
 ## 🚀 Performance
 

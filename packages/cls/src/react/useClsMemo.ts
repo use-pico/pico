@@ -1,65 +1,75 @@
 import { type DependencyList, useMemo } from "react";
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
+import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
-import { tweaks as tweaksFn } from "../utils/tweaks";
 import { useTokenContext } from "./useTokenContext";
 import { useVariantContext } from "./useVariantContext";
 
 /**
- * Memoized version of `useCls` with an explicit dependency list.
+ * Memoized version of `useCls` with explicit dependency control for performance optimization.
  *
  * **Tweak Precedence (highest to lowest):**
- * 1. **User tweak** (arg 2) - Direct user customization
- * 2. **TweakProvider context** - Scoped tweak overrides
- * 3. **Internal tweak** (arg 3) - Component logic
+ * 1. **User tweak** - Direct user customization passed as parameter
+ * 2. **Context tweak** - Automatically merged from TokenContext and VariantContext
  *
- * **Token Merging:**
- * - Tokens from `TokenContext` are merged with `internalTweak.token` via `clsTweakToken`
- * - Internal tokens win over context tokens on conflicts
+ * **Context Integration:**
+ * - Automatically subscribes to `TokenContext` for token overrides
+ * - Automatically subscribes to `VariantContext` for variant overrides
+ * - Context values have lower precedence than user-provided tweaks
  *
- * **Context Subscription Control:**
- * - Use `use` parameter to control which contexts the component subscribes to
- * - `["token"]` (default) - Subscribe to TokenContext only
- * - `["tweak"]` - Subscribe to TweakProvider only
- * - `["token", "tweak"]` - Subscribe to both contexts
- * - `[]` - Subscribe to neither (isolated component)
+ * **Memoization Control:**
+ * - Uses `useMemo` with the provided dependency list
+ * - Recreates the CLS kit only when dependencies change
+ * - Essential for performance when tweaks depend on props or state
+ *
+ * **Tweak Merging:**
+ * - Uses the `tweaks()` function with parameter-based syntax
+ * - User tweak takes precedence over context values
+ * - Undefined values are automatically filtered out
  *
  * @template TContract - CLS contract type defining tokens, slots, and variants
- * @param cls - CLS instance used for slot creation
- * @param userTweak - Optional user-provided tweak object (variant/slot/token/override)
- * @param internalTweak - Optional internal tweak object for component logic
- * @param deps - Dependency list controlling memoization of the created kit
- * @param use - Array controlling context subscription: "token" for TokenContext, "tweak" for TweakProvider
+ * @param cls - CLS instance to create kit from
+ * @param tweaks - Optional user-provided tweak (variant/slot/token/override)
+ * @param deps - Dependency list controlling memoization (defaults to empty array)
  * @returns A memoized `Cls.Kit<TContract>` with slot functions (e.g., `slots.root()`) and resolved variants
  *
  * @example
  * ```tsx
- * // Default usage - subscribes to TokenContext only
- * const { slots, variant } = useClsMemo(ButtonCls, tweak, internal, [size, tone]);
- * ```
- *
- * @example
- * ```tsx
- * // Subscribe to both contexts with memoization
+ * // Basic usage with memoization based on props
  * const { slots, variant } = useClsMemo(
  *   ButtonCls,
  *   { variant: { size, tone } },
- *   { variant: { disabled: disabled || loading } },
- *   [size, tone, disabled, loading],
- *   ["token", "tweak"]
+ *   [size, tone] // Re-memoize when size or tone changes
  * );
  * ```
  *
  * @example
  * ```tsx
- * // Isolated component - not affected by any context
- * const { slots, variants } = useClsMemo(ButtonCls, tweak, internal, deps, []);
+ * // Complex tweak with multiple dependencies
+ * const { slots, variant } = useClsMemo(
+ *   ButtonCls,
+ *   {
+ *     variant: { size, tone, disabled },
+ *     slot: { root: { class: disabled ? ["opacity-50"] : [] } }
+ *   },
+ *   [size, tone, disabled] // Re-memoize when any dependency changes
+ * );
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // No user tweak - memoizes context-only result
+ * const { slots, variant } = useClsMemo(
+ *   ButtonCls,
+ *   undefined,
+ *   [] // Never re-memoize (context changes handled internally)
+ * );
  * ```
  */
 export function useClsMemo<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
-	tweaks?: tweaksFn.Tweaks<TContract>,
+	tweaks?: Tweak.Tweaks<TContract>,
 	deps: DependencyList = [],
 ): Cls.Kit<TContract> {
 	const context = useTokenContext();
@@ -68,15 +78,14 @@ export function useClsMemo<TContract extends Contract.Any>(
 	return useMemo(
 		() =>
 			cls.create(
-				tweaksFn<TContract>(tweaks, [
-					/**
-					 * Context tweak has lowest priority
-					 */
-					{
-						token: context,
-						variant,
-					},
-				]),
+				tweaks,
+				/**
+				 * Context tweak has lowest priority
+				 */
+				{
+					token: context,
+					variant,
+				},
 			),
 		// biome-ignore lint/correctness/useExhaustiveDependencies: User driven
 		deps,
