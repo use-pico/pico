@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override", () => {
 	it("config overlays t1; user overlays t3; local overrides badge only; multi-slot", () => {
-		const $c = cls(
+		const $cls = cls(
 			{
 				tokens: [
 					"t1",
@@ -184,7 +184,7 @@ describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override",
 			},
 		);
 
-		const { slots } = $c.create(
+		const { slots } = $cls.create(
 			{
 				token: {
 					t3: {
@@ -210,7 +210,8 @@ describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override",
 		expect(slots.label()).toBe("CONF1 b-label l-md l-dark l-base");
 		expect(
 			slots.badge({
-				override: {
+				override: true,
+				slot: {
 					badge: {
 						class: [
 							"LOCAL-BADGE",
@@ -218,6 +219,6 @@ describe("cls/complex/config-root-token-overlay-user-leaf-local-badge-override",
 					},
 				},
 			}),
-		).toBe("LOCAL-BADGE");
+		).toBe("CONF1 b-badge b-md b-dark b-base LOCAL-BADGE");
 	});
 });

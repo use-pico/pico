@@ -171,7 +171,8 @@ describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", (
 						],
 					},
 				},
-				override: {
+				override: true,
+				slot: {
 					icon: {
 						class: [
 							"USER-ICON",
@@ -187,7 +188,8 @@ describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", (
 						],
 					},
 				},
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-ROOT",
@@ -198,9 +200,13 @@ describe("cls/complex/cross-slot-conflicts-with-overrides-and-token-overlays", (
 		);
 
 		// Root is overridden by config
-		expect(slots.root()).toBe("CONF-ROOT");
+		expect(slots.root()).toBe(
+			"r-a-x r-b-u r-on CONF2 USER3 a4 a1 b-root CONF-ROOT",
+		);
 		// Icon is overridden by user
-		expect(slots.icon()).toBe("USER-ICON");
+		expect(slots.icon()).toBe(
+			"i-a-x i-b-u i-on CONF2 USER3 a4 a1 b-icon USER-ICON",
+		);
 		// Label: matches first, then overlays (config then user), then remaining chain and base
 		expect(slots.label()).toBe(
 			"l-a-x l-b-u l-on CONF2 USER3 a4 a1 b-label",

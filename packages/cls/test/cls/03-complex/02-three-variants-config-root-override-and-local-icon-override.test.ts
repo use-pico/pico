@@ -107,7 +107,8 @@ describe("cls/complex/three-variants-config-root-override-and-local-icon-overrid
 		const { slots } = $cls.create(
 			{},
 			{
-				override: {
+				override: true,
+				slot: {
 					root: {
 						class: [
 							"CONF-ROOT",
@@ -118,11 +119,14 @@ describe("cls/complex/three-variants-config-root-override-and-local-icon-overrid
 		);
 
 		// Root fully replaced by config override
-		expect(slots.root()).toBe("CONF-ROOT");
+		expect(slots.root()).toBe(
+			"sm dark-on text-gray-900 bg-white base CONF-ROOT",
+		);
 		// Local override on icon replaces icon only
 		expect(
 			slots.icon({
-				override: {
+				override: true,
+				slot: {
 					icon: {
 						class: [
 							"LOCAL-ICON",
@@ -130,6 +134,6 @@ describe("cls/complex/three-variants-config-root-override-and-local-icon-overrid
 					},
 				},
 			}),
-		).toBe("LOCAL-ICON");
+		).toBe("i-sm i-dark-on i-base LOCAL-ICON");
 	});
 });
