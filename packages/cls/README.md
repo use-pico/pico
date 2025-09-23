@@ -909,11 +909,11 @@ const CustomButtonCls = contract(ButtonCls.contract)
 
 #### **Tweak Utility for Advanced Merging**
 ```tsx
-import { tweak } from '@use-pico/cls';
+import { tweaks } from '@use-pico/cls';
 
 // Manual tweak merging for advanced scenarios
 const MyButton = ({ userTweak, size, tone, disabled }) => {
-  const finalTweak = tweak([
+  const finalTweak = tweaks([
     userTweak,                    // User customization (highest precedence)
     { variant: { size, tone } },  // Props (medium precedence)
     { variant: { disabled } }     // Component logic (lowest precedence)
@@ -1251,10 +1251,10 @@ tvc("px-4 py-2", "px-6", "bg-blue-500", "bg-red-500");
 
 #### **`tweak()` - Tweak Array Merging**
 ```typescript
-import { tweak } from '@use-pico/cls';
+import { tweaks } from '@use-pico/cls';
 
 // Process single array of tweaks (first takes precedence, undefined values cleaned up)
-const finalTweak = tweak([
+const finalTweak = tweaks([
   userTweak,     // Highest precedence
   propsTweak,    // Medium precedence
   internalTweak  // Lowest precedence
@@ -1266,10 +1266,10 @@ const { slots, variant } = ButtonCls.create(finalTweak);
 
 #### **`tweak()` - Multiple Arrays (Advanced)**
 ```typescript
-import { tweak } from '@use-pico/cls';
+import { tweaks } from '@use-pico/cls';
 
 // Merge multiple arrays of tweaks (first array takes precedence)
-const finalTweak = tweak(
+const finalTweak = tweaks(
   [userTweak],     // First array (highest precedence)
   [propsTweak],    // Second array (medium precedence)  
   [internalTweak]  // Third array (lowest precedence)

@@ -23,7 +23,7 @@
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
 		"@use-pico/tsconfig": "4.0.22",
-		"rollup": "4.52.0",
+		"rollup": "4.52.2",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.2"
 	},
