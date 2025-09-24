@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/duplicate-classes-are-not-deduped", () => {
 	it("keeps duplicate classes when produced by separate rules", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -11,8 +11,8 @@ describe("cls/duplicate-classes-are-not-deduped", () => {
 				],
 				variant: {
 					level: [
-						"a",
-						"b",
+						"primary",
+						"secondary",
 					],
 				},
 			},
@@ -23,31 +23,31 @@ describe("cls/duplicate-classes-are-not-deduped", () => {
 						slot: {
 							root: {
 								class: [
-									"x",
+									"base-style",
 								],
 							},
 						},
 					},
 					{
 						match: {
-							level: "a",
+							level: "primary",
 						},
 						slot: {
 							root: {
 								class: [
-									"x",
+									"text-primary",
 								],
 							},
 						},
 					},
 				],
 				defaults: {
-					level: "a",
+					level: "primary",
 				},
 			},
 		);
 
-		const { slots } = $cls.create();
-		expect(slots.root()).toBe("x x");
+		const { slots } = buttonCls.create();
+		expect(slots.root()).toBe("base-style text-primary");
 	});
 });

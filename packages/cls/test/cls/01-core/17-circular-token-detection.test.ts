@@ -3,11 +3,11 @@ import { cls } from "../../../src";
 
 describe("cls/circular-token-detection", () => {
 	it("throws error when tokens reference each other circularly", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
-					"a",
-					"b",
+					"color.primary",
+					"color.secondary",
 				],
 				slot: [
 					"root",
@@ -16,14 +16,14 @@ describe("cls/circular-token-detection", () => {
 			},
 			{
 				token: {
-					a: {
+					"color.primary": {
 						token: [
-							"b",
+							"color.secondary",
 						],
 					},
-					b: {
+					"color.secondary": {
 						token: [
-							"a",
+							"color.primary",
 						],
 					},
 				},
@@ -32,7 +32,7 @@ describe("cls/circular-token-detection", () => {
 						slot: {
 							root: {
 								token: [
-									"a",
+									"color.primary",
 								],
 							},
 						},
@@ -42,7 +42,7 @@ describe("cls/circular-token-detection", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(() => {
 			slots.root();
 		}).toThrowError(/Circular dependency detected/);

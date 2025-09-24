@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/config-token-applies-before-user-slot-order", () => {
 	it("ensures token classes resolve before slot and follow config→user order", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -13,8 +13,8 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 				],
 				variant: {
 					level: [
-						"a",
-						"b",
+						"primary",
+						"secondary",
 					],
 				},
 			},
@@ -41,24 +41,24 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 					},
 					{
 						match: {
-							level: "b",
+							level: "secondary",
 						},
 						slot: {
 							root: {
 								class: [
-									"b-rule",
+									"secondary-rule",
 								],
 							},
 						},
 					},
 				],
 				defaults: {
-					level: "a",
+					level: "primary",
 				},
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				slot: {
 					root: {
@@ -70,7 +70,7 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 			},
 			{
 				variant: {
-					level: "b",
+					level: "secondary",
 				},
 				slot: {
 					root: {
@@ -82,7 +82,9 @@ describe("cls/config-token-applies-before-user-slot-order", () => {
 			},
 		);
 
-		// Expected order: token (text-red-500) then base, then matching b-rule, then config, then user
-		expect(slots.root()).toBe("text-red-500 base b-rule user config");
+		// Expected order: token (text-red-500) then base, then matching secondary-rule, then config, then user
+		expect(slots.root()).toBe(
+			"text-red-500 base secondary-rule user config",
+		);
 	});
 });

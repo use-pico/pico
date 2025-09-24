@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/core/what-level-override-replaces-accumulated", () => {
 	it("What-level override replaces accumulated classes", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -37,7 +37,7 @@ describe("cls/core/what-level-override-replaces-accumulated", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 
 		// Test What-level override in slot configuration
 		expect(

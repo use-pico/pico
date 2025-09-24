@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/cache-same-params-produce-same-result", () => {
 	it("returns same output for identical tweaks across repeated calls", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -58,7 +58,7 @@ describe("cls/cache-same-params-produce-same-result", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				variant: {
 					size: "md",

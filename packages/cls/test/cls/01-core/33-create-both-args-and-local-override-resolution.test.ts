@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/create-both-args-and-local-no-override-resolution", () => {
 	it("merges user+config tweaks, then local slot tweaks (no override) apply last", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -58,7 +58,7 @@ describe("cls/create-both-args-and-local-no-override-resolution", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				variant: {
 					size: "md",

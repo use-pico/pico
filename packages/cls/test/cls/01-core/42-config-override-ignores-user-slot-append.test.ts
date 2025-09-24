@@ -42,7 +42,7 @@ describe("cls/config-override-ignores-user-slot-append", () => {
 				slot: {
 					root: {
 						class: [
-							"CONF-OVR",
+							"CONFIG-OVERRIDE",
 						],
 						override: true,
 					},
@@ -50,6 +50,6 @@ describe("cls/config-override-ignores-user-slot-append", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("CONF-OVR");
+		expect(slots.root()).toBe("CONFIG-OVERRIDE");
 	});
 });

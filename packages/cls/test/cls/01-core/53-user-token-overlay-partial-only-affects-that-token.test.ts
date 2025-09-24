@@ -3,11 +3,11 @@ import { cls } from "../../../src";
 
 describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 	it("overriding one token does not affect other tokens in order", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
-					"a",
-					"b",
+					"color.primary",
+					"color.secondary",
 				],
 				slot: [
 					"root",
@@ -16,14 +16,14 @@ describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 			},
 			{
 				token: {
-					a: {
+					"color.primary": {
 						class: [
-							"A",
+							"text-blue-500",
 						],
 					},
-					b: {
+					"color.secondary": {
 						class: [
-							"B",
+							"text-gray-500",
 						],
 					},
 				},
@@ -32,8 +32,8 @@ describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 						slot: {
 							root: {
 								token: [
-									"a",
-									"b",
+									"color.primary",
+									"color.secondary",
 								],
 							},
 						},
@@ -43,28 +43,28 @@ describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 			},
 		);
 
-		const { slots } = $cls.create({
+		const { slots } = buttonCls.create({
 			token: {
-				a: {
+				"color.primary": {
 					class: [
-						"A2",
+						"text-red-500",
 					],
 				},
 			},
 		});
-		expect(slots.root()).toBe("A2 B");
+		expect(slots.root()).toBe("text-red-500 text-gray-500");
 
-		// local overlay for b only changes b
+		// local overlay for secondary only changes secondary
 		expect(
 			slots.root({
 				token: {
-					b: {
+					"color.secondary": {
 						class: [
-							"B3",
+							"text-green-500",
 						],
 					},
 				},
 			}),
-		).toBe("A2 B3");
+		).toBe("text-red-500 text-green-500");
 	});
 });

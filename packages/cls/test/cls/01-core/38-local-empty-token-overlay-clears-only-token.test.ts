@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/local-empty-token-overlay-clears-only-token", () => {
 	it("local empty token overlay clears token class but keeps base", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -39,7 +39,7 @@ describe("cls/local-empty-token-overlay-clears-only-token", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("text-red-500 base");
 
 		// local token overlay clears token class only

@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/empty-token-overlay-clears-default-token-class", () => {
 	it("allows empty overlay to clear token-provided classes for that call", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -36,7 +36,7 @@ describe("cls/empty-token-overlay-clears-default-token-class", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("text-red-500");
 
 		// Empty overlay: keeps token key but provides no classes -> clears

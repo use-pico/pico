@@ -43,13 +43,13 @@ describe("cls/per-slot-local-override-independence", () => {
 				slot: {
 					root: {
 						class: [
-							"ROOT-OVR",
+							"ROOT-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("ROOT-OVR");
+		).toBe("ROOT-OVERRIDE");
 
 		// icon remains unaffected
 		expect(slots.icon()).toBe("icon-base");

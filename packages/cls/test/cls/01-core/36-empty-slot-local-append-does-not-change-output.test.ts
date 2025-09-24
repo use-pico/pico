@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/empty-slot-local-append-does-not-change-output", () => {
 	it("empty local slot class array does not change result", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,7 +28,7 @@ describe("cls/empty-slot-local-append-does-not-change-output", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("base");
 		expect(
 			slots.root({

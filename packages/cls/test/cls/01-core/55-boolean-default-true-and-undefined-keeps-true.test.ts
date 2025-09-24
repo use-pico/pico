@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/boolean-default-true-and-undefined-keeps-true", () => {
 	it("default true applies; undefined keeps true; false flips", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -58,7 +58,7 @@ describe("cls/boolean-default-true-and-undefined-keeps-true", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("base on");
 		expect(
 			slots.root({

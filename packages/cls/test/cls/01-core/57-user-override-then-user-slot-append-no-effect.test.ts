@@ -45,13 +45,13 @@ describe("cls/user-override-then-user-slot-append-no-effect", () => {
 					slot: {
 						root: {
 							class: [
-								"USER-OVR",
+								"USER-OVERRIDE",
 							],
 							override: true,
 						},
 					},
 				},
 			),
-		).toBe("USER-OVR");
+		).toBe("USER-OVERRIDE");
 	});
 });

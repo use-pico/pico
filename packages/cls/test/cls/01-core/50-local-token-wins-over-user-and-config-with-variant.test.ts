@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/local-token-wins-over-user-and-config-with-variant", () => {
 	it("local token overlay wins even when variant rules add class", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -58,7 +58,7 @@ describe("cls/local-token-wins-over-user-and-config-with-variant", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				token: {
 					"color.text": {

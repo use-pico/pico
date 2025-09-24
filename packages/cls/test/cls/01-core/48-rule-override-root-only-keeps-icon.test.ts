@@ -41,7 +41,7 @@ describe("cls/rule-override-root-only-keeps-icon", () => {
 						slot: {
 							root: {
 								class: [
-									"ROOT-OVR",
+									"ROOT-OVERRIDE",
 								],
 								override: true,
 							},
@@ -61,7 +61,7 @@ describe("cls/rule-override-root-only-keeps-icon", () => {
 			},
 		});
 
-		expect(slots.root()).toBe("ROOT-OVR");
+		expect(slots.root()).toBe("ROOT-OVERRIDE");
 		expect(slots.icon()).toBe("icon-base");
 	});
 });

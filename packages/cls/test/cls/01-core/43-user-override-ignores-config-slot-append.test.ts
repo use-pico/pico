@@ -43,12 +43,12 @@ describe("cls/user-override-ignores-config-slot-append", () => {
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"USER-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("USER-OVERRIDE");
 	});
 });

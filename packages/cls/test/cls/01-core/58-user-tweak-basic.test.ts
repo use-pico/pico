@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/user-tweak-basic", () => {
 	it("applies user variant and appends user slot classes for the 'root' slot", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -48,7 +48,7 @@ describe("cls/user-tweak-basic", () => {
 		);
 
 		// No user tweak uses defaults (sm)
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("base");
 
 		// With user tweak: variant triggers md rule and user slot class appends last

@@ -50,7 +50,7 @@ describe("cls/multi-rule-override-precedence", () => {
 						slot: {
 							root: {
 								class: [
-									"OVR",
+									"OVERRIDE",
 								],
 								override: true,
 							},
@@ -86,6 +86,6 @@ describe("cls/multi-rule-override-precedence", () => {
 					size: "md",
 				},
 			}),
-		).toBe("OVR md-2");
+		).toBe("OVERRIDE md-2");
 	});
 });

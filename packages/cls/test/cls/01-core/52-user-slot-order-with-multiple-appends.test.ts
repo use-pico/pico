@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/user-slot-order-with-multiple-appends", () => {
 	it("keeps order base → variant → config → user1 → user2 for multiple local calls", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -47,7 +47,7 @@ describe("cls/user-slot-order-with-multiple-appends", () => {
 			},
 		);
 
-		const { slots } = $cls.create(undefined, {
+		const { slots } = buttonCls.create(undefined, {
 			slot: {
 				root: {
 					class: [

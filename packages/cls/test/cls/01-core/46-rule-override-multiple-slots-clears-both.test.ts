@@ -41,13 +41,13 @@ describe("cls/rule-override-multiple-slots-clears-both", () => {
 						slot: {
 							root: {
 								class: [
-									"ROOT-OVR",
+									"ROOT-OVERRIDE",
 								],
 								override: true,
 							},
 							icon: {
 								class: [
-									"ICON-OVR",
+									"ICON-OVERRIDE",
 								],
 								override: true,
 							},
@@ -69,7 +69,7 @@ describe("cls/rule-override-multiple-slots-clears-both", () => {
 				danger: "on",
 			},
 		});
-		expect(local.slots.root()).toBe("ROOT-OVR");
-		expect(local.slots.icon()).toBe("ICON-OVR");
+		expect(local.slots.root()).toBe("ROOT-OVERRIDE");
+		expect(local.slots.icon()).toBe("ICON-OVERRIDE");
 	});
 });

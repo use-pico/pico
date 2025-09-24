@@ -3,11 +3,11 @@ import { cls } from "../../../src";
 
 describe("cls/multi-token-order-and-overlay", () => {
 	it("applies tokens in declared order; user/local overlays override per token", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [
-					"a",
-					"b",
+					"color.primary",
+					"color.secondary",
 				],
 				slot: [
 					"root",
@@ -16,14 +16,14 @@ describe("cls/multi-token-order-and-overlay", () => {
 			},
 			{
 				token: {
-					a: {
+					"color.primary": {
 						class: [
-							"A",
+							"text-blue-500",
 						],
 					},
-					b: {
+					"color.secondary": {
 						class: [
-							"B",
+							"text-gray-500",
 						],
 					},
 				},
@@ -32,8 +32,8 @@ describe("cls/multi-token-order-and-overlay", () => {
 						slot: {
 							root: {
 								token: [
-									"a",
-									"b",
+									"color.primary",
+									"color.secondary",
 								],
 								class: [
 									"base",
@@ -46,29 +46,29 @@ describe("cls/multi-token-order-and-overlay", () => {
 			},
 		);
 
-		const { slots } = $cls.create({
+		const { slots } = buttonCls.create({
 			token: {
-				b: {
+				"color.secondary": {
 					class: [
-						"B2",
+						"text-green-500",
 					],
 				},
 			},
 		});
-		// token order a then b, with user overlay on b
-		expect(slots.root()).toBe("A B2 base");
+		// token order primary then secondary, with user overlay on secondary
+		expect(slots.root()).toBe("text-blue-500 text-green-500 base");
 
-		// local overlay for a wins over user
+		// local overlay for primary wins over user
 		expect(
 			slots.root({
 				token: {
-					a: {
+					"color.primary": {
 						class: [
-							"A3",
+							"text-red-500",
 						],
 					},
 				},
 			}),
-		).toBe("A3 B2 base");
+		).toBe("text-red-500 text-green-500 base");
 	});
 });

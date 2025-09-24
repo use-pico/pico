@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/user-empty-slot-append-keeps-config", () => {
 	it("empty user slot classes do not remove config classes", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,7 +28,7 @@ describe("cls/user-empty-slot-append-keeps-config", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				slot: {
 					root: {

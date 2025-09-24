@@ -51,7 +51,7 @@ describe("cls/local-override-wins-over-config", () => {
 			slot: {
 				root: {
 					class: [
-						"CONF-OVR",
+						"CONFIG-OVERRIDE",
 					],
 					override: true,
 				},
@@ -59,7 +59,7 @@ describe("cls/local-override-wins-over-config", () => {
 		});
 
 		// Default (sm): config override applies, but local override would win if provided
-		expect(slots.root()).toBe("CONF-OVR");
+		expect(slots.root()).toBe("CONFIG-OVERRIDE");
 		// For md: local override must win over config override
 		expect(
 			slots.root({
@@ -69,12 +69,12 @@ describe("cls/local-override-wins-over-config", () => {
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"USER-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("USER-OVERRIDE");
 	});
 });

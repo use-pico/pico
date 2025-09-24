@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/local-variant-undefined-keeps-create-variant", () => {
 	it("local variant undefined does not change create-level variant", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -59,7 +59,7 @@ describe("cls/local-variant-undefined-keeps-create-variant", () => {
 			},
 		);
 
-		const { slots } = $cls.create({
+		const { slots } = buttonCls.create({
 			variant: {
 				size: "md",
 			},

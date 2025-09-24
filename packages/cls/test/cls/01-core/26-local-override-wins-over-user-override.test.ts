@@ -66,7 +66,7 @@ describe("cls/local-override-wins-over-user-override", () => {
 				root: {
 					class: [
 						"user",
-						"USER-OVR",
+						"USER-OVERRIDE",
 					],
 					override: true,
 				},
@@ -85,12 +85,12 @@ describe("cls/local-override-wins-over-user-override", () => {
 				slot: {
 					root: {
 						class: [
-							"LOCAL-OVR",
+							"LOCAL-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("LOCAL-OVR");
+		).toBe("LOCAL-OVERRIDE");
 	});
 });

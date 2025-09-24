@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/create-with-empty-user-and-config-results-in-base", () => {
 	it("when both user and config provide empty slot arrays, only base remains", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,7 +28,7 @@ describe("cls/create-with-empty-user-and-config-results-in-base", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				slot: {
 					root: {

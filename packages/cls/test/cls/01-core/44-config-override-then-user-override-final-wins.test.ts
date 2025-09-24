@@ -32,7 +32,7 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 			slot: {
 				root: {
 					class: [
-						"CONF-OVR",
+						"CONFIG-OVERRIDE",
 					],
 					override: true,
 				},
@@ -45,12 +45,12 @@ describe("cls/config-override-then-user-override-final-wins", () => {
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"USER-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("USER-OVERRIDE");
 	});
 });
