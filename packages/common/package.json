@@ -20,7 +20,7 @@
 		"axios": "1.12.2",
 		"axios-rate-limit": "^1.4.0",
 		"build-url-ts": "6.2.0",
-		"fast-clean": "1.4.0",
+		"fast-clean": "1.5.0",
 		"flattie": "1.1.1",
 		"is-callable": "1.2.7",
 		"is-empty": "1.2.0",
