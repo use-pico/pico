@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Scrollable, Tx } from "@use-pico/client";
+import { Container, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
-import type { ReactNode } from "react";
+import { Fade } from "node_modules/@use-pico/client/src/scrollable/Fade";
+import { type ReactNode, useRef } from "react";
 
 const Section = ({
 	title,
@@ -24,74 +25,89 @@ const ScrollableDemo = ({
 	layout: "grid" | "flex" | "absolute";
 	height?: string;
 	contentHeight?: string;
-}) => (
-	<div className="flex flex-col space-y-2">
-		<div className="text-sm font-medium text-slate-600">{layout}</div>
-		<div
-			className={tvc([
-				height,
-				"border",
-				"border-slate-300",
-				"rounded-lg",
-			])}
-		>
-			<Scrollable layout={layout}>
-				<div
-					className={tvc([
-						contentHeight,
-						"p-4",
-						"bg-gradient-to-b",
-						"from-blue-50",
-						"to-purple-50",
-					])}
-				>
-					<div className="space-y-4">
-						<h4 className="text-lg font-semibold">
-							Scrollable Content
-						</h4>
-						<p className="text-slate-700">
-							This content is scrollable and demonstrates the fade
-							effect at the top and bottom. The fade effect
-							appears when there's content to scroll to.
-						</p>
-						<div className="space-y-2">
-							{[
-								1,
-								2,
-								3,
-								4,
-								5,
-								6,
-								7,
-								8,
-								9,
-								10,
-							].map((i) => (
-								<div
-									key={i}
-									className="p-3 bg-white rounded border border-slate-200"
-								>
-									<div className="font-medium">Item {i}</div>
-									<div className="text-sm text-slate-600">
-										This is item number {i} in the
-										scrollable list. Notice how the fade
-										effect appears at the top and bottom
-										when scrolling.
-									</div>
+}) => {
+	const scrollableRef = useRef<HTMLDivElement>(null);
+
+	return (
+		<div className="flex flex-col space-y-2">
+			<div className="text-sm font-medium text-slate-600">{layout}</div>
+			<div
+				className={tvc([
+					height,
+					"border",
+					"border-slate-300",
+					"rounded-lg",
+				])}
+			>
+				<Container position={"relative"}>
+					<Fade scrollableRef={scrollableRef} />
+
+					<Container
+						ref={scrollableRef}
+						orientation={"vertical"}
+						overflow={"vertical"}
+					>
+						<div
+							className={tvc([
+								contentHeight,
+								"p-4",
+								"bg-gradient-to-b",
+								"from-blue-50",
+								"to-purple-50",
+							])}
+						>
+							<div className="space-y-4">
+								<h4 className="text-lg font-semibold">
+									Scrollable Content
+								</h4>
+								<p className="text-slate-700">
+									This content is scrollable and demonstrates
+									the fade effect at the top and bottom. The
+									fade effect appears when there's content to
+									scroll to.
+								</p>
+								<div className="space-y-2">
+									{[
+										1,
+										2,
+										3,
+										4,
+										5,
+										6,
+										7,
+										8,
+										9,
+										10,
+									].map((i) => (
+										<div
+											key={i}
+											className="p-3 bg-white rounded border border-slate-200"
+										>
+											<div className="font-medium">
+												Item {i}
+											</div>
+											<div className="text-sm text-slate-600">
+												This is item number {i} in the
+												scrollable list. Notice how the
+												fade effect appears at the top
+												and bottom when scrolling.
+											</div>
+										</div>
+									))}
 								</div>
-							))}
+								<p className="text-slate-700">
+									Scroll up and down to see the fade effect in
+									action. The fade indicates when there's more
+									content to scroll to.
+								</p>
+							</div>
 						</div>
-						<p className="text-slate-700">
-							Scroll up and down to see the fade effect in action.
-							The fade indicates when there's more content to
-							scroll to.
-						</p>
-					</div>
-				</div>
-			</Scrollable>
+					</Container>
+				</Container>
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 export const Route = createFileRoute("/$locale/components/scrollable")({
 	component() {

@@ -120,7 +120,6 @@ export { Progress } from "./progress/Progress";
 export { assignRef } from "./ref/assignRef";
 export { mergeRefs } from "./ref/mergeRefs";
 export { useMergeRefs } from "./ref/useMergeRefs";
-export { Scrollable } from "./scrollable/Scrollable";
 export { Section } from "./section/Section";
 export { Select } from "./select/Select";
 export { useSelection } from "./selection/useSelection";

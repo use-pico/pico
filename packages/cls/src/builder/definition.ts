@@ -23,6 +23,94 @@ function builder<
 			});
 		},
 
+		tokens: {
+			rule(
+				match: Variant.Optional<TContract>,
+				token: Token.Optional<TContract>,
+				override = false,
+			) {
+				return builder({
+					...state,
+					rules: [
+						...state.rules,
+						{
+							match,
+							token,
+							override,
+						},
+					],
+				});
+			},
+
+			switch(
+				key: any,
+				whenTrue: Token.Optional<TContract>,
+				whenFalse: Token.Optional<TContract>,
+			) {
+				return builder({
+					...state,
+					rules: [
+						...state.rules,
+						{
+							match: {
+								[key]: true,
+							} as any,
+							token: whenTrue,
+							override: false,
+						},
+						{
+							match: {
+								[key]: false,
+							} as any,
+							token: whenFalse,
+							override: false,
+						},
+					],
+				});
+			},
+
+			match<
+				const TKey extends keyof Variant.VariantOf<TContract>,
+				const TValue extends Variant.VariantOf<TContract>[TKey],
+			>(
+				key: TKey,
+				value: TValue,
+				token: Token.Optional<TContract>,
+				override = false,
+			) {
+				return builder({
+					...state,
+					rules: [
+						...state.rules,
+						{
+							match: {
+								[key]: value,
+							} as any,
+							token,
+							override,
+						},
+					],
+				});
+			},
+		},
+
+		root(slot: Slot.Optional<TContract>, override = false) {
+			return builder({
+				...state,
+				rules: [
+					...state.rules,
+					{
+						match: undefined,
+						slot: {
+							_target: "slot",
+							...slot,
+						} as Slot.Optional<TContract>,
+						override,
+					},
+				],
+			});
+		},
+
 		rule(
 			match: Variant.Optional<TContract>,
 			slot: Slot.Optional<TContract>,
@@ -63,20 +151,6 @@ function builder<
 						} as any,
 						slot: whenFalse,
 						override: false,
-					},
-				],
-			});
-		},
-
-		root(slot: Slot.Optional<TContract>, override = false) {
-			return builder({
-				...state,
-				rules: [
-					...state.rules,
-					{
-						match: undefined,
-						slot,
-						override,
 					},
 				],
 			});

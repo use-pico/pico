@@ -100,13 +100,13 @@ function indexRulesBySlot<TContract extends Contract.Any>(
 		definition: Definition.Type<any>;
 	}[],
 ) {
-	const allRules: Rule.Type<Contract.Any>[] = layers.flatMap(
+	const rules: Rule.Type<Contract.Any>[] = layers.flatMap(
 		({ definition }) => {
 			return definition.rules;
 		},
 	);
 
-	const pairs = allRules.flatMap((rule) => {
+	const pairs = rules.flatMap((rule) => {
 		const predicate = compilePredicate<TContract>(rule.match);
 		const isOverride = rule.override === true;
 		const slotMap = rule.slot ?? {};
@@ -117,7 +117,7 @@ function indexRulesBySlot<TContract extends Contract.Any>(
 					entry,
 				): entry is [
 					string,
-					What.Any<Contract.Any>,
+					What.AnyOverride<Contract.Any>,
 				] => {
 					return entry[1] !== undefined;
 				},
@@ -140,6 +140,57 @@ function indexRulesBySlot<TContract extends Contract.Any>(
 			const list = accumulator[pair.slotKey] ?? [];
 			list.push(pair.compiledRule);
 			accumulator[pair.slotKey] = list;
+			return accumulator;
+		},
+		Object.create(null),
+	);
+}
+
+function indexRulesByToken<TContract extends Contract.Any>(
+	layers: {
+		definition: Definition.Type<any>;
+	}[],
+) {
+	const rules: Rule.Type<Contract.Any>[] = layers.flatMap(
+		({ definition }) => {
+			return definition.rules;
+		},
+	);
+
+	const pairs = rules.flatMap((rule) => {
+		const predicate = compilePredicate<TContract>(rule.match);
+		const isOverride = rule.override === true;
+		const tokenMap = rule.token ?? {};
+
+		return Object.entries(tokenMap)
+			.filter(
+				(
+					entry,
+				): entry is [
+					string,
+					What.AnyOverride<Contract.Any>,
+				] => {
+					return entry[1] !== undefined;
+				},
+			)
+			.map(([tokenKey, whatValue]) => {
+				const compiledRule: CompiledRule<TContract> = {
+					predicate,
+					what: whatValue,
+					override: isOverride,
+				};
+				return {
+					tokenKey,
+					compiledRule,
+				} as const;
+			});
+	});
+
+	return pairs.reduce<Record<string, CompiledRule<TContract>[]>>(
+		(accumulator, pair) => {
+			const list = accumulator[(pair as any).tokenKey] ?? [];
+			list.push((pair as any).compiledRule);
+			accumulator[(pair as any).tokenKey] = list;
 			return accumulator;
 		},
 		Object.create(null),
@@ -174,11 +225,13 @@ function compileContract<TContract extends Contract.Any>(
 	const layers = buildLayers(contract, definition);
 	const slotKeys = collectSlotKeys(layers);
 	const rulesBySlot = indexRulesBySlot<TContract>(layers);
+	const rulesByToken = indexRulesByToken<TContract>(layers);
 	const tokensProto = buildTokenTable(layers);
 	return {
 		layers,
 		slotKeys,
 		rulesBySlot,
+		rulesByToken,
 		tokensProto,
 	} as const;
 }
@@ -192,6 +245,25 @@ function createResolver(
 ) {
 	const baseResolvedTokenCache: Record<string, ClassName[]> =
 		Object.create(null);
+
+	/**
+	 * Push class names into the accumulator, supporting string | string[] | nested arrays.
+	 * Order is preserved; falsy entries are ignored.
+	 */
+	function pushClassNames(
+		accumulator: ClassName[],
+		classInput: unknown,
+	): void {
+		if (Array.isArray(classInput)) {
+			classInput.forEach((value) => {
+				pushClassNames(accumulator, value);
+			});
+			return;
+		}
+		if (typeof classInput === "string" && classInput) {
+			accumulator.push(classInput as ClassName);
+		}
+	}
 
 	function resolve(
 		whatValue: What.AnyOverride<Contract.Any>,
@@ -223,7 +295,7 @@ function createResolver(
 
 				visiting.add(tokenKey);
 				const resolved = resolve(
-					tokenDefinition,
+					tokenDefinition as What.AnyOverride<Contract.Any>,
 					tokenTable,
 					visiting,
 					localCache,
@@ -237,13 +309,13 @@ function createResolver(
 			});
 		}
 
-		if ("class" in whatValue && whatValue.class) {
-			out.push(whatValue.class);
+		if ("class" in whatValue && (whatValue as any).class !== undefined) {
+			pushClassNames(out, (whatValue as any).class);
 		}
 
 		return {
 			classes: out,
-			override: whatValue.override === true,
+			override: (whatValue as any).override === true,
 		};
 	}
 
@@ -269,10 +341,8 @@ export function cls<
 	contract["~definition"] = definition;
 
 	// Precompile layers, slots, rules and base token table
-	const { slotKeys, rulesBySlot, tokensProto } = compileContract(
-		contract,
-		definition,
-	);
+	const { slotKeys, rulesBySlot, rulesByToken, tokensProto } =
+		compileContract(contract, definition);
 
 	return {
 		create(...tweak) {
@@ -402,14 +472,12 @@ export function cls<
 						// Merge variants (shallow, only defined values)
 						const localEffective = {
 							...variant,
-						};
+						} as Variant.VariantOf<TContract>;
 						if ($local?.variant) {
 							Object.entries($local.variant)
 								.filter(([, value]) => value !== undefined)
 								.forEach(([key, value]) => {
-									localEffective[
-										key as keyof typeof localEffective
-									] = value;
+									(localEffective as any)[key] = value;
 								});
 						}
 
@@ -421,8 +489,107 @@ export function cls<
 							}
 						}
 
+						// --- Apply token rules to produce a per-call token overlay ---
+						const tokenRulesOverlayEntries = Object.entries(
+							rulesByToken,
+						)
+							.map(([tokenKey, compiledRules]) => {
+								const matches = compiledRules.map((rule) => {
+									return rule.predicate(localEffective);
+								});
+								const anyMatch = matches.some(Boolean);
+								if (!anyMatch) {
+									return null;
+								}
+								const lastOverrideIdx = compiledRules.reduce(
+									(acc, rule, index) => {
+										if (matches[index] && rule.override) {
+											return index;
+										}
+										return acc;
+									},
+									-1,
+								);
+
+								const startIndex =
+									lastOverrideIdx >= 0 ? lastOverrideIdx : 0;
+								const accumulated = compiledRules
+									.slice(startIndex)
+									.reduce<{
+										classes: ClassName[];
+										tokens: string[];
+									}>(
+										(acc, rule, idx) => {
+											if (!matches[startIndex + idx]) {
+												return acc;
+											}
+											const resolved = resolve(rule.what);
+											if (resolved.override) {
+												acc.classes =
+													resolved.classes.slice();
+												acc.tokens = [];
+											} else {
+												acc.classes =
+													acc.classes.concat(
+														resolved.classes,
+													);
+											}
+											if ((rule.what as any).token) {
+												acc.tokens = acc.tokens.concat(
+													(
+														(rule.what as any)
+															.token as any[]
+													).filter(
+														Boolean,
+													) as string[],
+												);
+											}
+											return acc;
+										},
+										{
+											classes: [],
+											tokens: [],
+										},
+									);
+
+								const composed: What.Any<Contract.Any> =
+									{} as any;
+								if (accumulated.classes.length > 0) {
+									(composed as any).class =
+										accumulated.classes;
+								}
+								if (accumulated.tokens.length > 0) {
+									(composed as any).token =
+										accumulated.tokens;
+								}
+								return [
+									tokenKey,
+									composed,
+								] as const;
+							})
+							.filter(
+								(
+									x,
+								): x is readonly [
+									string,
+									What.Any<Contract.Any>,
+								] => Boolean(x),
+							);
+
+						const tokenTableWithRuleOverlay: Record<
+							string,
+							What.Any<Contract.Any>
+						> = tokenRulesOverlayEntries.length > 0
+							? Object.assign(
+									Object.create(tokenTable),
+									Object.fromEntries(
+										tokenRulesOverlayEntries,
+									),
+								)
+							: tokenTable;
+
 						// Local token overlay and local cache for overlay resolution
-						let activeTokens = tokenTable;
+						let activeTokens = tokenTableWithRuleOverlay;
 						let localResolvedCache:
 							| Record<string, ClassName[]>
 							| undefined;
@@ -431,7 +598,7 @@ export function cls<
 							Object.keys($local.token).length > 0
 						) {
 							activeTokens = Object.assign(
-								Object.create(tokenTable),
+								Object.create(tokenTableWithRuleOverlay),
 								$local.token,
 							);
 							localResolvedCache = Object.create(null);
@@ -496,45 +663,45 @@ export function cls<
 								if (!matches[startIndex + idx]) {
 									return;
 								}
-								const resolved = resolve(
+								const resolvedWhat = resolve(
 									rule.what,
 									activeTokens,
 									visiting,
 									localResolvedCache,
 								);
-								if (resolved.override) {
-									acc = resolved.classes;
+								if (resolvedWhat.override) {
+									acc = resolvedWhat.classes;
 								} else {
-									acc = acc.concat(resolved.classes);
+									acc = acc.concat(resolvedWhat.classes);
 								}
 							});
 						}
 
 						// Append slot-level whats (config first, user last)
 						if (configSlotWhat) {
-							const resolved = resolve(
+							const resolvedWhat = resolve(
 								configSlotWhat,
 								activeTokens,
 								new Set<string>(),
 								localResolvedCache,
 							);
-							if (resolved.override) {
-								acc = resolved.classes;
+							if (resolvedWhat.override) {
+								acc = resolvedWhat.classes;
 							} else {
-								acc = acc.concat(resolved.classes);
+								acc = acc.concat(resolvedWhat.classes);
 							}
 						}
 						if (localSlotWhat) {
-							const resolved = resolve(
+							const resolvedWhat = resolve(
 								localSlotWhat,
 								activeTokens,
 								new Set<string>(),
 								localResolvedCache,
 							);
-							if (resolved.override) {
-								acc = resolved.classes;
+							if (resolvedWhat.override) {
+								acc = resolvedWhat.classes;
 							} else {
-								acc = acc.concat(resolved.classes);
+								acc = acc.concat(resolvedWhat.classes);
 							}
 						}
 

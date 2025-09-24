@@ -57,6 +57,44 @@ export namespace DefinitionBuilder {
 				hasToken: true;
 			}
 		>;
+
+		/**
+		 * Special case for setting up rules for tokens
+		 */
+		tokens: {
+			/**
+			 * Add a rule (can be called multiple times, rules accumulate)
+			 */
+			rule(
+				match: Variant.Optional<TContract>,
+				token: Token.Optional<TContract>,
+				override?: boolean,
+			): Builder<TContract, TState>;
+
+			/**
+			 * Match helper (switch-like) to add a rule for a specific variant key/value.
+			 */
+			match<
+				const TKey extends keyof Variant.VariantOf<TContract>,
+				const TValue extends Variant.VariantOf<TContract>[TKey],
+			>(
+				key: TKey,
+				value: TValue,
+				token: Token.Optional<TContract>,
+				override?: boolean,
+			): Builder<TContract, TState>;
+
+			/**
+			 * Convenience helper for boolean variants. Generates two rules:
+			 * - when variant[key] is true -> applies `whenTrue` slot
+			 * - when variant[key] is false -> applies `whenFalse` slot
+			 */
+			switch<K extends BoolKeys<TContract>>(
+				key: K,
+				whenTrue: Token.Optional<TContract>,
+				whenFalse: Token.Optional<TContract>,
+			): Builder<TContract, TState>;
+		};
 	}
 
 	/**
@@ -132,6 +170,7 @@ export namespace DefinitionBuilder {
 		? WithToken<TContract, TState>
 		: {
 				token(error: "There are no tokens in the contract"): NoTokenCls;
+				tokens: "There are no tokens in the contract";
 			};
 
 	interface NoVariantCls {

@@ -16,19 +16,13 @@ export const FadeCls = contract(PicoCls.contract)
 	.def()
 	.token({
 		"scrollable.from": {
-			class: [
-				"from-white/0",
-			],
+			class: [],
 		},
 		"scrollable.via": {
-			class: [
-				"via-yellow-500",
-			],
+			class: [],
 		},
 		"scrollable.to": {
-			class: [
-				"to-blue-500",
-			],
+			class: [],
 		},
 		"scrollable.gradient": {
 			token: [
@@ -72,12 +66,39 @@ export const FadeCls = contract(PicoCls.contract)
 			],
 		},
 	})
-	.match("theme", "light", {
-        
-    })
+	.tokens.match("theme", "light", {
+		"scrollable.from": {
+			class: [
+				"from-white/0",
+			],
+		},
+		"scrollable.via": {
+			class: [],
+		},
+		"scrollable.to": {
+			class: [
+				"to-slate-200/85",
+			],
+		},
+	})
+	.tokens.match("theme", "dark", {
+		"scrollable.from": {
+			class: [
+				"from-black/0",
+			],
+		},
+		"scrollable.via": {
+			class: [],
+		},
+		"scrollable.to": {
+			class: [
+				"to-black/50",
+			],
+		},
+	})
 	.defaults({
 		tone: "primary",
-		theme: "light",
+		theme: "dark",
 	})
 	.cls();
 

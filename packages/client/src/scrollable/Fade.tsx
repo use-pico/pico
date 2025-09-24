@@ -20,7 +20,7 @@ export namespace Fade {
 }
 
 export const BaseFade: FC<Fade.Props> = ({
-	height = 64,
+	height = 48,
 	fade = height * 2,
 	cls = FadeCls,
 	tweak,
@@ -123,6 +123,7 @@ export const BaseFade: FC<Fade.Props> = ({
 				data-ui="Fade-top"
 				className={slots.top()}
 			/>
+
 			<div
 				ref={bottomFadeElementRef}
 				aria-hidden={true}
