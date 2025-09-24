@@ -90,6 +90,9 @@ export const Route = createFileRoute("/$locale/components")({
 									{
 										to: "/$locale/components/highlighter",
 									},
+									{
+										to: "/$locale/components/scrollable",
+									},
 								]}
 								vertical
 							>
@@ -179,6 +182,17 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Highlighter"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--scroll]"}
+									to={"/$locale/components/scrollable"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Scrollable"} />
 								</MenuLink>
 							</MenuGroup>
 

@@ -19,6 +19,7 @@ import { Route as LocaleComponentsTitlePreviewRouteImport } from './@routes/$loc
 import { Route as LocaleComponentsTableRouteImport } from './@routes/$locale/components/table'
 import { Route as LocaleComponentsStatusRouteImport } from './@routes/$locale/components/status'
 import { Route as LocaleComponentsSelectRouteImport } from './@routes/$locale/components/select'
+import { Route as LocaleComponentsScrollableRouteImport } from './@routes/$locale/components/scrollable'
 import { Route as LocaleComponentsProgressRouteImport } from './@routes/$locale/components/progress'
 import { Route as LocaleComponentsPreviewRouteImport } from './@routes/$locale/components/preview'
 import { Route as LocaleComponentsPopupSelectRouteImport } from './@routes/$locale/components/popup-select'
@@ -102,6 +103,12 @@ const LocaleComponentsSelectRoute = LocaleComponentsSelectRouteImport.update({
   path: '/select',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsScrollableRoute =
+  LocaleComponentsScrollableRouteImport.update({
+    id: '/scrollable',
+    path: '/scrollable',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsProgressRoute =
   LocaleComponentsProgressRouteImport.update({
     id: '/progress',
@@ -304,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
+  '/$locale/components/scrollable': typeof LocaleComponentsScrollableRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -345,6 +353,7 @@ export interface FileRoutesByTo {
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
+  '/$locale/components/scrollable': typeof LocaleComponentsScrollableRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -389,6 +398,7 @@ export interface FileRoutesById {
   '/$locale/components/popup-select': typeof LocaleComponentsPopupSelectRoute
   '/$locale/components/preview': typeof LocaleComponentsPreviewRoute
   '/$locale/components/progress': typeof LocaleComponentsProgressRoute
+  '/$locale/components/scrollable': typeof LocaleComponentsScrollableRoute
   '/$locale/components/select': typeof LocaleComponentsSelectRoute
   '/$locale/components/status': typeof LocaleComponentsStatusRoute
   '/$locale/components/table': typeof LocaleComponentsTableRoute
@@ -434,6 +444,7 @@ export interface FileRouteTypes {
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
+    | '/$locale/components/scrollable'
     | '/$locale/components/select'
     | '/$locale/components/status'
     | '/$locale/components/table'
@@ -475,6 +486,7 @@ export interface FileRouteTypes {
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
+    | '/$locale/components/scrollable'
     | '/$locale/components/select'
     | '/$locale/components/status'
     | '/$locale/components/table'
@@ -518,6 +530,7 @@ export interface FileRouteTypes {
     | '/$locale/components/popup-select'
     | '/$locale/components/preview'
     | '/$locale/components/progress'
+    | '/$locale/components/scrollable'
     | '/$locale/components/select'
     | '/$locale/components/status'
     | '/$locale/components/table'
@@ -607,6 +620,13 @@ declare module '@tanstack/react-router' {
       path: '/select'
       fullPath: '/$locale/components/select'
       preLoaderRoute: typeof LocaleComponentsSelectRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
+    '/$locale/components/scrollable': {
+      id: '/$locale/components/scrollable'
+      path: '/scrollable'
+      fullPath: '/$locale/components/scrollable'
+      preLoaderRoute: typeof LocaleComponentsScrollableRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
     '/$locale/components/progress': {
@@ -855,6 +875,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsPopupSelectRoute: typeof LocaleComponentsPopupSelectRoute
   LocaleComponentsPreviewRoute: typeof LocaleComponentsPreviewRoute
   LocaleComponentsProgressRoute: typeof LocaleComponentsProgressRoute
+  LocaleComponentsScrollableRoute: typeof LocaleComponentsScrollableRoute
   LocaleComponentsSelectRoute: typeof LocaleComponentsSelectRoute
   LocaleComponentsStatusRoute: typeof LocaleComponentsStatusRoute
   LocaleComponentsTableRoute: typeof LocaleComponentsTableRoute
@@ -895,6 +916,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsPopupSelectRoute: LocaleComponentsPopupSelectRoute,
   LocaleComponentsPreviewRoute: LocaleComponentsPreviewRoute,
   LocaleComponentsProgressRoute: LocaleComponentsProgressRoute,
+  LocaleComponentsScrollableRoute: LocaleComponentsScrollableRoute,
   LocaleComponentsSelectRoute: LocaleComponentsSelectRoute,
   LocaleComponentsStatusRoute: LocaleComponentsStatusRoute,
   LocaleComponentsTableRoute: LocaleComponentsTableRoute,
