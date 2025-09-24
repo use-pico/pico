@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
-describe("cls/config-override-wins-over-local", () => {
-	it("uses config override as the final result even if local override is provided", () => {
+describe("cls/local-override-wins-over-config", () => {
+	it("local override wins over config override when both are provided", () => {
 		const $cls = cls(
 			{
 				tokens: [],

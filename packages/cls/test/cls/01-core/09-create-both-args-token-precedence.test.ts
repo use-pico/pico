@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/create-both-args-token-precedence", () => {
-	it("uses user token overlay over config token overlay for the 'root' slot", () => {
+	it("user token overlay wins over config token overlay for the 'root' slot", () => {
 		const $cls = cls(
 			{
 				tokens: [

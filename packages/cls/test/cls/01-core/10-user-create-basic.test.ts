@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/user-create-basic", () => {
-	it("applies user (first arg) variant and appends user slot classes", () => {
+	it("applies user variant and appends user slot classes", () => {
 		const $cls = cls(
 			{
 				tokens: [],

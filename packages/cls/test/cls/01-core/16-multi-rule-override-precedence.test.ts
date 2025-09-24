@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/multi-rule-override-precedence", () => {
-	it("uses classes from the last matching override and subsequent matching rules", () => {
+	it("last matching override clears previous classes, subsequent matching rules append", () => {
 		const $cls = cls(
 			{
 				tokens: [],

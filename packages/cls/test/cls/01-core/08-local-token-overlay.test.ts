@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/local-token-overlay", () => {
-	it("uses local token overrides for the 'root' slot", () => {
+	it("applies local token overlay to override default token classes", () => {
 		const $cls = cls(
 			{
 				tokens: [

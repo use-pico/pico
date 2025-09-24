@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/variant-merge-both-args", () => {
-	it("merges disjoint variants from user and config and applies both rules", () => {
+	it("merges different variants from user and config and applies both rules", () => {
 		const $cls = cls(
 			{
 				tokens: [],

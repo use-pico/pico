@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/slot-user-vs-config-append-order", () => {
-	it("appends config classes first and user classes last for the 'root' slot", () => {
+	it("appends config classes first, then user classes last for the 'root' slot", () => {
 		const $cls = cls(
 			{
 				tokens: [],

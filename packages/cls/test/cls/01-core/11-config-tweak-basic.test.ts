@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/config-tweak-basic", () => {
-	it("applies only config (second arg) variant and slot classes", () => {
+	it("applies only config variant and slot classes", () => {
 		const $cls = cls(
 			{
 				tokens: [],

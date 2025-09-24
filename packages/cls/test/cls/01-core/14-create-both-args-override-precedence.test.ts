@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/create-both-args-override-precedence", () => {
-	it("uses user override last (wins) over config override and clears previous classes", () => {
+	it("user override wins over config override and clears previous classes", () => {
 		const $cls = cls(
 			{
 				tokens: [],

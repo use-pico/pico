@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/create-both-args-user-vs-config", () => {
-	it("merges both create() args with user winning per field and appending slots", () => {
+	it("merges both create() args with user winning variants and slots, config winning tokens", () => {
 		const $cls = cls(
 			{
 				tokens: [
