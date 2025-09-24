@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/child-extends-variant-values", () => {
 	it("child adds new variant option and all values are usable", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -47,7 +47,7 @@ describe("cls/inheritance/child-extends-variant-values", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -79,7 +79,7 @@ describe("cls/inheritance/child-extends-variant-values", () => {
 			},
 		);
 
-		const { slots } = $child.create();
+		const { slots } = childButtonCls.create();
 		// default sm
 		expect(slots.root()).toBe("base");
 		// parent value still valid

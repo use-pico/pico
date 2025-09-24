@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/variant-merge-across-levels", () => {
 	it("merges variant values provided by base and child", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -46,7 +46,7 @@ describe("cls/inheritance/variant-merge-across-levels", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -78,7 +78,7 @@ describe("cls/inheritance/variant-merge-across-levels", () => {
 			},
 		);
 
-		const { slots } = $child.create();
+		const { slots } = childButtonCls.create();
 		expect(slots.root()).toBe("base sm");
 		expect(
 			slots.root({

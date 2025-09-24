@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-extends-variant-values-three-levels", () => {
 	it("base adds sm, child adds md, grandchild adds lg; all usable", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -34,7 +34,7 @@ describe("cls/inheritance/grandchild-extends-variant-values-three-levels", () =>
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -66,7 +66,7 @@ describe("cls/inheritance/grandchild-extends-variant-values-three-levels", () =>
 			},
 		);
 
-		const $grand = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -98,7 +98,7 @@ describe("cls/inheritance/grandchild-extends-variant-values-three-levels", () =>
 			},
 		);
 
-		const { slots } = $grand.create();
+		const { slots } = grandchildButtonCls.create();
 		// default sm
 		expect(slots.root()).toBe("base");
 		// md from child

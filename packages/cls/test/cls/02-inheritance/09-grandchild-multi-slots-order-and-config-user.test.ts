@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 	it("maintains per-slot order base→child→grandchild then config→user", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -34,7 +34,7 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -65,7 +65,7 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 			},
 		);
 
-		const $grand = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -96,7 +96,7 @@ describe("cls/inheritance/grandchild-multi-slots-order-and-config-user", () => {
 			},
 		);
 
-		const { slots } = $grand.create(
+		const { slots } = grandchildButtonCls.create(
 			{
 				slot: {
 					root: {

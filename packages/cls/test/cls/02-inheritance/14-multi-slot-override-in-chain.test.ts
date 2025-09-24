@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/multi-slot-override-in-chain", () => {
 	it("grandchild override on root leaves icon from base/child intact", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -34,7 +34,7 @@ describe("cls/inheritance/multi-slot-override-in-chain", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -57,7 +57,7 @@ describe("cls/inheritance/multi-slot-override-in-chain", () => {
 			},
 		);
 
-		const $grand = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -71,7 +71,7 @@ describe("cls/inheritance/multi-slot-override-in-chain", () => {
 						slot: {
 							root: {
 								class: [
-									"ROOT-OVR",
+									"ROOT-OVERRIDE",
 								],
 							},
 						},
@@ -81,8 +81,8 @@ describe("cls/inheritance/multi-slot-override-in-chain", () => {
 			},
 		);
 
-		const { slots } = $grand.create();
-		expect(slots.root()).toBe("ROOT-OVR");
+		const { slots } = grandchildButtonCls.create();
+		expect(slots.root()).toBe("ROOT-OVERRIDE");
 		expect(slots.icon()).toBe("icon-base icon-child");
 	});
 });
