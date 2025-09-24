@@ -4,7 +4,10 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const FadeCls = contract(PicoCls.contract)
 	.tokens([
-		"scrollable.fade.color",
+		"scrollable.from",
+		"scrollable.via",
+		"scrollable.to",
+		"scrollable.gradient",
 	])
 	.slots([
 		"top",
@@ -12,9 +15,26 @@ export const FadeCls = contract(PicoCls.contract)
 	])
 	.def()
 	.token({
-		"scrollable.fade.color": {
+		"scrollable.from": {
 			class: [
-				"[--fade-color:var(--color-slate-300)]",
+				"from-white/0",
+			],
+		},
+		"scrollable.via": {
+			class: [
+				"via-yellow-500",
+			],
+		},
+		"scrollable.to": {
+			class: [
+				"to-blue-500",
+			],
+		},
+		"scrollable.gradient": {
+			token: [
+				"scrollable.from",
+				"scrollable.via",
+				"scrollable.to",
 			],
 		},
 	})
@@ -29,10 +49,10 @@ export const FadeCls = contract(PicoCls.contract)
 				"z-20",
 				"opacity-0",
 				"will-change-[opacity]",
-				"bg-[linear-gradient(to_bottom,var(--fade-color),var(--fade-color)_var(--fade-solid),transparent)]",
+				"bg-gradient-to-t",
 			],
 			token: [
-				"scrollable.fade.color",
+				"scrollable.gradient",
 			],
 		},
 		bottom: {
@@ -45,13 +65,16 @@ export const FadeCls = contract(PicoCls.contract)
 				"z-20",
 				"opacity-0",
 				"will-change-[opacity]",
-				"bg-[linear-gradient(to_top,var(--fade-color),var(--fade-color)_var(--fade-solid),transparent)]",
+				"bg-gradient-to-b",
 			],
 			token: [
-				"scrollable.fade.color",
+				"scrollable.gradient",
 			],
 		},
 	})
+    .match('theme', 'light', {
+        
+    })
 	.defaults({
 		tone: "primary",
 		theme: "light",

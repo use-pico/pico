@@ -14,18 +14,19 @@ const clampToUnitInterval = (value: number) =>
 export namespace Fade {
 	export interface Props extends FadeCls.Props {
 		scrollableRef: React.RefObject<HTMLElement | null>;
+		height?: number;
+		fade?: number;
 	}
 }
 
 export const BaseFade: FC<Fade.Props> = ({
+	height = 64,
+	fade = height * 2,
 	cls = FadeCls,
 	tweak,
 	scrollableRef,
 }) => {
 	const { slots } = useCls(cls, tweak);
-
-	const fadePx = 32;
-	const fadeSolid = 1;
 
 	const topFadeElementRef = useRef<HTMLDivElement>(null);
 	const bottomFadeElementRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,9 @@ export const BaseFade: FC<Fade.Props> = ({
 		const scrollableEl = scrollableRef.current;
 		const topFadeEl = topFadeElementRef.current;
 		const bottomFadeEl = bottomFadeElementRef.current;
-		if (!scrollableEl || !topFadeEl || !bottomFadeEl) return;
+		if (!scrollableEl || !topFadeEl || !bottomFadeEl) {
+			return;
+		}
 
 		const { scrollTop, scrollHeight, clientHeight } = scrollableEl;
 		const maxScrollable = Math.max(0, scrollHeight - clientHeight);
@@ -45,34 +48,32 @@ export const BaseFade: FC<Fade.Props> = ({
 			return;
 		}
 
-		const topOpacity = clampToUnitInterval(scrollTop / fadePx);
+		const topOpacity = clampToUnitInterval(scrollTop / fade);
 		const bottomOpacity = clampToUnitInterval(
-			(maxScrollable - scrollTop) / fadePx,
+			(maxScrollable - scrollTop) / fade,
 		);
 
 		topFadeEl.style.opacity = topOpacity.toFixed(3);
 		bottomFadeEl.style.opacity = bottomOpacity.toFixed(3);
 	}, [
 		scrollableRef,
+		fade,
 	]);
 
 	useLayoutEffect(() => {
 		const topFadeEl = topFadeElementRef.current;
 		const bottomFadeEl = bottomFadeElementRef.current;
-		if (!topFadeEl || !bottomFadeEl) return;
-
-		topFadeEl.style.height = `${fadePx}px`;
-		bottomFadeEl.style.height = `${fadePx}px`;
-
-		// Set CSS custom property for fade solid area
-		const rootEl = topFadeEl.parentElement;
-		if (rootEl) {
-			rootEl.style.setProperty("--fade-solid", `${fadeSolid}px`);
+		if (!topFadeEl || !bottomFadeEl) {
+			return;
 		}
+
+		topFadeEl.style.height = `${height}px`;
+		bottomFadeEl.style.height = `${height}px`;
 
 		updateFadeOpacity(); // immediately, without transition
 	}, [
 		updateFadeOpacity,
+		height,
 	]);
 
 	useEffect(() => {
