@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-effect", () => {
 	it("config override at create clears; user local append has no effect", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -18,7 +18,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 						slot: {
 							root: {
 								class: [
-									"b",
+									"base-style",
 								],
 							},
 						},
@@ -28,7 +28,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -41,7 +41,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 						slot: {
 							root: {
 								class: [
-									"c",
+									"child-style",
 								],
 							},
 						},
@@ -51,7 +51,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 			},
 		);
 
-		const $grand = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -64,7 +64,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 						slot: {
 							root: {
 								class: [
-									"g",
+									"grandchild-style",
 								],
 							},
 						},
@@ -74,13 +74,13 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 			},
 		);
 
-		const { slots } = $grand.create(
+		const { slots } = grandchildButtonCls.create(
 			{},
 			{
 				slot: {
 					root: {
 						class: [
-							"CONF-OVR",
+							"CONFIG-OVERRIDE",
 						],
 						override: true,
 					},
@@ -98,6 +98,6 @@ describe("cls/inheritance/grandchild-config-override-then-user-slot-append-no-ef
 					},
 				},
 			}),
-		).toBe("CONF-OVR user");
+		).toBe("CONFIG-OVERRIDE user");
 	});
 });

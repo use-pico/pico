@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 	it("child rule with override clears base and beats config/user appends", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -47,7 +47,7 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -64,7 +64,7 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 						slot: {
 							root: {
 								class: [
-									"CHILD-OVR",
+									"CHILD-OVERRIDE",
 								],
 							},
 						},
@@ -76,7 +76,7 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 			},
 		);
 
-		const { slots } = $child.create(
+		const { slots } = childButtonCls.create(
 			{
 				variant: {
 					size: "md",
@@ -100,6 +100,6 @@ describe("cls/inheritance/child-override-wins-over-config-and-user", () => {
 			},
 		);
 
-		expect(slots.root()).toBe("CHILD-OVR user config");
+		expect(slots.root()).toBe("CHILD-OVERRIDE user config");
 	});
 });

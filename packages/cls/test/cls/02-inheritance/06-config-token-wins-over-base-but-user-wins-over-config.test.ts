@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config", () => {
 	it("config token beats base, user token beats config", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -39,7 +39,7 @@ describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config"
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -52,7 +52,7 @@ describe("cls/inheritance/config-token-wins-over-base-but-user-wins-over-config"
 			},
 		);
 
-		const { slots } = $child.create(
+		const { slots } = childButtonCls.create(
 			{
 				token: {
 					"color.text": {

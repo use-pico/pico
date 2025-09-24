@@ -3,11 +3,11 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/circular-token-detection-across-levels", () => {
 	it("detects circular token references spanning base and child", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [
-					"a",
-					"b",
+					"color.primary",
+					"color.secondary",
 				],
 				slot: [
 					"root",
@@ -16,12 +16,12 @@ describe("cls/inheritance/circular-token-detection-across-levels", () => {
 			},
 			{
 				token: {
-					a: {
+					"color.primary": {
 						token: [
-							"b",
+							"color.secondary",
 						],
 					},
-					b: {
+					"color.secondary": {
 						token: [],
 					},
 				},
@@ -30,7 +30,7 @@ describe("cls/inheritance/circular-token-detection-across-levels", () => {
 						slot: {
 							root: {
 								token: [
-									"a",
+									"color.primary",
 								],
 							},
 						},
@@ -40,7 +40,7 @@ describe("cls/inheritance/circular-token-detection-across-levels", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -48,9 +48,9 @@ describe("cls/inheritance/circular-token-detection-across-levels", () => {
 			},
 			{
 				token: {
-					b: {
+					"color.secondary": {
 						token: [
-							"a",
+							"color.primary",
 						],
 					},
 				},
@@ -59,7 +59,7 @@ describe("cls/inheritance/circular-token-detection-across-levels", () => {
 			},
 		);
 
-		const { slots } = $child.create();
+		const { slots } = childButtonCls.create();
 		expect(() => {
 			slots.root();
 		}).toThrowError(/Circular dependency detected/);

@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", () => {
 	it("merges base→child→grandchild with correct precedence and orders", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -58,7 +58,7 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -89,7 +89,7 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 			},
 		);
 
-		const $grandchild = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -123,7 +123,7 @@ describe("cls/inheritance/grandchild-three-level-chain-merge-and-precedence", ()
 			},
 		);
 
-		const { slots } = $grandchild.create(
+		const { slots } = grandchildButtonCls.create(
 			{
 				slot: {
 					root: {

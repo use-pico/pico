@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/child-bool-variant-default-and-undefined", () => {
 	it("child default true; undefined keeps true; false flips", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -58,7 +58,7 @@ describe("cls/inheritance/child-bool-variant-default-and-undefined", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -79,7 +79,7 @@ describe("cls/inheritance/child-bool-variant-default-and-undefined", () => {
 			},
 		);
 
-		const { slots } = $child.create();
+		const { slots } = childButtonCls.create();
 		expect(slots.root()).toBe("base on");
 		expect(
 			slots.root({

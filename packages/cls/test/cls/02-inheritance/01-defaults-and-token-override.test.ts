@@ -4,7 +4,7 @@ import { cls } from "../../../src";
 describe("cls/inheritance/defaults-and-token-override", () => {
 	it("child defaults override base defaults and child tokens override base tokens", () => {
 		// Base instance
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -48,7 +48,7 @@ describe("cls/inheritance/defaults-and-token-override", () => {
 		);
 
 		// Child extends base, overrides token and defaults, adds md rule and additional base class
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [
 					"color.text",
@@ -100,7 +100,7 @@ describe("cls/inheritance/defaults-and-token-override", () => {
 			},
 		);
 
-		const { slots } = $child.create();
+		const { slots } = childButtonCls.create();
 		// Defaults from child apply: md -> includes is-md
 		// Token override from child applies: text-blue-500 replaces base's text-red-500
 		expect(slots.root()).toBe("text-blue-500 base child is-md");

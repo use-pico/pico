@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/child-user-token-wins-over-child-token", () => {
 	it("user token overlay wins over child token override", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -39,7 +39,7 @@ describe("cls/inheritance/child-user-token-wins-over-child-token", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -68,7 +68,7 @@ describe("cls/inheritance/child-user-token-wins-over-child-token", () => {
 			},
 		);
 
-		const { slots } = $child.create({
+		const { slots } = childButtonCls.create({
 			token: {
 				"color.text": {
 					class: [

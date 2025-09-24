@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/grandchild-config-override-then-user-override-final-wins", () => {
 	it("in 3-level chain, local user override wins over config override", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,7 +28,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -53,7 +53,7 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 			},
 		);
 
-		const $grand = $child.extend(
+		const grandchildButtonCls = childButtonCls.extend(
 			{
 				tokens: [],
 				slot: [
@@ -68,11 +68,11 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 			},
 		);
 
-		const { slots } = $grand.create(undefined, {
+		const { slots } = grandchildButtonCls.create(undefined, {
 			slot: {
 				root: {
 					class: [
-						"CONF-OVR",
+						"CONFIG-OVERRIDE",
 					],
 					override: true,
 				},
@@ -85,12 +85,12 @@ describe("cls/inheritance/grandchild-config-override-then-user-override-final-wi
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"USER-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			}),
-		).toBe("USER-OVR");
+		).toBe("USER-OVERRIDE");
 	});
 });

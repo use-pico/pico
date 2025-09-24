@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 	it("child adds classes; config then user appends order preserved", () => {
-		const $base = cls(
+		const baseButtonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -28,7 +28,7 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 			},
 		);
 
-		const $child = $base.extend(
+		const childButtonCls = baseButtonCls.extend(
 			{
 				tokens: [],
 				slot: [],
@@ -51,7 +51,7 @@ describe("cls/inheritance/child-slot-append-order-and-user-config", () => {
 			},
 		);
 
-		const { slots } = $child.create(undefined, {
+		const { slots } = childButtonCls.create(undefined, {
 			slot: {
 				root: {
 					class: [
