@@ -1590,6 +1590,7 @@ CLS is optimized for performance with several key features:
 - **Memory Efficient** - Shared references across instances
 - **Minimal Runtime** - Just class string generation, no CSS-in-JS overhead
 - **Bundle Size Optimization** - CLS only transfers existing classes to a single place, often *reducing* total bundle size by eliminating duplicate styles and simplifying complex conditional logic
+- **Actual Bundle Size** - ~6.7KB gzipped (41KB raw) + tailwind-merge as external dependency
 
 ## 📊 Performance Benchmarks
 
@@ -1661,7 +1662,7 @@ Here's an honest comparison of CLS with other popular styling solutions:
 | **Inheritance** | ✅ Native CLS inheritance | ❌ No | ❌ No | ✅ Theme system | ❌ Manual | ❌ No |
 | **Runtime Overrides** | ✅ `tweak` prop system | ❌ No | ❌ No | ✅ Styled API | ✅ Good | ❌ No |
 | **Framework Support** | ✅ React, Vue, Svelte, Vanilla | ✅ React only | ✅ React only | ✅ React only | ✅ React only | ✅ Framework agnostic |
-| **Bundle Size** | ✅ ~15KB | ✅ ~3KB | ✅ ~5KB | ❌ ~25KB | ❌ ~30KB | ✅ ~8KB |
+| **Bundle Size** | ✅ ~6.7KB (gzipped) + tailwind-merge | ✅ ~3KB | ✅ ~5KB | ❌ ~25KB | ❌ ~30KB | ✅ ~8KB |
 | **Learning Curve** | ❌ **Very Steep** (contracts, tokens, inheritance, rules) | ✅ Gentle | ✅ Gentle | ✅ Gentle | ✅ Gentle | ✅ Gentle |
 | **Performance** | ✅ Excellent (lazy eval) | ✅ Good | ✅ Good | ❌ Runtime overhead | ❌ Runtime overhead | ✅ Excellent |
 | **CSS-in-JS** | ❌ No (class-based) | ❌ No (class-based) | ❌ No (class-based) | ✅ Yes | ✅ Yes | ✅ Yes |
