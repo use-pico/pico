@@ -1598,40 +1598,46 @@ CLS has been benchmarked across different complexity levels to demonstrate its p
 
 ### Benchmark Scenarios
 
-**🔹 Simple CLS** - Basic slots and variants (3 variants, 1 slot)
-**🔹 Medium CLS** - Inheritance + tokens + multiple variants (3 variants, 2 slots, 5 tokens)  
-**🔹 Complex CLS** - Deep inheritance + many tokens + complex rules (5 variants, 5 slots, 20+ tokens)
+**🔹 Simple CLS** - Basic slots only (1 slot)
+**🔹 Intermediate CLS** - Slots + variants (3 variants, 2 slots)
+**🔹 Advanced CLS** - Slots + variants + tokens (3 variants, 3 slots, 10 tokens)
+**🔹 Extreme CLS** - Previous + 2 levels of inheritance (4 variants, 3 slots, 6 tokens, deep inheritance)
 
 ### Performance Results
 
 | Scenario | Iterations | Ops/sec | Memory Usage | Performance vs Simple |
 |----------|------------|---------|--------------|----------------------|
-| **Simple CLS** | 100 | 372,625 | 0MB | 100% (baseline) |
-| **Simple CLS** | 1,000 | 603,788 | 0MB | 100% (baseline) |
-| **Simple CLS** | 10,000 | 671,978 | 0MB | 100% (baseline) |
-| **Medium CLS** | 100 | 249,353 | 0MB | 67% |
-| **Medium CLS** | 1,000 | 311,445 | 0MB | 84% |
-| **Medium CLS** | 10,000 | 414,922 | 0MB | 111% |
-| **Complex CLS** | 100 | 120,071 | 0MB | 32% |
-| **Complex CLS** | 1,000 | 171,516 | 0MB | 46% |
-| **Complex CLS** | 10,000 | 196,379 | 0MB | 53% |
+| **Simple CLS** | 100 | 229,863 | 0MB | 100% (baseline) |
+| **Simple CLS** | 1,000 | 438,893 | 0MB | 100% (baseline) |
+| **Simple CLS** | 100,000 | 800,168 | 1MB | 100% (baseline) |
+| **Intermediate CLS** | 100 | 100,599 | 0MB | 44% |
+| **Intermediate CLS** | 1,000 | 258,040 | 0MB | 59% |
+| **Intermediate CLS** | 100,000 | 329,144 | 0MB | 41% |
+| **Advanced CLS** | 100 | 116,155 | 0MB | 51% |
+| **Advanced CLS** | 1,000 | 122,749 | 0MB | 28% |
+| **Advanced CLS** | 100,000 | 154,318 | 1MB | 19% |
+| **Extreme CLS** | 100 | 105,508 | 0MB | 46% |
+| **Extreme CLS** | 1,000 | 106,058 | 0MB | 24% |
+| **Extreme CLS** | 100,000 | 107,797 | 0MB | 13% |
 
 ### Key Performance Insights
 
 **⚡ Excellent Performance at Scale:**
-- **671K+ operations/second** for simple CLS instances
-- **414K+ operations/second** for medium complexity (inheritance + tokens)
-- **196K+ operations/second** for complex scenarios (deep inheritance + many tokens)
+- **800K+ operations/second** for simple CLS instances
+- **329K+ operations/second** for intermediate complexity (slots + variants)
+- **154K+ operations/second** for advanced scenarios (slots + variants + tokens)
+- **108K+ operations/second** for extreme scenarios (deep inheritance + complex rules)
 
 **🧠 Memory Efficiency:**
-- **Zero memory overhead** - 0MB memory usage even for 10,000 operations
+- **Minimal memory overhead** - 0-1MB memory usage even for 100,000 operations
 - **Smart caching** - performance improves with scale due to internal optimizations
 - **No memory leaks** - consistent memory usage across iterations
 
 **📈 Scalability:**
-- **Simple CLS**: Linear performance scaling (372K → 671K ops/sec)
-- **Medium CLS**: Excellent scaling with inheritance (249K → 414K ops/sec)
-- **Complex CLS**: Consistent performance despite deep inheritance and many tokens (120K → 196K ops/sec)
+- **Simple CLS**: Excellent scaling (230K → 800K ops/sec)
+- **Intermediate CLS**: Good scaling with variants (101K → 329K ops/sec)
+- **Advanced CLS**: Consistent performance with tokens (116K → 154K ops/sec)
+- **Extreme CLS**: Stable performance despite deep inheritance (106K → 108K ops/sec)
 
 > **💡 Performance Takeaway:** CLS maintains excellent performance even with complex inheritance chains and extensive token systems. The performance cost for complex scenarios is negligible compared to the massive productivity gains from type safety, inheritance, and design system features.
 
