@@ -33,16 +33,6 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 
 		const firstResult = buttonCls.create(
 			{
-				override: true,
-				slot: {
-					root: {
-						class: [
-							"ROOT-OVERRIDE",
-						],
-					},
-				},
-			},
-			{
 				slot: {
 					icon: {
 						class: [
@@ -56,6 +46,16 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 					label: {
 						class: [
 							"LABEL-CONFIG",
+						],
+					},
+				},
+			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"ROOT-OVERRIDE",
 						],
 					},
 				},
@@ -63,16 +63,6 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 		);
 		const secondResult = buttonCls.create(
 			{
-				override: true,
-				slot: {
-					root: {
-						class: [
-							"ROOT-OVERRIDE",
-						],
-					},
-				},
-			},
-			{
 				slot: {
 					icon: {
 						class: [
@@ -86,6 +76,16 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 					label: {
 						class: [
 							"LABEL-CONFIG",
+						],
+					},
+				},
+			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"ROOT-OVERRIDE",
 						],
 					},
 				},

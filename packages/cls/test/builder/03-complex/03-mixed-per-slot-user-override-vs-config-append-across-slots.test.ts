@@ -33,21 +33,6 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 
 		const created = baseButton.create(
 			{
-				override: true,
-				slot: {
-					root: {
-						class: [
-							"USER-ROOT-OVERRIDE",
-						],
-					},
-					label: {
-						class: [
-							"USER-LABEL",
-						],
-					},
-				},
-			},
-			{
 				slot: {
 					root: {
 						class: [
@@ -66,13 +51,24 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 					},
 				},
 			},
+			{
+				override: true,
+				slot: {
+					root: {
+						class: [
+							"USER-ROOT-OVERRIDE",
+						],
+					},
+					label: {
+						class: [
+							"USER-LABEL",
+						],
+					},
+				},
+			},
 		);
-		expect(created.slots.root()).toBe(
-			"root-base USER-ROOT-OVERRIDE CONFIG-ROOT",
-		);
+		expect(created.slots.root()).toBe("root-base USER-ROOT-OVERRIDE");
 		expect(created.slots.icon()).toBe("icon-base CONFIG-ICON");
-		expect(created.slots.label()).toBe(
-			"label-base USER-LABEL CONFIG-LABEL",
-		);
+		expect(created.slots.label()).toBe("label-base USER-LABEL");
 	});
 });
