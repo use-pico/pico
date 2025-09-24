@@ -72,7 +72,7 @@ export const FadeCls = contract(PicoCls.contract)
 			],
 		},
 	})
-    .match('theme', 'light', {
+	.match("theme", "light", {
         
     })
 	.defaults({

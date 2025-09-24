@@ -21,17 +21,4 @@ export namespace Rule {
 		match?: Variant.Optional<TContract>;
 		slot: Slot.Optional<TContract>;
 	};
-
-	export namespace Match {
-		export type RootFn<TContract extends Contract.Any> = (
-			slot: Slot.Optional<TContract>,
-			override?: boolean,
-		) => Type<TContract>;
-
-		export type RuleFn<TContract extends Contract.Any> = (
-			match: Variant.Optional<TContract>,
-			slot: Slot.Optional<TContract>,
-			override?: boolean,
-		) => Type<TContract>;
-	}
 }
