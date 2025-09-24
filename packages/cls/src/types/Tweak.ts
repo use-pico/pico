@@ -41,7 +41,7 @@ export namespace Tweak {
 	 * Tweaks are used as an input to make... a tweak
 	 */
 	export type Tweaks<TContract extends Contract.Any> =
-		| (Tweak.Type<TContract> | undefined)[]
+		| (Tweak.Type<TContract> | Tweaks<TContract> | undefined)[]
 		| Tweak.Type<TContract>
 		| undefined;
 
