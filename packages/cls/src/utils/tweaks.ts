@@ -21,7 +21,7 @@ export function tweaks<const TContract extends Contract.Any>(
 	}
 
 	const list = tweaks
-		.flat()
+		.flat(10)
 		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined);
 
 	if (list.length === 0) {

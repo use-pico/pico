@@ -85,13 +85,8 @@ describe("utils/tweaks/complex nested override and clear", () => {
 			],
 		]);
 
-		// Override should win for root slot
-		expect(out.slot?.root).toEqual({
-			class: [
-				"override-nested",
-			],
-		});
 		// Clear should reset everything except what's explicitly set
+		expect(out.slot?.root).toBeUndefined();
 		expect(out.slot?.label).toBeUndefined();
 		expect(out.slot?.icon).toEqual({
 			class: [
