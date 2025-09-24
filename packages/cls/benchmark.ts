@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { performance } from "perf_hooks";
+import { performance } from "node:perf_hooks";
 import { contract } from "./src";
 
 // Memory measurement utility
