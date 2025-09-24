@@ -234,6 +234,9 @@ console.log(variant.disabled); // false
 | `.rule()` | Complex condition matching | `.rule({ size: "lg", disabled: true }, { root: { class: ["opacity-50"] } })` |
 | `.match()` | Single variant matching | `.match("size", "lg", { root: { class: ["px-6"] } })` |
 | `.switch()` | Boolean variant helper | `.switch("disabled", { root: { class: ["opacity-50"] } }, { root: { class: ["opacity-100"] } })` |
+| `.tokens.rule()` | Token conditional rules | `.tokens.rule({ tone: "primary" }, { "color.bg": { class: ["bg-blue-600"] } })` |
+| `.tokens.match()` | Single variant token matching | `.tokens.match("tone", "primary", { "color.bg": { class: ["bg-blue-600"] } })` |
+| `.tokens.switch()` | Boolean variant token helper | `.tokens.switch("disabled", { "color.bg": { class: ["bg-gray-300"] } }, { "color.bg": { class: ["bg-blue-600"] } })` |
 | `.defaults()` | Set default variant values | `.defaults({ size: "md", disabled: false })` |
 | `.cls()` | Create final CLS instance | `.cls()` |
 
@@ -342,6 +345,59 @@ const ButtonCls = contract()
     root: { token: ["color.bg.primary", "color.text.primary"] }
   })
   .cls();
+```
+
+### 🎯 Token Rules
+
+Tokens support **conditional rules** just like slots! Use `.tokens.rule()` to apply different token values based on variants:
+
+```typescript
+const ButtonCls = contract()
+  .tokens(["color.bg", "color.text"])
+  .slots(["root"])
+  .variant("tone", ["default", "primary", "danger"])
+  .bool("disabled")
+  .def()
+  .token({ // Base token values
+    "color.bg": { class: ["bg-gray-100"] },
+    "color.text": { class: ["text-gray-900"] }
+  })
+  .tokens.rule({ tone: "primary" }, { // Primary tone tokens
+    "color.bg": { class: ["bg-blue-600"] },
+    "color.text": { class: ["text-white"] }
+  })
+  .tokens.rule({ tone: "danger" }, { // Danger tone tokens
+    "color.bg": { class: ["bg-red-600"] },
+    "color.text": { class: ["text-white"] }
+  })
+  .tokens.rule({ disabled: true }, { // Disabled state tokens
+    "color.bg": { class: ["bg-gray-300"] },
+    "color.text": { class: ["text-gray-500"] }
+  })
+  .root({
+    root: { token: ["color.bg", "color.text"] }
+  })
+  .cls();
+```
+
+**🎨 Token Rule Helpers:**
+
+```typescript
+// Match specific variant combinations
+.tokens.match("tone", "primary", {
+  "color.bg": { class: ["bg-blue-600"] }
+})
+
+// Boolean variant switch (generates two rules)
+.tokens.switch("disabled", 
+  { "color.bg": { class: ["bg-gray-300"] } }, // when disabled: true
+  { "color.bg": { class: ["bg-blue-600"] } }   // when disabled: false
+)
+
+// Override previous token rules
+.tokens.rule({ tone: "primary" }, {
+  "color.bg": { class: ["bg-purple-600"] }
+}, true) // override: true
 ```
 
 ### 🎪 Slots
@@ -1503,6 +1559,27 @@ const { slots, variant } = ButtonCls.create(
 ```
 
 > **💡 Key Point:** Tweak merging is **integrated** into `cls.create()`, individual slots, and `cls.tweak()`. Tweaks are processed from lowest to highest precedence (last parameter wins), with `override` flag for explicit overriding and `clear` flag for complete reset!
+
+## 🛠️ Utility Constants
+
+### OVERRIDE Constant
+
+CLS exports an `OVERRIDE` constant for explicit override flags:
+
+```typescript
+import { OVERRIDE } from '@use-pico/cls';
+
+// Use OVERRIDE constant for explicit override flags
+.tokens.rule({ tone: "primary" }, {
+  "color.bg": { class: ["bg-purple-600"] }
+}, OVERRIDE) // More explicit than true
+
+.rule({ size: "lg" }, {
+  root: { class: ["px-8"] }
+}, OVERRIDE) // Clear intent for override behavior
+```
+
+> **💡 Pro Tip:** Use `OVERRIDE` instead of `true` for better code readability and explicit intent when you want to override previous rules!
 
 ## 🚀 Performance
 
