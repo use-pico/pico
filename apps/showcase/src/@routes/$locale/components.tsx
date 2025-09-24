@@ -70,6 +70,9 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/button",
 									},
 									{
+										to: "/$locale/components/button-advanced",
+									},
+									{
 										to: "/$locale/components/badge",
 									},
 									{
@@ -99,6 +102,17 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Buttons"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={"icon-[ph--gear]"}
+									to={"/$locale/components/button-advanced"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Buttons Advanced"} />
 								</MenuLink>
 
 								<MenuLink

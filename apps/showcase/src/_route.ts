@@ -35,6 +35,7 @@ import { Route as LocaleComponentsCursorRouteImport } from './@routes/$locale/co
 import { Route as LocaleComponentsComplexFormRouteImport } from './@routes/$locale/components/complex-form'
 import { Route as LocaleComponentsColorsRouteImport } from './@routes/$locale/components/colors'
 import { Route as LocaleComponentsCardRouteImport } from './@routes/$locale/components/card'
+import { Route as LocaleComponentsButtonAdvancedRouteImport } from './@routes/$locale/components/button-advanced'
 import { Route as LocaleComponentsButtonRouteImport } from './@routes/$locale/components/button'
 import { Route as LocaleComponentsBoolInputRouteImport } from './@routes/$locale/components/bool-input'
 import { Route as LocaleComponentsBoolInlineRouteImport } from './@routes/$locale/components/bool-inline'
@@ -187,6 +188,12 @@ const LocaleComponentsCardRoute = LocaleComponentsCardRouteImport.update({
   path: '/card',
   getParentRoute: () => LocaleComponentsRoute,
 } as any)
+const LocaleComponentsButtonAdvancedRoute =
+  LocaleComponentsButtonAdvancedRouteImport.update({
+    id: '/button-advanced',
+    path: '/button-advanced',
+    getParentRoute: () => LocaleComponentsRoute,
+  } as any)
 const LocaleComponentsButtonRoute = LocaleComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
@@ -280,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
+  '/$locale/components/button-advanced': typeof LocaleComponentsButtonAdvancedRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
@@ -320,6 +328,7 @@ export interface FileRoutesByTo {
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
+  '/$locale/components/button-advanced': typeof LocaleComponentsButtonAdvancedRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
@@ -363,6 +372,7 @@ export interface FileRoutesById {
   '/$locale/components/bool-inline': typeof LocaleComponentsBoolInlineRoute
   '/$locale/components/bool-input': typeof LocaleComponentsBoolInputRoute
   '/$locale/components/button': typeof LocaleComponentsButtonRoute
+  '/$locale/components/button-advanced': typeof LocaleComponentsButtonAdvancedRoute
   '/$locale/components/card': typeof LocaleComponentsCardRoute
   '/$locale/components/colors': typeof LocaleComponentsColorsRoute
   '/$locale/components/complex-form': typeof LocaleComponentsComplexFormRoute
@@ -407,6 +417,7 @@ export interface FileRouteTypes {
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
     | '/$locale/components/button'
+    | '/$locale/components/button-advanced'
     | '/$locale/components/card'
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
@@ -447,6 +458,7 @@ export interface FileRouteTypes {
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
     | '/$locale/components/button'
+    | '/$locale/components/button-advanced'
     | '/$locale/components/card'
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
@@ -489,6 +501,7 @@ export interface FileRouteTypes {
     | '/$locale/components/bool-inline'
     | '/$locale/components/bool-input'
     | '/$locale/components/button'
+    | '/$locale/components/button-advanced'
     | '/$locale/components/card'
     | '/$locale/components/colors'
     | '/$locale/components/complex-form'
@@ -708,6 +721,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleComponentsCardRouteImport
       parentRoute: typeof LocaleComponentsRoute
     }
+    '/$locale/components/button-advanced': {
+      id: '/$locale/components/button-advanced'
+      path: '/button-advanced'
+      fullPath: '/$locale/components/button-advanced'
+      preLoaderRoute: typeof LocaleComponentsButtonAdvancedRouteImport
+      parentRoute: typeof LocaleComponentsRoute
+    }
     '/$locale/components/button': {
       id: '/$locale/components/button'
       path: '/button'
@@ -818,6 +838,7 @@ interface LocaleComponentsRouteChildren {
   LocaleComponentsBoolInlineRoute: typeof LocaleComponentsBoolInlineRoute
   LocaleComponentsBoolInputRoute: typeof LocaleComponentsBoolInputRoute
   LocaleComponentsButtonRoute: typeof LocaleComponentsButtonRoute
+  LocaleComponentsButtonAdvancedRoute: typeof LocaleComponentsButtonAdvancedRoute
   LocaleComponentsCardRoute: typeof LocaleComponentsCardRoute
   LocaleComponentsColorsRoute: typeof LocaleComponentsColorsRoute
   LocaleComponentsComplexFormRoute: typeof LocaleComponentsComplexFormRoute
@@ -857,6 +878,7 @@ const LocaleComponentsRouteChildren: LocaleComponentsRouteChildren = {
   LocaleComponentsBoolInlineRoute: LocaleComponentsBoolInlineRoute,
   LocaleComponentsBoolInputRoute: LocaleComponentsBoolInputRoute,
   LocaleComponentsButtonRoute: LocaleComponentsButtonRoute,
+  LocaleComponentsButtonAdvancedRoute: LocaleComponentsButtonAdvancedRoute,
   LocaleComponentsCardRoute: LocaleComponentsCardRoute,
   LocaleComponentsColorsRoute: LocaleComponentsColorsRoute,
   LocaleComponentsComplexFormRoute: LocaleComponentsComplexFormRoute,
