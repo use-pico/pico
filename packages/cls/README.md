@@ -128,6 +128,7 @@ function MyButton({ size = "md", disabled = false, tweak }) {
 - **🎨 Design System Ready** - Tokens, variants, and slots for scalable styling
 - **🎯 Granular Control** - Individual slots support tweaks for fine-grained customization
 - **🛠 Developer Experience** - Excellent IDE support and intuitive API
+- **🛡️ Battle-Tested** - Over 300 comprehensive tests ensuring rock-solid behavior and preventing regressions
 
 ## 🏆 Quality & Reliability
 
@@ -838,7 +839,75 @@ export interface Props extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonEl
 }
 ```
 
-#### **2. useCls with Multiple Tweaks** ⚙️
+#### **2. Nested Array Support in Tweak Prop** 🎯
+The `tweak` prop in `Cls.Props` supports **nested arrays** for complex tweak combinations:
+
+```tsx
+// Single tweak object
+tweak?: { variant: { size: "lg" }, slot: { root: { class: ["custom"] } } }
+
+// Array of tweaks (last takes precedence)
+tweak?: [
+  { variant: { size: "sm" } },
+  { slot: { root: { class: ["override"] } } }
+]
+
+// Nested arrays with undefined values (automatically filtered)
+tweak?: [
+  { variant: { size: "md" } },
+  [
+    undefined,
+    { slot: { root: { class: ["nested"] } } },
+    undefined
+  ],
+  { variant: { tone: "primary" } }
+]
+
+// Deep nesting (up to 10 levels supported)
+tweak?: [
+  { variant: { size: "lg" } },
+  [
+    [
+      { slot: { root: { class: ["deep-nested"] } } }
+    ]
+  ]
+]
+```
+
+**Key Features:**
+- **🔄 Automatic Flattening**: Nested arrays are automatically flattened up to 10 levels deep
+- **🧹 Undefined Filtering**: `undefined` values are automatically removed
+- **📈 Precedence Order**: Later tweaks override earlier ones (left to right)
+- **🎯 Type Safety**: Full TypeScript support for all nested structures
+
+**Practical Example - Complex Tweak Composition:**
+```tsx
+const MyButton = ({ size, tone, disabled, loading, userTweak }) => {
+  const { slots, variant } = useCls(ButtonCls, {
+    // Complex nested tweak structure
+    tweak: [
+      // Base component logic
+      { variant: { size, tone, disabled: disabled || loading } },
+      
+      // Conditional styling based on state
+      loading ? { slot: { root: { class: ["loading"] } } } : undefined,
+      
+      // Nested array for complex overrides
+      [
+        { slot: { root: { class: ["base-override"] } } },
+        disabled ? { slot: { root: { class: ["disabled-override"] } } } : undefined,
+      ],
+      
+      // User customization (highest precedence)
+      userTweak
+    ]
+  });
+
+  return <button className={slots.root()}>Button</button>;
+};
+```
+
+#### **3. useCls with Multiple Tweaks** ⚙️
 ```tsx
 const { slots, variant } = useCls(
   cls,     // CLS instance (can be overridden)
