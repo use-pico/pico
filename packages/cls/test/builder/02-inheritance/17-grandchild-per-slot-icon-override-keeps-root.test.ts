@@ -45,7 +45,7 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 				icon: {

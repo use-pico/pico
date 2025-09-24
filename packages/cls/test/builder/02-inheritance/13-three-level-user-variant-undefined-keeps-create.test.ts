@@ -51,7 +51,7 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 			})

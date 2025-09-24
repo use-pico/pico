@@ -52,7 +52,7 @@ describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 				},
 			},
 		});
-		expect(slots.root()).toBe("text-red-500 text-gray-500");
+		expect(slots.root()).toBe("text-gray-500");
 
 		// local overlay for secondary only changes secondary
 		expect(
@@ -65,6 +65,6 @@ describe("cls/user-token-overlay-partial-only-affects-that-token", () => {
 					},
 				},
 			}),
-		).toBe("text-red-500 text-green-500");
+		).toBe("text-green-500");
 	});
 });

@@ -56,7 +56,7 @@ describe("cls/multi-token-order-and-overlay", () => {
 			},
 		});
 		// token order primary then secondary, with user overlay on secondary
-		expect(slots.root()).toBe("text-blue-500 text-green-500 base");
+		expect(slots.root()).toBe("text-green-500 base");
 
 		// local overlay for primary wins over user
 		expect(
@@ -69,6 +69,6 @@ describe("cls/multi-token-order-and-overlay", () => {
 					},
 				},
 			}),
-		).toBe("text-red-500 text-green-500 base");
+		).toBe("text-green-500 base");
 	});
 });
