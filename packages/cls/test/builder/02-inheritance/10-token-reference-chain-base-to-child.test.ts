@@ -3,35 +3,35 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/token-reference-chain-base-to-child", () => {
 	it("expands token references across levels in order", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			])
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"b2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"b1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -40,8 +40,8 @@ describe("builder-inheritance/token-reference-chain-base-to-child", () => {
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -51,6 +51,8 @@ describe("builder-inheritance/token-reference-chain-base-to-child", () => {
 			})
 			.cls();
 
-		expect(child.create().slots.root()).toBe("b2 b1 base child");
+		expect(childButton.create().slots.root()).toBe(
+			"secondary-styles primary-styles base child",
+		);
 	});
 });

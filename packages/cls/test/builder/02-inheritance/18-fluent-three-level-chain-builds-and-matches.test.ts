@@ -3,10 +3,10 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () => {
 	it("fluent three-level chain composes and matches variants across levels", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.tokens([
-					"t1",
+					"primary",
 				])
 				.slots([
 					"root",
@@ -19,16 +19,16 @@ describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () =
 				.build(),
 		)
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -36,14 +36,14 @@ describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () =
 				},
 				label: {
 					class: [
-						"lbl",
+						"label-base",
 					],
 				},
 			})
 			.match("size", "md", {
 				root: {
 					class: [
-						"b-md",
+						"base-md",
 					],
 				},
 			})
@@ -52,20 +52,20 @@ describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () =
 			})
 			.cls();
 
-		const child = definition(
-			contract(base.contract)
+		const childButton = definition(
+			contract(baseButton.contract)
 				.tokens([
-					"t2",
+					"secondary",
 				])
 				.build(),
 		)
 			.token({
-				t2: {
+				secondary: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
 			})
@@ -81,11 +81,13 @@ describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () =
 			})
 			.cls();
 
-		const grand = definition(contract(child.contract).build())
+		const grandchildButton = definition(
+			contract(childButton.contract).build(),
+		)
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 			})
@@ -94,12 +96,14 @@ describe("builder-inheritance/fluent-three-level-chain-builds-and-matches", () =
 			})
 			.cls();
 
-		const created = grand.create({
+		const created = grandchildButton.create({
 			variant: {
 				size: "md",
 			},
 		});
-		expect(created.slots.root()).toBe("a1 base b-md child grand");
-		expect(created.slots.label()).toBe("lbl");
+		expect(created.slots.root()).toBe(
+			"primary-styles base base-md child grandchild",
+		);
+		expect(created.slots.label()).toBe("label-base");
 	});
 });

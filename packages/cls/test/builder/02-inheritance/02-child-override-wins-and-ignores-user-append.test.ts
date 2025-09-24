@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { contract } from "../../../src";
 
 describe("builder-inheritance/child-override-wins-and-ignores-user-append", () => {
-	it("child override clears base and user slot append has no effect", () => {
-		const base = contract()
+	it("child override clears base but user slot append still applies", () => {
+		const baseButton = contract()
 			.slots([
 				"root",
 			])
@@ -38,13 +38,13 @@ describe("builder-inheritance/child-override-wins-and-ignores-user-append", () =
 			})
 			.cls();
 
-		const child = contract(base.contract)
+		const childButton = contract(baseButton.contract)
 			.def()
 			.root(
 				{
 					root: {
 						class: [
-							"CHILD-OVR",
+							"CHILD-OVERRIDE",
 						],
 					},
 				},
@@ -55,15 +55,15 @@ describe("builder-inheritance/child-override-wins-and-ignores-user-append", () =
 			})
 			.cls();
 
-		const created = child.create({
+		const created = childButton.create({
 			slot: {
 				root: {
 					class: [
-						"USER",
+						"USER-APPEND",
 					],
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("CHILD-OVR USER");
+		expect(created.slots.root()).toBe("CHILD-OVERRIDE USER-APPEND");
 	});
 });

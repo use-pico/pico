@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/cache-same-params-produce-same-result", () => {
 	it("returns identical strings for identical params across inheritance", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 			])
@@ -12,7 +12,7 @@ describe("builder-inheritance/cache-same-params-produce-same-result", () => {
 				"md",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -23,7 +23,7 @@ describe("builder-inheritance/cache-same-params-produce-same-result", () => {
 			.match("size", "md", {
 				root: {
 					class: [
-						"b-md",
+						"base-md",
 					],
 				},
 			})
@@ -32,8 +32,8 @@ describe("builder-inheritance/cache-same-params-produce-same-result", () => {
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -46,20 +46,20 @@ describe("builder-inheritance/cache-same-params-produce-same-result", () => {
 			})
 			.cls();
 
-		const a = child
+		const firstResult = childButton
 			.create({
 				variant: {
 					size: "md",
 				},
 			})
 			.slots.root();
-		const b = child
+		const secondResult = childButton
 			.create({
 				variant: {
 					size: "md",
 				},
 			})
 			.slots.root();
-		expect(a).toBe(b);
+		expect(firstResult).toBe(secondResult);
 	});
 });

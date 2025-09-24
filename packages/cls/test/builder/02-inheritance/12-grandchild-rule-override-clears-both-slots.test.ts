@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () => {
 	it("grandchild rule with override clears both slots output", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 				"icon",
@@ -13,7 +13,7 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 				"dark",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -22,19 +22,19 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
 			.match("tone", "light", {
 				root: {
 					class: [
-						"b-light",
+						"base-light",
 					],
 				},
 				icon: {
 					class: [
-						"i-light",
+						"icon-light",
 					],
 				},
 			})
@@ -43,8 +43,8 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -53,7 +53,7 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 			})
@@ -62,17 +62,17 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 				icon: {
 					class: [
-						"i-grand",
+						"icon-grandchild",
 					],
 				},
 			})
@@ -82,12 +82,12 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 				{
 					root: {
 						class: [
-							"GR-OVR",
+							"GRANDCHILD-OVERRIDE",
 						],
 					},
 					icon: {
 						class: [
-							"I-OVR",
+							"ICON-OVERRIDE",
 						],
 					},
 				},
@@ -98,8 +98,8 @@ describe("builder-inheritance/grandchild-rule-override-clears-both-slots", () =>
 			})
 			.cls();
 
-		const created = grand.create();
-		expect(created.slots.root()).toBe("GR-OVR");
-		expect(created.slots.icon()).toBe("I-OVR");
+		const created = grandchildButton.create();
+		expect(created.slots.root()).toBe("GRANDCHILD-OVERRIDE");
+		expect(created.slots.icon()).toBe("ICON-OVERRIDE");
 	});
 });

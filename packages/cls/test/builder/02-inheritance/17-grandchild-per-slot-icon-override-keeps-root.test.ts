@@ -3,13 +3,13 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () => {
 	it("per-slot override on icon keeps root slot output", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 				"icon",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -18,14 +18,14 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -34,14 +34,14 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.root({
 				root: {
 					class: [
@@ -50,23 +50,23 @@ describe("builder-inheritance/grandchild-per-slot-icon-override-keeps-root", () 
 				},
 				icon: {
 					class: [
-						"i-grand",
+						"icon-grandchild",
 					],
 				},
 			})
 			.cls();
 
-		const created = grand.create(undefined, {
+		const created = grandchildButton.create(undefined, {
 			slot: {
 				icon: {
 					class: [
-						"I-OVR",
+						"ICON-OVERRIDE",
 					],
 					override: true,
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("base child grand");
-		expect(created.slots.icon()).toBe("I-OVR");
+		expect(created.slots.root()).toBe("base child grandchild");
+		expect(created.slots.icon()).toBe("ICON-OVERRIDE");
 	});
 });

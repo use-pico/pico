@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => {
 	it("per-slot local override clears only that slot", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 				"icon",
@@ -12,7 +12,7 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 				"sm",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -21,19 +21,19 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
 			.match("size", "sm", {
 				root: {
 					class: [
-						"b-sm",
+						"base-sm",
 					],
 				},
 				icon: {
 					class: [
-						"i-sm",
+						"icon-sm",
 					],
 				},
 			})
@@ -42,8 +42,8 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -52,7 +52,7 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 			})
@@ -61,17 +61,17 @@ describe("builder-inheritance/child-per-slot-override-keeps-other-slots", () => 
 			})
 			.cls();
 
-		const created = child.create(undefined, {
+		const created = childButton.create(undefined, {
 			slot: {
 				root: {
 					class: [
-						"OVR",
+						"ROOT-OVERRIDE",
 					],
 					override: true,
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("OVR");
-		expect(created.slots.icon()).toBe("i-base i-sm i-child");
+		expect(created.slots.root()).toBe("ROOT-OVERRIDE");
+		expect(created.slots.icon()).toBe("icon-base icon-sm icon-child");
 	});
 });

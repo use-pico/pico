@@ -3,19 +3,19 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/child-user-empty-token-overlay-clears-token", () => {
 	it("user empty overlay clears token output on child", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.tokens([
-				"t1",
+				"primary",
 			])
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
@@ -28,8 +28,8 @@ describe("builder-inheritance/child-user-empty-token-overlay-clears-token", () =
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -39,9 +39,9 @@ describe("builder-inheritance/child-user-empty-token-overlay-clears-token", () =
 			})
 			.cls();
 
-		const created = child.create({
+		const created = childButton.create({
 			token: {
-				t1: {
+				primary: {
 					class: [],
 				},
 			},

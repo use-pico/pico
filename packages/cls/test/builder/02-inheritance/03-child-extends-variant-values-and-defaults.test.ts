@@ -11,7 +11,7 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 				"sm",
 			])
 			.build();
-		const base = definition(baseContract)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -22,7 +22,7 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 			.match("size", "sm", {
 				root: {
 					class: [
-						"b-sm",
+						"base-sm",
 					],
 				},
 			})
@@ -31,12 +31,12 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 			})
 			.cls();
 
-		const childContract = contract(base.contract)
+		const childContract = contract(baseButton.contract)
 			.variant("size", [
 				"md",
 			])
 			.build();
-		const child = definition(childContract)
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -47,7 +47,7 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 			.match("size", "md", {
 				root: {
 					class: [
-						"c-md",
+						"child-md",
 					],
 				},
 			})
@@ -56,7 +56,7 @@ describe("builder-inheritance/child-extends-variant-values-and-defaults", () => 
 			})
 			.cls();
 
-		const created = child.create();
-		expect(created.slots.root()).toBe("base child c-md");
+		const created = childButton.create();
+		expect(created.slots.root()).toBe("base child child-md");
 	});
 });

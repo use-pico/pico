@@ -3,35 +3,35 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 	it("config overlay on root token replaces the whole chain", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			])
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"b2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"b1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -40,8 +40,8 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -51,15 +51,15 @@ describe("builder-inheritance/config-root-token-overlay-replaces-chain", () => {
 			})
 			.cls();
 
-		const created = child.create(undefined, {
+		const created = childButton.create(undefined, {
 			token: {
-				t1: {
+				primary: {
 					class: [
-						"CONF",
+						"CONFIG-OVERRIDE",
 					],
 				},
 			},
 		});
-		expect(created.slots.root()).toBe("CONF base child");
+		expect(created.slots.root()).toBe("CONFIG-OVERRIDE base child");
 	});
 });

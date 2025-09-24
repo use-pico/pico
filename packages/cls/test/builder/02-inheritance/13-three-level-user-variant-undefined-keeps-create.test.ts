@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", () => {
 	it("user undefined keeps create-provided variant across three levels", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 			])
@@ -12,7 +12,7 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 				"md",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -23,7 +23,7 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 			.match("size", "md", {
 				root: {
 					class: [
-						"b-md",
+						"base-md",
 					],
 				},
 			})
@@ -32,8 +32,8 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -46,8 +46,8 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.root({
 				root: {
 					class: [
@@ -60,14 +60,14 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 			})
 			.cls();
 
-		const created = grand.create({
+		const created = grandchildButton.create({
 			variant: {
 				size: "md",
 			},
 		});
-		expect(created.slots.root()).toBe("base b-md child grand");
+		expect(created.slots.root()).toBe("base base-md child grandchild");
 
-		const userUndefined = grand.create(
+		const userUndefined = grandchildButton.create(
 			{
 				variant: {
 					size: undefined,
@@ -79,6 +79,8 @@ describe("builder-inheritance/three-level-user-variant-undefined-keeps-create", 
 				},
 			},
 		);
-		expect(userUndefined.slots.root()).toBe("base b-md child grand");
+		expect(userUndefined.slots.root()).toBe(
+			"base base-md child grandchild",
+		);
 	});
 });

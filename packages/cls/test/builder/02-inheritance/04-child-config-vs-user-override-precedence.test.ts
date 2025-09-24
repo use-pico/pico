@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
-	it("user override wins over config override in create()", () => {
+	it("user override completely replaces config override in create()", () => {
 		const baseContract = contract()
 			.slots([
 				"root",
@@ -12,7 +12,7 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 				"md",
 			])
 			.build();
-		const base = definition(baseContract)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -23,7 +23,7 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 			.match("size", "md", {
 				root: {
 					class: [
-						"b-md",
+						"base-md",
 					],
 				},
 			})
@@ -32,8 +32,8 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 			})
 			.cls();
 
-		const childContract = contract(base.contract).build();
-		const child = definition(childContract)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -46,12 +46,12 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 			})
 			.cls();
 
-		const created = child.create(
+		const created = childButton.create(
 			{
 				slot: {
 					root: {
 						class: [
-							"CONF",
+							"CONFIG-OVERRIDE",
 						],
 						override: true,
 					},
@@ -61,13 +61,13 @@ describe("builder-inheritance/child-config-vs-user-override-precedence", () => {
 				slot: {
 					root: {
 						class: [
-							"USER",
+							"USER-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("USER");
+		expect(created.slots.root()).toBe("USER-OVERRIDE");
 	});
 });

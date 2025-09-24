@@ -3,13 +3,13 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/grandchild-config-override-then-user-append-no-effect", () => {
 	it("user slot append after config override has no effect on that slot", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 			])
 			.bool("on")
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -22,8 +22,8 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -36,8 +36,8 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.root({
 				root: {
 					class: [
@@ -50,12 +50,12 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 			})
 			.cls();
 
-		const created = grand.create(
+		const created = grandchildButton.create(
 			{
 				slot: {
 					root: {
 						class: [
-							"USER",
+							"USER-APPEND",
 						],
 					},
 				},
@@ -64,13 +64,13 @@ describe("builder-inheritance/grandchild-config-override-then-user-append-no-eff
 				slot: {
 					root: {
 						class: [
-							"CONF",
+							"CONFIG-OVERRIDE",
 						],
 						override: true,
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("CONF");
+		expect(created.slots.root()).toBe("CONFIG-OVERRIDE");
 	});
 });

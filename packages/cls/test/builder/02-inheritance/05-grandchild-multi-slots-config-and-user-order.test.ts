@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () => {
 	it("applies base, child, grandchild rules then config then user in order", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 				"icon",
@@ -13,7 +13,7 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 				"dark",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -22,19 +22,19 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
 			.match("tone", "light", {
 				root: {
 					class: [
-						"b-light",
+						"base-light",
 					],
 				},
 				icon: {
 					class: [
-						"i-light",
+						"icon-light",
 					],
 				},
 			})
@@ -43,8 +43,8 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -53,7 +53,7 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 			})
@@ -62,17 +62,17 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 				icon: {
 					class: [
-						"i-grand",
+						"icon-grandchild",
 					],
 				},
 			})
@@ -81,17 +81,17 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 			})
 			.cls();
 
-		const created = grand.create(
+		const created = grandchildButton.create(
 			{
 				slot: {
 					root: {
 						class: [
-							"USER",
+							"USER-APPEND",
 						],
 					},
 					icon: {
 						class: [
-							"I-USER",
+							"ICON-USER-APPEND",
 						],
 					},
 				},
@@ -100,20 +100,22 @@ describe("builder-inheritance/grandchild-multi-slots-config-and-user-order", () 
 				slot: {
 					root: {
 						class: [
-							"CONF",
+							"CONFIG-APPEND",
 						],
 					},
 					icon: {
 						class: [
-							"I-CONF",
+							"ICON-CONFIG-APPEND",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("base b-light child grand USER CONF");
+		expect(created.slots.root()).toBe(
+			"base base-light child grandchild USER-APPEND CONFIG-APPEND",
+		);
 		expect(created.slots.icon()).toBe(
-			"i-base i-light i-child i-grand I-USER I-CONF",
+			"icon-base icon-light icon-child icon-grandchild ICON-USER-APPEND ICON-CONFIG-APPEND",
 		);
 	});
 });

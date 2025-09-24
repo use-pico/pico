@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder-inheritance/child-extends-slots-adds-icon", () => {
 	it("child adds icon slot and rules apply across both", () => {
-		const base = contract()
+		const baseButton = contract()
 			.slots([
 				"root",
 			])
@@ -21,7 +21,7 @@ describe("builder-inheritance/child-extends-slots-adds-icon", () => {
 			})
 			.cls();
 
-		const child = contract(base.contract)
+		const childButton = contract(baseButton.contract)
 			.slots([
 				"icon",
 			])
@@ -29,7 +29,7 @@ describe("builder-inheritance/child-extends-slots-adds-icon", () => {
 			.root({
 				icon: {
 					class: [
-						"i",
+						"icon",
 					],
 				},
 			})
@@ -38,8 +38,8 @@ describe("builder-inheritance/child-extends-slots-adds-icon", () => {
 			})
 			.cls();
 
-		const created = child.create();
+		const created = childButton.create();
 		expect(created.slots.root()).toBe("base");
-		expect(created.slots.icon()).toBe("i");
+		expect(created.slots.icon()).toBe("icon");
 	});
 });

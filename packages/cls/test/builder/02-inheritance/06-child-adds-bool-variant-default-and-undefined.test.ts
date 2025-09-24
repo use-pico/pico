@@ -3,12 +3,12 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/child-adds-bool-variant-default-and-undefined", () => {
 	it("child adds bool variant with defaults; undefined keeps default", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
@@ -18,8 +18,8 @@ describe("builder-inheritance/child-adds-bool-variant-default-and-undefined", ()
 			})
 			.cls();
 
-		const childC = contract(base.contract).bool("on").build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).bool("on").build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
@@ -30,7 +30,7 @@ describe("builder-inheritance/child-adds-bool-variant-default-and-undefined", ()
 			.match("on", true, {
 				root: {
 					class: [
-						"on-root",
+						"on-enabled",
 					],
 				},
 			})
@@ -39,11 +39,11 @@ describe("builder-inheritance/child-adds-bool-variant-default-and-undefined", ()
 			})
 			.cls();
 
-		const created = child.create({
+		const created = childButton.create({
 			variant: {
 				on: undefined,
 			},
 		});
-		expect(created.slots.root()).toBe("base child on-root");
+		expect(created.slots.root()).toBe("base child on-enabled");
 	});
 });

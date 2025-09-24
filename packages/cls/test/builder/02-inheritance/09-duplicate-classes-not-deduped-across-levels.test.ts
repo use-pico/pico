@@ -3,34 +3,36 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/duplicate-classes-not-deduped-across-levels", () => {
 	it("keeps duplicate classes contributed by base and child", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.root({
 				root: {
 					class: [
-						"dup",
+						"duplicate",
 						"base",
 					],
 				},
 			})
 			.cls();
 
-		const childC = contract(base.contract).build();
-		const child = definition(childC)
+		const childContract = contract(baseButton.contract).build();
+		const childButton = definition(childContract)
 			.root({
 				root: {
 					class: [
-						"dup",
+						"duplicate",
 						"child",
 					],
 				},
 			})
 			.cls();
 
-		expect(child.create().slots.root()).toBe("dup base dup child");
+		expect(childButton.create().slots.root()).toBe(
+			"duplicate base duplicate child",
+		);
 	});
 });

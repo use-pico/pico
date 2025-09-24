@@ -3,35 +3,35 @@ import { contract, definition } from "../../../src";
 
 describe("builder-inheritance/branching-token-refs-across-levels-non-circular", () => {
 	it("expands branching token references across base->child->grandchild", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			])
 			.slots([
 				"root",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"b2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"b1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -40,16 +40,16 @@ describe("builder-inheritance/branching-token-refs-across-levels-non-circular", 
 			})
 			.cls();
 
-		const childC = contract(base.contract)
+		const childContract = contract(baseButton.contract)
 			.tokens([
-				"t3",
+				"tertiary",
 			])
 			.build();
-		const child = definition(childC)
+		const childButton = definition(childContract)
 			.token({
-				t3: {
+				tertiary: {
 					class: [
-						"c3",
+						"tertiary-styles",
 					],
 				},
 			})
@@ -62,31 +62,33 @@ describe("builder-inheritance/branching-token-refs-across-levels-non-circular", 
 			})
 			.cls();
 
-		const grandC = contract(child.contract).build();
-		const grand = definition(grandC)
+		const grandchildContract = contract(childButton.contract).build();
+		const grandchildButton = definition(grandchildContract)
 			.token({
-				t1: {
+				primary: {
 					token: [
-						"t3",
+						"tertiary",
 					],
 					class: [
-						"g1",
+						"grandchild-primary",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 			})
 			.cls();
 
-		const created = grand.create();
-		expect(created.slots.root()).toBe("c3 g1 base child c3 g1 grand");
+		const created = grandchildButton.create();
+		expect(created.slots.root()).toBe(
+			"tertiary-styles grandchild-primary base child tertiary-styles grandchild-primary grandchild",
+		);
 	});
 });
