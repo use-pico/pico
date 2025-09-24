@@ -11,7 +11,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@tanstack/react-form": "1.23.1",
+		"@tanstack/react-form": "1.23.2",
 		"@tanstack/react-query": "5.90.2",
 		"@tanstack/react-router": "1.132.2",
 		"@use-pico/client": "5.0.103",
