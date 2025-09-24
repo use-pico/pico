@@ -3,13 +3,13 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/deep-branching-refs-per-slot-with-dual-overlays", () => {
 	it("resolves per-slot branching refs and applies config root + user leaf overlays", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.tokens([
-					"t1",
-					"t2",
-					"t3",
-					"t4",
+					"primary",
+					"secondary",
+					"tertiary",
+					"quaternary",
 				])
 				.slots([
 					"root",
@@ -19,86 +19,88 @@ describe("builder-03-complex/deep-branching-refs-per-slot-with-dual-overlays", (
 				.build(),
 		)
 			.token({
-				t4: {
+				quaternary: {
 					class: [
-						"d4",
+						"quaternary-styles",
 					],
 				},
-				t3: {
+				tertiary: {
 					token: [
-						"t4",
+						"quaternary",
 					],
 					class: [
-						"d3",
+						"tertiary-styles",
 					],
 				},
-				t2: {
+				secondary: {
 					token: [
-						"t3",
+						"tertiary",
 					],
 					class: [
-						"d2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"d1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 				label: {
 					token: [
-						"t3",
+						"tertiary",
 					],
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.cls();
 
-		const created = base.create(
+		const created = baseButton.create(
 			{
 				token: {
-					t3: {
+					tertiary: {
 						class: [
-							"U3",
+							"USER-TERTIARY",
 						],
 					},
 				},
 			},
 			{
 				token: {
-					t1: {
+					primary: {
 						class: [
-							"C1",
+							"CONFIG-PRIMARY",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("C1 r");
-		expect(created.slots.icon()).toBe("U3 d2 i");
-		expect(created.slots.label()).toBe("U3 l");
+		expect(created.slots.root()).toBe("CONFIG-PRIMARY root-base");
+		expect(created.slots.icon()).toBe(
+			"USER-TERTIARY secondary-styles icon-base",
+		);
+		expect(created.slots.label()).toBe("USER-TERTIARY label-base");
 	});
 });

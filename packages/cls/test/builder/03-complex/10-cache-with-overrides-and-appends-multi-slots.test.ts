@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () => {
 	it("returns identical output for identical complex tweaks across slots", () => {
-		const $cls = definition(
+		const buttonCls = definition(
 			contract()
 				.slots([
 					"root",
@@ -15,29 +15,29 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.cls();
 
-		const a = $cls.create(
+		const firstResult = buttonCls.create(
 			{
 				override: true,
 				slot: {
 					root: {
 						class: [
-							"R-OVR",
+							"ROOT-OVERRIDE",
 						],
 					},
 				},
@@ -46,7 +46,7 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 				slot: {
 					icon: {
 						class: [
-							"I-U",
+							"ICON-USER",
 						],
 					},
 				},
@@ -55,19 +55,19 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 				slot: {
 					label: {
 						class: [
-							"L-C",
+							"LABEL-CONFIG",
 						],
 					},
 				},
 			},
 		);
-		const b = $cls.create(
+		const secondResult = buttonCls.create(
 			{
 				override: true,
 				slot: {
 					root: {
 						class: [
-							"R-OVR",
+							"ROOT-OVERRIDE",
 						],
 					},
 				},
@@ -76,7 +76,7 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 				slot: {
 					icon: {
 						class: [
-							"I-U",
+							"ICON-USER",
 						],
 					},
 				},
@@ -85,14 +85,14 @@ describe("builder-03-complex/cache-with-overrides-and-appends-multi-slots", () =
 				slot: {
 					label: {
 						class: [
-							"L-C",
+							"LABEL-CONFIG",
 						],
 					},
 				},
 			},
 		);
-		expect(a.slots.root()).toBe(b.slots.root());
-		expect(a.slots.icon()).toBe(b.slots.icon());
-		expect(a.slots.label()).toBe(b.slots.label());
+		expect(firstResult.slots.root()).toBe(secondResult.slots.root());
+		expect(firstResult.slots.icon()).toBe(secondResult.slots.icon());
+		expect(firstResult.slots.label()).toBe(secondResult.slots.label());
 	});
 });

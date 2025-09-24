@@ -3,10 +3,10 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 	it("applies multi-rules across slots with per-slot overrides through inheritance", () => {
-		const baseC = contract()
+		const baseContract = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			])
 			.slots([
 				"root",
@@ -22,26 +22,26 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				"dark",
 			])
 			.build();
-		const base = definition(baseC)
+		const baseButton = definition(baseContract)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"b2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"b1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -49,36 +49,36 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l-base",
+						"label-base",
 					],
 				},
 			})
 			.match("size", "sm", {
 				root: {
 					class: [
-						"r-sm",
+						"root-sm",
 					],
 				},
 				icon: {
 					class: [
-						"i-sm",
+						"icon-sm",
 					],
 				},
 			})
 			.match("tone", "dark", {
 				root: {
 					class: [
-						"r-dark",
+						"root-dark",
 					],
 				},
 				label: {
 					class: [
-						"l-dark",
+						"label-dark",
 					],
 				},
 			})
@@ -88,8 +88,8 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 			})
 			.cls();
 
-		const child = definition(
-			contract(base.contract)
+		const childButton = definition(
+			contract(baseButton.contract)
 				.variant("tone", [
 					"sepia",
 				])
@@ -103,19 +103,19 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 				label: {
 					class: [
-						"l-child",
+						"label-child",
 					],
 				},
 			})
 			.match("tone", "sepia", {
 				label: {
 					class: [
-						"l-sepia",
+						"label-sepia",
 					],
 				},
 			})
@@ -125,33 +125,35 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 			})
 			.cls();
 
-		const grand = definition(contract(child.contract).build())
+		const grandchildButton = definition(
+			contract(childButton.contract).build(),
+		)
 			.root({
 				root: {
 					class: [
-						"grand",
+						"grandchild",
 					],
 				},
 				icon: {
 					class: [
-						"i-grand",
+						"icon-grandchild",
 					],
 				},
 				label: {
 					class: [
-						"l-grand",
+						"label-grandchild",
 					],
 				},
 			})
 			.match("size", "md", {
 				icon: {
 					class: [
-						"i-md",
+						"icon-md",
 					],
 				},
 				label: {
 					class: [
-						"l-md",
+						"label-md",
 					],
 				},
 			})
@@ -161,30 +163,34 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 			})
 			.cls();
 
-		const created = grand.create({
+		const created = grandchildButton.create({
 			variant: {
 				size: "md",
 				tone: "dark",
 			},
 		});
-		expect(created.slots.root()).toBe("b2 b1 base r-dark child grand");
-		expect(created.slots.icon()).toBe("i-base i-child i-grand i-md");
+		expect(created.slots.root()).toBe(
+			"secondary-styles primary-styles base root-dark child grandchild",
+		);
+		expect(created.slots.icon()).toBe(
+			"icon-base icon-child icon-grandchild icon-md",
+		);
 		expect(created.slots.label()).toBe(
-			"l-base l-dark l-child l-grand l-md",
+			"label-base label-dark label-child label-grandchild label-md",
 		);
 
-		const withOverrides = grand.create(
+		const withOverrides = grandchildButton.create(
 			{
 				override: true,
 				slot: {
 					label: {
 						class: [
-							"L-OVR",
+							"LABEL-OVERRIDE",
 						],
 					},
 					icon: {
 						class: [
-							"I-USER",
+							"ICON-USER",
 						],
 					},
 				},
@@ -194,18 +200,20 @@ describe("builder-03-complex/three-level-many-rules-per-slot-overrides", () => {
 				slot: {
 					icon: {
 						class: [
-							"I-OVR",
+							"ICON-OVERRIDE",
 						],
 					},
 				},
 			},
 		);
-		expect(withOverrides.slots.root()).toBe("b2 b1 base r-sm child grand");
+		expect(withOverrides.slots.root()).toBe(
+			"secondary-styles primary-styles base root-sm child grandchild",
+		);
 		expect(withOverrides.slots.icon()).toBe(
-			"i-base i-sm i-child i-grand I-OVR",
+			"icon-base icon-sm icon-child icon-grandchild ICON-OVERRIDE",
 		);
 		expect(withOverrides.slots.label()).toBe(
-			"l-base l-child l-grand L-OVR",
+			"label-base label-child label-grandchild LABEL-OVERRIDE",
 		);
 	});
 });

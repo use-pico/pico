@@ -3,12 +3,12 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/deep-token-refs-across-slots-with-dual-overlays", () => {
 	it("expands deep refs and applies config root overlay + user leaf overlay across slots", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.tokens([
-					"t1",
-					"t2",
-					"t3",
+					"primary",
+					"secondary",
+					"tertiary",
 				])
 				.slots([
 					"root",
@@ -18,78 +18,78 @@ describe("builder-03-complex/deep-token-refs-across-slots-with-dual-overlays", (
 				.build(),
 		)
 			.token({
-				t3: {
+				tertiary: {
 					class: [
-						"a3",
+						"tertiary-styles",
 					],
 				},
-				t2: {
+				secondary: {
 					token: [
-						"t3",
+						"tertiary",
 					],
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 				label: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.cls();
 
-		const created = base.create(
+		const created = baseButton.create(
 			{
 				token: {
-					t2: {
+					secondary: {
 						class: [
-							"USER2",
+							"USER-SECONDARY",
 						],
 					},
 				},
 			},
 			{
 				token: {
-					t1: {
+					primary: {
 						class: [
-							"CONF1",
+							"CONFIG-PRIMARY",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("CONF1 r");
-		expect(created.slots.icon()).toBe("CONF1 i");
-		expect(created.slots.label()).toBe("CONF1 l");
+		expect(created.slots.root()).toBe("CONFIG-PRIMARY root-base");
+		expect(created.slots.icon()).toBe("CONFIG-PRIMARY icon-base");
+		expect(created.slots.label()).toBe("CONFIG-PRIMARY label-base");
 	});
 });

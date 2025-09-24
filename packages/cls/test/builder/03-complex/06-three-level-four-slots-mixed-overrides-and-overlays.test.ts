@@ -3,12 +3,12 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays", () => {
 	it("handles mixed per-slot overrides and dual overlays across four slots", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.tokens([
-					"t1",
-					"t2",
-					"t3",
+					"primary",
+					"secondary",
+					"tertiary",
 				])
 				.slots([
 					"root",
@@ -23,65 +23,65 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 				.build(),
 		)
 			.token({
-				t3: {
+				tertiary: {
 					class: [
-						"a3",
+						"tertiary-styles",
 					],
 				},
-				t2: {
+				secondary: {
 					token: [
-						"t3",
+						"tertiary",
 					],
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"r-base",
+						"root-base",
 					],
 				},
 				icon: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l-base",
+						"label-base",
 					],
 				},
 				badge: {
 					class: [
-						"b-base",
+						"badge-base",
 					],
 				},
 			})
 			.match("size", "md", {
 				icon: {
 					class: [
-						"i-md",
+						"icon-md",
 					],
 				},
 				label: {
 					class: [
-						"l-md",
+						"label-md",
 					],
 				},
 			})
@@ -90,26 +90,26 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 			})
 			.cls();
 
-		const child = definition(contract(base.contract).build())
+		const childButton = definition(contract(baseButton.contract).build())
 			.root({
 				root: {
 					class: [
-						"r-child",
+						"root-child",
 					],
 				},
 				icon: {
 					class: [
-						"i-child",
+						"icon-child",
 					],
 				},
 				label: {
 					class: [
-						"l-child",
+						"label-child",
 					],
 				},
 				badge: {
 					class: [
-						"b-child",
+						"badge-child",
 					],
 				},
 			})
@@ -118,26 +118,28 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 			})
 			.cls();
 
-		const grand = definition(contract(child.contract).build())
+		const grandchildButton = definition(
+			contract(childButton.contract).build(),
+		)
 			.root({
 				root: {
 					class: [
-						"r-grand",
+						"root-grandchild",
 					],
 				},
 				icon: {
 					class: [
-						"i-grand",
+						"icon-grandchild",
 					],
 				},
 				label: {
 					class: [
-						"l-grand",
+						"label-grandchild",
 					],
 				},
 				badge: {
 					class: [
-						"b-grand",
+						"badge-grandchild",
 					],
 				},
 			})
@@ -146,28 +148,28 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 			})
 			.cls();
 
-		const created = grand.create(
+		const created = grandchildButton.create(
 			{
 				token: {
-					t2: {
+					secondary: {
 						class: [
-							"U2",
+							"USER-SECONDARY",
 						],
 					},
 				},
 				slot: {
 					badge: {
 						class: [
-							"U-B",
+							"USER-BADGE",
 						],
 					},
 				},
 			},
 			{
 				token: {
-					t1: {
+					primary: {
 						class: [
-							"C1",
+							"CONFIG-PRIMARY",
 						],
 					},
 				},
@@ -175,15 +177,23 @@ describe("builder-03-complex/three-level-four-slots-mixed-overrides-and-overlays
 				slot: {
 					label: {
 						class: [
-							"L-OVR",
+							"LABEL-OVERRIDE",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("C1 r-base r-child r-grand");
-		expect(created.slots.icon()).toBe("C1 i-base i-child i-grand");
-		expect(created.slots.label()).toBe("l-base l-child l-grand L-OVR");
-		expect(created.slots.badge()).toBe("b-base b-child b-grand U-B");
+		expect(created.slots.root()).toBe(
+			"CONFIG-PRIMARY root-base root-child root-grandchild",
+		);
+		expect(created.slots.icon()).toBe(
+			"CONFIG-PRIMARY icon-base icon-child icon-grandchild",
+		);
+		expect(created.slots.label()).toBe(
+			"label-base label-child label-grandchild LABEL-OVERRIDE",
+		);
+		expect(created.slots.badge()).toBe(
+			"badge-base badge-child badge-grandchild USER-BADGE",
+		);
 	});
 });

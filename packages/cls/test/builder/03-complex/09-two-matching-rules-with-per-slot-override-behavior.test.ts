@@ -3,65 +3,65 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/two-matching-rules-with-per-slot-override-behavior", () => {
 	it("applies both rules for root while icon is overridden by second", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.slots([
 					"root",
 					"icon",
 				])
-				.variant("v", [
-					"a",
+				.variant("variant", [
+					"active",
 				])
 				.build(),
 		)
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 			})
-			.match("v", "a", {
+			.match("variant", "active", {
 				root: {
 					class: [
-						"r1",
+						"root-active-1",
 					],
 				},
 				icon: {
 					class: [
-						"i1",
+						"icon-active-1",
 					],
 				},
 			})
 			.match(
-				"v",
-				"a",
+				"variant",
+				"active",
 				{
 					root: {
 						class: [
-							"r2",
+							"root-active-2",
 						],
 					},
 					icon: {
 						class: [
-							"I-OVR",
+							"ICON-OVERRIDE",
 						],
 					},
 				},
 				true,
 			)
 			.defaults({
-				v: "a",
+				variant: "active",
 			})
 			.cls();
 
-		const created = base.create();
-		expect(created.slots.root()).toBe("r2");
-		expect(created.slots.icon()).toBe("I-OVR");
+		const created = baseButton.create();
+		expect(created.slots.root()).toBe("root-active-2");
+		expect(created.slots.icon()).toBe("ICON-OVERRIDE");
 	});
 });

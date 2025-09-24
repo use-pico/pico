@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/cache-identical-params-across-three-levels-multi-slots", () => {
 	it("returns identical strings for same tweaks across three-level chain and slots", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.slots([
 					"root",
@@ -19,34 +19,34 @@ describe("builder-03-complex/cache-identical-params-across-three-levels-multi-sl
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.match("size", "md", {
 				root: {
 					class: [
-						"r-md",
+						"root-md",
 					],
 				},
 				icon: {
 					class: [
-						"i-md",
+						"icon-md",
 					],
 				},
 				label: {
 					class: [
-						"l-md",
+						"label-md",
 					],
 				},
 			})
@@ -55,21 +55,21 @@ describe("builder-03-complex/cache-identical-params-across-three-levels-multi-sl
 			})
 			.cls();
 
-		const child = definition(contract(base.contract).build())
+		const childButton = definition(contract(baseButton.contract).build())
 			.root({
 				root: {
 					class: [
-						"c",
+						"child",
 					],
 				},
 				icon: {
 					class: [
-						"ci",
+						"icon-child",
 					],
 				},
 				label: {
 					class: [
-						"cl",
+						"label-child",
 					],
 				},
 			})
@@ -77,21 +77,23 @@ describe("builder-03-complex/cache-identical-params-across-three-levels-multi-sl
 				size: "sm",
 			})
 			.cls();
-		const grand = definition(contract(child.contract).build())
+		const grandchildButton = definition(
+			contract(childButton.contract).build(),
+		)
 			.root({
 				root: {
 					class: [
-						"g",
+						"grandchild",
 					],
 				},
 				icon: {
 					class: [
-						"gi",
+						"icon-grandchild",
 					],
 				},
 				label: {
 					class: [
-						"gl",
+						"label-grandchild",
 					],
 				},
 			})
@@ -100,18 +102,18 @@ describe("builder-03-complex/cache-identical-params-across-three-levels-multi-sl
 			})
 			.cls();
 
-		const a = grand.create({
+		const firstResult = grandchildButton.create({
 			variant: {
 				size: "md",
 			},
 		});
-		const b = grand.create({
+		const secondResult = grandchildButton.create({
 			variant: {
 				size: "md",
 			},
 		});
-		expect(a.slots.root()).toBe(b.slots.root());
-		expect(a.slots.icon()).toBe(b.slots.icon());
-		expect(a.slots.label()).toBe(b.slots.label());
+		expect(firstResult.slots.root()).toBe(secondResult.slots.root());
+		expect(firstResult.slots.icon()).toBe(secondResult.slots.icon());
+		expect(firstResult.slots.label()).toBe(secondResult.slots.label());
 	});
 });

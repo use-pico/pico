@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-across-slots", () => {
 	it("user override on root ignores config append; other slots append in order", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.slots([
 					"root",
@@ -15,34 +15,34 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.cls();
 
-		const created = base.create(
+		const created = baseButton.create(
 			{
 				override: true,
 				slot: {
 					root: {
 						class: [
-							"U-ROOT",
+							"USER-ROOT-OVERRIDE",
 						],
 					},
 					label: {
 						class: [
-							"U-L",
+							"USER-LABEL",
 						],
 					},
 				},
@@ -51,24 +51,28 @@ describe("builder-03-complex/mixed-per-slot-user-override-vs-config-append-acros
 				slot: {
 					root: {
 						class: [
-							"C-ROOT",
+							"CONFIG-ROOT",
 						],
 					},
 					icon: {
 						class: [
-							"C-ICON",
+							"CONFIG-ICON",
 						],
 					},
 					label: {
 						class: [
-							"C-LABEL",
+							"CONFIG-LABEL",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("r U-ROOT C-ROOT");
-		expect(created.slots.icon()).toBe("i C-ICON");
-		expect(created.slots.label()).toBe("l U-L C-LABEL");
+		expect(created.slots.root()).toBe(
+			"root-base USER-ROOT-OVERRIDE CONFIG-ROOT",
+		);
+		expect(created.slots.icon()).toBe("icon-base CONFIG-ICON");
+		expect(created.slots.label()).toBe(
+			"label-base USER-LABEL CONFIG-LABEL",
+		);
 	});
 });

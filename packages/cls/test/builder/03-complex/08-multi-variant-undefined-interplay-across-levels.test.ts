@@ -3,7 +3,7 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", () => {
 	it("keeps create-provided values when user passes undefined across two variants", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.slots([
 					"root",
@@ -22,26 +22,26 @@ describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", (
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				label: {
 					class: [
-						"l",
+						"label-base",
 					],
 				},
 			})
 			.match("size", "md", {
 				root: {
 					class: [
-						"r-md",
+						"root-md",
 					],
 				},
 			})
 			.match("tone", "dark", {
 				label: {
 					class: [
-						"l-dark",
+						"label-dark",
 					],
 				},
 			})
@@ -51,16 +51,16 @@ describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", (
 			})
 			.cls();
 
-		const child = definition(contract(base.contract).build())
+		const childButton = definition(contract(baseButton.contract).build())
 			.root({
 				root: {
 					class: [
-						"c",
+						"root-child",
 					],
 				},
 				label: {
 					class: [
-						"cl",
+						"label-child",
 					],
 				},
 			})
@@ -70,16 +70,16 @@ describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", (
 			})
 			.cls();
 
-		const created = child.create({
+		const created = childButton.create({
 			variant: {
 				size: "md",
 				tone: "dark",
 			},
 		});
-		expect(created.slots.root()).toBe("r r-md c");
-		expect(created.slots.label()).toBe("l l-dark cl");
+		expect(created.slots.root()).toBe("root-base root-md root-child");
+		expect(created.slots.label()).toBe("label-base label-dark label-child");
 
-		const u = child.create(
+		const userUndefined = childButton.create(
 			{
 				variant: {
 					size: undefined,
@@ -93,7 +93,9 @@ describe("builder-03-complex/multi-variant-undefined-interplay-across-levels", (
 				},
 			},
 		);
-		expect(u.slots.root()).toBe("r r-md c");
-		expect(u.slots.label()).toBe("l l-dark cl");
+		expect(userUndefined.slots.root()).toBe("root-base root-md root-child");
+		expect(userUndefined.slots.label()).toBe(
+			"label-base label-dark label-child",
+		);
 	});
 });

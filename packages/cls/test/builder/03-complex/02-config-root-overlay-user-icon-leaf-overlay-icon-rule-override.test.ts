@@ -3,11 +3,11 @@ import { contract, definition } from "../../../src";
 
 describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rule-override", () => {
 	it("config root overlay replaces chain; user leaf overlay applies on icon; icon rule override wins", () => {
-		const base = definition(
+		const baseButton = definition(
 			contract()
 				.tokens([
-					"t1",
-					"t2",
+					"primary",
+					"secondary",
 				])
 				.slots([
 					"root",
@@ -19,24 +19,24 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 				.build(),
 		)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -44,17 +44,17 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 				},
 				icon: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
 			.match("on", true, {
 				icon: {
 					class: [
-						"i-on",
+						"icon-enabled",
 					],
 				},
 			})
@@ -63,36 +63,36 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 			})
 			.cls();
 
-		const created = base.create(
+		const created = baseButton.create(
 			{
 				token: {
-					t2: {
+					secondary: {
 						class: [
-							"USER2",
+							"USER-SECONDARY",
 						],
 					},
 				},
 			},
 			{
 				token: {
-					t1: {
+					primary: {
 						class: [
-							"CONF1",
+							"CONFIG-PRIMARY",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("CONF1 base");
-		expect(created.slots.icon()).toBe("CONF1 i-base");
+		expect(created.slots.root()).toBe("CONFIG-PRIMARY base");
+		expect(created.slots.icon()).toBe("CONFIG-PRIMARY icon-base");
 
 		expect(
-			contract(base.contract)
+			contract(baseButton.contract)
 				.def()
 				.root({
 					icon: {
 						class: [
-							"I-OVR",
+							"ICON-OVERRIDE",
 						],
 					},
 					root: {
@@ -107,6 +107,6 @@ describe("builder-03-complex/config-root-overlay-user-icon-leaf-overlay-icon-rul
 				.cls()
 				.create()
 				.slots.icon(),
-		).toBe("a2 a1 i-base I-OVR");
+		).toBe("secondary-styles primary-styles icon-base ICON-OVERRIDE");
 	});
 });
