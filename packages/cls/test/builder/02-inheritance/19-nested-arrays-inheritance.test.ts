@@ -70,6 +70,7 @@ describe("builder/nested arrays inheritance", () => {
 				},
 			})
 			.defaults({
+				size: "md",
 				variant: "primary",
 			})
 			.cls();
