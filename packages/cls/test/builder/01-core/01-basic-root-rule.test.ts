@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/basic-root-rule", () => {
 	it("produces base class on root via root() rule", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -21,7 +21,7 @@ describe("builder/basic-root-rule", () => {
 			})
 			.cls();
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("base");
 	});
 });

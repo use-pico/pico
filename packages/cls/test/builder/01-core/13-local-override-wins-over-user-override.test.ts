@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { contract } from "../../../src";
 
-describe("builder/user-override-then-user-slot-append-no-effect", () => {
-	it("user slot append after user override has no effect", () => {
-		const $cls = contract()
+describe("builder/local-override-wins-over-user-override", () => {
+	it("local override replaces config override output", () => {
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
+			.bool("on")
 			.def()
 			.root({
 				root: {
@@ -15,14 +16,18 @@ describe("builder/user-override-then-user-slot-append-no-effect", () => {
 					],
 				},
 			})
+			.defaults({
+				on: true,
+			})
 			.cls();
 
-		const created = $cls.create(
+		const created = buttonCls.create(
 			{
+				override: true,
 				slot: {
 					root: {
 						class: [
-							"user-append",
+							"CONFIG-OVERRIDE",
 						],
 					},
 				},
@@ -32,12 +37,12 @@ describe("builder/user-override-then-user-slot-append-no-effect", () => {
 				slot: {
 					root: {
 						class: [
-							"USER-OVR",
+							"USER-OVERRIDE",
 						],
 					},
 				},
 			},
 		);
-		expect(created.slots.root()).toBe("base USER-OVR");
+		expect(created.slots.root()).toBe("base USER-OVERRIDE");
 	});
 });

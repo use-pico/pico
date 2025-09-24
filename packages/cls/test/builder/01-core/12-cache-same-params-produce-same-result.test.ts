@@ -3,9 +3,9 @@ import { contract } from "../../../src";
 
 describe("builder/cache-same-params-produce-same-result", () => {
 	it("returns same strings for identical tweaks (cache)", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.tokens([
-				"t1",
+				"primary",
 			])
 			.slots([
 				"root",
@@ -16,16 +16,16 @@ describe("builder/cache-same-params-produce-same-result", () => {
 			])
 			.def()
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.match("size", "sm", {
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"sm",
@@ -35,7 +35,7 @@ describe("builder/cache-same-params-produce-same-result", () => {
 			.match("size", "md", {
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"md",
@@ -47,16 +47,16 @@ describe("builder/cache-same-params-produce-same-result", () => {
 			})
 			.cls();
 
-		const a = $cls.create({
+		const firstResult = buttonCls.create({
 			variant: {
 				size: "md",
 			},
 		});
-		const b = $cls.create({
+		const secondResult = buttonCls.create({
 			variant: {
 				size: "md",
 			},
 		});
-		expect(a.slots.root()).toBe(b.slots.root());
+		expect(firstResult.slots.root()).toBe(secondResult.slots.root());
 	});
 });

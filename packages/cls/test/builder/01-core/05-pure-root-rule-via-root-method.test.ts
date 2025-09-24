@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { contract } from "../../../src";
 
-describe("builder/pure-root-rule-via-rule-helper", () => {
-	it("uses rule(undefined, ...) to add unconditional classes", () => {
-		const $cls = contract()
+describe("builder/pure-root-rule-via-root-method", () => {
+	it("uses .root() method to add unconditional classes", () => {
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -21,6 +21,6 @@ describe("builder/pure-root-rule-via-rule-helper", () => {
 			})
 			.cls();
 
-		expect($cls.create().slots.root()).toBe("base");
+		expect(buttonCls.create().slots.root()).toBe("base");
 	});
 });

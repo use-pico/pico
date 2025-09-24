@@ -5,7 +5,7 @@ describe("builder/fluent-contract-stepwise-types-retained", () => {
 	it("builds contract through multiple variables and retains types to cls", () => {
 		const step1 = contract();
 		const step2 = step1.tokens([
-			"t1",
+			"primary",
 		]);
 		const step3 = step2.slots([
 			"root",
@@ -15,19 +15,19 @@ describe("builder/fluent-contract-stepwise-types-retained", () => {
 			"sm",
 			"md",
 		]);
-		const built = step4
+		const buttonCls = step4
 			.def()
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -42,7 +42,7 @@ describe("builder/fluent-contract-stepwise-types-retained", () => {
 				},
 				icon: {
 					class: [
-						"i-sm",
+						"icon-sm",
 					],
 				},
 			})
@@ -54,7 +54,7 @@ describe("builder/fluent-contract-stepwise-types-retained", () => {
 				},
 				icon: {
 					class: [
-						"i-md",
+						"icon-md",
 					],
 				},
 			})
@@ -63,15 +63,15 @@ describe("builder/fluent-contract-stepwise-types-retained", () => {
 			})
 			.cls();
 
-		const a = built.create();
-		expect(a.slots.root()).toBe("a1 base sm");
-		expect(a.slots.icon()).toBe("i-sm");
-		const b = built.create({
+		const smallButton = buttonCls.create();
+		expect(smallButton.slots.root()).toBe("primary-styles base sm");
+		expect(smallButton.slots.icon()).toBe("icon-sm");
+		const mediumButton = buttonCls.create({
 			variant: {
 				size: "md",
 			},
 		});
-		expect(b.slots.root()).toBe("a1 base md");
-		expect(b.slots.icon()).toBe("i-md");
+		expect(mediumButton.slots.root()).toBe("primary-styles base md");
+		expect(mediumButton.slots.icon()).toBe("icon-md");
 	});
 });

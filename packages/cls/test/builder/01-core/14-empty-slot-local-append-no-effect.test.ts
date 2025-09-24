@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/empty-slot-local-append-no-effect", () => {
 	it("empty local slot append does not change output", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -21,7 +21,7 @@ describe("builder/empty-slot-local-append-no-effect", () => {
 			})
 			.cls();
 
-		const created = $cls.create({
+		const created = buttonCls.create({
 			slot: {
 				root: {
 					class: [],

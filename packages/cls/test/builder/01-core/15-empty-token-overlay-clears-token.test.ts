@@ -3,9 +3,9 @@ import { contract } from "../../../src";
 
 describe("builder/empty-token-overlay-clears-token", () => {
 	it("empty overlay on token clears that token only", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.tokens([
-				"t1",
+				"primary",
 			])
 			.slots([
 				"root",
@@ -13,16 +13,16 @@ describe("builder/empty-token-overlay-clears-token", () => {
 			.bool("on")
 			.def()
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -34,9 +34,9 @@ describe("builder/empty-token-overlay-clears-token", () => {
 			})
 			.cls();
 
-		const created = $cls.create({
+		const created = buttonCls.create(undefined, {
 			token: {
-				t1: {
+				primary: {
 					class: [],
 				},
 			},

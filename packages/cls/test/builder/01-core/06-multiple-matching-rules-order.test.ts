@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/multiple-matching-rules-order", () => {
 	it("applies rules in declaration order without overrides", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -38,6 +38,6 @@ describe("builder/multiple-matching-rules-order", () => {
 			})
 			.cls();
 
-		expect($cls.create().slots.root()).toBe("base md md-2");
+		expect(buttonCls.create().slots.root()).toBe("base md md-2");
 	});
 });

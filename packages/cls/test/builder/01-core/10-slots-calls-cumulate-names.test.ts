@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/slots-calls-cumulate-names", () => {
 	it("repeated slots() calls cumulate unique slot names", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -20,7 +20,7 @@ describe("builder/slots-calls-cumulate-names", () => {
 				},
 				icon: {
 					class: [
-						"i",
+						"icon",
 					],
 				},
 			})
@@ -29,8 +29,8 @@ describe("builder/slots-calls-cumulate-names", () => {
 			})
 			.cls();
 
-		const created = $cls.create();
+		const created = buttonCls.create();
 		expect(created.slots.root()).toBe("base");
-		expect(created.slots.icon()).toBe("i");
+		expect(created.slots.icon()).toBe("icon");
 	});
 });

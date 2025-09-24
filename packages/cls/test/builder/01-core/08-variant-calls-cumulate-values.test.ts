@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/variant-calls-cumulate-values", () => {
 	it("repeated variant() calls cumulate values, not override", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -40,9 +40,9 @@ describe("builder/variant-calls-cumulate-values", () => {
 			})
 			.cls();
 
-		expect($cls.create().slots.root()).toBe("base sm");
+		expect(buttonCls.create().slots.root()).toBe("base sm");
 		expect(
-			$cls
+			buttonCls
 				.create({
 					variant: {
 						size: "md",

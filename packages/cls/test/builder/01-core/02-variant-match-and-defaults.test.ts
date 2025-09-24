@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/variant-match-and-defaults", () => {
 	it("applies md rule when defaults set to md; sm otherwise", () => {
-		const def = contract()
+		const buttonDefinition = contract()
 			.slots([
 				"root",
 			])
@@ -30,10 +30,10 @@ describe("builder/variant-match-and-defaults", () => {
 				size: "md",
 			});
 
-		const $cls = def.cls();
-		expect($cls.create().slots.root()).toBe("md");
+		const buttonCls = buttonDefinition.cls();
+		expect(buttonCls.create().slots.root()).toBe("md");
 		expect(
-			$cls
+			buttonCls
 				.create({
 					variant: {
 						size: "sm",

@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 import { contract, definition } from "../../../src";
 
 describe("builder/contract-build-then-definition-cls", () => {
-	it("builds $contract, feeds into definition(), then .cls() and works", () => {
-		const $contract = contract()
+	it("builds buttonContract, feeds into definition(), then .cls() and works", () => {
+		const buttonContract = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			])
 			.slots([
 				"root",
@@ -18,55 +18,55 @@ describe("builder/contract-build-then-definition-cls", () => {
 			])
 			.build();
 
-		const $cls = definition($contract)
+		const buttonCls = definition(buttonContract)
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.match("size", "sm", {
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"r-sm",
+						"root-sm",
 					],
 				},
 				icon: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"i-sm",
+						"icon-sm",
 					],
 				},
 			})
 			.match("size", "md", {
 				root: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"r-md",
+						"root-md",
 					],
 				},
 				icon: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
-						"i-md",
+						"icon-md",
 					],
 				},
 			})
@@ -76,17 +76,21 @@ describe("builder/contract-build-then-definition-cls", () => {
 			.cls();
 
 		// defaults: size=md
-		const created = $cls.create();
-		expect(created.slots.root()).toBe("a2 r-md");
-		expect(created.slots.icon()).toBe("a2 a1 i-md");
+		const created = buttonCls.create();
+		expect(created.slots.root()).toBe("secondary-styles root-md");
+		expect(created.slots.icon()).toBe(
+			"secondary-styles primary-styles icon-md",
+		);
 
 		// override with size=sm
-		const sm = $cls.create({
+		const smallButton = buttonCls.create({
 			variant: {
 				size: "sm",
 			},
 		});
-		expect(sm.slots.root()).toBe("a2 a1 r-sm");
-		expect(sm.slots.icon()).toBe("a2 i-sm");
+		expect(smallButton.slots.root()).toBe(
+			"secondary-styles primary-styles root-sm",
+		);
+		expect(smallButton.slots.icon()).toBe("secondary-styles icon-sm");
 	});
 });

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, OVERRIDE } from "../../../src";
 
 describe("builder/rule-override-clears-multiple-slots", () => {
 	it("override rule clears both root and icon outputs", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 				"icon",
@@ -49,18 +49,18 @@ describe("builder/rule-override-clears-multiple-slots", () => {
 						],
 					},
 				},
-				true,
+				OVERRIDE,
 			)
 			.defaults({
 				on: true,
 			})
 			.cls();
 
-		const onCreated = $cls.create();
+		const onCreated = buttonCls.create();
 		expect(onCreated.slots.root()).toBe("base-root on-root");
 		expect(onCreated.slots.icon()).toBe("base-icon on-icon");
 
-		const offCreated = $cls.create({
+		const offCreated = buttonCls.create({
 			variant: {
 				on: false,
 			},

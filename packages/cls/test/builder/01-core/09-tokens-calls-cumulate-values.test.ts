@@ -3,34 +3,34 @@ import { contract } from "../../../src";
 
 describe("builder/tokens-calls-cumulate-values", () => {
 	it("repeated tokens() calls cumulate token names", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.tokens([
-				"t1",
+				"primary",
 			])
 			.tokens([
-				"t2",
+				"secondary",
 			])
 			.slots([
 				"root",
 			])
 			.def()
 			.token({
-				t1: {
+				primary: {
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
-				t2: {
+				secondary: {
 					class: [
-						"a2",
+						"secondary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
-						"t2",
+						"primary",
+						"secondary",
 					],
 					class: [
 						"base",
@@ -39,6 +39,8 @@ describe("builder/tokens-calls-cumulate-values", () => {
 			})
 			.cls();
 
-		expect($cls.create().slots.root()).toBe("a1 a2 base");
+		expect(buttonCls.create().slots.root()).toBe(
+			"primary-styles secondary-styles base",
+		);
 	});
 });

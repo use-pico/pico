@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/multi-matching-rules-across-slots-order", () => {
 	it("applies multiple matching rules in declaration order across slots", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 				"label",
@@ -21,31 +21,31 @@ describe("builder/multi-matching-rules-across-slots-order", () => {
 				},
 				label: {
 					class: [
-						"lbl",
+						"label-base",
 					],
 				},
 			})
 			.match("tone", "light", {
 				root: {
 					class: [
-						"r1",
+						"light-root-1",
 					],
 				},
 				label: {
 					class: [
-						"l1",
+						"light-label-1",
 					],
 				},
 			})
 			.match("tone", "light", {
 				root: {
 					class: [
-						"r2",
+						"light-root-2",
 					],
 				},
 				label: {
 					class: [
-						"l2",
+						"light-label-2",
 					],
 				},
 			})
@@ -54,8 +54,10 @@ describe("builder/multi-matching-rules-across-slots-order", () => {
 			})
 			.cls();
 
-		const created = $cls.create();
-		expect(created.slots.root()).toBe("base r1 r2");
-		expect(created.slots.label()).toBe("lbl l1 l2");
+		const created = buttonCls.create();
+		expect(created.slots.root()).toBe("base light-root-1 light-root-2");
+		expect(created.slots.label()).toBe(
+			"label-base light-label-1 light-label-2",
+		);
 	});
 });

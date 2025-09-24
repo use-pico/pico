@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 import { contract } from "../../../src";
 
 describe("builder/token-reference-and-user-overlay-order", () => {
-	it("expands t1->t2 and user overlay on t2 applies before rule class order", () => {
+	it("expands primary->secondary and user overlay on secondary applies before rule class order", () => {
 		// build with a trivial bool variant to satisfy builder type requirements
-		const $cls = contract()
+		const buttonCls = contract()
 			.tokens([
-				"t1",
-				"t2",
+				"primary",
+				"secondary",
 			]) // re-declare for new contract
 			.slots([
 				"root",
@@ -15,25 +15,25 @@ describe("builder/token-reference-and-user-overlay-order", () => {
 			.bool("on")
 			.def()
 			.token({
-				t2: {
+				secondary: {
 					class: [
-						"a2",
-						"b3",
+						"secondary-styles",
+						"secondary-extra",
 					],
 				},
-				t1: {
+				primary: {
 					token: [
-						"t2",
+						"secondary",
 					],
 					class: [
-						"a1",
+						"primary-styles",
 					],
 				},
 			})
 			.root({
 				root: {
 					token: [
-						"t1",
+						"primary",
 					],
 					class: [
 						"base",
@@ -44,18 +44,20 @@ describe("builder/token-reference-and-user-overlay-order", () => {
 				on: true,
 			})
 			.cls();
-		const { slots } = $cls.create();
-		expect(slots.root()).toBe("a2 b3 a1 base");
+		const { slots } = buttonCls.create();
+		expect(slots.root()).toBe(
+			"secondary-styles secondary-extra primary-styles base",
+		);
 		expect(
 			slots.root({
 				token: {
-					t2: {
+					secondary: {
 						class: [
-							"USER2",
+							"USER-SECONDARY",
 						],
 					},
 				},
 			}),
-		).toBe("USER2 a1 base");
+		).toBe("USER-SECONDARY primary-styles base");
 	});
 });

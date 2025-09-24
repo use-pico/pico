@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { contract } from "../../../src";
+import { contract, OVERRIDE } from "../../../src";
 
 describe("builder/rule-override-root-only-keeps-icon", () => {
 	it("override on root clears root but keeps icon", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 				"icon",
@@ -16,12 +16,12 @@ describe("builder/rule-override-root-only-keeps-icon", () => {
 			.root({
 				root: {
 					class: [
-						"r",
+						"root-base",
 					],
 				},
 				icon: {
 					class: [
-						"i",
+						"icon-base",
 					],
 				},
 			})
@@ -31,36 +31,36 @@ describe("builder/rule-override-root-only-keeps-icon", () => {
 				{
 					root: {
 						class: [
-							"R-OVR",
+							"ROOT-OVERRIDE",
 						],
 					},
 				},
-				true,
+				OVERRIDE,
 			)
 			.defaults({
 				size: "sm",
 			})
 			.cls();
 
-		expect($cls.create().slots.root()).toBe("r");
-		expect($cls.create().slots.icon()).toBe("i");
+		expect(buttonCls.create().slots.root()).toBe("root-base");
+		expect(buttonCls.create().slots.icon()).toBe("icon-base");
 		expect(
-			$cls
+			buttonCls
 				.create({
 					variant: {
 						size: "md",
 					},
 				})
 				.slots.root(),
-		).toBe("R-OVR");
+		).toBe("ROOT-OVERRIDE");
 		expect(
-			$cls
+			buttonCls
 				.create({
 					variant: {
 						size: "md",
 					},
 				})
 				.slots.icon(),
-		).toBe("i");
+		).toBe("icon-base");
 	});
 });

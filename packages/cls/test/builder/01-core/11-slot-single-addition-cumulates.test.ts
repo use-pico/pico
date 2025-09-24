@@ -3,7 +3,7 @@ import { contract } from "../../../src";
 
 describe("builder/slot-single-addition-cumulates", () => {
 	it("slot() adds a single slot on top of existing ones", () => {
-		const $cls = contract()
+		const buttonCls = contract()
 			.slots([
 				"root",
 			])
@@ -17,14 +17,14 @@ describe("builder/slot-single-addition-cumulates", () => {
 				},
 				icon: {
 					class: [
-						"i",
+						"icon",
 					],
 				},
 			})
 			.cls();
 
-		const created = $cls.create();
+		const created = buttonCls.create();
 		expect(created.slots.root()).toBe("base");
-		expect(created.slots.icon()).toBe("i");
+		expect(created.slots.icon()).toBe("icon");
 	});
 });
