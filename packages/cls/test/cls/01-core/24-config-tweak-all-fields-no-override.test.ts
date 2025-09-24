@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/config-tweak-all-fields-no-override", () => {
-	it("applies config variant, token and slot; config slot before user", () => {
+	it("applies config variant, token, and slot classes (config slot appends)", () => {
 		const $cls = cls(
 			{
 				tokens: [

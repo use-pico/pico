@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/user-tweak-all-fields-no-override", () => {
-	it("applies user variant, token and slot; appends user slot last", () => {
+	it("applies user variant, token, and slot classes (user slot appends last)", () => {
 		const $cls = cls(
 			{
 				tokens: [

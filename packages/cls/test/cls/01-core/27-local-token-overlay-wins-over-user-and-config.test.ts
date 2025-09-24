@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/local-token-overlay-wins-over-user-and-config", () => {
-	it("local token overlay takes precedence over user and config token", () => {
+	it("config token wins over user token, local token overlay wins over both", () => {
 		const $cls = cls(
 			{
 				tokens: [

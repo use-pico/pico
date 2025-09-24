@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/slots-local-all-fields-no-override", () => {
-	it("merges local (slot call) variant, token and slot with create tweaks", () => {
-		const $cls = cls(
+	it("merges local (slot call) variant, token, and slot with create tweaks", () => {
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -58,7 +58,7 @@ describe("cls/slots-local-all-fields-no-override", () => {
 			},
 		);
 
-		const { slots } = $cls.create(undefined, {
+		const { slots } = buttonCls.create(undefined, {
 			slot: {
 				root: {
 					class: [

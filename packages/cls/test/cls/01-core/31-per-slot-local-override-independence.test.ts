@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/per-slot-local-override-independence", () => {
 	it("local override on one slot does not affect other slots", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -34,7 +34,7 @@ describe("cls/per-slot-local-override-independence", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("root-base");
 		expect(slots.icon()).toBe("icon-base");
 

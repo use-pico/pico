@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/config-tweak-all-fields", () => {
-	it("applies config variant, token, slot and slot classes (config slot appends)", () => {
+	it("applies config variant, token, and slot classes (config slot appends)", () => {
 		const $cls = cls(
 			{
 				tokens: [

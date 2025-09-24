@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/multi-matching-rules-no-override-order", () => {
 	it("applies multiple matching rules in order without overrides", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -64,7 +64,7 @@ describe("cls/multi-matching-rules-no-override-order", () => {
 			},
 		);
 
-		const { slots } = $cls.create({
+		const { slots } = buttonCls.create({
 			variant: {
 				size: "md",
 				active: "on",

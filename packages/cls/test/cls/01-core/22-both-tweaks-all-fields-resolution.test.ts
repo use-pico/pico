@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/both-tweaks-all-fields-resolution", () => {
-	it("resolves variant, token, slot and override with correct precedence", () => {
+	it("config override wins over user override with correct precedence", () => {
 		const $cls = cls(
 			{
 				tokens: [

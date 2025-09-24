@@ -3,7 +3,7 @@ import { cls } from "../../../src";
 
 describe("cls/default-variant-rule-applies", () => {
 	it("applies rule based on defaults when no variant provided", () => {
-		const $cls = cls(
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -47,7 +47,7 @@ describe("cls/default-variant-rule-applies", () => {
 			},
 		);
 
-		const { slots } = $cls.create();
+		const { slots } = buttonCls.create();
 		expect(slots.root()).toBe("base sm");
 	});
 });

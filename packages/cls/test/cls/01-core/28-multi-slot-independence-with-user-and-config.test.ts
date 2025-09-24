@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/multi-slot-independence-with-user-and-config", () => {
-	it("applies tweaks independently per slot with correct order", () => {
-		const $cls = cls(
+	it("applies tweaks independently per slot with correct order (config before user)", () => {
+		const buttonCls = cls(
 			{
 				tokens: [],
 				slot: [
@@ -58,7 +58,7 @@ describe("cls/multi-slot-independence-with-user-and-config", () => {
 			},
 		);
 
-		const { slots } = $cls.create(
+		const { slots } = buttonCls.create(
 			{
 				variant: {
 					size: "md",

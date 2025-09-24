@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/create-internal-variant-undefined-prefers-user", () => {
-	it("uses user variant when internal variant is undefined", () => {
+	it("user variant wins when config variant is undefined", () => {
 		const $cls = cls(
 			{
 				tokens: [],

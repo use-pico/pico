@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/token-array-classes", () => {
-	it("token with multiple classes should merge correctly", () => {
-		const $cls = cls(
+	it("token with multiple classes merges correctly", () => {
+		const buttonCls = cls(
 			{
 				tokens: [
 					"color.text",
@@ -42,7 +42,9 @@ describe("cls/token-array-classes", () => {
 		);
 
 		// Test parameter-less create first
-		const { slots: baseSlots } = $cls.create();
-		expect(baseSlots.root()).toBe("text-red-500 bg-blue-500 root-1 root-2");
+		const { slots: baseResult } = buttonCls.create();
+		expect(baseResult.root()).toBe(
+			"text-red-500 bg-blue-500 root-1 root-2",
+		);
 	});
 });

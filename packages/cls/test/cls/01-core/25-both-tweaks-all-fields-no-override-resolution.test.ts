@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { cls } from "../../../src";
 
 describe("cls/both-tweaks-all-fields-no-override-resolution", () => {
-	it("resolves variant, token and slot without overrides (user wins for variant/token)", () => {
+	it("resolves variant, token and slot without overrides (user wins variant, config wins token)", () => {
 		const $cls = cls(
 			{
 				tokens: [
