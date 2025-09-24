@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Tx } from "@use-pico/client";
+import { Container, Fade, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
-import { Fade } from "node_modules/@use-pico/client/src/scrollable/Fade";
 import { type ReactNode, useRef } from "react";
 
 const Section = ({
