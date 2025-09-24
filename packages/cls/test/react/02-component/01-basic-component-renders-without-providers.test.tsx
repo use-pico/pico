@@ -26,9 +26,7 @@ const BoxCls = contract()
 interface BoxProps extends Cls.Props<typeof BoxCls>, PropsWithChildren {}
 
 const BaseBox: FC<BoxProps> = ({ cls = BoxCls, tweak, children }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	return (
 		<div
 			data-ui="Box-root"

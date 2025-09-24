@@ -57,9 +57,7 @@ const BaseCircularComponent: FC<CircularProps> = ({
 	cls = CircularTokens,
 	tweak,
 }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	return (
 		<div
 			data-ui="Circular-root"

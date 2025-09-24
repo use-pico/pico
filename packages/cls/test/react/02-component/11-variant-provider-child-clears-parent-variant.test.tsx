@@ -95,9 +95,7 @@ interface ButtonProps extends Cls.Props<typeof ButtonCls> {
 }
 
 const BaseButton: FC<ButtonProps> = ({ cls = ButtonCls, tweak, children }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	return (
 		<button
 			type="button"

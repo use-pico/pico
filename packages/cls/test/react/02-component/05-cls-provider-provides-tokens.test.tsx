@@ -57,9 +57,7 @@ interface LabelProps extends Cls.Props<typeof LabelCls> {
 }
 
 const BaseLabel: FC<LabelProps> = ({ cls = LabelCls, tweak, children }) => {
-	const { slots } = useCls(cls, [
-		tweak,
-	]);
+	const { slots } = useCls(cls, tweak);
 	return (
 		<span
 			data-ui="Label-root"
