@@ -40,7 +40,17 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									theme="light"
 									round="md"
 									square="md"
-									className="flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx label="Full Height Container" />
 								</Container>
@@ -61,7 +71,17 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									theme="light"
 									round="md"
 									square="md"
-									className="flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx label="Dynamic Viewport Height" />
 								</Container>
@@ -82,7 +102,17 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 								theme="light"
 								round="md"
 								square="md"
-								className="flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Auto Height - fits content" />
 							</Container>
@@ -112,7 +142,17 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 								theme="light"
 								round="md"
 								square="md"
-								className="flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Full Width Container" />
 							</Container>
@@ -133,7 +173,18 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									theme="light"
 									round="md"
 									square="md"
-									className="flex items-center justify-center min-w-max"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"flex",
+													"items-center",
+													"justify-center",
+													"min-w-max",
+												],
+											},
+										},
+									}}
 								>
 									<Tx label="Dynamic Viewport Width (may overflow)" />
 								</Container>
@@ -154,7 +205,17 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 								theme="light"
 								round="md"
 								square="md"
-								className="flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Auto Width" />
 							</Container>
@@ -200,7 +261,15 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									tone="primary"
 									theme="light"
 									round="md"
-									className="h-40"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-40",
+												],
+											},
+										},
+									}}
 								>
 									<div className="bg-blue-100 border border-blue-200 rounded p-2 text-center text-xs">
 										Item 1
@@ -253,7 +322,15 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									tone="secondary"
 									theme="light"
 									round="md"
-									className="w-full"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"w-full",
+												],
+											},
+										},
+									}}
 								>
 									<div className="bg-teal-100 border border-teal-200 rounded text-center text-xs py-2">
 										Content with {squareSize} padding
@@ -286,7 +363,18 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									theme="light"
 									round="md"
 									square="md"
-									className="h-full flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-full",
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx label="Relative Container" />
 									<div className="absolute top-2 right-2 bg-yellow-200 text-xs px-2 py-1 rounded">
@@ -310,7 +398,21 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									theme="light"
 									round="md"
 									square="sm"
-									className="top-4 left-4 right-4 bottom-4 flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"top-4",
+													"left-4",
+													"right-4",
+													"bottom-4",
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx label="Absolute Container" />
 								</Container>

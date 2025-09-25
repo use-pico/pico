@@ -92,7 +92,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 									border="default"
 									round="md"
 									square="md"
-									className="h-20 flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-20",
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx
 										label={tone}
@@ -132,7 +143,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 											border="default"
 											round="md"
 											square="sm"
-											className="h-16 flex items-center justify-center"
+											tweak={{
+												slot: {
+													root: {
+														class: [
+															"h-16",
+															"flex",
+															"items-center",
+															"justify-center",
+														],
+													},
+												},
+											}}
 										>
 											<Tx
 												label={`${tone} ${theme}`}
@@ -174,7 +196,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 									theme="light"
 									round="md"
 									square="md"
-									className="h-20 flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-20",
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx
 										label={`${borderSize} border`}
@@ -214,7 +247,19 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 									theme="light"
 									round="md"
 									square="md"
-									className="h-20 flex items-center justify-center bg-white"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-20",
+													"flex",
+													"items-center",
+													"justify-center",
+													"bg-white",
+												],
+											},
+										},
+									}}
 								>
 									<Tx
 										label={`${shadowSize} shadow`}
@@ -250,7 +295,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 									theme="light"
 									border="default"
 									square="md"
-									className="h-20 flex items-center justify-center"
+									tweak={{
+										slot: {
+											root: {
+												class: [
+													"h-20",
+													"flex",
+													"items-center",
+													"justify-center",
+												],
+											},
+										},
+									}}
 								>
 									<Tx
 										label={roundSize}
@@ -287,7 +343,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 								shadow="md"
 								round="lg"
 								square="lg"
-								className="h-32 flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Card Style Container" />
 							</Container>
@@ -305,7 +372,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 								border="lg"
 								round="md"
 								square="md"
-								className="h-32 flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Alert Style Container" />
 							</Container>
@@ -324,7 +402,21 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 								shadow="default"
 								round="full"
 								square="lg"
-								className="h-16 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-16",
+												"flex",
+												"items-center",
+												"justify-center",
+												"cursor-pointer",
+												"hover:scale-105",
+												"transition-transform",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Button Style Container" />
 							</Container>
@@ -343,7 +435,18 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 								shadow="lg"
 								round="xl"
 								square="lg"
-								className="h-32 flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Dark Theme Container" />
 							</Container>

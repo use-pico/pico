@@ -70,7 +70,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="neutral"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{items}
 							</Container>
@@ -101,7 +109,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="secondary"
 								theme="light"
 								round="md"
-								className="h-64"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-64",
+											],
+										},
+									},
+								}}
 							>
 								{verticalItems}
 							</Container>
@@ -132,7 +148,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="warning"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{items}
 							</Container>
@@ -153,7 +177,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="danger"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{items}
 							</Container>
@@ -174,7 +206,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="link"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{items}
 							</Container>
@@ -205,7 +245,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="primary"
 								theme="light"
 								round="md"
-								className="h-48"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-48",
+											],
+										},
+									},
+								}}
 							>
 								{verticalItems}
 							</Container>
@@ -226,7 +274,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="secondary"
 								theme="light"
 								round="md"
-								className="h-48"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-48",
+											],
+										},
+									},
+								}}
 							>
 								{verticalItems}
 							</Container>
@@ -247,7 +303,15 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								tone="subtle"
 								theme="light"
 								round="md"
-								className="h-48"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-48",
+											],
+										},
+									},
+								}}
 							>
 								{verticalItems}
 							</Container>

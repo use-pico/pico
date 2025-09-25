@@ -54,7 +54,15 @@ export const Route = createFileRoute(
 							tone="neutral"
 							theme="light"
 							round="md"
-							className="h-32"
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"h-32",
+										],
+									},
+								},
+							}}
 						>
 							{sampleItems}
 						</Container>
@@ -83,7 +91,15 @@ export const Route = createFileRoute(
 								tone="primary"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{sampleItems}
 							</Container>
@@ -103,7 +119,15 @@ export const Route = createFileRoute(
 								tone="secondary"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								{sampleItems.slice(0, 3)}
 							</Container>
@@ -133,7 +157,15 @@ export const Route = createFileRoute(
 								tone="warning"
 								theme="light"
 								round="md"
-								className="h-64"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-64",
+											],
+										},
+									},
+								}}
 							>
 								{sampleItems}
 							</Container>
@@ -153,7 +185,15 @@ export const Route = createFileRoute(
 								tone="danger"
 								theme="light"
 								round="md"
-								className="h-64"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-64",
+											],
+										},
+									},
+								}}
 							>
 								{sampleItems.slice(0, 3)}
 							</Container>
@@ -188,7 +228,15 @@ export const Route = createFileRoute(
 								tone="link"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								<div className="bg-purple-100 border border-purple-200 rounded p-2 text-center text-sm">
 									Column Item
@@ -214,7 +262,15 @@ export const Route = createFileRoute(
 								tone="subtle"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								<div className="bg-amber-100 border border-amber-200 rounded p-2 text-center text-sm">
 									Row Item 1
@@ -240,7 +296,15 @@ export const Route = createFileRoute(
 								tone="primary"
 								theme="light"
 								round="md"
-								className="h-32"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+											],
+										},
+									},
+								}}
 							>
 								<div className="bg-rose-100 border border-rose-200 rounded p-2 text-center text-sm flex items-center justify-center">
 									Full Item

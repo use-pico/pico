@@ -31,7 +31,21 @@ export const Route = createFileRoute("/$locale/components/container/")({
 								size="sm"
 								font="semi"
 							/>
-							<Container className="bg-gray-100 h-32 flex items-center justify-center">
+							<Container
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"bg-gray-100",
+												"h-32",
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
+							>
 								<Tx label="Default Container" />
 							</Container>
 						</div>
@@ -48,7 +62,18 @@ export const Route = createFileRoute("/$locale/components/container/")({
 								border="default"
 								round="md"
 								square="md"
-								className="h-32 flex items-center justify-center"
+								tweak={{
+									slot: {
+										root: {
+											class: [
+												"h-32",
+												"flex",
+												"items-center",
+												"justify-center",
+											],
+										},
+									},
+								}}
 							>
 								<Tx label="Themed Container" />
 							</Container>
@@ -195,7 +220,15 @@ type BorderVariant = Cls.VariantOf<ContainerCls, "border">;
 							border="default"
 							round="md"
 							square="md"
-							className="text-center"
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"text-center",
+										],
+									},
+								},
+							}}
 						>
 							<Tx
 								label="📐 Overflow & Snap"
@@ -214,7 +247,15 @@ type BorderVariant = Cls.VariantOf<ContainerCls, "border">;
 							border="default"
 							round="md"
 							square="md"
-							className="text-center"
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"text-center",
+										],
+									},
+								},
+							}}
 						>
 							<Tx
 								label="🔄 Orientation"
@@ -233,7 +274,15 @@ type BorderVariant = Cls.VariantOf<ContainerCls, "border">;
 							border="default"
 							round="md"
 							square="md"
-							className="text-center"
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"text-center",
+										],
+									},
+								},
+							}}
 						>
 							<Tx
 								label="📏 Sizing"
@@ -252,7 +301,15 @@ type BorderVariant = Cls.VariantOf<ContainerCls, "border">;
 							border="default"
 							round="md"
 							square="md"
-							className="text-center"
+							tweak={{
+								slot: {
+									root: {
+										class: [
+											"text-center",
+										],
+									},
+								},
+							}}
 						>
 							<Tx
 								label="🎨 Design & Theming"

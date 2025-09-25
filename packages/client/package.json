@@ -17,7 +17,7 @@
 		"@standard-schema/spec": "1.0.0",
 		"@tanstack/react-form": "1.23.2",
 		"@tanstack/react-query": "5.90.2",
-		"@tanstack/react-router": "1.132.2",
+		"@tanstack/react-router": "1.132.6",
 		"@types/luxon": "^3.6.2",
 		"@use-pico/cls": "5.0.41",
 		"@use-pico/common": "5.0.47",
