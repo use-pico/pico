@@ -16,9 +16,10 @@ export const ContainerCls = contract(PicoCls.contract)
 		"dvw",
 		"auto",
 	])
-	.variant("orientation", [
+	.variant("layout", [
 		"unset",
 		"vertical",
+		"vertical-header-content-footer",
 		"vertical-full",
 		"horizontal",
 		"horizontal-full",
@@ -152,8 +153,8 @@ export const ContainerCls = contract(PicoCls.contract)
 			],
 		},
 	})
-	// Orientation
-	.match("orientation", "horizontal", {
+	// Layout
+	.match("layout", "horizontal", {
 		root: {
 			class: [
 				"Container-root-orientation[horizontal]",
@@ -164,7 +165,7 @@ export const ContainerCls = contract(PicoCls.contract)
 			],
 		},
 	})
-	.match("orientation", "horizontal-full", {
+	.match("layout", "horizontal-full", {
 		root: {
 			class: [
 				"Container-root-orientation[horizontal-full]",
@@ -179,7 +180,7 @@ export const ContainerCls = contract(PicoCls.contract)
 			],
 		},
 	})
-	.match("orientation", "vertical", {
+	.match("layout", "vertical", {
 		root: {
 			class: [
 				"Container-root-orientation[vertical]",
@@ -190,7 +191,17 @@ export const ContainerCls = contract(PicoCls.contract)
 			],
 		},
 	})
-	.match("orientation", "vertical-full", {
+	.match("layout", "vertical-header-content-footer", {
+		root: {
+			class: [
+				"Container-root-orientation[vertical-header-content-footer]",
+				"grid",
+				"grid-rows-[min-content_1fr_min-content]",
+				"grid-cols-1",
+			],
+		},
+	})
+	.match("layout", "vertical-full", {
 		root: {
 			class: [
 				"Container-root-orientation[vertical-full]",
@@ -803,7 +814,7 @@ export const ContainerCls = contract(PicoCls.contract)
 		theme: "unset",
 		height: "full",
 		width: "full",
-		orientation: "unset",
+		layout: "unset",
 		overflow: "unset",
 		snap: "unset",
 		item: "unset",
@@ -819,5 +830,5 @@ export const ContainerCls = contract(PicoCls.contract)
 export type ContainerCls = typeof ContainerCls;
 
 export namespace ContainerCls {
-	export type Props<P = unknown> = Cls.Props<ContainerCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<ContainerCls, P>;
 }

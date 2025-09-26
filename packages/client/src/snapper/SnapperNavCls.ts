@@ -210,5 +210,5 @@ export const SnapperNavCls = contract(PicoCls.contract)
 export type SnapperNavCls = typeof SnapperNavCls;
 
 export namespace SnapperNavCls {
-	export type Props<P = unknown> = Cls.Props<SnapperNavCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<SnapperNavCls, P>;
 }

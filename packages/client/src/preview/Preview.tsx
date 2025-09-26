@@ -1,7 +1,7 @@
 import { useCls, withCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC, Ref } from "react";
-import { InlineContext } from "../context/InlineContext";
+import { InlineContext } from "../inline/InlineContext";
 import { PreviewCls } from "./PreviewCls";
 
 export namespace Preview {

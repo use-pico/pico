@@ -23,7 +23,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-tweak", () => {
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
@@ -35,7 +35,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-tweak", () => {
 				},
 				icon: {
 					class: [
-						"i-md",
+						"icon-medium-size",
 					],
 				},
 			})
@@ -64,7 +64,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-tweak", () => {
 					slot: {
 						root: {
 							class: [
-								"USER-OVR",
+								"user-override-class",
 							],
 						},
 					},
@@ -75,8 +75,8 @@ describe("react/01-core/user-tweak-override-wins-over-context-tweak", () => {
 		);
 
 		// User tweak-level override should replace only the root slot classes
-		expect(result.current.slots.root()).toBe("base md USER-OVR");
+		expect(result.current.slots.root()).toBe("base md user-override-class");
 		// Icon should still get context variant since user didn't override it
-		expect(result.current.slots.icon()).toBe("i-base i-md");
+		expect(result.current.slots.icon()).toBe("icon-base icon-medium-size");
 	});
 });

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
 	type Cls,
 	contract,
-	TokenContext,
+	TokenProvider,
 	useCls,
 	withCls,
 } from "../../../src";
@@ -18,7 +18,7 @@ const ThemeTokens = contract()
 	.token({
 		t1: {
 			class: [
-				"CTX1",
+				"theme-primary-color",
 			],
 		},
 	})
@@ -36,7 +36,7 @@ const LabelCls = contract()
 	.token({
 		t1: {
 			class: [
-				"LOCAL1",
+				"component-default-color",
 			],
 		},
 	})
@@ -46,7 +46,7 @@ const LabelCls = contract()
 				"t1",
 			],
 			class: [
-				"base",
+				"label-base",
 			],
 		},
 	})
@@ -73,25 +73,25 @@ const Label = withCls(BaseLabel, LabelCls);
 describe("react/02-component/cls-provider-provides-tokens", () => {
 	it("provider tokens apply when not overridden; component tokens win when provided via tweak", () => {
 		const { container, rerender } = render(
-			<TokenContext value={ThemeTokens}>
+			<TokenProvider cls={ThemeTokens}>
 				<Label>no-override</Label>
-			</TokenContext>,
+			</TokenProvider>,
 		);
 
 		const root = () =>
 			container.querySelector('[data-ui="Label-root"]') as HTMLElement;
 		// Provider token t1 replaces component default token t1; base class remains
-		expect(root().className).toBe("LOCAL1 base");
+		expect(root().className).toBe("theme-primary-color label-base");
 
 		// Now override tokens via component tweak; user token wins over provider token
 		rerender(
-			<TokenContext value={ThemeTokens}>
+			<TokenProvider cls={ThemeTokens}>
 				<Label
 					tweak={{
 						token: {
 							t1: {
 								class: [
-									"USER1",
+									"user-custom-color",
 								],
 							},
 						},
@@ -99,8 +99,10 @@ describe("react/02-component/cls-provider-provides-tokens", () => {
 				>
 					user
 				</Label>
-			</TokenContext>,
+			</TokenProvider>,
 		);
-		expect(root().className).toBe("USER1 base");
+		expect(root().className).toBe(
+			"theme-primary-color user-custom-color label-base",
+		);
 	});
 });

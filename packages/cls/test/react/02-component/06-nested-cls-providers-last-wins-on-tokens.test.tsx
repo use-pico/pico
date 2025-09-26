@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -15,7 +15,7 @@ const BadgeCls = contract()
 	.token({
 		t2: {
 			class: [
-				"T2",
+				"badge-default-accent-color",
 			],
 		},
 		t1: {
@@ -23,7 +23,7 @@ const BadgeCls = contract()
 				"t2",
 			],
 			class: [
-				"T1",
+				"badge-default-primary-color",
 			],
 		},
 	})
@@ -33,7 +33,7 @@ const BadgeCls = contract()
 				"t1",
 			],
 			class: [
-				"B",
+				"badge-default-base",
 			],
 		},
 	})
@@ -51,19 +51,19 @@ const ProviderA = contract()
 	.token({
 		t2: {
 			class: [
-				"A2",
+				"theme-provider-a-accent",
 			],
 		},
 		t1: {
 			class: [
-				"A1",
+				"theme-provider-a-primary",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"A",
+				"badge-provider-a-base",
 			],
 		},
 	})
@@ -81,19 +81,19 @@ const ProviderB = contract()
 	.token({
 		t2: {
 			class: [
-				"B2",
+				"theme-provider-b-accent",
 			],
 		},
 		t1: {
 			class: [
-				"B1",
+				"theme-provider-b-primary",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"B",
+				"badge-provider-b-base",
 			],
 		},
 	})
@@ -118,18 +118,42 @@ const BaseBadge: FC<BadgeProps> = ({ cls = BadgeCls, children }) => {
 const Badge = withCls(BaseBadge, BadgeCls);
 
 describe("react/02-component/nested-cls-providers-last-wins-on-tokens", () => {
-	it("innermost ClsProvider tokens are used for token chain expansion", () => {
-		const { container } = render(
-			<TokenContext value={ProviderA}>
-				<TokenContext value={ProviderB}>
-					<Badge>content</Badge>
-				</TokenContext>
-			</TokenContext>,
-		);
-		const root = container.querySelector(
+	it("TokenProvider overrides component tokens and nested providers work correctly", () => {
+		// Test 1: Without TokenProvider - uses default tokens
+		const { container: container1 } = render(<Badge>content</Badge>);
+		const root1 = container1.querySelector(
 			'[data-ui="Badge-root"]',
 		) as HTMLElement;
-		// Innermost ProviderB tokens win: t1->B1; since ProviderB.t1 has no token refs, t2 isn't expanded
-		expect(root?.className).toBe("T2 T1 B");
+		expect(root1?.className).toBe(
+			"badge-default-accent-color badge-default-primary-color badge-default-base",
+		);
+
+		// Test 2: With TokenProvider - uses provider tokens
+		const { container: container2 } = render(
+			<TokenProvider cls={ProviderA}>
+				<Badge>content</Badge>
+			</TokenProvider>,
+		);
+		const root2 = container2.querySelector(
+			'[data-ui="Badge-root"]',
+		) as HTMLElement;
+		expect(root2?.className).toBe(
+			"theme-provider-a-primary badge-default-base",
+		);
+
+		// Test 3: Nested TokenProviders - innermost ProviderB wins
+		const { container: container3 } = render(
+			<TokenProvider cls={ProviderA}>
+				<TokenProvider cls={ProviderB}>
+					<Badge>content</Badge>
+				</TokenProvider>
+			</TokenProvider>,
+		);
+		const root3 = container3.querySelector(
+			'[data-ui="Badge-root"]',
+		) as HTMLElement;
+		expect(root3?.className).toBe(
+			"theme-provider-b-primary badge-default-base",
+		);
 	});
 });

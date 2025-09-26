@@ -254,7 +254,7 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 									font="semi"
 								/>
 								<Container
-									orientation="vertical"
+									layout="vertical"
 									gap={gapSize}
 									square="sm"
 									border="default"
@@ -454,7 +454,7 @@ type PositionVariant = Cls.VariantOf<ContainerCls, "position">;
 <Container 
   height="full"
   width="full"
-  orientation="vertical"
+  layout="vertical"
   gap="lg"
   square="xl"
   position="relative"

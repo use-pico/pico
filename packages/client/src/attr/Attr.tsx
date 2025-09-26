@@ -1,6 +1,6 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import { type FC, type Ref, useContext } from "react";
-import { InlineContext } from "../context/InlineContext";
+import { InlineContext } from "../inline/InlineContext";
 import { Typo } from "../typo/Typo";
 import type { TypoCls } from "../typo/TypoCls";
 import { AttrCls } from "./AttrCls";

@@ -24,12 +24,12 @@ describe("react/01-core/user-what-override-wins-over-context-multiple-slots", ()
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 				label: {
 					class: [
-						"l-base",
+						"label-base",
 					],
 				},
 			})
@@ -41,12 +41,12 @@ describe("react/01-core/user-what-override-wins-over-context-multiple-slots", ()
 				},
 				icon: {
 					class: [
-						"i-md",
+						"icon-medium-size",
 					],
 				},
 				label: {
 					class: [
-						"l-md",
+						"label-medium-size",
 					],
 				},
 			})
@@ -74,7 +74,7 @@ describe("react/01-core/user-what-override-wins-over-context-multiple-slots", ()
 					slot: {
 						icon: {
 							class: [
-								"USER-ICON-OVR",
+								"user-icon-override-class",
 							],
 							override: true,
 						},
@@ -87,8 +87,10 @@ describe("react/01-core/user-what-override-wins-over-context-multiple-slots", ()
 
 		// Root and label should get context variant
 		expect(result.current.slots.root()).toBe("base md");
-		expect(result.current.slots.label()).toBe("l-base l-md");
+		expect(result.current.slots.label()).toBe(
+			"label-base label-medium-size",
+		);
 		// Icon should be overridden by user
-		expect(result.current.slots.icon()).toBe("USER-ICON-OVR");
+		expect(result.current.slots.icon()).toBe("user-icon-override-class");
 	});
 });

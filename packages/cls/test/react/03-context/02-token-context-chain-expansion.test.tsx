@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls, withCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -33,7 +33,7 @@ const BadgeCls = contract()
 				"t1",
 			],
 			class: [
-				"B",
+				"badge-base",
 			],
 		},
 	})
@@ -51,7 +51,7 @@ const Provider = contract()
 	.token({
 		t2: {
 			class: [
-				"P2",
+				"theme-accent-color",
 			],
 		},
 		t1: {
@@ -59,14 +59,14 @@ const Provider = contract()
 				"t2",
 			],
 			class: [
-				"P1",
+				"theme-primary-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"P",
+				"badge-base",
 			],
 		},
 	})
@@ -91,13 +91,15 @@ const Badge = withCls(BaseBadge, BadgeCls);
 describe("react/03-context/token-context-chain-expansion", () => {
 	it("expands provider token chains t1->t2 when referenced by component", () => {
 		const { container } = render(
-			<TokenContext value={Provider}>
+			<TokenProvider cls={Provider}>
 				<Badge />
-			</TokenContext>,
+			</TokenProvider>,
 		);
 		const root = container.querySelector(
 			'[data-ui="Badge-root"]',
 		) as HTMLElement;
-		expect(root?.className).toBe("DEF2 DEF1 B");
+		expect(root?.className).toBe(
+			"theme-accent-color theme-primary-color badge-base",
+		);
 	});
 });

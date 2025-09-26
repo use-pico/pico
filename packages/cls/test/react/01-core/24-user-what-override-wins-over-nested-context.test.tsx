@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, VariantProvider } from "../../../src";
+import { contract, TokenProvider, useCls, VariantProvider } from "../../../src";
 
 describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 	it("user What-level override wins over nested context providers (token + variant)", () => {
@@ -26,7 +26,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
@@ -45,7 +45,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 				},
 				icon: {
 					class: [
-						"i-md",
+						"icon-medium-size",
 					],
 				},
 			})
@@ -55,7 +55,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 			.cls();
 
 		// Create a token provider
-		const TokenProvider = contract()
+		const TokenProviderCls = contract()
 			.tokens([
 				"color.text",
 			])
@@ -87,7 +87,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 
 		// Nested context providers
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TokenContext value={TokenProvider}>
+			<TokenProvider cls={TokenProviderCls}>
 				<VariantProvider
 					cls={$cls}
 					variant={{
@@ -96,7 +96,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 				>
 					{children}
 				</VariantProvider>
-			</TokenContext>
+			</TokenProvider>
 		);
 
 		// User provides What-level override that should win over all context
@@ -106,7 +106,7 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 					slot: {
 						root: {
 							class: [
-								"USER-OVR",
+								"user-override-class",
 							],
 							override: true,
 						},
@@ -118,8 +118,8 @@ describe("react/01-core/user-what-override-wins-over-nested-context", () => {
 		);
 
 		// User What-level override should replace all accumulated classes (base + token + variant)
-		expect(result.current.slots.root()).toBe("USER-OVR");
+		expect(result.current.slots.root()).toBe("user-override-class");
 		// Icon should still get context variant since user didn't override it
-		expect(result.current.slots.icon()).toBe("i-base i-md");
+		expect(result.current.slots.icon()).toBe("icon-base icon-medium-size");
 	});
 });

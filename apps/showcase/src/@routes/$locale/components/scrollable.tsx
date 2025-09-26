@@ -43,7 +43,7 @@ const ScrollableDemo = ({
 
 					<Container
 						ref={scrollableRef}
-						orientation={"vertical"}
+						layout={"vertical"}
 						overflow={"vertical"}
 					>
 						<div

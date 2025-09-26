@@ -326,5 +326,5 @@ export const BadgeCls = contract(PicoCls.contract)
 export type BadgeCls = typeof BadgeCls;
 
 export namespace BadgeCls {
-	export type Props<P = unknown> = Cls.Props<BadgeCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<BadgeCls, P>;
 }

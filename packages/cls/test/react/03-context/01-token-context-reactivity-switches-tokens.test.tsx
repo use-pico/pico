@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls, withCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -14,7 +14,7 @@ const LabelCls = contract()
 	.token({
 		t1: {
 			class: [
-				"DEF",
+				"label-default-color",
 			],
 		},
 	})
@@ -24,7 +24,7 @@ const LabelCls = contract()
 				"t1",
 			],
 			class: [
-				"R",
+				"label-base",
 			],
 		},
 	})
@@ -41,14 +41,14 @@ const ProviderA = contract()
 	.token({
 		t1: {
 			class: [
-				"A1",
+				"theme-primary-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"A",
+				"label-base",
 			],
 		},
 	})
@@ -65,14 +65,14 @@ const ProviderB = contract()
 	.token({
 		t1: {
 			class: [
-				"B1",
+				"theme-secondary-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"B",
+				"label-base",
 			],
 		},
 	})
@@ -95,21 +95,21 @@ const BaseLabel: FC<LabelProps> = ({ cls = LabelCls }) => {
 const Label = withCls(BaseLabel, LabelCls);
 
 describe("react/03-context/token-context-reactivity-switches-tokens", () => {
-	it("switches tokens when TokenContext value changes", () => {
+	it("switches tokens when TokenProvider cls changes", () => {
 		const { container, rerender } = render(
-			<TokenContext value={ProviderA}>
+			<TokenProvider cls={ProviderA}>
 				<Label />
-			</TokenContext>,
+			</TokenProvider>,
 		);
 		const root = () =>
 			container.querySelector('[data-ui="Label-root"]') as HTMLElement;
-		expect(root().className).toBe("DEF R");
+		expect(root().className).toBe("theme-primary-color label-base");
 
 		rerender(
-			<TokenContext value={ProviderB}>
+			<TokenProvider cls={ProviderB}>
 				<Label />
-			</TokenContext>,
+			</TokenProvider>,
 		);
-		expect(root().className).toBe("DEF R");
+		expect(root().className).toBe("theme-secondary-color label-base");
 	});
 });

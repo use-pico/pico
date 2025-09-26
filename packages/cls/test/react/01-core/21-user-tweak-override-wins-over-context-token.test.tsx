@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import type { PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 	it("user tweak-level override wins over context-provided token tweak", () => {
@@ -30,7 +30,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 			.cls();
 
 		// Create a token provider
-		const TokenProvider = contract()
+		const TokenProviderCls = contract()
 			.tokens([
 				"color.text",
 			])
@@ -56,7 +56,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 
 		// Context provides token tweak
 		const wrapper = ({ children }: PropsWithChildren) => (
-			<TokenContext value={TokenProvider}>{children}</TokenContext>
+			<TokenProvider cls={TokenProviderCls}>{children}</TokenProvider>
 		);
 
 		// User provides tweak-level override that should win over context
@@ -67,7 +67,7 @@ describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 					slot: {
 						root: {
 							class: [
-								"USER-OVR",
+								"user-override-color",
 							],
 						},
 					},
@@ -78,6 +78,6 @@ describe("react/01-core/user-tweak-override-wins-over-context-token", () => {
 		);
 
 		// User tweak-level override should replace only the root slot classes
-		expect(result.current.slots.root()).toBe("base USER-OVR");
+		expect(result.current.slots.root()).toBe("base user-override-color");
 	});
 });

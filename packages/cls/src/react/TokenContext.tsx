@@ -1,8 +1,9 @@
 import { createContext } from "react";
-import type { Cls } from "../types/Cls";
+import type { Contract } from "../types/Contract";
+import type { Token } from "../types/Token";
 
 /**
- * Context for providing tokens (via a cls instance) to child components.
+ * Context for providing token tweaks to child components.
  * This affects only tokens, keeping naming clear.
  */
-export const TokenContext = createContext<Cls.Type<any> | undefined>(undefined);
+export const TokenContext = createContext<Token.Optional<Contract.Any>>({});

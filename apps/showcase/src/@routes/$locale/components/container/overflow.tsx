@@ -63,7 +63,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								overflow="horizontal"
-								orientation="horizontal"
+								layout="horizontal"
 								gap="md"
 								square="md"
 								border="default"
@@ -102,7 +102,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								overflow="vertical"
-								orientation="vertical"
+								layout="vertical"
 								gap="sm"
 								square="md"
 								border="default"
@@ -141,7 +141,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="horizontal-start"
-								orientation="horizontal"
+								layout="horizontal"
 								gap="md"
 								square="md"
 								border="default"
@@ -170,7 +170,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="horizontal-center"
-								orientation="horizontal"
+								layout="horizontal"
 								gap="md"
 								square="md"
 								border="default"
@@ -199,7 +199,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="horizontal-end"
-								orientation="horizontal"
+								layout="horizontal"
 								gap="md"
 								square="md"
 								border="default"
@@ -238,7 +238,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="vertical-start"
-								orientation="vertical"
+								layout="vertical"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -267,7 +267,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="vertical-center"
-								orientation="vertical"
+								layout="vertical"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -296,7 +296,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 							/>
 							<Container
 								snap="vertical-end"
-								orientation="vertical"
+								layout="vertical"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -344,7 +344,7 @@ type SnapVariant = Cls.VariantOf<ContainerCls, "snap">;
 <Container 
   overflow="horizontal"
   snap="horizontal-center"
-  orientation="horizontal"
+  layout="horizontal"
   gap="md"
 >
   {/* Scrollable content with snap points */}

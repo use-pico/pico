@@ -357,5 +357,5 @@ export const ButtonCls = contract(PicoCls.contract)
 export type ButtonCls = typeof ButtonCls;
 
 export namespace ButtonCls {
-	export type Props<P = unknown> = Cls.Props<ButtonCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<ButtonCls, P>;
 }

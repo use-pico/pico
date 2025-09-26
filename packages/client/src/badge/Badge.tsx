@@ -20,22 +20,37 @@ export namespace Badge {
 
 export const BaseBadge: FC<Badge.Props> = ({
 	ref,
+	//
 	disabled,
 	size,
 	tone,
 	theme,
-	tweak,
+	//
 	cls = BadgeCls,
+	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
+	//
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			size,
-			tone,
-			theme,
+	const { slots } = useCls(
+		cls,
+		tweak,
+		{
+			slot: tweakSlot,
+			variant: tweakVariant,
+			token: tweakToken,
 		},
-	});
+		{
+			variant: {
+				disabled,
+				size,
+				tone,
+				theme,
+			},
+		},
+	);
 
 	return (
 		<div

@@ -19,7 +19,7 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 				},
 				icon: {
 					class: [
-						"i-base",
+						"icon-base",
 					],
 				},
 			})
@@ -41,12 +41,12 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 						slot: {
 							root: {
 								class: [
-									"U-root",
+									"user-root-append",
 								],
 							},
 							icon: {
 								class: [
-									"U-icon",
+									"user-icon-append",
 								],
 							},
 						},
@@ -55,12 +55,12 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 						slot: {
 							root: {
 								class: [
-									"I-root",
+									"internal-root-append",
 								],
 							},
 							icon: {
 								class: [
-									"I-icon",
+									"internal-icon-append",
 								],
 							},
 						},
@@ -71,7 +71,11 @@ describe("react/01-core/append-order-across-two-slots-I-P-U", () => {
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base U-root I-root");
-		expect(result.current.slots.icon()).toBe("i-base U-icon I-icon");
+		expect(result.current.slots.root()).toBe(
+			"base user-root-append internal-root-append",
+		);
+		expect(result.current.slots.icon()).toBe(
+			"icon-base user-icon-append internal-icon-append",
+		);
 	});
 });

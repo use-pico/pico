@@ -22,11 +22,20 @@ export namespace Fade {
 export const BaseFade: FC<Fade.Props> = ({
 	height = 48,
 	fade = height * 2,
+	//
 	cls = FadeCls,
 	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
+	//
 	scrollableRef,
 }) => {
-	const { slots } = useCls(cls, tweak);
+	const { slots } = useCls(cls, tweak, {
+		slot: tweakSlot,
+		variant: tweakVariant,
+		token: tweakToken,
+	});
 
 	const topFadeElementRef = useRef<HTMLDivElement>(null);
 	const bottomFadeElementRef = useRef<HTMLDivElement>(null);

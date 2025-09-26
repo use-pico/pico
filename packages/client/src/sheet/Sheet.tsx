@@ -15,22 +15,37 @@ export namespace Sheet {
 
 export const BaseSheet: FC<Sheet.Props> = ({
 	ref,
+	//
 	disabled,
 	tone,
 	theme,
 	round,
+	//
 	cls = SheetCls,
 	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
+	//
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			tone,
-			theme,
-			round,
+	const { slots } = useCls(
+		cls,
+		tweak,
+		{
+			slot: tweakSlot,
+			variant: tweakVariant,
+			token: tweakToken,
 		},
-	});
+		{
+			variant: {
+				disabled,
+				tone,
+				theme,
+				round,
+			},
+		},
+	);
 
 	return (
 		<div

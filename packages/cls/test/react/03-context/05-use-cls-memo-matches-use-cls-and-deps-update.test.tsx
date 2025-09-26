@@ -14,21 +14,21 @@ const ButtonCls = contract()
 	.root({
 		root: {
 			class: [
-				"B",
+				"button-base",
 			],
 		},
 	})
 	.match("size", "sm", {
 		root: {
 			class: [
-				"SM",
+				"button-small-size",
 			],
 		},
 	})
 	.match("size", "md", {
 		root: {
 			class: [
-				"MD",
+				"button-medium-size",
 			],
 		},
 	})
@@ -77,14 +77,14 @@ describe("react/03-context/use-cls-memo-matches-use-cls-and-deps-update", () => 
 			},
 		);
 
-		expect(r1.current.slots.root()).toBe("B SM");
-		expect(r2.current.slots.root()).toBe("B SM");
+		expect(r1.current.slots.root()).toBe("button-base button-small-size");
+		expect(r2.current.slots.root()).toBe("button-base button-small-size");
 
 		// Change unrelated prop for memo version; provide same deps so it shouldn't change
 		re2({
 			size: "sm",
 		});
-		expect(r2.current.slots.root()).toBe("B SM");
+		expect(r2.current.slots.root()).toBe("button-base button-small-size");
 
 		// Update size to md; both should update
 		re1({
@@ -93,7 +93,7 @@ describe("react/03-context/use-cls-memo-matches-use-cls-and-deps-update", () => 
 		re2({
 			size: "md",
 		});
-		expect(r1.current.slots.root()).toBe("B MD");
-		expect(r2.current.slots.root()).toBe("B MD");
+		expect(r1.current.slots.root()).toBe("button-base button-medium-size");
+		expect(r2.current.slots.root()).toBe("button-base button-medium-size");
 	});
 });

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls, withCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -14,7 +14,7 @@ const LabelCls = contract()
 	.token({
 		t1: {
 			class: [
-				"DEF",
+				"label-default-color",
 			],
 		},
 	})
@@ -24,7 +24,7 @@ const LabelCls = contract()
 				"t1",
 			],
 			class: [
-				"R",
+				"label-root-base",
 			],
 		},
 	})
@@ -41,14 +41,14 @@ const ProviderCls = contract()
 	.token({
 		t1: {
 			class: [
-				"CTX",
+				"theme-context-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"P",
+				"label-provider-base",
 			],
 		},
 	})
@@ -65,7 +65,7 @@ const BaseLabel: FC<LabelProps> = ({ cls = LabelCls }) => {
 			token: {
 				t1: {
 					class: [
-						"INTERNAL",
+						"component-internal-color",
 					],
 				},
 			},
@@ -84,14 +84,16 @@ const Label = withCls(BaseLabel, LabelCls);
 describe("react/02-component/internal-token-tweak-overrides-cls-provider", () => {
 	it("internal tokens override ClsProvider tokens in final output", () => {
 		const { container } = render(
-			<TokenContext value={ProviderCls}>
+			<TokenProvider cls={ProviderCls}>
 				<Label />
-			</TokenContext>,
+			</TokenProvider>,
 		);
 		const root = container.querySelector(
 			'[data-ui="Label-root"]',
 		) as HTMLElement;
 		// Internal token wins over context provided token
-		expect(root?.className).toBe("INTERNAL R");
+		expect(root?.className).toBe(
+			"theme-context-color component-internal-color label-root-base",
+		);
 	});
 });

@@ -84,7 +84,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="horizontal"
+								layout="horizontal"
 								gap="md"
 								square="md"
 								border="default"
@@ -112,7 +112,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="horizontal-full"
+								layout="horizontal-full"
 								gap="md"
 								square="md"
 								border="default"
@@ -150,7 +150,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="vertical"
+								layout="vertical"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -178,7 +178,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="vertical-full"
+								layout="vertical-full"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -220,7 +220,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="horizontal"
+								layout="horizontal"
 								item="col"
 								gap="sm"
 								square="sm"
@@ -254,7 +254,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="vertical"
+								layout="vertical"
 								item="row"
 								gap="sm"
 								square="sm"
@@ -288,7 +288,7 @@ export const Route = createFileRoute(
 								font="semi"
 							/>
 							<Container
-								orientation="vertical"
+								layout="vertical"
 								item="full"
 								gap="sm"
 								square="sm"

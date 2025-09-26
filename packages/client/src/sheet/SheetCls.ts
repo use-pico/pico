@@ -323,5 +323,5 @@ export const SheetCls = contract(PicoCls.contract)
 export type SheetCls = typeof SheetCls;
 
 export namespace SheetCls {
-	export type Props<P = unknown> = Cls.Props<SheetCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<SheetCls, P>;
 }

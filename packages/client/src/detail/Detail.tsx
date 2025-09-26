@@ -1,6 +1,6 @@
 import { useCls, withCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, Ref } from "react";
-import { InlineContext } from "../context/InlineContext";
+import { InlineContext } from "../inline/InlineContext";
 import { DetailCls } from "./DetailCls";
 
 export namespace Detail {

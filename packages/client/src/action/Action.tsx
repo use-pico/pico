@@ -73,27 +73,43 @@ const BaseAction: FC<Action.Props> = ({
 	iconDisabled,
 	iconLoading = SpinnerIcon,
 	iconProps,
+	//
 	size = "sm",
 	tone,
 	theme,
 	border,
+	//
 	disabled = false,
 	loading = false,
 	onClick,
+	//
 	cls = ActionCls,
 	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
+	//
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			loading,
-			size,
-			border,
-			tone,
-			theme,
+	const { slots } = useCls(
+		cls,
+		tweak,
+		{
+			slot: tweakSlot,
+			variant: tweakVariant,
+			token: tweakToken,
 		},
-	});
+		{
+			variant: {
+				disabled,
+				loading,
+				size,
+				border,
+				tone,
+				theme,
+			},
+		},
+	);
 
 	return (
 		<div

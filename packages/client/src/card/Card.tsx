@@ -2,7 +2,7 @@ import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC, Ref } from "react";
 import { Attr } from "../attr/Attr";
-import { InlineContext } from "../context/InlineContext";
+import { InlineContext } from "../inline/InlineContext";
 import { CardCls } from "./CardCls";
 
 /**

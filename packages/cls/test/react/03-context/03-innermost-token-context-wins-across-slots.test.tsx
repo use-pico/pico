@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls, withCls } from "../../../src";
 
 const ChipCls = contract()
 	.tokens([
@@ -16,12 +16,12 @@ const ChipCls = contract()
 	.token({
 		tIcon: {
 			class: [
-				"I",
+				"chip-default-icon-color",
 			],
 		},
 		tRoot: {
 			class: [
-				"R",
+				"chip-default-root-color",
 			],
 		},
 	})
@@ -31,7 +31,7 @@ const ChipCls = contract()
 				"tRoot",
 			],
 			class: [
-				"ROOT",
+				"chip-root-base",
 			],
 		},
 		icon: {
@@ -39,7 +39,7 @@ const ChipCls = contract()
 				"tIcon",
 			],
 			class: [
-				"ICON",
+				"chip-icon-base",
 			],
 		},
 	})
@@ -57,19 +57,19 @@ const ProviderOuter = contract()
 	.token({
 		tIcon: {
 			class: [
-				"O-I",
+				"theme-outer-icon-color",
 			],
 		},
 		tRoot: {
 			class: [
-				"O-R",
+				"theme-outer-root-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"O",
+				"chip-outer-base",
 			],
 		},
 	})
@@ -87,19 +87,19 @@ const ProviderInner = contract()
 	.token({
 		tIcon: {
 			class: [
-				"I-I",
+				"theme-inner-icon-color",
 			],
 		},
 		tRoot: {
 			class: [
-				"I-R",
+				"theme-inner-root-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"I",
+				"chip-inner-base",
 			],
 		},
 	})
@@ -129,11 +129,11 @@ const Chip = withCls(BaseChip, ChipCls);
 describe("react/03-context/innermost-token-context-wins-across-slots", () => {
 	it("applies tokens from the innermost provider across all referenced slots", () => {
 		const { container } = render(
-			<TokenContext value={ProviderOuter}>
-				<TokenContext value={ProviderInner}>
+			<TokenProvider cls={ProviderOuter}>
+				<TokenProvider cls={ProviderInner}>
 					<Chip />
-				</TokenContext>
-			</TokenContext>,
+				</TokenProvider>
+			</TokenProvider>,
 		);
 		const root = container.querySelector(
 			'[data-ui="Chip-root"]',
@@ -141,7 +141,7 @@ describe("react/03-context/innermost-token-context-wins-across-slots", () => {
 		const icon = container.querySelector(
 			'[data-ui="Chip-icon"]',
 		) as HTMLElement;
-		expect(root?.className).toBe("R ROOT");
-		expect(icon?.className).toBe("I ICON");
+		expect(root?.className).toBe("theme-inner-root-color chip-root-base");
+		expect(icon?.className).toBe("theme-inner-icon-color chip-icon-base");
 	});
 });

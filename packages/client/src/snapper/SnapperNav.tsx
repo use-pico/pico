@@ -38,8 +38,8 @@ export namespace SnapperNav {
 		ref?: Ref<HTMLDivElement>;
 		containerRef: RefObject<HTMLElement | null>;
 		pages: Page[];
-		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		initialIndex?: number;
+		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
 		iconProps?: IconProps.IconPropsFn;
@@ -51,14 +51,21 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	ref,
 	containerRef,
 	pages,
+	//
 	orientation,
 	tone = "primary",
 	align,
+	//
 	iconProps,
 	limit = 6,
 	initialIndex = 0,
+	//
 	cls = SnapperNavCls,
 	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
+	//
 }) => {
 	const [active, setActive] = useState(() =>
 		Math.min(initialIndex, Math.max(0, pages.length - 1)),
@@ -67,14 +74,23 @@ export const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	const isFirst = active === 0;
 	const isLast = active === pages.length - 1;
 
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			orientation,
-			align,
-			first: isFirst,
-			last: isLast,
+	const { slots, variant } = useCls(
+		cls,
+		tweak,
+		{
+			slot: tweakSlot,
+			variant: tweakVariant,
+			token: tweakToken,
 		},
-	});
+		{
+			variant: {
+				orientation,
+				align,
+				first: isFirst,
+				last: isLast,
+			},
+		},
+	);
 
 	const scrollToIndex = useCallback(
 		(index: number, behavior: ScrollBehavior = "smooth") => {

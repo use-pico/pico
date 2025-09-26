@@ -36,19 +36,40 @@ export const BaseButton: FC<Button.Props> = ({
 	round,
 	cls = ButtonCls,
 	tweak,
+	tweakSlot,
+	tweakVariant,
+	tweakToken,
 	disabled,
 	children,
 	...props
 }) => {
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			disabled,
-			theme,
-			tone,
-			size,
-			round,
+	const { slots, variant } = useCls(
+		cls,
+		/**
+		 * Component tweak has lowest precedence
+		 */
+		tweak,
+		/**
+		 * Slot, variant and token tweaks have medium precedence
+		 */
+		{
+			slot: tweakSlot,
+			variant: tweakVariant,
+			token: tweakToken,
 		},
-	});
+		/**
+		 * Component props has highest precedence
+		 */
+		{
+			variant: {
+				disabled,
+				theme,
+				tone,
+				size,
+				round,
+			},
+		},
+	);
 
 	return (
 		<VariantProvider

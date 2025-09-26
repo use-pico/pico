@@ -22,24 +22,24 @@ const TagCls = contract()
 	.root({
 		root: {
 			class: [
-				"tag",
+				"tag-base",
 			],
 		},
 		icon: {
 			class: [
-				"i",
+				"tag-icon-base",
 			],
 		},
 	})
 	.match("tone", "success", {
 		root: {
 			class: [
-				"ok",
+				"tag-success-state",
 			],
 		},
 		icon: {
 			class: [
-				"ok-i",
+				"tag-success-icon",
 			],
 		},
 	})
@@ -90,12 +90,12 @@ describe("react/02-component/tweak-provider-merges-with-component-tweak", () => 
 						slot: {
 							root: {
 								class: [
-									"U",
+									"user-tweak-root",
 								],
 							},
 							icon: {
 								class: [
-									"U-i",
+									"user-tweak-icon",
 								],
 							},
 						},
@@ -110,11 +110,11 @@ describe("react/02-component/tweak-provider-merges-with-component-tweak", () => 
 		const icons = container.querySelectorAll('[data-ui="Tag-icon"]');
 
 		// First tag: provider-only
-		expect(tags[0]?.className).toBe("tag ok");
-		expect(icons[0]?.className).toBe("i ok-i");
+		expect(tags[0]?.className).toBe("tag-base tag-success-state");
+		expect(icons[0]?.className).toBe("tag-icon-base tag-success-icon");
 
 		// Second tag: user tweak overrides provider variant
-		expect(tags[1]?.className).toBe("tag U");
-		expect(icons[1]?.className).toBe("i U-i");
+		expect(tags[1]?.className).toBe("tag-base user-tweak-root");
+		expect(icons[1]?.className).toBe("tag-icon-base user-tweak-icon");
 	});
 });

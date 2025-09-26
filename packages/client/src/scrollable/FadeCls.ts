@@ -105,5 +105,5 @@ export const FadeCls = contract(PicoCls.contract)
 export type FadeCls = typeof FadeCls;
 
 export namespace FadeCls {
-	export type Props<P = unknown> = Cls.Props<FadeCls, P>;
+	export type Props<P = unknown> = Cls.PropsTweaks<FadeCls, P>;
 }

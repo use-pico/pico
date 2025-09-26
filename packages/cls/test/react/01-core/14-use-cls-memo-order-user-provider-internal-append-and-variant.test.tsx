@@ -24,14 +24,14 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			.match("size", "sm", {
 				root: {
 					class: [
-						"SM",
+						"button-small-size",
 					],
 				},
 			})
 			.match("size", "md", {
 				root: {
 					class: [
-						"MD",
+						"button-medium-size",
 					],
 				},
 			})
@@ -63,7 +63,7 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 							slot: {
 								root: {
 									class: [
-										"U",
+										"user-tweak-class",
 									],
 								},
 							},
@@ -75,7 +75,7 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 							slot: {
 								root: {
 									class: [
-										"I",
+										"internal-tweak-class",
 									],
 								},
 							},
@@ -88,6 +88,8 @@ describe("react/01-core/use-cls-memo-order-user-provider-internal-append-and-var
 			},
 		);
 
-		expect(result.current.slots.root()).toBe("base MD U I");
+		expect(result.current.slots.root()).toBe(
+			"base button-medium-size user-tweak-class internal-tweak-class",
+		);
 	});
 });

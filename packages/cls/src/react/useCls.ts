@@ -1,5 +1,6 @@
 import type { Cls } from "../types/Cls";
 import type { Contract } from "../types/Contract";
+import type { Token } from "../types/Token";
 import type { Tweak } from "../types/Tweak";
 import type { Variant } from "../types/Variant";
 import { useTokenContext } from "./useTokenContext";
@@ -54,12 +55,12 @@ export function useCls<TContract extends Contract.Any>(
 	cls: Cls.Type<TContract>,
 	...tweaks: Tweak.Tweaks<TContract>[]
 ) {
-	const context = useTokenContext();
+	const token = useTokenContext() as Token.Optional<TContract>;
 	const variant = useVariantContext() as Variant.Optional<TContract>;
 
 	return cls.create(
 		{
-			token: context,
+			token,
 			variant,
 		},
 		...tweaks,

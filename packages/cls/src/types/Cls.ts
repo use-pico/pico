@@ -114,10 +114,58 @@ export namespace Cls {
 	 * @template P - Additional component props (defaults to unknown)
 	 */
 	export type Props<TCls extends Type<any>, P = unknown> = {
-		/** Optional CLS instance to use for styling */
+		/**
+		 * Optional CLS instance to use for styling.
+		 *
+		 * If you want to replace "cls" of a component, you must extend from the component's contract,
+		 * e.g. `MyButtonCls = contract(ButtonCls.contract)` and in this prop call `cls={ButtonCls.use(MyButtonCls)}`.
+		 */
 		cls?: TCls;
-		/** Optional tweak function to modify styles on existing component */
+		/**
+		 *  Optional tweak function to modify styles on existing component
+		 */
 		tweak?: Tweak.Tweaks<TCls["contract"]>;
-		// tweak?: Tweak.Tweaks<TCls["contract"]>;
-	} & Omit<P, "cls" | "tweak">;
+	} & Omit<P, "cls" | "tweak" | "tweakSlot" | "tweakVariant" | "tweakToken">;
+
+	/**
+	 * Extended props type that includes individual tweak props for components that explicitly support them.
+	 *
+	 * Components must explicitly support individual tweaks per prop (tweakSlot, tweakVariant, tweakToken).
+	 * This type is used when a component needs to expose granular tweaking capabilities beyond the general `tweak` prop.
+	 *
+	 * @template TCls - The CLS instance type
+	 * @template P - Additional component props (defaults to unknown)
+	 */
+	export type PropsTweaks<TCls extends Type<any>, P = unknown> = Props<
+		TCls,
+		P
+	> & {
+		/**
+		 * Optional slot-specific tweaks for fine-grained style modifications.
+		 *
+		 * Allows overriding specific slot styles without affecting other slots.
+		 * Useful when you need to customize individual component parts.
+		 *
+		 * **Precedence:** Takes priority over the general `tweak` prop.
+		 */
+		tweakSlot?: Slot.Optional<TCls["contract"]>;
+		/**
+		 * Optional variant-specific tweaks for modifying component variants.
+		 *
+		 * Allows overriding variant values without changing the base component.
+		 * Useful for conditional styling or theme variations.
+		 *
+		 * **Precedence:** Takes priority over the general `tweak` prop.
+		 */
+		tweakVariant?: Variant.Optional<TCls["contract"]>;
+		/**
+		 * Optional token-specific tweaks for modifying design tokens.
+		 *
+		 * Allows overriding token values like colors, spacing, or typography.
+		 * Useful for customizing design system values on a per-component basis.
+		 *
+		 * **Precedence:** Takes priority over the general `tweak` prop.
+		 */
+		tweakToken?: Token.Optional<TCls["contract"]>;
+	};
 }

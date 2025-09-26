@@ -14,21 +14,21 @@ const SwitchCls = contract()
 	.root({
 		root: {
 			class: [
-				"S",
+				"switch-base",
 			],
 		},
 	})
 	.match("on", true, {
 		root: {
 			class: [
-				"ON",
+				"switch-on-state",
 			],
 		},
 	})
 	.match("on", false, {
 		root: {
 			class: [
-				"OFF",
+				"switch-off-state",
 			],
 		},
 	})
@@ -67,7 +67,7 @@ describe("react/02-component/provider-reactivity-updates-on-rerender", () => {
 		);
 		const root = () =>
 			container.querySelector('[data-ui="Switch-root"]') as HTMLElement;
-		expect(root().className).toBe("S OFF");
+		expect(root().className).toBe("switch-base switch-off-state");
 
 		rerender(
 			<VariantProvider
@@ -79,6 +79,6 @@ describe("react/02-component/provider-reactivity-updates-on-rerender", () => {
 				<Switch />
 			</VariantProvider>,
 		);
-		expect(root().className).toBe("S ON");
+		expect(root().className).toBe("switch-base switch-on-state");
 	});
 });

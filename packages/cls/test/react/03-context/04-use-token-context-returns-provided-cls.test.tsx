@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenContext, useTokenContext } from "../../../src";
+import { contract, TokenProvider, useTokenContext } from "../../../src";
 
 const Theme = contract()
 	.tokens([
@@ -13,28 +13,28 @@ const Theme = contract()
 	.token({
 		t1: {
 			class: [
-				"CTX",
+				"theme-context-color",
 			],
 		},
 	})
 	.root({
 		root: {
 			class: [
-				"R",
+				"label-base",
 			],
 		},
 	})
 	.cls();
 
 describe("react/03-context/use-token-context-returns-provided-cls", () => {
-	it("returns the same cls passed to TokenContext", () => {
+	it("returns the token definitions from TokenProvider", () => {
 		const wrapper = ({ children }: { children: React.ReactNode }) => (
-			<TokenContext value={Theme}>{children}</TokenContext>
+			<TokenProvider cls={Theme}>{children}</TokenProvider>
 		);
 
 		const { result } = renderHook(() => useTokenContext(), {
 			wrapper,
 		});
-		expect(result.current).toBe(Theme);
+		expect(result.current).toBe(Theme.definition?.token);
 	});
 });
