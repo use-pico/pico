@@ -118,5 +118,6 @@ export namespace Cls {
 		cls?: TCls;
 		/** Optional tweak function to modify styles on existing component */
 		tweak?: Tweak.Tweaks<TCls["contract"]>;
+		// tweak?: Tweak.Tweaks<TCls["contract"]>;
 	} & Omit<P, "cls" | "tweak">;
 }
