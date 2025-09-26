@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, PicoCls, Tx } from "@use-pico/client";
-import { TokenContext, tvc } from "@use-pico/cls";
+import { TokenProvider, tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
 const OverriddenCls = PicoCls.extend(
@@ -44,7 +44,7 @@ const themes = [
 export const Route = createFileRoute("/$locale/components/badge")({
 	component() {
 		return (
-			<TokenContext value={PicoCls.use(OverriddenCls)}>
+			<TokenProvider cls={PicoCls.use(OverriddenCls)}>
 				<div
 					className={tvc([
 						"flex",
@@ -282,7 +282,7 @@ export const Route = createFileRoute("/$locale/components/badge")({
 						</div>
 					</Section>
 				</div>
-			</TokenContext>
+			</TokenProvider>
 		);
 	},
 });
