@@ -78,17 +78,7 @@ export const Route = createFileRoute("/$locale/components/data")({
 						"shadow-sm",
 					])}
 				>
-					<Data<
-						{
-							id: string;
-							name: string;
-							email: string;
-							company: string;
-							role: string;
-							lastLogin: string;
-						},
-						typeof clientInfoQuery
-					>
+					<Data
 						result={clientInfoQuery}
 						renderSuccess={({ data }) => (
 							<div

@@ -20,6 +20,8 @@ export const ContainerCls = contract(PicoCls.contract)
 		"unset",
 		"vertical",
 		"vertical-header-content-footer",
+		"vertical-header-content",
+		"vertical-content-footer",
 		"vertical-full",
 		"horizontal",
 		"horizontal-full",
@@ -197,6 +199,26 @@ export const ContainerCls = contract(PicoCls.contract)
 				"Container-root-orientation[vertical-header-content-footer]",
 				"grid",
 				"grid-rows-[min-content_1fr_min-content]",
+				"grid-cols-1",
+			],
+		},
+	})
+	.match("layout", "vertical-header-content", {
+		root: {
+			class: [
+				"Container-root-orientation[vertical-header-content]",
+				"grid",
+				"grid-rows-[min-content_1fr]",
+				"grid-cols-1",
+			],
+		},
+	})
+	.match("layout", "vertical-content-footer", {
+		root: {
+			class: [
+				"Container-root-orientation[vertical-content-footer]",
+				"grid",
+				"grid-rows-[1fr_min-content]",
 				"grid-cols-1",
 			],
 		},
@@ -830,5 +852,5 @@ export const ContainerCls = contract(PicoCls.contract)
 export type ContainerCls = typeof ContainerCls;
 
 export namespace ContainerCls {
-	export type Props<P = unknown> = Cls.PropsTweaks<ContainerCls, P>;
+	export type Props<P = unknown> = Cls.Props<ContainerCls, P>;
 }

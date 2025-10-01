@@ -34,11 +34,10 @@ export const BaseButton: FC<Button.Props> = ({
 	tone,
 	theme,
 	round,
+	//
 	cls = ButtonCls,
 	tweak,
-	tweakSlot,
-	tweakVariant,
-	tweakToken,
+	//
 	disabled,
 	children,
 	...props
@@ -49,14 +48,6 @@ export const BaseButton: FC<Button.Props> = ({
 		 * Component tweak has lowest precedence
 		 */
 		tweak,
-		/**
-		 * Slot, variant and token tweaks have medium precedence
-		 */
-		{
-			slot: tweakSlot,
-			variant: tweakVariant,
-			token: tweakToken,
-		},
 		/**
 		 * Component props has highest precedence
 		 */

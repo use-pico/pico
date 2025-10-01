@@ -4,10 +4,10 @@ import { PicoCls } from "../cls/PicoCls";
 
 export const FadeCls = contract(PicoCls.contract)
 	.tokens([
-		"scrollable.from",
-		"scrollable.via",
-		"scrollable.to",
-		"scrollable.gradient",
+		"fade.from",
+		"fade.via",
+		"fade.to",
+		"fade.gradient",
 	])
 	.slots([
 		"top",
@@ -15,20 +15,20 @@ export const FadeCls = contract(PicoCls.contract)
 	])
 	.def()
 	.token({
-		"scrollable.from": {
+		"fade.from": {
 			class: [],
 		},
-		"scrollable.via": {
+		"fade.via": {
 			class: [],
 		},
-		"scrollable.to": {
+		"fade.to": {
 			class: [],
 		},
-		"scrollable.gradient": {
+		"fade.gradient": {
 			token: [
-				"scrollable.from",
-				"scrollable.via",
-				"scrollable.to",
+				"fade.from",
+				"fade.via",
+				"fade.to",
 			],
 		},
 	})
@@ -46,7 +46,7 @@ export const FadeCls = contract(PicoCls.contract)
 				"bg-gradient-to-t",
 			],
 			token: [
-				"scrollable.gradient",
+				"fade.gradient",
 			],
 		},
 		bottom: {
@@ -62,35 +62,35 @@ export const FadeCls = contract(PicoCls.contract)
 				"bg-gradient-to-b",
 			],
 			token: [
-				"scrollable.gradient",
+				"fade.gradient",
 			],
 		},
 	})
 	.tokens.match("theme", "light", {
-		"scrollable.from": {
+		"fade.from": {
 			class: [
 				"from-white/0",
 			],
 		},
-		"scrollable.via": {
+		"fade.via": {
 			class: [],
 		},
-		"scrollable.to": {
+		"fade.to": {
 			class: [
 				"to-slate-200/85",
 			],
 		},
 	})
 	.tokens.match("theme", "dark", {
-		"scrollable.from": {
+		"fade.from": {
 			class: [
 				"from-black/0",
 			],
 		},
-		"scrollable.via": {
+		"fade.via": {
 			class: [],
 		},
-		"scrollable.to": {
+		"fade.to": {
 			class: [
 				"to-black/50",
 			],
@@ -105,5 +105,5 @@ export const FadeCls = contract(PicoCls.contract)
 export type FadeCls = typeof FadeCls;
 
 export namespace FadeCls {
-	export type Props<P = unknown> = Cls.PropsTweaks<FadeCls, P>;
+	export type Props<P = unknown> = Cls.Props<FadeCls, P>;
 }

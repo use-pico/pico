@@ -25,17 +25,10 @@ export const BaseFade: FC<Fade.Props> = ({
 	//
 	cls = FadeCls,
 	tweak,
-	tweakSlot,
-	tweakVariant,
-	tweakToken,
 	//
 	scrollableRef,
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		slot: tweakSlot,
-		variant: tweakVariant,
-		token: tweakToken,
-	});
+	const { slots } = useCls(cls, tweak);
 
 	const topFadeElementRef = useRef<HTMLDivElement>(null);
 	const bottomFadeElementRef = useRef<HTMLDivElement>(null);

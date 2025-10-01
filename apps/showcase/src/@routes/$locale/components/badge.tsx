@@ -1,23 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, PicoCls, Tx } from "@use-pico/client";
-import { TokenProvider, tvc } from "@use-pico/cls";
+import { contract, TokenProvider, tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
-const OverriddenCls = PicoCls.extend(
-	{
-		slot: [],
-		tokens: [],
-		variant: {},
-	},
-	{
-		token: {},
-		rules: [],
-		defaults: {
-			tone: "primary",
-			theme: "light",
-		},
-	},
-);
+const OverriddenCls = contract(PicoCls.contract)
+	.def()
+	.defaults({
+		tone: "primary",
+		theme: "light",
+	})
+	.cls();
 
 const tones = [
 	"primary",

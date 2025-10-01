@@ -379,5 +379,5 @@ export const AlertCls = contract(PicoCls.contract)
 export type AlertCls = typeof AlertCls;
 
 export namespace AlertCls {
-	export type Props<P = unknown> = Cls.PropsTweaks<AlertCls, P>;
+	export type Props<P = unknown> = Cls.Props<AlertCls, P>;
 }

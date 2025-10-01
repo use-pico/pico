@@ -85,31 +85,19 @@ const BaseAction: FC<Action.Props> = ({
 	//
 	cls = ActionCls,
 	tweak,
-	tweakSlot,
-	tweakVariant,
-	tweakToken,
 	//
 	...props
 }) => {
-	const { slots } = useCls(
-		cls,
-		tweak,
-		{
-			slot: tweakSlot,
-			variant: tweakVariant,
-			token: tweakToken,
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			disabled,
+			loading,
+			size,
+			border,
+			tone,
+			theme,
 		},
-		{
-			variant: {
-				disabled,
-				loading,
-				size,
-				border,
-				tone,
-				theme,
-			},
-		},
-	);
+	});
 
 	return (
 		<div

@@ -293,5 +293,5 @@ export const ActionCls = contract(PicoCls.contract)
 export type ActionCls = typeof ActionCls;
 
 export namespace ActionCls {
-	export type Props<P = unknown> = Cls.PropsTweaks<ActionCls, P>;
+	export type Props<P = unknown> = Cls.Props<ActionCls, P>;
 }

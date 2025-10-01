@@ -25,7 +25,7 @@ export const TableCursor = <TQuery extends withQuerySchema.Query>({
 	} as TQuery);
 
 	return (
-		<Data<CountSchema.Type, typeof countQuery>
+		<Data
 			result={countQuery}
 			renderError={() => null}
 			renderLoading={() => null}

@@ -576,17 +576,28 @@ export function cls<
 								] => Boolean(x),
 							);
 
-						const tokenTableWithRuleOverlay: Record<
+						// Compose token tables with correct precedence (base < rules < create < local)
+						const baseWithRuleOverlay: Record<
 							string,
 							What.Any<Contract.Any>
 						> = tokenRulesOverlayEntries.length > 0
 							? Object.assign(
-									Object.create(tokenTable),
+									Object.create(tokensProto),
 									Object.fromEntries(
 										tokenRulesOverlayEntries,
 									),
 								)
-							: tokenTable;
+							: Object.create(tokensProto);
+
+						const tokenTableWithRuleOverlay: Record<
+							string,
+							What.Any<Contract.Any>
+						> = $tweak?.token
+							? Object.assign(
+									Object.create(baseWithRuleOverlay),
+									$tweak.token,
+								)
+							: baseWithRuleOverlay;
 
 						// Local token overlay and local cache for overlay resolution
 						let activeTokens = tokenTableWithRuleOverlay;

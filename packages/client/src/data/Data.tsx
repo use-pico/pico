@@ -64,30 +64,26 @@ export namespace Data {
 		export type RenderFn = (props: Props) => ReactNode;
 	}
 
-	export interface Props<
-		TData,
-		TResult extends UseQueryResult<TData, Error>,
-	> {
+	export interface Props<TResult extends UseQueryResult<any, Error>> {
 		result: TResult;
-		renderSuccess: SuccessComponent.RenderFn<TData>;
+		renderSuccess: SuccessComponent.RenderFn<NonNullable<TResult["data"]>>;
 		renderLoading?: LoadingComponent.RenderFn;
-		renderFetching?: FetchingComponent.RenderFn<TData>;
+		renderFetching?: FetchingComponent.RenderFn<
+			NonNullable<TResult["data"]>
+		>;
 		renderError?: ErrorComponent.RenderFn;
 		children?: Content.RenderFn;
 	}
 }
 
-export const Data = <
-	const TData,
-	const TResult extends UseQueryResult<TData, Error>,
->({
+export const Data = <TResult extends UseQueryResult<any, Error>>({
 	result,
 	renderSuccess,
 	renderLoading = DefaultSpinner,
 	renderFetching = DefaultSpinner,
 	renderError = DefaultError,
 	children = DefaultContent,
-}: Data.Props<TData, TResult>) => {
+}: Data.Props<TResult>) => {
 	return children({
 		content: match(result)
 			.when(

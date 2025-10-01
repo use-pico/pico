@@ -23,29 +23,17 @@ export const BaseSheet: FC<Sheet.Props> = ({
 	//
 	cls = SheetCls,
 	tweak,
-	tweakSlot,
-	tweakVariant,
-	tweakToken,
 	//
 	...props
 }) => {
-	const { slots } = useCls(
-		cls,
-		tweak,
-		{
-			slot: tweakSlot,
-			variant: tweakVariant,
-			token: tweakToken,
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			disabled,
+			tone,
+			theme,
+			round,
 		},
-		{
-			variant: {
-				disabled,
-				tone,
-				theme,
-				round,
-			},
-		},
-	);
+	});
 
 	return (
 		<div

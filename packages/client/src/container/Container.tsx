@@ -48,6 +48,8 @@ export namespace Container {
 		 * - `"unset"` - No grid layout applied
 		 * - `"vertical"` - Grid with row flow, auto rows, single column
 		 * - `"vertical-header-content-footer"` - Grid with header, content, and footer rows
+		 * - `"vertical-header-content"` - Grid with header and content rows
+		 * - `"vertical-content-footer"` - Grid with content and footer rows
 		 * - `"vertical-full"` - Grid with row flow, 100% rows, full width/height
 		 * - `"horizontal"` - Grid with column flow, auto columns, single row
 		 * - `"horizontal-full"` - Grid with column flow, 100% columns, full width/height
@@ -172,40 +174,28 @@ export const BaseContainer: FC<Container.Props> = ({
 	//
 	cls = ContainerCls,
 	tweak,
-	tweakSlot,
-	tweakVariant,
-	tweakToken,
 	//
 	children,
 	divProps,
 }) => {
-	const { slots } = useCls(
-		cls,
-		tweak,
-		{
-			slot: tweakSlot,
-			variant: tweakVariant,
-			token: tweakToken,
+	const { slots } = useCls(cls, tweak, {
+		variant: {
+			height,
+			width,
+			layout,
+			overflow,
+			snap,
+			item,
+			square,
+			gap,
+			position,
+			border,
+			round,
+			shadow,
+			tone,
+			theme,
 		},
-		{
-			variant: {
-				height,
-				width,
-				layout,
-				overflow,
-				snap,
-				item,
-				square,
-				gap,
-				position,
-				border,
-				round,
-				shadow,
-				tone,
-				theme,
-			},
-		},
-	);
+	});
 
 	return (
 		<div
