@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/cls",
 	"description": "Type-safe, composable styling system for React, Vue, Svelte, and vanilla JS",
-	"version": "5.0.46",
+	"version": "5.0.47",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -34,7 +34,7 @@
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.52.3",
 		"rollup-plugin-dts": "6.2.3",
-		"typescript": "^5.9.2",
+		"typescript": "^5.9.3",
 		"vitest": "^3.2.4"
 	},
 	"main": "src/index.ts",
