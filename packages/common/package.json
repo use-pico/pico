@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.53",
+	"version": "5.0.56",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -20,7 +20,7 @@
 		"axios": "1.12.2",
 		"axios-rate-limit": "^1.4.0",
 		"build-url-ts": "6.2.0",
-		"fast-clean": "1.5.0",
+		"fast-clean": "1.5.2",
 		"flattie": "1.1.1",
 		"is-callable": "1.2.7",
 		"is-empty": "1.2.0",
@@ -40,7 +40,7 @@
 		"@rollup/plugin-node-resolve": "16.0.1",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
-		"@types/react": "19.1.16",
+		"@types/react": "19.2.0",
 		"@use-pico/tsconfig": "4.0.23",
 		"rollup": "4.52.3",
 		"rollup-plugin-dts": "6.2.3",

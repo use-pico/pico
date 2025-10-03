@@ -1,19 +1,12 @@
 import { useCls, withCls } from "@use-pico/cls";
-import {
-	type FC,
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-} from "react";
+import { type FC, type RefObject, useCallback, useEffect, useRef } from "react";
 import { FadeCls } from "./FadeCls";
 
-const clampToUnitInterval = (value: number) =>
-	value < 0 ? 0 : value > 1 ? 1 : value;
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 export namespace Fade {
 	export interface Props extends FadeCls.Props {
-		scrollableRef: React.RefObject<HTMLElement | null>;
+		scrollableRef: RefObject<HTMLElement | null>;
 		height?: number;
 		fade?: number;
 	}
@@ -22,115 +15,110 @@ export namespace Fade {
 export const BaseFade: FC<Fade.Props> = ({
 	height = 48,
 	fade = height * 2,
-	//
 	cls = FadeCls,
 	tweak,
-	//
 	scrollableRef,
 }) => {
 	const { slots } = useCls(cls, tweak);
 
-	const topFadeElementRef = useRef<HTMLDivElement>(null);
-	const bottomFadeElementRef = useRef<HTMLDivElement>(null);
+	const topFadeRef = useRef<HTMLDivElement>(null);
+	const bottomFadeRef = useRef<HTMLDivElement>(null);
 
-	const updateFadeOpacity = useCallback(() => {
-		const scrollableEl = scrollableRef.current;
-		const topFadeEl = topFadeElementRef.current;
-		const bottomFadeEl = bottomFadeElementRef.current;
-		if (!scrollableEl || !topFadeEl || !bottomFadeEl) {
+	const rafIdRef = useRef<number | 0>(0);
+	const schedule = useCallback((fn: () => void) => {
+		if (rafIdRef.current) {
+			return;
+		}
+		rafIdRef.current = requestAnimationFrame(() => {
+			rafIdRef.current = 0;
+			fn();
+		});
+	}, []);
+
+	const update = useCallback(() => {
+		const scrollable = scrollableRef.current;
+		const top = topFadeRef.current;
+		const bottom = bottomFadeRef.current;
+		if (!scrollable || !top || !bottom) {
 			return;
 		}
 
-		const { scrollTop, scrollHeight, clientHeight } = scrollableEl;
+		const { scrollTop, scrollHeight, clientHeight } = scrollable;
 		const maxScrollable = Math.max(0, scrollHeight - clientHeight);
 
 		if (maxScrollable <= 0) {
-			topFadeEl.style.opacity = "0";
-			bottomFadeEl.style.opacity = "0";
+			top.style.opacity = "0";
+			bottom.style.opacity = "0";
 			return;
 		}
 
-		const topOpacity = clampToUnitInterval(scrollTop / fade);
-		const bottomOpacity = clampToUnitInterval(
-			(maxScrollable - scrollTop) / fade,
-		);
+		const topOpacity = clamp01(scrollTop / fade);
+		const bottomOpacity = clamp01((maxScrollable - scrollTop) / fade);
 
-		topFadeEl.style.opacity = topOpacity.toFixed(3);
-		bottomFadeEl.style.opacity = bottomOpacity.toFixed(3);
+		top.style.opacity = topOpacity.toFixed(3);
+		bottom.style.opacity = bottomOpacity.toFixed(3);
 	}, [
 		scrollableRef,
 		fade,
 	]);
 
-	useLayoutEffect(() => {
-		const topFadeEl = topFadeElementRef.current;
-		const bottomFadeEl = bottomFadeElementRef.current;
-		if (!topFadeEl || !bottomFadeEl) {
-			return;
-		}
-
-		topFadeEl.style.height = `${height}px`;
-		bottomFadeEl.style.height = `${height}px`;
-
-		updateFadeOpacity(); // immediately, without transition
-	}, [
-		updateFadeOpacity,
-		height,
-	]);
-
 	useEffect(() => {
-		const scrollableEl = scrollableRef.current;
-		if (!scrollableEl) {
+		const scrollable = scrollableRef.current;
+		if (!scrollable) {
 			return;
 		}
 
-		let rafId = 0;
-		const onScroll = () => {
-			if (!rafId) {
-				rafId = requestAnimationFrame(() => {
-					rafId = 0;
-					updateFadeOpacity();
-				});
-			}
-		};
-
-		updateFadeOpacity();
-		const firstFrameId = requestAnimationFrame(updateFadeOpacity);
-
-		const resizeObserver = new ResizeObserver(() => updateFadeOpacity());
-		resizeObserver.observe(scrollableEl);
-
-		scrollableEl.addEventListener("scroll", onScroll, {
+		const onScroll = () => schedule(update);
+		scrollable.addEventListener("scroll", onScroll, {
 			passive: true,
 		});
 
+		const resizeObserver = new ResizeObserver(() => schedule(update));
+		resizeObserver.observe(scrollable);
+
+		const mutationObserver = new MutationObserver(() => schedule(update));
+		mutationObserver.observe(scrollable, {
+			childList: true,
+			subtree: true,
+			attributes: false,
+		});
+
+		update();
+		const initId = requestAnimationFrame(update);
+
 		return () => {
-			scrollableEl.removeEventListener("scroll", onScroll);
+			scrollable.removeEventListener("scroll", onScroll);
 			resizeObserver.disconnect();
-			cancelAnimationFrame(firstFrameId);
-			if (rafId) {
-				cancelAnimationFrame(rafId);
-			}
+			mutationObserver.disconnect();
+			cancelAnimationFrame(initId);
+			if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+			rafIdRef.current = 0;
 		};
 	}, [
 		scrollableRef,
-		updateFadeOpacity,
+		schedule,
+		update,
 	]);
 
 	return (
 		<>
 			<div
-				ref={topFadeElementRef}
-				aria-hidden={true}
+				ref={topFadeRef}
+				aria-hidden
 				data-ui="Fade-top"
 				className={slots.top()}
+				style={{
+					height,
+				}}
 			/>
-
 			<div
-				ref={bottomFadeElementRef}
-				aria-hidden={true}
+				ref={bottomFadeRef}
+				aria-hidden
 				data-ui="Fade-bottom"
 				className={slots.bottom()}
+				style={{
+					height,
+				}}
 			/>
 		</>
 	);
