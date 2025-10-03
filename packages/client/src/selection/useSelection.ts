@@ -9,6 +9,12 @@ export namespace useSelection {
 	export interface Props<T extends EntitySchema.Type> {
 		mode: Mode;
 		initial?: T[];
+		/** Called in single mode when exactly one item is selected (always with value) */
+		onSingle?: (item: T) => void;
+		/** Called in multi mode on any change (including empty array) */
+		onMulti?: (items: T[]) => void;
+		/** Called in single mode with the selected item or undefined */
+		onSelect?: (item: T | undefined) => void;
 	}
 
 	export interface Required<T extends EntitySchema.Type> {
@@ -75,6 +81,9 @@ function dedupeById<T extends EntitySchema.Type>(arr: readonly T[]): T[] {
 export function useSelection<T extends EntitySchema.Type>({
 	mode,
 	initial = [],
+	onSingle,
+	onMulti,
+	onSelect,
 }: useSelection.Props<T>): useSelection.Selection<T> {
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Initial normalization only
 	const normalized = useMemo(() => {
@@ -107,7 +116,6 @@ export function useSelection<T extends EntitySchema.Type>({
 			if (prev.some((p) => p.id === item.id)) {
 				return prev;
 			}
-
 			return [
 				...prev,
 				item,
@@ -135,7 +143,6 @@ export function useSelection<T extends EntitySchema.Type>({
 					next.splice(idx, 1);
 					return next;
 				}
-
 				return [
 					...prev,
 					item,
@@ -198,7 +205,6 @@ export function useSelection<T extends EntitySchema.Type>({
 		if (selection.length === 0) {
 			throw new Error("No items selected in multi mode");
 		}
-
 		return selection.map((x) => x.id) as [
 			string,
 			...string[],
@@ -266,6 +272,28 @@ export function useSelection<T extends EntitySchema.Type>({
 		(items: T[]) => setSelection(dedupeById(items)),
 		[],
 	);
+
+	// ----- Callback dispatch (single/multi/select) -----
+	useEffect(() => {
+		if (mode === "single") {
+			const item = selection[0];
+			// unified onSelect for single mode consumers
+			onSelect?.(item);
+			// onSingle only if a single item is present
+			item && onSingle?.(item);
+
+			return;
+		}
+
+		// multi mode: always report, including empty
+		onMulti?.(selection);
+	}, [
+		mode,
+		selection,
+		onSingle,
+		onMulti,
+		onSelect,
+	]);
 
 	return useMemo(
 		() => ({
