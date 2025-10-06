@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.57",
+	"version": "5.0.58",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "28.0.6",
-		"@rollup/plugin-node-resolve": "16.0.1",
+		"@rollup/plugin-node-resolve": "16.0.2",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
 		"@types/react": "19.2.0",
