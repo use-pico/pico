@@ -1,13 +1,19 @@
 import {
 	type QueryClient,
 	type QueryKey,
+	type UseMutationOptions,
 	type UseMutationResult,
+	useIsMutating,
 	useMutation,
 	useQueryClient,
 } from "@tanstack/react-query";
 import { withInvalidator } from "./withInvalidator";
 
 export namespace withMutation {
+	export interface Meta {
+		mutationId?: string;
+	}
+
 	/**
 	 * Props for configuring a generic mutation utility.
 	 *
@@ -30,12 +36,19 @@ export namespace withMutation {
 		 * @param variables - The input data for the mutation.
 		 * @returns The query key.
 		 */
-		keys(variables: TVariables): QueryKey;
+		keys(variables?: TVariables): QueryKey;
 		/**
 		 * Optional array of invalidator functions. Each receives the QueryClient and is awaited in sequence when invalidation is triggered.
 		 */
 		invalidate?: withInvalidator.Invalidate[];
 	}
+
+	export type UseOptions<TVariables, TResult, TContext = unknown> = Omit<
+		UseMutationOptions<TResult, Error, TVariables, TContext>,
+		"mutationFn" | "mutationKey"
+	> & {
+		meta?: Meta;
+	};
 
 	export type PropsEx<TVariables, TResult> = Omit<
 		Props<TVariables, TResult>,
@@ -76,26 +89,32 @@ export function withMutation<TVariables, TResult>({
 		 * @param options - Optional mutation options (same as React Query's useMutation options, except mutationFn is always provided by this utility).
 		 * @returns The result of the mutation hook.
 		 */
-		useMutation(
-			options?: Parameters<
-				typeof useMutation<TResult, Error, TVariables>
-			>[0],
-		): UseMutationResult<TResult, Error, TVariables> {
+		useMutation<TContext = unknown>(
+			options?: withMutation.UseOptions<TVariables, TResult, TContext>,
+		): UseMutationResult<TResult, Error, TVariables, TContext> {
 			const queryClient = useQueryClient();
 
-			return useMutation<TResult, Error, TVariables>({
+			return useMutation<TResult, Error, TVariables, TContext>({
+				mutationKey: keys(),
 				mutationFn,
 				...options,
-				async onSuccess(data, variables, onMutationResult, context) {
+				async onSuccess(data, variables, result, context) {
 					await invalidate(queryClient);
-					options?.onSuccess?.(
-						data,
-						variables,
-						onMutationResult,
-						context,
-					);
+					options?.onSuccess?.(data, variables, result, context);
 				},
 			});
+		},
+		useIsMutating({ mutationId }: withMutation.Meta = {}) {
+			const count = useIsMutating({
+				mutationKey: keys(),
+				predicate: mutationId
+					? ({ options: { meta } }) =>
+							(meta as withMutation.Meta)?.mutationId ===
+							mutationId
+					: undefined,
+			});
+
+			return count > 0;
 		},
 		/**
 		 * Directly call mutation function and invalidate cache; there are no hooks or other logic here.

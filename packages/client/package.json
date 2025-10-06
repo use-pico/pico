@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.130",
+	"version": "5.0.133",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -27,7 +27,6 @@
 		"lexical": "0.36.2",
 		"localstorage-slim": "2.7.1",
 		"luxon": "^3.7.1",
-		"motion": "^12.23.12",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-dropzone": "14.3.8",

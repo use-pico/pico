@@ -1,5 +1,4 @@
 import type { EntitySchema, withQuerySchema } from "@use-pico/common";
-import { AnimatePresence, motion, type Variants } from "motion/react";
 import type { withQuery } from "../source/withQuery";
 import type { AbstractList } from "./AbstractList";
 import type { AbstractListCls } from "./AbstractListCls";
@@ -36,223 +35,79 @@ export const AbstractListBody = <
 	const { isSuccess, isLoading, isFetching, isError, data } =
 		withQuery.useQuery(query);
 
-	const EASE = [
-		0.22,
-		1,
-		0.36,
-		1,
-	] as const;
-	const TRANS_IN = {
-		duration: 0.18,
-		ease: EASE,
-	} as const;
-	const TRANS_OUT = {
-		duration: 0.16,
-		ease: EASE,
-	} as const;
-	const LAYOUT_TRANS = {
-		layout: {
-			duration: 0.22,
-			ease: EASE,
-		},
-	} as const;
-
-	const stateVariants: Variants = {
-		initial: {
-			opacity: 0,
-			y: 6,
-			scale: 0.995,
-		},
-		loading: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: TRANS_IN,
-		},
-		error: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: TRANS_IN,
-		},
-		empty: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: TRANS_IN,
-		},
-		success: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: TRANS_IN,
-		},
-		exit: {
-			opacity: 0,
-			y: -4,
-			scale: 0.995,
-			transition: TRANS_OUT,
-		},
-	} as const;
-
-	// Vstup/odchod řádků
-	const rowVariants: Variants = {
-		initial: {
-			opacity: 0,
-			y: 8,
-		},
-		animate: {
-			opacity: 1,
-			y: 0,
-			transition: TRANS_IN,
-		},
-		exit: {
-			opacity: 0,
-			y: -8,
-			transition: TRANS_OUT,
-		},
-	} as const;
-
-	const headerVariants: Variants = {
-		fetching: {
-			opacity: 0.8,
-			transition: TRANS_IN,
-		},
-		stable: {
-			opacity: 1,
-			transition: TRANS_IN,
-		},
-	} as const;
-
 	return (
-		<motion.div
+		<div
 			data-ui="AbstractList-body"
 			className={slots.body()}
-			layout
-			transition={LAYOUT_TRANS}
-			style={{
-				overflow: "hidden",
-			}}
 		>
-			<AnimatePresence
-				mode="wait"
-				initial={false}
-			>
-				{isLoading && (
-					<motion.div
-						data-ui="AbstractList-loading"
-						key="loading"
-						variants={stateVariants}
-						initial="initial"
-						animate="loading"
-						exit="exit"
-					>
-						{renderEmpty({
-							loading: "loading",
-						})}
-					</motion.div>
-				)}
+			{isLoading && (
+				<div
+					data-ui="AbstractList-loading"
+					key="loading"
+				>
+					{renderEmpty({
+						loading: "loading",
+					})}
+				</div>
+			)}
 
-				{isError && (
-					<motion.div
-						data-ui="AbstractList-error"
-						key="error"
-						variants={stateVariants}
-						initial="initial"
-						animate="error"
-						exit="exit"
-					>
-						{renderError({})}
-					</motion.div>
-				)}
+			{isError && (
+				<div
+					data-ui="AbstractList-error"
+					key="error"
+				>
+					{renderError({})}
+				</div>
+			)}
 
-				{isSuccess && data.length > 0 && (
-					<motion.div
-						data-ui="AbstractList-success"
-						key="success"
-						variants={stateVariants}
-						initial="initial"
-						animate="success"
-						exit="exit"
-						layout
-						transition={LAYOUT_TRANS}
+			{isSuccess && data.length > 0 && (
+				<div
+					data-ui="AbstractList-success"
+					key="success"
+				>
+					<div
+						data-ui="AbstractList-items"
+						className={slots.items()}
 					>
-						<motion.div
-							data-ui="AbstractList-items"
-							className={slots.items()}
-							layout
-							transition={LAYOUT_TRANS}
-							style={{
-								overflow: "hidden",
-							}}
-						>
-							<motion.div
-								data-ui="AbstractList-header"
-								variants={headerVariants}
-								animate={isFetching ? "fetching" : "stable"}
-								layout
-								transition={LAYOUT_TRANS}
+						<div data-ui="AbstractList-header">
+							{renderHeader({
+								isFetching,
+								items: data,
+							})}
+						</div>
+
+						{data.map((item) => (
+							<div
+								data-ui="AbstractList-row"
+								key={item.id}
 							>
-								{renderHeader({
-									isFetching,
+								{renderItem({
+									item,
 									items: data,
-								})}
-							</motion.div>
-
-							<AnimatePresence
-								initial={false}
-								mode="popLayout"
-							>
-								{data.map((item) => (
-									<motion.div
-										data-ui="AbstractList-$row"
-										key={item.id}
-										variants={rowVariants}
-										initial="initial"
-										animate="animate"
-										exit="exit"
-										layout
-										transition={LAYOUT_TRANS}
-									>
-										{renderItem({
-											item,
-											items: data,
-											isFetching,
-										})}
-									</motion.div>
-								))}
-							</AnimatePresence>
-
-							<motion.div
-								data-ui="AbstractList-footer"
-								variants={headerVariants}
-								animate={isFetching ? "fetching" : "stable"}
-								layout
-								transition={LAYOUT_TRANS}
-							>
-								{renderFooter({
 									isFetching,
-									items: data,
 								})}
-							</motion.div>
-						</motion.div>
-					</motion.div>
-				)}
-				{isSuccess && data?.length === 0 && (
-					<motion.div
-						data-ui="AbstractList-empty"
-						key="empty"
-						variants={stateVariants}
-						initial="initial"
-						animate="empty"
-						exit="exit"
-					>
-						{renderEmpty({
-							loading: undefined,
-						})}
-					</motion.div>
-				)}
-			</AnimatePresence>
-		</motion.div>
+							</div>
+						))}
+
+						<div data-ui="AbstractList-footer">
+							{renderFooter({
+								isFetching,
+								items: data,
+							})}
+						</div>
+					</div>
+				</div>
+			)}
+			{isSuccess && data?.length === 0 && (
+				<div
+					data-ui="AbstractList-empty"
+					key="empty"
+				>
+					{renderEmpty({
+						loading: undefined,
+					})}
+				</div>
+			)}
+		</div>
 	);
 };

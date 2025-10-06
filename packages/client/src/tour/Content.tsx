@@ -10,7 +10,6 @@ import {
 	useFloating,
 } from "@floating-ui/react";
 import { useCls } from "@use-pico/cls";
-import { AnimatePresence, motion } from "motion/react";
 import {
 	type FC,
 	type PropsWithChildren,
@@ -116,50 +115,25 @@ export const Content: FC<Content.Props> = ({
 			/>
 
 			<FloatingPortal>
-				<motion.div
+				<div
 					data-ui="Tour-Content-root"
 					ref={refs.setFloating}
 					style={{
 						position: strategy,
+						top: y ?? 0,
+						left: x ?? 0,
 						willChange: "transform",
-					}}
-					animate={{
-						x,
-						y,
-					}}
-					transition={{
-						duration: 0.1,
-						ease: "linear",
 					}}
 					className={slots.root()}
 				>
-					<AnimatePresence mode="wait">
-						<motion.div
-							data-ui="Tour-Content-tooltip"
-							className={slots.tooltip()}
-							key={contentKey}
-							initial={{
-								opacity: 0,
-							}}
-							animate={{
-								opacity: 1,
-								transition: {
-									duration: 0.1,
-									ease: "easeInOut",
-								},
-							}}
-							exit={{
-								opacity: 0,
-								transition: {
-									duration: 0.1,
-									ease: "easeInOut",
-								},
-							}}
-						>
-							{children}
-						</motion.div>
-					</AnimatePresence>
-				</motion.div>
+					<div
+						data-ui="Tour-Content-tooltip"
+						className={slots.tooltip()}
+						key={contentKey}
+					>
+						{children}
+					</div>
+				</div>
 			</FloatingPortal>
 		</>
 	);
