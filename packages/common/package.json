@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.58",
+	"version": "5.0.59",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -33,14 +33,14 @@
 		"preferred-locale": "2.0.2",
 		"read-excel-file": "6.0.1",
 		"timer-node": "5.0.9",
-		"zod": "4.1.11"
+		"zod": "4.1.12"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "28.0.6",
 		"@rollup/plugin-node-resolve": "16.0.2",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
-		"@types/react": "19.2.0",
+		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "4.0.23",
 		"rollup": "4.52.4",
 		"rollup-plugin-dts": "6.2.3",

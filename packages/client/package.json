@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.133",
+	"version": "5.0.134",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -15,12 +15,12 @@
 		"@lexical/react": "0.36.2",
 		"@lexical/utils": "0.36.2",
 		"@standard-schema/spec": "1.0.0",
-		"@tanstack/react-form": "1.23.5",
+		"@tanstack/react-form": "1.23.6",
 		"@tanstack/react-query": "5.90.2",
-		"@tanstack/react-router": "1.132.41",
+		"@tanstack/react-router": "1.132.47",
 		"@types/luxon": "^3.6.2",
-		"@use-pico/cls": "5.0.52",
-		"@use-pico/common": "5.0.58",
+		"@use-pico/cls": "5.0.53",
+		"@use-pico/common": "5.0.59",
 		"axios": "1.12.2",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.7",
@@ -36,7 +36,7 @@
 		"use-debounce": "10.0.6",
 		"uuid": "13.0.0",
 		"write-excel-file": "2.3.10",
-		"zod": "4.1.11",
+		"zod": "4.1.12",
 		"zustand": "^5.0.6"
 	},
 	"devDependencies": {
@@ -45,7 +45,7 @@
 		"@rollup/plugin-node-resolve": "16.0.2",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "^24.1.0",
-		"@types/react": "19.2.0",
+		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "4.0.23",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.52.4",
