@@ -281,6 +281,8 @@ export function useSelection<T extends EntitySchema.Type>({
 			onSelect?.(item);
 			// onSingle only if a single item is present
 			item && onSingle?.(item);
+			// Call this beauty too
+			onMulti?.(selection);
 
 			return;
 		}
