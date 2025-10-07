@@ -110,6 +110,8 @@ export namespace Cls {
 	 * Provides a way to pass a Cls instance or tweak styles on an existing component.
 	 * Combines Cls-specific props with additional component props while preventing conflicts.
 	 *
+	 * @Note This type also removes "className" prop, so you'll not get surprise using it.
+	 *
 	 * @template TCls - The CLS instance type
 	 * @template P - Additional component props (defaults to unknown)
 	 */
@@ -125,5 +127,5 @@ export namespace Cls {
 		 *  Optional tweak function to modify styles on existing component
 		 */
 		tweak?: Tweak.Tweaks<TCls["contract"]>;
-	} & Omit<P, "cls" | "tweak">;
+	} & Omit<P, "cls" | "tweak" | "className">;
 }

@@ -614,10 +614,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 
 				{/* Loading Overlay Demo */}
 				<div className="relative">
-					<Button
-						onClick={() => setIsLoading(!isLoading)}
-						className="mb-4"
-					>
+					<Button onClick={() => setIsLoading(!isLoading)}>
 						<Tx
 							label={
 								isLoading
