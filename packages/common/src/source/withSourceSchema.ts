@@ -5,6 +5,8 @@ import type { EntitySchema } from "./EntitySchema";
 import type { FilterSchema } from "./FilterSchema";
 import type { SortSchema } from "./SortSchema";
 
+const proxy = proxyOf();
+
 export namespace withSourceSchema {
 	export interface Props<
 		TEntitySchema extends EntitySchema,
@@ -69,8 +71,6 @@ export const withSourceSchema = <
 	TFilterSchema,
 	TSortSchema
 >): withSourceSchema.Instance<TEntitySchema, TFilterSchema, TSortSchema> => {
-	const proxy = proxyOf();
-
 	return {
 		entity,
 		"~entity": proxy,
