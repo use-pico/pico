@@ -20,7 +20,7 @@ export namespace Status {
 	}
 }
 
-export const BaseStatus: FC<Status.Props> = ({
+const BaseStatus: FC<Status.Props> = ({
 	ref,
 	textTitle,
 	textMessage,

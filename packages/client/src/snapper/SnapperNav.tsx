@@ -47,7 +47,7 @@ export namespace SnapperNav {
 	}
 }
 
-export const BaseSnapperNav: FC<SnapperNav.Props> = ({
+const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	ref,
 	containerRef,
 	pages,

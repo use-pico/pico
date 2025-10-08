@@ -356,7 +356,7 @@ export namespace Table {
 	>;
 }
 
-export const BaseTable = <
+const BaseTable = <
 	TQuery extends withQuerySchema.Query,
 	TData extends EntitySchema.Type,
 	TContext = any,

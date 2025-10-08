@@ -9,7 +9,7 @@ export namespace Progress {
 	}
 }
 
-export const BaseProgress: FC<Progress.Props> = ({
+const BaseProgress: FC<Progress.Props> = ({
 	value,
 	size,
 	cls = ProgressCls,

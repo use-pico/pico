@@ -17,7 +17,7 @@ export namespace Attr {
 	}
 }
 
-export const BaseAttr: FC<Attr.Props> = ({
+const BaseAttr: FC<Attr.Props> = ({
 	ref,
 	label,
 	value,

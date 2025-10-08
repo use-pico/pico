@@ -13,7 +13,7 @@ export namespace Highlighter {
 	}
 }
 
-export const BaseHighlighter: FC<Highlighter.Props> = ({
+const BaseHighlighter: FC<Highlighter.Props> = ({
 	visible,
 	rect,
 	padding = 8,

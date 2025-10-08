@@ -24,7 +24,7 @@ export namespace Cursor {
 	}
 }
 
-export const BaseCursor: FC<Cursor.Props> = ({
+const BaseCursor: FC<Cursor.Props> = ({
 	ref,
 	state,
 	count,

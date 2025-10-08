@@ -18,7 +18,7 @@ export namespace Typo {
 	export type PropsEx = Omit<Props, "label">;
 }
 
-export const BaseTypo: FC<Typo.Props> = ({
+const BaseTypo: FC<Typo.Props> = ({
 	label,
 	size,
 	font,

@@ -45,7 +45,7 @@ const BaseActionLink: FC<BaseActionLinkProps> = ({
 
 const CreateActionLink = createLink(BaseActionLink);
 
-export const ActionLinkBase: LinkComponent<typeof BaseActionLink> = (props) => {
+const ActionLinkBase: LinkComponent<typeof BaseActionLink> = (props) => {
 	return (
 		<CreateActionLink
 			preload={"intent"}

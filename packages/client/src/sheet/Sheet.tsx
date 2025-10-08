@@ -13,7 +13,7 @@ export namespace Sheet {
 	}
 }
 
-export const BaseSheet: FC<Sheet.Props> = ({
+const BaseSheet: FC<Sheet.Props> = ({
 	ref,
 	//
 	disabled,

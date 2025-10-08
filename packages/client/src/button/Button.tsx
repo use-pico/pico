@@ -22,7 +22,7 @@ export namespace Button {
 	}
 }
 
-export const BaseButton: FC<Button.Props> = ({
+const BaseButton: FC<Button.Props> = ({
 	wrapperRef,
 	buttonRef,
 	iconEnabled,

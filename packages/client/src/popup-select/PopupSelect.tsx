@@ -74,7 +74,7 @@ export namespace PopupSelect {
 	>;
 }
 
-export const BasePopupSelect = <
+const BasePopupSelect = <
 	TQuery extends withQuerySchema.Query,
 	TItem extends EntitySchema.Type,
 >({

@@ -14,7 +14,7 @@ export namespace ActionModal {
 	}
 }
 
-export const BaseActionModal: FC<ActionModal.Props> = ({
+const BaseActionModal: FC<ActionModal.Props> = ({
 	icon,
 	iconProps,
 	label,

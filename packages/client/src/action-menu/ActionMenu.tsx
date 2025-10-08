@@ -24,7 +24,7 @@ export namespace ActionMenu {
 	}
 }
 
-export const BaseActionMenu: FC<ActionMenu.Props> = ({
+const BaseActionMenu: FC<ActionMenu.Props> = ({
 	icon = ActionMenuIcon,
 	iconProps,
 	target,

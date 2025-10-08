@@ -160,4 +160,5 @@ export { Tx } from "./tx/Tx";
 export { Typo } from "./typo/Typo";
 export { Upload } from "./upload/Upload";
 export { useUpload } from "./upload/useUpload";
+export { SheetSelect } from "./xlsx/SheetSelect";
 export { Xlsx } from "./xlsx/Xlsx";

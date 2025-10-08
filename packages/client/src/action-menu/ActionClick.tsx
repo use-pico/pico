@@ -14,7 +14,7 @@ export namespace ActionClick {
 	}
 }
 
-export const BaseActionClick: FC<ActionClick.Props> = ({
+const BaseActionClick: FC<ActionClick.Props> = ({
 	icon,
 	iconProps,
 	loading = false,

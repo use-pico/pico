@@ -33,7 +33,7 @@ export namespace Preview {
 	export type PropsEx<TValues extends Record<string, any>> = Props<TValues>;
 }
 
-export const BasePreview = <TValues extends Record<string, any>>({
+const BasePreview = <TValues extends Record<string, any>>({
 	ref,
 	entity,
 	title: Title,

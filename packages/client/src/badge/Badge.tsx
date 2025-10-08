@@ -18,7 +18,7 @@ export namespace Badge {
 	}
 }
 
-export const BaseBadge: FC<Badge.Props> = ({
+const BaseBadge: FC<Badge.Props> = ({
 	ref,
 	//
 	disabled,

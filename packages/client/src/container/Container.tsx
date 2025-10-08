@@ -154,7 +154,7 @@ export namespace Container {
 	}
 }
 
-export const BaseContainer: FC<Container.Props> = ({
+const BaseContainer: FC<Container.Props> = ({
 	ref,
 	//
 	tone,

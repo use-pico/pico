@@ -12,7 +12,7 @@ export namespace Detail {
 	export type PropsEx = Omit<Props, "section">;
 }
 
-export const BaseDetail: FC<Detail.Props> = ({
+const BaseDetail: FC<Detail.Props> = ({
 	ref,
 	inline = false,
 	children,

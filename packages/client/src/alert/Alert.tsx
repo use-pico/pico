@@ -21,7 +21,7 @@ export namespace Alert {
 	}
 }
 
-export const BaseAlert: FC<Alert.Props> = ({
+const BaseAlert: FC<Alert.Props> = ({
 	ref,
 	icon,
 	iconProps,
