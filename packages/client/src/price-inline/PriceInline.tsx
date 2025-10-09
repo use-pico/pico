@@ -19,6 +19,7 @@ export const PriceInline: FC<PriceInline.Props> = ({
 				<div>
 					{toHumanNumber({
 						number: price,
+						fraction: 2,
 					})}
 				</div>
 				<div>
