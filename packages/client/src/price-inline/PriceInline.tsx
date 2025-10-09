@@ -7,11 +7,15 @@ export namespace PriceInline {
 			price?: number | null;
 			withVat?: boolean | null;
 		};
+		fraction?: number;
+		significant?: number;
 	}
 }
 
 export const PriceInline: FC<PriceInline.Props> = ({
 	value: { price, withVat },
+	fraction = 2,
+	significant = 2,
 }) => {
 	if (withVat !== undefined) {
 		return (
@@ -19,7 +23,8 @@ export const PriceInline: FC<PriceInline.Props> = ({
 				<div>
 					{toHumanNumber({
 						number: price,
-						fraction: 2,
+						fraction,
+						significant,
 					})}
 				</div>
 				<div>

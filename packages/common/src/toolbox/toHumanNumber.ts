@@ -4,6 +4,7 @@ export namespace toHumanNumber {
 		empty?: string;
 		max?: number;
 		fraction?: number;
+		significant?: number;
 	}
 }
 
@@ -11,6 +12,7 @@ export function toHumanNumber({
 	number,
 	empty = "-",
 	fraction = 2,
+	significant = 2,
 }: toHumanNumber.Props): string {
 	if (number === null || number === undefined) {
 		return empty;
@@ -18,6 +20,7 @@ export function toHumanNumber({
 	try {
 		return number.toLocaleString(undefined, {
 			maximumFractionDigits: fraction,
+			maximumSignificantDigits: significant,
 		});
 	} catch (e) {
 		console.error("toHumanNumber", number, e);
