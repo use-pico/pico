@@ -2,20 +2,19 @@ import { toHumanNumber, translator } from "@use-pico/common";
 import type { FC } from "react";
 
 export namespace PriceInline {
-	export interface Props {
+	export interface Props extends Omit<toHumanNumber.Props, "number"> {
 		value: {
 			price?: number | null;
 			withVat?: boolean | null;
 		};
-		fraction?: number;
-		significant?: number;
 	}
 }
 
 export const PriceInline: FC<PriceInline.Props> = ({
 	value: { price, withVat },
-	fraction = 2,
-	significant = 2,
+	minimumFractionDigits = 2,
+	maximumFractionDigits = 4,
+	...props
 }) => {
 	if (withVat !== undefined) {
 		return (
@@ -23,8 +22,9 @@ export const PriceInline: FC<PriceInline.Props> = ({
 				<div>
 					{toHumanNumber({
 						number: price,
-						fraction,
-						significant,
+						minimumFractionDigits,
+						maximumFractionDigits,
+						...props,
 					})}
 				</div>
 				<div>
@@ -38,5 +38,8 @@ export const PriceInline: FC<PriceInline.Props> = ({
 
 	return toHumanNumber({
 		number: price,
+		minimumFractionDigits,
+		maximumFractionDigits,
+		...props,
 	});
 };

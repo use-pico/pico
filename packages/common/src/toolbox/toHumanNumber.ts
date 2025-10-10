@@ -1,27 +1,20 @@
 export namespace toHumanNumber {
-	export interface Props {
+	export interface Props extends Intl.NumberFormatOptions {
 		number?: number | null;
 		empty?: string;
-		max?: number;
-		fraction?: number;
-		significant?: number;
 	}
 }
 
 export function toHumanNumber({
 	number,
 	empty = "-",
-	fraction = 2,
-	significant = 2,
+	...props
 }: toHumanNumber.Props): string {
 	if (number === null || number === undefined) {
 		return empty;
 	}
 	try {
-		return number.toLocaleString(undefined, {
-			maximumFractionDigits: fraction,
-			maximumSignificantDigits: significant,
-		});
+		return number.toLocaleString(undefined, props);
 	} catch (e) {
 		console.error("toHumanNumber", number, e);
 		return number.toFixed(2);
