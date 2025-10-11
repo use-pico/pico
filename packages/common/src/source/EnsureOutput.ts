@@ -1,6 +1,6 @@
-import type { IsSame } from "@use-pico/common";
 import type { InferResult, SelectQueryBuilder } from "kysely";
 import type { z } from "zod";
+import type { IsSame } from "../type/IsSame";
 
 export type EnsureOutput<
 	TSelect extends SelectQueryBuilder<any, any, any>,

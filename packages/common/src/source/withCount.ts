@@ -1,5 +1,6 @@
-import type { CountSchema, FilterSchema } from "@use-pico/common";
 import type { SelectQueryBuilder } from "kysely";
+import type { CountSchema } from "./CountSchema";
+import type { FilterSchema } from "./FilterSchema";
 
 export namespace withCount {
 	export namespace Query {
