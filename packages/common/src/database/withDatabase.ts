@@ -5,11 +5,18 @@ export namespace withDatabase {
 	export interface Props
 		extends Partial<Pick<MigrationProvider, "getMigrations">> {
 		dialect: Dialect;
+		/**
+		 * Called before the migration is executed.
+		 */
+		onPreMigration?(): Promise<void>;
+		onPostMigration?(): Promise<void>;
 	}
 }
 
 export const withDatabase = <TDatabase>({
 	dialect,
+	onPreMigration,
+	onPostMigration,
 	getMigrations = async () => ({}),
 }: withDatabase.Props): Database.Instance<TDatabase> => {
 	let kysely: Kysely<TDatabase> | null = null;
@@ -27,6 +34,8 @@ export const withDatabase = <TDatabase>({
 			return kysely;
 		},
 		async migrate() {
+			await onPreMigration?.();
+
 			const migrator = new Migrator({
 				db: this.kysely,
 				provider: {
@@ -55,6 +64,8 @@ export const withDatabase = <TDatabase>({
 						break;
 				}
 			});
+
+			await onPostMigration?.();
 
 			return results;
 		},
