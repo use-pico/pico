@@ -5,6 +5,7 @@ export { onAxiosError } from "./axios/onAxiosError";
 export { onAxiosSchemaError } from "./axios/onAxiosSchemaError";
 export { withAxios } from "./axios/withAxios";
 export type { Database } from "./database/Database";
+export { withDatabase } from "./database/withDatabase";
 export { EventBus } from "./event/EventBus";
 export { FulltextSchema } from "./fulltext/FulltextSchema";
 export type { IGqlClient } from "./gql/IGqlClient";

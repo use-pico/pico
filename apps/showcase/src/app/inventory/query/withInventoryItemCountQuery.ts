@@ -1,6 +1,6 @@
 import { withCount, withQuery } from "@use-pico/client";
 import type { CountSchema } from "@use-pico/common";
-import { kysely } from "~/app/database/kysely";
+import { database } from "~/app/database/kysely";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import { withInventoryItemQueryBuilder } from "./withInventoryItemQueryBuilder";
 
@@ -15,7 +15,7 @@ export const withInventoryItemCountQuery = () => {
 		},
 		async queryFn({ filter, where }) {
 			return withCount({
-				select: kysely.selectFrom("InventoryItem").selectAll(),
+				select: database.kysely.selectFrom("InventoryItem").selectAll(),
 				filter,
 				where,
 				query({ select, where }) {

@@ -1,4 +1,4 @@
-import { withDatabase } from "@use-pico/server";
+import { withDatabase } from "@use-pico/common";
 import { SQLocalKysely } from "sqlocal/kysely";
 import type { Database } from "~/app/database/Database";
 import { migrations } from "~/app/database/migrations";
@@ -13,12 +13,9 @@ const { dialect } = new SQLocalKysely({
 	},
 });
 
-export const { kysely, bootstrap } = withDatabase<Database>({
+export const database = withDatabase<Database>({
 	dialect,
 	async getMigrations() {
 		return migrations;
-	},
-	async bootstrap() {
-		//
 	},
 });

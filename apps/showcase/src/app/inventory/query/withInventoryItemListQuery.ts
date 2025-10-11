@@ -1,5 +1,5 @@
 import { withList, withQuery } from "@use-pico/client";
-import { kysely } from "~/app/database/kysely";
+import { database } from "~/app/database/kysely";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
 import { withInventoryItemQueryBuilderWithSort } from "./withInventoryItemQueryBuilder";
@@ -19,7 +19,7 @@ export const withInventoryItemListQuery = () => {
 					setTimeout(() => {
 						res(
 							withList({
-								select: kysely
+								select: database.kysely
 									.selectFrom("InventoryItem")
 									.selectAll(),
 								output: InventoryItemSchema,

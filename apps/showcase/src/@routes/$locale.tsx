@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { translator } from "@use-pico/common";
-import { bootstrap } from "~/app/database/kysely";
+import { database } from "~/app/database/kysely";
 
 export const Route = createFileRoute("/$locale")({
 	async beforeLoad() {
-		await bootstrap();
+		await database.migrate();
 	},
 	async loader({ params: { locale } }) {
 		try {
