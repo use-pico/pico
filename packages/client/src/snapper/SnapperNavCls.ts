@@ -57,7 +57,8 @@ export const SnapperNavCls = contract(PicoCls.contract)
 				"absolute",
 				"z-20",
 				"pointer-events-none",
-				"bg-white/70",
+				"bg-white/60",
+				"opacity-60",
 			],
 			token: [
 				"square.sm",
