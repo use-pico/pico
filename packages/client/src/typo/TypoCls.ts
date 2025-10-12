@@ -26,6 +26,7 @@ export const TypoCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"Typo-root",
+				"inline",
 			],
 		},
 	})
