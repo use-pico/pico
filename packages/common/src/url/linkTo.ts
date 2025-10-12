@@ -44,8 +44,8 @@ export const linkTo = ({ base = "", query = {}, href }: linkTo.Props) => {
 		{} as Record<string, any>,
 	);
 
-	return buildUrl({
-		path: `${base}${compiled}`.replace(/\/+/gu, "/"),
+	return buildUrl(base, {
+		path: `${compiled}`.replace(/\/+/gu, "/"),
 		queryParams: isEmpty(queryParams) ? undefined : queryParams,
 	}) as string;
 };

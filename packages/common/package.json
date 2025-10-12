@@ -1,12 +1,13 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.70",
+	"version": "5.0.71",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"no:build": "bun x rollup -c"
+		"no:build": "bun x rollup -c",
+		"test": "vitest --run"
 	},
 	"dependencies": {
 		"@apollo/client": "^4.0.0",
@@ -43,7 +44,8 @@
 		"@use-pico/tsconfig": "5.0.0",
 		"rollup": "4.52.4",
 		"rollup-plugin-dts": "6.2.3",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"vitest": "^3.2.4"
 	},
 	"main": "./src/index.ts",
 	"module": "./src/index.ts",
