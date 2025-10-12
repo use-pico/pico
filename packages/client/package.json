@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.151",
+	"version": "5.0.152",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
