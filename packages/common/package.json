@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.71",
+	"version": "5.0.72",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -17,9 +17,9 @@
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "^3.6.2",
 		"@types/object-path": "0.11.4",
+		"@types/qs": "6.14.0",
 		"axios": "1.12.2",
 		"axios-rate-limit": "^1.4.0",
-		"build-url-ts": "6.2.0",
 		"fast-clean": "1.5.2",
 		"flattie": "1.1.1",
 		"is-callable": "1.2.7",
@@ -29,8 +29,8 @@
 		"kysely": "0.28.8",
 		"luxon": "^3.7.1",
 		"object-path": "0.11.8",
-		"path-to-regexp": "8.3.0",
 		"preferred-locale": "2.0.2",
+		"qs": "6.14.0",
 		"read-excel-file": "6.0.1",
 		"timer-node": "5.0.9",
 		"zod": "4.1.12"

@@ -22,7 +22,7 @@ describe("linkTo/base", () => {
 	it("Href with base and query", () => {
 		const link = linkTo({
 			base: "http://localhost:4098",
-			href: "/foo/[id]/bar",
+			href: "/foo/:id/bar",
 			query: {
 				id: "123",
 				extra: "foo",
@@ -35,7 +35,7 @@ describe("linkTo/base", () => {
 	it("Href with extended base and query", () => {
 		const link = linkTo({
 			base: "http://localhost:4098/bla",
-			href: "/foo/[id]/bar",
+			href: "/foo/:id/bar",
 			query: {
 				id: "123",
 				extra: "foo",
