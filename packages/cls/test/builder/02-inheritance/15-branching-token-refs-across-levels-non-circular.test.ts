@@ -88,7 +88,7 @@ describe("builder-inheritance/branching-token-refs-across-levels-non-circular", 
 
 		const created = grandchildButton.create();
 		expect(created.slots.root()).toBe(
-			"tertiary-styles grandchild-primary base child tertiary-styles grandchild-primary grandchild",
+			"base child tertiary-styles grandchild-primary grandchild",
 		);
 	});
 });

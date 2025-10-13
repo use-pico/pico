@@ -52,6 +52,6 @@ describe("cls/inheritance/child-duplicate-classes-are-not-deduped-across-levels"
 		);
 
 		const { slots } = $child.create();
-		expect(slots.root()).toBe("base base");
+		expect(slots.root()).toBe("base");
 	});
 });

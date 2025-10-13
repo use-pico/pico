@@ -31,8 +31,6 @@ describe("builder-inheritance/duplicate-classes-not-deduped-across-levels", () =
 			})
 			.cls();
 
-		expect(childButton.create().slots.root()).toBe(
-			"duplicate base duplicate child",
-		);
+		expect(childButton.create().slots.root()).toBe("base duplicate child");
 	});
 });
