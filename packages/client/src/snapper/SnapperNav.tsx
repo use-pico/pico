@@ -211,7 +211,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					id={firstId}
 					key={firstId}
 					onDoubleClick={() => scrollToIndex(0)}
-					onClick={() => scrollToIndex(active - 1)}
+					onClick={() => scrollToIndex(active)}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={tone}
@@ -243,7 +243,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => scrollToIndex(i)}
+							onClick={() => scrollToIndex(i + 1)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -274,7 +274,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={lastId}
 					key={lastId}
-					onClick={() => scrollToIndex(active + 1)}
+					onClick={() => scrollToIndex(active + 2)}
 					onDoubleClick={() => scrollToIndex(pages.length - 1)}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
@@ -320,7 +320,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => scrollToIndex(i)}
+							onClick={() => scrollToIndex(i + 1)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
