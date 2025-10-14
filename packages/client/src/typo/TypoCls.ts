@@ -20,13 +20,16 @@ export const TypoCls = contract(PicoCls.contract)
 		"semi",
 		"bold",
 	])
+	.variant("display", [
+		"inline",
+		"block",
+	])
 	.bool("italic")
 	.def()
 	.root({
 		root: {
 			class: [
 				"Typo-root",
-				"inline",
 			],
 		},
 	})
@@ -276,11 +279,28 @@ export const TypoCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	//
+	.match("display", "block", {
+		root: {
+			class: [
+				"block",
+			],
+		},
+	})
+	.match("display", "inline", {
+		root: {
+			class: [
+				"inline",
+			],
+		},
+	})
+	//
 	.defaults({
 		size: "unset",
 		font: "unset",
 		tone: "unset",
 		theme: "unset",
+		display: "inline",
 		italic: false,
 	})
 	.cls();
