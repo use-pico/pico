@@ -44,6 +44,8 @@ export const FadeCls = contract(PicoCls.contract)
 				"opacity-0",
 				"will-change-[opacity]",
 				"bg-gradient-to-t",
+				"blur-2xl",
+				"overflow-hidden",
 			],
 			token: [
 				"fade.gradient",
@@ -60,6 +62,8 @@ export const FadeCls = contract(PicoCls.contract)
 				"opacity-0",
 				"will-change-[opacity]",
 				"bg-gradient-to-b",
+				"blur-2xl",
+				"overflow-hidden",
 			],
 			token: [
 				"fade.gradient",
