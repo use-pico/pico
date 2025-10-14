@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.156",
+	"version": "5.0.157",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -14,7 +14,7 @@
 		"@lexical/list": "0.37.0",
 		"@lexical/react": "0.37.0",
 		"@lexical/utils": "0.37.0",
-		"@tanstack/react-query": "5.90.2",
+		"@tanstack/react-query": "5.90.3",
 		"@tanstack/react-router": "1.132.47",
 		"@types/luxon": "3.7.1",
 		"@use-pico/cls": "5.0.59",
