@@ -114,6 +114,7 @@ export { ModalFooter } from "./modal/ModalFooter";
 export { More } from "./more/More";
 export { NavigationIndicator } from "./navigation/NavigationIndicator";
 export { NavigationState } from "./navigation/NavigationState";
+export { Overlay } from "./overlay/Overlay";
 export { PopupSelect } from "./popup-select/PopupSelect";
 export { Preview } from "./preview/Preview";
 export { PriceInline } from "./price-inline/PriceInline";

@@ -13,6 +13,9 @@ export const PicoCls = contract()
 		"tone.primary.light.bg:focus",
 		"tone.primary.light.bg:even",
 		"tone.primary.light.bg:odd",
+		"tone.primary.light.accent",
+		"tone.primary.light.from",
+		"tone.primary.light.to",
 		"tone.primary.light.border",
 		"tone.primary.light.border:hover",
 		"tone.primary.light.border:focus",
@@ -30,6 +33,9 @@ export const PicoCls = contract()
 		"tone.primary.dark.bg:focus",
 		"tone.primary.dark.bg:even",
 		"tone.primary.dark.bg:odd",
+		"tone.primary.dark.accent",
+		"tone.primary.dark.from",
+		"tone.primary.dark.to",
 		"tone.primary.dark.border",
 		"tone.primary.dark.border:hover",
 		"tone.primary.dark.border:focus",
@@ -49,6 +55,9 @@ export const PicoCls = contract()
 		"tone.secondary.light.bg:focus",
 		"tone.secondary.light.bg:even",
 		"tone.secondary.light.bg:odd",
+		"tone.secondary.light.accent",
+		"tone.secondary.light.from",
+		"tone.secondary.light.to",
 		"tone.secondary.light.border",
 		"tone.secondary.light.border:hover",
 		"tone.secondary.light.border:focus",
@@ -66,6 +75,9 @@ export const PicoCls = contract()
 		"tone.secondary.dark.bg:focus",
 		"tone.secondary.dark.bg:even",
 		"tone.secondary.dark.bg:odd",
+		"tone.secondary.dark.accent",
+		"tone.secondary.dark.from",
+		"tone.secondary.dark.to",
 		"tone.secondary.dark.border",
 		"tone.secondary.dark.border:hover",
 		"tone.secondary.dark.border:focus",
@@ -85,6 +97,9 @@ export const PicoCls = contract()
 		"tone.danger.light.bg:focus",
 		"tone.danger.light.bg:even",
 		"tone.danger.light.bg:odd",
+		"tone.danger.light.accent",
+		"tone.danger.light.from",
+		"tone.danger.light.to",
 		"tone.danger.light.border",
 		"tone.danger.light.border:hover",
 		"tone.danger.light.border:focus",
@@ -102,6 +117,9 @@ export const PicoCls = contract()
 		"tone.danger.dark.bg:focus",
 		"tone.danger.dark.bg:even",
 		"tone.danger.dark.bg:odd",
+		"tone.danger.dark.accent",
+		"tone.danger.dark.from",
+		"tone.danger.dark.to",
 		"tone.danger.dark.border",
 		"tone.danger.dark.border:hover",
 		"tone.danger.dark.border:focus",
@@ -121,6 +139,9 @@ export const PicoCls = contract()
 		"tone.warning.light.bg:focus",
 		"tone.warning.light.bg:even",
 		"tone.warning.light.bg:odd",
+		"tone.warning.light.accent",
+		"tone.warning.light.from",
+		"tone.warning.light.to",
 		"tone.warning.light.border",
 		"tone.warning.light.border:hover",
 		"tone.warning.light.border:focus",
@@ -138,6 +159,9 @@ export const PicoCls = contract()
 		"tone.warning.dark.bg:focus",
 		"tone.warning.dark.bg:even",
 		"tone.warning.dark.bg:odd",
+		"tone.warning.dark.accent",
+		"tone.warning.dark.from",
+		"tone.warning.dark.to",
 		"tone.warning.dark.border",
 		"tone.warning.dark.border:hover",
 		"tone.warning.dark.border:focus",
@@ -157,6 +181,9 @@ export const PicoCls = contract()
 		"tone.subtle.light.bg:focus",
 		"tone.subtle.light.bg:even",
 		"tone.subtle.light.bg:odd",
+		"tone.subtle.light.accent",
+		"tone.subtle.light.from",
+		"tone.subtle.light.to",
 		"tone.subtle.light.border",
 		"tone.subtle.light.border:hover",
 		"tone.subtle.light.border:focus",
@@ -174,6 +201,9 @@ export const PicoCls = contract()
 		"tone.subtle.dark.bg:focus",
 		"tone.subtle.dark.bg:even",
 		"tone.subtle.dark.bg:odd",
+		"tone.subtle.dark.accent",
+		"tone.subtle.dark.from",
+		"tone.subtle.dark.to",
 		"tone.subtle.dark.border",
 		"tone.subtle.dark.border:hover",
 		"tone.subtle.dark.border:focus",
@@ -193,6 +223,9 @@ export const PicoCls = contract()
 		"tone.neutral.light.bg:focus",
 		"tone.neutral.light.bg:even",
 		"tone.neutral.light.bg:odd",
+		"tone.neutral.light.accent",
+		"tone.neutral.light.from",
+		"tone.neutral.light.to",
 		"tone.neutral.light.border",
 		"tone.neutral.light.border:hover",
 		"tone.neutral.light.border:focus",
@@ -210,6 +243,9 @@ export const PicoCls = contract()
 		"tone.neutral.dark.bg:focus",
 		"tone.neutral.dark.bg:even",
 		"tone.neutral.dark.bg:odd",
+		"tone.neutral.dark.accent",
+		"tone.neutral.dark.from",
+		"tone.neutral.dark.to",
 		"tone.neutral.dark.border",
 		"tone.neutral.dark.border:hover",
 		"tone.neutral.dark.border:focus",
@@ -229,6 +265,9 @@ export const PicoCls = contract()
 		"tone.link.light.bg:focus",
 		"tone.link.light.bg:even",
 		"tone.link.light.bg:odd",
+		"tone.link.light.accent",
+		"tone.link.light.from",
+		"tone.link.light.to",
 		"tone.link.light.border",
 		"tone.link.light.border:hover",
 		"tone.link.light.border:focus",
@@ -246,6 +285,9 @@ export const PicoCls = contract()
 		"tone.link.dark.bg:focus",
 		"tone.link.dark.bg:even",
 		"tone.link.dark.bg:odd",
+		"tone.link.dark.accent",
+		"tone.link.dark.from",
+		"tone.link.dark.to",
 		"tone.link.dark.border",
 		"tone.link.dark.border:hover",
 		"tone.link.dark.border:focus",
@@ -391,6 +433,21 @@ export const PicoCls = contract()
 				"odd:bg-indigo-50",
 			],
 		},
+		"tone.primary.light.accent": {
+			class: [
+				"bg-indigo-100/50",
+			],
+		},
+		"tone.primary.light.from": {
+			class: [
+				"from-indigo-100/50",
+			],
+		},
+		"tone.primary.light.to": {
+			class: [
+				"to-indigo-100/50",
+			],
+		},
 		"tone.primary.light.border": {
 			class: [
 				"border-indigo-200/60",
@@ -469,6 +526,21 @@ export const PicoCls = contract()
 		"tone.primary.dark.bg:odd": {
 			class: [
 				"odd:bg-violet-950/90",
+			],
+		},
+		"tone.primary.dark.accent": {
+			class: [
+				"bg-violet-900/50",
+			],
+		},
+		"tone.primary.dark.from": {
+			class: [
+				"from-violet-900/50",
+			],
+		},
+		"tone.primary.dark.to": {
+			class: [
+				"to-violet-900/50",
 			],
 		},
 		"tone.primary.dark.border": {
@@ -553,6 +625,21 @@ export const PicoCls = contract()
 				"odd:bg-teal-50",
 			],
 		},
+		"tone.secondary.light.accent": {
+			class: [
+				"bg-teal-100/50",
+			],
+		},
+		"tone.secondary.light.from": {
+			class: [
+				"from-teal-100/50",
+			],
+		},
+		"tone.secondary.light.to": {
+			class: [
+				"to-teal-100/50",
+			],
+		},
 		"tone.secondary.light.border": {
 			class: [
 				"border-teal-200/60",
@@ -631,6 +718,21 @@ export const PicoCls = contract()
 		"tone.secondary.dark.bg:odd": {
 			class: [
 				"odd:bg-teal-950/90",
+			],
+		},
+		"tone.secondary.dark.accent": {
+			class: [
+				"bg-teal-900/50",
+			],
+		},
+		"tone.secondary.dark.from": {
+			class: [
+				"from-teal-900/50",
+			],
+		},
+		"tone.secondary.dark.to": {
+			class: [
+				"to-teal-900/50",
 			],
 		},
 		"tone.secondary.dark.border": {
@@ -715,6 +817,21 @@ export const PicoCls = contract()
 				"odd:bg-rose-50",
 			],
 		},
+		"tone.danger.light.accent": {
+			class: [
+				"bg-rose-100/50",
+			],
+		},
+		"tone.danger.light.from": {
+			class: [
+				"from-rose-100/50",
+			],
+		},
+		"tone.danger.light.to": {
+			class: [
+				"to-rose-100/50",
+			],
+		},
 		"tone.danger.light.border": {
 			class: [
 				"border-rose-200/60",
@@ -793,6 +910,21 @@ export const PicoCls = contract()
 		"tone.danger.dark.bg:odd": {
 			class: [
 				"odd:bg-rose-950/90",
+			],
+		},
+		"tone.danger.dark.accent": {
+			class: [
+				"bg-rose-900/50",
+			],
+		},
+		"tone.danger.dark.from": {
+			class: [
+				"from-rose-900/50",
+			],
+		},
+		"tone.danger.dark.to": {
+			class: [
+				"to-rose-900/50",
 			],
 		},
 		"tone.danger.dark.border": {
@@ -877,6 +1009,21 @@ export const PicoCls = contract()
 				"odd:bg-amber-50",
 			],
 		},
+		"tone.warning.light.accent": {
+			class: [
+				"bg-amber-100/50",
+			],
+		},
+		"tone.warning.light.from": {
+			class: [
+				"from-amber-100/50",
+			],
+		},
+		"tone.warning.light.to": {
+			class: [
+				"to-amber-100/50",
+			],
+		},
 		"tone.warning.light.border": {
 			class: [
 				"border-amber-200/60",
@@ -955,6 +1102,21 @@ export const PicoCls = contract()
 		"tone.warning.dark.bg:odd": {
 			class: [
 				"odd:bg-amber-950/90",
+			],
+		},
+		"tone.warning.dark.accent": {
+			class: [
+				"bg-amber-900/50",
+			],
+		},
+		"tone.warning.dark.from": {
+			class: [
+				"from-amber-900/50",
+			],
+		},
+		"tone.warning.dark.to": {
+			class: [
+				"to-amber-900/50",
 			],
 		},
 		"tone.warning.dark.border": {
@@ -1039,6 +1201,21 @@ export const PicoCls = contract()
 				"odd:bg-stone-50",
 			],
 		},
+		"tone.subtle.light.accent": {
+			class: [
+				"bg-stone-100/50",
+			],
+		},
+		"tone.subtle.light.from": {
+			class: [
+				"from-stone-100/50",
+			],
+		},
+		"tone.subtle.light.to": {
+			class: [
+				"to-stone-100/50",
+			],
+		},
 		"tone.subtle.light.border": {
 			class: [
 				"border-stone-200/60",
@@ -1117,6 +1294,21 @@ export const PicoCls = contract()
 		"tone.subtle.dark.bg:odd": {
 			class: [
 				"odd:bg-stone-950/90",
+			],
+		},
+		"tone.subtle.dark.accent": {
+			class: [
+				"bg-stone-900/50",
+			],
+		},
+		"tone.subtle.dark.from": {
+			class: [
+				"from-stone-900/50",
+			],
+		},
+		"tone.subtle.dark.to": {
+			class: [
+				"to-stone-900/50",
 			],
 		},
 		"tone.subtle.dark.border": {
@@ -1201,6 +1393,21 @@ export const PicoCls = contract()
 				"odd:bg-slate-50",
 			],
 		},
+		"tone.neutral.light.accent": {
+			class: [
+				"bg-slate-100/50",
+			],
+		},
+		"tone.neutral.light.from": {
+			class: [
+				"from-slate-100/50",
+			],
+		},
+		"tone.neutral.light.to": {
+			class: [
+				"to-slate-100/50",
+			],
+		},
 		"tone.neutral.light.border": {
 			class: [
 				"border-slate-200/60",
@@ -1279,6 +1486,21 @@ export const PicoCls = contract()
 		"tone.neutral.dark.bg:odd": {
 			class: [
 				"odd:bg-slate-950/90",
+			],
+		},
+		"tone.neutral.dark.accent": {
+			class: [
+				"bg-slate-900/50",
+			],
+		},
+		"tone.neutral.dark.from": {
+			class: [
+				"from-slate-900/50",
+			],
+		},
+		"tone.neutral.dark.to": {
+			class: [
+				"to-slate-900/50",
 			],
 		},
 		"tone.neutral.dark.border": {
@@ -1363,6 +1585,21 @@ export const PicoCls = contract()
 				"odd:bg-blue-25",
 			],
 		},
+		"tone.link.light.accent": {
+			class: [
+				"bg-blue-50/50",
+			],
+		},
+		"tone.link.light.from": {
+			class: [
+				"from-blue-50/50",
+			],
+		},
+		"tone.link.light.to": {
+			class: [
+				"to-blue-50/50",
+			],
+		},
 		"tone.link.light.border": {
 			class: [
 				"border-blue-200/60",
@@ -1441,6 +1678,21 @@ export const PicoCls = contract()
 		"tone.link.dark.bg:odd": {
 			class: [
 				"odd:bg-blue-950/90",
+			],
+		},
+		"tone.link.dark.accent": {
+			class: [
+				"bg-blue-900/50",
+			],
+		},
+		"tone.link.dark.from": {
+			class: [
+				"from-blue-900/50",
+			],
+		},
+		"tone.link.dark.to": {
+			class: [
+				"to-blue-900/50",
 			],
 		},
 		"tone.link.dark.border": {
