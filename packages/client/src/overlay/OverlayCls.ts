@@ -57,6 +57,7 @@ export const OverlayCls = contract(PicoCls.contract)
 				"absolute",
 				"inset-0",
 				"overflow-hidden",
+				"z-[100]",
 			],
 		},
 		top: {
