@@ -104,6 +104,10 @@ export namespace Cls {
 		TCls["contract"]
 	>;
 
+	export type TweaksOf<TCls extends Type<any>> = Tweak.Tweaks<
+		TCls["contract"]
+	>;
+
 	/**
 	 * Props are used in React components when an user wants to work with Cls.
 	 *

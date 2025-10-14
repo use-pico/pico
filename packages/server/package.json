@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/server",
 	"description": "Node/bun/whatever/server-side stuff.",
-	"version": "5.0.74",
+	"version": "5.0.75",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -10,12 +10,12 @@
 	},
 	"dependencies": {
 		"@phenomnomnominal/tsquery": "6.1.3",
-		"@use-pico/common": "5.0.74",
+		"@use-pico/common": "5.0.75",
 		"yaml": "2.8.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.6",
-		"@rollup/plugin-commonjs": "28.0.6",
+		"@rollup/plugin-commonjs": "28.0.7",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.1.4",
 		"@types/node": "24.7.2",

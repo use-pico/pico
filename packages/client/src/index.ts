@@ -97,6 +97,7 @@ export { JustDropZone } from "./just-drop-zone/JustDropZone";
 export { LabelCount } from "./label-count/LabelCount";
 export { AppLayout } from "./layout/AppLayout";
 export { LinkTo } from "./link-to/LinkTo";
+export { LinkToCls } from "./link-to/LinkToCls";
 export { AbstractList } from "./list/AbstractList";
 export type { Loader } from "./loader/Loader";
 export { LoadingOverlay } from "./loading-overlay/LoadingOverlay";
