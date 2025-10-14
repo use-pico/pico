@@ -8,9 +8,11 @@ export const OverlayCls = contract(PicoCls.contract)
 		"bottom",
 	])
 	.variant("opacity", [
-		"low",
-		"medium",
-		"high",
+		"100",
+		"75",
+		"50",
+		"25",
+		"15",
 	])
 	.variant("type", [
 		"bg-1",
@@ -74,24 +76,38 @@ export const OverlayCls = contract(PicoCls.contract)
 		},
 	})
 	//
-	.match("opacity", "low", {
+	.match("opacity", "100", {
 		root: {
 			class: [
 				"opacity-100",
 			],
 		},
 	})
-	.match("opacity", "medium", {
+	.match("opacity", "75", {
+		root: {
+			class: [
+				"opacity-75",
+			],
+		},
+	})
+	.match("opacity", "50", {
 		root: {
 			class: [
 				"opacity-50",
 			],
 		},
 	})
-	.match("opacity", "high", {
+	.match("opacity", "25", {
 		root: {
 			class: [
 				"opacity-25",
+			],
+		},
+	})
+	.match("opacity", "15", {
+		root: {
+			class: [
+				"opacity-15",
 			],
 		},
 	})
@@ -115,7 +131,7 @@ export const OverlayCls = contract(PicoCls.contract)
 				"left-[-10%]",
 				"h-[28rem]",
 				"w-[28rem]",
-				"bg-gradient-to-tr",
+				"bg-gradient-to-tl",
 				"from-fuchsia-500/10",
 				"to-purple-500/10",
 				"blur-2xl",
@@ -129,7 +145,7 @@ export const OverlayCls = contract(PicoCls.contract)
 				"right-[-20%]",
 				"h-[64rem]",
 				"w-[64rem]",
-				"bg-gradient-to-br",
+				"bg-gradient-to-bl",
 				"blur-2xl",
 			],
 		},
@@ -345,7 +361,7 @@ export const OverlayCls = contract(PicoCls.contract)
 	})
 	//
 	.defaults({
-		opacity: "low",
+		opacity: "75",
 		type: "bg-1",
 		tone: "primary",
 		theme: "light",
