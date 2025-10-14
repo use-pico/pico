@@ -77,10 +77,12 @@ const BaseStatus: FC<Status.Props> = ({
 						label={textTitle}
 						size="xl"
 						font="bold"
+						display="block"
 						{...titleProps}
 					/>
 					<Typo
 						label={textMessage}
+						display="block"
 						{...messageProps}
 					/>
 				</div>
