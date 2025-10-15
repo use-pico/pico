@@ -38,6 +38,8 @@ export function useSnapperNav({
 			}
 
 			const clampedIndex = Math.max(0, Math.min(count - 1, index));
+			setCurrent(clampedIndex);
+
 			const item = container.children[clampedIndex] as HTMLElement | null;
 			if (!item) {
 				console.warn(

@@ -56,7 +56,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	align,
 	//
 	iconProps,
-	limit = 6,
+	limit = 5,
 	defaultIndex = 0,
 	//
 	cls = SnapperNavCls,
