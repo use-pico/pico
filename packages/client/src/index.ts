@@ -129,6 +129,7 @@ export { Select } from "./select/Select";
 export { useSelection } from "./selection/useSelection";
 export { Sheet } from "./sheet/Sheet";
 export { SnapperNav } from "./snapper/SnapperNav";
+export { useSnapperNav } from "./snapper/useSnapperNav";
 export { DeleteControl } from "./source/DeleteControl";
 export { withMutation } from "./source/withMutation";
 export { withQuery } from "./source/withQuery";

@@ -19,9 +19,9 @@
         "@tanstack/react-form": "1.23.7",
         "@tanstack/react-query": "5.90.3",
         "@tanstack/react-router": "1.132.47",
-        "@use-pico/client": "5.0.165",
-        "@use-pico/cls": "5.0.59",
-        "@use-pico/common": "5.0.74",
+        "@use-pico/client": "5.0.167",
+        "@use-pico/cls": "5.0.60",
+        "@use-pico/common": "5.0.75",
         "fuse.js": "7.1.0",
         "kysely": "0.28.8",
         "react": "19.2.0",
@@ -38,7 +38,7 @@
         "@types/node": "24.7.2",
         "@types/react": "19.2.2",
         "@types/react-dom": "19.2.2",
-        "@use-pico/server": "5.0.74",
+        "@use-pico/server": "5.0.75",
         "@vitejs/plugin-react": "5.0.4",
         "tailwindcss": "4.1.14",
         "typescript": "^5.9.3",
@@ -55,7 +55,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "5.0.165",
+      "version": "5.0.167",
       "dependencies": {
         "@floating-ui/react": "0.27.16",
         "@lexical/list": "0.37.0",
@@ -64,8 +64,8 @@
         "@tanstack/react-query": "5.90.3",
         "@tanstack/react-router": "1.132.47",
         "@types/luxon": "3.7.1",
-        "@use-pico/cls": "5.0.59",
-        "@use-pico/common": "5.0.74",
+        "@use-pico/cls": "5.0.60",
+        "@use-pico/common": "5.0.75",
         "axios": "1.12.2",
         "js-file-downloader": "1.1.25",
         "kysely": "0.28.8",
@@ -99,7 +99,7 @@
     },
     "packages/cls": {
       "name": "@use-pico/cls",
-      "version": "5.0.59",
+      "version": "5.0.60",
       "dependencies": {
         "react": "19.2.0",
         "tailwind-merge": "3.3.1",
@@ -127,7 +127,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "5.0.74",
+      "version": "5.0.75",
       "dependencies": {
         "@apollo/client": "4.0.7",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -169,7 +169,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.55",
+      "version": "4.0.56",
       "dependencies": {
         "@graphql-codegen/add": "6.0.0",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -199,10 +199,10 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "5.0.74",
+      "version": "5.0.75",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "5.0.74",
+        "@use-pico/common": "5.0.75",
         "yaml": "2.8.1",
       },
       "devDependencies": {

@@ -5,12 +5,11 @@ import {
 	type Ref,
 	type RefObject,
 	useCallback,
-	useEffect,
 	useId,
 	useMemo,
-	useState,
 } from "react";
 import { SnapperNavCls } from "./SnapperNavCls";
+import { useSnapperNav } from "./useSnapperNav";
 
 export namespace SnapperNav {
 	export namespace IconProps {
@@ -38,7 +37,7 @@ export namespace SnapperNav {
 		ref?: Ref<HTMLDivElement>;
 		containerRef: RefObject<HTMLElement | null>;
 		pages: Page[];
-		initialIndex?: number;
+		defaultIndex?: number;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
@@ -58,20 +57,20 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	//
 	iconProps,
 	limit = 6,
-	initialIndex = 0,
+	defaultIndex = 0,
 	//
 	cls = SnapperNavCls,
 	tweak,
 	//
 }) => {
-	const [active, setActive] = useState(() =>
-		Math.min(initialIndex, Math.max(0, pages.length - 1)),
-	);
+	const { current, isFirst, isLast, start, end, snapTo } = useSnapperNav({
+		containerRef,
+		orientation,
+		count: pages.length,
+		defaultIndex,
+	});
 
-	const isFirst = active === 0;
-	const isLast = active === pages.length - 1;
-
-	const { slots, variant } = useCls(cls, tweak, {
+	const { slots } = useCls(cls, tweak, {
 		variant: {
 			orientation,
 			align,
@@ -80,94 +79,17 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		},
 	});
 
-	const scrollToIndex = useCallback(
-		(index: number, behavior: ScrollBehavior = "smooth") => {
-			const container = containerRef.current;
-			if (!container) {
-				console.warn("SnapperNav: Container not found");
-				return;
-			}
-
-			const item = container.children[index] as HTMLElement | null;
-			if (!item) {
-				console.warn(
-					"SnapperNav: Item at index not found - does the container contain only the tracked children?",
-				);
-				return;
-			}
-
-			if (variant.orientation === "vertical") {
-				container.scrollTo({
-					top: item.offsetTop,
-					behavior,
-				});
-			} else {
-				container.scrollTo({
-					left: item.offsetLeft,
-					behavior,
-				});
-			}
-		},
-		[
-			containerRef,
-			variant.orientation,
-		],
-	);
-
 	const firstDoubleTap = useDoubleTap({
-		onDoubleTap: () => scrollToIndex(0),
+		onDoubleTap: start,
 	});
 
 	const lastDoubleTap = useDoubleTap({
-		onDoubleTap: () => scrollToIndex(pages.length - 1),
+		onDoubleTap: end,
 	});
 
 	// Control ids (stable, unique) for start/end buttons.
 	const firstId = useId();
 	const lastId = useId();
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: Intentional - one shot execution
-	useEffect(() => {
-		scrollToIndex(active, "auto");
-	}, []);
-
-	useEffect(() => {
-		const container = containerRef.current;
-		if (!container) {
-			return;
-		}
-
-		const onScroll = () => {
-			const size =
-				orientation === "vertical"
-					? container.clientHeight
-					: container.clientWidth;
-			const pos =
-				orientation === "vertical"
-					? container.scrollTop
-					: container.scrollLeft;
-			const idx = Math.max(
-				0,
-				Math.min(pages.length - 1, Math.round(pos / Math.max(1, size))),
-			);
-			if (idx !== active) {
-				setActive(idx);
-			}
-		};
-
-		container.addEventListener("scroll", onScroll, {
-			passive: true,
-		});
-
-		return () => {
-			container.removeEventListener("scroll", onScroll);
-		};
-	}, [
-		containerRef,
-		orientation,
-		pages,
-		active,
-	]);
 
 	const flow = useMemo(() => {
 		if (!limit) {
@@ -181,7 +103,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 
 		const visible = Math.max(1, Math.min(limit, total));
 		const half = Math.floor((visible - 1) / 2);
-		let start = active - half;
+		let start = current - half;
 		start = Math.max(0, Math.min(start, total - visible));
 
 		const out: number[] = [];
@@ -192,7 +114,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	}, [
 		limit,
 		pages,
-		active,
+		current,
 	]);
 
 	const renderLimiter = useCallback(() => {
@@ -210,8 +132,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={firstId}
 					key={firstId}
-					onDoubleClick={() => scrollToIndex(0)}
-					onClick={() => scrollToIndex(active)}
+					onDoubleClick={start}
+					onClick={() => snapTo(current)}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={tone}
@@ -237,13 +159,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					if (!page) {
 						return null;
 					}
-					const isActive = i === active;
+					const isActive = i === current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => scrollToIndex(i + 1)}
+							onClick={() => snapTo(i + 1)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -274,8 +196,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={lastId}
 					key={lastId}
-					onClick={() => scrollToIndex(active + 2)}
-					onDoubleClick={() => scrollToIndex(pages.length - 1)}
+					onClick={() => snapTo(current + 2)}
+					onDoubleClick={end}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
 					tone={tone}
@@ -302,9 +224,11 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		tone,
 		iconProps,
 		pages,
-		active,
+		current,
 		flow,
-		scrollToIndex,
+		snapTo,
+		start,
+		end,
 		slots,
 		firstDoubleTap,
 		lastDoubleTap,
@@ -314,13 +238,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		() => (
 			<>
 				{pages.map((page, i) => {
-					const isActive = i === active;
+					const isActive = i === current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => scrollToIndex(i + 1)}
+							onClick={() => snapTo(i + 1)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -350,8 +274,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			tone,
 			pages,
 			iconProps,
-			active,
-			scrollToIndex,
+			current,
+			snapTo,
 		],
 	);
 
@@ -365,7 +289,9 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				data-ui="SnapperNav-items"
 				className={slots.items()}
 			>
-				{limit ? renderLimiter() : renderPages()}
+				{limit && pages.length > limit
+					? renderLimiter()
+					: renderPages()}
 			</div>
 		</div>
 	);
