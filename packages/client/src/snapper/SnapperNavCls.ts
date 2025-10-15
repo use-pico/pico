@@ -23,6 +23,7 @@ export const SnapperNavCls = contract(PicoCls.contract)
 		"left",
 		"right",
 	])
+	.bool("subtle")
 	.bool("active")
 	.bool("first")
 	.bool("last")
@@ -57,8 +58,6 @@ export const SnapperNavCls = contract(PicoCls.contract)
 				"absolute",
 				"z-20",
 				"pointer-events-none",
-				"bg-white/60",
-				"opacity-60",
 			],
 			token: [
 				"square.sm",
@@ -93,6 +92,26 @@ export const SnapperNavCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	//
+	.switch(
+		"subtle",
+		{
+			root: {
+				class: [
+					"opacity-25",
+				],
+			},
+		},
+		{
+			root: {
+				class: [
+					"bg-white/60",
+					"opacity-60",
+				],
+			},
+		},
+	)
+	//
 	.match("orientation", "vertical", {
 		items: {
 			class: [
@@ -202,6 +221,7 @@ export const SnapperNavCls = contract(PicoCls.contract)
 		theme: "light",
 		orientation: "vertical",
 		align: "right",
+		subtle: false,
 		active: false,
 		first: false,
 		last: false,

@@ -46,6 +46,7 @@ export namespace SnapperNav {
 		containerRef: RefObject<HTMLElement | null>;
 		pages: Page[] | Count;
 		defaultIndex?: number;
+		subtle?: boolean;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
 		align?: Cls.VariantOf<SnapperNavCls, "align">;
@@ -59,6 +60,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	containerRef,
 	pages,
 	//
+	subtle,
 	orientation,
 	tone = "primary",
 	align,
@@ -96,6 +98,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		variant: {
 			orientation,
 			align,
+			subtle,
 			first: isFirst,
 			last: isLast,
 		},
