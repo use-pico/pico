@@ -12,7 +12,7 @@ export namespace PriceInline {
 
 export const PriceInline: FC<PriceInline.Props> = ({
 	value: { price, withVat },
-	minimumFractionDigits = 2,
+	minimumFractionDigits = 0,
 	maximumFractionDigits = 4,
 	...props
 }) => {

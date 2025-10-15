@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.173",
+	"version": "5.0.175",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -15,10 +15,10 @@
 		"@lexical/react": "0.37.0",
 		"@lexical/utils": "0.37.0",
 		"@tanstack/react-query": "5.90.3",
-		"@tanstack/react-router": "1.132.47",
+		"@tanstack/react-router": "1.133.3",
 		"@types/luxon": "3.7.1",
 		"@use-pico/cls": "5.0.60",
-		"@use-pico/common": "5.0.75",
+		"@use-pico/common": "5.0.77",
 		"axios": "1.12.2",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.8",

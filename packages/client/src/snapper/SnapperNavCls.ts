@@ -98,7 +98,7 @@ export const SnapperNavCls = contract(PicoCls.contract)
 		{
 			root: {
 				class: [
-					"opacity-25",
+					"opacity-40",
 				],
 			},
 		},
