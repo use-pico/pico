@@ -24,6 +24,10 @@ export const TypoCls = contract(PicoCls.contract)
 		"inline",
 		"block",
 	])
+	.variant("wrap", [
+		"wrap",
+		"nowrap",
+	])
 	.bool("italic")
 	.def()
 	.root({
@@ -295,12 +299,28 @@ export const TypoCls = contract(PicoCls.contract)
 		},
 	})
 	//
+	.match("wrap", "wrap", {
+		root: {
+			class: [
+				"text-wrap",
+			],
+		},
+	})
+	.match("wrap", "nowrap", {
+		root: {
+			class: [
+				"text-nowrap",
+			],
+		},
+	})
+	//
 	.defaults({
 		size: "unset",
 		font: "unset",
 		tone: "unset",
 		theme: "unset",
 		display: "inline",
+		wrap: "wrap",
 		italic: false,
 	})
 	.cls();
