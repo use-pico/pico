@@ -1,4 +1,3 @@
-import { Icon, type IconCls, useDoubleTap } from "@use-pico/client";
 import { type Cls, useCls, withCls } from "@use-pico/cls";
 import {
 	type FC,
@@ -8,6 +7,10 @@ import {
 	useId,
 	useMemo,
 } from "react";
+import { useDoubleTap } from "../hook/useDoubleTap";
+import { DotIcon } from "../icon/DotIcon";
+import { Icon } from "../icon/Icon";
+import type { IconCls } from "../icon/IconCls";
 import { SnapperNavCls } from "./SnapperNavCls";
 import { useSnapperNav } from "./useSnapperNav";
 
@@ -33,10 +36,15 @@ export namespace SnapperNav {
 		iconProps?: IconProps.IconPropsFn;
 	}
 
+	export interface Count {
+		count: number;
+		icon?: Icon.Type;
+	}
+
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		containerRef: RefObject<HTMLElement | null>;
-		pages: Page[];
+		pages: Page[] | Count;
 		defaultIndex?: number;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
@@ -63,11 +71,24 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	tweak,
 	//
 }) => {
+	const pageId = useId();
+	const $pages: SnapperNav.Page[] = Array.isArray(pages)
+		? pages
+		: Array.from(
+				{
+					length: pages.count,
+				},
+				(_, i) => ({
+					id: `${pageId}-${i}`,
+					icon: pages.icon ?? DotIcon,
+				}),
+			);
+
 	const { current, isFirst, isLast, start, end, next, prev, snapTo } =
 		useSnapperNav({
 			containerRef,
 			orientation,
-			count: pages.length,
+			count: $pages.length,
 			defaultIndex,
 		});
 
@@ -94,10 +115,10 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 
 	const flow = useMemo(() => {
 		if (!limit) {
-			return pages.map((_, i) => i);
+			return $pages.map((_, i) => i);
 		}
 
-		const total = pages.length;
+		const total = $pages.length;
 		if (total === 0) {
 			return [];
 		}
@@ -114,7 +135,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		return out;
 	}, [
 		limit,
-		pages,
+		$pages,
 		current,
 	]);
 
@@ -153,7 +174,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					})}
 				/>
 				{flow.map((i) => {
-					const page = pages[i];
+					const page = $pages[i];
 					/**
 					 * Just to make TS happy
 					 */
@@ -224,7 +245,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		orientation,
 		tone,
 		iconProps,
-		pages,
+		$pages,
 		current,
 		flow,
 		snapTo,
@@ -240,7 +261,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	const renderPages = useCallback(
 		() => (
 			<>
-				{pages.map((page, i) => {
+				{$pages.map((page, i) => {
 					const isActive = i === current;
 
 					return (
@@ -275,7 +296,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		),
 		[
 			tone,
-			pages,
+			$pages,
 			iconProps,
 			current,
 			snapTo,
@@ -292,7 +313,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				data-ui="SnapperNav-items"
 				className={slots.items()}
 			>
-				{limit && pages.length > limit
+				{limit && $pages.length > limit
 					? renderLimiter()
 					: renderPages()}
 			</div>

@@ -55,6 +55,7 @@ export { CheckIcon } from "./icon/CheckIcon";
 export { CloseIcon } from "./icon/CloseIcon";
 export { ConfirmIcon } from "./icon/ConfirmIcon";
 export { DescIcon } from "./icon/DescIcon";
+export { DotIcon } from "./icon/DotIcon";
 export { DotsIcon } from "./icon/DotsIcon";
 export { DownloadIcon } from "./icon/DownloadIcon";
 export { EditIcon } from "./icon/EditIcon";
