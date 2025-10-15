@@ -63,12 +63,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	tweak,
 	//
 }) => {
-	const { current, isFirst, isLast, start, end, snapTo } = useSnapperNav({
-		containerRef,
-		orientation,
-		count: pages.length,
-		defaultIndex,
-	});
+	const { current, isFirst, isLast, start, end, next, prev, snapTo } =
+		useSnapperNav({
+			containerRef,
+			orientation,
+			count: pages.length,
+			defaultIndex,
+		});
 
 	const { slots } = useCls(cls, tweak, {
 		variant: {
@@ -133,7 +134,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					id={firstId}
 					key={firstId}
 					onDoubleClick={start}
-					onClick={() => snapTo(current)}
+					onClick={prev}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={tone}
@@ -196,7 +197,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={lastId}
 					key={lastId}
-					onClick={() => snapTo(current + 2)}
+					onClick={next}
 					onDoubleClick={end}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
@@ -229,6 +230,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		snapTo,
 		start,
 		end,
+		next,
+		prev,
 		slots,
 		firstDoubleTap,
 		lastDoubleTap,
@@ -244,7 +247,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapTo(i + 1)}
+							onClick={() => snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"

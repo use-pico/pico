@@ -14,6 +14,8 @@ export namespace useSnapperNav {
 		isLast: boolean;
 		start: () => void;
 		end: () => void;
+		next: () => void;
+		prev: () => void;
 		snapTo: (index: number, behavior?: ScrollBehavior) => void;
 	}
 }
@@ -76,6 +78,25 @@ export function useSnapperNav({
 		count,
 	]);
 
+	const next = useCallback(() => {
+		if (current < count - 1) {
+			snapTo(current + 1);
+		}
+	}, [
+		current,
+		count,
+		snapTo,
+	]);
+
+	const prev = useCallback(() => {
+		if (current > 0) {
+			snapTo(current - 1);
+		}
+	}, [
+		current,
+		snapTo,
+	]);
+
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Intentional - one shot execution
 	useEffect(() => {
 		snapTo(current, "auto");
@@ -125,6 +146,8 @@ export function useSnapperNav({
 		isLast: current === count - 1,
 		start,
 		end,
+		next,
+		prev,
 		snapTo,
 	};
 }
