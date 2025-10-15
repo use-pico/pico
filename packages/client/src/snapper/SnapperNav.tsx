@@ -166,7 +166,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapTo(i + 1)}
+							onClick={() => snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
