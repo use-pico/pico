@@ -26,6 +26,10 @@ export namespace tx {
 		 */
 		format?: "json" | "yaml";
 		/**
+		 * File filter regex. Defaults to matching only .ts and .tsx files.
+		 */
+		filter?: RegExp;
+		/**
 		 * JSX elements to extract translations from (e.g., `<Tx label="text" />`).
 		 *
 		 * **Important**: This is for **string extraction only**. Your application must still
@@ -54,6 +58,7 @@ export const tx = ({
 	output,
 	locales,
 	format = "yaml",
+	filter = /(?<!\.d)\.tsx?$/,
 	jsx = [],
 	functions = [],
 	objects = [],
@@ -87,7 +92,7 @@ export const tx = ({
 	packages.forEach((path) => {
 		const benchmark = Timer.benchmark(() => {
 			project(`${path}/tsconfig.json`)
-				.filter((source) => !source.fileName.endsWith(".d.ts"))
+				.filter((source) => filter.test(source.fileName))
 				.forEach((source) => {
 					const addTranslation = (node: any) => {
 						const printed = print(node);
@@ -98,73 +103,83 @@ export const tx = ({
 						};
 					};
 
-					jsxSources.forEach(({ name, attr }) => {
-						const selfClosingAttrs = query(
-							source,
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-						);
-						const openingAttrs = query(
-							source,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-						);
-
-						[
-							...selfClosingAttrs,
-							...openingAttrs,
-						].forEach((attr: any) => {
-							query(attr, "StringLiteral").forEach(
-								addTranslation,
+					const jsxBenchmark = Timer.benchmark(() => {
+						jsxSources.forEach(({ name, attr }) => {
+							const selfClosingAttrs = query(
+								source,
+								`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
 							);
-							query(
-								attr,
-								"JsxExpression NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(
-								attr,
-								"JsxExpression TemplateExpression",
-							).forEach(addTranslation);
+							const openingAttrs = query(
+								source,
+								`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+							);
+
+							[
+								...selfClosingAttrs,
+								...openingAttrs,
+							].forEach((attr: any) => {
+								query(attr, "StringLiteral").forEach(
+									addTranslation,
+								);
+								query(
+									attr,
+									"JsxExpression NoSubstitutionTemplateLiteral",
+								).forEach(addTranslation);
+								query(
+									attr,
+									"JsxExpression TemplateExpression",
+								).forEach(addTranslation);
+							});
 						});
 					});
 
-					functionSources.forEach(({ name }) => {
-						const callExpressions = query(
-							source,
-							`CallExpression:has(Identifier[name=${name}])`,
-						);
+					const functionsBenchmark = Timer.benchmark(() => {
+						functionSources.forEach(({ name }) => {
+							const callExpressions = query(
+								source,
+								`CallExpression:has(Identifier[name=${name}])`,
+							);
 
-						callExpressions.forEach((call: any) => {
-							query(call, "StringLiteral").forEach(
-								addTranslation,
-							);
-							query(
-								call,
-								"NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(call, "TemplateExpression").forEach(
-								addTranslation,
-							);
+							callExpressions.forEach((call: any) => {
+								query(call, "StringLiteral").forEach(
+									addTranslation,
+								);
+								query(
+									call,
+									"NoSubstitutionTemplateLiteral",
+								).forEach(addTranslation);
+								query(call, "TemplateExpression").forEach(
+									addTranslation,
+								);
+							});
 						});
 					});
 
-					objectSources.forEach(({ object, name }) => {
-						const callExpressions = query(
-							source,
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
-						);
+					const objectsBenchmark = Timer.benchmark(() => {
+						objectSources.forEach(({ object, name }) => {
+							const callExpressions = query(
+								source,
+								`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+							);
 
-						callExpressions.forEach((call: any) => {
-							query(call, "StringLiteral").forEach(
-								addTranslation,
-							);
-							query(
-								call,
-								"NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(call, "TemplateExpression").forEach(
-								addTranslation,
-							);
+							callExpressions.forEach((call: any) => {
+								query(call, "StringLiteral").forEach(
+									addTranslation,
+								);
+								query(
+									call,
+									"NoSubstitutionTemplateLiteral",
+								).forEach(addTranslation);
+								query(call, "TemplateExpression").forEach(
+									addTranslation,
+								);
+							});
 						});
 					});
+
+					console.log(
+						`  ${source.fileName}: JSX ${jsxBenchmark.format("%s.%ms s")} | Functions ${functionsBenchmark.format("%s.%ms s")} | Objects ${objectsBenchmark.format("%s.%ms s")}`,
+					);
 				});
 		});
 		console.log(
