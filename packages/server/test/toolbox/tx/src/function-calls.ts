@@ -12,3 +12,9 @@ export const test2 = () => {
 export const test3 = () => {
 	t(`Template literal`);
 };
+
+const justCall = (_: string) => {
+	return null;
+};
+
+justCall("foo");
