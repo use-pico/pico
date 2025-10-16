@@ -7,6 +7,7 @@ import {
 	type TranslationSchema,
 	type TranslationSource,
 } from "@use-pico/common";
+import cliProgress from "cli-progress";
 import { parse, stringify } from "yaml";
 
 export namespace tx {
@@ -92,102 +93,116 @@ export const tx = ({
 	let files = 0;
 
 	packages.forEach((path) => {
+		const sources = project(`${path}/tsconfig.json`).filter((source) =>
+			filter.test(source.fileName),
+		);
+		const total = sources.length;
+
+		console.log(`\n📦 Package: ${path}`);
+		console.log(`📄 Files to process: ${total}\n`);
+
+		const progressBar = new cliProgress.SingleBar(
+			{
+				format: "Processing |{bar}| {percentage}% | {value}/{total} files | {file}",
+				barCompleteChar: "\u2588",
+				barIncompleteChar: "\u2591",
+				hideCursor: true,
+			},
+			cliProgress.Presets.shades_classic,
+		);
+
+		progressBar.start(total, 0, {
+			file: "starting...",
+		});
+
 		const benchmark = Timer.benchmark(() => {
-			project(`${path}/tsconfig.json`)
-				.filter((source) => filter.test(source.fileName))
-				.forEach((source) => {
-					files++;
-					const addTranslation = (node: any) => {
-						const printed = print(node);
-						const text = printed.substring(1, printed.length - 1);
-						translations[keyOf(text)] = {
-							ref: text,
-							value: text,
-						};
+			sources.forEach((source, index) => {
+				files++;
+				progressBar.update(index + 1, {
+					file: source.fileName.split("/").pop(),
+				});
+				const addTranslation = (node: any) => {
+					const printed = print(node);
+					const text = printed.substring(1, printed.length - 1);
+					translations[keyOf(text)] = {
+						ref: text,
+						value: text,
 					};
+				};
 
-					jsxSources.forEach(({ name, attr }) => {
-						const selfClosingAttrs = query(
-							source,
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+				jsxSources.forEach(({ name, attr }) => {
+					const selfClosingAttrs = query(
+						source,
+						`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+					);
+					const openingAttrs = query(
+						source,
+						`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+					);
+
+					[
+						...selfClosingAttrs,
+						...openingAttrs,
+					].forEach((attr: any) => {
+						query(attr, "StringLiteral").forEach(addTranslation);
+						query(
+							attr,
+							"JsxExpression NoSubstitutionTemplateLiteral",
+						).forEach(addTranslation);
+						query(attr, "JsxExpression TemplateExpression").forEach(
+							addTranslation,
 						);
-						const openingAttrs = query(
-							source,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-						);
-
-						[
-							...selfClosingAttrs,
-							...openingAttrs,
-						].forEach((attr: any) => {
-							query(attr, "StringLiteral").forEach(
-								addTranslation,
-							);
-							query(
-								attr,
-								"JsxExpression NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(
-								attr,
-								"JsxExpression TemplateExpression",
-							).forEach(addTranslation);
-						});
-					});
-
-					functionSources.forEach(({ name }) => {
-						const callExpressions = query(
-							source,
-							`CallExpression:has(Identifier[name=${name}])`,
-						);
-
-						callExpressions.forEach((call: any) => {
-							query(call, "StringLiteral").forEach(
-								addTranslation,
-							);
-							query(
-								call,
-								"NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(call, "TemplateExpression").forEach(
-								addTranslation,
-							);
-						});
-					});
-
-					objectSources.forEach(({ object, name }) => {
-						const callExpressions = query(
-							source,
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
-						);
-
-						callExpressions.forEach((call: any) => {
-							query(call, "StringLiteral").forEach(
-								addTranslation,
-							);
-							query(
-								call,
-								"NoSubstitutionTemplateLiteral",
-							).forEach(addTranslation);
-							query(call, "TemplateExpression").forEach(
-								addTranslation,
-							);
-						});
 					});
 				});
+
+				functionSources.forEach(({ name }) => {
+					const callExpressions = query(
+						source,
+						`CallExpression:has(Identifier[name=${name}])`,
+					);
+
+					callExpressions.forEach((call: any) => {
+						query(call, "StringLiteral").forEach(addTranslation);
+						query(call, "NoSubstitutionTemplateLiteral").forEach(
+							addTranslation,
+						);
+						query(call, "TemplateExpression").forEach(
+							addTranslation,
+						);
+					});
+				});
+
+				objectSources.forEach(({ object, name }) => {
+					const callExpressions = query(
+						source,
+						`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+					);
+
+					callExpressions.forEach((call: any) => {
+						query(call, "StringLiteral").forEach(addTranslation);
+						query(call, "NoSubstitutionTemplateLiteral").forEach(
+							addTranslation,
+						);
+						query(call, "TemplateExpression").forEach(
+							addTranslation,
+						);
+					});
+				});
+			});
 		});
-		console.log(
-			benchmark.format(`Package [${packages}] processed in %s.%ms s`),
-		);
+
+		progressBar.stop();
+		console.log(`✅ ${benchmark.format("Completed in %s.%ms s")}\n`);
 	});
 
 	fs.mkdirSync(output, {
 		recursive: true,
 	});
 
+	console.log(`📝 Writing translations to ${locales.length} locale(s)...\n`);
+
 	locales.forEach((locale) => {
 		const target = `${output}/${locale}.${format}`;
-
-		console.log(`\t - Locale [${locale}] => [${target}]`);
 
 		let current: Record<string, TranslationSchema.Type> = {};
 		try {
@@ -229,9 +244,11 @@ export const tx = ({
 		fs.writeFileSync(target, content, {
 			encoding: "utf-8",
 		});
+
+		console.log(`  📄 ${target}`);
 	});
 
 	console.log(
-		`\t - Number of found translations in ${files} files: ${Object.keys(translations).length}`,
+		`\n✨ Found ${Object.keys(translations).length} translations across ${files} files\n`,
 	);
 };
