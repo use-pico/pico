@@ -2,11 +2,19 @@ import type { FC, ReactNode } from "react";
 
 const Tx: FC<{
 	label: string;
+	fake?: string;
 	children?: ReactNode;
 }> = () => null;
 
 export const Component1 = () => {
-	return <Tx label="With children">Some content</Tx>;
+	return (
+		<Tx
+			label="With children"
+			fake="should not extract this"
+		>
+			Some content
+		</Tx>
+	);
 };
 
 export const Component2 = () => {

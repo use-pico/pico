@@ -1,6 +1,10 @@
 {
-	"28b1362bb810958e87e50606f1d7acee4ce42ea90fba24ea416edf66": {
-		"ref": "With children",
-		"value": "With children"
-	}
+  "28b1362bb810958e87e50606f1d7acee4ce42ea90fba24ea416edf66": {
+    "ref": "With children",
+    "value": "With children"
+  },
+  "9be84b8c214b1474d07b2da21581c990518e9aed2e79cdbe61c1f8f4": {
+    "ref": "Template ${withVar} children",
+    "value": "Template ${withVar} children"
+  }
 }
