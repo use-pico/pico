@@ -14,3 +14,11 @@ export const test2 = (translator: Translator) => {
 export const test3 = (translator: Translator) => {
 	translator.text(`Template ${Math.random()}`);
 };
+
+const foo = {
+	text(_: string) {
+		return null;
+	},
+} as const;
+
+foo.text("This should not be extracted");

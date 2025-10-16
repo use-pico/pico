@@ -1,26 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
-import { beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { tx } from "../../../../src";
 
 describe("toolbox/tx/object-methods", () => {
-	const outputDir = path.join(__dirname, "output/object-methods");
-	const matchDir = path.join(__dirname, "match/object-methods");
-
-	beforeAll(() => {
-		if (fs.existsSync(outputDir)) {
-			fs.rmSync(outputDir, {
-				recursive: true,
-			});
-		}
-	});
-
 	it("extracts translations from object method calls", () => {
 		tx({
 			packages: [
 				__dirname,
 			],
-			output: outputDir,
+			output: __dirname,
 			locales: [
 				"en",
 			],
@@ -28,14 +17,16 @@ describe("toolbox/tx/object-methods", () => {
 		});
 
 		const output = fs.readFileSync(
-			path.join(outputDir, "en.json"),
+			path.join(__dirname, "en.json"),
 			"utf-8",
 		);
 		const expected = fs.readFileSync(
-			path.join(matchDir, "en.json"),
+			path.join(__dirname, "match.json"),
 			"utf-8",
 		);
 
-		expect(output).toBe(expected);
+		expect(JSON.stringify(JSON.parse(output), null, 2)).toBe(
+			JSON.stringify(JSON.parse(expected), null, 2),
+		);
 	});
 });

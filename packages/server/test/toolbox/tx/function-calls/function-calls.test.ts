@@ -30,6 +30,8 @@ describe("toolbox/tx/function-calls", () => {
 			"utf-8",
 		);
 
-		expect(output).toBe(expected);
+		expect(JSON.stringify(JSON.parse(output), null, 2)).toBe(
+			JSON.stringify(JSON.parse(expected), null, 2),
+		);
 	});
 });
