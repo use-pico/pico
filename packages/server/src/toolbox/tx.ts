@@ -143,7 +143,7 @@ export const tx = ({
 					[
 						...selfClosingAttrs,
 						...openingAttrs,
-					].forEach((attr: any) => {
+					].forEach((attr) => {
 						query(
 							attr,
 							"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression",
@@ -157,7 +157,7 @@ export const tx = ({
 						`CallExpression:has(Identifier[name=${name}])`,
 					);
 
-					callExpressions.forEach((call: any) => {
+					callExpressions.forEach((call) => {
 						query(
 							call,
 							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
@@ -171,7 +171,7 @@ export const tx = ({
 						`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
 					);
 
-					callExpressions.forEach((call: any) => {
+					callExpressions.forEach((call) => {
 						query(
 							call,
 							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
