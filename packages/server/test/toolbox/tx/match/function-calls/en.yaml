@@ -1,0 +1,6 @@
+d542432cc695f1108fb40bc962c3a8c58364bc9e6af0d4c23c104142:
+    ref: Simple function call
+    value: Simple function call
+e73eeb80bf316645539c6499b2f555e94b0f3f82aec0aee4dd6eabe8:
+    ref: Template ${literal} call
+    value: Template ${literal} call

@@ -19,18 +19,18 @@
         "@tanstack/react-form": "1.23.7",
         "@tanstack/react-query": "5.90.3",
         "@tanstack/react-router": "1.133.3",
-        "@use-pico/client": "5.0.173",
+        "@use-pico/client": "5.0.175",
         "@use-pico/cls": "5.0.60",
-        "@use-pico/common": "5.0.75",
+        "@use-pico/common": "5.0.77",
         "fuse.js": "7.1.0",
         "kysely": "0.28.8",
         "react": "19.2.0",
         "react-dom": "19.2.0",
-        "sqlocal": "0.15.1",
+        "sqlocal": "0.15.2",
         "zod": "4.1.12",
       },
       "devDependencies": {
-        "@iconify/json": "2.2.395",
+        "@iconify/json": "2.2.396",
         "@iconify/tailwind": "1.2.0",
         "@modyfi/vite-plugin-yaml": "1.1.1",
         "@tailwindcss/vite": "4.1.14",
@@ -38,7 +38,7 @@
         "@types/node": "24.7.2",
         "@types/react": "19.2.2",
         "@types/react-dom": "19.2.2",
-        "@use-pico/server": "5.0.75",
+        "@use-pico/server": "5.0.77",
         "@vitejs/plugin-react": "5.0.4",
         "tailwindcss": "4.1.14",
         "typescript": "^5.9.3",
@@ -55,7 +55,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "5.0.173",
+      "version": "5.0.176",
       "dependencies": {
         "@floating-ui/react": "0.27.16",
         "@lexical/list": "0.37.0",
@@ -65,7 +65,7 @@
         "@tanstack/react-router": "1.133.3",
         "@types/luxon": "3.7.1",
         "@use-pico/cls": "5.0.60",
-        "@use-pico/common": "5.0.75",
+        "@use-pico/common": "5.0.77",
         "axios": "1.12.2",
         "js-file-downloader": "1.1.25",
         "kysely": "0.28.8",
@@ -86,7 +86,7 @@
       },
       "devDependencies": {
         "@aminnairi/rollup-plugin-external": "0.1.3",
-        "@rollup/plugin-commonjs": "28.0.7",
+        "@rollup/plugin-commonjs": "28.0.8",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.1.4",
         "@types/node": "24.7.2",
@@ -99,14 +99,14 @@
     },
     "packages/cls": {
       "name": "@use-pico/cls",
-      "version": "5.0.60",
+      "version": "5.0.61",
       "dependencies": {
         "react": "19.2.0",
         "tailwind-merge": "3.3.1",
       },
       "devDependencies": {
         "@aminnairi/rollup-plugin-external": "0.1.3",
-        "@rollup/plugin-commonjs": "28.0.7",
+        "@rollup/plugin-commonjs": "28.0.8",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.1.4",
         "@testing-library/jest-dom": "6.9.1",
@@ -127,7 +127,7 @@
     },
     "packages/common": {
       "name": "@use-pico/common",
-      "version": "5.0.75",
+      "version": "5.0.78",
       "dependencies": {
         "@apollo/client": "4.0.7",
         "@graphql-typed-document-node/core": "3.2.0",
@@ -155,7 +155,7 @@
         "zod": "4.1.12",
       },
       "devDependencies": {
-        "@rollup/plugin-commonjs": "28.0.7",
+        "@rollup/plugin-commonjs": "28.0.8",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.1.4",
         "@types/node": "24.7.2",
@@ -169,7 +169,7 @@
     },
     "packages/graphql-codegen-zod": {
       "name": "@use-pico/graphql-codegen-zod",
-      "version": "4.0.56",
+      "version": "4.0.57",
       "dependencies": {
         "@graphql-codegen/add": "6.0.0",
         "@graphql-codegen/import-types-preset": "3.0.1",
@@ -180,7 +180,7 @@
         "graphql": "16.11.0",
       },
       "devDependencies": {
-        "@rollup/plugin-commonjs": "28.0.7",
+        "@rollup/plugin-commonjs": "28.0.8",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.1.4",
         "@types/node": "24.7.2",
@@ -199,22 +199,26 @@
     },
     "packages/server": {
       "name": "@use-pico/server",
-      "version": "5.0.75",
+      "version": "5.0.78",
       "dependencies": {
         "@phenomnomnominal/tsquery": "6.1.3",
-        "@use-pico/common": "5.0.75",
+        "@use-pico/common": "5.0.78",
         "yaml": "2.8.1",
       },
       "devDependencies": {
         "@biomejs/biome": "2.2.6",
-        "@rollup/plugin-commonjs": "28.0.7",
+        "@rollup/plugin-commonjs": "28.0.8",
         "@rollup/plugin-node-resolve": "16.0.3",
         "@rollup/plugin-typescript": "12.1.4",
         "@types/node": "24.7.2",
+        "@types/react": "19.2.2",
         "@use-pico/tsconfig": "5.0.0",
+        "npm-run-all2": "8.0.4",
+        "react": "19.2.0",
         "rollup": "4.52.4",
         "rollup-plugin-dts": "6.2.3",
         "typescript": "^5.9.3",
+        "vitest": "3.2.4",
       },
     },
   },
@@ -493,7 +497,7 @@
 
     "@graphql-typed-document-node/core": ["@graphql-typed-document-node/core@3.2.0", "", { "peerDependencies": { "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ=="],
 
-    "@iconify/json": ["@iconify/json@2.2.395", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.0" } }, "sha512-XSYOnlGqiZhJkFFBUiVK4C5VIiv4rxyKtCmkQ9nS4zfMpS4xT0BF9+qWUKOHYgeCzCLghyWfrm6Eti3Sv5kfqQ=="],
+    "@iconify/json": ["@iconify/json@2.2.396", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.0" } }, "sha512-tijg77JFuYIt32S9N8p7La8C0zp9zKZsX6UP8ip5GVB1F6Mp3pZA5Vc5eAquTY50NoDJX58U6z4Qn3d6Wyossg=="],
 
     "@iconify/tailwind": ["@iconify/tailwind@1.2.0", "", { "dependencies": { "@iconify/types": "^2.0.0" } }, "sha512-KgpIHWOTcRYw1XcoUqyNSrmYyfLLqZYu3AmP8zdfLk0F5TqRO8YerhlvlQmGfn7rJXgPeZN569xPAJnJ53zZxA=="],
 
@@ -589,7 +593,7 @@
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.0-beta.38", "", {}, "sha512-N/ICGKleNhA5nc9XXQG/kkKHJ7S55u0x0XUJbbkmdCnFuoRkM1Il12q9q0eX19+M7KKUEPw/daUPIRnxhcxAIw=="],
 
-    "@rollup/plugin-commonjs": ["@rollup/plugin-commonjs@28.0.7", "", { "dependencies": { "@rollup/pluginutils": "^5.0.1", "commondir": "^1.0.1", "estree-walker": "^2.0.2", "fdir": "^6.2.0", "is-reference": "1.2.1", "magic-string": "^0.30.3", "picomatch": "^4.0.2" }, "peerDependencies": { "rollup": "^2.68.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-6cE2Wr/MkpdtTS8gXlCn9Zdmf7e9Xm96yFqOwFEXuvYLAHtjRf57/n6GEVF4K8NSesT1eKdBtcDA/SQdpW/8nA=="],
+    "@rollup/plugin-commonjs": ["@rollup/plugin-commonjs@28.0.8", "", { "dependencies": { "@rollup/pluginutils": "^5.0.1", "commondir": "^1.0.1", "estree-walker": "^2.0.2", "fdir": "^6.2.0", "is-reference": "1.2.1", "magic-string": "^0.30.3", "picomatch": "^4.0.2" }, "peerDependencies": { "rollup": "^2.68.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-o1Ug9PxYsF61R7/NXO/GgMZZproLd/WH2XA53Tp9ppf6bU1lMlTtC/gUM6zM3mesi2E0rypk+PNtVrELREyWEQ=="],
 
     "@rollup/plugin-node-resolve": ["@rollup/plugin-node-resolve@16.0.3", "", { "dependencies": { "@rollup/pluginutils": "^5.0.1", "@types/resolve": "1.20.2", "deepmerge": "^4.2.2", "is-module": "^1.0.0", "resolve": "^1.22.1" }, "peerDependencies": { "rollup": "^2.78.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-lUYM3UBGuM93CnMPG1YocWu7X802BrNF3jW2zny5gQyLQgRFJhV1Sq0Zi74+dh/6NBx1DxFC4b4GXg9wUCG5Qg=="],
 
@@ -1635,7 +1639,7 @@
 
     "sprintf-js": ["sprintf-js@1.0.3", "", {}, "sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g=="],
 
-    "sqlocal": ["sqlocal@0.15.1", "", { "dependencies": { "@sqlite.org/sqlite-wasm": "^3.50.4-build1", "coincident": "^1.2.3" }, "peerDependencies": { "drizzle-orm": "*", "kysely": "*" }, "optionalPeers": ["drizzle-orm", "kysely"] }, "sha512-BdbgiWTE9xxBsHiksH7Cn4EPHbLzpOj43bgv1tjua7KPG3AZO5rAQX2+9o3u6nJZl+wl7ulXQZP72V0/nGsVPA=="],
+    "sqlocal": ["sqlocal@0.15.2", "", { "dependencies": { "@sqlite.org/sqlite-wasm": "^3.50.4-build1", "coincident": "^1.2.3" }, "peerDependencies": { "drizzle-orm": "*", "kysely": "*" }, "optionalPeers": ["drizzle-orm", "kysely"] }, "sha512-hvT5wfR90gDEjfywAcnG/dTvEFf4SjDUnVP804NHR14J53bwTZ/RXI4kR8xKM99X+u2vbIBzuSSuNrJqY6bnvw=="],
 
     "stackback": ["stackback@0.0.2", "", {}, "sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw=="],
 

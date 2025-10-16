@@ -1,6 +1,12 @@
 import fs from "node:fs";
-import { match, print, project, query } from "@phenomnomnominal/tsquery";
-import { diffOf, keyOf, Timer, type TranslationSchema } from "@use-pico/common";
+import { print, project, query } from "@phenomnomnominal/tsquery";
+import {
+	diffOf,
+	keyOf,
+	Timer,
+	type TranslationSchema,
+	type TranslationSource,
+} from "@use-pico/common";
 import { parse, stringify } from "yaml";
 
 export namespace tx {
@@ -15,59 +21,147 @@ export namespace tx {
 		packages: string[];
 		output: string;
 		locales: string[];
+		/**
+		 * JSX elements to extract translations from (e.g., `<Tx label="text" />`).
+		 *
+		 * **Important**: This is for **string extraction only**. Your application must still
+		 * use the translator for actual translations at runtime.
+		 */
+		jsx?: TranslationSource.Jsx[];
+		/**
+		 * Direct function calls to extract translations from (e.g., `foo("text")`).
+		 *
+		 * **Important**: This is for **string extraction only**. Your application must still
+		 * use the translator for actual translations at runtime.
+		 */
+		functions?: TranslationSource.Function[];
+		/**
+		 * Object method calls to extract translations from (e.g., `translator.text("text")`).
+		 *
+		 * **Important**: This is for **string extraction only**. Your application must still
+		 * use the translator for actual translations at runtime.
+		 */
+		objects?: TranslationSource.Object[];
 	}
 }
 
-export const tx = ({ packages, output, locales }: tx.Props) => {
+export const tx = ({
+	packages,
+	output,
+	locales,
+	jsx = [],
+	functions = [],
+	objects = [],
+}: tx.Props) => {
 	const translations: tx.Translations = {};
 
+	const jsxSources: TranslationSource.Jsx[] = [
+		{
+			name: "Tx",
+			attr: "label",
+		},
+		...jsx,
+	];
+
+	const functionSources: TranslationSource.Function[] = [
+		...functions,
+	];
+
+	const objectSources: TranslationSource.Object[] = [
+		{
+			object: "translator",
+			name: "text",
+		},
+		{
+			object: "translator",
+			name: "rich",
+		},
+		...objects,
+	];
+
 	packages.forEach((path) => {
+		console.log(`Processing package [${path}]`);
+
 		const benchmark = Timer.benchmark(() => {
 			project(`${path}/tsconfig.json`)
 				.filter((source) => !source.fileName.endsWith(".d.ts"))
 				.forEach((source) => {
-					query(
-						source,
-						"JsxSelfClosingElement > Identifier[name=Tx]",
-					).forEach((node) => {
-						match(
-							node.parent,
-							"JsxAttribute > Identifier[name=label]",
-						).forEach((node) => {
-							match(node.parent, "StringLiteral").forEach(
-								(node) => {
-									const source = print(node);
-									const text = source.substring(
-										1,
-										source.length - 1,
-									);
-									translations[keyOf(text)] = {
-										ref: text,
-										value: text,
-									};
-								},
-							);
-						});
+					console.log(`Processing file [${source.fileName}]`);
+
+					const addTranslation = (node: any) => {
+						const printed = print(node);
+						const text = printed.substring(1, printed.length - 1);
+						translations[keyOf(text)] = {
+							ref: text,
+							value: text,
+						};
+					};
+
+					// jsxSources.forEach(({ name, attr }) => {
+					// 	query(
+					// 		source,
+					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
+					// 	).forEach(addTranslation);
+					// });
+
+					functionSources.forEach(({ name }) => {
+						query(
+							source,
+							`CallExpression:has(Identifier[name=${name}]) StringLiteral`,
+						).forEach(addTranslation);
+
+						// query(
+						// 	source,
+						// 	`CallExpression:has(Identifier[name=${name}]) NoSubstitutionTemplateLiteral`,
+						// ).forEach(addTranslation);
+
+						// query(
+						// 	source,
+						// 	`CallExpression:has(Identifier[name=${name}]) TemplateExpression`,
+						// ).forEach(addTranslation);
 					});
 
-					query(
-						source,
-						"CallExpression > PropertyAccessExpression > Identifier[name=translator]",
-					).forEach((node) => {
-						match(node.parent.parent, "StringLiteral").forEach(
-							(node) => {
-								const source = print(node);
-								const text = source.substring(
-									1,
-									source.length - 1,
-								);
-								translations[keyOf(text)] = {
-									ref: text,
-									value: text,
-								};
-							},
-						);
-					});
+					// objectSources.forEach(({ object, name }) => {
+					// 	query(
+					// 		source,
+					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) StringLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) NoSubstitutionTemplateLiteral`,
+					// 	).forEach(addTranslation);
+
+					// 	query(
+					// 		source,
+					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) TemplateExpression`,
+					// 	).forEach(addTranslation);
+					// });
 				});
 		});
 		console.log(
