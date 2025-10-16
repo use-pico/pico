@@ -89,11 +89,6 @@ export const Data = <TResult extends UseQueryResult<any, Error>>({
 			.when(
 				(r) => r.isFetching,
 				(r) => {
-					console.log("fetching", {
-						d: r.data,
-						f: r.isFetching,
-					});
-
 					return renderFetching({
 						// biome-ignore lint/style/noNonNullAssertion: We've data,
 						data: r.data!,
@@ -102,20 +97,16 @@ export const Data = <TResult extends UseQueryResult<any, Error>>({
 			)
 			.when(
 				(r) => r.isError,
-				(r) =>
-					renderError({
+				(r) => {
+					return renderError({
 						// biome-ignore lint/style/noNonNullAssertion: We've already checked isError,
 						error: r.error!,
-					}),
+					});
+				},
 			)
 			.when(
 				(r) => r.isSuccess,
 				(r) => {
-					console.log("success", {
-						d: r.data,
-						f: r.isSuccess,
-					});
-
 					return renderSuccess({
 						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess,
 						data: r.data!,

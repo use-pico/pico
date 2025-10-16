@@ -1,8 +1,9 @@
 import { useCls } from "@use-pico/cls";
 import { type StateType, translator } from "@use-pico/common";
-import { type FC, type Ref, useState } from "react";
+import { type FC, type Ref, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { Icon } from "../icon/Icon";
+import { useMergeRefs } from "../ref/useMergeRefs";
 import { FulltextCls } from "./FulltextCls";
 
 export namespace Fulltext {
@@ -34,6 +35,11 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	cls = FulltextCls,
 	tweak,
 }) => {
+	const inputRef = useRef<HTMLInputElement>(null);
+	const mergeRef = useMergeRefs([
+		ref,
+		inputRef,
+	]);
 	const { slots } = useCls(cls, tweak);
 	const [search, setSearch] = useState(value || "");
 	const debounced = useDebouncedCallback((value) => {
@@ -46,6 +52,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 		if (isDisabled) {
 			return;
 		}
+		inputRef.current?.blur();
 		set(search);
 	};
 
@@ -66,7 +73,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 
 			<input
 				data-ui="Fulltext-input"
-				ref={ref}
+				ref={mergeRef}
 				value={search}
 				className={slots.input()}
 				type={"text"}
