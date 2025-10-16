@@ -61,9 +61,6 @@
 05b445daf55f8bd68892b2b6dc3f95726e489ada17509f766f458bc6:
   ref: Menu Item 2
   value: Menu Item 2
-0606dd7e470d2ef8f27341415a8bdedc13358489c7a84b84a51d87de:
-  ref: ${key} - Loading (label)
-  value: ${key} - Loading (label)
 0628f510dd3ff74e07ec4edc797d439796cba60a28b2323852fbbd26:
   ref: Dynamic Viewport Height
   value: Dynamic Viewport Height
@@ -82,9 +79,6 @@
 080023fdafb12cdf2319af1b3dfa3bcc776ff0fb680853e808095d18:
   ref: Neutral
   value: Neutral
-083af25813af711233d63433a89d882e40772b0fd2db3f80982db38e:
-  ref: w-12
-  value: w-12
 089efb9915d71564aa5a0c258d843823a207b35f82a85216792d0fc7:
   ref: Error Status
   value: Error Status
@@ -94,24 +88,15 @@
 09f843d80e044440d3be134766aef100016e3eac90c64630241d9ba9:
   ref: Full Name
   value: Full Name
-0a905ee935a0ac272163d37d6105364a11d1a35b14e1847b4262bf7a:
-  ref: text-sm
-  value: text-sm
 0b59a7c89a42c3793debab60ac90dac51c798f70515fe24c39ede40d:
   ref: A subtle status message for less important info.
   value: A subtle status message for less important info.
-0b6ee72e52658bcad4c2d3529fbc4508b3c5dfee16741a3618f30a5b:
-  ref: mt-1
-  value: mt-1
 0b9b6a03bc497488f0fa143c8a591e54d8cbf245aa9bdf69d030cac0:
   ref: 25%
   value: 25%
 0bbdd9ee5a8258b6e1b2053069481da0a67f09888cb753edd762a2a6:
   ref: Inner context with tone override
   value: Inner context with tone override
-0c53bbc06a49599b95e21e72ff337b49596977854778c6dfb5048809:
-  ref: hover:bg-red-700
-  value: hover:bg-red-700
 0d179d73a63c513f46a32c8fa4442e5942cdc7e7b1f5e7c19132089b:
   ref: Content
   value: Content
@@ -127,15 +112,6 @@
 0df7674c00b694c86451c32e81eab490ae967f5f44799a96c8d9394b:
   ref: Medium Page Size (10)
   value: Medium Page Size (10)
-0ed2020ae574df567f6dff0e518bad90a796a332c4b9699b6b209e31:
-  ref: icon-[ph--envelope]
-  value: icon-[ph--envelope]
-0ed9799937a2b7d73219965a820e9354cf0cde19bc7ad7ec41782816:
-  ref: grid
-  value: grid
-11280d6a8a19c5c0146032f283aeaf8aeeb083bc420f5e2c9e70cd54:
-  ref: items-center
-  value: items-center
 1151fe8bd45827eb70b3a7d9bef93d24bf47af2dd2703b2433e1de7c:
   ref: We couldn't find any items matching your search criteria.
   value: We couldn't find any items matching your search criteria.
@@ -172,9 +148,6 @@
 149d82732fc8b67a04bb3fb42d09856cd8bf53dfbdd93100e929e091:
   ref: ID
   value: ID
-152854257dcf89a9c15bdbad7bb11c0d7c3eef00e2d50ba9a6b4f131:
-  ref: button
-  value: button
 1537854344214460b3ead2c00f44db79c0de7302396d27ef09b3b0fb:
   ref: Grid Layout
   value: Grid Layout
@@ -190,9 +163,6 @@
 1636f0ed7bbabc4ac66087c2dbf182dd0dc18f90bcf9c9026cde5a5d:
   ref: First Page
   value: First Page
-16b5ca574e0dd8ff7b2c00dfcb6cb4cf05d3f35ed601d9465f692fe9:
-  ref: bg-red-600
-  value: bg-red-600
 18c943793066d65cfe44c4066e39c5205f5bfc0b675f6b05abb872ed:
   ref: Loading...
   value: Loading...
@@ -214,9 +184,6 @@
 19d8ac320e4cfcf6db1ad292d6f874b690ba2e03f496dffcbde94733:
   ref: Utilities & Theming
   value: Utilities & Theming
-19dfce1511cd51ec2314e241909d197726a1ab1e3c1ee92e44c9a364:
-  ref: md:grid-cols-2
-  value: md:grid-cols-2
 1a4864be4b6b381fce286b174d0e719d89fd379b96dd35e75139f5df:
   ref: Level Type
   value: Level Type
@@ -234,21 +201,12 @@
 1b163f7a517fd4d7d84d7ac05f4afe6158ea8e941335589a2337ec6c:
   ref: File downloaded...
   value: File downloaded...
-1b58dfa4498a2419e8c41b29aba6d6f9f8dac5f5d7400ae860557297:
-  ref: flex gap-2
-  value: flex gap-2
 1bec1a1535aeee52572bf57f344f59d04d51e7530e61902939a86745:
   ref: Override both to neutral+light
   value: Override both to neutral+light
 1bf6c3318c472ee0dbc72594b1115eef0ea412bbd7c52b1b8160413d:
   ref: Typo
   value: Typo
-1c2f12401ac7b6fc6d84751551e94ea94cbdbb153628083ade0d2c66:
-  ref: tone='${tone}'
-  value: tone='${tone}'
-1c3d06d806c6332a353cf523e4ee65d8d789df26bb78551140508cbd:
-  ref: gap='${gapSize}'
-  value: gap='${gapSize}'
 1c5ca28d7c2c809a173b9fe8ca35733e6b0332151622b94df45a7091:
   ref: orientation='horizontal-full' - Grid flow column with full width items
   value: orientation='horizontal-full' - Grid flow column with full width items
@@ -279,9 +237,6 @@
 1e91741caf26c2fab191a5df17780fd2f12714759f731b4cff8c239d:
   ref: Different Layouts
   value: Different Layouts
-1ed5cbc5ca8bb728f192618e8fd669ce8b974b6224e88d7ed7cbe08b:
-  ref: text-lg
-  value: text-lg
 208f23a494965df7e7870a613d50b86bdedfc43485a285f64fd516cc:
   ref: System Maintenance
   value: System Maintenance
@@ -303,9 +258,6 @@
 22448be7212e6f5b62ac5dcb2c036be327507884f25853f3b54f8dc8:
   ref: Dark Theme Showcase
   value: Dark Theme Showcase
-2259349fe4e3301221fadadb203690e8a8dd7f9dcbcf9be24e959b4a:
-  ref: Send notification
-  value: Send notification
 22cd4b74fc2ad960596d4aa9224dcc8b46f074f1af90c76874157939:
   ref: Date-Time Inputs
   value: Date-Time Inputs
@@ -315,18 +267,12 @@
 231b47d03deea0007edd834911e4a0948c72c5000c6ab56d29ac0191:
   ref: Product Information
   value: Product Information
-2347a358788bded790cbad469f2bd3c8f8b6d06f21181833edec3496:
-  ref: ${key} - Error (label)
-  value: ${key} - Error (label)
 2382f05cfcbc48ed981f14e2ce3489d9000760f866bd37e7f16963cc:
   ref: Highlighted Preview
   value: Highlighted Preview
 23fd7f8212199acbe5a42aeb1cb10cd76673d55b352f2537300c7df3:
   ref: Buttons
   value: Buttons
-24234c9cb1b46d4e3515d214acd2ccc38e69d179d74937d92c5bcc83:
-  ref: Export data
-  value: Export data
 24a956554c0e238d2c7daf9e070cd305ccb59c51766d58953368b7a8:
   ref: Square (Padding) Variants
   value: Square (Padding) Variants
@@ -354,18 +300,12 @@
 28443826a9b8e7c88e8888097e1471af4f07f1cf2972d50b9d6ccd2e:
   ref: Secondary Tone
   value: Secondary Tone
-2880e2673a98d26f54a49560756a085f5bb20bbeacafede10b92a2e6:
-  ref: ${tone} ${theme}
-  value: ${tone} ${theme}
 2893c5e3aa27d9e9f20c82e0b9921c385df9e15828fc420f45dc5c67:
   ref: Please wait...
   value: Please wait...
 28b1d534d839cb671ba081df7aad51ae2463c46d63cc7f742daff115:
   ref: Title with Links
   value: Title with Links
-2956576316b75beb69bef23490151e65ae4cbc05fd00424ab1cba4c5:
-  ref: ${prefix} - ${issue.path.join(".")} - ${issue.message}
-  value: ${prefix} - ${issue.path.join(".")} - ${issue.message}
 295a55d6959c3cc81137d6bfec970e95af10b303ba7c2e3f3f50a9e5:
   ref: User List Item
   value: User List Item
@@ -375,9 +315,6 @@
 29d9ed24e093c7e30d14ad318ae90ff4fe3ad1410e82437456dc1ac6:
   ref: Form Error Component
   value: Form Error Component
-29f5dcf6ac621a92dce10e7f3151e6f16d9c7b1cd717598b1a1fd167:
-  ref: md:col-span-2
-  value: md:col-span-2
 2a29e159470d2fe93a423e96da8a49b701c298b15cb2037eb5c6aee5:
   ref: Learn about scroll behavior and snap points
   value: Learn about scroll behavior and snap points
@@ -387,9 +324,6 @@
 2abf40965ccc402cda8e64f6bc82e94ab48b18fe550b812917b44105:
   ref: Default (inherits context)
   value: Default (inherits context)
-2aca8fcbebf3ff1f038405d632ced0ae5b106acc51e7dee894a99718:
-  ref: text-red-700
-  value: text-red-700
 2b7f80c3412ce06abbad4e54e4a4261815f22aebd9e94c7e00b20c1b:
   ref: Project Card
   value: Project Card
@@ -402,9 +336,6 @@
 2d0a1cb5e634bd1d0b3797de2165c8ae956851b3704a1f84f442d3dd:
   ref: This is an info alert
   value: This is an info alert
-2d21162d146ef41ad86faa7014a76441133245021a8e6b8341963939:
-  ref: ${shadowSize} shadow
-  value: ${shadowSize} shadow
 2d2cfe5afaacf76d504669da7c75d0eb09f409ef2996518e4987ce56:
   ref: Form Components
   value: Form Components
@@ -423,9 +354,6 @@
 2dc007e932619d69a3764f194224cb28fcd5e9ffb60d3cf82a144ca7:
   ref: Amount
   value: Amount
-2f13c60c2b8192fa62ab312ca7dca9eb3894456545ec769be783d618:
-  ref: 'Override theme to ${contextTheme === "light" ? "dark" : "light"}'
-  value: 'Override theme to ${contextTheme === "light" ? "dark" : "light"}'
 2f2d0ed98adeed7c1dd5c7bce289ccc579c69adf1f8e0d59bebf8890:
   ref: Layout Control
   value: Layout Control
@@ -530,12 +458,6 @@
 3a1dc77bde713596e02a74306b4fc86ae22064ecb78d6cc6d0d5fad9:
   ref: Order Information
   value: Order Information
-3a4706fbfe1e91dec7e002bf576f2a7ca7c615771d1e93f402ff2191:
-  ref: text-xl
-  value: text-xl
-3aea3a3c50d2ffa8e1eabbbca3d25bbf5d932e7ebf1d489a605a55c5:
-  ref: Edit customer
-  value: Edit customer
 3b15b8e925190428740c20807e06de28c36290b8355dff31b11fbc98:
   ref: Various Dates
   value: Various Dates
@@ -581,18 +503,12 @@
 3fa727133217f67d7ba23ebb7aea03e50418be8190006ec675f298d0:
   ref: Without VAT
   value: Without VAT
-408427f5660c2ec5f3786eab89933210220aea485620afc073838153:
-  ref: Delete customer
-  value: Delete customer
 4090f765475e4563c83ee2afe732edd006e9fed8c25dda64fbacb0a0:
   ref: Theme Selector
   value: Theme Selector
 41256b050573cf042eb6e5e68e3d2f9138692302b79fd3af4e42c321:
   ref: snap='horizontal-start' - Snap to start of items
   value: snap='horizontal-start' - Snap to start of items
-4153d9957cff5b881ab0107a18bef092cb1539a2c670704491f77b18:
-  ref: px-4
-  value: px-4
 417d79dbedfbe241c8bfe8cffa6e20039ef26ebb245b9906e67ac8d9:
   ref: Tone Variants
   value: Tone Variants
@@ -605,9 +521,6 @@
 42295945376d81abc46cfa8949e57b8bb90c534113fc43a0811ed825:
   ref: Card Style Container
   value: Card Style Container
-424a15dee1d2470f29c4da27d4a73b096ad3b3d087919124f437f125:
-  ref: border-slate-300
-  value: border-slate-300
 426c31caf0191ec0a428b0851ef3fde9f2cd03a44c737f327fa23ee5:
   ref: Size Combinations
   value: Size Combinations
@@ -689,18 +602,9 @@
 4bbefd121fbbf684a30bccecaecb468bee588b303e767413c506e9b3:
   ref: Different Dates
   value: Different Dates
-4c555e7808a6d26a5a98523b24e852924b29071ac7afa8c27a7eb3cc:
-  ref: icon-[ph--phone]
-  value: icon-[ph--phone]
 4c70dbdd61a04bbe0fe8e4853e7bd0803d84e265ef32f8cf389cdd53:
   ref: position='absolute' - Absolute positioning
   value: position='absolute' - Absolute positioning
-4cbd570a82c293d60ef21c20562597671e3972636d038c339cf34937:
-  ref: mx-auto
-  value: mx-auto
-4d5a9dcd1bcfeaac3b32be925d0446d213e3f7e23fa87475326d62c8:
-  ref: text-red-900
-  value: text-red-900
 4d8e32fe9d37521570d9c9447a03449f7fb38a593c2491712e433465:
   ref: Link To
   value: Link To
@@ -764,24 +668,15 @@
 52cff28aa39c0ae768303e44559449313c54b957746398017a023159:
   ref: Project Management Examples
   value: Project Management Examples
-54a8289784d3b7c36f6b50911d04a40a2cc9270790011e175d1d3f1d:
-  ref: text-center
-  value: text-center
 55afaf945df25bf957356308e06e7b224906f41eb9230367cd6ad8e0:
   ref: Employee 2
   value: Employee 2
 568d3ece0540fd580d2c48b7bb3b48905a52a204db6726a452b29659:
   ref: Invalid on/off value
   value: Invalid on/off value
-56e15cc89209ca1aa0ead580c4675af6d6561f4d0f6eb5660bfe3eda:
-  ref: flex items-center gap-2
-  value: flex items-center gap-2
 56e5d3730e5368ddb496959c711e260111cb77023bb605bde5fc1ee4:
   ref: Visual Styling
   value: Visual Styling
-56f0ca84d771f1d480306acefe98a2de21cb98aed1be94061b747e3f:
-  ref: animate-spin
-  value: animate-spin
 57319093c5d536f98202eb49a9d1c4879f5643fda5a08b328110f8b0:
   ref: Primary Skills
   value: Primary Skills
@@ -791,9 +686,6 @@
 574f833229aa0a8536be0540b96ec2e0f23074b52377d0ded1ea0875:
   ref: Call
   value: Call
-576bbaf1c66cc6c152e3b21d1a206727e3e9ec3f87ea74d08579bb2a:
-  ref: "Active VariantProvider: ${contextTone} + ${contextTheme}"
-  value: "Active VariantProvider: ${contextTone} + ${contextTheme}"
 581605ffc90f5bd62e67ade4fb3a960bc193fe1a69b5fdc4ae398acf:
   ref: item='row' - Full width, auto height
   value: item='row' - Full width, auto height
@@ -827,9 +719,6 @@
 5b139b841fe64f1da3bd940230a528b58bdeeb505e3db2d31ff1b3ed:
   ref: Please review your input before proceeding.
   value: Please review your input before proceeding.
-5b2c42d7eab2aeaf6785715cd2e2e605db4d48a7abf39a2f22631833:
-  ref: Suspend customer
-  value: Suspend customer
 5baa4ff8e05d2e3c9a771c45703de7d380a9b0b93fe13b894c0403fa:
   ref: Disabled Field
   value: Disabled Field
@@ -851,12 +740,6 @@
 5cd4cffcbafbe0a40563538352c1a593909e57b10bb8d9ad5f9b3d2a:
   ref: Delete (button)
   value: Delete (button)
-5d14aa4054a69772f1a3a5841c3898703dba6dc2d1d7bbc95dcc4205:
-  ref: ${tone} no border
-  value: ${tone} no border
-5d6bb45eb861bb2a56b96924c18424e8a1c7fd31df44492a6d6f9da3:
-  ref: primary
-  value: primary
 5d7def25a47207c3212482ac7a7d89a9a6f05f46d3408ab873203c3f:
   ref: File Type Filter
   value: File Type Filter
@@ -869,9 +752,6 @@
 5f58b157ebcdc5d191fd9bb8190e7e81d7dc803a51ac6240f592631e:
   ref: Basic Attr
   value: Basic Attr
-5fbd489f2f34034193002c2bbbaff5afd52a78cb51cc59d17018e71d:
-  ref: flex
-  value: flex
 5fc493016c067688d60d27633383386bc5cc75792253be3be1c2b23c:
   ref: error_loading_data
   value: error_loading_data
@@ -896,9 +776,6 @@
 61495122fa31afeced464d39043936da15d6847217fae9a345e4c0e8:
   ref: Expected Delivery
   value: Expected Delivery
-615ddf56b7c3c21974c102946f8f8bd221b428ebf9591e4d0df1c32d:
-  ref: neutral
-  value: neutral
 61840e13c1dfc85ff117c5acbb2c093122bab160a71c2d9ff7ddca01:
   ref: Show Loading Overlay
   value: Show Loading Overlay
@@ -920,12 +797,6 @@
 6329743b4408211695b286276095e6e8eed29a3e55a1bc7db6376c7e:
   ref: Here's some helpful information.
   value: Here's some helpful information.
-637051ab262bbdf6ca69f38292d333bce6a9877040fd8f7a3e817236:
-  ref: Token [${entity.token}]
-  value: Token [${entity.token}]
-63fb2cfae5391de9e6c030cf2b076b95e7a3b67de7a4936b9d599b32:
-  ref: icon-[ph--crown]
-  value: icon-[ph--crown]
 648a530350c74ce81f50ab6af1c76073f0a52460a4fd8b4dccb80ae2:
   ref: height='dvh' - Uses dynamic viewport height (100dvh)
   value: height='dvh' - Uses dynamic viewport height (100dvh)
@@ -938,9 +809,6 @@
 661ee1970da3850324943f883c1dd281cf3e0414413c4513962c934b:
   ref: Complex Content
   value: Complex Content
-665f6298ecfb3a1e07c378d43c9c67bdb66baaab7386e7eae709c166:
-  ref: border='${borderSize}'
-  value: border='${borderSize}'
 66bec56bf2f279f1b7df7b16957503482e3dae8452b9fc2660d6eb68:
   ref: User List
   value: User List
@@ -967,15 +835,9 @@
 6957ea2312ad681dc8baf8c2e83b694253b3caf51c1054a91ad1cbbf:
   ref: Select inventory item (select)
   value: Select inventory item (select)
-6986d09f4aa2bbe69df817149dd90758babe79f2f510910b43cfe310:
-  ref: secondary
-  value: secondary
 698bc4b9de7d5d00b1f04eca6c2817f7d3471972ee01250094a2b75d:
   ref: State Icons
   value: State Icons
-699d2f6d2ecb94516c726609c3c0303f038dc0191efa379d3634c6df:
-  ref: pb-2
-  value: pb-2
 6a17edc074ca649c63fd29198faf52d387a2bb18085376b781b7b759:
   ref: Disabled
   value: Disabled
@@ -1009,9 +871,6 @@
 6e6b96aaa03aa20bf50f5e55d664b5c8fe436ed265442a4584b638bc:
   ref: how_it_works
   value: how_it_works
-6e88b606c18441ca5645d7d4b462dca40165bcfd48435ec24e27f79d:
-  ref: text-red-600
-  value: text-red-600
 6e8d7927b66115833e373bbb8b645b53a1734ef29ddf048d6eb1a8ec:
   ref: Last Page
   value: Last Page
@@ -1051,9 +910,6 @@
 722c55f77f3749349fcb9e3521b0f560c3d28f097b6ad81af384b9cf:
   ref: Warning Status
   value: Warning Status
-7238c5653c476d86cc903c82184faeb8d793af8c29a2291342a3617c:
-  ref: icon-[ph--eye]
-  value: icon-[ph--eye]
 72c7a0524ef321998a9681d60a921af414ffee820b214aa468a0567b:
   ref: File and Media
   value: File and Media
@@ -1063,9 +919,6 @@
 736191ae88e9be7210b524ddba64600041c503c5df341ed63c495ba0:
   ref: Primary (disabled)
   value: Primary (disabled)
-73bce6ae8d1a3502fc03b991110321399d9ed7d35a589afdac0a84b9:
-  ref: View details
-  value: View details
 73e9671b368dfe8021b930d891ebe5bf6c1cfcd8a6358c7e24651c1a:
   ref: Shipping
   value: Shipping
@@ -1132,9 +985,6 @@
 79bf4e126382b8d01b0761595d2956b177ea4eb72636caa7242cabfb:
   ref: Override tone to warning
   value: Override tone to warning
-7a547430d0be643d2d28cab503f458fd80ccb0be4c7d6fe003423487:
-  ref: text-slate-500
-  value: text-slate-500
 7ab5306e099c7bfd9a8fa442ecca63cc8c3dd3f153e2c077dbeb8cfc:
   ref: Two Section Examples
   value: Two Section Examples
@@ -1144,9 +994,6 @@
 7b2b82192740454928176a72a16ec5bde174360fff28cbe867f55501:
   ref: Complex Values
   value: Complex Values
-7b53e0c3a919d7033ab6288030e5b81f309c8f8e564f778720cf90ac:
-  ref: mb-4
-  value: mb-4
 7b735853f5895f8c40901ba4358a7ccb895849c721ed19ada603057f:
   ref: Connection Lost
   value: Connection Lost
@@ -1177,12 +1024,6 @@
 7e3e57508f0e66521d92cb508f864cebf4740ecbe8f0bbb31bc6d730:
   ref: Small Size
   value: Small Size
-7e405b660cb8ec31527132408e20ca5daba17412ddced7d320ebf739:
-  ref: icon-[ph--pause]
-  value: icon-[ph--pause]
-7e5768e8eb703440407e70dce71224623eb03e3181992065f75c3c85:
-  ref: bg-red-100
-  value: bg-red-100
 809abcd464ac95785d1253fcc38a973e1d8a5c7fc6a2838a907a2095:
   ref: snap='vertical-center'
   value: snap='vertical-center'
@@ -1195,9 +1036,6 @@
 81c32ed44fb67284d86c3782f4d8a1ec97a66afcdd016d5fa8602ec5:
   ref: Default + No Background
   value: Default + No Background
-81c5a08cab6f2332cc55facd38dc419b98e865f338e67600818c6f3f:
-  ref: xs
-  value: xs
 81d65a5d47fe92d11d90c6d146b7f3615e80b5677aa7e8d22bb07c01:
   ref: Default (inherits secondary+light)
   value: Default (inherits secondary+light)
@@ -1236,9 +1074,6 @@
 852568501d6761eb7be77d80dd23ecbf4c625d206cffde80a6a544c4:
   ref: Past Date
   value: Past Date
-857b19b240a6c40fd66380e6d8d4a24f5ae3a6e0d9002d35da69d5e6:
-  ref: font-medium
-  value: font-medium
 85a57cc0e970d77ee720f6546baa7206a6d565c3aa5fcf260b78ef88:
   ref: True Value
   value: True Value
@@ -1284,9 +1119,6 @@
 8bed24a5377e626c4ff3bd45d6ce3a079ea3366e0e5a7d1c1885a54d:
   ref: Light Theme - Clickable
   value: Light Theme - Clickable
-8c42cc1771d382942c10cdc1cd8e314e133e3879dcfa8d4551feb641:
-  ref: icon-[ph--download]
-  value: icon-[ph--download]
 8cc3f2be1428f705b24a5f5c0a7917834a79cbc7f745786c8725aeef:
   ref: Variant Combinations
   value: Variant Combinations
@@ -1317,24 +1149,15 @@
 904e1dfdd115698ca60d626134dd92d5f3362df3cd4bcf8fde0501de:
   ref: any
   value: any
-90b1466c13c0af59215cf541c16c11ad601815f811a5cb3bac2dd261:
-  ref: ${tone} borderless
-  value: ${tone} borderless
 90e244e9f17e4faf1c1f91fb5584587a46362be3d4837e9334e89c84:
   ref: Suspend
   value: Suspend
 9138653eab1bbd47ba570e2a9a379af9e97a226a5beb22362fb3a643:
   ref: width='full' - Takes full width of parent
   value: width='full' - Takes full width of parent
-91429a27393f106440d89dabc9af20cc962eaccca57e037a75cb38da:
-  ref: ${tone} borderless disabled
-  value: ${tone} borderless disabled
 917c494f8d6646628d8194fb709654ee49e127624b458e9534dadc42:
   ref: All systems are operating normally.
   value: All systems are operating normally.
-91edecebdde24f0fed9bf3ea0bdce6f58c8fd0b41848ac4232ad651e:
-  ref: rounded-md
-  value: rounded-md
 929e849d33a8c511b1eff9eafbf2f52cad88e19690229e1ef5bcdf60:
   ref: Multiple Errors Default
   value: Multiple Errors Default
@@ -1350,9 +1173,6 @@
 943d71f74ddee14b787c4d98a080163dbf690d2d8cfaefca476ac416:
   ref: Borderless + Disabled
   value: Borderless + Disabled
-9510baa40fb69e8d56c397052d50fca95e88770a2db4345e78055193:
-  ref: theme='${theme}'
-  value: theme='${theme}'
 954234879f073f6a63cec6e2c21c2bb8cc721dbc7841ecd2882b23e7:
   ref: Battery Life
   value: Battery Life
@@ -1371,9 +1191,6 @@
 96baacbb4834742696aca9bb0ac1da38b011eac590967262c281d2a6:
   ref: Loading Overlay
   value: Loading Overlay
-9711995d65d971cb6d3e0d9f2d6f04f05880b35e8629025957ae8bda:
-  ref: grid-cols-1
-  value: grid-cols-1
 975efec78a4fb8ff4b5e4430f066b189c28391584947f01b9733d944:
   ref: Project Name
   value: Project Name
@@ -1389,15 +1206,9 @@
 9924cfccde16e71c2c12758f5f3569b5d3c844e62be921b5ba46bde2:
   ref: loading_state_shows
   value: loading_state_shows
-99756ed53764e7189d0593e0636718dd83e9db8eed78de47cd00a3b1:
-  ref: rounded-full
-  value: rounded-full
 9a4e85c5bffc18c69e7d762f9b41048b0824a128bcdee11488e2b177:
   ref: No Border + Disabled
   value: No Border + Disabled
-9a602c8a56d68c898d652c196e17ab3149dd1cc1d982f3838f4e7f57:
-  ref: border-slate-200
-  value: border-slate-200
 9a6a4b8f36e3397f51fd1bf41fc6c44149c6b9570f09a178df9c4fcd:
   ref: Default (inherits danger+dark)
   value: Default (inherits danger+dark)
@@ -1416,9 +1227,6 @@
 9d0a1215c5c288f73422f40d591bc36d925fa8cbee952fae5a88ad48:
   ref: This area shows a loading overlay when activated
   value: This area shows a loading overlay when activated
-9d55d558672ba41c52b63e8013ca18c961ced3d11836ac133ecf89e6:
-  ref: p-6
-  value: p-6
 9d68fd7d2b9e208edb77ede71fe6c547b34f40f0b4b28741f68c0614:
   ref: Detail
   value: Detail
@@ -1440,9 +1248,6 @@
 9f3ea85808a44a993024995453b438851943f2aba42cad77b727d127:
   ref: Fulltext (placeholder)
   value: Fulltext (placeholder)
-9fdc153fb087b40e6b014fd99fa920d5fb0b9c5a9bf929f2be65fc48:
-  ref: icon-[ph--trash]
-  value: icon-[ph--trash]
 a002ae37fd63489933c43620db08773bbe466ad551e41bc4839473af:
   ref: Employee Profile
   value: Employee Profile
@@ -1473,9 +1278,6 @@ a23ce2805827f8c89f8254b43ecc2a73d5974af2fb57a74ecd8839c5:
 a26e2f454b3953f2d2b295fcdae89f2bd7b4a6a145918f37d91e31c8:
   ref: Unsorted, sort by asc
   value: Unsorted, sort by asc
-a28b64c62218573711aa4485e0f1a0ee6ad84d583fd422636716f05a:
-  ref: ${tone} disabled
-  value: ${tone} disabled
 a2db0b9da346e2afe6970bf6b0d0c8c808685aad8915a1320bb34480:
   ref: Carrier
   value: Carrier
@@ -1497,27 +1299,12 @@ a421acdb6005685abf3ab655b39bd5a6fd36b74ffb42026ddc48fc6b:
 a42f1a988a5cc33e5fb0b03eaba8e2f79b767d4e7992a00cc9627e6a:
   ref: Inline + Background
   value: Inline + Background
-a450c290aad9dff08a5e4625e2b393173bb90c384b81897c376f1658:
-  ref: shadow='${shadowSize}'
-  value: shadow='${shadowSize}'
-a5189e7724dd0de172d798983cf9817be8dd2ecdc38d7400a4e66061:
-  ref: space-y-4
-  value: space-y-4
-a51cd378daea7ea534e9490bbacf028da8954c0214c67a06cb51c445:
-  ref: square='${squareSize}'
-  value: square='${squareSize}'
 a591faa57caa0c3528bdaacc9597f4ef319361ec8c64d478c433b0b2:
   ref: Subtle (disabled)
   value: Subtle (disabled)
 a5eb219baee2d44fbeb2efb0fefefa8cca868c985927a2010eca1bd0:
   ref: Sorted by asc, sort by desc; keeps column sorted in selected order
   value: Sorted by asc, sort by desc; keeps column sorted in selected order
-a5f1816cb6fade31f4cd0c43fc13336753683edae763e17772c78320:
-  ref: border-4
-  value: border-4
-a6112735efcc87bce85f05acd7fcd89456a335af77c6718595e25a54:
-  ref: text-slate-900
-  value: text-slate-900
 a623cc998f326d6413de78868ec338a44d70c3b8d01ceccbec60d076:
   ref: 75%
   value: 75%
@@ -1527,9 +1314,6 @@ a65820f3e2be1096202ce62b1392b96d2c12175a5c9509218b857d29:
 a71059944b1fdea48f1d3e3bca85c2d76492b44021e7a7397ef88199:
   ref: Disabled (inherits context)
   value: Disabled (inherits context)
-a737a6518e2b85d89a7e80f24e25383538a84627830931b068ee1cf4:
-  ref: warning
-  value: warning
 a7c5cb8c6147393994a039fe993522c5b6e63691c015eba781e6f043:
   ref: Size Comparison
   value: Size Comparison
@@ -1617,9 +1401,6 @@ aed2f1a51ae1082f5cf9a8e5570b08493b83d1d40da9d5f3aed33aed:
 af8f35d688a6936914f62e095e58125cd5fa4407d8c0343bc7fdeb7d:
   ref: Drag 'n' drop a file here
   value: Drag 'n' drop a file here
-b03506b7f30c88dff68be6ba10390346e4481a87b28deaed96ae71d9:
-  ref: issues-${entity.id}-inline
-  value: issues-${entity.id}-inline
 b040b7e10ee6280c160f40021cffe1c711ea81a6c013abecc6663357:
   ref: orientation='vertical' - Grid flow row with auto-sizing
   value: orientation='vertical' - Grid flow row with auto-sizing
@@ -1650,9 +1431,6 @@ b2783903cbb72b04a1b6662ae79be5ea9210302cd22b41b2263e9aaa:
 b2a00524ce3a0620b582b540a0f5f1da7fd91db9b79dc3944233603c:
   ref: Invalid data provided (title)
   value: Invalid data provided (title)
-b2d5d27bf78c6fdc6042f056622401d077cb16ad965263d82095996d:
-  ref: py-2
-  value: py-2
 b35f0b66df0dbbf3c51b1281ea17e7a0ddeeb96392e89d8bc588b27d:
   ref: No more items (label)
   value: No more items (label)
@@ -1680,9 +1458,6 @@ b4fcc48516f0b04ca6bc78304c96366505e47360ff63bfc8b3a27f7b:
 b5023db1f72f989078c95ba23fc0b5bcee7cfd9914a34a43b922541c:
   ref: Danger (disabled)
   value: Danger (disabled)
-b587fd055f294cba6e7583385c85766fe8a8a78fe9ffef409f930c72:
-  ref: gap-4
-  value: gap-4
 b59a3177b75d157800285fbf425fc9616f79e53066609e1b14562ed1:
   ref: Buttons using context
   value: Buttons using context
@@ -1704,15 +1479,9 @@ b83c8650a079046ea54e34cbfa74bf643bf92d3cea2ba80a8b55805e:
 b83f73c562eea84b9ed3076da04cc1ab2fdbeb3f2a701a61159a27d6:
   ref: Downloading file...
   value: Downloading file...
-b85c802a56304c52b01420006301fd7cf907cca687356d11c967cb96:
-  ref: ${theme} theme
-  value: ${theme} theme
 b87cc9aeec0783033a4c1b75036bfc8a42c3772f5b1408be31374632:
   ref: Something went wrong. Please try again.
   value: Something went wrong. Please try again.
-b890910cbebc8ebdb7ae8ebbff960fb9820555fbd317a7fb3fcbfe4d:
-  ref: border-b
-  value: border-b
 b8a29e8240b405d416cbdd118a8f4d10d8780339344a508395d6cf41:
   ref: Colors
   value: Colors
@@ -1743,21 +1512,12 @@ bab891c6f764e802d3a3023ba43464b8a1af1781d938ad6fabac110c:
 bae993abc236aedb48b109740d526984f1c555f4930b1144013cc288:
   ref: Inline Danger
   value: Inline Danger
-bb2c5354bf8419f0ff03d6732496e60d6205ee0c2a2c9f8d80501e3f:
-  ref: transition-colors
-  value: transition-colors
 bb6e9a6b935bcbdb8c0f7fc71113453fd3deed45f74fc72f2ba3a448:
   ref: Specialized Inputs
   value: Specialized Inputs
 bb975f764cec84eecf3d9bc2f29914c15d87d177ae4dc9208eb2facb:
   ref: Complex Form
   value: Complex Form
-bba84580082db68ed6cb9efdd584b556a4623f56b82f2b1b926083f5:
-  ref: sm
-  value: sm
-bc408516ed3d5edf483111111c8549831d956589fb8a73a237734d3c:
-  ref: ${borderSize} border
-  value: ${borderSize} border
 bcb2263af0ec3c192d55f37db91b702dfb64cd249372992287291fe9:
   ref: Export (button)
   value: Export (button)
@@ -1781,9 +1541,6 @@ bdd75351832162f493f67d1b22571c3b03676329dcb0195933448eca:
 bdf19a445af5c33b0416b7322c4e1824e9d07bb630d03a98920dcbf9:
   ref: Control height, width, and responsive sizing
   value: Control height, width, and responsive sizing
-be9018ea516e90318e0d1f24235f0d93d2f3cfbe91b9acd133972e05:
-  ref: ${key} - Success (label)
-  value: ${key} - Success (label)
 be958aeb645558e92fd7f5bd7147475f593d46b086eb8c1123ee848c:
   ref: Help
   value: Help
@@ -1799,27 +1556,15 @@ bf1279f8f6f46f31183286a39911e73f39523488858e3294a8b2ef8d:
 bf1450f6732680a9c4498c48086bc7f25c90403a35848290a883c62e:
   ref: Height Variants
   value: Height Variants
-bf477465e6380eddf3fff4b86d335c5ffd6532ce669ad3b2da603d31:
-  ref: h-12
-  value: h-12
-c02b39f2e46c4433bb6704c7028f27e6faf3896527f3b314915c3aa9:
-  ref: text-slate-600
-  value: text-slate-600
 c0623fa8267cd24eea341c4ba218529d558b6dda96bfba56c94c3d55:
   ref: Media Inputs
   value: Media Inputs
-c16045ad2af95d424331c7074717c0c8798a3655f9f1460c5385b62d:
-  ref: Issues-item
-  value: Issues-item
 c186e4aa616d788fac82188dc239490e5d7191b539c0dde2f004e153:
   ref: Multiple Attr Components
   value: Multiple Attr Components
 c1cbbc6a1555fb3c180613ddd9edc097e073361ae1614271d1ad757b:
   ref: Tweak Examples
   value: Tweak Examples
-c22c64243f5d3879b2020291667b5bd2670698e57234ea727a765990:
-  ref: ${tone} no border disabled
-  value: ${tone} no border disabled
 c23393020e313ac943f560564a564316abc941389db7bcef45015104:
   ref: Available Variants
   value: Available Variants
@@ -1877,9 +1622,6 @@ c7c8c8f142b3f1d139544dbe7ed307f54359e275951674976cec0247:
 c7d4cd6e6c5a1f16ab0671da245f4f0de4bffdbac0046460eb5e205b:
   ref: Action
   value: Action
-c80bbdd6ebda8c98981b2e11833c97e603e6aa725c7ea8014fbf52ab:
-  ref: subtle
-  value: subtle
 c92b71781d0fe8e26d093d496364366d9c57e65c4cdd7d81b6c0b6df:
   ref: Priority
   value: Priority
@@ -1904,9 +1646,6 @@ cc7a3ea4da9d7b05fa4fda307ddd12914040f4e1579b442a160a6822:
 cc8fbdb9d7a01c996c607174aec16985e3583279f6cd61656a06a60c:
   ref: Overview
   value: Overview
-ccd54ba64e3f600f308bc3d88b2ce75e403a9dd5f8ed66c093602294:
-  ref: Premium feature
-  value: Premium feature
 cd287f2f87fda1750f5ebaeae54049d584965f5214466bb42e898021:
   ref: Button Style Container
   value: Button Style Container
@@ -1943,9 +1682,6 @@ cfe491af066afaa71535fea21657c1d43c8a1beb2d97c4a4307b1aef:
 d0e6cfb6f1a7bf7569ed771fe8d0c1bf14ef22a69d666363ea1c46bc:
   ref: Danger Action
   value: Danger Action
-d1492ea72873a9e208ce0b24e8ba792c7d27734cf375ae839d0d4e4d:
-  ref: justify-center
-  value: justify-center
 d27ef369a2bfc1b0d26a46f31908e86c8ef8d6769e2e0322ba921b2c:
   ref: loading_client_info
   value: loading_client_info
@@ -1976,12 +1712,6 @@ d5e5b644542123c3d18dfdb28869af9be2c603d6cb03aabdaecdf4a6:
 d60b595a60b9a545927e3462e4e076c0780540e65133c7ab847f72f1:
   ref: Basic Icons
   value: Basic Icons
-d648b6d92f6151e496522ba0eb7ce70839c6ffb71ee80d297f8ebb2c:
-  ref: font-semibold
-  value: font-semibold
-d70991bcbb9578aa88a4399729ee1e1536a915bb1c264427c382fd5d:
-  ref: round='${roundSize}'
-  value: round='${roundSize}'
 d7790f29fea0870fc1f3eb0718c31a4c296c0c8ec32c7288c03f03f3:
   ref: Please wait while we process your request.
   value: Please wait while we process your request.
@@ -1997,18 +1727,12 @@ d9b5d17d1cde3edba3be1c0a4777ec905f885d0dbb0c56eb7647b1b8:
 d9dbea27d457d4a11874c3e1f989eab4402f6644b0a03dbb8c3b8d5e:
   ref: Label Count
   value: Label Count
-dab3821ba319d468739ba8ed46d39bd2eb9910388527abc7be91a6e9:
-  ref: text-white
-  value: text-white
 dabf2d5019835e0ac346734d5997e50dba7c3623725b8028a12122ec:
   ref: Animated Loading
   value: Animated Loading
 db192838d6680ec3a34e23fbdfb976a5f13070bd3330e80a5c18cc16:
   ref: Medium Size
   value: Medium Size
-dbceb6481fd8f26c8976ca8427c2ebbf087e06888dcbc30c25e526f9:
-  ref: space-y-2
-  value: space-y-2
 dc077fb01c73939fbd00e0c77364b45c3d5025c446aa8a4725cfb4ae:
   ref: Popup Select
   value: Popup Select
@@ -2048,9 +1772,6 @@ def0805c241b116105065fc04687da1e6c31bfd288986ede321d94fe:
 df279b7053bed51ddb0cdc10ee9f8e88bf2b6222a5d712a1612d2d09:
   ref: \uD83D\uDD04 Orientation
   value: \uD83D\uDD04 Orientation
-df8a5e476ebbb318948a1bc7caba57facbabcd4d1c66610b401270df:
-  ref: w-8
-  value: w-8
 e0189987816a56f8f7646d23f3a19a023eddbe4b664cd753bf354b62:
   ref: Light Theme - Title + Icon + Message
   value: Light Theme - Title + Icon + Message
@@ -2075,9 +1796,6 @@ e2826c05de6f778b7bb29cbf75f6ee1ded294d54b6d527252d9405af:
 e2d0bdb96a443ce84c7f75034afdd8b7ebf9cd5958e04afbe970b63d:
   ref: Go to Button showcase
   value: Go to Button showcase
-e2d2a2388b08ae548a73c1d0a050545999d3c51d043f885a27d3faac:
-  ref: Refresh data
-  value: Refresh data
 e30b00466575644600ddfc722597cb70cf6790c14f43a2ac5964f5a5:
   ref: Dynamic Viewport Width (may overflow)
   value: Dynamic Viewport Width (may overflow)
@@ -2099,9 +1817,6 @@ e4acd8e3c9329ecaba72b6989c0557a93ad39933d73898f38a726801:
 e50fa9de89674a10c7fdebe1b0c419d8cb62530bf4b1309981a314ac:
   ref: Basic Card
   value: Basic Card
-e531f08642c494357b673bcc8ffde9fad2ed7c570ae588b11654e04f:
-  ref: ${tone} (light)
-  value: ${tone} (light)
 e532141b8909dfdd830e9b945cb23d1e0d0a0a499eacc6f60091dbf4:
   ref: "Key Benefits of the Separated Design System:"
   value: "Key Benefits of the Separated Design System:"
@@ -2152,9 +1867,6 @@ ea298f3009ed1c89c4fed5700fac8dc53c9f04003e63bbc125f8e1b5:
 ea583aab64a25b17dc8dc51bc00ec75128bb16d6cac0d7ca9fba4294:
   ref: Type
   value: Type
-eaf78728610920769ef1a4ad54fbd5b4923b06eb85f81e1280e62e8e:
-  ref: mb-2
-  value: mb-2
 eb5d54aae38a00b696cf911a94fa9c80c907af0699c5e1124a4534fa:
   ref: Next (tour)
   value: Next (tour)
@@ -2167,12 +1879,6 @@ ec1258a5a37fed1acf4808c5c7dcf17c3a81d45226c93a72c5bfc634:
 ec4a1594f54c14ac82497c9120ea7f1e5e23de4756fa378a258cbf9a:
   ref: Deep Navigation
   value: Deep Navigation
-ecc602947a2a601b6c9f099ca41d26c7f3910eff377fac630e5e43d2:
-  ref: danger
-  value: danger
-ed5773172651b30f6aa416ac7c960f9cf0020f667539d62e2b1c6cda:
-  ref: text-slate-700
-  value: text-slate-700
 ed909f78872202ba385c0e8d30022e0f31cd0bfd5589398994efc517:
   ref: Complete Form Example
   value: Complete Form Example
@@ -2182,9 +1888,6 @@ edc07769e469f86d29131ea19f6a702bb85edf8475836518d7598fe6:
 ee9cfa1131d5be5ceee16a01fb7166a1a9640790c773c2ca97f0bb39:
   ref: Different Values
   value: Different Values
-ef4fee83899592985e76e44af659fd8aaee34f953a32644edf048fa1:
-  ref: h-8
-  value: h-8
 ef8c2ad21952c783727005cf09d0bfed24bd2183bc6d29c4dddcbdf9:
   ref: Light vs Dark Themes
   value: Light vs Dark Themes
@@ -2194,9 +1897,6 @@ ef944ba0363a809667952ffb804bbd4c307ae4f800b66e5511fe25cb:
 efc1ffdd73afbe71675ec309980c62b7be6d2d777783a4a57b3fb864:
   ref: Different border sizes - colors come from tone/theme
   value: Different border sizes - colors come from tone/theme
-f04fb78091ae49d0c11f13f6c56ae1ab3c30df0ca6fd2e330ae86731:
-  ref: icon-[ph--pencil]
-  value: icon-[ph--pencil]
 f0beb4f0a3779f1cc7a27655d61d9cb53e0fe76eb2bcbe7ca6c4b18d:
   ref: Simple Text
   value: Simple Text
@@ -2230,12 +1930,6 @@ f2429af2430c8b6afab41ed75bbe15050075b87e7a317d0496d41928:
 f24abb98a0c0885079d29db5e5507c36bcc76a4f7ef03590139dfab6:
   ref: Combined Examples - Light Theme
   value: Combined Examples - Light Theme
-f2838d460efe8ae2f48774afe3b741bc06d7c8bafd4cfa69e8cec2d6:
-  ref: icon-[ph--bell]
-  value: icon-[ph--bell]
-f306d7e14b89178d4e9b8fe7be87d6bb809731794903d7454e8bf2bb:
-  ref: border-t-slate-600
-  value: border-t-slate-600
 f3e6b2ab774fc8055e7ddfada36978044b8f3e09564051ba05f499c9:
   ref: Components
   value: Components
@@ -2278,9 +1972,6 @@ f92c5bcd27dd6e6537d9b4eaaac63558d27e759c58675fef5f4f992c:
 f9ba906e6c06023c3d26f8ef2b253d46bbfa978cc974116a7012cd88:
   ref: Data Display
   value: Data Display
-fa7c31cce5d37b04c269466161a372fe7cfdf52300f7ee99b48cee74:
-  ref: ${tone} (dark)
-  value: ${tone} (dark)
 fa87f5aeb14a6f7ecfe746b0b90e3e2ee3a293ffbffe3e0153cad2a4:
   ref: Next Review
   value: Next Review
@@ -2299,9 +1990,6 @@ fc760639d5d21b56954f100ce9ec8b936af75365d8b8a91d07203e1b:
 fc78c2e604f29cea10df159cccf11498a8890191a239fd45c672501a:
   ref: Media
   value: Media
-fcf0e2637b655f56d059a0ffffd6a82ead857d17b7ef6c6c51be25b2:
-  ref: ${entity.id}-inline
-  value: ${entity.id}-inline
 fd1474969d81021f3ac56c2d0f25840c1e3ab07fca8fd37c71738c2a:
   ref: Shadow Variants
   value: Shadow Variants
@@ -2332,6 +2020,3 @@ ff2100f1a5838931f4f74c868d661215d95dc23f2c792a7b8f7860ed:
 ff6b9f290fbd4fff8f4b927fcc90a7c2fe7cd24709a683f528ae7a9a:
   ref: Project Details
   value: Project Details
-ff710afbe20fb2d283c198e87c907c68510222db8eea3892d5387a2a:
-  ref: ${entity.id}-item
-  value: ${entity.id}-item

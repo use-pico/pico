@@ -60,16 +60,14 @@ export const tx = ({
 	const jsxLiteralSelector =
 		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral";
 
-	// Pre-compile selectors (once per entire run, not per file)
-	const jsxSelector =
+	// Pre-compile JSX selectors
+	const jsxSelectors =
 		sources.jsx.length > 0
-			? sources.jsx
-					.flatMap(({ name, attr }) => [
-						`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-						`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-					])
-					.join(", ")
-			: null;
+			? sources.jsx.flatMap(({ name, attr }) => [
+					`JsxSelfClosingElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
+					`JsxOpeningElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
+				])
+			: [];
 
 	const functionSelector =
 		sources.functions.length > 0
@@ -92,10 +90,10 @@ export const tx = ({
 			: null;
 
 	packages.forEach((path) => {
-		const sources = project(`${path}/tsconfig.json`).filter((source) =>
+		const sourceFiles = project(`${path}/tsconfig.json`).filter((source) =>
 			filter.test(source.fileName),
 		);
-		const total = sources.length;
+		const total = sourceFiles.length;
 
 		console.log(`\n📦 Package: ${path}`);
 		console.log(`📄 Files to process: ${total}\n`);
@@ -115,15 +113,16 @@ export const tx = ({
 		});
 
 		const benchmark = Timer.benchmark(() => {
-			sources.forEach((source, index) => {
+			sourceFiles.forEach((source, index) => {
 				files++;
 				progressBar.update(index + 1, {
 					file: source.fileName.split("/").pop(),
 				});
 
-				// Extract from JSX attributes
-				if (jsxSelector) {
-					query(source, jsxSelector).forEach((attr) => {
+				// Extract from JSX elements
+				if (jsxSelectors.length > 0) {
+					const selector = jsxSelectors.join(", ");
+					query(source, selector).forEach((attr) => {
 						query(attr, jsxLiteralSelector).forEach(addTranslation);
 					});
 				}
