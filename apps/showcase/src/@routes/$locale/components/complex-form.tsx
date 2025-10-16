@@ -696,34 +696,31 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 				<Section title={<Tx label={"Form Actions"} />}>
 					<div className="flex gap-4">
 						<Button
+							label="Save Changes"
 							tweak={{
 								variant: {
 									size: "md",
 								},
 							}}
-						>
-							<Tx label={"Save Changes"} />
-						</Button>
+						/>
 						<Button
+							label="Save as Draft"
 							tweak={{
 								variant: {
 									size: "md",
 									tone: "secondary",
 								},
 							}}
-						>
-							<Tx label={"Save as Draft"} />
-						</Button>
+						/>
 						<Button
+							label="Cancel"
 							tweak={{
 								variant: {
 									size: "md",
 									tone: "danger",
 								},
 							}}
-						>
-							<Tx label={"Cancel"} />
-						</Button>
+						/>
 					</div>
 				</Section>
 

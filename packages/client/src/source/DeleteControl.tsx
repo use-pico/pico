@@ -7,7 +7,6 @@ import { BackIcon } from "../icon/BackIcon";
 import { TrashIcon } from "../icon/TrashIcon";
 import { ModalContext } from "../modal/ModalContext";
 import { withToastPromiseTx } from "../toast/withToastPromiseTx";
-import { Tx } from "../tx/Tx";
 import { DeleteControlCls } from "./DeleteControlCls";
 import { withInvalidator } from "./withInvalidator";
 
@@ -67,33 +66,23 @@ export const DeleteControl: FC<DeleteControl.Props> = ({
 				className={slots.footer()}
 			>
 				<Button
-					tweak={{
-						variant: {
-							tone: "secondary",
-						},
-					}}
+					tone={"secondary"}
 					iconEnabled={BackIcon}
+					label="Cancel (button)"
 					onClick={() => {
 						close();
 						onCancel?.();
 					}}
-				>
-					<Tx label={"Cancel (button)"} />
-				</Button>
+				/>
 
 				<Button
-					tweak={{
-						variant: {
-							tone: "primary",
-						},
-					}}
+					tone={"primary"}
 					iconEnabled={TrashIcon}
+					label="Delete (button)"
 					onClick={() => {
 						mutation.mutate();
 					}}
-				>
-					<Tx label={"Delete (button)"} />
-				</Button>
+				/>
 			</div>
 		</div>
 	);

@@ -136,8 +136,8 @@ export const ExportButton = <TItem extends EntitySchema.Type>({
 				<ModalFooter
 					disabled={!selected.length}
 					loading={mutation.isPending}
-					cancelText={<Tx label={"Cancel (button)"} />}
-					confirmText={<Tx label={"Export (button)"} />}
+					cancelText="Cancel (button)"
+					confirmText="Export (button)"
 					confirmIcon={ExportIcon}
 					onConfirm={() => {
 						mutation.mutate(undefined, {

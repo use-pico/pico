@@ -1,6 +1,5 @@
 import type { FC, PropsWithChildren } from "react";
 import { Status } from "../status/Status";
-import { Tx } from "../tx/Tx";
 import { TokenInline } from "./TokenInline";
 import type { TokenType } from "./TokenType";
 import { useToken } from "./useToken";
@@ -45,24 +44,14 @@ export const Token: FC<Token.Props> = ({
 					<Status
 						icon={"icon-[ph--lock]"}
 						textTitle={
-							mode === "any" ? (
-								<Tx label={"Missing any token(s). (title)"} />
-							) : (
-								<Tx
-									label={"Missing required token(s). (title)"}
-								/>
-							)
+							mode === "any"
+								? "Missing any token(s). (title)"
+								: "Missing required token(s). (title)"
 						}
 						textMessage={
-							mode === "any" ? (
-								<Tx label={"Missing any token(s). (message)"} />
-							) : (
-								<Tx
-									label={
-										"Missing required token(s). (message)"
-									}
-								/>
-							)
+							mode === "any"
+								? "Missing any token(s). (message)"
+								: "Missing required token(s). (message)"
 						}
 					>
 						{!result.success && (

@@ -68,41 +68,20 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 											/>
 										</div>
 										<div className="flex flex-col space-y-2">
-											<Button>
-												<Tx
-													theme="light"
-													label={
-														"Default (inherits danger+dark)"
-													}
-												/>
-											</Button>
-											<Button tone="primary">
-												<Tx
-													theme="light"
-													label={
-														"Override tone to primary"
-													}
-												/>
-											</Button>
-											<Button theme="light">
-												<Tx
-													theme="light"
-													label={
-														"Override theme to light"
-													}
-												/>
-											</Button>
+											<Button label="Default (inherits danger+dark)" />
+											<Button
+												tone="primary"
+												label="Override tone to primary"
+											/>
+											<Button
+												theme="light"
+												label="Override theme to light"
+											/>
 											<Button
 												tone="secondary"
 												theme="light"
-											>
-												<Tx
-													theme="light"
-													label={
-														"Override both to secondary+light"
-													}
-												/>
-											</Button>
+												label="Override both to secondary+light"
+											/>
 										</div>
 									</div>
 								</VariantProvider>
@@ -125,41 +104,20 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 											/>
 										</div>
 										<div className="flex flex-col space-y-2">
-											<Button>
-												<Tx
-													theme="light"
-													label={
-														"Default (inherits secondary+light)"
-													}
-												/>
-											</Button>
-											<Button tone="warning">
-												<Tx
-													theme="light"
-													label={
-														"Override tone to warning"
-													}
-												/>
-											</Button>
-											<Button theme="dark">
-												<Tx
-													theme="light"
-													label={
-														"Override theme to dark"
-													}
-												/>
-											</Button>
+											<Button label="Default (inherits secondary+light)" />
+											<Button
+												tone="warning"
+												label="Override tone to warning"
+											/>
+											<Button
+												theme="dark"
+												label="Override theme to dark"
+											/>
 											<Button
 												tone="danger"
 												theme="dark"
-											>
-												<Tx
-													theme="light"
-													label={
-														"Override both to danger+dark"
-													}
-												/>
-											</Button>
+												label="Override both to danger+dark"
+											/>
 										</div>
 									</div>
 								</VariantProvider>
@@ -206,12 +164,7 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 										/>
 									</div>
 									<div className="flex flex-col space-y-3">
-										<Button>
-											<Tx
-												theme="light"
-												label={"Outer context button"}
-											/>
-										</Button>
+										<Button label="Outer context button" />
 
 										<VariantProvider
 											cls={PicoCls}
@@ -230,32 +183,16 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 													/>
 												</div>
 												<div className="flex flex-col space-y-2">
-													<Button>
-														<Tx
-															theme="light"
-															label={
-																"Inner context button"
-															}
-														/>
-													</Button>
-													<Button tone="link">
-														<Tx
-															theme="light"
-															label={
-																"Inner context with tone override"
-															}
-														/>
-													</Button>
+													<Button label="Inner context button" />
+													<Button
+														tone="link"
+														label="Inner context with tone override"
+													/>
 												</div>
 											</div>
 										</VariantProvider>
 
-										<Button>
-											<Tx
-												theme="light"
-												label={"Back to outer context"}
-											/>
-										</Button>
+										<Button label="Back to outer context" />
 									</div>
 								</div>
 							</VariantProvider>
@@ -299,17 +236,13 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 													key={`borderless-${tone}-${theme}`}
 													tone={tone}
 													theme={theme}
+													label={`${tone} borderless`}
 													tweak={{
 														variant: {
 															border: false,
 														},
 													}}
-												>
-													<Tx
-														theme="light"
-														label={`${tone} borderless`}
-													/>
-												</Button>
+												/>
 											))}
 										</div>
 									</div>
@@ -341,47 +274,35 @@ export const Route = createFileRoute("/$locale/components/button-advanced")({
 											<Button
 												tone="primary"
 												theme={theme}
+												label="Primary borderless"
 												tweak={{
 													variant: {
 														border: false,
 													},
 												}}
-											>
-												<Tx
-													theme="light"
-													label="Primary borderless"
-												/>
-											</Button>
+											/>
 											<Button
 												tone="danger"
 												theme={theme}
+												label="Danger borderless disabled"
 												tweak={{
 													variant: {
 														border: false,
 													},
 												}}
 												disabled
-											>
-												<Tx
-													theme="light"
-													label="Danger borderless disabled"
-												/>
-											</Button>
+											/>
 											<Button
 												tone="warning"
 												theme={theme}
 												size="sm"
+												label="Warning small borderless"
 												tweak={{
 													variant: {
 														border: false,
 													},
 												}}
-											>
-												<Tx
-													theme="light"
-													label="Warning small borderless"
-												/>
-											</Button>
+											/>
 										</div>
 									</div>
 								))}
@@ -511,24 +432,15 @@ function VariantProviderDemo() {
 									label={"Buttons using context"}
 								/>
 							</div>
-							<Button>
-								<Tx
-									theme="light"
-									label={"Default (inherits context)"}
-								/>
-							</Button>
-							<Button disabled>
-								<Tx
-									theme="light"
-									label={"Disabled (inherits context)"}
-								/>
-							</Button>
-							<Button size="sm">
-								<Tx
-									theme="light"
-									label={"Small size (inherits context)"}
-								/>
-							</Button>
+							<Button label="Default (inherits context)" />
+							<Button
+								disabled
+								label="Disabled (inherits context)"
+							/>
+							<Button
+								size="sm"
+								label="Small size (inherits context)"
+							/>
 						</div>
 
 						<div className="flex flex-col space-y-2">
@@ -538,31 +450,21 @@ function VariantProviderDemo() {
 									label={"Buttons overriding context"}
 								/>
 							</div>
-							<Button tone="danger">
-								<Tx
-									theme="light"
-									label={"Override tone to danger"}
-								/>
-							</Button>
+							<Button
+								tone="danger"
+								label="Override tone to danger"
+							/>
 							<Button
 								theme={
 									contextTheme === "light" ? "dark" : "light"
 								}
-							>
-								<Tx
-									theme="light"
-									label={`Override theme to ${contextTheme === "light" ? "dark" : "light"}`}
-								/>
-							</Button>
+								label={`Override theme to ${contextTheme === "light" ? "dark" : "light"}`}
+							/>
 							<Button
 								tone="neutral"
 								theme="light"
-							>
-								<Tx
-									theme="light"
-									label={"Override both to neutral+light"}
-								/>
-							</Button>
+								label="Override both to neutral+light"
+							/>
 						</div>
 					</div>
 				</VariantProvider>

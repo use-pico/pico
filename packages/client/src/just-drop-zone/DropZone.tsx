@@ -2,7 +2,6 @@ import type { linkTo } from "@use-pico/common";
 import { type FC, useCallback, useEffect, useState } from "react";
 import { Button } from "../button/Button";
 import { TrashIcon } from "../icon/TrashIcon";
-import { Tx } from "../tx/Tx";
 import { Upload } from "../upload/Upload";
 import type { useUpload } from "../upload/useUpload";
 import { JustDropZone } from "./JustDropZone";
@@ -107,17 +106,12 @@ export const DropZone: FC<DropZone.Props> = ({
 					<div>
 						<Button
 							iconEnabled={TrashIcon}
-							tweak={{
-								variant: {
-									tone: "secondary",
-								},
-							}}
+							label="Clear files"
+							tone={"secondary"}
 							onClick={() => {
 								clear();
 							}}
-						>
-							<Tx label={"Clear files"} />
-						</Button>
+						/>
 					</div>
 				</div>
 			);

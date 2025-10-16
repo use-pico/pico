@@ -6,6 +6,21 @@ export const TranslationSources: TranslationSource.Sources = {
 			name: "Tx",
 			attr: "label",
 		},
+		//
+		{
+			name: "Button",
+			attr: "label",
+		},
+		//
+		{
+			name: "ModalFooter",
+			attr: "cancelText",
+		},
+		{
+			name: "ModalFooter",
+			attr: "confirmText",
+		},
+		//
 		{
 			name: "Status",
 			attr: "textTitle",

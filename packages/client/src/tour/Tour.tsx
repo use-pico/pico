@@ -15,7 +15,6 @@ import { useInViewport } from "../hook/useInViewport";
 import { ArrowLeftIcon } from "../icon/ArrowLeftIcon";
 import { ArrowRightIcon } from "../icon/ArrowRightIcon";
 import { CloseIcon } from "../icon/CloseIcon";
-import { Tx } from "../tx/Tx";
 import { Typo } from "../typo/Typo";
 import { Content } from "./Content";
 import { TourCls } from "./TourCls";
@@ -176,9 +175,8 @@ const DefaultPrevButton: Tour.PrevButton.RenderFn = ({ prev, disabled }) => {
 			onClick={prev}
 			disabled={disabled}
 			size="sm"
-		>
-			<Tx label={"Previous (tour)"} />
-		</Button>
+			label="Previous (tour)"
+		/>
 	);
 };
 
@@ -190,9 +188,8 @@ const DefaultNextButton: Tour.NextButton.RenderFn = ({ next, disabled }) => {
 			onClick={next}
 			disabled={disabled}
 			size="sm"
-		>
-			<Tx label={"Next (tour)"} />
-		</Button>
+			label="Next (tour)"
+		/>
 	);
 };
 
@@ -202,9 +199,8 @@ const DefaultFinishButton: Tour.FinishButton.RenderFn = ({ finish }) => {
 			onClick={finish}
 			size="sm"
 			tone="warning"
-		>
-			<Tx label={"Finish (tour)"} />
-		</Button>
+			label="Finish (tour)"
+		/>
 	);
 };
 

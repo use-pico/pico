@@ -1,4 +1,12 @@
 {
+	"2e6a58c27567e8c9e73f3c15902f5932a5e996879419d9ccdcfd3bc8": {
+		"ref": "Success message",
+		"value": "Success message"
+	},
+	"4dea62698524965a92a7f4e1b6d55eaaa76f19a9066dd7885e44ebdf": {
+		"ref": "Error message",
+		"value": "Error message"
+	},
 	"f55fcaab6a7986d3eda96f4b058b1fbe9152a359a0ba2cb363d9c62f": {
 		"ref": "Object method call",
 		"value": "Object method call"

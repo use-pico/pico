@@ -71,6 +71,18 @@ export const tx = ({
 					.join(", ")
 			: null;
 
+	// Pre-compile selector for component prop defaults
+	// Matches: const ComponentName = ({ propName = "default value" }) => ...
+	const propDefaultSelector =
+		sources.jsx.length > 0
+			? sources.jsx
+					.map(
+						({ name, attr }) =>
+							`VariableDeclaration:has(Identifier[name=${name}]) Parameter ObjectBindingPattern BindingElement:has(Identifier[name=${attr}])`,
+					)
+					.join(", ")
+			: null;
+
 	const functionSelector =
 		sources.functions.length > 0
 			? sources.functions
@@ -125,6 +137,13 @@ export const tx = ({
 				if (jsxSelector) {
 					query(source, jsxSelector).forEach((attr) => {
 						query(attr, jsxLiteralSelector).forEach(addTranslation);
+					});
+				}
+
+				// Extract from component prop defaults
+				if (propDefaultSelector) {
+					query(source, propDefaultSelector).forEach((binding) => {
+						query(binding, literalSelector).forEach(addTranslation);
 					});
 				}
 

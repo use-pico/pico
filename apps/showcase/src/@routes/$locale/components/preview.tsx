@@ -74,24 +74,22 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="View Profile"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View Profile
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 									</div>
 								)}
 							/>
@@ -114,34 +112,31 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="View Details"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View Details
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 										<Button
+											label="Delete"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "danger",
 												},
 											}}
-										>
-											Delete
-										</Button>
+										/>
 									</div>
 								)}
 							/>
@@ -166,24 +161,22 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="View"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 									</div>
 								)}
 								extra={({ entity }) => (
@@ -214,57 +207,52 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								links={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="Download"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											Download
-										</Button>
+										/>
 										<Button
+											label="Share"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Share
-										</Button>
+										/>
 									</div>
 								)}
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="Open"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											Open
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 										<Button
+											label="Delete"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "danger",
 												},
 											}}
-										>
-											Delete
-										</Button>
+										/>
 									</div>
 								)}
 								extra={({ entity }) => (
@@ -297,14 +285,13 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.size}
 										</span>
 										<Button
+											label="Download"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											Download
-										</Button>
+										/>
 									</div>
 								)}
 							/>
@@ -341,34 +328,31 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="View Profile"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View Profile
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 										<Button
+											label="Deactivate"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "danger",
 												},
 											}}
-										>
-											Deactivate
-										</Button>
+										/>
 									</div>
 								)}
 								extra={({ entity }) => (
@@ -398,14 +382,13 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.role}
 										</span>
 										<Button
+											label="View"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View
-										</Button>
+										/>
 									</div>
 								)}
 							/>
@@ -443,24 +426,22 @@ export const Route = createFileRoute("/$locale/components/preview")({
 								actions={() => (
 									<div className="flex items-center gap-2">
 										<Button
+											label="View Project"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											View Project
-										</Button>
+										/>
 										<Button
+											label="Edit"
 											tweak={{
 												variant: {
 													size: "xs",
 													tone: "secondary",
 												},
 											}}
-										>
-											Edit
-										</Button>
+										/>
 									</div>
 								)}
 								extra={({ entity }) => (
@@ -487,14 +468,13 @@ export const Route = createFileRoute("/$locale/components/preview")({
 											{entity.status}
 										</span>
 										<Button
+											label="Open"
 											tweak={{
 												variant: {
 													size: "xs",
 												},
 											}}
-										>
-											Open
-										</Button>
+										/>
 									</div>
 								)}
 							/>
@@ -581,24 +561,22 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
+												label="View"
 												tweak={{
 													variant: {
 														size: "xs",
 													},
 												}}
-											>
-												View
-											</Button>
+											/>
 											<Button
+												label="Edit"
 												tweak={{
 													variant: {
 														size: "xs",
 														tone: "secondary",
 													},
 												}}
-											>
-												Edit
-											</Button>
+											/>
 										</div>
 									)}
 									extra={({ entity }) => (
@@ -639,24 +617,22 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
+												label="View"
 												tweak={{
 													variant: {
 														size: "xs",
 													},
 												}}
-											>
-												View
-											</Button>
+											/>
 											<Button
+												label="Edit"
 												tweak={{
 													variant: {
 														size: "xs",
 														tone: "secondary",
 													},
 												}}
-											>
-												Edit
-											</Button>
+											/>
 										</div>
 									)}
 									extra={({ entity }) => (
@@ -680,47 +656,43 @@ export const Route = createFileRoute("/$locale/components/preview")({
 									links={() => (
 										<div className="flex items-center gap-2">
 											<Button
+												label="Download"
 												tweak={{
 													variant: {
 														size: "xs",
 													},
 												}}
-											>
-												Download
-											</Button>
+											/>
 											<Button
+												label="Share"
 												tweak={{
 													variant: {
 														size: "xs",
 														tone: "secondary",
 													},
 												}}
-											>
-												Share
-											</Button>
+											/>
 										</div>
 									)}
 									actions={() => (
 										<div className="flex items-center gap-2">
 											<Button
+												label="Open"
 												tweak={{
 													variant: {
 														size: "xs",
 													},
 												}}
-											>
-												Open
-											</Button>
+											/>
 											<Button
+												label="Edit"
 												tweak={{
 													variant: {
 														size: "xs",
 														tone: "secondary",
 													},
 												}}
-											>
-												Edit
-											</Button>
+											/>
 										</div>
 									)}
 									extra={({ entity }) => (

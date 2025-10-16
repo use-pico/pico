@@ -238,6 +238,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 				<div className="flex gap-4 p-4 bg-slate-50 rounded-lg">
 					<Button
 						onClick={() => setSelectedTab("overview")}
+						label="Overview"
 						tweak={{
 							variant: {
 								tone:
@@ -246,11 +247,10 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 										: "secondary",
 							},
 						}}
-					>
-						<Tx label="Overview" />
-					</Button>
+					/>
 					<Button
 						onClick={() => setSelectedTab("subscription")}
+						label="Subscription"
 						tweak={{
 							variant: {
 								tone:
@@ -259,11 +259,10 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 										: "secondary",
 							},
 						}}
-					>
-						<Tx label="Subscription" />
-					</Button>
+					/>
 					<Button
 						onClick={() => setSelectedTab("usage")}
+						label="Usage"
 						tweak={{
 							variant: {
 								tone:
@@ -272,11 +271,10 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 										: "secondary",
 							},
 						}}
-					>
-						<Tx label="Usage" />
-					</Button>
+					/>
 					<Button
 						onClick={() => setSelectedTab("activity")}
+						label="Activity"
 						tweak={{
 							variant: {
 								tone:
@@ -285,9 +283,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 										: "secondary",
 							},
 						}}
-					>
-						<Tx label="Activity" />
-					</Button>
+					/>
 				</div>
 
 				{/* Content based on selected tab */}
@@ -614,15 +610,12 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 
 				{/* Loading Overlay Demo */}
 				<div className="relative">
-					<Button onClick={() => setIsLoading(!isLoading)}>
-						<Tx
-							label={
-								isLoading
-									? "Hide Loading"
-									: "Show Loading Overlay"
-							}
-						/>
-					</Button>
+					<Button
+						onClick={() => setIsLoading(!isLoading)}
+						label={
+							isLoading ? "Hide Loading" : "Show Loading Overlay"
+						}
+					/>
 
 					<div className="relative h-32 bg-slate-100 rounded border">
 						<LoadingOverlay show={isLoading} />

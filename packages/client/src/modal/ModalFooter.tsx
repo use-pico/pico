@@ -1,9 +1,8 @@
 import { tvc } from "@use-pico/cls";
-import { type FC, type ReactNode, useContext } from "react";
+import { type FC, useContext } from "react";
 import { Button } from "../button/Button";
 import { BackIcon } from "../icon/BackIcon";
 import { ConfirmIcon } from "../icon/ConfirmIcon";
-import { Tx } from "../tx/Tx";
 import { ModalContext } from "./ModalContext";
 
 export namespace ModalFooter {
@@ -27,11 +26,11 @@ export namespace ModalFooter {
 		/**
 		 * Custom text for the cancel button
 		 */
-		cancelText?: ReactNode;
+		cancelText?: string;
 		/**
 		 * Custom text for the confirm button
 		 */
-		confirmText?: ReactNode;
+		confirmText?: string;
 		/**
 		 * Custom icon for the cancel button
 		 */
@@ -58,8 +57,8 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 	onCancel,
 	disabled = false,
 	loading = false,
-	cancelText = <Tx label={"Close (label)"} />,
-	confirmText = <Tx label={"Confirm selection (label)"} />,
+	cancelText = "Close (label)",
+	confirmText = "Confirm selection (label)",
 	cancelIcon = BackIcon,
 	confirmIcon = ConfirmIcon,
 	className,
@@ -100,6 +99,7 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				iconEnabled={cancelIcon}
 				iconDisabled={cancelIcon}
 				onClick={handleCancel}
+				label={cancelText}
 				tweak={{
 					variant: {
 						tone: "neutral",
@@ -107,9 +107,7 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 					},
 				}}
 				size={"md"}
-			>
-				{cancelText}
-			</Button>
+			/>
 
 			<Button
 				iconEnabled={confirmIcon}
@@ -117,10 +115,9 @@ export const ModalFooter: FC<ModalFooter.Props> = ({
 				disabled={disabled}
 				loading={loading}
 				onClick={handleConfirm}
+				label={confirmText}
 				size={"lg"}
-			>
-				{confirmText}
-			</Button>
+			/>
 		</div>
 	);
 };

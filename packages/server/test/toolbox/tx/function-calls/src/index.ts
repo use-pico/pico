@@ -13,6 +13,11 @@ export const test3 = () => {
 	t(`Template literal`);
 };
 
+export const test4 = () => {
+	const mode = "any";
+	return t(mode === "any" ? "Nested in ternary" : "Alternative branch");
+};
+
 const justCall = (_: string) => {
 	return null;
 };

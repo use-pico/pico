@@ -300,6 +300,9 @@
 28443826a9b8e7c88e8888097e1471af4f07f1cf2972d50b9d6ccd2e:
   ref: Secondary Tone
   value: Secondary Tone
+2862be9828dd8f9cb2be3c47952580e9206529ab765d8eb5bab1b0fc:
+  ref: Download
+  value: Download
 2893c5e3aa27d9e9f20c82e0b9921c385df9e15828fc420f45dc5c67:
   ref: Please wait...
   value: Please wait...
@@ -333,6 +336,9 @@
 2c3efa70ba5efe240f3a7bce41fd722c1873c2b05d4810fd9af79643:
   ref: Tones - Dark Theme
   value: Tones - Dark Theme
+2d02ffef9c1bb609cbb7c22d2d9c8a7ccf9e7e601ffe4a4aba21e653:
+  ref: Deactivate
+  value: Deactivate
 2d0a1cb5e634bd1d0b3797de2165c8ae956851b3704a1f84f442d3dd:
   ref: This is an info alert
   value: This is an info alert
@@ -354,6 +360,9 @@
 2dc007e932619d69a3764f194224cb28fcd5e9ffb60d3cf82a144ca7:
   ref: Amount
   value: Amount
+2f15b0ecca4e84be28037a08500ba22228cd8ee08bddefdf58e7e3c6:
+  ref: View
+  value: View
 2f2d0ed98adeed7c1dd5c7bce289ccc579c69adf1f8e0d59bebf8890:
   ref: Layout Control
   value: Layout Control
@@ -437,6 +446,9 @@
 38487ea2a5cadcc55b03790b0051e04b264fb2a9693d262dceca0df5:
   ref: Combined States by Tone
   value: Combined States by Tone
+38bbbcd163abe6ee506acaa39dd90196e1638557e437749b4a15897d:
+  ref: Open
+  value: Open
 38f8d57baab9a443fc59d111e3469db3177218e0ce7af1792109afdf:
   ref: on
   value: on
@@ -740,6 +752,9 @@
 5cd4cffcbafbe0a40563538352c1a593909e57b10bb8d9ad5f9b3d2a:
   ref: Delete (button)
   value: Delete (button)
+5d6bb45eb861bb2a56b96924c18424e8a1c7fd31df44492a6d6f9da3:
+  ref: primary
+  value: primary
 5d7def25a47207c3212482ac7a7d89a9a6f05f46d3408ab873203c3f:
   ref: File Type Filter
   value: File Type Filter
@@ -832,6 +847,9 @@
     fixed layouts.
   value: Explore how Container handles different sizing behaviors for responsive
     and fixed layouts.
+6904640f6a0b7f6e0e419ad4a060e685b0a05bdf2bfdea4b41fc0ff8:
+  ref: Click me to highlight with HighlighterTarget!
+  value: Click me to highlight with HighlighterTarget!
 6957ea2312ad681dc8baf8c2e83b694253b3caf51c1054a91ad1cbbf:
   ref: Select inventory item (select)
   value: Select inventory item (select)
@@ -1284,6 +1302,9 @@ a2db0b9da346e2afe6970bf6b0d0c8c808685aad8915a1320bb34480:
 a2e7b308c1e641644215e631f1b724a19804f4ff58551be5bf0a3a35:
   ref: Current Date
   value: Current Date
+a30df16eb2ab27a2cb368a3f71430ef214e75999deca4fca3435406d:
+  ref: Click me to highlight this element!
+  value: Click me to highlight this element!
 a311d64655d1f92ddc42add720adcb2f00b8758088a594ec6e2ef6eb:
   ref: \uD83D\uDCCF Sizing
   value: \uD83D\uDCCF Sizing
@@ -1574,6 +1595,9 @@ c24efdec719b3c2be641039601368ab92201043bf51e75136c45b947:
 c2aeee5718b9b8b406aee8e255129b33018c174b5565f66627a2a533:
   ref: Multiple Status Examples
   value: Multiple Status Examples
+c304e011756dd1f477172fd27e03858f55f779841716a1b26d6c3f19:
+  ref: Submit
+  value: Submit
 c305bf21ac4d410c1111668f7c3b4056bce259791a5a92c344d949be:
   ref: "Container: Sizing"
   value: "Container: Sizing"
@@ -1652,6 +1676,9 @@ cd287f2f87fda1750f5ebaeae54049d584965f5214466bb42e898021:
 cd2ed85b6b05f81e530fb39dbf2c58ba9ebc1595600b182e2f879437:
   ref: Last Name
   value: Last Name
+cd805b86a8b7f99cf1bafd7063f6b7897a82bae71ac267b59f454ffa:
+  ref: View Project
+  value: View Project
 ce00a569b31fbea4b678b618335a42ef48d6d76b589d47296e1f99de:
   ref: Behavior Control
   value: Behavior Control
@@ -1751,6 +1778,9 @@ dc99a43ed1d4401d6ca2ace476f0de729f56833ad90a150bed03a574:
 dce9bf75ca6eeddbbaf0915e265331b237ccc84d8286d264f39f9cfc:
   ref: Boolean Values
   value: Boolean Values
+dd8ddfd7304520a53abf36011a40a37e9cc33e52eadf58d169a4a4b0:
+  ref: fetching
+  value: fetching
 dda0668b8ac8a2965563dc51344643e27ae266e3920faaab00cff192:
   ref: Complex Card
   value: Complex Card
@@ -1784,6 +1814,9 @@ e044d958f4a1d8c7524babcda2486d12316a4ee52cc98fa95ba15da2:
 e07b6b081034a90a4252f9e997b11c1e6862b89a12a955b38c3c50b8:
   ref: With Subtitle
   value: With Subtitle
+e08ac7a7a53f2399929bc71c2b5b9a0013f24a00448d0152f7d6af3a:
+  ref: Share
+  value: Share
 e155e8d972f8836d94af51c8d592ccef20e1dc010d6d6b58d95b2250:
   ref: Gap Variants
   value: Gap Variants
@@ -1805,6 +1838,9 @@ e39da9b0d16608148a4df969a38ee994b10c78eb0dc0139af22138bb:
 e3b34a8f2984d119d69a9838d316f00469d2921c25b9ea6853cc19d1:
   ref: Main Navigation
   value: Main Navigation
+e40db520a2165e1645a58b8e892c7d0eb51ed79350485b5a32d1eb6a:
+  ref: View Profile
+  value: View Profile
 e43b8139f8e7c1463cf00265247ee906d364fc9eeec84cb59865cb22:
   ref: Light Theme - Title + Icon
   value: Light Theme - Title + Icon
@@ -1879,6 +1915,9 @@ ec1258a5a37fed1acf4808c5c7dcf17c3a81d45226c93a72c5bfc634:
 ec4a1594f54c14ac82497c9120ea7f1e5e23de4756fa378a258cbf9a:
   ref: Deep Navigation
   value: Deep Navigation
+ecc602947a2a601b6c9f099ca41d26c7f3910eff377fac630e5e43d2:
+  ref: danger
+  value: danger
 ed909f78872202ba385c0e8d30022e0f31cd0bfd5589398994efc517:
   ref: Complete Form Example
   value: Complete Form Example
@@ -1975,6 +2014,9 @@ f9ba906e6c06023c3d26f8ef2b253d46bbfa978cc974116a7012cd88:
 fa87f5aeb14a6f7ecfe746b0b90e3e2ee3a293ffbffe3e0153cad2a4:
   ref: Next Review
   value: Next Review
+faa4e679ee1a04be7c1c4ae4ffa5fbcf0cceeec28ee9b985303c6d82:
+  ref: loading
+  value: loading
 faadc4fd3b6b6fa81b1e436582e25773fec800538e126ab2fae2f56b:
   ref: Posts
   value: Posts

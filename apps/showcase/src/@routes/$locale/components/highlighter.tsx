@@ -66,18 +66,16 @@ export const Route = createFileRoute("/$locale/components/highlighter")({
 						onClick={handleHighlight}
 						tone="primary"
 						size="lg"
-					>
-						Click me to highlight this element!
-					</Button>
+						label="Click me to highlight this element!"
+					/>
 
 					<Button
 						id={targetButtonId}
 						onClick={handleTargetHighlight}
 						tone="secondary"
 						size="lg"
-					>
-						Click me to highlight with HighlighterTarget!
-					</Button>
+						label="Click me to highlight with HighlighterTarget!"
+					/>
 				</div>
 
 				<div

@@ -103,11 +103,10 @@ export const Route = createFileRoute("/$locale/components/misc")({
 							<Tx label="Content with loading overlay" />
 						</div>
 					</div>
-					<Button onClick={() => setIsLoading(!isLoading)}>
-						<Tx
-							label={isLoading ? "Hide Loading" : "Show Loading"}
-						/>
-					</Button>
+					<Button
+						onClick={() => setIsLoading(!isLoading)}
+						label={isLoading ? "Hide Loading" : "Show Loading"}
+					/>
 				</Section>
 
 				{/* Progress */}

@@ -3,13 +3,21 @@ import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
+import { Tx } from "../tx/Tx";
 import { ButtonCls } from "./ButtonCls";
 
 export namespace Button {
 	export interface Props
-		extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonElement>> {
+		extends ButtonCls.Props<
+			Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children">
+		> {
 		wrapperRef?: Ref<HTMLDivElement>;
 		buttonRef?: Ref<HTMLButtonElement>;
+		/**
+		 * Goes through translation; in general buttons should _not_ have
+		 * any complex content, thus the "label" only.
+		 */
+		label?: string;
 		iconEnabled?: string;
 		iconDisabled?: string;
 		iconLoading?: string;
@@ -25,6 +33,7 @@ export namespace Button {
 const BaseButton: FC<Button.Props> = ({
 	wrapperRef,
 	buttonRef,
+	label,
 	iconEnabled,
 	iconDisabled,
 	iconLoading = SpinnerIcon,
@@ -39,7 +48,6 @@ const BaseButton: FC<Button.Props> = ({
 	tweak,
 	//
 	disabled,
-	children,
 	...props
 }) => {
 	const { slots, variant } = useCls(
@@ -104,7 +112,8 @@ const BaseButton: FC<Button.Props> = ({
 							{...iconProps}
 						/>
 					)}
-					{children}
+
+					<Tx label={label} />
 				</button>
 			</div>
 		</VariantProvider>

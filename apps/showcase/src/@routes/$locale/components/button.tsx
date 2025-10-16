@@ -56,9 +56,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 											size={size}
 											tone={"primary"}
 											theme={theme}
-										>
-											<Tx label={size} />
-										</Button>
+											label={size}
+										/>
 									))}
 								</div>
 							</div>
@@ -75,9 +74,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-light-${tone}`}
 									tone={tone}
 									theme="light"
-								>
-									<Tx label={tone} />
-								</Button>
+									label={tone}
+								/>
 							))}
 						</Column>
 
@@ -87,14 +85,13 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-light-borderless-${tone}`}
 									tone={tone}
 									theme="light"
+									label={`${tone} borderless`}
 									tweak={{
 										variant: {
 											border: false,
 										},
 									}}
-								>
-									<Tx label={`${tone} borderless`} />
-								</Button>
+								/>
 							))}
 						</Column>
 
@@ -105,9 +102,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="light"
-								>
-									<Tx label={`${tone} disabled`} />
-								</Button>
+									label={`${tone} disabled`}
+								/>
 							))}
 						</Column>
 
@@ -118,14 +114,13 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="light"
+									label={`${tone} borderless disabled`}
 									tweak={{
 										variant: {
 											border: false,
 										},
 									}}
-								>
-									<Tx label={`${tone} borderless disabled`} />
-								</Button>
+								/>
 							))}
 						</Column>
 					</div>
@@ -140,9 +135,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-dark-${tone}`}
 									tone={tone}
 									theme="dark"
-								>
-									<Tx label={tone} />
-								</Button>
+									label={tone}
+								/>
 							))}
 						</Column>
 
@@ -152,14 +146,13 @@ export const Route = createFileRoute("/$locale/components/button")({
 									key={`tone-dark-borderless-${tone}`}
 									tone={tone}
 									theme="dark"
+									label={`${tone} borderless`}
 									tweak={{
 										variant: {
 											border: false,
 										},
 									}}
-								>
-									<Tx label={`${tone} borderless`} />
-								</Button>
+								/>
 							))}
 						</Column>
 
@@ -170,9 +163,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="dark"
-								>
-									<Tx label={`${tone} disabled`} />
-								</Button>
+									label={`${tone} disabled`}
+								/>
 							))}
 						</Column>
 
@@ -183,14 +175,13 @@ export const Route = createFileRoute("/$locale/components/button")({
 									disabled
 									tone={tone}
 									theme="dark"
+									label={`${tone} borderless disabled`}
 									tweak={{
 										variant: {
 											border: false,
 										},
 									}}
-								>
-									<Tx label={`${tone} borderless disabled`} />
-								</Button>
+								/>
 							))}
 						</Column>
 					</div>
@@ -219,9 +210,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 													size={size}
 													tone={tone}
 													theme={theme}
-												>
-													<Tx label={tone} />
-												</Button>
+													label={tone}
+												/>
 											))}
 										</Column>
 									))}
@@ -249,9 +239,8 @@ export const Route = createFileRoute("/$locale/components/button")({
 											size="md"
 											tone={tone}
 											theme={theme}
-										>
-											<Tx label={`${tone} ${theme}`} />
-										</Button>
+											label={`${tone} ${theme}`}
+										/>
 									))}
 								</div>
 							</div>
