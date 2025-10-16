@@ -1,12 +1,14 @@
-const foo = (opts: { bla: string }) => opts;
+// Function that accepts object - should NOT extract from object properties
+const fooWithObject = (opts: { bla: string }) => opts;
 
-// When foo is in sources, this should NOT extract the object literal property
-foo({
+fooWithObject({
 	bla: "",
 });
-foo({
+fooWithObject({
 	bla: "should not extract",
 });
 
-// This SHOULD extract - first argument is a string
-foo("This should be extracted" as any);
+// Function that accepts string - SHOULD extract
+const foo = (text: string) => text;
+
+foo("This should be extracted");
