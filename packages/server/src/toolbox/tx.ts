@@ -130,54 +130,56 @@ export const tx = ({
 					};
 				};
 
-				jsxSources.forEach(({ name, attr }) => {
-					const selfClosingAttrs = query(
-						source,
-						`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-					);
-					const openingAttrs = query(
-						source,
-						`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-					);
+				// Extract from JSX attributes (compile all sources into one query)
+				if (jsxSources.length > 0) {
+					const jsxSelector = jsxSources
+						.flatMap(({ name, attr }) => [
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						])
+						.join(", ");
 
-					[
-						...selfClosingAttrs,
-						...openingAttrs,
-					].forEach((attr) => {
+					query(source, jsxSelector).forEach((attr) => {
 						query(
 							attr,
 							"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression",
 						).forEach(addTranslation);
 					});
-				});
+				}
 
-				functionSources.forEach(({ name }) => {
-					const callExpressions = query(
-						source,
-						`CallExpression:has(Identifier[name=${name}])`,
-					);
+				// Extract from function calls (compile all sources into one query)
+				if (functionSources.length > 0) {
+					const functionSelector = functionSources
+						.map(
+							({ name }) =>
+								`CallExpression:has(Identifier[name=${name}])`,
+						)
+						.join(", ");
 
-					callExpressions.forEach((call) => {
+					query(source, functionSelector).forEach((call) => {
 						query(
 							call,
 							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
 						).forEach(addTranslation);
 					});
-				});
+				}
 
-				objectSources.forEach(({ object, name }) => {
-					const callExpressions = query(
-						source,
-						`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
-					);
+				// Extract from object method calls (compile all sources into one query)
+				if (objectSources.length > 0) {
+					const objectSelector = objectSources
+						.map(
+							({ object, name }) =>
+								`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+						)
+						.join(", ");
 
-					callExpressions.forEach((call) => {
+					query(source, objectSelector).forEach((call) => {
 						query(
 							call,
 							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
 						).forEach(addTranslation);
 					});
-				});
+				}
 			});
 		});
 
