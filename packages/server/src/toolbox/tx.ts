@@ -30,27 +30,7 @@ export namespace tx {
 		 * File filter regex. Defaults to matching only .ts and .tsx files.
 		 */
 		filter?: RegExp;
-		/**
-		 * JSX elements to extract translations from (e.g., `<Tx label="text" />`).
-		 *
-		 * **Important**: This is for **string extraction only**. Your application must still
-		 * use the translator for actual translations at runtime.
-		 */
-		jsx?: TranslationSource.Jsx[];
-		/**
-		 * Direct function calls to extract translations from (e.g., `foo("text")`).
-		 *
-		 * **Important**: This is for **string extraction only**. Your application must still
-		 * use the translator for actual translations at runtime.
-		 */
-		functions?: TranslationSource.Function[];
-		/**
-		 * Object method calls to extract translations from (e.g., `translator.text("text")`).
-		 *
-		 * **Important**: This is for **string extraction only**. Your application must still
-		 * use the translator for actual translations at runtime.
-		 */
-		objects?: TranslationSource.Object[];
+		sources: TranslationSource.Sources;
 	}
 }
 
@@ -60,37 +40,57 @@ export const tx = ({
 	locales,
 	format = "yaml",
 	filter = /(?<!\.d)\.tsx?$/,
-	jsx = [],
-	functions = [],
-	objects = [],
+	sources,
 }: tx.Props) => {
 	const translations: tx.Translations = {};
 
-	const jsxSources: TranslationSource.Jsx[] = [
-		{
-			name: "Tx",
-			attr: "label",
-		},
-		...jsx,
-	];
-
-	const functionSources: TranslationSource.Function[] = [
-		...functions,
-	];
-
-	const objectSources: TranslationSource.Object[] = [
-		{
-			object: "translator",
-			name: "text",
-		},
-		{
-			object: "translator",
-			name: "rich",
-		},
-		...objects,
-	];
-
 	let files = 0;
+
+	// Optimize: Move helper functions and selectors outside loops
+	const addTranslation = (node: any) => {
+		const printed = print(node);
+		const text = printed.substring(1, printed.length - 1);
+		translations[keyOf(text)] = {
+			ref: text,
+			value: text,
+		};
+	};
+
+	const literalSelector =
+		"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression";
+	const jsxLiteralSelector =
+		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression";
+
+	// Pre-compile selectors (once per entire run, not per file)
+	const jsxSelector =
+		sources.jsx.length > 0
+			? sources.jsx
+					.flatMap(({ name, attr }) => [
+						`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+					])
+					.join(", ")
+			: null;
+
+	const functionSelector =
+		sources.functions.length > 0
+			? sources.functions
+					.map(
+						({ name }) =>
+							`CallExpression:has(Identifier[name=${name}])`,
+					)
+					.join(", ")
+			: null;
+
+	const objectSelector =
+		sources.objects.length > 0
+			? sources.objects
+					.map(
+						({ object, name }) =>
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+					)
+					.join(", ")
+			: null;
 
 	packages.forEach((path) => {
 		const sources = project(`${path}/tsconfig.json`).filter((source) =>
@@ -121,63 +121,25 @@ export const tx = ({
 				progressBar.update(index + 1, {
 					file: source.fileName.split("/").pop(),
 				});
-				const addTranslation = (node: any) => {
-					const printed = print(node);
-					const text = printed.substring(1, printed.length - 1);
-					translations[keyOf(text)] = {
-						ref: text,
-						value: text,
-					};
-				};
 
-				// Extract from JSX attributes (compile all sources into one query)
-				if (jsxSources.length > 0) {
-					const jsxSelector = jsxSources
-						.flatMap(({ name, attr }) => [
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-						])
-						.join(", ");
-
+				// Extract from JSX attributes
+				if (jsxSelector) {
 					query(source, jsxSelector).forEach((attr) => {
-						query(
-							attr,
-							"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression",
-						).forEach(addTranslation);
+						query(attr, jsxLiteralSelector).forEach(addTranslation);
 					});
 				}
 
-				// Extract from function calls (compile all sources into one query)
-				if (functionSources.length > 0) {
-					const functionSelector = functionSources
-						.map(
-							({ name }) =>
-								`CallExpression:has(Identifier[name=${name}])`,
-						)
-						.join(", ");
-
+				// Extract from function calls
+				if (functionSelector) {
 					query(source, functionSelector).forEach((call) => {
-						query(
-							call,
-							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
-						).forEach(addTranslation);
+						query(call, literalSelector).forEach(addTranslation);
 					});
 				}
 
-				// Extract from object method calls (compile all sources into one query)
-				if (objectSources.length > 0) {
-					const objectSelector = objectSources
-						.map(
-							({ object, name }) =>
-								`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
-						)
-						.join(", ");
-
+				// Extract from object method calls
+				if (objectSelector) {
 					query(source, objectSelector).forEach((call) => {
-						query(
-							call,
-							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
-						).forEach(addTranslation);
+						query(call, literalSelector).forEach(addTranslation);
 					});
 				}
 			});

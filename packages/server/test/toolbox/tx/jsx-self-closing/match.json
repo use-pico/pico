@@ -1,14 +1,14 @@
 {
-  "5173625df961376430364f64b0a59c99a8d8623d575ebe9659c1ce30": {
-    "ref": "Another message",
-    "value": "Another message"
-  },
-  "c4890faffdb0105d991a461e668e276685401b02eab1ef4372795047": {
-    "ref": "Hello World",
-    "value": "Hello World"
-  },
-  "ca05f33b6ea13338b77223dc756f070972925d7b48783a3ede457dc8": {
-    "ref": "Template ${literal}",
-    "value": "Template ${literal}"
-  }
+	"5173625df961376430364f64b0a59c99a8d8623d575ebe9659c1ce30": {
+		"ref": "Another message",
+		"value": "Another message"
+	},
+	"c4890faffdb0105d991a461e668e276685401b02eab1ef4372795047": {
+		"ref": "Hello World",
+		"value": "Hello World"
+	},
+	"ca05f33b6ea13338b77223dc756f070972925d7b48783a3ede457dc8": {
+		"ref": "Template ${literal}",
+		"value": "Template ${literal}"
+	}
 }

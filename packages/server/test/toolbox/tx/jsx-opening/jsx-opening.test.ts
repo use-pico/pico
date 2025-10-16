@@ -14,6 +14,16 @@ describe("toolbox/tx/jsx-opening", () => {
 				"en",
 			],
 			format: "json",
+			sources: {
+				jsx: [
+					{
+						name: "Tx",
+						attr: "label",
+					},
+				],
+				functions: [],
+				objects: [],
+			},
 		});
 
 		const output = fs.readFileSync(

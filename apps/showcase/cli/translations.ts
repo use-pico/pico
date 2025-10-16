@@ -10,13 +10,5 @@ tx({
 		"cs",
 		"en",
 	],
-	jsx: [
-		...TranslationSources.jsx,
-	],
-	functions: [
-		...TranslationSources.functions,
-	],
-	objects: [
-		...TranslationSources.objects,
-	],
+	sources: TranslationSources,
 });

@@ -3,6 +3,10 @@ import type { TranslationSource } from "@use-pico/common";
 export const TranslationSources: TranslationSource.Sources = {
 	jsx: [
 		{
+			name: "Tx",
+			attr: "label",
+		},
+		{
 			name: "Status",
 			attr: "textTitle",
 		},
@@ -12,5 +16,14 @@ export const TranslationSources: TranslationSource.Sources = {
 		},
 	],
 	functions: [],
-	objects: [],
+	objects: [
+		{
+			object: "translator",
+			name: "text",
+		},
+		{
+			object: "translator",
+			name: "rich",
+		},
+	],
 };

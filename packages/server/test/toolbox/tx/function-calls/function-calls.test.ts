@@ -14,11 +14,15 @@ describe("toolbox/tx/function-calls", () => {
 				"en",
 			],
 			format: "json",
-			functions: [
-				{
-					name: "t",
-				},
-			],
+			sources: {
+				jsx: [],
+				functions: [
+					{
+						name: "t",
+					},
+				],
+				objects: [],
+			},
 		});
 
 		const output = fs.readFileSync(

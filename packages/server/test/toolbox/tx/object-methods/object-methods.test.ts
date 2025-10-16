@@ -14,6 +14,20 @@ describe("toolbox/tx/object-methods", () => {
 				"en",
 			],
 			format: "json",
+			sources: {
+				jsx: [],
+				functions: [],
+				objects: [
+					{
+						object: "translator",
+						name: "text",
+					},
+					{
+						object: "translator",
+						name: "rich",
+					},
+				],
+			},
 		});
 
 		const output = fs.readFileSync(
