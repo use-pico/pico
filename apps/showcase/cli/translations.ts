@@ -1,3 +1,4 @@
+import { TranslationSources } from "@use-pico/client";
 import { tx } from "@use-pico/server";
 
 tx({
@@ -8,5 +9,14 @@ tx({
 	locales: [
 		"cs",
 		"en",
+	],
+	jsx: [
+		...TranslationSources.jsx,
+	],
+	functions: [
+		...TranslationSources.functions,
+	],
+	objects: [
+		...TranslationSources.objects,
 	],
 });

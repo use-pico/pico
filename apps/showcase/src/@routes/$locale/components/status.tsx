@@ -18,7 +18,7 @@ export const Route = createFileRoute("/$locale/components/status")({
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"Simple Status"} />}>
 							<Status
-								textTitle="Welcome!"
+								textTitle="Welcome here!"
 								textMessage="This is a simple status message without any icon."
 							/>
 						</Column>
