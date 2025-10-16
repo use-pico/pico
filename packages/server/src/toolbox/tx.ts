@@ -99,69 +99,71 @@ export const tx = ({
 					};
 
 					jsxSources.forEach(({ name, attr }) => {
-						query(
+						const selfClosingAttrs = query(
 							source,
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
-						).forEach(addTranslation);
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						);
+						const openingAttrs = query(
+							source,
+							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						);
 
-						query(
-							source,
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
-						).forEach(addTranslation);
+						[
+							...selfClosingAttrs,
+							...openingAttrs,
+						].forEach((attr: any) => {
+							query(attr, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								attr,
+								"JsxExpression NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(
+								attr,
+								"JsxExpression TemplateExpression",
+							).forEach(addTranslation);
+						});
 					});
 
 					functionSources.forEach(({ name }) => {
-						query(
+						const callExpressions = query(
 							source,
-							`CallExpression:has(Identifier[name=${name}]) StringLiteral`,
-						).forEach(addTranslation);
+							`CallExpression:has(Identifier[name=${name}])`,
+						);
 
-						query(
-							source,
-							`CallExpression:has(Identifier[name=${name}]) NoSubstitutionTemplateLiteral`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`CallExpression:has(Identifier[name=${name}]) TemplateExpression`,
-						).forEach(addTranslation);
+						callExpressions.forEach((call: any) => {
+							query(call, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								call,
+								"NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(call, "TemplateExpression").forEach(
+								addTranslation,
+							);
+						});
 					});
 
 					objectSources.forEach(({ object, name }) => {
-						query(
+						const callExpressions = query(
 							source,
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) StringLiteral`,
-						).forEach(addTranslation);
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+						);
 
-						query(
-							source,
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) NoSubstitutionTemplateLiteral`,
-						).forEach(addTranslation);
-
-						query(
-							source,
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) TemplateExpression`,
-						).forEach(addTranslation);
+						callExpressions.forEach((call: any) => {
+							query(call, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								call,
+								"NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(call, "TemplateExpression").forEach(
+								addTranslation,
+							);
+						});
 					});
 				});
 		});
