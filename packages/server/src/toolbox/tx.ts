@@ -60,14 +60,16 @@ export const tx = ({
 	const jsxLiteralSelector =
 		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral";
 
-	// Pre-compile JSX selectors
-	const jsxSelectors =
+	// Pre-compile JSX selector (matches both self-closing and opening elements)
+	const jsxSelector =
 		sources.jsx.length > 0
-			? sources.jsx.flatMap(({ name, attr }) => [
-					`JsxSelfClosingElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
-					`JsxOpeningElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
-				])
-			: [];
+			? sources.jsx
+					.map(
+						({ name, attr }) =>
+							`JsxSelfClosingElement[tagName.name=${name}] JsxAttribute[name.name=${attr}], JsxOpeningElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
+					)
+					.join(", ")
+			: null;
 
 	const functionSelector =
 		sources.functions.length > 0
@@ -120,9 +122,8 @@ export const tx = ({
 				});
 
 				// Extract from JSX elements
-				if (jsxSelectors.length > 0) {
-					const selector = jsxSelectors.join(", ");
-					query(source, selector).forEach((attr) => {
+				if (jsxSelector) {
+					query(source, jsxSelector).forEach((attr) => {
 						query(attr, jsxLiteralSelector).forEach(addTranslation);
 					});
 				}
