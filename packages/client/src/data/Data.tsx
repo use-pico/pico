@@ -1,10 +1,7 @@
 import type { UseQueryResult } from "@tanstack/react-query";
+import { ErrorIcon, Icon, SpinnerIcon, Status } from "@use-pico/client";
 import type { ReactNode } from "react";
 import { match } from "ts-pattern";
-import { ErrorIcon } from "../icon/ErrorIcon";
-import { Icon } from "../icon/Icon";
-import { SpinnerIcon } from "../icon/SpinnerIcon";
-import { Status } from "../status/Status";
 
 const DefaultSpinner = () => (
 	<div className="grid place-content-center">
@@ -86,12 +83,22 @@ export const Data = <TResult extends UseQueryResult<any, Error>>({
 	return children({
 		content: match(result)
 			.when(
-				(r) => r.isSuccess,
-				(r) =>
-					renderSuccess({
-						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess,
+				(r) => r.isLoading,
+				() => renderLoading(),
+			)
+			.when(
+				(r) => r.isFetching,
+				(r) => {
+					console.log("fetching", {
+						d: r.data,
+						f: r.isFetching,
+					});
+
+					return renderFetching({
+						// biome-ignore lint/style/noNonNullAssertion: We've data,
 						data: r.data!,
-					}),
+					});
+				},
 			)
 			.when(
 				(r) => r.isError,
@@ -102,16 +109,18 @@ export const Data = <TResult extends UseQueryResult<any, Error>>({
 					}),
 			)
 			.when(
-				(r) => r.isLoading,
-				() => renderLoading(),
-			)
-			.when(
-				(r) => r.isFetching,
-				(r) =>
-					renderFetching({
-						// biome-ignore lint/style/noNonNullAssertion: We've data,
+				(r) => r.isSuccess,
+				(r) => {
+					console.log("success", {
+						d: r.data,
+						f: r.isSuccess,
+					});
+
+					return renderSuccess({
+						// biome-ignore lint/style/noNonNullAssertion: We've already checked isSuccess,
 						data: r.data!,
-					}),
+					});
+				},
 			)
 			.otherwise(() => null),
 	});
