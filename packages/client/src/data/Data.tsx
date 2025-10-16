@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { match } from "ts-pattern";
 
 const DefaultSpinner = () => (
-	<div className="grid place-content-center">
+	<div className="Data-spinner grid place-content-center">
 		<Icon
 			icon={SpinnerIcon}
 			size="xl"
@@ -14,7 +14,7 @@ const DefaultSpinner = () => (
 );
 
 const DefaultError = () => (
-	<div className="grid place-content-center">
+	<div className="Data-error grid place-content-center">
 		<Status
 			icon={ErrorIcon}
 			tone={"danger"}
