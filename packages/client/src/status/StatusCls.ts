@@ -53,9 +53,9 @@ export const StatusCls = contract(PicoCls.contract)
 			class: [
 				"Status-action",
 				"flex",
-				"gap-2",
+				"gap-4",
 				"items-center",
-				"justify-evenly",
+				"justify-center",
 				"w-full",
 			],
 			token: [
