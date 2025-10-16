@@ -56,10 +56,9 @@ export const tx = ({
 		};
 	};
 
-	const literalSelector =
-		"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression";
+	const literalSelector = "StringLiteral, NoSubstitutionTemplateLiteral";
 	const jsxLiteralSelector =
-		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression";
+		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral";
 
 	// Pre-compile selectors (once per entire run, not per file)
 	const jsxSelector =
