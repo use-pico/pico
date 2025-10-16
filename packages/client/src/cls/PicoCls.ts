@@ -347,6 +347,9 @@ export const PicoCls = contract()
 		"inner-icon.md",
 		"inner-icon.lg",
 		"inner-icon.xl",
+		"inner-icon.2xl",
+		"inner-icon.3xl",
+		"inner-icon.4xl",
 		/**
 		 * Scale
 		 */
@@ -2225,6 +2228,33 @@ export const PicoCls = contract()
 			class: [
 				"w-14",
 				"h-14",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			],
+		},
+		"inner-icon.2xl": {
+			class: [
+				"w-16",
+				"h-16",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			],
+		},
+		"inner-icon.3xl": {
+			class: [
+				"w-20",
+				"h-20",
+				"flex-shrink-0",
+				"min-w-0",
+				"min-h-0",
+			],
+		},
+		"inner-icon.4xl": {
+			class: [
+				"w-24",
+				"h-24",
 				"flex-shrink-0",
 				"min-w-0",
 				"min-h-0",

@@ -13,6 +13,9 @@ export const TypoCls = contract(PicoCls.contract)
 		"md",
 		"lg",
 		"xl",
+		"2xl",
+		"3xl",
+		"4xl",
 	])
 	.variant("font", [
 		"unset",
@@ -37,6 +40,7 @@ export const TypoCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	//
 	.match("size", "xs", {
 		root: {
 			class: [
@@ -72,6 +76,28 @@ export const TypoCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	.match("size", "2xl", {
+		root: {
+			class: [
+				"text-2xl",
+			],
+		},
+	})
+	.match("size", "3xl", {
+		root: {
+			class: [
+				"text-3xl",
+			],
+		},
+	})
+	.match("size", "4xl", {
+		root: {
+			class: [
+				"text-4xl",
+			],
+		},
+	})
+	//
 	.match("font", "normal", {
 		root: {
 			class: [

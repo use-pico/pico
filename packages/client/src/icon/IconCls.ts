@@ -10,6 +10,9 @@ export const IconCls = contract(PicoCls.contract)
 		"md",
 		"lg",
 		"xl",
+		"2xl",
+		"3xl",
+		"4xl",
 	])
 	.bool("disabled")
 	.def()
@@ -53,6 +56,27 @@ export const IconCls = contract(PicoCls.contract)
 		root: {
 			token: [
 				"inner-icon.xl",
+			],
+		},
+	})
+	.match("size", "2xl", {
+		root: {
+			token: [
+				"inner-icon.2xl",
+			],
+		},
+	})
+	.match("size", "3xl", {
+		root: {
+			token: [
+				"inner-icon.3xl",
+			],
+		},
+	})
+	.match("size", "4xl", {
+		root: {
+			token: [
+				"inner-icon.4xl",
 			],
 		},
 	})

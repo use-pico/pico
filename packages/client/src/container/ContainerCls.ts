@@ -109,8 +109,8 @@ export const ContainerCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"Container-root-height[dvh]",
-				"h-svh",
-				"min-h-svh",
+				"h-dvh",
+				"min-h-dvh",
 				"w-full",
 			],
 		},
@@ -140,8 +140,8 @@ export const ContainerCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"Container-root-width[dvw]",
-				"w-svw",
-				"min-w-svw",
+				"w-dvw",
+				"min-w-dvw",
 			],
 		},
 	})
