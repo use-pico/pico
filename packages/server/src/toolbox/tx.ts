@@ -144,14 +144,10 @@ export const tx = ({
 						...selfClosingAttrs,
 						...openingAttrs,
 					].forEach((attr: any) => {
-						query(attr, "StringLiteral").forEach(addTranslation);
 						query(
 							attr,
-							"JsxExpression NoSubstitutionTemplateLiteral",
+							"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral, JsxExpression TemplateExpression",
 						).forEach(addTranslation);
-						query(attr, "JsxExpression TemplateExpression").forEach(
-							addTranslation,
-						);
 					});
 				});
 
@@ -162,13 +158,10 @@ export const tx = ({
 					);
 
 					callExpressions.forEach((call: any) => {
-						query(call, "StringLiteral").forEach(addTranslation);
-						query(call, "NoSubstitutionTemplateLiteral").forEach(
-							addTranslation,
-						);
-						query(call, "TemplateExpression").forEach(
-							addTranslation,
-						);
+						query(
+							call,
+							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
+						).forEach(addTranslation);
 					});
 				});
 
@@ -179,13 +172,10 @@ export const tx = ({
 					);
 
 					callExpressions.forEach((call: any) => {
-						query(call, "StringLiteral").forEach(addTranslation);
-						query(call, "NoSubstitutionTemplateLiteral").forEach(
-							addTranslation,
-						);
-						query(call, "TemplateExpression").forEach(
-							addTranslation,
-						);
+						query(
+							call,
+							"StringLiteral, NoSubstitutionTemplateLiteral, TemplateExpression",
+						).forEach(addTranslation);
 					});
 				});
 			});
