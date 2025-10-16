@@ -83,12 +83,14 @@ export const tx = ({
 					.join(", ")
 			: null;
 
+	// Build selectors for function calls - match direct arguments and ConditionalExpression (ternary)
+	// but exclude ObjectLiteralExpression and ArrayLiteralExpression
 	const functionSelector =
 		sources.functions.length > 0
 			? sources.functions
 					.map(
 						({ name }) =>
-							`CallExpression:has(Identifier[name=${name}])`,
+							`CallExpression:has(Identifier[name=${name}]) > StringLiteral, CallExpression:has(Identifier[name=${name}]) > NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression NoSubstitutionTemplateLiteral`,
 					)
 					.join(", ")
 			: null;
@@ -98,7 +100,7 @@ export const tx = ({
 			? sources.objects
 					.map(
 						({ object, name }) =>
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression NoSubstitutionTemplateLiteral`,
 					)
 					.join(", ")
 			: null;
@@ -149,16 +151,12 @@ export const tx = ({
 
 				// Extract from function calls
 				if (functionSelector) {
-					query(source, functionSelector).forEach((call) => {
-						query(call, literalSelector).forEach(addTranslation);
-					});
+					query(source, functionSelector).forEach(addTranslation);
 				}
 
 				// Extract from object method calls
 				if (objectSelector) {
-					query(source, objectSelector).forEach((call) => {
-						query(call, literalSelector).forEach(addTranslation);
-					});
+					query(source, objectSelector).forEach(addTranslation);
 				}
 			});
 		});
