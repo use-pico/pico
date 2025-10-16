@@ -135,15 +135,15 @@ export const tx = ({
 							`CallExpression:has(Identifier[name=${name}]) StringLiteral`,
 						).forEach(addTranslation);
 
-						// query(
-						// 	source,
-						// 	`CallExpression:has(Identifier[name=${name}]) NoSubstitutionTemplateLiteral`,
-						// ).forEach(addTranslation);
+						query(
+							source,
+							`CallExpression:has(Identifier[name=${name}]) NoSubstitutionTemplateLiteral`,
+						).forEach(addTranslation);
 
-						// query(
-						// 	source,
-						// 	`CallExpression:has(Identifier[name=${name}]) TemplateExpression`,
-						// ).forEach(addTranslation);
+						query(
+							source,
+							`CallExpression:has(Identifier[name=${name}]) TemplateExpression`,
+						).forEach(addTranslation);
 					});
 
 					// objectSources.forEach(({ object, name }) => {
