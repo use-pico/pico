@@ -429,6 +429,9 @@ export const Route = createFileRoute("/$locale/components")({
 									{
 										to: "/$locale/components/cursor",
 									},
+									{
+										to: "/$locale/components/fulltext",
+									},
 								]}
 								vertical
 							>
@@ -520,6 +523,19 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Cursor"} />
+								</MenuLink>
+
+								<MenuLink
+									icon={
+										"icon-[material-symbols-light--search]"
+									}
+									to={"/$locale/components/fulltext"}
+									params={{
+										locale,
+									}}
+									vertical
+								>
+									<Tx label={"Fulltext"} />
 								</MenuLink>
 							</MenuGroup>
 

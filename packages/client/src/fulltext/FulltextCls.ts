@@ -8,6 +8,7 @@ export const FulltextCls = contract(PicoCls.contract)
 		"search",
 		"input",
 		"clear",
+		"submit",
 	])
 	.def()
 	.root({
@@ -36,7 +37,7 @@ export const FulltextCls = contract(PicoCls.contract)
 		input: {
 			class: [
 				"Fulltext-input",
-				"pl-8",
+				"px-10",
 				"w-full",
 			],
 			token: [
@@ -69,6 +70,17 @@ export const FulltextCls = contract(PicoCls.contract)
 			token: [
 				"tone.neutral.light.text",
 				"tone.neutral.light.text:hover",
+			],
+		},
+		submit: {
+			class: [
+				"Fulltext-submit",
+				"absolute",
+				"inset-y-0",
+				"right-2",
+				"flex",
+				"items-center",
+				"cursor-pointer",
 			],
 		},
 	})

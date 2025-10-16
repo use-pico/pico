@@ -14,6 +14,10 @@ export namespace Fulltext {
 		ref?: Ref<HTMLInputElement>;
 		state: State;
 		textPlaceholder?: string;
+		/**
+		 * When true, adds a submit button instead of using debounce
+		 */
+		withSubmit?: boolean;
 	}
 }
 
@@ -21,6 +25,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	ref,
 	state: { value = "", set },
 	textPlaceholder = "Fulltext (placeholder)",
+	withSubmit = false,
 	cls = FulltextCls,
 	tweak,
 }) => {
@@ -29,6 +34,10 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	const debounced = useDebouncedCallback((value) => {
 		set(value);
 	}, 500);
+
+	const handleSubmit = () => {
+		set(search);
+	};
 
 	return (
 		<div
@@ -44,6 +53,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 					size={"sm"}
 				/>
 			</div>
+
 			<input
 				data-ui="Fulltext-input"
 				ref={ref}
@@ -53,24 +63,55 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				placeholder={translator.text(textPlaceholder)}
 				onChange={(event) => {
 					setSearch(event.target.value);
-					debounced(event.target.value);
+					if (!withSubmit) {
+						debounced(event.target.value);
+					}
+				}}
+				onKeyDown={(event) => {
+					if (withSubmit && event.key === "Enter") {
+						handleSubmit();
+					}
 				}}
 			/>
-			{value && (
+			{withSubmit ? (
 				<div
-					data-ui="Fulltext-clear"
-					className={slots.clear()}
+					data-ui="Fulltext-submit"
+					className={slots.submit()}
 				>
 					<Icon
-						icon={"icon-[gridicons--cross]"}
+						icon={"icon-[lucide--send]"}
 						size="sm"
-						tone={"secondary"}
-						onClick={() => {
-							setSearch("");
-							set("");
+						onClick={handleSubmit}
+						tone={"neutral"}
+						tweak={{
+							slot: {
+								root: {
+									class: [
+										"opacity-50",
+										"hover:opacity-75",
+									],
+								},
+							},
 						}}
 					/>
 				</div>
+			) : (
+				value && (
+					<div
+						data-ui="Fulltext-clear"
+						className={slots.clear()}
+					>
+						<Icon
+							icon={"icon-[gridicons--cross]"}
+							size="sm"
+							tone={"secondary"}
+							onClick={() => {
+								setSearch("");
+								set("");
+							}}
+						/>
+					</div>
+				)
 			)}
 		</div>
 	);
