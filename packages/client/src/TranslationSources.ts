@@ -29,6 +29,11 @@ export const TranslationSources: TranslationSource.Sources = {
 			name: "Status",
 			attr: "textMessage",
 		},
+		//
+		{
+			name: "Fulltext",
+			attr: "textPlaceholder",
+		},
 	],
 	functions: [],
 	objects: [

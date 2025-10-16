@@ -20,7 +20,7 @@ export namespace Fulltext {
 export const Fulltext: FC<Fulltext.Props> = ({
 	ref,
 	state: { value = "", set },
-	textPlaceholder,
+	textPlaceholder = "Fulltext (placeholder)",
 	cls = FulltextCls,
 	tweak,
 }) => {
@@ -50,9 +50,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				value={search}
 				className={slots.input()}
 				type={"text"}
-				placeholder={
-					textPlaceholder || translator.text("Fulltext (placeholder)")
-				}
+				placeholder={translator.text(textPlaceholder)}
 				onChange={(event) => {
 					setSearch(event.target.value);
 					debounced(event.target.value);
