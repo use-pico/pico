@@ -18,6 +18,10 @@ export namespace Fulltext {
 		 * When true, adds a submit button instead of using debounce
 		 */
 		withSubmit?: boolean;
+		/**
+		 * Minimum number of characters required to submit (default: 3)
+		 */
+		limit?: number;
 	}
 }
 
@@ -26,6 +30,7 @@ export const Fulltext: FC<Fulltext.Props> = ({
 	state: { value = "", set },
 	textPlaceholder = "Fulltext (placeholder)",
 	withSubmit = false,
+	limit = 3,
 	cls = FulltextCls,
 	tweak,
 }) => {
@@ -35,7 +40,12 @@ export const Fulltext: FC<Fulltext.Props> = ({
 		set(value);
 	}, 500);
 
+	const isDisabled = withSubmit && search.length < limit;
+
 	const handleSubmit = () => {
+		if (isDisabled) {
+			return;
+		}
 		set(search);
 	};
 
@@ -89,10 +99,16 @@ export const Fulltext: FC<Fulltext.Props> = ({
 						tweak={{
 							slot: {
 								root: {
-									class: [
-										"opacity-50",
-										"hover:opacity-75",
-									],
+									class: isDisabled
+										? [
+												"opacity-25",
+												"cursor-not-allowed",
+											]
+										: [
+												"opacity-50",
+												"hover:opacity-75",
+												"cursor-pointer",
+											],
 								},
 							},
 						}}
