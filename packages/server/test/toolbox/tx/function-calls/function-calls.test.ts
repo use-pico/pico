@@ -22,7 +22,7 @@ describe("toolbox/tx/function-calls", () => {
 		});
 
 		const output = fs.readFileSync(
-			path.join(__dirname, "output.json"),
+			path.join(__dirname, "en.json"),
 			"utf-8",
 		);
 		const expected = fs.readFileSync(
