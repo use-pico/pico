@@ -7,7 +7,6 @@ import { ErrorIcon } from "../icon/ErrorIcon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import type { withQuery } from "../source/withQuery";
 import { Status } from "../status/Status";
-import { Tx } from "../tx/Tx";
 import { AbstractListBody } from "./AbstractListBody";
 import { AbstractListCls } from "./AbstractListCls";
 
@@ -185,8 +184,8 @@ export const AbstractList = <
 					<Status
 						icon={SpinnerIcon}
 						tone={"primary"}
-						textTitle={<Tx label={"Loading..."} />}
-						textMessage={<Tx label={"Please wait..."} />}
+						textTitle={"Loading..."}
+						textMessage={"Please wait..."}
 					/>
 				);
 			})
@@ -194,10 +193,8 @@ export const AbstractList = <
 				return (
 					<Status
 						icon={EmptyResultIcon}
-						textTitle={<Tx label={"Nothing here"} />}
-						textMessage={
-							<Tx label={"There is nothing to see right now."} />
-						}
+						textTitle={"Nothing here"}
+						textMessage={"There is nothing to see right now."}
 					/>
 				);
 			})
@@ -208,8 +205,8 @@ export const AbstractList = <
 			<Status
 				icon={ErrorIcon}
 				tone={"danger"}
-				textTitle={<Tx label={"Error"} />}
-				textMessage={<Tx label={"Something went wrong."} />}
+				textTitle={"Error"}
+				textMessage={"Something went wrong."}
 			/>
 		);
 	},

@@ -1,16 +1,23 @@
 import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
+import type { FC, PropsWithChildren, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
 import type { IconCls } from "../icon/IconCls";
-import { Typo } from "../typo/Typo";
+import { Tx } from "../tx/Tx";
+import type { Typo } from "../typo/Typo";
 import { StatusCls } from "./StatusCls";
 
 export namespace Status {
 	export interface Props extends StatusCls.Props<PropsWithChildren> {
 		ref?: Ref<HTMLDivElement>;
-		textTitle: ReactNode;
-		textMessage?: ReactNode;
+		/**
+		 * Translation key for the title text.
+		 */
+		textTitle: string;
+		/**
+		 * Translation key for the message text.
+		 */
+		textMessage?: string;
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;
@@ -73,14 +80,14 @@ const BaseStatus: FC<Status.Props> = ({
 						{...iconProps}
 					/>
 
-					<Typo
+					<Tx
 						label={textTitle}
 						size="xl"
 						font="bold"
 						display="block"
 						{...titleProps}
 					/>
-					<Typo
+					<Tx
 						label={textMessage}
 						display="block"
 						{...messageProps}

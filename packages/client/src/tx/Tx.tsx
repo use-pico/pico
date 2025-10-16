@@ -4,16 +4,16 @@ import { Typo } from "../typo/Typo";
 
 export namespace Tx {
 	export interface Props extends Omit<Typo.Props, "label"> {
-		label: string;
+		label: string | undefined;
 		fallback?: ReactNode;
 	}
 }
 
 export const Tx: FC<Tx.Props> = ({ label, fallback, ...props }) => {
-	return (
+	return label ? (
 		<Typo
 			label={translator.rich(label, fallback)}
 			{...props}
 		/>
-	);
+	) : null;
 };

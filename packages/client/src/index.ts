@@ -135,6 +135,7 @@ export { DeleteControl } from "./source/DeleteControl";
 export { withMutation } from "./source/withMutation";
 export { withQuery } from "./source/withQuery";
 export { Status } from "./status/Status";
+export { TranslationSources } from "./TranslationSources";
 export { RangeFilter } from "./table/filter/RangeFilter";
 export { withEqualFilter } from "./table/filter/withEqualFilter";
 export { withRangeFilter } from "./table/filter/withRangeFilter";

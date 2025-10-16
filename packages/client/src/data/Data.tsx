@@ -5,7 +5,6 @@ import { ErrorIcon } from "../icon/ErrorIcon";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { Status } from "../status/Status";
-import { Tx } from "../tx/Tx";
 
 const DefaultSpinner = () => (
 	<div className="grid place-content-center">
@@ -22,8 +21,8 @@ const DefaultError = () => (
 		<Status
 			icon={ErrorIcon}
 			tone={"danger"}
-			textTitle={<Tx label={"Invalid data provided (title)"} />}
-			textMessage={<Tx label={"Invalid data provided (message)"} />}
+			textTitle={"Invalid data provided (title)"}
+			textMessage={"Invalid data provided (message)"}
 		/>
 	</div>
 );
