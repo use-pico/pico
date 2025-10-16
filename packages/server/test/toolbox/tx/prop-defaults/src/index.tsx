@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnusedFunctionParameters: Test */
 import type { FC, ReactNode } from "react";
 
 interface TxProps {

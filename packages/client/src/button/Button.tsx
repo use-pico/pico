@@ -8,9 +8,7 @@ import { ButtonCls } from "./ButtonCls";
 
 export namespace Button {
 	export interface Props
-		extends ButtonCls.Props<
-			Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children">
-		> {
+		extends ButtonCls.Props<ButtonHTMLAttributes<HTMLButtonElement>> {
 		wrapperRef?: Ref<HTMLDivElement>;
 		buttonRef?: Ref<HTMLButtonElement>;
 		/**
@@ -48,6 +46,7 @@ const BaseButton: FC<Button.Props> = ({
 	tweak,
 	//
 	disabled,
+	children,
 	...props
 }) => {
 	const { slots, variant } = useCls(
@@ -113,7 +112,12 @@ const BaseButton: FC<Button.Props> = ({
 						/>
 					)}
 
-					<Tx label={label} />
+					<Tx
+						label={label}
+						display={"block"}
+					/>
+
+					{children}
 				</button>
 			</div>
 		</VariantProvider>

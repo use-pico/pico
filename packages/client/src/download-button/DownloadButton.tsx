@@ -17,7 +17,6 @@ export namespace DownloadButton {
 export const DownloadButton: FC<DownloadButton.Props> = ({
 	toName,
 	toUrl,
-	children,
 	...props
 }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -68,17 +67,12 @@ export const DownloadButton: FC<DownloadButton.Props> = ({
 			}}
 			{...props}
 		>
-			{children ? (
-				<>
-					{children}
-					{progress >= 0 && (
-						<Progress
-							value={progress}
-							size="xs"
-						/>
-					)}
-				</>
-			) : null}
+			{progress >= 0 && (
+				<Progress
+					value={progress}
+					size="xs"
+				/>
+			)}
 		</Button>
 	);
 };
