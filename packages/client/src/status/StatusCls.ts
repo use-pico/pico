@@ -7,6 +7,7 @@ export const StatusCls = contract(PicoCls.contract)
 		"root",
 		"title",
 		"body",
+		"action",
 	])
 	.def()
 	.root({
@@ -19,6 +20,10 @@ export const StatusCls = contract(PicoCls.contract)
 				"items-center",
 				"justify-center",
 				"gap-2",
+				"w-full",
+			],
+			token: [
+				"square.md",
 			],
 		},
 		title: {
@@ -29,12 +34,32 @@ export const StatusCls = contract(PicoCls.contract)
 				"gap-1",
 				"items-center",
 				"justify-center",
-				"text-center",
+				"w-full",
+			],
+			token: [
+				"square.md",
 			],
 		},
 		body: {
 			class: [
 				"Status-body",
+				"w-full",
+			],
+			token: [
+				"square.md",
+			],
+		},
+		action: {
+			class: [
+				"Status-action",
+				"flex",
+				"gap-2",
+				"items-center",
+				"justify-evenly",
+				"w-full",
+			],
+			token: [
+				"square.md",
 			],
 		},
 	})

@@ -1,5 +1,5 @@
 import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
-import type { FC, PropsWithChildren, Ref } from "react";
+import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
 import type { IconCls } from "../icon/IconCls";
@@ -18,6 +18,10 @@ export namespace Status {
 		 * Translation key for the message text.
 		 */
 		textMessage?: string;
+		/**
+		 * Optional action section (e.g., buttons)
+		 */
+		action?: ReactNode;
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;
@@ -31,6 +35,7 @@ const BaseStatus: FC<Status.Props> = ({
 	ref,
 	textTitle,
 	textMessage,
+	action,
 	icon,
 	iconProps,
 	titleProps,
@@ -93,6 +98,15 @@ const BaseStatus: FC<Status.Props> = ({
 						{...messageProps}
 					/>
 				</div>
+
+				{action && (
+					<div
+						data-ui="Status-action"
+						className={slots.action()}
+					>
+						{action}
+					</div>
+				)}
 
 				<div
 					data-ui="Status-body"

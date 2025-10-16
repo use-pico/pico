@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Status, Tx } from "@use-pico/client";
+import { Button, Status, Tx } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
@@ -72,31 +72,37 @@ export const Route = createFileRoute("/$locale/components/status")({
 					</div>
 				</Section>
 
-				{/* Status with Body Content */}
-				<Section title={<Tx label={"Status with Body Content"} />}>
+				{/* Status with Action Section */}
+				<Section title={<Tx label={"Status with Actions"} />}>
 					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"With Action Buttons"} />}>
 							<Status
 								textTitle="No Results Found"
 								textMessage="We couldn't find any items matching your search criteria."
 								icon="icon-[ph--empty]"
-							>
-								<div className="flex justify-center space-x-4 mt-4">
-									<button
-										type="button"
-										className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-									>
-										Clear Filters
-									</button>
-									<button
-										type="button"
-										className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
-									>
-										Try Again
-									</button>
-								</div>
-							</Status>
+								action={
+									<>
+										<Button label="Clear Filters" />
+										<Button label="Try Again" />
+									</>
+								}
+							/>
 						</Column>
+						<Column label={<Tx label={"Error with Retry"} />}>
+							<Status
+								textTitle="Connection Lost"
+								textMessage="Your internet connection appears to be unstable."
+								icon="icon-[streamline-ultimate--wifi-off]"
+								tone="danger"
+								action={<Button label="Retry Connection" />}
+							/>
+						</Column>
+					</div>
+				</Section>
+
+				{/* Status with Body Content */}
+				<Section title={<Tx label={"Status with Body Content"} />}>
+					<div className="grid grid-cols-2 gap-6">
 						<Column label={<Tx label={"With Custom Content"} />}>
 							<Status
 								textTitle="Empty State"
@@ -114,6 +120,20 @@ export const Route = createFileRoute("/$locale/components/status")({
 									</div>
 								</div>
 							</Status>
+						</Column>
+						<Column label={<Tx label={"Success with Action"} />}>
+							<Status
+								textTitle="File Upload Complete"
+								textMessage="Your file has been successfully uploaded to the server."
+								icon="icon-[pixelarticons--upload]"
+								tone="primary"
+								action={
+									<>
+										<Button label="View File" />
+										<Button label="Upload Another" />
+									</>
+								}
+							/>
 						</Column>
 					</div>
 				</Section>
