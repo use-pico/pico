@@ -89,11 +89,14 @@ export const tx = ({
 		...objects,
 	];
 
+	let files = 0;
+
 	packages.forEach((path) => {
 		const benchmark = Timer.benchmark(() => {
 			project(`${path}/tsconfig.json`)
 				.filter((source) => filter.test(source.fileName))
 				.forEach((source) => {
+					files++;
 					const addTranslation = (node: any) => {
 						const printed = print(node);
 						const text = printed.substring(1, printed.length - 1);
@@ -103,87 +106,77 @@ export const tx = ({
 						};
 					};
 
-					const jsxBenchmark = Timer.benchmark(() => {
-						jsxSources.forEach(({ name, attr }) => {
-							const selfClosingAttrs = query(
-								source,
-								`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-							);
-							const openingAttrs = query(
-								source,
-								`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
-							);
+					jsxSources.forEach(({ name, attr }) => {
+						const selfClosingAttrs = query(
+							source,
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						);
+						const openingAttrs = query(
+							source,
+							`JsxOpeningElement:has(Identifier[name=${name}]) JsxAttribute:has(Identifier[name=${attr}])`,
+						);
 
-							[
-								...selfClosingAttrs,
-								...openingAttrs,
-							].forEach((attr: any) => {
-								query(attr, "StringLiteral").forEach(
-									addTranslation,
-								);
-								query(
-									attr,
-									"JsxExpression NoSubstitutionTemplateLiteral",
-								).forEach(addTranslation);
-								query(
-									attr,
-									"JsxExpression TemplateExpression",
-								).forEach(addTranslation);
-							});
+						[
+							...selfClosingAttrs,
+							...openingAttrs,
+						].forEach((attr: any) => {
+							query(attr, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								attr,
+								"JsxExpression NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(
+								attr,
+								"JsxExpression TemplateExpression",
+							).forEach(addTranslation);
 						});
 					});
 
-					const functionsBenchmark = Timer.benchmark(() => {
-						functionSources.forEach(({ name }) => {
-							const callExpressions = query(
-								source,
-								`CallExpression:has(Identifier[name=${name}])`,
-							);
+					functionSources.forEach(({ name }) => {
+						const callExpressions = query(
+							source,
+							`CallExpression:has(Identifier[name=${name}])`,
+						);
 
-							callExpressions.forEach((call: any) => {
-								query(call, "StringLiteral").forEach(
-									addTranslation,
-								);
-								query(
-									call,
-									"NoSubstitutionTemplateLiteral",
-								).forEach(addTranslation);
-								query(call, "TemplateExpression").forEach(
-									addTranslation,
-								);
-							});
+						callExpressions.forEach((call: any) => {
+							query(call, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								call,
+								"NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(call, "TemplateExpression").forEach(
+								addTranslation,
+							);
 						});
 					});
 
-					const objectsBenchmark = Timer.benchmark(() => {
-						objectSources.forEach(({ object, name }) => {
-							const callExpressions = query(
-								source,
-								`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
-							);
+					objectSources.forEach(({ object, name }) => {
+						const callExpressions = query(
+							source,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}]))`,
+						);
 
-							callExpressions.forEach((call: any) => {
-								query(call, "StringLiteral").forEach(
-									addTranslation,
-								);
-								query(
-									call,
-									"NoSubstitutionTemplateLiteral",
-								).forEach(addTranslation);
-								query(call, "TemplateExpression").forEach(
-									addTranslation,
-								);
-							});
+						callExpressions.forEach((call: any) => {
+							query(call, "StringLiteral").forEach(
+								addTranslation,
+							);
+							query(
+								call,
+								"NoSubstitutionTemplateLiteral",
+							).forEach(addTranslation);
+							query(call, "TemplateExpression").forEach(
+								addTranslation,
+							);
 						});
 					});
-
-					console.log(
-						`  ${source.fileName}: JSX ${jsxBenchmark.format("%s.%ms s")} | Functions ${functionsBenchmark.format("%s.%ms s")} | Objects ${objectsBenchmark.format("%s.%ms s")}`,
-					);
 				});
 		});
 		console.log(
-			benchmark.format(`Package [${packages}] search time %s.%ms s`),
+			benchmark.format(`Package [${packages}] processed in %s.%ms s`),
 		);
 	});
 
@@ -191,60 +184,54 @@ export const tx = ({
 		recursive: true,
 	});
 
-	const benchmark = Timer.benchmark(() => {
-		locales.forEach((locale) => {
-			const target = `${output}/${locale}.${format}`;
+	locales.forEach((locale) => {
+		const target = `${output}/${locale}.${format}`;
 
-			console.log(`Writing locale [${locale}] to [${target}]`);
+		console.log(`\t - Locale [${locale}] => [${target}]`);
 
-			let current: Record<string, TranslationSchema.Type> = {};
-			try {
-				const fileContent = fs.readFileSync(target, {
-					encoding: "utf-8",
-				});
-				current = (
-					format === "json"
-						? JSON.parse(fileContent)
-						: parse(fileContent)
-				) as Record<string, any>;
-			} catch (_) {
-				// Noop
-			}
-
-			/**
-			 * Delete dead keys
-			 */
-			for (const key of diffOf(
-				Object.keys(current),
-				Object.keys(translations),
-			)) {
-				if (current[key]?.static) {
-					continue;
-				}
-				delete current[key];
-			}
-
-			const sorted = new Map(
-				Object.entries({
-					...translations,
-					...current,
-				}).sort(),
-			);
-
-			const content =
-				format === "json"
-					? JSON.stringify(Object.fromEntries(sorted), null, 2)
-					: stringify(sorted);
-
-			fs.writeFileSync(target, content, {
+		let current: Record<string, TranslationSchema.Type> = {};
+		try {
+			const fileContent = fs.readFileSync(target, {
 				encoding: "utf-8",
 			});
+			current = (
+				format === "json" ? JSON.parse(fileContent) : parse(fileContent)
+			) as Record<string, any>;
+		} catch (_) {
+			// Noop
+		}
+
+		/**
+		 * Delete dead keys
+		 */
+		for (const key of diffOf(
+			Object.keys(current),
+			Object.keys(translations),
+		)) {
+			if (current[key]?.static) {
+				continue;
+			}
+			delete current[key];
+		}
+
+		const sorted = new Map(
+			Object.entries({
+				...translations,
+				...current,
+			}).sort(),
+		);
+
+		const content =
+			format === "json"
+				? JSON.stringify(Object.fromEntries(sorted), null, 2)
+				: stringify(sorted);
+
+		fs.writeFileSync(target, content, {
+			encoding: "utf-8",
 		});
 	});
 
 	console.log(
-		`Number of found translations: ${Object.keys(translations).length}`,
+		`\t - Number of found translations in ${files} files: ${Object.keys(translations).length}`,
 	);
-
-	console.log(benchmark.format("Exported in %s.%ms s"));
 };
