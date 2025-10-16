@@ -63,6 +63,9 @@ export const Fulltext: FC<Fulltext.Props> = ({
 				placeholder={translator.text(textPlaceholder)}
 				onChange={(event) => {
 					setSearch(event.target.value);
+					if (event.target.value === "") {
+						set("");
+					}
 					if (!withSubmit) {
 						debounced(event.target.value);
 					}
