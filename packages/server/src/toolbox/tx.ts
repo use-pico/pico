@@ -98,37 +98,37 @@ export const tx = ({
 						};
 					};
 
-					// jsxSources.forEach(({ name, attr }) => {
-					// 	query(
-					// 		source,
-					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
-					// 	).forEach(addTranslation);
+					jsxSources.forEach(({ name, attr }) => {
+						query(
+							source,
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
-					// 	).forEach(addTranslation);
+						query(
+							source,
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
-					// 	).forEach(addTranslation);
+						query(
+							source,
+							`JsxSelfClosingElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
-					// 	).forEach(addTranslation);
+						query(
+							source,
+							`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) StringLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
-					// 	).forEach(addTranslation);
+						query(
+							source,
+							`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression NoSubstitutionTemplateLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
-					// 	).forEach(addTranslation);
-					// });
+						query(
+							source,
+							`JsxOpeningElement:has(Identifier[name=${name}]) > JsxAttributes > JsxAttribute:has(Identifier[name=${attr}]) JsxExpression TemplateExpression`,
+						).forEach(addTranslation);
+					});
 
 					functionSources.forEach(({ name }) => {
 						query(
