@@ -3,9 +3,9 @@ import path from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
 import { tx } from "../../../src";
 
-describe("toolbox/tx/function-calls", () => {
-	const outputDir = path.join(__dirname, "output/function-calls");
-	const matchDir = path.join(__dirname, "match/function-calls");
+describe("toolbox/tx/object-methods", () => {
+	const outputDir = path.join(__dirname, "output/object-methods");
+	const matchDir = path.join(__dirname, "match/object-methods");
 
 	beforeAll(() => {
 		if (fs.existsSync(outputDir)) {
@@ -15,7 +15,7 @@ describe("toolbox/tx/function-calls", () => {
 		}
 	});
 
-	it("extracts translations from function calls", () => {
+	it("extracts translations from object method calls", () => {
 		tx({
 			packages: [
 				__dirname,
@@ -25,11 +25,6 @@ describe("toolbox/tx/function-calls", () => {
 				"en",
 			],
 			format: "json",
-			functions: [
-				{
-					name: "t",
-				},
-			],
 		});
 
 		const output = fs.readFileSync(

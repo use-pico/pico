@@ -22,6 +22,10 @@ export namespace tx {
 		output: string;
 		locales: string[];
 		/**
+		 * Output format for translation files.
+		 */
+		format?: "json" | "yaml";
+		/**
 		 * JSX elements to extract translations from (e.g., `<Tx label="text" />`).
 		 *
 		 * **Important**: This is for **string extraction only**. Your application must still
@@ -49,6 +53,7 @@ export const tx = ({
 	packages,
 	output,
 	locales,
+	format = "yaml",
 	jsx = [],
 	functions = [],
 	objects = [],
@@ -80,14 +85,10 @@ export const tx = ({
 	];
 
 	packages.forEach((path) => {
-		console.log(`Processing package [${path}]`);
-
 		const benchmark = Timer.benchmark(() => {
 			project(`${path}/tsconfig.json`)
 				.filter((source) => !source.fileName.endsWith(".d.ts"))
 				.forEach((source) => {
-					console.log(`Processing file [${source.fileName}]`);
-
 					const addTranslation = (node: any) => {
 						const printed = print(node);
 						const text = printed.substring(1, printed.length - 1);
@@ -146,22 +147,22 @@ export const tx = ({
 						).forEach(addTranslation);
 					});
 
-					// objectSources.forEach(({ object, name }) => {
-					// 	query(
-					// 		source,
-					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) StringLiteral`,
-					// 	).forEach(addTranslation);
+					objectSources.forEach(({ object, name }) => {
+						query(
+							source,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) StringLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) NoSubstitutionTemplateLiteral`,
-					// 	).forEach(addTranslation);
+						query(
+							source,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) NoSubstitutionTemplateLiteral`,
+						).forEach(addTranslation);
 
-					// 	query(
-					// 		source,
-					// 		`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) TemplateExpression`,
-					// 	).forEach(addTranslation);
-					// });
+						query(
+							source,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) TemplateExpression`,
+						).forEach(addTranslation);
+					});
 				});
 		});
 		console.log(
@@ -175,16 +176,19 @@ export const tx = ({
 
 	const benchmark = Timer.benchmark(() => {
 		locales.forEach((locale) => {
-			const target = `${output}/${locale}.yaml`;
+			const target = `${output}/${locale}.${format}`;
 
 			console.log(`Writing locale [${locale}] to [${target}]`);
 
 			let current: Record<string, TranslationSchema.Type> = {};
 			try {
-				current = parse(
-					fs.readFileSync(target, {
-						encoding: "utf-8",
-					}),
+				const fileContent = fs.readFileSync(target, {
+					encoding: "utf-8",
+				});
+				current = (
+					format === "json"
+						? JSON.parse(fileContent)
+						: parse(fileContent)
 				) as Record<string, any>;
 			} catch (_) {
 				// Noop
@@ -203,20 +207,21 @@ export const tx = ({
 				delete current[key];
 			}
 
-			fs.writeFileSync(
-				target,
-				stringify(
-					new Map(
-						Object.entries({
-							...translations,
-							...current,
-						}).sort(),
-					),
-				),
-				{
-					encoding: "utf-8",
-				},
+			const sorted = new Map(
+				Object.entries({
+					...translations,
+					...current,
+				}).sort(),
 			);
+
+			const content =
+				format === "json"
+					? JSON.stringify(Object.fromEntries(sorted), null, 2)
+					: stringify(sorted);
+
+			fs.writeFileSync(target, content, {
+				encoding: "utf-8",
+			});
 		});
 	});
 

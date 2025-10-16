@@ -1,0 +1,18 @@
+28b1362bb810958e87e50606f1d7acee4ce42ea90fba24ea416edf66:
+  ref: With children
+  value: With children
+5173625df961376430364f64b0a59c99a8d8623d575ebe9659c1ce30:
+  ref: Another message
+  value: Another message
+c4890faffdb0105d991a461e668e276685401b02eab1ef4372795047:
+  ref: Hello World
+  value: Hello World
+d2ece3de48636f9a3b2fa68cbf0548b896e953abb4ffe9e0556a6daa:
+  ref: Template ${Math.random()}
+  value: Template ${Math.random()}
+f55fcaab6a7986d3eda96f4b058b1fbe9152a359a0ba2cb363d9c62f:
+  ref: Object method call
+  value: Object method call
+f9b3a5b27078b526b386cffa971703c1d595173c04a90aac86372f14:
+  ref: Rich text call
+  value: Rich text call
