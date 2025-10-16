@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Status, Tx } from "@use-pico/client";
+import { Button, Status, Tx, Typo } from "@use-pico/client";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 
@@ -109,11 +109,12 @@ export const Route = createFileRoute("/$locale/components/status")({
 								textMessage="You haven't created any projects yet."
 								icon="icon-[ph--folder]"
 							>
-								<div className="text-center mt-4">
-									<p className="text-sm text-gray-500 mb-2">
-										Get started by creating your first
-										project
-									</p>
+								<div className="text-center">
+									<Typo
+										label="Get started by creating your first project"
+										size="sm"
+										tone="subtle"
+									/>
 									<div className="inline-flex items-center space-x-1 text-blue-500 hover:text-blue-600 cursor-pointer">
 										<span>Create Project</span>
 										<span className="text-xs">→</span>
@@ -121,7 +122,7 @@ export const Route = createFileRoute("/$locale/components/status")({
 								</div>
 							</Status>
 						</Column>
-						<Column label={<Tx label={"Success with Action"} />}>
+						<Column label={<Tx label={"With Action Only"} />}>
 							<Status
 								textTitle="File Upload Complete"
 								textMessage="Your file has been successfully uploaded to the server."
@@ -138,6 +139,76 @@ export const Route = createFileRoute("/$locale/components/status")({
 					</div>
 				</Section>
 
+				{/* Status with Both Action and Children */}
+				<Section
+					title={<Tx label={"Status with Action and Children"} />}
+				>
+					<div className="grid grid-cols-2 gap-6">
+						<Column
+							label={
+								<Tx
+									label={"Custom Content with Action Buttons"}
+								/>
+							}
+						>
+							<Status
+								textTitle="Subscription Expired"
+								textMessage="Your premium subscription has ended."
+								icon="icon-[mdi-light--alert-circle]"
+								tone="warning"
+								action={
+									<>
+										<Button label="Renew Now" />
+										<Button label="View Plans" />
+									</>
+								}
+							>
+								<div className="p-3 bg-amber-50 border border-amber-200 rounded">
+									<Typo
+										label="Benefits you'll lose:"
+										size="sm"
+										font="bold"
+									/>
+									<ul className="text-sm text-amber-700 list-disc list-inside">
+										<li>Unlimited projects</li>
+										<li>Priority support</li>
+										<li>Advanced analytics</li>
+									</ul>
+								</div>
+							</Status>
+						</Column>
+						<Column
+							label={<Tx label={"Detailed Info with Actions"} />}
+						>
+							<Status
+								textTitle="Update Available"
+								textMessage="A new version of the application is ready to install."
+								icon="icon-[mdi-light--information]"
+								tone="primary"
+								action={
+									<>
+										<Button label="Install Update" />
+										<Button label="Release Notes" />
+									</>
+								}
+							>
+								<div className="p-3 bg-blue-50 border border-blue-200 rounded">
+									<Typo
+										label="Version 2.0.0"
+										size="sm"
+										font="bold"
+									/>
+									<ul className="text-sm text-blue-700 list-disc list-inside">
+										<li>Dark mode support</li>
+										<li>Improved performance</li>
+										<li>Bug fixes</li>
+									</ul>
+								</div>
+							</Status>
+						</Column>
+					</div>
+				</Section>
+
 				{/* Different Sizes and Layouts */}
 				<Section title={<Tx label={"Different Layouts"} />}>
 					<div className="grid grid-cols-1 gap-6">
@@ -148,13 +219,11 @@ export const Route = createFileRoute("/$locale/components/status")({
 									textMessage="We're currently performing scheduled maintenance to improve our services. This may take up to 2 hours. We apologize for any inconvenience."
 									icon="icon-[iconoir--tools]"
 								>
-									<div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
-										<p className="text-sm text-yellow-800">
-											<strong>
-												Estimated completion:
-											</strong>{" "}
-											2:00 PM EST
-										</p>
+									<div className="p-4 bg-yellow-50 border border-yellow-200 rounded">
+										<Typo
+											label="Estimated completion: 2:00 PM EST"
+											size="sm"
+										/>
 									</div>
 								</Status>
 							</div>
