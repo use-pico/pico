@@ -46,7 +46,7 @@ export const FulltextCls = contract(PicoCls.contract)
 				"shadow.default",
 				"tone.neutral.light.bg",
 				"tone.neutral.light.bg:hover",
-				"tone.neutral.light.bg:focus",
+				"tone.neutral.light.bg:focus-visible",
 				"tone.neutral.light.text",
 				"tone.neutral.light.text:hover",
 				"tone.neutral.light.border",
