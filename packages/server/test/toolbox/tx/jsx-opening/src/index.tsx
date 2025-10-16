@@ -7,8 +7,11 @@ const Tx: FC<{
 }> = () => null;
 
 export const Component1 = () => {
+	const item = "foo";
+
 	return (
 		<Tx
+			key={`${item}-item`}
 			label="With children"
 			fake="should not extract this"
 		>
