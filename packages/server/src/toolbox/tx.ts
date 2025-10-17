@@ -145,7 +145,7 @@ export const tx = ({
 		);
 		const total = sourceFiles.length;
 
-		console.log(`\n📦 Package: ${path}`);
+		console.log(`\n📦 Package: ${colors.cyan}${path}${colors.reset}`);
 		console.log(
 			`📄 Files to process: ${colors.bold}${colors.yellow}${total}${colors.reset}\n`,
 		);
@@ -261,7 +261,9 @@ export const tx = ({
 			encoding: "utf-8",
 		});
 
-		console.log(`  📄 ${target}`);
+		const filename = target.split("/").pop();
+		const dirPath = target.substring(0, target.lastIndexOf("/") + 1);
+		console.log(`  📄 ${dirPath}${colors.green}${filename}${colors.reset}`);
 	});
 
 	const translationCount = Object.keys(translations).length;
