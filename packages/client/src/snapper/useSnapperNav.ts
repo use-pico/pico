@@ -4,7 +4,6 @@ export namespace useSnapperNav {
 	export interface Props {
 		containerRef: RefObject<HTMLElement | null>;
 		orientation: "horizontal" | "vertical";
-		count: number;
 		defaultIndex?: number;
 	}
 
@@ -20,15 +19,31 @@ export namespace useSnapperNav {
 	}
 }
 
+/**
+ * Hook for managing snap navigation through a scrollable container.
+ *
+ * The number of snap positions is automatically determined by the number of
+ * direct children in the container. Children are expected to be sized
+ * responsively (e.g., w-full, h-full) to match the container's dimensions.
+ *
+ * The count is automatically updated when children are added or removed.
+ */
 export function useSnapperNav({
 	containerRef,
 	orientation,
-	count,
 	defaultIndex = 0,
 }: useSnapperNav.Props): useSnapperNav.Result {
-	const [current, setCurrent] = useState(() =>
-		Math.min(defaultIndex, Math.max(0, count - 1)),
-	);
+	const [current, setCurrent] = useState(() => {
+		const count = containerRef.current
+			? Math.max(1, containerRef.current.children.length)
+			: 1;
+		return Math.min(defaultIndex, Math.max(0, count - 1));
+	});
+
+	// Compute count once per render for use in return statement
+	const count = containerRef.current
+		? Math.max(1, containerRef.current.children.length)
+		: 1;
 
 	const snapTo = useCallback(
 		(index: number, behavior: ScrollBehavior = "smooth") => {
@@ -86,8 +101,8 @@ export function useSnapperNav({
 		}
 	}, [
 		current,
-		count,
 		snapTo,
+		count,
 	]);
 
 	const prev = useCallback(() => {
@@ -99,10 +114,12 @@ export function useSnapperNav({
 		snapTo,
 	]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: Intentional - one shot execution
 	useEffect(() => {
 		snapTo(current, "auto");
-	}, []);
+	}, [
+		current,
+		snapTo,
+	]);
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -123,9 +140,7 @@ export function useSnapperNav({
 				0,
 				Math.min(count - 1, Math.round(pos / Math.max(1, size))),
 			);
-			if (idx !== current) {
-				setCurrent(idx);
-			}
+			setCurrent((prev) => (idx !== prev ? idx : prev));
 		};
 
 		container.addEventListener("scroll", onScroll, {
@@ -139,7 +154,6 @@ export function useSnapperNav({
 		containerRef,
 		orientation,
 		count,
-		current,
 	]);
 
 	return {
