@@ -47,13 +47,27 @@ export const tx = ({
 
 	let files = 0;
 
+	// ANSI color codes
+	const colors = {
+		dim: "\x1b[2m",
+		gray: "\x1b[90m",
+		yellow: "\x1b[33m",
+		cyan: "\x1b[36m",
+		green: "\x1b[32m",
+		blue: "\x1b[34m",
+		reset: "\x1b[0m",
+		bold: "\x1b[1m",
+	};
+
 	// Display configured sources
 	console.log("\n🔍 Extraction Sources Configuration:\n");
 
 	if (sources.jsx.length > 0) {
 		console.log("  📌 JSX Components:");
 		for (const { name, attr } of sources.jsx) {
-			console.log(`     <${name} ${attr}="..." />`);
+			console.log(
+				`     <${colors.cyan}${name}${colors.reset} ${colors.green}${attr}${colors.reset}="..." />`,
+			);
 			sourceStats.set(`jsx:${name}.${attr}`, 0);
 		}
 		console.log();
@@ -62,7 +76,7 @@ export const tx = ({
 	if (sources.functions.length > 0) {
 		console.log("  📌 Functions:");
 		for (const { name } of sources.functions) {
-			console.log(`     ${name}("...")`);
+			console.log(`     ${colors.blue}${name}${colors.reset}("...")`);
 			sourceStats.set(`function:${name}`, 0);
 		}
 		console.log();
@@ -71,7 +85,9 @@ export const tx = ({
 	if (sources.objects.length > 0) {
 		console.log("  📌 Object Methods:");
 		for (const { object, name } of sources.objects) {
-			console.log(`     ${object}.${name}("...")`);
+			console.log(
+				`     ${colors.cyan}${object}${colors.reset}.${colors.blue}${name}${colors.reset}("...")`,
+			);
 			sourceStats.set(`object:${object}.${name}`, 0);
 		}
 		console.log();
@@ -255,9 +271,17 @@ export const tx = ({
 		console.log("  JSX Components:");
 		for (const { name, attr } of sources.jsx) {
 			const count = sourceStats.get(`jsx:${name}.${attr}`) || 0;
-			console.log(
-				`     <${name} ${attr}="..." /> → ${count} ${count === 1 ? "translation" : "translations"}`,
-			);
+			const suffix = count === 1 ? "translation" : "translations";
+
+			if (count === 0) {
+				console.log(
+					`     ${colors.dim}<${name} ${attr}="..." /> → ${count} ${suffix}${colors.reset}`,
+				);
+			} else {
+				console.log(
+					`     <${colors.cyan}${name}${colors.reset} ${colors.green}${attr}${colors.reset}="..." /> → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+				);
+			}
 		}
 		console.log();
 	}
@@ -266,9 +290,17 @@ export const tx = ({
 		console.log("  Functions:");
 		for (const { name } of sources.functions) {
 			const count = sourceStats.get(`function:${name}`) || 0;
-			console.log(
-				`     ${name}("...") → ${count} ${count === 1 ? "translation" : "translations"}`,
-			);
+			const suffix = count === 1 ? "translation" : "translations";
+
+			if (count === 0) {
+				console.log(
+					`     ${colors.dim}${name}("...") → ${count} ${suffix}${colors.reset}`,
+				);
+			} else {
+				console.log(
+					`     ${colors.blue}${name}${colors.reset}("...") → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+				);
+			}
 		}
 		console.log();
 	}
@@ -277,9 +309,17 @@ export const tx = ({
 		console.log("  Object Methods:");
 		for (const { object, name } of sources.objects) {
 			const count = sourceStats.get(`object:${object}.${name}`) || 0;
-			console.log(
-				`     ${object}.${name}("...") → ${count} ${count === 1 ? "translation" : "translations"}`,
-			);
+			const suffix = count === 1 ? "translation" : "translations";
+
+			if (count === 0) {
+				console.log(
+					`     ${colors.dim}${object}.${name}("...") → ${count} ${suffix}${colors.reset}`,
+				);
+			} else {
+				console.log(
+					`     ${colors.cyan}${object}${colors.reset}.${colors.blue}${name}${colors.reset}("...") → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+				);
+			}
 		}
 		console.log();
 	}
