@@ -55,6 +55,8 @@ export const tx = ({
 		cyan: "\x1b[36m",
 		green: "\x1b[32m",
 		blue: "\x1b[34m",
+		brightCyan: "\x1b[96m",
+		white: "\x1b[97m",
 		reset: "\x1b[0m",
 		bold: "\x1b[1m",
 	};
@@ -305,10 +307,10 @@ export const tx = ({
 				for (const translation of translations) {
 					const truncated =
 						translation.length > 64
-							? `${translation.substring(0, 64)}...`
+							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
-						`       ${colors.gray}"${truncated}"${colors.reset}`,
+						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,
 					);
 				}
 			}
@@ -342,11 +344,11 @@ export const tx = ({
 				// Show the actual translations
 				for (const translation of translations) {
 					const truncated =
-						translation.length > 20
-							? `${translation.substring(0, 17)}...`
+						translation.length > 64
+							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
-						`       ${colors.gray}"${truncated}"${colors.reset}`,
+						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,
 					);
 				}
 			}
@@ -383,11 +385,11 @@ export const tx = ({
 				// Show the actual translations
 				for (const translation of translations) {
 					const truncated =
-						translation.length > 20
-							? `${translation.substring(0, 17)}...`
+						translation.length > 64
+							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
-						`       ${colors.gray}"${truncated}"${colors.reset}`,
+						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,
 					);
 				}
 			}
