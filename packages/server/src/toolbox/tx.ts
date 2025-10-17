@@ -146,7 +146,9 @@ export const tx = ({
 		const total = sourceFiles.length;
 
 		console.log(`\n📦 Package: ${path}`);
-		console.log(`📄 Files to process: ${total}\n`);
+		console.log(
+			`📄 Files to process: ${colors.bold}${colors.yellow}${total}${colors.reset}\n`,
+		);
 
 		const progressBar = new cliProgress.SingleBar(
 			{
@@ -211,7 +213,9 @@ export const tx = ({
 		recursive: true,
 	});
 
-	console.log(`📝 Writing translations to ${locales.length} locale(s)...\n`);
+	console.log(
+		`📝 Writing translations to ${colors.bold}${colors.yellow}${locales.length}${colors.reset} locale(s)...\n`,
+	);
 
 	locales.forEach((locale) => {
 		const target = `${output}/${locale}.${format}`;
@@ -260,8 +264,9 @@ export const tx = ({
 		console.log(`  📄 ${target}`);
 	});
 
+	const translationCount = Object.keys(translations).length;
 	console.log(
-		`\n✨ Found ${Object.keys(translations).length} translations across ${files} files\n`,
+		`\n✨ Found ${colors.bold}${colors.yellow}${translationCount}${colors.reset} translations across ${colors.bold}${colors.yellow}${files}${colors.reset} files\n`,
 	);
 
 	// Display statistics per source
@@ -269,17 +274,27 @@ export const tx = ({
 
 	if (sources.jsx.length > 0) {
 		console.log("  JSX Components:");
+		// Calculate max width for alignment
+		const maxWidth = Math.max(
+			...sources.jsx.map(
+				({ name, attr }) => `<${name} ${attr}="..." />`.length,
+			),
+		);
+
 		for (const { name, attr } of sources.jsx) {
 			const count = sourceStats.get(`jsx:${name}.${attr}`) || 0;
 			const suffix = count === 1 ? "translation" : "translations";
+			const plainText = `<${name} ${attr}="..." />`;
+			const padding = " ".repeat(maxWidth - plainText.length);
 
 			if (count === 0) {
 				console.log(
-					`     ${colors.dim}<${name} ${attr}="..." /> → ${count} ${suffix}${colors.reset}`,
+					`     ${colors.dim}${plainText}${padding} → ${count} ${suffix}${colors.reset}`,
 				);
 			} else {
+				const coloredText = `<${colors.cyan}${name}${colors.reset} ${colors.green}${attr}${colors.reset}="..." />`;
 				console.log(
-					`     <${colors.cyan}${name}${colors.reset} ${colors.green}${attr}${colors.reset}="..." /> → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
 			}
 		}
@@ -288,17 +303,25 @@ export const tx = ({
 
 	if (sources.functions.length > 0) {
 		console.log("  Functions:");
+		// Calculate max width for alignment
+		const maxWidth = Math.max(
+			...sources.functions.map(({ name }) => `${name}("...")`.length),
+		);
+
 		for (const { name } of sources.functions) {
 			const count = sourceStats.get(`function:${name}`) || 0;
 			const suffix = count === 1 ? "translation" : "translations";
+			const plainText = `${name}("...")`;
+			const padding = " ".repeat(maxWidth - plainText.length);
 
 			if (count === 0) {
 				console.log(
-					`     ${colors.dim}${name}("...") → ${count} ${suffix}${colors.reset}`,
+					`     ${colors.dim}${plainText}${padding} → ${count} ${suffix}${colors.reset}`,
 				);
 			} else {
+				const coloredText = `${colors.blue}${name}${colors.reset}("...")`;
 				console.log(
-					`     ${colors.blue}${name}${colors.reset}("...") → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
 			}
 		}
@@ -307,17 +330,27 @@ export const tx = ({
 
 	if (sources.objects.length > 0) {
 		console.log("  Object Methods:");
+		// Calculate max width for alignment
+		const maxWidth = Math.max(
+			...sources.objects.map(
+				({ object, name }) => `${object}.${name}("...")`.length,
+			),
+		);
+
 		for (const { object, name } of sources.objects) {
 			const count = sourceStats.get(`object:${object}.${name}`) || 0;
 			const suffix = count === 1 ? "translation" : "translations";
+			const plainText = `${object}.${name}("...")`;
+			const padding = " ".repeat(maxWidth - plainText.length);
 
 			if (count === 0) {
 				console.log(
-					`     ${colors.dim}${object}.${name}("...") → ${count} ${suffix}${colors.reset}`,
+					`     ${colors.dim}${plainText}${padding} → ${count} ${suffix}${colors.reset}`,
 				);
 			} else {
+				const coloredText = `${colors.cyan}${object}${colors.reset}.${colors.blue}${name}${colors.reset}("...")`;
 				console.log(
-					`     ${colors.cyan}${object}${colors.reset}.${colors.blue}${name}${colors.reset}("...") → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
+					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
 			}
 		}
