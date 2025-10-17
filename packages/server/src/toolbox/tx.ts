@@ -43,7 +43,7 @@ export const tx = ({
 	sources,
 }: tx.Props) => {
 	const translations: tx.Translations = {};
-	const sourceStats = new Map<string, number>();
+	const sourceStats = new Map<string, string[]>();
 
 	let files = 0;
 
@@ -68,7 +68,7 @@ export const tx = ({
 			console.log(
 				`     <${colors.cyan}${name}${colors.reset} ${colors.green}${attr}${colors.reset}="..." />`,
 			);
-			sourceStats.set(`jsx:${name}.${attr}`, 0);
+			sourceStats.set(`jsx:${name}.${attr}`, []);
 		}
 		console.log();
 	}
@@ -77,7 +77,7 @@ export const tx = ({
 		console.log("  📌 Functions:");
 		for (const { name } of sources.functions) {
 			console.log(`     ${colors.blue}${name}${colors.reset}("...")`);
-			sourceStats.set(`function:${name}`, 0);
+			sourceStats.set(`function:${name}`, []);
 		}
 		console.log();
 	}
@@ -88,7 +88,7 @@ export const tx = ({
 			console.log(
 				`     ${colors.cyan}${object}${colors.reset}.${colors.blue}${name}${colors.reset}("...")`,
 			);
-			sourceStats.set(`object:${object}.${name}`, 0);
+			sourceStats.set(`object:${object}.${name}`, []);
 		}
 		console.log();
 	}
@@ -99,9 +99,11 @@ export const tx = ({
 		const text = printed.substring(1, printed.length - 1);
 		const key = keyOf(text);
 
-		// Only count if this is a new translation
+		// Track which source extracted this translation
 		if (!translations[key]) {
-			sourceStats.set(sourceKey, (sourceStats.get(sourceKey) || 0) + 1);
+			const stats = sourceStats.get(sourceKey) || [];
+			stats.push(text);
+			sourceStats.set(sourceKey, stats);
 		}
 
 		translations[key] = {
@@ -284,7 +286,8 @@ export const tx = ({
 		);
 
 		for (const { name, attr } of sources.jsx) {
-			const count = sourceStats.get(`jsx:${name}.${attr}`) || 0;
+			const translations = sourceStats.get(`jsx:${name}.${attr}`) || [];
+			const count = translations.length;
 			const suffix = count === 1 ? "translation" : "translations";
 			const plainText = `<${name} ${attr}="..." />`;
 			const padding = " ".repeat(maxWidth - plainText.length);
@@ -298,6 +301,16 @@ export const tx = ({
 				console.log(
 					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
+				// Show the actual translations
+				for (const translation of translations) {
+					const truncated =
+						translation.length > 64
+							? `${translation.substring(0, 64)}...`
+							: translation;
+					console.log(
+						`       ${colors.gray}"${truncated}"${colors.reset}`,
+					);
+				}
 			}
 		}
 		console.log();
@@ -311,7 +324,8 @@ export const tx = ({
 		);
 
 		for (const { name } of sources.functions) {
-			const count = sourceStats.get(`function:${name}`) || 0;
+			const translations = sourceStats.get(`function:${name}`) || [];
+			const count = translations.length;
 			const suffix = count === 1 ? "translation" : "translations";
 			const plainText = `${name}("...")`;
 			const padding = " ".repeat(maxWidth - plainText.length);
@@ -325,6 +339,16 @@ export const tx = ({
 				console.log(
 					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
+				// Show the actual translations
+				for (const translation of translations) {
+					const truncated =
+						translation.length > 20
+							? `${translation.substring(0, 17)}...`
+							: translation;
+					console.log(
+						`       ${colors.gray}"${truncated}"${colors.reset}`,
+					);
+				}
 			}
 		}
 		console.log();
@@ -340,7 +364,9 @@ export const tx = ({
 		);
 
 		for (const { object, name } of sources.objects) {
-			const count = sourceStats.get(`object:${object}.${name}`) || 0;
+			const translations =
+				sourceStats.get(`object:${object}.${name}`) || [];
+			const count = translations.length;
 			const suffix = count === 1 ? "translation" : "translations";
 			const plainText = `${object}.${name}("...")`;
 			const padding = " ".repeat(maxWidth - plainText.length);
@@ -354,6 +380,16 @@ export const tx = ({
 				console.log(
 					`     ${coloredText}${padding} → ${colors.bold}${colors.yellow}${count}${colors.reset} ${suffix}`,
 				);
+				// Show the actual translations
+				for (const translation of translations) {
+					const truncated =
+						translation.length > 20
+							? `${translation.substring(0, 17)}...`
+							: translation;
+					console.log(
+						`       ${colors.gray}"${truncated}"${colors.reset}`,
+					);
+				}
 			}
 		}
 		console.log();
