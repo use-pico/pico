@@ -18,6 +18,7 @@ export namespace useSnapperNav {
 
 	export interface Result {
 		current: number; // current page (0-based)
+		count: number; // total page count
 		isFirst: boolean;
 		isLast: boolean;
 		start: () => void;
@@ -419,12 +420,13 @@ export function useSnapperNav({
 
 	// -- result -----------------------------------------------------------------
 
-	const pageCount = Math.max(1, pageCountRef.current);
+	const count = Math.max(1, pageCountRef.current);
 
 	return {
 		current,
+		count,
 		isFirst: current === 0,
-		isLast: current === pageCount - 1,
+		isLast: current === count - 1,
 		start,
 		end,
 		next,

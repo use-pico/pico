@@ -37,7 +37,7 @@ export namespace SnapperNav {
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		snapperNav: useSnapperNav.Result;
-		pages: Page[] | Count;
+		pages: Page[] | Count | undefined;
 		subtle?: boolean;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
@@ -65,15 +65,25 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	//
 }) => {
 	const pageId = useId();
-	const $pages: SnapperNav.Page[] = Array.isArray(pages)
-		? pages
+	const $pages: SnapperNav.Page[] = pages
+		? Array.isArray(pages)
+			? pages
+			: Array.from(
+					{
+						length: pages.count,
+					},
+					(_, i) => ({
+						id: `${pageId}-${i}`,
+						icon: pages.icon ?? DotIcon,
+					}),
+				)
 		: Array.from(
 				{
-					length: pages.count,
+					length: snapperNav.count,
 				},
 				(_, i) => ({
 					id: `${pageId}-${i}`,
-					icon: pages.icon ?? DotIcon,
+					icon: DotIcon,
 				}),
 			);
 
