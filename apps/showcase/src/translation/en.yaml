@@ -4,6 +4,9 @@
 0092ad6a12791f98a4c859f26a09b58f58f9f8ad4f692fe2eaae86fc:
   ref: Badge
   value: Badge
+009b49be4aaa12877e5788e38d4c85cb9d10fdf7906af7efab35c291:
+  ref: Subscription Expired
+  value: Subscription Expired
 00aa235f4e1c60a52f59fd5087e995bf7bcd23d583bb541c60b3b580:
   ref: Form Actions
   value: Form Actions
@@ -139,6 +142,9 @@
 1310b255add3ef101238c5fda516809431365a4768bbde3eb01e2f71:
   ref: Account Details
   value: Account Details
+13314d987a6313812ecb0b8f14e4e0969a9d97ab82a5f72983a5bd6b:
+  ref: Custom Content with Action Buttons
+  value: Custom Content with Action Buttons
 1345bf9e64d99f8fa9a1cdb1067c859499aa7c04ef20ac9a94478b11:
   ref: Missing required token(s). (title)
   value: Missing required token(s). (title)
@@ -169,6 +175,9 @@
 18c943793066d65cfe44c4066e39c5205f5bfc0b675f6b05abb872ed:
   ref: Loading...
   value: Loading...
+18d55dabe77b3620809e3c46de7b679cb36375a34232847361c09981:
+  ref: Debounced search...
+  value: Debounced search...
 18efa60df5f5c5c5e406e690c1e757beaf2165e0d255c0208c9862fd:
   ref: Round (Corner) Variants
   value: Round (Corner) Variants
@@ -252,6 +261,9 @@
 218c0e81086b9ce83af8a7b0648e38f1e2d90fdfc3f7d171459df316:
   ref: "Container: Overflow & Snap"
   value: "Container: Overflow & Snap"
+21bc1b82ad79bcddbd44067cfcb62dbde15a675ad7353f6f1202d835:
+  ref: Type and click submit or press Enter...
+  value: Type and click submit or press Enter...
 21e2d350e98c446d7b6dc849602576f238f00e81d485357e31df5045:
   ref: Content of first tab
   value: Content of first tab
@@ -288,6 +300,9 @@
 25527eb935646e075788aaba992e6a066f417f63c61dd41873885ffc:
   ref: Inline Primary
   value: Inline Primary
+258c0920ca60ff486733940ea930c88ca23eb69b71f121a0130ffd0a:
+  ref: Search with debounce...
+  value: Search with debounce...
 25bae75fe92e6d9e81728e871bacaa123ad999ee4f190edeed3cd246:
   ref: Disabled State
   value: Disabled State
@@ -390,6 +405,9 @@
 30e8f71c614704278e1215d7c1a76ada2ede71bfe3f8b1e756278a3c:
   ref: Try Again
   value: Try Again
+314d051b9c3101e2f21b34840a2692f8931fc2b5b325a8fc52f805cd:
+  ref: View Plans
+  value: View Plans
 31df8093e5ed556cfe52e65f4397555cc776d25d0d83943c907e93c5:
   ref: Employee 1
   value: Employee 1
@@ -417,6 +435,9 @@
 335892a1ecc492db60cc8fc652a3037dc7764eedb690afa299ce0da9:
   ref: Status Selection
   value: Status Selection
+33a542178398395556198f4ac1a7bcaa7e26013f063359f8666e5816:
+  ref: Fixed Width (max-w-sm)
+  value: Fixed Width (max-w-sm)
 34656e979f5bf1bf5c247eed93aa935bda34da975b499b0e3be24224:
   ref: Explore how Container handles different orientations using CSS Grid for
     flexible layouts.
@@ -554,12 +575,12 @@
 42c6a578c94aaf6addd16cb7a34e24a14742c63562323b9492399d00:
   ref: Small Page Size (5)
   value: Small Page Size (5)
+4364cf034c71ae21af74682591a9ecf695db820fc0712fc6fd383f9a:
+  ref: Clearable State
+  value: Clearable State
 4373c984efb2388badd288944aba7573674adb5d78b1799933198d92:
   ref: Style Comparison
   value: Style Comparison
-441ef3043ce7464e8b450e98f94ce2992aef0faa246bcec665dbcae2:
-  ref: Success with Action
-  value: Success with Action
 448cec5b9cedba5608873aa70d788257792da6e9a45b03914197ed38:
   ref: Normal vs Disabled
   value: Normal vs Disabled
@@ -569,6 +590,9 @@
 4514667c3cabfe859e5b73565ef6e1342bed2fc1888d8b820339d18f:
   ref: Secondary (loading)
   value: Secondary (loading)
+456c2b2f14229dca7f320e320775d8cf0a6a386d14a7fb7b9751249f:
+  ref: Fixed Width (max-w-md) with Submit
+  value: Fixed Width (max-w-md) with Submit
 45841f3d5c2b075c742de7dc926af8fdc5ec79398418681c5c82e748:
   ref: Basic Usage
   value: Basic Usage
@@ -632,6 +656,9 @@
 4dea9df7fad76a8fbf02f7f2c7d86f516361e39d39e6a8ce131748b9:
   ref: "VariantProvider: secondary + light"
   value: "VariantProvider: secondary + light"
+4e337fd2a701b6dd2c8fa47549e2b238a465cd1d2fc25e088faa0b74:
+  ref: Small width search...
+  value: Small width search...
 4eb3d56cc03fa74ef6b354ce77013a361c781ed09a840f269a732617:
   ref: light
   value: light
@@ -686,6 +713,9 @@
 52cff28aa39c0ae768303e44559449313c54b957746398017a023159:
   ref: Project Management Examples
   value: Project Management Examples
+531c0e39af7aedf42aaf4c05fc3e0ed0000e13c8a86ab1a6f1d8540f:
+  ref: Install Update
+  value: Install Update
 55afaf945df25bf957356308e06e7b224906f41eb9230367cd6ad8e0:
   ref: Employee 2
   value: Employee 2
@@ -827,6 +857,9 @@
 65978d234e56726354c9448fcb9359b9c4317fc1eae2bfb54e7ebf67:
   ref: Your internet connection appears to be unstable.
   value: Your internet connection appears to be unstable.
+65fcc0c1076b9604a9d59c7485b8b9a2392fe6fd89af83b07551f5d1:
+  ref: Renew Now
+  value: Renew Now
 661ee1970da3850324943f883c1dd281cf3e0414413c4513962c934b:
   ref: Complex Content
   value: Complex Content
@@ -997,6 +1030,9 @@
 7809728eacbf6749a98636ec6376527d484cb44e06a4da08313bd455:
   ref: Just Drop Zone
   value: Just Drop Zone
+78447362703333850cac4da101b2b50daaf7e76c634e3f3176f09ef1:
+  ref: With Submit Button
+  value: With Submit Button
 786932267858b90cd051ccf8b5243fb5e5d56aadc71d39ec7a713144:
   ref: data_showcase_description
   value: data_showcase_description
@@ -1039,6 +1075,9 @@
 7c3caf5fbc448493750b92ff18d90569e9068a829f7be95cbc3ec2c6:
   ref: Buttons Advanced
   value: Buttons Advanced
+7c7242b6e47f71157e07cce0ffccd3f99094a0a40422162fd03b962e:
+  ref: Update Available
+  value: Update Available
 7d3c440f7c2ee5793dfe77ed935a1083312cbf3f3b27af7852cc52d4:
   ref: Benefits
   value: Benefits
@@ -1054,6 +1093,9 @@
 7e3e57508f0e66521d92cb508f864cebf4740ecbe8f0bbb31bc6d730:
   ref: Small Size
   value: Small Size
+7eccd0480033797c8a2e6f05c372402781f0c8f024f647f5f8272643:
+  ref: Side-by-Side Comparison
+  value: Side-by-Side Comparison
 809abcd464ac95785d1253fcc38a973e1d8a5c7fc6a2838a907a2095:
   ref: snap='vertical-center'
   value: snap='vertical-center'
@@ -1128,6 +1170,9 @@
 891fe47dd650cc5e7c3864f9cb807b951df70b334f3c076fe50fda11:
   ref: Missing required token(s). (message)
   value: Missing required token(s). (message)
+89abb32a6fc92bda36fdafdcc70eaf08ab0bae6ff072d0217ffda9c5:
+  ref: Basic Usage (Debounced)
+  value: Basic Usage (Debounced)
 89c0e40dc89151ba3548dced61082a6a7a9a2dfd9581067d6509e318:
   ref: Disabled + Loading
   value: Disabled + Loading
@@ -1209,6 +1254,9 @@
 95749d7ac104c6431939d13190677601e81358338ef7af7652c00fc0:
   ref: Sub Item
   value: Sub Item
+961d4b1f224b10c107a6a376b1548bc4fc924b35745d2fc1fc2029ed:
+  ref: A new version of the application is ready to install.
+  value: A new version of the application is ready to install.
 96314f70af74b7c58ddff10fd120a7cfc415701625e120f48742cf48:
   ref: Sizing
   value: Sizing
@@ -1221,6 +1269,9 @@
 96baacbb4834742696aca9bb0ac1da38b011eac590967262c281d2a6:
   ref: Loading Overlay
   value: Loading Overlay
+971c776e76bb8ba53fec8c737c62bbd694bdee69744e104a7296b693:
+  ref: Search...
+  value: Search...
 975efec78a4fb8ff4b5e4430f066b189c28391584947f01b9733d944:
   ref: Project Name
   value: Project Name
@@ -1251,6 +1302,9 @@
 9c390dc5476bcece186143185ef1426868e8fea9411a937e56af35e4:
   ref: Employee ID
   value: Employee ID
+9ca3a135aa8d9d035784744da68dd03582d926dd8fd8ab5fea45a17e:
+  ref: Your premium subscription has ended.
+  value: Your premium subscription has ended.
 9cd6e216dfbe437e6daec7e778b60ad6bfe07d1084bd7b5c7ab947ab:
   ref: Buttons overriding context
   value: Buttons overriding context
@@ -1356,6 +1410,9 @@ a80638787c3d4513630406cba81f10d21e4a6c278559b20ff79dc2fd:
 a8147fe037521d09ef3585e22920fb657be78372eb60ccc1864037c0:
   ref: With Action Buttons
   value: With Action Buttons
+a881ac2b7026db5f13a0ffbfec3889030bdfa6eb54d263d47fc10752:
+  ref: Submit Button Mode
+  value: Submit Button Mode
 a8bf4739136a5e7782810f030bf6da766dc89b1c4134d33a723d8eb9:
   ref: Warning small borderless
   value: Warning small borderless
@@ -1422,6 +1479,12 @@ ad5f5a1d77b7b6897e64829ce0b1a3b68f34bcd9413933ded3aa03c8:
 ada656378ad55508bb4133baf81d6678f544d15199ed57c1e9ebe146:
   ref: Export settings (title)
   value: Export settings (title)
+adc814851b912584846911f7054e1d5a67a115bcf4de966757d24842:
+  ref: Full Width (default)
+  value: Full Width (default)
+addb238188d57e2bea03557622a9cefcd649d94950d69a3f8ac3c763:
+  ref: Search with Value (shows clear button)
+  value: Search with Value (shows clear button)
 ade7f5fdf48f6a0854778c246bbb87c33636b3c0f2513e13ba94063c:
   ref: Without Background
   value: Without Background
@@ -1512,6 +1575,9 @@ b83c8650a079046ea54e34cbfa74bf643bf92d3cea2ba80a8b55805e:
 b83f73c562eea84b9ed3076da04cc1ab2fdbeb3f2a701a61159a27d6:
   ref: Downloading file...
   value: Downloading file...
+b84fe37d57e54dbb0886c992b448e2c07b2d55457b7690b53e311fa1:
+  ref: Detailed Info with Actions
+  value: Detailed Info with Actions
 b87cc9aeec0783033a4c1b75036bfc8a42c3772f5b1408be31374632:
   ref: Something went wrong. Please try again.
   value: Something went wrong. Please try again.
@@ -1622,6 +1688,9 @@ c393683bb60ff9c4ff343d1a25e1d411326e52c819869e89e20df4f5:
 c3c6999db496e1f6a2c19ee9c2b02d73e8d9e5439305d1d1910acb30:
   ref: Explore grid layouts and orientations
   value: Explore grid layouts and orientations
+c41e29cf3653af2ac661852530cb87c01f564231700bdef98ef8245b:
+  ref: With Action Only
+  value: With Action Only
 c45358961df2b10aaecd686d961f254b04ef982c2e8e7e54ff0a0e10:
   ref: This is a simple status message without any icon.
   value: This is a simple status message without any icon.
@@ -1718,6 +1787,9 @@ cf983bd6ce3a6c22ad29b61c02b5ff6527278fdf333b081254da4ec2:
 cfe491af066afaa71535fea21657c1d43c8a1beb2d97c4a4307b1aef:
   ref: No Border
   value: No Border
+cfe6a470c10ce87438e2469ddb7d0765b85e5f57e4b1701be142ee97:
+  ref: Default Debounced Search
+  value: Default Debounced Search
 d0e6cfb6f1a7bf7569ed771fe8d0c1bf14ef22a69d666363ea1c46bc:
   ref: Danger Action
   value: Danger Action
@@ -1730,6 +1802,9 @@ d2f52489ed4897c78d70107e2a3ccc43574958876db02b1120e6cfcd:
 d3182014c5d1b7a548b5a7e66ccbec7437771ca36dbd2e6031c21d09:
   ref: Disabled Action
   value: Disabled Action
+d387bd5ba855d387646f99ef6da976650354ee5a49edb0f793a2b43d:
+  ref: Submit button search...
+  value: Submit button search...
 d3f4e686e2451fe9cb778153b547576306baaf39ab90c763d0e110d9:
   ref: Rating
   value: Rating
@@ -1757,6 +1832,9 @@ d7790f29fea0870fc1f3eb0718c31a4c296c0c8ec32c7288c03f03f3:
 d7d263b7b5e7ebf069670a4ad97bea128ba2303d734ab75f3ffc8d28:
   ref: Menu
   value: Menu
+d802f63e1ce80e34b4a5a26e1113660987cbfd6335c28295a7b3e45b:
+  ref: Full width search...
+  value: Full width search...
 d8a6607430df99b28a6dca7351ca0f50dacd5c3cf1a54ab9d7f25940:
   ref: Select inventory item (title)
   value: Select inventory item (title)
@@ -1772,6 +1850,9 @@ dabf2d5019835e0ac346734d5997e50dba7c3623725b8028a12122ec:
 db192838d6680ec3a34e23fbdfb976a5f13070bd3330e80a5c18cc16:
   ref: Medium Size
   value: Medium Size
+db369ff85dd49d600411d87846e3e19916181b2d9a30001e9bd186d9:
+  ref: Medium width search...
+  value: Medium width search...
 dc077fb01c73939fbd00e0c77364b45c3d5025c446aa8a4725cfb4ae:
   ref: Popup Select
   value: Popup Select
@@ -1832,9 +1913,15 @@ e08ac7a7a53f2399929bc71c2b5b9a0013f24a00448d0152f7d6af3a:
 e155e8d972f8836d94af51c8d592ccef20e1dc010d6d6b58d95b2250:
   ref: Gap Variants
   value: Gap Variants
+e1f584efbfb331baeb52fc3af409065e43c9d38fd3e68993fd6c109a:
+  ref: Release Notes
+  value: Release Notes
 e2167d7b3ff31291587788b241f8a32108dfcd1cd646b3c9ab955489:
   ref: You haven't created any projects yet.
   value: You haven't created any projects yet.
+e21ecffdfb9e02b672d81c2de473f16dbe42799831181a8bf6c534dd:
+  ref: Debounced Mode
+  value: Debounced Mode
 e2826c05de6f778b7bb29cbf75f6ee1ded294d54b6d527252d9405af:
   ref: Error States
   value: Error States
@@ -1948,6 +2035,9 @@ ef944ba0363a809667952ffb804bbd4c307ae4f800b66e5511fe25cb:
 efc1ffdd73afbe71675ec309980c62b7be6d2d777783a4a57b3fb864:
   ref: Different border sizes - colors come from tone/theme
   value: Different border sizes - colors come from tone/theme
+efc391e564eacbefad3d5b38ddc8e8436dedc2181e5affcf7a1a567e:
+  ref: Fulltext
+  value: Fulltext
 f0beb4f0a3779f1cc7a27655d61d9cb53e0fe76eb2bcbe7ca6c4b18d:
   ref: Simple Text
   value: Simple Text
@@ -1993,6 +2083,9 @@ f5271443650290be5e961c3328a4c43f0e23b837f3abd1195de83117:
 f5f294cf4f4b69c215190558c070c6fbc2de819ced47ee06cbaa2cf4:
   ref: Data
   value: Data
+f6d8ee3ca8f7ca7a3b4284cee8f5bcfc7a07753191a58a0d235c95cd:
+  ref: Different Widths
+  value: Different Widths
 f6e868637278543e1bddfd5a5152e2a7f3dca0443daa3906d718f140:
   ref: data_showcase_title
   value: data_showcase_title
@@ -2074,3 +2167,6 @@ ff2100f1a5838931f4f74c868d661215d95dc23f2c792a7b8f7860ed:
 ff6b9f290fbd4fff8f4b927fcc90a7c2fe7cd24709a683f528ae7a9a:
   ref: Project Details
   value: Project Details
+ffcc5b1d25fc492fd6571dcb919a7b5da7cc3be4726adbd4ea8a9786:
+  ref: Status with Action and Children
+  value: Status with Action and Children

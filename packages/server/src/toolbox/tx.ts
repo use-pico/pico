@@ -43,14 +43,52 @@ export const tx = ({
 	sources,
 }: tx.Props) => {
 	const translations: tx.Translations = {};
+	const sourceStats = new Map<string, number>();
 
 	let files = 0;
 
+	// Display configured sources
+	console.log("\n🔍 Extraction Sources Configuration:\n");
+
+	if (sources.jsx.length > 0) {
+		console.log("  📌 JSX Components:");
+		for (const { name, attr } of sources.jsx) {
+			console.log(`     <${name} ${attr}="..." />`);
+			sourceStats.set(`jsx:${name}.${attr}`, 0);
+		}
+		console.log();
+	}
+
+	if (sources.functions.length > 0) {
+		console.log("  📌 Functions:");
+		for (const { name } of sources.functions) {
+			console.log(`     ${name}("...")`);
+			sourceStats.set(`function:${name}`, 0);
+		}
+		console.log();
+	}
+
+	if (sources.objects.length > 0) {
+		console.log("  📌 Object Methods:");
+		for (const { object, name } of sources.objects) {
+			console.log(`     ${object}.${name}("...")`);
+			sourceStats.set(`object:${object}.${name}`, 0);
+		}
+		console.log();
+	}
+
 	// Optimize: Move helper functions and selectors outside loops
-	const addTranslation = (node: any) => {
+	const addTranslation = (node: any, sourceKey: string) => {
 		const printed = print(node);
 		const text = printed.substring(1, printed.length - 1);
-		translations[keyOf(text)] = {
+		const key = keyOf(text);
+
+		// Only count if this is a new translation
+		if (!translations[key]) {
+			sourceStats.set(sourceKey, (sourceStats.get(sourceKey) || 0) + 1);
+		}
+
+		translations[key] = {
 			ref: text,
 			value: text,
 		};
@@ -60,50 +98,30 @@ export const tx = ({
 	const jsxLiteralSelector =
 		"StringLiteral, JsxExpression NoSubstitutionTemplateLiteral";
 
-	// Pre-compile JSX selector (matches both self-closing and opening elements)
-	const jsxSelector =
-		sources.jsx.length > 0
-			? sources.jsx
-					.map(
-						({ name, attr }) =>
-							`JsxSelfClosingElement[tagName.name=${name}] JsxAttribute[name.name=${attr}], JsxOpeningElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
-					)
-					.join(", ")
-			: null;
+	// Pre-compile JSX selectors (individual for tracking)
+	const jsxSelectors = sources.jsx.map(({ name, attr }) => ({
+		selector: `JsxSelfClosingElement[tagName.name=${name}] JsxAttribute[name.name=${attr}], JsxOpeningElement[tagName.name=${name}] JsxAttribute[name.name=${attr}]`,
+		sourceKey: `jsx:${name}.${attr}`,
+	}));
 
-	// Pre-compile selector for component prop defaults
-	// Matches: const ComponentName = ({ propName = "default value" }) => ...
-	const propDefaultSelector =
-		sources.jsx.length > 0
-			? sources.jsx
-					.map(
-						({ name, attr }) =>
-							`VariableDeclaration:has(Identifier[name=${name}]) Parameter ObjectBindingPattern BindingElement:has(Identifier[name=${attr}])`,
-					)
-					.join(", ")
-			: null;
+	// Pre-compile selector for component prop defaults (individual for tracking)
+	const propDefaultSelectors = sources.jsx.map(({ name, attr }) => ({
+		selector: `VariableDeclaration:has(Identifier[name=${name}]) Parameter ObjectBindingPattern BindingElement:has(Identifier[name=${attr}])`,
+		sourceKey: `jsx:${name}.${attr}`,
+	}));
 
-	// Build selectors for function calls - match direct arguments, ConditionalExpression (ternary),
-	// BinaryExpression (nullish coalescing, logical operators), but exclude ObjectLiteralExpression and ArrayLiteralExpression
-	const functionSelector =
-		sources.functions.length > 0
-			? sources.functions
-					.map(
-						({ name }) =>
-							`CallExpression:has(Identifier[name=${name}]) > StringLiteral, CallExpression:has(Identifier[name=${name}]) > NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression NoSubstitutionTemplateLiteral`,
-					)
-					.join(", ")
-			: null;
+	// Build selectors for function calls (individual for tracking)
+	// Match direct arguments, ConditionalExpression (ternary), BinaryExpression (nullish coalescing, logical operators)
+	const functionSelectors = sources.functions.map(({ name }) => ({
+		selector: `CallExpression:has(Identifier[name=${name}]) > StringLiteral, CallExpression:has(Identifier[name=${name}]) > NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression NoSubstitutionTemplateLiteral`,
+		sourceKey: `function:${name}`,
+	}));
 
-	const objectSelector =
-		sources.objects.length > 0
-			? sources.objects
-					.map(
-						({ object, name }) =>
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression NoSubstitutionTemplateLiteral`,
-					)
-					.join(", ")
-			: null;
+	// Build selectors for object method calls (individual for tracking)
+	const objectSelectors = sources.objects.map(({ object, name }) => ({
+		selector: `CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression NoSubstitutionTemplateLiteral`,
+		sourceKey: `object:${object}.${name}`,
+	}));
 
 	packages.forEach((path) => {
 		const sourceFiles = project(`${path}/tsconfig.json`).filter((source) =>
@@ -136,27 +154,35 @@ export const tx = ({
 				});
 
 				// Extract from JSX elements
-				if (jsxSelector) {
-					query(source, jsxSelector).forEach((attr) => {
-						query(attr, jsxLiteralSelector).forEach(addTranslation);
+				for (const { selector, sourceKey } of jsxSelectors) {
+					query(source, selector).forEach((attr) => {
+						query(attr, jsxLiteralSelector).forEach((node) => {
+							addTranslation(node, sourceKey);
+						});
 					});
 				}
 
 				// Extract from component prop defaults
-				if (propDefaultSelector) {
-					query(source, propDefaultSelector).forEach((binding) => {
-						query(binding, literalSelector).forEach(addTranslation);
+				for (const { selector, sourceKey } of propDefaultSelectors) {
+					query(source, selector).forEach((binding) => {
+						query(binding, literalSelector).forEach((node) => {
+							addTranslation(node, sourceKey);
+						});
 					});
 				}
 
 				// Extract from function calls
-				if (functionSelector) {
-					query(source, functionSelector).forEach(addTranslation);
+				for (const { selector, sourceKey } of functionSelectors) {
+					query(source, selector).forEach((node) => {
+						addTranslation(node, sourceKey);
+					});
 				}
 
 				// Extract from object method calls
-				if (objectSelector) {
-					query(source, objectSelector).forEach(addTranslation);
+				for (const { selector, sourceKey } of objectSelectors) {
+					query(source, selector).forEach((node) => {
+						addTranslation(node, sourceKey);
+					});
 				}
 			});
 		});
@@ -221,4 +247,40 @@ export const tx = ({
 	console.log(
 		`\n✨ Found ${Object.keys(translations).length} translations across ${files} files\n`,
 	);
+
+	// Display statistics per source
+	console.log("📊 Extraction Statistics:\n");
+
+	if (sources.jsx.length > 0) {
+		console.log("  JSX Components:");
+		for (const { name, attr } of sources.jsx) {
+			const count = sourceStats.get(`jsx:${name}.${attr}`) || 0;
+			console.log(
+				`     <${name} ${attr}="..." /> → ${count} ${count === 1 ? "translation" : "translations"}`,
+			);
+		}
+		console.log();
+	}
+
+	if (sources.functions.length > 0) {
+		console.log("  Functions:");
+		for (const { name } of sources.functions) {
+			const count = sourceStats.get(`function:${name}`) || 0;
+			console.log(
+				`     ${name}("...") → ${count} ${count === 1 ? "translation" : "translations"}`,
+			);
+		}
+		console.log();
+	}
+
+	if (sources.objects.length > 0) {
+		console.log("  Object Methods:");
+		for (const { object, name } of sources.objects) {
+			const count = sourceStats.get(`object:${object}.${name}`) || 0;
+			console.log(
+				`     ${object}.${name}("...") → ${count} ${count === 1 ? "translation" : "translations"}`,
+			);
+		}
+		console.log();
+	}
 };
