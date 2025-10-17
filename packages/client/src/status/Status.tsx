@@ -113,12 +113,7 @@ const BaseStatus: FC<Status.Props> = ({
 						data-ui="Status-body"
 						className={slots.body()}
 					>
-						<VariantProvider
-							cls={PicoCls}
-							variant={{}}
-						>
-							{children}
-						</VariantProvider>
+						{children}
 					</div>
 				) : null}
 			</div>
