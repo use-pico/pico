@@ -83,14 +83,14 @@ export const tx = ({
 					.join(", ")
 			: null;
 
-	// Build selectors for function calls - match direct arguments and ConditionalExpression (ternary)
-	// but exclude ObjectLiteralExpression and ArrayLiteralExpression
+	// Build selectors for function calls - match direct arguments, ConditionalExpression (ternary),
+	// BinaryExpression (nullish coalescing, logical operators), but exclude ObjectLiteralExpression and ArrayLiteralExpression
 	const functionSelector =
 		sources.functions.length > 0
 			? sources.functions
 					.map(
 						({ name }) =>
-							`CallExpression:has(Identifier[name=${name}]) > StringLiteral, CallExpression:has(Identifier[name=${name}]) > NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression NoSubstitutionTemplateLiteral`,
+							`CallExpression:has(Identifier[name=${name}]) > StringLiteral, CallExpression:has(Identifier[name=${name}]) > NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression StringLiteral, CallExpression:has(Identifier[name=${name}]) > BinaryExpression NoSubstitutionTemplateLiteral`,
 					)
 					.join(", ")
 			: null;
@@ -100,7 +100,7 @@ export const tx = ({
 			? sources.objects
 					.map(
 						({ object, name }) =>
-							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression NoSubstitutionTemplateLiteral`,
+							`CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ConditionalExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > ParenthesizedExpression NoSubstitutionTemplateLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression StringLiteral, CallExpression:has(PropertyAccessExpression:has(Identifier[name=${object}]):has(Identifier[name=${name}])) > BinaryExpression NoSubstitutionTemplateLiteral`,
 					)
 					.join(", ")
 			: null;

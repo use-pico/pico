@@ -1,0 +1,18 @@
+{
+	"1aae26b4bceba5b75b117eaecc06f11c6efa880d114f587a06ac53e7": {
+		"ref": "Default object method text",
+		"value": "Default object method text"
+	},
+	"3d50b73a991bd90e19c1c2d7e331f684eb378040328e1e00fb8bc0d0": {
+		"ref": "Another object default",
+		"value": "Another object default"
+	},
+	"57a7ff6b9d987649d52975c3a24792611834f98b870d51db28fda0ce": {
+		"ref": "Final object fallback",
+		"value": "Final object fallback"
+	},
+	"694883e0f2f641620d0b8bb6054adc7ce3dc22d012250aae55706d71": {
+		"ref": "Fallback object method",
+		"value": "Fallback object method"
+	}
+}

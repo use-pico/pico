@@ -30,7 +30,7 @@
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.14",
 		"@tanstack/router-plugin": "1.133.4",
-		"@types/node": "24.8.0",
+		"@types/node": "24.8.1",
 		"@types/react": "19.2.2",
 		"@types/react-dom": "19.2.2",
 		"@use-pico/server": "5.0.81",

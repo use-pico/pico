@@ -1,0 +1,18 @@
+{
+	"0486f4d74790451ea29d5079202aeab5bfe5039aeaee79499694bd93": {
+		"ref": "Listing category (title)",
+		"value": "Listing category (title)"
+	},
+	"0a022c484387ad55dfb2f685d03bfc52d6a6d5f1b4a7f7196b872bba": {
+		"ref": "Default title",
+		"value": "Default title"
+	},
+	"1971c87196451606edbdf736b08c2168a2b4da934b32cb6f0c9bf139": {
+		"ref": "Fallback translation",
+		"value": "Fallback translation"
+	},
+	"6a71a0d19d0aa85a36585b8cae7afaeaf6bbe0e5993bbd9481db3ae8": {
+		"ref": "Another fallback",
+		"value": "Another fallback"
+	}
+}

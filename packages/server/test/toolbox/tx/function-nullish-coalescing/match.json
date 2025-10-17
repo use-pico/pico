@@ -1,0 +1,22 @@
+{
+	"0ad4ce6ef47e54ee9e87b0c1cd909199a64bdacb0877da6b7024a0fe": {
+		"ref": "Fallback message",
+		"value": "Fallback message"
+	},
+	"252857609c1feb6a0ac68fd398c9e3b68b5eefbe56ee89b2211ca920": {
+		"ref": "Default category name",
+		"value": "Default category name"
+	},
+	"c035373be85005f7d691f033f40f77ec910af18cf48d33c4c30b04bd": {
+		"ref": "Another default",
+		"value": "Another default"
+	},
+	"d4a3ffafafdc7e9d0e7165c746ddcf162349bf7943ed76d50e36f503": {
+		"ref": "Final fallback",
+		"value": "Final fallback"
+	},
+	"f96ab2848f17313dc12614aac3572534e38ffbdf976f12787fd61dc4": {
+		"ref": "Random fallback",
+		"value": "Random fallback"
+	}
+}
