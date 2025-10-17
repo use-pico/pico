@@ -1,18 +1,11 @@
 import { type Cls, useCls, withCls } from "@use-pico/cls";
-import {
-	type FC,
-	type Ref,
-	type RefObject,
-	useCallback,
-	useId,
-	useMemo,
-} from "react";
+import { type FC, type Ref, useCallback, useId, useMemo } from "react";
 import { useDoubleTap } from "../hook/useDoubleTap";
 import { DotIcon } from "../icon/DotIcon";
 import { Icon } from "../icon/Icon";
 import type { IconCls } from "../icon/IconCls";
 import { SnapperNavCls } from "./SnapperNavCls";
-import { useSnapperNav } from "./useSnapperNav";
+import type { useSnapperNav } from "./useSnapperNav";
 
 export namespace SnapperNav {
 	export namespace IconProps {
@@ -43,9 +36,8 @@ export namespace SnapperNav {
 
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
-		containerRef: RefObject<HTMLElement | null>;
+		snapperNav: useSnapperNav.Result;
 		pages: Page[] | Count;
-		defaultIndex?: number;
 		subtle?: boolean;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
@@ -57,7 +49,7 @@ export namespace SnapperNav {
 
 const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	ref,
-	containerRef,
+	snapperNav,
 	pages,
 	//
 	subtle,
@@ -67,7 +59,6 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	//
 	iconProps,
 	limit = 5,
-	defaultIndex = 0,
 	//
 	cls = SnapperNavCls,
 	tweak,
@@ -86,30 +77,22 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				}),
 			);
 
-	const { current, isFirst, isLast, start, end, next, prev, snapTo } =
-		useSnapperNav({
-			containerRef,
-			orientation,
-			count: $pages.length,
-			defaultIndex,
-		});
-
 	const { slots } = useCls(cls, tweak, {
 		variant: {
 			orientation,
 			align,
 			subtle,
-			first: isFirst,
-			last: isLast,
+			first: snapperNav.isFirst,
+			last: snapperNav.isLast,
 		},
 	});
 
 	const firstDoubleTap = useDoubleTap({
-		onDoubleTap: start,
+		onDoubleTap: snapperNav.start,
 	});
 
 	const lastDoubleTap = useDoubleTap({
-		onDoubleTap: end,
+		onDoubleTap: snapperNav.end,
 	});
 
 	// Control ids (stable, unique) for start/end buttons.
@@ -128,7 +111,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 
 		const visible = Math.max(1, Math.min(limit, total));
 		const half = Math.floor((visible - 1) / 2);
-		let start = current - half;
+		let start = snapperNav.current - half;
 		start = Math.max(0, Math.min(start, total - visible));
 
 		const out: number[] = [];
@@ -139,7 +122,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	}, [
 		limit,
 		$pages,
-		current,
+		snapperNav.current,
 	]);
 
 	const renderLimiter = useCallback(() => {
@@ -157,8 +140,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={firstId}
 					key={firstId}
-					onDoubleClick={start}
-					onClick={prev}
+					onDoubleClick={snapperNav.start}
+					onClick={snapperNav.prev}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={tone}
@@ -184,13 +167,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					if (!page) {
 						return null;
 					}
-					const isActive = i === current;
+					const isActive = i === snapperNav.current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapTo(i)}
+							onClick={() => snapperNav.snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -221,8 +204,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={lastId}
 					key={lastId}
-					onClick={next}
-					onDoubleClick={end}
+					onClick={snapperNav.next}
+					onDoubleClick={snapperNav.end}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
 					tone={tone}
@@ -249,13 +232,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		tone,
 		iconProps,
 		$pages,
-		current,
+		snapperNav,
 		flow,
-		snapTo,
-		start,
-		end,
-		next,
-		prev,
 		slots,
 		firstDoubleTap,
 		lastDoubleTap,
@@ -265,13 +243,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		() => (
 			<>
 				{$pages.map((page, i) => {
-					const isActive = i === current;
+					const isActive = i === snapperNav.current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapTo(i)}
+							onClick={() => snapperNav.snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -301,8 +279,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			tone,
 			$pages,
 			iconProps,
-			current,
-			snapTo,
+			snapperNav,
 		],
 	);
 
