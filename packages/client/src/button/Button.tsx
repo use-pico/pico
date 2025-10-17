@@ -1,7 +1,9 @@
 import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
+import { useMemo } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
+import type { IconCls } from "../icon/IconCls";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
 import { Tx } from "../tx/Tx";
 import { ButtonCls } from "./ButtonCls";
@@ -20,6 +22,7 @@ export namespace Button {
 		iconDisabled?: string;
 		iconLoading?: string;
 		iconProps?: Omit<Icon.Props, "icon">;
+		iconPosition?: "left" | "right";
 		loading?: boolean;
 		size?: Cls.VariantOf<ButtonCls, "size">;
 		tone?: Cls.VariantOf<ButtonCls, "tone">;
@@ -27,6 +30,17 @@ export namespace Button {
 		round?: Cls.VariantOf<ButtonCls, "round">;
 	}
 }
+
+type ButtonSize = Cls.VariantOf<ButtonCls, "size">;
+
+const ICON_SIZE_MAP: Partial<
+	Record<ButtonSize, Cls.VariantOf<IconCls, "size">>
+> = {
+	sm: "xs",
+	md: "sm",
+	lg: "md",
+	xl: "lg",
+} as const;
 
 const BaseButton: FC<Button.Props> = ({
 	wrapperRef,
@@ -36,6 +50,7 @@ const BaseButton: FC<Button.Props> = ({
 	iconDisabled,
 	iconLoading = SpinnerIcon,
 	iconProps,
+	iconPosition = "left",
 	loading,
 	size,
 	tone,
@@ -69,6 +84,38 @@ const BaseButton: FC<Button.Props> = ({
 		},
 	);
 
+	const iconSize = ICON_SIZE_MAP[variant.size] ?? variant.size;
+
+	const renderIcon = useMemo(
+		() =>
+			disabled ? (
+				<Icon
+					icon={
+						loading === true
+							? iconLoading
+							: (iconDisabled ?? iconEnabled)
+					}
+					size={iconSize}
+					{...iconProps}
+				/>
+			) : (
+				<Icon
+					icon={loading === true ? iconLoading : iconEnabled}
+					size={iconSize}
+					{...iconProps}
+				/>
+			),
+		[
+			disabled,
+			loading,
+			iconLoading,
+			iconDisabled,
+			iconEnabled,
+			iconSize,
+			iconProps,
+		],
+	);
+
 	return (
 		<VariantProvider
 			cls={PicoCls}
@@ -90,27 +137,7 @@ const BaseButton: FC<Button.Props> = ({
 					disabled={disabled}
 					{...props}
 				>
-					{disabled ? (
-						<Icon
-							icon={
-								loading === true
-									? iconLoading
-									: (iconDisabled ?? iconEnabled)
-							}
-							size={variant.size}
-							theme={variant.theme}
-							tone={variant.tone}
-							{...iconProps}
-						/>
-					) : (
-						<Icon
-							icon={loading === true ? iconLoading : iconEnabled}
-							size={variant.size}
-							theme={variant.theme}
-							tone={variant.tone}
-							{...iconProps}
-						/>
-					)}
+					{iconPosition === "left" && renderIcon}
 
 					<Tx
 						label={label}
@@ -118,6 +145,8 @@ const BaseButton: FC<Button.Props> = ({
 					/>
 
 					{children}
+
+					{iconPosition === "right" && renderIcon}
 				</button>
 			</div>
 		</VariantProvider>

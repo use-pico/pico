@@ -47,6 +47,11 @@ export const tx = ({
 
 	let files = 0;
 
+	// Display length limits for translation strings
+	const JSX_DISPLAY_LENGTH = 72;
+	const FUNCTION_DISPLAY_LENGTH = 64;
+	const OBJECT_DISPLAY_LENGTH = 64;
+
 	// ANSI color codes
 	const colors = {
 		dim: "\x1b[2m",
@@ -306,8 +311,8 @@ export const tx = ({
 				// Show the actual translations
 				for (const translation of translations) {
 					const truncated =
-						translation.length > 64
-							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
+						translation.length > JSX_DISPLAY_LENGTH
+							? `${translation.substring(0, JSX_DISPLAY_LENGTH - 3)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
 						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,
@@ -344,8 +349,8 @@ export const tx = ({
 				// Show the actual translations
 				for (const translation of translations) {
 					const truncated =
-						translation.length > 64
-							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
+						translation.length > FUNCTION_DISPLAY_LENGTH
+							? `${translation.substring(0, FUNCTION_DISPLAY_LENGTH - 3)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
 						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,
@@ -385,8 +390,8 @@ export const tx = ({
 				// Show the actual translations
 				for (const translation of translations) {
 					const truncated =
-						translation.length > 64
-							? `${translation.substring(0, 61)}${colors.dim}...${colors.brightCyan}`
+						translation.length > OBJECT_DISPLAY_LENGTH
+							? `${translation.substring(0, OBJECT_DISPLAY_LENGTH - 3)}${colors.dim}...${colors.brightCyan}`
 							: translation;
 					console.log(
 						`       ${colors.dim}"${colors.brightCyan}${truncated}${colors.reset}${colors.dim}"${colors.reset}`,

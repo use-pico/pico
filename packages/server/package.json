@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/server",
 	"description": "Node/bun/whatever/server-side stuff.",
-	"version": "5.0.84",
+	"version": "5.0.85",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
