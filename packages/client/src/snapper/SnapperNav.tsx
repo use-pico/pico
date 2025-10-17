@@ -37,7 +37,7 @@ export namespace SnapperNav {
 	export interface Props extends SnapperNavCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		snapperNav: useSnapperNav.Result;
-		pages: Page[] | Count | undefined;
+		pages?: Page[] | Count;
 		subtle?: boolean;
 		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
 		tone?: Cls.VariantOf<IconCls, "tone">;
