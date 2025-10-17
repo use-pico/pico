@@ -1,0 +1,26 @@
+{
+	"074972e9c439adf40b7ba8b40b5c495b8d89f459ede242db455e1562": {
+		"ref": "Default text",
+		"value": "Default text"
+	},
+	"1dae19b8b64ccdad9153daa27a6a90fd7d81889d44e377f234f8824a": {
+		"ref": "This is text",
+		"value": "This is text"
+	},
+	"9741876a8a7af02a7c46e1a1fc97458c3c1dcc384fa484822cac8e9b": {
+		"ref": "Another label",
+		"value": "Another label"
+	},
+	"b8f9f3f79da2f78f90b8cfb2708fad73d733ce96616924d79be00da2": {
+		"ref": "This is a title",
+		"value": "This is a title"
+	},
+	"e392e12adad10de9088f16111de3464f7e421dec3336857702087dee": {
+		"ref": "This is a label",
+		"value": "This is a label"
+	},
+	"f69902a6d4cc8cd1ed11ab17cb3dc6014c5870c3a695353e834f6911": {
+		"ref": "Fallback title",
+		"value": "Fallback title"
+	}
+}
