@@ -85,7 +85,7 @@ export function useSnapperNav({
 			totalSize: Math.max(1, totalSize),
 		};
 	}, [
-		containerRef,
+		containerRef.current,
 		isVertical,
 	]);
 
@@ -149,7 +149,7 @@ export function useSnapperNav({
 			return currentElement as HTMLElement;
 		},
 		[
-			containerRef,
+			containerRef.current,
 		],
 	);
 
@@ -182,7 +182,7 @@ export function useSnapperNav({
 			return pageIndex;
 		},
 		[
-			containerRef,
+			containerRef.current,
 			toDirectChild,
 			readMetrics,
 			isVertical,
@@ -243,7 +243,7 @@ export function useSnapperNav({
 			});
 		},
 		[
-			containerRef,
+			containerRef.current,
 			isVertical,
 			readMetrics,
 			computePageCount,
@@ -317,7 +317,7 @@ export function useSnapperNav({
 			}
 		};
 	}, [
-		containerRef,
+		containerRef.current,
 		readMetrics,
 		quantizeToPageIndex,
 	]);
@@ -360,7 +360,7 @@ export function useSnapperNav({
 			mutationObserver.disconnect();
 		};
 	}, [
-		containerRef,
+		containerRef.current,
 		recomputePageCount,
 		snapTo,
 		current,
@@ -394,7 +394,7 @@ export function useSnapperNav({
 			resizeObserver.disconnect();
 		};
 	}, [
-		containerRef,
+		containerRef.current,
 		recomputePageCount,
 		readMetrics,
 		quantizeToPageIndex,
@@ -412,7 +412,7 @@ export function useSnapperNav({
 		const initial = Math.max(0, Math.min(last, defaultIndex));
 		snapTo(initial, "auto");
 	}, [
-		containerRef,
+		containerRef.current,
 		defaultIndex,
 		recomputePageCount,
 		snapTo,
