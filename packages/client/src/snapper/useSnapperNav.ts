@@ -2,6 +2,8 @@ import {
 	type RefObject,
 	useCallback,
 	useEffect,
+	useLayoutEffect,
+	useMemo,
 	useRef,
 	useState,
 } from "react";
@@ -10,7 +12,8 @@ export namespace useSnapperNav {
 	export interface Props {
 		containerRef: RefObject<HTMLElement | null>;
 		orientation: "horizontal" | "vertical";
-		defaultIndex?: number; // initial page index
+		count: number; // REQUIRED: total page count (SSR-friendly)
+		defaultIndex?: number; // initial page index (0-based)
 		threshold?: number; // 0..1; 0.5 ≈ Math.round; default 0.5
 	}
 
@@ -18,7 +21,7 @@ export namespace useSnapperNav {
 
 	export interface Result {
 		current: number; // current page (0-based)
-		count: number; // total page count
+		count: number; // echo the provided count (normalized to >=1)
 		isFirst: boolean;
 		isLast: boolean;
 		start: () => void;
@@ -30,167 +33,111 @@ export namespace useSnapperNav {
 }
 
 /**
- * Page-based snap navigator with `snapTo(index | selector)` and threshold.
+ * SSR-friendly page navigator (count is provided by the caller).
  *
  * Model:
- * - A "page" equals the container's viewport (clientWidth/Height).
- * - Page count = ceil(total / size).
+ * - A "page" equals the container viewport (clientWidth/Height).
+ * - `count` is owned by the caller, so server and client render match.
  *
  * Behavior:
- * - `snapTo(number)` scrolls to that page.
+ * - `snapTo(number)` scrolls to that page (clamped to [0 .. count-1]).
  * - `snapTo(selector)` finds the first match inside the container, lifts it
  *   to the nearest direct child, and scrolls to the page where that child starts.
  *
- * Design:
- * - Single source of truth: `current` is derived from scroll (rAF-throttled).
- * - MutationObserver: track child list changes (direct children only).
- * - ResizeObserver: keep quantization correct on container size changes.
+ * Notes:
+ * - No rAF; scroll is handled synchronously (passive listener).
+ * - We use refs for `current` in handlers to avoid stale closures.
+ * - We never depend on `containerRef.current` in deps (anti-pattern).
  */
 export function useSnapperNav({
 	containerRef,
 	orientation,
+	count,
 	defaultIndex = 0,
-	threshold: thresholdProp = 0.5,
+	threshold = 0.5,
 }: useSnapperNav.Props): useSnapperNav.Result {
-	const [current, setCurrent] = useState(0);
+	// Normalize props once per render (cheap), memoize where it matters.
+	const normalizedCount = useMemo(
+		() => Math.max(1, Math.floor(count)),
+		[
+			count,
+		],
+	);
 	const isVertical = orientation === "vertical";
-	const threshold = Math.min(1, Math.max(0, thresholdProp));
+	const thresholdClamped = Math.min(1, Math.max(0, threshold));
 
-	const pageCountRef = useRef(1);
+	// State + live refs for handler closures.
+	const [current, setCurrent] = useState(() => {
+		const last = Math.max(0, normalizedCount - 1);
+		return Math.max(0, Math.min(last, defaultIndex));
+	});
+	const currentRef = useRef(current);
+	currentRef.current = current;
 
-	// -- utils ------------------------------------------------------------------
+	// --- helpers (memoized) ----------------------------------------------------
 
-	/** Read container metrics (pageSize, scroll position, total content size). */
+	/** Read container metrics (page size, scroll position, total content size). */
 	const readMetrics = useCallback(() => {
-		const containerElement = containerRef.current;
-		if (!containerElement) {
+		const host = containerRef.current;
+		if (!host) {
 			return {
 				pageSize: 1,
 				position: 0,
 				totalSize: 1,
 			};
 		}
-		const pageSize = isVertical
-			? containerElement.clientHeight
-			: containerElement.clientWidth;
-		const position = isVertical
-			? containerElement.scrollTop
-			: containerElement.scrollLeft;
-		const totalSize = isVertical
-			? containerElement.scrollHeight
-			: containerElement.scrollWidth;
+		const pageSize = isVertical ? host.clientHeight : host.clientWidth;
+		const position = isVertical ? host.scrollTop : host.scrollLeft;
+		const totalSize = isVertical ? host.scrollHeight : host.scrollWidth;
 		return {
 			pageSize: Math.max(1, pageSize),
 			position,
 			totalSize: Math.max(1, totalSize),
 		};
 	}, [
-		containerRef.current,
+		containerRef,
 		isVertical,
 	]);
 
 	/** Quantize scroll position to a page index using threshold. */
 	const quantizeToPageIndex = useCallback(
 		(position: number, pageSize: number, pageCount: number) => {
-			const index = Math.floor(
-				(position + pageSize * threshold) / pageSize,
-			);
+			const raw = (position + pageSize * thresholdClamped) / pageSize;
+			let index = Math.floor(raw);
 			if (index < 0) {
-				return 0;
-			}
-			if (index > pageCount - 1) {
-				return pageCount - 1;
+				index = 0;
+			} else if (index > pageCount - 1) {
+				index = pageCount - 1;
 			}
 			return index;
 		},
 		[
-			threshold,
+			thresholdClamped,
 		],
 	);
-
-	/** Compute how many pages fit into the container. */
-	const computePageCount = useCallback(() => {
-		const { pageSize, totalSize } = readMetrics();
-		return Math.max(1, Math.ceil(totalSize / pageSize));
-	}, [
-		readMetrics,
-	]);
-
-	/** Refresh internal page count. */
-	const recomputePageCount = useCallback(() => {
-		pageCountRef.current = computePageCount();
-	}, [
-		computePageCount,
-	]);
 
 	/** Lift any descendant to the nearest direct child of the container. */
 	const toDirectChild = useCallback(
 		(node: Element | null): HTMLElement | null => {
-			const containerElement = containerRef.current;
-			if (!containerElement) {
+			const host = containerRef.current;
+			if (!host || !node) {
 				return null;
 			}
-			if (!node) {
+			let cursor: Element | null = node;
+			while (cursor && cursor.parentElement !== host) {
+				cursor = cursor.parentElement;
+			}
+			if (!cursor || cursor.parentElement !== host) {
 				return null;
 			}
-			let currentElement: Element | null = node;
-			while (
-				currentElement &&
-				currentElement.parentElement !== containerElement
-			) {
-				currentElement = currentElement.parentElement;
-			}
-			if (!currentElement) {
-				return null;
-			}
-			if (currentElement.parentElement !== containerElement) {
-				return null;
-			}
-			return currentElement as HTMLElement;
+			return cursor as HTMLElement;
 		},
 		[
-			containerRef.current,
+			containerRef,
 		],
 	);
 
-	/** Get page index for a selector (first match): page where that child starts. */
-	const getPageIndexForSelector = useCallback(
-		(selector: string): number | null => {
-			const containerElement = containerRef.current;
-			if (!containerElement) {
-				return null;
-			}
-			const foundElement = containerElement.querySelector(selector);
-			const childElement = toDirectChild(foundElement);
-			if (!childElement) {
-				return null;
-			}
-
-			const { pageSize } = readMetrics();
-			const offset = isVertical
-				? childElement.offsetTop
-				: childElement.offsetLeft;
-			const pageIndex = Math.floor(offset / pageSize);
-
-			const pageCount = pageCountRef.current || computePageCount();
-			if (pageIndex < 0) {
-				return 0;
-			}
-			if (pageIndex > pageCount - 1) {
-				return pageCount - 1;
-			}
-			return pageIndex;
-		},
-		[
-			containerRef.current,
-			toDirectChild,
-			readMetrics,
-			isVertical,
-			computePageCount,
-		],
-	);
-
-	// -- API --------------------------------------------------------------------
+	// --- API (memoized) --------------------------------------------------------
 
 	/** Programmatic scroll to page (by index or selector). */
 	const snapTo = useCallback(
@@ -198,56 +145,63 @@ export function useSnapperNav({
 			target: useSnapperNav.SnapTarget,
 			behavior: ScrollBehavior = "smooth",
 		) => {
-			const containerElement = containerRef.current;
-			if (!containerElement) {
+			const host = containerRef.current;
+			if (!host) {
 				return;
 			}
-
-			const pageCount = pageCountRef.current || computePageCount();
 
 			let pageIndex: number | null = null;
+
 			if (typeof target === "number") {
-				pageIndex = target;
+				pageIndex = Math.max(
+					0,
+					Math.min(normalizedCount - 1, Math.floor(target)),
+				);
+			} else {
+				const found = host.querySelector(target);
+				const child = toDirectChild(found);
+				if (!child) {
+					// eslint-disable-next-line no-console
+					console.warn(
+						`useSnapperNav: selector not found or not inside container: "${String(target)}"`,
+					);
+					return;
+				}
+				const { pageSize } = readMetrics();
+				const offset = isVertical ? child.offsetTop : child.offsetLeft;
+				pageIndex = Math.floor(offset / pageSize);
 				if (pageIndex < 0) {
 					pageIndex = 0;
+				} else if (pageIndex > normalizedCount - 1) {
+					pageIndex = normalizedCount - 1;
 				}
-				if (pageIndex > pageCount - 1) {
-					pageIndex = pageCount - 1;
-				}
-			} else {
-				pageIndex = getPageIndexForSelector(target);
-			}
-
-			if (pageIndex == null) {
-				// eslint-disable-next-line no-console
-				console.warn(
-					`useSnapperNav: selector not found or not inside container: "${String(target)}"`,
-				);
-				return;
 			}
 
 			const { pageSize, totalSize } = readMetrics();
 			const maxScroll = Math.max(0, totalSize - pageSize);
-			const targetPosition = Math.min(pageIndex * pageSize, maxScroll);
+			const targetPosition = Math.min(
+				(pageIndex ?? 0) * pageSize,
+				maxScroll,
+			);
 
 			if (isVertical) {
-				containerElement.scrollTo({
+				host.scrollTo({
 					top: targetPosition,
 					behavior,
 				});
-				return;
+			} else {
+				host.scrollTo({
+					left: targetPosition,
+					behavior,
+				});
 			}
-			containerElement.scrollTo({
-				left: targetPosition,
-				behavior,
-			});
 		},
 		[
-			containerRef.current,
+			containerRef,
 			isVertical,
+			normalizedCount,
 			readMetrics,
-			computePageCount,
-			getPageIndexForSelector,
+			toDirectChild,
 		],
 	);
 
@@ -258,175 +212,167 @@ export function useSnapperNav({
 	]);
 
 	const end = useCallback(() => {
-		const last = Math.max(0, (pageCountRef.current || 1) - 1);
-		snapTo(last);
+		snapTo(Math.max(0, normalizedCount - 1));
 	}, [
 		snapTo,
+		normalizedCount,
 	]);
 
 	const next = useCallback(() => {
-		snapTo(current + 1);
+		snapTo(currentRef.current + 1);
 	}, [
 		snapTo,
-		current,
 	]);
 
 	const prev = useCallback(() => {
-		snapTo(current - 1);
+		snapTo(currentRef.current - 1);
 	}, [
 		snapTo,
-		current,
 	]);
 
-	// -- effects ----------------------------------------------------------------
+	// --- effects ---------------------------------------------------------------
 
-	/** rAF-throttled scroll → derive `current`. */
-	useEffect(() => {
-		const containerElement = containerRef.current;
-		if (!containerElement) {
+	/** Initial snap (no animation) and sync of `current` after mount/node swap. */
+	useLayoutEffect(() => {
+		const el = containerRef.current;
+		if (!el) {
 			return;
 		}
+		const host: HTMLElement = el;
 
-		let rafId = 0;
-		const onScroll = () => {
-			if (rafId) {
-				return;
+		const last = Math.max(0, normalizedCount - 1);
+		const initial = Math.max(0, Math.min(last, defaultIndex));
+		// Snap first so the position matches desired initial page.
+		if (initial !== currentRef.current) {
+			snapTo(initial, "auto");
+		}
+
+		// Derive current from actual position to be extra sure.
+		const { pageSize, position } = readMetrics();
+		const idx = quantizeToPageIndex(position, pageSize, normalizedCount);
+		if (idx !== currentRef.current) {
+			currentRef.current = idx;
+			setCurrent(idx);
+		}
+
+		// Cleanup is N/A (listeners are in the next effects).
+	}, [
+		containerRef,
+		defaultIndex,
+		normalizedCount,
+		snapTo,
+		readMetrics,
+		quantizeToPageIndex,
+	]);
+
+	/** Scroll → derive `current`. */
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) {
+			return;
+		}
+		const host: HTMLElement = el;
+
+		function onScroll() {
+			const { pageSize, position } = readMetrics();
+			const idx = quantizeToPageIndex(
+				position,
+				pageSize,
+				normalizedCount,
+			);
+			if (idx !== currentRef.current) {
+				currentRef.current = idx;
+				setCurrent(idx);
 			}
-			rafId = requestAnimationFrame(() => {
-				rafId = 0;
-				const { pageSize, position } = readMetrics();
-				const pageCount = pageCountRef.current;
-				const index = quantizeToPageIndex(
-					position,
-					pageSize,
-					pageCount,
-				);
-				setCurrent((previous) =>
-					previous === index ? previous : index,
-				);
-			});
-		};
+		}
 
-		containerElement.addEventListener("scroll", onScroll, {
+		host.addEventListener("scroll", onScroll, {
 			passive: true,
 		});
 		return () => {
-			containerElement.removeEventListener("scroll", onScroll);
-			if (rafId) {
-				cancelAnimationFrame(rafId);
-			}
+			host.removeEventListener("scroll", onScroll);
 		};
 	}, [
-		containerRef.current,
+		containerRef,
+		normalizedCount,
 		readMetrics,
 		quantizeToPageIndex,
 	]);
 
-	/** Children changes → recompute pages; clamp/normalize. */
+	/** Resize → re-derive `current` (address bars, rotations, etc.). */
 	useEffect(() => {
-		const containerElement = containerRef.current;
-		if (!containerElement) {
-			recomputePageCount();
+		const el = containerRef.current;
+		if (!el) {
 			return;
 		}
-
-		recomputePageCount();
-
-		const mutationObserver = new MutationObserver(() => {
-			const previousCount = pageCountRef.current;
-			recomputePageCount();
-			const nextCount = pageCountRef.current;
-
-			if (nextCount === previousCount) {
-				return;
-			}
-
-			const last = Math.max(0, nextCount - 1);
-			if (current > last) {
-				snapTo(last, "auto");
-				return;
-			}
-
-			const { pageSize, position } = readMetrics();
-			const index = quantizeToPageIndex(position, pageSize, nextCount);
-			setCurrent((previous) => (previous === index ? previous : index));
-		});
-
-		mutationObserver.observe(containerElement, {
-			childList: true,
-			subtree: false,
-		});
-		return () => {
-			mutationObserver.disconnect();
-		};
-	}, [
-		containerRef.current,
-		recomputePageCount,
-		snapTo,
-		current,
-		readMetrics,
-		quantizeToPageIndex,
-	]);
-
-	/** Resize → recompute and normalize (address bars, rotation, etc.). */
-	useEffect(() => {
-		const containerElement = containerRef.current;
-		if (!containerElement) {
-			return;
-		}
+		const host: HTMLElement = el;
 
 		const resizeObserver = new ResizeObserver(() => {
-			const oldCount = pageCountRef.current;
-			recomputePageCount();
-			const newCount = pageCountRef.current;
-
 			const { pageSize, position } = readMetrics();
-			const index = quantizeToPageIndex(position, pageSize, newCount);
-			setCurrent((previous) => (previous === index ? previous : index));
+			const idx = quantizeToPageIndex(
+				position,
+				pageSize,
+				normalizedCount,
+			);
+			if (idx !== currentRef.current) {
+				currentRef.current = idx;
+				setCurrent(idx);
+			}
 
-			if (newCount < oldCount) {
-				snapTo(index, "auto");
+			// If the viewport shrank and our current is out of range after clamping,
+			// snap back without animation.
+			const last = Math.max(0, normalizedCount - 1);
+			if (currentRef.current > last) {
+				snapTo(last, "auto");
 			}
 		});
 
-		resizeObserver.observe(containerElement);
+		resizeObserver.observe(host);
 		return () => {
 			resizeObserver.disconnect();
 		};
 	}, [
-		containerRef.current,
-		recomputePageCount,
+		containerRef,
+		normalizedCount,
 		readMetrics,
 		quantizeToPageIndex,
 		snapTo,
 	]);
 
-	/** Initial snap (no animation to avoid mount jank). */
+	/** When `count` prop changes at runtime, clamp and optionally snap. */
 	useEffect(() => {
-		const containerElement = containerRef.current;
-		if (!containerElement) {
-			return;
+		const last = Math.max(0, normalizedCount - 1);
+		if (currentRef.current > last) {
+			currentRef.current = last;
+			setCurrent(last);
+			snapTo(last, "auto");
 		}
-		recomputePageCount();
-		const last = Math.max(0, pageCountRef.current - 1);
-		const initial = Math.max(0, Math.min(last, defaultIndex));
-		snapTo(initial, "auto");
 	}, [
-		containerRef.current,
-		defaultIndex,
-		recomputePageCount,
+		normalizedCount,
 		snapTo,
 	]);
 
-	// -- result -----------------------------------------------------------------
+	// --- derived flags (memoized) ---------------------------------------------
 
-	const count = Math.max(1, pageCountRef.current);
+	const isFirst = useMemo(
+		() => current === 0,
+		[
+			current,
+		],
+	);
+	const isLast = useMemo(
+		() => current === Math.max(0, normalizedCount - 1),
+		[
+			current,
+			normalizedCount,
+		],
+	);
 
 	return {
 		current,
-		count,
-		isFirst: current === 0,
-		isLast: current === count - 1,
+		count: normalizedCount,
+		isFirst,
+		isLast,
 		start,
 		end,
 		next,
