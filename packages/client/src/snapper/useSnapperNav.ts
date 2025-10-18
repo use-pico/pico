@@ -15,6 +15,7 @@ export namespace useSnapperNav {
 		count: number; // REQUIRED: total page count (SSR-friendly)
 		defaultIndex?: number; // initial page index (0-based)
 		threshold?: number; // 0..1; 0.5 ≈ Math.round; default 0.5
+		onSnap?: (index: number) => void;
 	}
 
 	export type SnapTarget = number | string; // page index OR CSS selector (within container)
@@ -55,20 +56,15 @@ export function useSnapperNav({
 	count,
 	defaultIndex = 0,
 	threshold = 0.5,
+	onSnap,
 }: useSnapperNav.Props): useSnapperNav.Result {
-	// Normalize props once per render (cheap), memoize where it matters.
-	const normalizedCount = useMemo(
-		() => Math.max(1, Math.floor(count)),
-		[
-			count,
-		],
-	);
+	const $count = Math.max(1, Math.floor(count));
 	const isVertical = orientation === "vertical";
-	const thresholdClamped = Math.min(1, Math.max(0, threshold));
+	const $threshold = Math.min(1, Math.max(0, threshold));
 
 	// State + live refs for handler closures.
 	const [current, setCurrent] = useState(() => {
-		const last = Math.max(0, normalizedCount - 1);
+		const last = Math.max(0, $count - 1);
 		return Math.max(0, Math.min(last, defaultIndex));
 	});
 	const currentRef = useRef(current);
@@ -102,7 +98,7 @@ export function useSnapperNav({
 	/** Quantize scroll position to a page index using threshold. */
 	const quantizeToPageIndex = useCallback(
 		(position: number, pageSize: number, pageCount: number) => {
-			const raw = (position + pageSize * thresholdClamped) / pageSize;
+			const raw = (position + pageSize * $threshold) / pageSize;
 			let index = Math.floor(raw);
 			if (index < 0) {
 				index = 0;
@@ -112,7 +108,7 @@ export function useSnapperNav({
 			return index;
 		},
 		[
-			thresholdClamped,
+			$threshold,
 		],
 	);
 
@@ -155,7 +151,7 @@ export function useSnapperNav({
 			if (typeof target === "number") {
 				pageIndex = Math.max(
 					0,
-					Math.min(normalizedCount - 1, Math.floor(target)),
+					Math.min($count - 1, Math.floor(target)),
 				);
 			} else {
 				const found = host.querySelector(target);
@@ -172,8 +168,8 @@ export function useSnapperNav({
 				pageIndex = Math.floor(offset / pageSize);
 				if (pageIndex < 0) {
 					pageIndex = 0;
-				} else if (pageIndex > normalizedCount - 1) {
-					pageIndex = normalizedCount - 1;
+				} else if (pageIndex > $count - 1) {
+					pageIndex = $count - 1;
 				}
 			}
 
@@ -195,13 +191,15 @@ export function useSnapperNav({
 					behavior,
 				});
 			}
+			onSnap?.(pageIndex ?? 0);
 		},
 		[
 			containerRef,
 			isVertical,
-			normalizedCount,
+			$count,
 			readMetrics,
 			toDirectChild,
+			onSnap,
 		],
 	);
 
@@ -212,10 +210,10 @@ export function useSnapperNav({
 	]);
 
 	const end = useCallback(() => {
-		snapTo(Math.max(0, normalizedCount - 1));
+		snapTo(Math.max(0, $count - 1));
 	}, [
 		snapTo,
-		normalizedCount,
+		$count,
 	]);
 
 	const next = useCallback(() => {
@@ -238,9 +236,7 @@ export function useSnapperNav({
 		if (!el) {
 			return;
 		}
-		const host: HTMLElement = el;
-
-		const last = Math.max(0, normalizedCount - 1);
+		const last = Math.max(0, $count - 1);
 		const initial = Math.max(0, Math.min(last, defaultIndex));
 		// Snap first so the position matches desired initial page.
 		if (initial !== currentRef.current) {
@@ -249,17 +245,15 @@ export function useSnapperNav({
 
 		// Derive current from actual position to be extra sure.
 		const { pageSize, position } = readMetrics();
-		const idx = quantizeToPageIndex(position, pageSize, normalizedCount);
+		const idx = quantizeToPageIndex(position, pageSize, $count);
 		if (idx !== currentRef.current) {
 			currentRef.current = idx;
 			setCurrent(idx);
 		}
-
-		// Cleanup is N/A (listeners are in the next effects).
 	}, [
 		containerRef,
 		defaultIndex,
-		normalizedCount,
+		$count,
 		snapTo,
 		readMetrics,
 		quantizeToPageIndex,
@@ -275,14 +269,11 @@ export function useSnapperNav({
 
 		function onScroll() {
 			const { pageSize, position } = readMetrics();
-			const idx = quantizeToPageIndex(
-				position,
-				pageSize,
-				normalizedCount,
-			);
+			const idx = quantizeToPageIndex(position, pageSize, $count);
 			if (idx !== currentRef.current) {
 				currentRef.current = idx;
 				setCurrent(idx);
+				onSnap?.(idx);
 			}
 		}
 
@@ -294,7 +285,7 @@ export function useSnapperNav({
 		};
 	}, [
 		containerRef,
-		normalizedCount,
+		$count,
 		readMetrics,
 		quantizeToPageIndex,
 	]);
@@ -309,11 +300,7 @@ export function useSnapperNav({
 
 		const resizeObserver = new ResizeObserver(() => {
 			const { pageSize, position } = readMetrics();
-			const idx = quantizeToPageIndex(
-				position,
-				pageSize,
-				normalizedCount,
-			);
+			const idx = quantizeToPageIndex(position, pageSize, $count);
 			if (idx !== currentRef.current) {
 				currentRef.current = idx;
 				setCurrent(idx);
@@ -321,7 +308,7 @@ export function useSnapperNav({
 
 			// If the viewport shrank and our current is out of range after clamping,
 			// snap back without animation.
-			const last = Math.max(0, normalizedCount - 1);
+			const last = Math.max(0, $count - 1);
 			if (currentRef.current > last) {
 				snapTo(last, "auto");
 			}
@@ -333,7 +320,7 @@ export function useSnapperNav({
 		};
 	}, [
 		containerRef,
-		normalizedCount,
+		$count,
 		readMetrics,
 		quantizeToPageIndex,
 		snapTo,
@@ -341,14 +328,14 @@ export function useSnapperNav({
 
 	/** When `count` prop changes at runtime, clamp and optionally snap. */
 	useEffect(() => {
-		const last = Math.max(0, normalizedCount - 1);
+		const last = Math.max(0, $count - 1);
 		if (currentRef.current > last) {
 			currentRef.current = last;
 			setCurrent(last);
 			snapTo(last, "auto");
 		}
 	}, [
-		normalizedCount,
+		$count,
 		snapTo,
 	]);
 
@@ -361,16 +348,16 @@ export function useSnapperNav({
 		],
 	);
 	const isLast = useMemo(
-		() => current === Math.max(0, normalizedCount - 1),
+		() => current === Math.max(0, $count - 1),
 		[
 			current,
-			normalizedCount,
+			$count,
 		],
 	);
 
 	return {
 		current,
-		count: normalizedCount,
+		count: $count,
 		isFirst,
 		isLast,
 		start,
