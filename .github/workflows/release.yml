@@ -50,32 +50,32 @@ jobs:
               run: |
                   bun run workflow:check
 
-    deploy:
-        runs-on: ubuntu-22.04
-        needs:
-            - check
-        steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-            - name: cache
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      node_modules
-                      **/node_modules
-                  key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
+    # deploy:
+    #     runs-on: ubuntu-22.04
+    #     needs:
+    #         - check
+    #     steps:
+    #         - uses: actions/checkout@v4
+    #         - uses: oven-sh/setup-bun@v2
+    #           with:
+    #               bun-version: latest
+    #         - name: cache
+    #           uses: actions/cache@v4
+    #           with:
+    #               path: |
+    #                   node_modules
+    #                   **/node_modules
+    #               key: ${{ runner.os }}-install-${{ hashFiles('bun.lock', 'package.json') }}
 
-            - name: build
-              run: |
-                  bun run build
+    #         - name: build
+    #           run: |
+    #               bun run build
 
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v4
-              with:
-                  github_token: ${{ secrets.TOKEN }}
-                  publish_dir: ./apps/pico/dist
+    #         - name: Deploy to GitHub Pages
+    #           uses: peaceiris/actions-gh-pages@v4
+    #           with:
+    #               github_token: ${{ secrets.TOKEN }}
+    #               publish_dir: ./apps/pico/dist
 
-            - name: Pkg.new
-              run: bun x pkg-pr-new publish './packages/**'
+    #         - name: Pkg.new
+    #           run: bun x pkg-pr-new publish './packages/**'
