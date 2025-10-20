@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import { type FC, type RefObject, useCallback, useEffect, useRef } from "react";
 import { FadeCls } from "./FadeCls";
 
@@ -12,7 +12,7 @@ export namespace Fade {
 	}
 }
 
-const BaseFade: FC<Fade.Props> = ({
+export const Fade: FC<Fade.Props> = ({
 	height = 48,
 	fade = height * 2,
 	cls = FadeCls,
@@ -123,5 +123,3 @@ const BaseFade: FC<Fade.Props> = ({
 		</>
 	);
 };
-
-export const Fade = withCls(BaseFade, FadeCls);

@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { SheetCls } from "./SheetCls";
 
@@ -13,7 +13,7 @@ export namespace Sheet {
 	}
 }
 
-const BaseSheet: FC<Sheet.Props> = ({
+export const Sheet: FC<Sheet.Props> = ({
 	ref,
 	//
 	disabled,
@@ -44,5 +44,3 @@ const BaseSheet: FC<Sheet.Props> = ({
 		/>
 	);
 };
-
-export const Sheet = withCls(BaseSheet, SheetCls);

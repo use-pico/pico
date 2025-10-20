@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -92,7 +92,7 @@ const BaseLabel: FC<LabelProps> = ({ cls = LabelCls }) => {
 	);
 };
 
-const Label = withCls(BaseLabel, LabelCls);
+const Label = BaseLabel;
 
 describe("react/03-context/token-context-reactivity-switches-tokens", () => {
 	it("switches tokens when TokenProvider cls changes", () => {

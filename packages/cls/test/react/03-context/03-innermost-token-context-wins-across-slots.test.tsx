@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 const ChipCls = contract()
 	.tokens([
@@ -124,7 +124,7 @@ const BaseChip: FC<ChipProps> = ({ cls = ChipCls }) => {
 	);
 };
 
-const Chip = withCls(BaseChip, ChipCls);
+const Chip = BaseChip;
 
 describe("react/03-context/innermost-token-context-wins-across-slots", () => {
 	it("applies tokens from the innermost provider across all referenced slots", () => {

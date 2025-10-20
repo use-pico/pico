@@ -1,5 +1,5 @@
 import { FloatingTree, type Placement } from "@floating-ui/react";
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren } from "react";
 import { Action } from "../action/Action";
 import { Float } from "../float/Float";
@@ -24,7 +24,7 @@ export namespace ActionMenu {
 	}
 }
 
-const BaseActionMenu: FC<ActionMenu.Props> = ({
+export const ActionMenu: FC<ActionMenu.Props> = ({
 	icon = ActionMenuIcon,
 	iconProps,
 	target,
@@ -85,5 +85,3 @@ const BaseActionMenu: FC<ActionMenu.Props> = ({
 		</FloatingTree>
 	);
 };
-
-export const ActionMenu = withCls(BaseActionMenu, ActionMenuCls);

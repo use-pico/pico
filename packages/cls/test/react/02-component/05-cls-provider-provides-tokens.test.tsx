@@ -1,13 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import {
-	type Cls,
-	contract,
-	TokenProvider,
-	useCls,
-	withCls,
-} from "../../../src";
+import { type Cls, contract, TokenProvider, useCls } from "../../../src";
 
 // Theme-like provider cls that only carries tokens
 const ThemeTokens = contract()
@@ -68,7 +62,7 @@ const BaseLabel: FC<LabelProps> = ({ cls = LabelCls, tweak, children }) => {
 	);
 };
 
-const Label = withCls(BaseLabel, LabelCls);
+const Label = BaseLabel;
 
 describe("react/02-component/cls-provider-provides-tokens", () => {
 	it("provider tokens apply when not overridden; component tokens win when provided via tweak", () => {

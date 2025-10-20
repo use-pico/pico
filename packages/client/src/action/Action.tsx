@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { SpinnerIcon } from "../icon/SpinnerIcon";
@@ -67,7 +67,7 @@ export namespace Action {
 	}
 }
 
-const BaseAction: FC<Action.Props> = ({
+export const Action: FC<Action.Props> = ({
 	ref,
 	iconEnabled,
 	iconDisabled,
@@ -123,5 +123,3 @@ const BaseAction: FC<Action.Props> = ({
 		</div>
 	);
 };
-
-export const Action = withCls(BaseAction, ActionCls);

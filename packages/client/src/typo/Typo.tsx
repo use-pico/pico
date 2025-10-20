@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, ReactNode, Ref } from "react";
 import { TypoCls } from "./TypoCls";
 
@@ -19,7 +19,7 @@ export namespace Typo {
 	export type PropsEx = Omit<Props, "label">;
 }
 
-const BaseTypo: FC<Typo.Props> = ({
+export const Typo: FC<Typo.Props> = ({
 	label,
 	display,
 	size,
@@ -52,5 +52,3 @@ const BaseTypo: FC<Typo.Props> = ({
 		</div>
 	);
 };
-
-export const Typo = withCls(BaseTypo, TypoCls);

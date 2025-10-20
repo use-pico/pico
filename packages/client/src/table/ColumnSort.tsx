@@ -1,6 +1,7 @@
 import { type Cls, tvc } from "@use-pico/cls";
 import type { withQuerySchema } from "@use-pico/common";
 import { Action } from "../action/Action";
+import type { ActionCls } from "../action/ActionCls";
 import { AscIcon } from "../icon/AscIcon";
 import { DescIcon } from "../icon/DescIcon";
 import { SortIcon } from "../icon/SortIcon";
@@ -69,9 +70,9 @@ export const ColumnSort = <TQuery extends withQuerySchema.Query>({
 		]);
 	};
 
-	const actionSize: Cls.VariantOf<typeof Action.cls, "size"> = "xs";
+	const actionSize: Cls.VariantOf<ActionCls, "size"> = "xs";
 
-	const actionVariant: Cls.VariantsOf<typeof Action.cls> = {
+	const actionVariant: Cls.VariantsOf<ActionCls> = {
 		tone: "primary",
 		theme: "light",
 	};

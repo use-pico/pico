@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, useCls, VariantProvider, withCls } from "../../../src";
+import { contract, useCls, VariantProvider } from "../../../src";
 
 const SwitchCls = contract()
 	.slots([
@@ -51,7 +51,7 @@ const BaseSwitch: FC<SwitchProps> = ({ cls = SwitchCls }) => {
 	);
 };
 
-const Switch = withCls(BaseSwitch, SwitchCls);
+const Switch = BaseSwitch;
 
 describe("react/02-component/provider-reactivity-updates-on-rerender", () => {
 	it("updates classes when VariantProvider variant changes on rerender", () => {

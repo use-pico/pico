@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Tx } from "@use-pico/client";
+import { Container, type ContainerCls, Tx } from "@use-pico/client";
 import type { Cls } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components/container/design")({
 	component() {
-		const tones: Array<Cls.VariantOf<typeof Container.cls, "tone">> = [
+		const tones: Array<Cls.VariantOf<ContainerCls, "tone">> = [
 			"primary",
 			"secondary",
 			"danger",
@@ -14,14 +14,12 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 			"link",
 		];
 
-		const themes: Array<Cls.VariantOf<typeof Container.cls, "theme">> = [
+		const themes: Array<Cls.VariantOf<ContainerCls, "theme">> = [
 			"light",
 			"dark",
 		];
 
-		const borderSizes: Array<
-			Cls.VariantOf<typeof Container.cls, "border">
-		> = [
+		const borderSizes: Array<Cls.VariantOf<ContainerCls, "border">> = [
 			"default",
 			"sm",
 			"md",
@@ -29,9 +27,7 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 			"xl",
 		];
 
-		const shadowSizes: Array<
-			Cls.VariantOf<typeof Container.cls, "shadow">
-		> = [
+		const shadowSizes: Array<Cls.VariantOf<ContainerCls, "shadow">> = [
 			"default",
 			"sm",
 			"md",
@@ -39,16 +35,15 @@ export const Route = createFileRoute("/$locale/components/container/design")({
 			"xl",
 		];
 
-		const roundSizes: Array<Cls.VariantOf<typeof Container.cls, "round">> =
-			[
-				"default",
-				"xs",
-				"sm",
-				"md",
-				"lg",
-				"xl",
-				"full",
-			];
+		const roundSizes: Array<Cls.VariantOf<ContainerCls, "round">> = [
+			"default",
+			"xs",
+			"sm",
+			"md",
+			"lg",
+			"xl",
+			"full",
+		];
 
 		return (
 			<div className="space-y-8 max-w-6xl">

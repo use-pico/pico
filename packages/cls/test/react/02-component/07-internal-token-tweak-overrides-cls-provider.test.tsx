@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 const LabelCls = contract()
 	.tokens([
@@ -79,7 +79,7 @@ const BaseLabel: FC<LabelProps> = ({ cls = LabelCls }) => {
 	);
 };
 
-const Label = withCls(BaseLabel, LabelCls);
+const Label = BaseLabel;
 
 describe("react/02-component/internal-token-tweak-overrides-cls-provider", () => {
 	it("internal tokens override ClsProvider tokens in final output", () => {

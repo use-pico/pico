@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { HighlighterCls } from "./HighlighterCls";
 
@@ -13,7 +13,7 @@ export namespace Highlighter {
 	}
 }
 
-const BaseHighlighter: FC<Highlighter.Props> = ({
+export const Highlighter: FC<Highlighter.Props> = ({
 	visible,
 	rect,
 	padding = 8,
@@ -56,5 +56,3 @@ const BaseHighlighter: FC<Highlighter.Props> = ({
 		</div>
 	) : null;
 };
-
-export const Highlighter = withCls(BaseHighlighter, HighlighterCls);

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { type Cls, contract, useCls, withCls } from "../../../src";
+import { type Cls, contract, useCls } from "../../../src";
 
 // Create a circular dependency test
 const CircularTokens = contract()
@@ -65,7 +65,7 @@ const BaseCircularComponent: FC<CircularProps> = ({
 		/>
 	);
 };
-const CircularComponent = withCls(BaseCircularComponent, CircularTokens);
+const CircularComponent = BaseCircularComponent;
 
 describe("react/04-complex/circular-dependency-detection", () => {
 	it("detects circular token dependencies and throws meaningful error", () => {

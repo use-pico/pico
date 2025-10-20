@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 import type { Cls } from "../../../src/types/Cls";
 
 // Simplified FadeCls for testing
@@ -156,7 +156,7 @@ const BaseFade: FC<FadeProps> = ({ cls = FadeCls, tweak }) => {
 	);
 };
 
-const Fade = withCls(BaseFade, FadeCls);
+const Fade = BaseFade;
 
 describe("react/02-component/fade-component-token-override", () => {
 	it("uses default component tokens when no provider or override", () => {

@@ -1,13 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import {
-	type Cls,
-	contract,
-	useCls,
-	VariantProvider,
-	withCls,
-} from "../../../src";
+import { type Cls, contract, useCls, VariantProvider } from "../../../src";
 
 const TagCls = contract()
 	.slots([
@@ -68,7 +62,7 @@ const BaseTag: FC<TagProps> = ({ cls = TagCls, tweak, children }) => {
 	);
 };
 
-const Tag = withCls(BaseTag, TagCls);
+const Tag = BaseTag;
 
 describe("react/02-component/tweak-provider-influences-component-output", () => {
 	it("applies provider variant and slot append without local overrides", () => {

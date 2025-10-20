@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, PropsWithChildren, Ref } from "react";
 import { ContainerCls } from "./ContainerCls";
 
@@ -154,7 +154,7 @@ export namespace Container {
 	}
 }
 
-const BaseContainer: FC<Container.Props> = ({
+export const Container: FC<Container.Props> = ({
 	ref,
 	//
 	tone,
@@ -208,5 +208,3 @@ const BaseContainer: FC<Container.Props> = ({
 		</div>
 	);
 };
-
-export const Container = withCls(BaseContainer, ContainerCls);

@@ -720,7 +720,7 @@ CLS provides **first-class React integration** with hooks, context, and HOCs. He
 ### Complete Button Component Example
 
 ```tsx
-import { type Cls, useCls, withCls } from '@use-pico/cls';
+import { type Cls, useCls } from '@use-pico/cls';
 import type { ButtonHTMLAttributes, FC, Ref } from 'react';
 
 // Available type exports for advanced usage:
@@ -772,8 +772,8 @@ export namespace Button {
   }
 }
 
-// 4. Base component with full CLS integration
-export const BaseButton: FC<Button.Props> = ({
+// 4. Button component with full CLS integration
+export const Button: FC<Button.Props> = ({
   wrapperRef,
   buttonRef,
   loading,
@@ -821,8 +821,6 @@ export const BaseButton: FC<Button.Props> = ({
   );
 };
 
-// 6. Export with withCls HOC for external CLS access
-export const Button = withCls(BaseButton, ButtonCls);
 ```
 
 ### Key React Integration Features
@@ -925,31 +923,6 @@ const { slots, variant } = useCls(
 
 > **💡 Precedence Rule:** Tweaks are processed in order, with **last tweak taking precedence** over earlier ones. All tweaks are cleaned up (undefined values removed), so you can safely pass partial objects without affecting the final result.
 
-#### **3. withCls HOC** 🎭
-```tsx
-// Enables external CLS access
-export const Button = withCls(BaseButton, ButtonCls);
-
-// Now you can access:
-// Button.cls           - The full CLS instance
-// Button.contract      - The contract (structure definition)
-// Button.definition    - The definition (styling values)
-// Button["~slots"]     - Internal slots kit (advanced usage)
-```
-
-**Advanced withCls Usage:**
-```tsx
-// Access contract for extending
-const CustomButton = contract(Button.contract)
-  .variant("style", ["outline", "ghost"])
-  .def()
-  .rule({ style: "outline" }, { root: { class: ["border-2"] } })
-  .cls();
-
-// Access definition for inspection
-console.log(Button.definition.defaults); // { size: "md", tone: "primary" }
-console.log(Button.definition.rules);    // All styling rules
-```
 
 ### Advanced Usage Examples
 

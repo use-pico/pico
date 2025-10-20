@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { type Cls, contract, useCls, withCls } from "../../../src";
+import { type Cls, contract, useCls } from "../../../src";
 
 const BadgeCls = contract()
 	.slots([
@@ -70,7 +70,7 @@ const BaseBadge: FC<BadgeProps> = ({
 	);
 };
 
-const Badge = withCls(BaseBadge, BadgeCls);
+const Badge = BaseBadge;
 
 describe("react/02-component/variant-prop-affects-output-without-providers", () => {
 	it("switches classes based on intent prop without providers", () => {

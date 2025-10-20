@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { ProgressCls } from "./ProgressCls";
 
@@ -9,7 +9,7 @@ export namespace Progress {
 	}
 }
 
-const BaseProgress: FC<Progress.Props> = ({
+export const Progress: FC<Progress.Props> = ({
 	value,
 	size,
 	cls = ProgressCls,
@@ -36,5 +36,3 @@ const BaseProgress: FC<Progress.Props> = ({
 		</div>
 	);
 };
-
-export const Progress = withCls(BaseProgress, ProgressCls);

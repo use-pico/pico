@@ -1,4 +1,4 @@
-import { type Cls, tvc, useCls, withCls } from "@use-pico/cls";
+import { type Cls, tvc, useCls } from "@use-pico/cls";
 import type { FC } from "react";
 import { OverlayCls } from "./OverlayCls";
 
@@ -11,7 +11,7 @@ export namespace Overlay {
 	}
 }
 
-export const BaseOverlay: FC<Overlay.Props> = ({
+export const Overlay: FC<Overlay.Props> = ({
 	opacity,
 	type,
 	accentFrom,
@@ -35,5 +35,3 @@ export const BaseOverlay: FC<Overlay.Props> = ({
 		</div>
 	);
 };
-
-export const Overlay = withCls(BaseOverlay, OverlayCls);

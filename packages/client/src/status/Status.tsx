@@ -1,4 +1,4 @@
-import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
+import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { PicoCls } from "../cls/PicoCls";
 import { Icon } from "../icon/Icon";
@@ -31,7 +31,7 @@ export namespace Status {
 	}
 }
 
-const BaseStatus: FC<Status.Props> = ({
+export const Status: FC<Status.Props> = ({
 	ref,
 	textTitle,
 	textMessage,
@@ -120,4 +120,3 @@ const BaseStatus: FC<Status.Props> = ({
 		</VariantProvider>
 	);
 };
-export const Status = withCls(BaseStatus, StatusCls);

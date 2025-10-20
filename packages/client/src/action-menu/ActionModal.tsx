@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { FC, ReactNode } from "react";
 import { Icon } from "../icon/Icon";
 import { Modal } from "../modal/Modal";
@@ -14,7 +14,7 @@ export namespace ActionModal {
 	}
 }
 
-const BaseActionModal: FC<ActionModal.Props> = ({
+export const ActionModal: FC<ActionModal.Props> = ({
 	icon,
 	iconProps,
 	label,
@@ -53,5 +53,3 @@ const BaseActionModal: FC<ActionModal.Props> = ({
 		</div>
 	);
 };
-
-export const ActionModal = withCls(BaseActionModal, ActionModalCls);

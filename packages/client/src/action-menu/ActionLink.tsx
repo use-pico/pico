@@ -1,5 +1,5 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { AnchorHTMLAttributes, FC, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { ActionLinkCls } from "./ActionLinkCls";
@@ -45,7 +45,7 @@ const BaseActionLink: FC<BaseActionLinkProps> = ({
 
 const CreateActionLink = createLink(BaseActionLink);
 
-const ActionLinkBase: LinkComponent<typeof BaseActionLink> = (props) => {
+export const ActionLink: LinkComponent<typeof BaseActionLink> = (props) => {
 	return (
 		<CreateActionLink
 			preload={"intent"}
@@ -53,5 +53,3 @@ const ActionLinkBase: LinkComponent<typeof BaseActionLink> = (props) => {
 		/>
 	);
 };
-
-export const ActionLink = withCls(ActionLinkBase, ActionLinkCls);

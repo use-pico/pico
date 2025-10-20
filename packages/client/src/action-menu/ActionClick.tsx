@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes } from "react";
 import { Icon } from "../icon/Icon";
 import { LoaderIcon } from "../icon/LoaderIcon";
@@ -14,7 +14,7 @@ export namespace ActionClick {
 	}
 }
 
-const BaseActionClick: FC<ActionClick.Props> = ({
+export const ActionClick: FC<ActionClick.Props> = ({
 	icon,
 	iconProps,
 	loading = false,
@@ -47,5 +47,3 @@ const BaseActionClick: FC<ActionClick.Props> = ({
 		</div>
 	);
 };
-
-export const ActionClick = withCls(BaseActionClick, ActionClickCls);

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 const BadgeCls = contract()
 	.tokens([
@@ -115,7 +115,7 @@ const BaseBadge: FC<BadgeProps> = ({ cls = BadgeCls, children }) => {
 	);
 };
 
-const Badge = withCls(BaseBadge, BadgeCls);
+const Badge = BaseBadge;
 
 describe("react/02-component/nested-cls-providers-last-wins-on-tokens", () => {
 	it("TokenProvider overrides component tokens and nested providers work correctly", () => {

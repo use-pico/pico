@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { Entity } from "@use-pico/common";
 import type { FC, Ref } from "react";
 import { InlineContext } from "../inline/InlineContext";
@@ -33,7 +33,7 @@ export namespace Preview {
 	export type PropsEx<TValues extends Record<string, any>> = Props<TValues>;
 }
 
-const BasePreview = <TValues extends Record<string, any>>({
+export const Preview = <TValues extends Record<string, any>>({
 	ref,
 	entity,
 	title: Title,
@@ -106,4 +106,3 @@ const BasePreview = <TValues extends Record<string, any>>({
 		</InlineContext>
 	);
 };
-export const Preview = withCls(BasePreview, PreviewCls);

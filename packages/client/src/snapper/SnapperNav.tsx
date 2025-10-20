@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import { type FC, type Ref, useCallback, useId, useMemo } from "react";
 import { useDoubleTap } from "../hook/useDoubleTap";
 import { DotIcon } from "../icon/DotIcon";
@@ -47,7 +47,7 @@ export namespace SnapperNav {
 	}
 }
 
-const BaseSnapperNav: FC<SnapperNav.Props> = ({
+export const SnapperNav: FC<SnapperNav.Props> = ({
 	ref,
 	snapperNav,
 	pages,
@@ -310,5 +310,3 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		</div>
 	) : null;
 };
-
-export const SnapperNav = withCls(BaseSnapperNav, SnapperNavCls);

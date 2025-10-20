@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { BadgeCls } from "./BadgeCls";
 
@@ -18,7 +18,7 @@ export namespace Badge {
 	}
 }
 
-const BaseBadge: FC<Badge.Props> = ({
+export const Badge: FC<Badge.Props> = ({
 	ref,
 	//
 	disabled,
@@ -49,5 +49,3 @@ const BaseBadge: FC<Badge.Props> = ({
 		/>
 	);
 };
-
-export const Badge = withCls(BaseBadge, BadgeCls);

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { type Cls, contract, useCls, withCls } from "../../../src";
+import { type Cls, contract, useCls } from "../../../src";
 
 const ButtonCls = contract()
 	.slots([
@@ -61,7 +61,7 @@ const BaseButton: FC<ButtonProps> = ({ cls = ButtonCls, tweak }) => {
 	);
 };
 
-const Button = withCls(BaseButton, ButtonCls);
+const Button = BaseButton;
 
 describe("react/02-component/withcls-custom-cls-prop-replaces-default", () => {
 	it("using custom cls prop replaces default module behavior", () => {

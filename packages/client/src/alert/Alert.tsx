@@ -1,4 +1,4 @@
-import { useCls, withCls } from "@use-pico/cls";
+import { useCls } from "@use-pico/cls";
 import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
 import { Icon } from "../icon/Icon";
 import { AlertCls } from "./AlertCls";
@@ -21,7 +21,7 @@ export namespace Alert {
 	}
 }
 
-const BaseAlert: FC<Alert.Props> = ({
+export const Alert: FC<Alert.Props> = ({
 	ref,
 	icon,
 	iconProps,
@@ -85,5 +85,3 @@ const BaseAlert: FC<Alert.Props> = ({
 		</div>
 	);
 };
-
-export const Alert = withCls(BaseAlert, AlertCls);

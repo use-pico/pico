@@ -1,13 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import {
-	type Cls,
-	contract,
-	useCls,
-	VariantProvider,
-	withCls,
-} from "../../../src";
+import { type Cls, contract, useCls, VariantProvider } from "../../../src";
 
 const ButtonCls = contract()
 	.slots([
@@ -111,7 +105,7 @@ const BaseButton: FC<ButtonProps> = ({ cls = ButtonCls, tweak, children }) => {
 	);
 };
 
-const Button = withCls(BaseButton, ButtonCls);
+const Button = BaseButton;
 
 describe("react/02-component/variant-provider-child-clears-parent-variant", () => {
 	it("child VariantProvider with empty variant clears parent's variant values", () => {

@@ -1,4 +1,4 @@
-import { type Cls, useCls, withCls } from "@use-pico/cls";
+import { type Cls, useCls } from "@use-pico/cls";
 import { type FC, type Ref, useContext } from "react";
 import { InlineContext } from "../inline/InlineContext";
 import { Typo } from "../typo/Typo";
@@ -17,7 +17,7 @@ export namespace Attr {
 	}
 }
 
-const BaseAttr: FC<Attr.Props> = ({
+export const Attr: FC<Attr.Props> = ({
 	ref,
 	label,
 	value,
@@ -67,5 +67,3 @@ const BaseAttr: FC<Attr.Props> = ({
 		</div>
 	);
 };
-
-export const Attr = withCls(BaseAttr, AttrCls);

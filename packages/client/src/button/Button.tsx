@@ -1,4 +1,4 @@
-import { type Cls, useCls, VariantProvider, withCls } from "@use-pico/cls";
+import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
 import type { ButtonHTMLAttributes, FC, Ref } from "react";
 import { useMemo } from "react";
 import { PicoCls } from "../cls/PicoCls";
@@ -44,7 +44,7 @@ const ICON_SIZE_MAP: Partial<
 	xl: "lg",
 } as const;
 
-const BaseButton: FC<Button.Props> = ({
+export const Button: FC<Button.Props> = ({
 	wrapperRef,
 	buttonRef,
 	label,
@@ -158,5 +158,3 @@ const BaseButton: FC<Button.Props> = ({
 		</VariantProvider>
 	);
 };
-
-export const Button = withCls(BaseButton, ButtonCls);

@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/server",
 	"description": "Node/bun/whatever/server-side stuff.",
-	"version": "5.0.87",
+	"version": "5.0.88",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@phenomnomnominal/tsquery": "6.1.3",
 		"@types/cli-progress": "3.11.6",
-		"@use-pico/common": "5.0.83",
+		"@use-pico/common": "5.0.84",
 		"cli-progress": "3.12.0",
 		"yaml": "2.8.1"
 	},

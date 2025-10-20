@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";
-import { type Cls, contract, useCls, withCls } from "../../../src";
+import { type Cls, contract, useCls } from "../../../src";
 
 const BoxCls = contract()
 	.slots([
@@ -41,7 +41,7 @@ const BaseBox: FC<BoxProps> = ({ cls = BoxCls, tweak, children }) => {
 	);
 };
 
-const Box = withCls(BaseBox, BoxCls);
+const Box = BaseBox;
 
 describe("react/02-component/basic-component-renders-without-providers", () => {
 	it("renders with expected classes for root and icon", () => {

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import type { FC } from "react";
 import { describe, expect, it } from "vitest";
-import { contract, TokenProvider, useCls, withCls } from "../../../src";
+import { contract, TokenProvider, useCls } from "../../../src";
 
 const ButtonCls = contract()
 	.tokens([
@@ -86,7 +86,7 @@ const BaseButton: FC<ButtonProps> = ({ cls = ButtonCls }) => {
 	);
 };
 
-const Button = withCls(BaseButton, ButtonCls);
+const Button = BaseButton;
 
 describe("react/03-context/token-context-functionality", () => {
 	it("should apply tokens from TokenProvider correctly", () => {
