@@ -8,6 +8,7 @@ export const ButtonCls = contract(PicoCls.contract)
 	])
 	.bool("disabled")
 	.bool("border")
+	.bool("background")
 	.variant("size", [
 		"xs",
 		"sm",
@@ -300,6 +301,18 @@ export const ButtonCls = contract(PicoCls.contract)
 		},
 	})
 	/**
+	 * Background
+	 */
+	.match("background", false, {
+		root: {
+			class: [
+				"bg-none",
+				"bg-transparent",
+				"shadow-none",
+			],
+		},
+	})
+	/**
 	 * Round rules
 	 */
 	.match("round", "default", {
@@ -350,6 +363,7 @@ export const ButtonCls = contract(PicoCls.contract)
 		disabled: false,
 		size: "md",
 		border: true,
+		background: true,
 		round: "default",
 	})
 	.cls();

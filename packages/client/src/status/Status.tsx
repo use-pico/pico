@@ -13,7 +13,7 @@ export namespace Status {
 		/**
 		 * Translation key for the title text.
 		 */
-		textTitle: string;
+		textTitle?: string;
 		/**
 		 * Translation key for the message text.
 		 */

@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/common",
 	"description": "Shared stuff between client/server.",
-	"version": "5.0.82",
+	"version": "5.0.83",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -12,7 +12,7 @@
 	"dependencies": {
 		"@apollo/client": "4.0.7",
 		"@graphql-typed-document-node/core": "3.2.0",
-		"@paralleldrive/cuid2": "2.2.2",
+		"@paralleldrive/cuid2": "3.1.0",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.7.1",
@@ -42,7 +42,7 @@
 		"@types/node": "24.8.1",
 		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "5.0.0",
-		"rollup": "4.52.4",
+		"rollup": "4.52.5",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.3",
 		"vitest": "3.2.4"

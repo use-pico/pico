@@ -54,7 +54,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	//
 	subtle,
 	orientation,
-	tone = "primary",
+	tone = "secondary",
 	align,
 	//
 	iconProps,
@@ -79,7 +79,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				)
 		: Array.from(
 				{
-					length: snapperNav.count,
+					length: snapperNav.state.count,
 				},
 				(_, i) => ({
 					id: `${pageId}-${i}`,
@@ -92,17 +92,17 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 			orientation,
 			align,
 			subtle,
-			first: snapperNav.isFirst,
-			last: snapperNav.isLast,
+			first: snapperNav.state.isFirst,
+			last: snapperNav.state.isLast,
 		},
 	});
 
 	const firstDoubleTap = useDoubleTap({
-		onDoubleTap: snapperNav.start,
+		onDoubleTap: snapperNav.api.start,
 	});
 
 	const lastDoubleTap = useDoubleTap({
-		onDoubleTap: snapperNav.end,
+		onDoubleTap: snapperNav.api.end,
 	});
 
 	// Control ids (stable, unique) for start/end buttons.
@@ -121,7 +121,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 
 		const visible = Math.max(1, Math.min(limit, total));
 		const half = Math.floor((visible - 1) / 2);
-		let start = snapperNav.current - half;
+		let start = snapperNav.state.current - half;
 		start = Math.max(0, Math.min(start, total - visible));
 
 		const out: number[] = [];
@@ -132,7 +132,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 	}, [
 		limit,
 		$pages,
-		snapperNav.current,
+		snapperNav.state.current,
 	]);
 
 	const renderLimiter = useCallback(() => {
@@ -150,8 +150,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={firstId}
 					key={firstId}
-					onDoubleClick={snapperNav.start}
-					onClick={snapperNav.prev}
+					onDoubleClick={snapperNav.api.start}
+					onClick={snapperNav.api.prev}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
 					tone={tone}
@@ -177,13 +177,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					if (!page) {
 						return null;
 					}
-					const isActive = i === snapperNav.current;
+					const isActive = i === snapperNav.state.current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapperNav.snapTo(i)}
+							onClick={() => snapperNav.api.snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -214,8 +214,8 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 				<Icon
 					id={lastId}
 					key={lastId}
-					onClick={snapperNav.next}
-					onDoubleClick={snapperNav.end}
+					onClick={snapperNav.api.next}
+					onDoubleClick={snapperNav.api.end}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
 					tone={tone}
@@ -253,13 +253,13 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		() => (
 			<>
 				{$pages.map((page, i) => {
-					const isActive = i === snapperNav.current;
+					const isActive = i === snapperNav.state.current;
 
 					return (
 						<Icon
 							id={page.id}
 							key={page.id}
-							onClick={() => snapperNav.snapTo(i)}
+							onClick={() => snapperNav.api.snapTo(i)}
 							icon={page.icon}
 							tone={tone}
 							size="md"
@@ -293,7 +293,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 		],
 	);
 
-	return (
+	return snapperNav.state.count > 1 ? (
 		<div
 			data-ui="SnapperNav-root"
 			ref={ref}
@@ -308,7 +308,7 @@ const BaseSnapperNav: FC<SnapperNav.Props> = ({
 					: renderPages()}
 			</div>
 		</div>
-	);
+	) : null;
 };
 
 export const SnapperNav = withCls(BaseSnapperNav, SnapperNavCls);
