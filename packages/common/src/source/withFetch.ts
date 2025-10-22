@@ -47,16 +47,19 @@ export const withFetch = async <
 	filter,
 	where,
 }: withFetch.Props<TSelect, TFilter, TOutputSchema>): Promise<
-	z.infer<TOutputSchema>
+	z.infer<TOutputSchema> | undefined
 > => {
-	return tryZodError(
-		output as TOutputSchema,
-		await query({
-			select: query({
-				select,
-				where,
-			}),
-			where: filter,
-		}).executeTakeFirstOrThrow(),
-	);
+	const result = await query({
+		select: query({
+			select,
+			where,
+		}),
+		where: filter,
+	}).executeTakeFirst();
+
+	if (!result) {
+		return undefined;
+	}
+
+	return tryZodError(output as TOutputSchema, result);
 };

@@ -48,6 +48,7 @@ export { withFetch } from "./source/withFetch";
 export { withList } from "./source/withList";
 export { withQuerySchema } from "./source/withQuerySchema";
 export { withSourceSchema } from "./source/withSourceSchema";
+export { toTimeDiff } from "./time/toTimeDiff";
 export { cleanOf } from "./toolbox/cleanOf";
 export { cursorOf } from "./toolbox/cursorOf";
 export { dedupe } from "./toolbox/dedupe";
