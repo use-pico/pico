@@ -23,7 +23,7 @@
 		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.6",
+		"@biomejs/biome": "2.2.7",
 		"@changesets/cli": "2.29.7",
 		"npm-run-all2": "8.0.4",
 		"syncpack": "13.0.4",

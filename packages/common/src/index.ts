@@ -42,6 +42,7 @@ export { EntitySchema } from "./source/EntitySchema";
 export { FilterSchema } from "./source/FilterSchema";
 export { OrderSchema } from "./source/OrderSchema";
 export type { SortSchema } from "./source/SortSchema";
+export { withCollection } from "./source/withCollection";
 export { withCount } from "./source/withCount";
 export { withFetch } from "./source/withFetch";
 export { withList } from "./source/withList";
