@@ -117,9 +117,16 @@ export function useSnapperNav({
 	 * Debounced onSnap. Adjust delay as needed.
 	 * Used from the scroll listener and from count-clamp effect.
 	 */
-	const emitSnapDebounced = useDebouncedCallback((idx: number) => {
-		emitSnap(idx);
-	}, onSnapDebounce);
+	const emitSnapDebounced = useDebouncedCallback(
+		(idx: number) => {
+			emitSnap(idx);
+		},
+		onSnapDebounce,
+		{
+			maxWait: onSnapDebounce,
+			trailing: true,
+		},
+	);
 
 	/**
 	 * Cancel any pending debounced emits on unmount.
