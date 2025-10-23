@@ -5,6 +5,7 @@ export { onAxiosError } from "./axios/onAxiosError";
 export { onAxiosSchemaError } from "./axios/onAxiosSchemaError";
 export { withAxios } from "./axios/withAxios";
 export { clamp } from "./clamp/clamp";
+export { withCurrencyList } from "./currency/withCurrencyList";
 export type { Database } from "./database/Database";
 export { withDatabase } from "./database/withDatabase";
 export { EventBus } from "./event/EventBus";
