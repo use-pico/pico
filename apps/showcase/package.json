@@ -14,7 +14,7 @@
 		"@tanstack/react-form": "1.23.8",
 		"@tanstack/react-query": "5.90.5",
 		"@tanstack/react-router": "1.133.22",
-		"@use-pico/client": "5.0.222",
+		"@use-pico/client": "5.0.223",
 		"@use-pico/cls": "5.0.69",
 		"@use-pico/common": "5.0.95",
 		"fuse.js": "7.1.0",

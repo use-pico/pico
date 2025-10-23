@@ -25,6 +25,7 @@ export const BadgeCls = contract(PicoCls.contract)
 				"font-bold",
 				"gap-2",
 				"items-center",
+				"justify-center",
 				"select-none",
 				"text-sm",
 				"rounded-full",
