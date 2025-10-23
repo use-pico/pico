@@ -23,6 +23,7 @@ export namespace Container {
 		/**
 		 * Height behavior of the container.
 		 *
+		 * - `"unset"` - Default div behavior (no classes applied)
 		 * - `"full"` - Takes full height with min-h-0 and max-h-full
 		 * - `"dvh"` - Uses dynamic viewport height (dvh) with min-h-dvh and w-full
 		 * - `"auto"` - Auto height with min-h-0 and w-full
@@ -34,6 +35,7 @@ export namespace Container {
 		/**
 		 * Width behavior of the container.
 		 *
+		 * - `"unset"` - Default div behavior (no classes applied)
 		 * - `"full"` - Takes full width with min-w-0 and max-w-full
 		 * - `"dvw"` - Uses dynamic viewport width (dvw) with min-w-dvw
 		 * - `"auto"` - Auto width with min-w-0 and h-full
@@ -46,13 +48,13 @@ export namespace Container {
 		 * Layout behavior and grid configuration.
 		 *
 		 * - `"unset"` - No grid layout applied
-		 * - `"vertical"` - Grid with row flow, auto rows, single column
-		 * - `"vertical-header-content-footer"` - Grid with header, content, and footer rows
-		 * - `"vertical-header-content"` - Grid with header and content rows
-		 * - `"vertical-content-footer"` - Grid with content and footer rows
-		 * - `"vertical-full"` - Grid with row flow, 100% rows, full width/height
-		 * - `"horizontal"` - Grid with column flow, auto columns, single row
-		 * - `"horizontal-full"` - Grid with column flow, 100% columns, full width/height
+		 * - `"vertical"` - Vertical grid with auto-sized rows
+		 * - `"vertical-header-content-footer"` - Three-row grid: header (min-content), flexible content (1fr), footer (min-content)
+		 * - `"vertical-header-content"` - Two-row grid: header (min-content), flexible content (1fr)
+		 * - `"vertical-content-footer"` - Two-row grid: flexible content (1fr), footer (min-content)
+		 * - `"vertical-full"` - Vertical grid where each child takes 100% height (snap-scroll friendly)
+		 * - `"horizontal"` - Horizontal grid with auto-sized columns
+		 * - `"horizontal-full"` - Horizontal grid where each child takes 100% width (snap-scroll friendly)
 		 *
 		 * @default "unset"
 		 */
@@ -85,16 +87,15 @@ export namespace Container {
 		snap?: Cls.VariantOf<ContainerCls, "snap">;
 
 		/**
-		 * Item sizing behavior within the container.
+		 * Touch panning lock behavior for mobile interactions.
 		 *
-		 * - `"unset"` - No specific item sizing
-		 * - `"col"` - Items take full height, auto width
-		 * - `"row"` - Items take full width, auto height
-		 * - `"full"` - Items take both full width and height
+		 * - `"unset"` - No touch panning restrictions
+		 * - `"horizontal"` - Locks horizontal panning, allows vertical panning/scrolling
+		 * - `"vertical"` - Locks vertical panning, allows horizontal panning/scrolling
 		 *
 		 * @default "unset"
 		 */
-		item?: Cls.VariantOf<ContainerCls, "item">;
+		lock?: Cls.VariantOf<ContainerCls, "lock">;
 
 		/**
 		 * Square padding using design tokens.
@@ -164,7 +165,7 @@ export const Container: FC<Container.Props> = ({
 	layout,
 	overflow,
 	snap,
-	item,
+	lock,
 	square,
 	gap,
 	position,
@@ -185,7 +186,7 @@ export const Container: FC<Container.Props> = ({
 			layout,
 			overflow,
 			snap,
-			item,
+			lock,
 			square,
 			gap,
 			position,

@@ -276,22 +276,16 @@ export const Route = createFileRoute("/$locale/components/misc")({
 				<Section title={<Tx label="Price Inline" />}>
 					<div className="space-y-2">
 						<PriceInline
-							value={{
-								price: 19.99,
-								withVat: false,
-							}}
+							price={19.99}
+							withVat={false}
 						/>
 						<PriceInline
-							value={{
-								price: 29.99,
-								withVat: true,
-							}}
+							price={29.99}
+							withVat={true}
 						/>
 						<PriceInline
-							value={{
-								price: 39.99,
-								withVat: false,
-							}}
+							price={39.99}
+							withVat={false}
 						/>
 					</div>
 				</Section>

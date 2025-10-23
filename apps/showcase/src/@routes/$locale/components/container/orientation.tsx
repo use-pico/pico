@@ -221,7 +221,6 @@ export const Route = createFileRoute(
 							/>
 							<Container
 								layout="horizontal"
-								item="col"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -255,7 +254,6 @@ export const Route = createFileRoute(
 							/>
 							<Container
 								layout="vertical"
-								item="row"
 								gap="sm"
 								square="sm"
 								border="default"
@@ -289,7 +287,6 @@ export const Route = createFileRoute(
 							/>
 							<Container
 								layout="vertical"
-								item="full"
 								gap="sm"
 								square="sm"
 								border="default"

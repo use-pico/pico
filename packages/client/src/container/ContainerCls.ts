@@ -7,11 +7,13 @@ export const ContainerCls = contract(PicoCls.contract)
 		"root",
 	])
 	.variant("height", [
+		"unset",
 		"full",
 		"dvh",
 		"auto",
 	])
 	.variant("width", [
+		"unset",
 		"full",
 		"dvw",
 		"auto",
@@ -22,6 +24,7 @@ export const ContainerCls = contract(PicoCls.contract)
 		"vertical-header-content-footer",
 		"vertical-header-content",
 		"vertical-content-footer",
+		"vertical-content",
 		"vertical-full",
 		"horizontal",
 		"horizontal-full",
@@ -40,11 +43,10 @@ export const ContainerCls = contract(PicoCls.contract)
 		"vertical-center",
 		"vertical-end",
 	])
-	.variant("item", [
+	.variant("lock", [
 		"unset",
-		"col",
-		"row",
-		"full",
+		"horizontal",
+		"vertical",
 	])
 	.variant("square", [
 		"unset",
@@ -223,6 +225,16 @@ export const ContainerCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	.match("layout", "vertical-content", {
+		root: {
+			class: [
+				"Container-root-orientation[vertical-content]",
+				"grid",
+				"grid-rows-[min-content]",
+				"grid-cols-1",
+			],
+		},
+	})
 	.match("layout", "vertical-full", {
 		root: {
 			class: [
@@ -246,6 +258,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-x-auto",
 				"overflow-y-clip",
+				"overscroll-contain",
 				"[scrollbar-gutter:stable_both-edges]",
 			],
 		},
@@ -257,6 +270,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-y-auto",
 				"overflow-x-clip",
+				"overscroll-contain",
 				"[scrollbar-gutter:stable_both-edges]",
 			],
 		},
@@ -269,6 +283,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-x-auto",
 				"overflow-y-clip",
+				"overscroll-contain",
 				"snap-x",
 				"snap-mandatory",
 				"[&>*]:snap-start",
@@ -282,6 +297,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-x-auto",
 				"overflow-y-clip",
+				"overscroll-contain",
 				"snap-x",
 				"snap-mandatory",
 				"[&>*]:snap-center",
@@ -295,6 +311,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-x-auto",
 				"overflow-y-clip",
+				"overscroll-contain",
 				"snap-x",
 				"snap-mandatory",
 				"[&>*]:snap-end",
@@ -309,6 +326,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-y-auto",
 				"overflow-x-clip",
+				"overscroll-contain",
 				"snap-y",
 				"snap-mandatory",
 				"[&>*]:snap-start",
@@ -322,6 +340,7 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-y-auto",
 				"overflow-x-clip",
+				"overscroll-contain",
 				"snap-y",
 				"snap-mandatory",
 				"[&>*]:snap-center",
@@ -335,43 +354,29 @@ export const ContainerCls = contract(PicoCls.contract)
 				"isolate",
 				"overflow-y-auto",
 				"overflow-x-clip",
+				"overscroll-contain",
 				"snap-y",
 				"snap-mandatory",
 				"[&>*]:snap-end",
 			],
 		},
 	})
-	// Item helpers
-	.match("item", "col", {
+	// Lock
+	.match("lock", "horizontal", {
 		root: {
 			class: [
-				"Container-root-item[col]",
-				"h-full",
-				"w-auto",
-				"min-w-0",
-				"min-h-0",
+				"Container-root-lock[horizontal]",
+				"touch-pan-y",
+				"[&_*]:touch-pan-y",
 			],
 		},
 	})
-	.match("item", "row", {
+	.match("lock", "vertical", {
 		root: {
 			class: [
-				"Container-root-item[row]",
-				"w-full",
-				"h-auto",
-				"min-h-0",
-				"min-w-0",
-			],
-		},
-	})
-	.match("item", "full", {
-		root: {
-			class: [
-				"Container-root-item[full]",
-				"w-full",
-				"h-full",
-				"min-w-0",
-				"min-h-0",
+				"Container-root-lock[vertical]",
+				"touch-pan-x",
+				"[&_*]:touch-pan-x",
 			],
 		},
 	})
@@ -839,7 +844,7 @@ export const ContainerCls = contract(PicoCls.contract)
 		layout: "unset",
 		overflow: "unset",
 		snap: "unset",
-		item: "unset",
+		lock: "unset",
 		square: "unset",
 		gap: "unset",
 		position: "unset",

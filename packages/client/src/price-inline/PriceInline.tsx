@@ -3,15 +3,14 @@ import type { FC } from "react";
 
 export namespace PriceInline {
 	export interface Props extends Omit<toHumanNumber.Props, "number"> {
-		value: {
-			price?: number | null;
-			withVat?: boolean | null;
-		};
+		price: number | null | undefined;
+		withVat?: boolean | null | undefined;
 	}
 }
 
 export const PriceInline: FC<PriceInline.Props> = ({
-	value: { price, withVat },
+	price,
+	withVat = false,
 	minimumFractionDigits = 0,
 	maximumFractionDigits = 4,
 	style = "currency",

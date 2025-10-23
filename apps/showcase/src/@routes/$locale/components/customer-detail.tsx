@@ -384,11 +384,7 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 										Amount:
 									</span>
 									<PriceInline
-										value={{
-											price: customerData.subscription
-												.amount,
-											withVat: false,
-										}}
+										price={customerData.subscription.amount}
 									/>
 								</div>
 							</div>
@@ -568,11 +564,10 @@ export const Route = createFileRoute("/$locale/components/customer-detail")({
 											Amount
 										</span>
 										<PriceInline
-											value={{
-												price: customerData.subscription
-													.amount,
-												withVat: false,
-											}}
+											price={
+												customerData.subscription.amount
+											}
+											withVat={false}
 										/>
 									</div>
 								</div>
