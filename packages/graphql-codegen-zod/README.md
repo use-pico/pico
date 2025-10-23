@@ -98,6 +98,7 @@ Map custom GraphQL scalar types to Zod schema definitions.
 ```typescript
 interface Config {
   scalars?: Record<string, string>;
+  imports?: string[];
 }
 ```
 
@@ -108,6 +109,27 @@ config:
     DateTime: 'z.date()'
     JSON: 'z.any()'
     CustomScalar: 'z.string().transform(val => customTransform(val))'
+```
+
+### `imports`
+Add custom import statements to the generated file. This is useful when using custom scalar validators from external libraries.
+
+**Example:**
+```yaml
+config:
+  scalars:
+    AWSDateTime: 'zInstant'
+  imports:
+    - 'import { zInstant } from "temporal-zod";'
+```
+
+With this configuration, the generated file will include:
+```typescript
+/* eslint-disable no-use-before-define */
+import { z } from "zod";
+import { zInstant } from "temporal-zod";
+
+// ... your generated schemas using zInstant
 ```
 
 ## Generated Output
