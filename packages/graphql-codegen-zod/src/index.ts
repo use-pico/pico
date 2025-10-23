@@ -32,6 +32,8 @@ export namespace withZodPlugin {
 	export interface Config {
 		/** Custom scalar type mappings for GraphQL to Zod conversion */
 		scalars?: Record<string, string>;
+		/** Custom import statements to include in the generated file */
+		imports?: string[];
 	}
 }
 
@@ -960,6 +962,7 @@ export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 	// Merge config with defaults
 	const finalConfig: Required<withZodPlugin.Config> = {
 		scalars: config.scalars || {},
+		imports: config.imports || [],
 	};
 
 	try {
@@ -967,6 +970,11 @@ export const withZodPlugin: PluginFunction<withZodPlugin.Config> = (
 			`/* eslint-disable no-use-before-define */`,
 			`import { z } from "zod";`,
 		];
+
+		// Add custom imports if provided
+		if (finalConfig.imports.length > 0) {
+			output.push(...finalConfig.imports);
+		}
 
 		// Create visited types tracker for this execution
 		const visitedTypes = new Set<string>();
