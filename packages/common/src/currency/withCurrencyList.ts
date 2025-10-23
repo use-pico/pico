@@ -7,6 +7,7 @@ export namespace withCurrencyList {
 
 	export interface Props {
 		locale: string;
+		available?: string[];
 	}
 }
 
@@ -23,6 +24,7 @@ const symbolOf = (locale: string, code: string): string => {
 
 export const withCurrencyList = ({
 	locale,
+	available,
 }: withCurrencyList.Props): withCurrencyList.Info[] => {
 	const codes = Intl.supportedValuesOf("currency");
 	const name = new Intl.DisplayNames(locale, {
@@ -30,11 +32,13 @@ export const withCurrencyList = ({
 		style: "long",
 	});
 
-	return codes.map((code) => {
-		return {
-			code,
-			symbol: symbolOf(locale, code),
-			name: name.of(code) ?? "unknown",
-		} satisfies withCurrencyList.Info;
-	});
+	return codes
+		.filter((code) => available?.includes(code) ?? true)
+		.map((code) => {
+			return {
+				code,
+				symbol: symbolOf(locale, code),
+				name: name.of(code) ?? "unknown",
+			} satisfies withCurrencyList.Info;
+		});
 };
