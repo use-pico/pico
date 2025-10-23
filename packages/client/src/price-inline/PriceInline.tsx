@@ -14,6 +14,10 @@ export const PriceInline: FC<PriceInline.Props> = ({
 	value: { price, withVat },
 	minimumFractionDigits = 0,
 	maximumFractionDigits = 4,
+	style = "currency",
+	trailingZeroDisplay = "stripIfInteger",
+	currencyDisplay = "narrowSymbol",
+	currencySign = "standard",
 	...props
 }) => {
 	if (withVat !== undefined) {
@@ -21,9 +25,13 @@ export const PriceInline: FC<PriceInline.Props> = ({
 			<div className={"flex flex-row gap-2 items-center"}>
 				<div>
 					{toHumanNumber({
+						style,
+						currencyDisplay,
+						currencySign,
 						number: price,
 						minimumFractionDigits,
 						maximumFractionDigits,
+						trailingZeroDisplay,
 						...props,
 					})}
 				</div>
@@ -37,9 +45,13 @@ export const PriceInline: FC<PriceInline.Props> = ({
 	}
 
 	return toHumanNumber({
+		style,
+		currencyDisplay,
+		currencySign,
 		number: price,
 		minimumFractionDigits,
 		maximumFractionDigits,
+		trailingZeroDisplay,
 		...props,
 	});
 };
