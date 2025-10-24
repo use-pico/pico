@@ -32,11 +32,21 @@ export const TypoCls = contract(PicoCls.contract)
 		"nowrap",
 	])
 	.bool("italic")
+	.bool("truncate")
 	.def()
 	.root({
 		root: {
 			class: [
 				"Typo-root",
+			],
+		},
+	})
+	//
+	.match("truncate", true, {
+		root: {
+			class: [
+				"truncate",
+				"min-w-0",
 			],
 		},
 	})
@@ -348,6 +358,7 @@ export const TypoCls = contract(PicoCls.contract)
 		display: "inline",
 		wrap: "wrap",
 		italic: false,
+		truncate: false,
 	})
 	.cls();
 
