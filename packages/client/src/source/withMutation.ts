@@ -14,6 +14,17 @@ export namespace withMutation {
 		mutationId?: string;
 	}
 
+	export namespace PostMutation {
+		export interface Props<TVariables, TResult> {
+			variables: TVariables;
+			result: TResult;
+		}
+
+		export type Fn<TVariables, TResult> = (
+			props: Props<TVariables, TResult>,
+		) => Promise<TResult>;
+	}
+
 	/**
 	 * Props for configuring a generic mutation utility.
 	 *
@@ -37,6 +48,10 @@ export namespace withMutation {
 		 * @returns The query key.
 		 */
 		keys(variables?: TVariables): QueryKey;
+		/**
+		 * Optional callback called right _after_ mutationFn - this blocking the mutation itself (it's not a onSuccess callback)
+		 */
+		onPostMutation?: PostMutation.Fn<TVariables, TResult>;
 		/**
 		 * Optional array of invalidator functions. Each receives the QueryClient and is awaited in sequence when invalidation is triggered.
 		 */
@@ -73,6 +88,7 @@ export namespace withMutation {
 export function withMutation<TVariables, TResult>({
 	mutationFn,
 	keys,
+	onPostMutation,
 	invalidate: $invalidate = [],
 }: withMutation.Props<TVariables, TResult>) {
 	const { invalidate } = withInvalidator({
@@ -96,7 +112,14 @@ export function withMutation<TVariables, TResult>({
 
 			return useMutation<TResult, Error, TVariables, TContext>({
 				mutationKey: keys(),
-				mutationFn,
+				async mutationFn(variables) {
+					const result = await mutationFn(variables);
+					await onPostMutation?.({
+						variables,
+						result,
+					});
+					return result;
+				},
 				...options,
 				async onSuccess(data, variables, result, context) {
 					await invalidate(queryClient);
@@ -125,6 +148,10 @@ export function withMutation<TVariables, TResult>({
 		 */
 		async mutate(queryClient: QueryClient, variables: TVariables) {
 			const data = await mutationFn(variables);
+			await onPostMutation?.({
+				variables,
+				result: data,
+			});
 			await invalidate(queryClient);
 			return data;
 		},
