@@ -1750,28 +1750,28 @@ export const PicoCls = contract()
 		"size.sm": {
 			class: [
 				"h-8",
-				"px-3",
+				"px-2",
 				"text-sm",
 			],
 		},
 		"size.md": {
 			class: [
 				"h-10",
-				"px-4",
+				"px-3",
 				"text-base",
 			],
 		},
 		"size.lg": {
 			class: [
 				"h-12",
-				"px-6",
+				"px-4",
 				"text-lg",
 			],
 		},
 		"size.xl": {
 			class: [
 				"h-16",
-				"px-8",
+				"px-4",
 				"text-xl",
 			],
 		},
