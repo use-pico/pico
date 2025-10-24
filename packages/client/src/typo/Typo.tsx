@@ -8,6 +8,7 @@ export namespace Typo {
 	export interface Props extends TypoCls.Props {
 		ref?: Ref<HTMLDivElement>;
 		label: Value;
+		truncate?: boolean;
 		display?: Cls.VariantOf<TypoCls, "display">;
 		size?: Cls.VariantOf<TypoCls, "size">;
 		font?: Cls.VariantOf<TypoCls, "font">;
@@ -21,6 +22,7 @@ export namespace Typo {
 
 export const Typo: FC<Typo.Props> = ({
 	label,
+	truncate,
 	display,
 	size,
 	font,
@@ -33,6 +35,7 @@ export const Typo: FC<Typo.Props> = ({
 }) => {
 	const { slots } = useCls(cls, tweak, {
 		variant: {
+			truncate,
 			display,
 			size,
 			font,
