@@ -28,6 +28,7 @@ export const TypoCls = contract(PicoCls.contract)
 		"block",
 	])
 	.variant("wrap", [
+		"unset",
 		"wrap",
 		"nowrap",
 	])
@@ -357,7 +358,7 @@ export const TypoCls = contract(PicoCls.contract)
 		tone: "unset",
 		theme: "unset",
 		display: "inline",
-		wrap: "nowrap",
+		wrap: "unset",
 		italic: false,
 		truncate: false,
 	})

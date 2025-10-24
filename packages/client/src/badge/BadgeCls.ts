@@ -30,6 +30,7 @@ export const BadgeCls = contract(PicoCls.contract)
 		"top-right",
 		"bottom-left",
 		"bottom-right",
+		"bottom",
 	])
 	.def()
 	.root({
@@ -404,6 +405,16 @@ export const BadgeCls = contract(PicoCls.contract)
 			class: [
 				"absolute",
 				"bottom-2",
+				"right-2",
+			],
+		},
+	})
+	.match("snap-to", "bottom", {
+		root: {
+			class: [
+				"absolute",
+				"bottom-2",
+				"left-2",
 				"right-2",
 			],
 		},
