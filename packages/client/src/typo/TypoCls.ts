@@ -42,16 +42,6 @@ export const TypoCls = contract(PicoCls.contract)
 		},
 	})
 	//
-	.match("truncate", true, {
-		root: {
-			class: [
-				"truncate",
-				"text-nowrap",
-				"min-w-0",
-			],
-		},
-	})
-	//
 	.match("size", "xs", {
 		root: {
 			class: [
@@ -347,6 +337,16 @@ export const TypoCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"text-nowrap",
+			],
+		},
+	})
+	//
+	.match("truncate", true, {
+		root: {
+			class: [
+				"truncate",
+				"text-nowrap",
+				"min-w-0",
 			],
 		},
 	})
