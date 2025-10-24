@@ -1,4 +1,4 @@
-import { type Cls, useCls } from "@use-pico/cls";
+import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
 import type { FC, HTMLAttributes, Ref } from "react";
 import { BadgeCls } from "./BadgeCls";
 
@@ -28,10 +28,11 @@ export const Badge: FC<Badge.Props> = ({
 	//
 	cls = BadgeCls,
 	tweak,
+	children,
 	//
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
+	const { slots, variant } = useCls(cls, tweak, {
 		variant: {
 			disabled,
 			size,
@@ -46,6 +47,16 @@ export const Badge: FC<Badge.Props> = ({
 			data-ui="Badge-root"
 			className={slots.root()}
 			{...props}
-		/>
+		>
+			<VariantProvider
+				cls={cls}
+				variant={{
+					tone: variant.tone,
+					theme: variant.theme,
+				}}
+			>
+				{children}
+			</VariantProvider>
+		</div>
 	);
 };
