@@ -15,6 +15,22 @@ export const BadgeCls = contract(PicoCls.contract)
 		"lg",
 		"xl",
 	])
+	.variant("round", [
+		"unset",
+		"default",
+		"sm",
+		"md",
+		"lg",
+		"xl",
+		"full",
+	])
+	.variant("snap-to", [
+		"unset",
+		"top-left",
+		"top-right",
+		"bottom-left",
+		"bottom-right",
+	])
 	.def()
 	.root({
 		root: {
@@ -28,7 +44,6 @@ export const BadgeCls = contract(PicoCls.contract)
 				"justify-center",
 				"select-none",
 				"text-sm",
-				"rounded-full",
 				"w-fit",
 			],
 			token: [
@@ -315,12 +330,92 @@ export const BadgeCls = contract(PicoCls.contract)
 			],
 		},
 	})
+	.match("round", "default", {
+		root: {
+			token: [
+				"round.default",
+			],
+		},
+	})
+	.match("round", "sm", {
+		root: {
+			token: [
+				"round.sm",
+			],
+		},
+	})
+	.match("round", "md", {
+		root: {
+			token: [
+				"round.md",
+			],
+		},
+	})
+	.match("round", "lg", {
+		root: {
+			token: [
+				"round.lg",
+			],
+		},
+	})
+	.match("round", "xl", {
+		root: {
+			token: [
+				"round.xl",
+			],
+		},
+	})
+	.match("round", "full", {
+		root: {
+			token: [
+				"round.full",
+			],
+		},
+	})
+	.match("snap-to", "top-left", {
+		root: {
+			class: [
+				"absolute",
+				"top-2",
+				"left-2",
+			],
+		},
+	})
+	.match("snap-to", "top-right", {
+		root: {
+			class: [
+				"absolute",
+				"top-2",
+				"right-2",
+			],
+		},
+	})
+	.match("snap-to", "bottom-left", {
+		root: {
+			class: [
+				"absolute",
+				"bottom-2",
+				"left-2",
+			],
+		},
+	})
+	.match("snap-to", "bottom-right", {
+		root: {
+			class: [
+				"absolute",
+				"bottom-2",
+				"right-2",
+			],
+		},
+	})
 	.defaults({
 		tone: "primary",
 		theme: "light",
 		disabled: false,
 		border: true,
 		size: "md",
+		round: "full",
+		"snap-to": "unset",
 	})
 	.cls();
 
