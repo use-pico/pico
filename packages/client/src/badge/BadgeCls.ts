@@ -416,6 +416,7 @@ export const BadgeCls = contract(PicoCls.contract)
 				"bottom-2",
 				"left-2",
 				"right-2",
+				"w-auto",
 			],
 		},
 	})

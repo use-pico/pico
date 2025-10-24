@@ -6,18 +6,23 @@ export namespace Progress {
 	export interface Props extends ProgressCls.Props {
 		value: number;
 		size?: Cls.VariantOf<ProgressCls, "size">;
+		tone?: Cls.VariantOf<ProgressCls, "tone">;
+		theme?: Cls.VariantOf<ProgressCls, "theme">;
 	}
 }
 
 export const Progress: FC<Progress.Props> = ({
 	value,
 	size,
-	cls = ProgressCls,
-	tweak,
+	tone,
+	theme,
+	tweak = {},
 }) => {
-	const { slots } = useCls(cls, tweak, {
+	const { slots } = useCls(ProgressCls, tweak, {
 		variant: {
 			size,
+			tone,
+			theme,
 		},
 	});
 
