@@ -164,7 +164,7 @@ export const Route = createFileRoute("/$locale/components/fulltext")({
 	},
 });
 
-function Section({
+export function Section({
 	title,
 	children,
 }: {
@@ -193,7 +193,7 @@ function Section({
 	);
 }
 
-function Column({
+export function Column({
 	label,
 	children,
 }: {

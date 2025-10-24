@@ -249,7 +249,7 @@ export const Route = createFileRoute("/$locale/components/cursor")({
 	},
 });
 
-function Section({
+export function Section({
 	title,
 	children,
 }: {
@@ -278,7 +278,7 @@ function Section({
 	);
 }
 
-function Column({
+export function Column({
 	label,
 	children,
 }: {

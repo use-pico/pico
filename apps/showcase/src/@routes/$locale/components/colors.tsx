@@ -129,7 +129,7 @@ const Swatch: FC<{
 	);
 };
 
-const Section: FC<{
+export const Section: FC<{
 	title: string;
 	children: React.ReactNode;
 }> = ({ title, children }) => {

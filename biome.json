@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.7/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.0/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -38,6 +38,9 @@
 				"useHtmlLang": "off",
 				"noStaticElementInteractions": "off"
 			},
+			"style": {
+				"useComponentExportOnlyModules": "off"
+			},
 			"suspicious": {
 				"noExplicitAny": "off"
 			},
@@ -56,6 +59,11 @@
 			"trailingCommas": "all",
 			"arrowParentheses": "always",
 			"semicolons": "always"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {

@@ -108,7 +108,7 @@ export const Route = createFileRoute("/$locale/components/date-inline")({
 	},
 });
 
-function Section({
+export function Section({
 	title,
 	children,
 }: {

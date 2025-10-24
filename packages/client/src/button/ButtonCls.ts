@@ -9,6 +9,7 @@ export const ButtonCls = contract(PicoCls.contract)
 	.bool("disabled")
 	.bool("border")
 	.bool("background")
+	.bool("full")
 	.variant("size", [
 		"xs",
 		"sm",
@@ -49,6 +50,18 @@ export const ButtonCls = contract(PicoCls.contract)
 				"scale.default",
 				"border.default",
 				"shadow.default",
+			],
+		},
+	})
+	.match("full", true, {
+		wrapper: {
+			class: [
+				"w-full",
+			],
+		},
+		root: {
+			class: [
+				"w-full",
 			],
 		},
 	})
@@ -360,6 +373,7 @@ export const ButtonCls = contract(PicoCls.contract)
 	.defaults({
 		tone: "primary",
 		theme: "light",
+		full: false,
 		disabled: false,
 		size: "md",
 		border: true,

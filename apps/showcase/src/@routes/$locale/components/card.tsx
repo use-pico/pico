@@ -242,7 +242,7 @@ export const Route = createFileRoute("/$locale/components/card")({
 	},
 });
 
-function Section({
+export function Section({
 	title,
 	children,
 }: {

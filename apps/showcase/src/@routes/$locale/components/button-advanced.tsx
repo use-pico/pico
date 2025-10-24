@@ -344,7 +344,7 @@ function Section({
 	);
 }
 
-function VariantProviderDemo() {
+export function VariantProviderDemo() {
 	const [contextTone, setContextTone] =
 		useState<(typeof tones)[number]>("primary");
 	const [contextTheme, setContextTheme] =

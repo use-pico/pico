@@ -308,7 +308,7 @@ function Section({
 	);
 }
 
-function Column({
+export function Column({
 	label,
 	children,
 }: {

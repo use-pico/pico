@@ -755,7 +755,7 @@ export const Route = createFileRoute("/$locale/components/complex-form")({
 	},
 });
 
-function Section({
+export function Section({
 	title,
 	children,
 }: {
@@ -784,7 +784,7 @@ function Section({
 	);
 }
 
-function Column({
+export function Column({
 	label,
 	children,
 }: {

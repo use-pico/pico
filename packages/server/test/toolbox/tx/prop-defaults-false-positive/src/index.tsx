@@ -19,7 +19,7 @@ export const OtherComponent: FC<{
 };
 
 // This should NOT extract - destructuring in a regular function
-export const processData = ({ label = "Should not extract from function" }) => {
+const processData = ({ label = "Should not extract from function" }) => {
 	return label;
 };
 
