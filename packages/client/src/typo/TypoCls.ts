@@ -46,6 +46,7 @@ export const TypoCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"truncate",
+				"text-nowrap",
 				"min-w-0",
 			],
 		},
@@ -356,7 +357,7 @@ export const TypoCls = contract(PicoCls.contract)
 		tone: "unset",
 		theme: "unset",
 		display: "inline",
-		wrap: "wrap",
+		wrap: "nowrap",
 		italic: false,
 		truncate: false,
 	})
