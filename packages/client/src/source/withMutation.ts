@@ -49,10 +49,6 @@ export namespace withMutation {
 		 */
 		keys(variables?: TVariables): QueryKey;
 		/**
-		 * Optional callback called right _after_ mutationFn - this blocking the mutation itself (it's not a onSuccess callback)
-		 */
-		onPostMutation?: PostMutation.Fn<TVariables, TResult>;
-		/**
 		 * Optional array of invalidator functions. Each receives the QueryClient and is awaited in sequence when invalidation is triggered.
 		 */
 		invalidate?: withInvalidator.Invalidate[];
@@ -63,6 +59,10 @@ export namespace withMutation {
 		"mutationFn" | "mutationKey"
 	> & {
 		meta?: Meta;
+		/**
+		 * Optional callback called right _after_ mutationFn - this blocking the mutation itself (it's not a onSuccess callback)
+		 */
+		onPostMutation?: PostMutation.Fn<TVariables, TResult>;
 	};
 
 	export type PropsEx<TVariables, TResult> = Omit<
@@ -88,7 +88,6 @@ export namespace withMutation {
 export function withMutation<TVariables, TResult>({
 	mutationFn,
 	keys,
-	onPostMutation,
 	invalidate: $invalidate = [],
 }: withMutation.Props<TVariables, TResult>) {
 	const { invalidate } = withInvalidator({
@@ -108,6 +107,7 @@ export function withMutation<TVariables, TResult>({
 		useMutation<TContext = unknown>(
 			options?: withMutation.UseOptions<TVariables, TResult, TContext>,
 		): UseMutationResult<TResult, Error, TVariables, TContext> {
+			const { onSuccess, onPostMutation, ...$options } = options ?? {};
 			const queryClient = useQueryClient();
 
 			return useMutation<TResult, Error, TVariables, TContext>({
@@ -120,10 +120,10 @@ export function withMutation<TVariables, TResult>({
 					});
 					return result;
 				},
-				...options,
+				...$options,
 				async onSuccess(data, variables, result, context) {
 					await invalidate(queryClient);
-					options?.onSuccess?.(data, variables, result, context);
+					onSuccess?.(data, variables, result, context);
 				},
 			});
 		},
@@ -148,10 +148,6 @@ export function withMutation<TVariables, TResult>({
 		 */
 		async mutate(queryClient: QueryClient, variables: TVariables) {
 			const data = await mutationFn(variables);
-			await onPostMutation?.({
-				variables,
-				result: data,
-			});
 			await invalidate(queryClient);
 			return data;
 		},
