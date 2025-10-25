@@ -20,9 +20,12 @@ export namespace withMutation {
 			result: TResult;
 		}
 
+		/**
+		 * Result of the callback is unused
+		 */
 		export type Fn<TVariables, TResult> = (
 			props: Props<TVariables, TResult>,
-		) => Promise<TResult>;
+		) => Promise<any>;
 	}
 
 	/**
