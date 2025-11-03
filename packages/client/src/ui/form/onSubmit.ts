@@ -50,18 +50,20 @@ export const onSubmit = <TValues extends object>({
 	 */
 	return async ({ value }: { value: TValues }) => {
 		const fn = async () => {
-			return mutation
-				.mutateAsync(
-					await map({
-						values: value,
-						cleanup() {
-							return cleanOf(mapEmptyToNull(value));
-						},
-					}),
-				)
-				.catch(() => {
-					//
+			const mapped = await map({
+				values: value,
+				cleanup() {
+					return cleanOf(mapEmptyToNull(value));
+				},
+			});
+
+			return mutation.mutateAsync(mapped).catch((e) => {
+				console.log("onSubmit: Mutation failed", {
+					values: value,
+					mapped,
 				});
+				console.error(e);
+			});
 		};
 
 		return toast ? coolToast.promise(fn(), toast) : fn();
