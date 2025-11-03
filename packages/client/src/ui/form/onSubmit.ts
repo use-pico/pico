@@ -18,7 +18,7 @@ export namespace onSubmit {
 			 * because some values ("randomly") may disappear as they're undefined,
 			 * output schema may not match values provided.
 			 */
-			cleanup(values: TValues): TData;
+			cleanup(values: Partial<TValues>): TData;
 		}
 
 		export type Fn<TValues extends object, TData extends object> = (
