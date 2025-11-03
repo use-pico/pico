@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { PicoCls } from "@use-pico/client";
+import type { PicoCls } from "@use-pico/client/cls";
 import {
 	ArrowRightIcon,
-	Button,
 	CheckIcon,
 	DownloadIcon,
 	EditIcon,
 	TrashIcon,
-	Tx,
 	UploadIcon,
-} from "@use-pico/client";
+} from "@use-pico/client/icon";
+import { Button } from "@use-pico/client/ui/button";
+import { Tx } from "@use-pico/client/ui/tx";
 import { type Cls, tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Badge, PicoCls, Tx } from "@use-pico/client";
+import { PicoCls } from "@use-pico/client/cls";
+import { Badge } from "@use-pico/client/ui/badge";
+import { Tx } from "@use-pico/client/ui/tx";
 import { contract, TokenProvider, tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

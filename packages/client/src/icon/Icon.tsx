@@ -1,5 +1,5 @@
 import { type Cls, useCls } from "@use-pico/cls";
-import { isString } from "@use-pico/common";
+import { isString } from "@use-pico/common/is-string";
 import type { FC, HTMLAttributes, ReactNode, Ref } from "react";
 import { IconCls } from "./IconCls";
 

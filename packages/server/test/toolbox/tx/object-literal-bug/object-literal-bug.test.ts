@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { tx } from "../../../../src";
+import { tx } from "../../../../src/tx";
 
 describe("toolbox/tx/object-literal-bug", () => {
 	it("should not extract strings from object literals when function is not in sources", () => {

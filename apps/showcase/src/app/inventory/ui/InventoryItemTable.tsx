@@ -1,13 +1,8 @@
-import {
-	ActionClick,
-	ActionMenu,
-	EditIcon,
-	Table,
-	TrashIcon,
-	Tx,
-	withColumn,
-} from "@use-pico/client";
-import { toHumanNumber } from "@use-pico/common";
+import { EditIcon, TrashIcon } from "@use-pico/client/icon";
+import { ActionClick, ActionMenu } from "@use-pico/client/ui/action-menu";
+import { Table, withColumn } from "@use-pico/client/ui/table";
+import { Tx } from "@use-pico/client/ui/tx";
+import { toLocaleNumber } from "@use-pico/common/to-locale-number";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
@@ -71,7 +66,8 @@ const columns = [
 		name: "amount",
 		header: () => <Tx label={"Amount"} />,
 		render: ({ value }) =>
-			toHumanNumber({
+			toLocaleNumber({
+				locale: "en",
 				number: value,
 			}),
 		filter: filter.range({

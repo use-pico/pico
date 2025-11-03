@@ -3,13 +3,11 @@ import {
 	CheckIcon,
 	EditIcon,
 	ListIcon,
-	Menu,
-	MenuGroup,
-	MenuLink,
 	SettingsIcon,
-	Tx,
 	UserIcon,
-} from "@use-pico/client";
+} from "@use-pico/client/icon";
+import { Menu, MenuGroup, MenuLink } from "@use-pico/client/ui/menu";
+import { Tx } from "@use-pico/client/ui/tx";
 
 export const Route = createFileRoute("/$locale/components/menu/$selected")({
 	component() {

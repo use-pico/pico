@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ActionClick, ActionMenu, Tx } from "@use-pico/client";
+import { ActionClick, ActionMenu } from "@use-pico/client/ui/action-menu";
+import { Tx } from "@use-pico/client/ui/tx";
 
 const tones = [
 	"primary",

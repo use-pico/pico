@@ -1,0 +1,1 @@
+export { genId } from "./genId";

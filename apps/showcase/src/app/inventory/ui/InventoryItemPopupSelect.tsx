@@ -1,4 +1,7 @@
-import { Badge, More, PopupSelect, Tx } from "@use-pico/client";
+import { Badge } from "@use-pico/client/ui/badge";
+import { More } from "@use-pico/client/ui/more";
+import { PopupSelect } from "@use-pico/client/ui/popup-select";
+import { Tx } from "@use-pico/client/ui/tx";
 import type { FC } from "react";
 import type { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";

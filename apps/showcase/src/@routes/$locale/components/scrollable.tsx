@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Fade, Tx } from "@use-pico/client";
+import { Container } from "@use-pico/client/ui/container";
+import { Fade } from "@use-pico/client/ui/fade";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import { type ReactNode, useRef } from "react";
 
@@ -44,13 +46,13 @@ const ScrollableDemo = ({
 					<Container
 						ref={scrollableRef}
 						layout={"vertical"}
-						overflow={"vertical"}
+						scroll={"vertical"}
 					>
 						<div
 							className={tvc([
 								contentHeight,
 								"p-4",
-								"bg-gradient-to-b",
+								"bg-linear-to-b",
 								"from-blue-50",
 								"to-purple-50",
 							])}

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Data, Tx } from "@use-pico/client";
+import { Data } from "@use-pico/client/ui/data";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 
 // Simulate API call with timeout
@@ -317,7 +318,7 @@ export const Route = createFileRoute("/$locale/components/data")({
 										"mb-4",
 									])}
 								>
-									{error.message}
+									{error?.message || "Unknown error"}
 								</p>
 								<button
 									type="button"

@@ -1,5 +1,6 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { LinkTo, Tx } from "@use-pico/client";
+import { LinkTo } from "@use-pico/client/ui/link-to";
+import { Tx } from "@use-pico/client/ui/tx";
 
 export const Route = createFileRoute("/$locale/")({
 	component() {

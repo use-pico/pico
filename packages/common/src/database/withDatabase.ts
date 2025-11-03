@@ -1,5 +1,5 @@
-import type { Database } from "@use-pico/common";
 import { type Dialect, Kysely, type MigrationProvider, Migrator } from "kysely";
+import type { Database } from "./Database";
 
 export namespace withDatabase {
 	export interface Props

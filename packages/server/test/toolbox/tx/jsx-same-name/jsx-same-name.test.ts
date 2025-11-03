@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { tx } from "../../../../src";
+import { tx } from "../../../../src/tx";
 
 describe("toolbox/tx/jsx-same-name", () => {
 	it("extracts translations from JSX components where component name matches attribute name", () => {

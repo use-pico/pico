@@ -1,6 +1,6 @@
 import type z from "zod";
-import { translator } from "../i18n/translator";
-import { genId } from "../toolbox/genId";
+import { genId } from "../gen-id/genId";
+import { translator } from "../translator/translator";
 import type { IssueSchema } from "./IssueSchema";
 
 export namespace getSchemaIssues {

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Fulltext, Tx } from "@use-pico/client";
+import { Fulltext } from "@use-pico/client/ui/fulltext";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useState } from "react";

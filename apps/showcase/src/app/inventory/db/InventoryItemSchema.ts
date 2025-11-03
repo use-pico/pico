@@ -1,4 +1,4 @@
-import { EntitySchema } from "@use-pico/common";
+import { EntitySchema } from "@use-pico/common/schema";
 import z from "zod";
 
 export const InventoryItemSchema = z.object({

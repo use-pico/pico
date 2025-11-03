@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Tx } from "../tx/Tx";
+import { Tx } from "../ui/tx/Tx";
 
 export namespace withToastPromiseTx {
 	export interface Text {
@@ -9,7 +9,7 @@ export namespace withToastPromiseTx {
 	}
 }
 
-export const withToastPromiseTx = (key?: string): withToastPromiseTx.Text => {
+export const withToastPromiseTx2 = (key?: string): withToastPromiseTx.Text => {
 	return (
 		key
 			? {

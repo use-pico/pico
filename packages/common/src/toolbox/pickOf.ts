@@ -1,5 +1,4 @@
 import type { DeepKeys } from "../type/DeepKeys";
-import { pathOf } from "./pathOf";
 
 export namespace pickOf {
 	export interface Props<T extends object> {
@@ -15,6 +14,7 @@ export namespace pickOf {
 }
 
 export const pickOf = <T extends object>({ object, pick }: pickOf.Props<T>) => {
+	// @ts-expect-error
 	const bind = pathOf(object);
 	return pick.reduce(
 		(acc, key) => {

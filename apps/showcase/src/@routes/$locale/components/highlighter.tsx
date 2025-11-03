@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Highlighter, HighlighterTarget, Typo } from "@use-pico/client";
+import { Button } from "@use-pico/client/ui/button";
+import {
+	Highlighter,
+	HighlighterTarget,
+} from "@use-pico/client/ui/highlighter";
+import { Typo } from "@use-pico/client/ui/typo";
 import { tvc } from "@use-pico/cls";
 import { useId, useRef, useState } from "react";
 

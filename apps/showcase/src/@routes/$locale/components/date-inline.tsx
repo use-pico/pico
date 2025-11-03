@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { DateInline, Tx } from "@use-pico/client";
+import { DateInline } from "@use-pico/client/ui/date-inline";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

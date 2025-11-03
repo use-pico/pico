@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Status, Tx, Typo } from "@use-pico/client";
+import { Button } from "@use-pico/client/ui/button";
+import { Status } from "@use-pico/client/ui/status";
+import { Tx } from "@use-pico/client/ui/tx";
+import { Typo } from "@use-pico/client/ui/typo";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

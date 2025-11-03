@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Progress, Tx } from "@use-pico/client";
+import { Progress } from "@use-pico/client/ui/progress";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";

@@ -7,7 +7,7 @@
 	"scripts": {
 		"typecheck": "tsc --noEmit",
 		"build:bundle": "bun x rollup -c",
-		"build": "run-p build:*",
+		"no:build": "run-p build:*",
 		"test": "run-s test:*",
 		"test:code": "vitest --run"
 	},
@@ -17,23 +17,23 @@
 	},
 	"devDependencies": {
 		"@aminnairi/rollup-plugin-external": "0.1.3",
-		"@rollup/plugin-commonjs": "28.0.9",
+		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
 		"@testing-library/jest-dom": "6.9.1",
 		"@testing-library/react": "16.3.0",
-		"@types/node": "24.9.1",
+		"@types/node": "^24.9.2",
 		"@types/react": "19.2.2",
 		"@types/react-dom": "19.2.2",
 		"@types/testing-library__jest-dom": "6.0.0",
 		"@use-pico/tsconfig": "5.0.0",
 		"@vitejs/plugin-react": "5.1.0",
-		"jsdom": "27.0.1",
+		"jsdom": "27.1.0",
 		"npm-run-all2": "8.0.4",
 		"rollup": "4.52.5",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.3",
-		"vitest": "4.0.3"
+		"vitest": "4.0.6"
 	},
 	"main": "src/index.ts",
 	"module": "src/index.ts",

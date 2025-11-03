@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Tx } from "@use-pico/client";
+import { Container } from "@use-pico/client/ui/container";
+import { Tx } from "@use-pico/client/ui/tx";
 
 export const Route = createFileRoute("/$locale/components/container/sizing")({
 	component() {
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 							/>
 							<div className="h-32 border-2 border-dashed border-gray-300 relative">
 								<Container
-									height="full"
+									height="fit"
 									width="auto"
 									border="default"
 									tone="primary"
@@ -65,7 +66,7 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 							/>
 							<div className="h-48 border-2 border-dashed border-gray-300 relative overflow-hidden">
 								<Container
-									height="dvh"
+									height="viewport"
 									border="default"
 									tone="secondary"
 									theme="light"
@@ -135,7 +136,7 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 								font="semi"
 							/>
 							<Container
-								width="full"
+								width="fit"
 								height="auto"
 								border="default"
 								tone="danger"
@@ -166,7 +167,7 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 							/>
 							<div className="overflow-x-auto">
 								<Container
-									width="dvw"
+									width="viewport"
 									height="auto"
 									border="default"
 									tone="subtle"
@@ -430,9 +431,9 @@ export const Route = createFileRoute("/$locale/components/container/sizing")({
 					/>
 					<div className="bg-gray-50 p-4 rounded-lg">
 						<pre className="text-sm overflow-x-auto">
-							{`import { Container } from "@use-pico/client";
+							{`import { Container } from "@use-pico/client/ui/container";
 import type { Cls } from "@use-pico/cls";
-import { ContainerCls } from "@use-pico/client";
+import { ContainerCls } from "@use-pico/client/ui/container";
 
 // Type-safe sizing variants
 type HeightVariant = Cls.VariantOf<ContainerCls, "height">;

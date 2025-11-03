@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, PicoCls, Tx } from "@use-pico/client";
+import { PicoCls } from "@use-pico/client/cls";
+import { Button } from "@use-pico/client/ui/button";
+import { Tx } from "@use-pico/client/ui/tx";
 import { type Cls, tvc, VariantProvider } from "@use-pico/cls";
 import { type ReactNode, useState } from "react";
 

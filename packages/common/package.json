@@ -10,16 +10,13 @@
 		"test": "vitest --run"
 	},
 	"dependencies": {
-		"@apollo/client": "4.0.7",
+		"@apollo/client": "4.0.9",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "3.1.0",
 		"@types/is-callable": "1.1.2",
 		"@types/is-empty": "1.2.3",
 		"@types/luxon": "3.7.1",
-		"@types/object-path": "0.11.4",
 		"@types/qs": "6.14.0",
-		"axios": "1.12.2",
-		"axios-rate-limit": "1.4.0",
 		"fast-clean": "1.5.2",
 		"flattie": "1.1.1",
 		"is-callable": "1.2.7",
@@ -28,24 +25,21 @@
 		"js-sha256": "0.11.1",
 		"kysely": "0.28.8",
 		"luxon": "3.7.2",
-		"object-path": "0.11.8",
 		"preferred-locale": "2.0.2",
 		"qs": "6.14.0",
-		"read-excel-file": "6.0.1",
-		"timer-node": "5.0.9",
 		"zod": "4.1.12"
 	},
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "28.0.9",
+		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
-		"@types/node": "24.9.1",
+		"@types/node": "^24.9.2",
 		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "5.0.0",
 		"rollup": "4.52.5",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "^5.9.3",
-		"vitest": "4.0.3"
+		"vitest": "4.0.6"
 	},
 	"main": "./src/index.ts",
 	"module": "./src/index.ts",
@@ -54,9 +48,9 @@
 		"src"
 	],
 	"exports": {
-		".": {
-			"types": "./src/index.ts",
-			"import": "./src/index.ts"
+		"./*": {
+			"types": "./src/*/index.ts",
+			"import": "./src/*/index.ts"
 		}
 	},
 	"license": "MIT",

@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { localeOf } from "@use-pico/common";
+import { localeOf } from "@use-pico/common/locale-of";
 import { defaultLocale, locales } from "~/locales";
 
 export const Route = createFileRoute("/")({

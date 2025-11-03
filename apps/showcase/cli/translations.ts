@@ -1,5 +1,5 @@
-import { TranslationSources } from "@use-pico/client";
-import { tx } from "@use-pico/server";
+import { TranslationSources } from "@use-pico/client/translation";
+import { tx } from "@use-pico/server/tx";
 
 tx({
 	packages: [

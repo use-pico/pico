@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Card, Tx } from "@use-pico/client";
+import { Card } from "@use-pico/client/ui/card";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

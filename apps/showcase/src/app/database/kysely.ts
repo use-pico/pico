@@ -1,4 +1,4 @@
-import { withDatabase } from "@use-pico/common";
+import { withDatabase } from "@use-pico/common/database";
 import { SQLocalKysely } from "sqlocal/kysely";
 import type { Database } from "~/app/database/Database";
 import { migrations } from "~/app/database/migrations";

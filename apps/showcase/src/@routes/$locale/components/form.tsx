@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, FormError, FormField, Tx } from "@use-pico/client";
+import { Button } from "@use-pico/client/ui/button";
+import { FormError, FormField } from "@use-pico/client/ui/form";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useId } from "react";

@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Action, TrashIcon, Tx } from "@use-pico/client";
+import { TrashIcon } from "@use-pico/client/icon";
+import { Action } from "@use-pico/client/ui/action";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

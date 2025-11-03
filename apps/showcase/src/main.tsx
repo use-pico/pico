@@ -4,8 +4,8 @@ import {
 	QueryClientProvider,
 } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { LoadingOverlay, PageCls } from "@use-pico/client";
-import { withAxios } from "@use-pico/common";
+import { PageCls } from "@use-pico/client/cls";
+import { LoadingOverlay } from "@use-pico/client/ui/loading-overlay";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
@@ -40,16 +40,6 @@ declare module "@tanstack/react-router" {
 }
 
 const rootElement = document.getElementById("app");
-
-/**
- * Setup default Axios instance to be rate-limited.
- */
-withAxios({
-	limit: {
-		maxRequests: 10,
-		perMilliseconds: 100,
-	},
-});
 
 if (rootElement && !rootElement?.innerHTML) {
 	ReactDOM.createRoot(rootElement).render(

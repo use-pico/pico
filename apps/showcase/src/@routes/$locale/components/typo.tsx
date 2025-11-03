@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Tx, Typo } from "@use-pico/client";
+import { Tx } from "@use-pico/client/ui/tx";
+import { Typo } from "@use-pico/client/ui/typo";
 import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components/typo")({

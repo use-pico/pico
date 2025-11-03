@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TitlePreview, Tx } from "@use-pico/client";
+import { TitlePreview } from "@use-pico/client/ui/title-preview";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

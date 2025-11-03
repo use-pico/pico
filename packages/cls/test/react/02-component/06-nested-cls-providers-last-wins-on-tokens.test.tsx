@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/useComponentExportOnlyModules: Ssst */
 import { render } from "@testing-library/react";
 import type { FC, PropsWithChildren } from "react";
 import { describe, expect, it } from "vitest";

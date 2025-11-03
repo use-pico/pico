@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { tx } from "../../../../src";
+import { tx } from "../../../../src/tx";
 
 describe("toolbox/tx/prop-defaults-false-positive", () => {
 	it("should only extract from configured component prop defaults, not other destructuring", () => {

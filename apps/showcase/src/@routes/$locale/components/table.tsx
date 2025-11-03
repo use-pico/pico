@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { NavigationState, useSelection } from "@use-pico/client";
+import { useSelection } from "@use-pico/client/hook";
+import { NavigationState } from "@use-pico/client/ui/navigation";
 import { InventoryItemQuerySchema } from "~/app/inventory/db/InventoryItemQuerySchema";
 import type { InventoryItemSchema } from "~/app/inventory/db/InventoryItemSchema";
 import { InventoryItemTable } from "~/app/inventory/ui/InventoryItemTable";

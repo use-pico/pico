@@ -1,0 +1,1 @@
+export { linkTo } from "./linkTo";

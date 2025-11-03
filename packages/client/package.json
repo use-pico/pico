@@ -11,26 +11,27 @@
 	},
 	"dependencies": {
 		"@floating-ui/react": "0.27.16",
-		"@lexical/list": "0.37.0",
-		"@lexical/react": "0.37.0",
-		"@lexical/utils": "0.37.0",
-		"@tanstack/react-query": "5.90.5",
-		"@tanstack/react-router": "1.133.27",
+		"@lexical/list": "0.38.2",
+		"@lexical/react": "0.38.2",
+		"@lexical/utils": "0.38.2",
+		"@tanstack/react-query": "5.90.6",
+		"@tanstack/react-router": "1.134.9",
 		"@types/luxon": "3.7.1",
+		"@types/object-path": "0.11.4",
 		"@use-pico/cls": "5.0.71",
 		"@use-pico/common": "5.0.96",
-		"axios": "1.12.2",
+		"axios": "1.13.1",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.8",
-		"lexical": "0.37.0",
-		"localstorage-slim": "2.7.1",
+		"lexical": "0.38.2",
 		"luxon": "3.7.2",
+		"object-path": "0.11.8",
 		"react": "19.2.0",
 		"react-dom": "19.2.0",
 		"react-dropzone": "14.3.8",
 		"react-hot-toast": "2.6.0",
 		"read-excel-file": "6.0.1",
-		"ts-pattern": "5.8.0",
+		"ts-pattern": "5.9.0",
 		"use-debounce": "10.0.6",
 		"uuid": "13.0.0",
 		"write-excel-file": "2.3.10",
@@ -39,10 +40,10 @@
 	},
 	"devDependencies": {
 		"@aminnairi/rollup-plugin-external": "0.1.3",
-		"@rollup/plugin-commonjs": "28.0.9",
+		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
-		"@types/node": "24.9.1",
+		"@types/node": "^24.9.2",
 		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "5.0.0",
 		"rollup": "4.52.5",
@@ -56,8 +57,11 @@
 		"src"
 	],
 	"exports": {
-		".": {
-			"import": "./src/index.ts"
+		"./ui/*": {
+			"import": "./src/ui/*/index.ts"
+		},
+		"./*": {
+			"import": "./src/*/index.ts"
 		}
 	},
 	"license": "MIT",

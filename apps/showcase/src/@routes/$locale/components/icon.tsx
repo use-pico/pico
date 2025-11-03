@@ -26,10 +26,10 @@ import {
 	SpinnerIcon,
 	TagIcon,
 	TrashIcon,
-	Tx,
 	UploadIcon,
 	UserIcon,
-} from "@use-pico/client";
+} from "@use-pico/client/icon";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

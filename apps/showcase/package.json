@@ -12,8 +12,8 @@
 	},
 	"dependencies": {
 		"@tanstack/react-form": "1.23.8",
-		"@tanstack/react-query": "5.90.5",
-		"@tanstack/react-router": "1.133.27",
+		"@tanstack/react-query": "5.90.6",
+		"@tanstack/react-router": "1.134.9",
 		"@use-pico/client": "5.0.241",
 		"@use-pico/cls": "5.0.71",
 		"@use-pico/common": "5.0.96",
@@ -25,12 +25,12 @@
 		"zod": "4.1.12"
 	},
 	"devDependencies": {
-		"@iconify/json": "2.2.399",
+		"@iconify/json": "2.2.403",
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.16",
-		"@tanstack/router-plugin": "1.133.27",
-		"@types/node": "24.9.1",
+		"@tanstack/router-plugin": "1.134.9",
+		"@types/node": "^24.9.2",
 		"@types/react": "19.2.2",
 		"@types/react-dom": "19.2.2",
 		"@use-pico/server": "5.0.100",

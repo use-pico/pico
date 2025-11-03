@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, useParams } from "@tanstack/react-router";
-import { Menu, MenuGroup, MenuLink, Tx } from "@use-pico/client";
+import { Menu, MenuGroup, MenuLink } from "@use-pico/client/ui/menu";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components")({
@@ -34,7 +35,7 @@ export const Route = createFileRoute("/$locale/components")({
 							"border-b",
 							"border-slate-300",
 							"bg-slate-50",
-							"flex-shrink-0",
+							"shrink-0",
 							"w-full",
 						])}
 					>
@@ -294,9 +295,6 @@ export const Route = createFileRoute("/$locale/components")({
 										to: "/$locale/components/status",
 									},
 									{
-										to: "/$locale/components/preview",
-									},
-									{
 										to: "/$locale/components/title-preview",
 									},
 									{
@@ -342,17 +340,6 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Status"} />
-								</MenuLink>
-
-								<MenuLink
-									icon={"icon-[ph--eye]"}
-									to={"/$locale/components/preview"}
-									params={{
-										locale,
-									}}
-									vertical
-								>
-									<Tx label={"Preview"} />
 								</MenuLink>
 
 								<MenuLink
@@ -599,12 +586,6 @@ export const Route = createFileRoute("/$locale/components")({
 									{
 										to: "/$locale/components/colors",
 									},
-									{
-										to: "/$locale/components/misc",
-									},
-									{
-										to: "/$locale/components/issues",
-									},
 								]}
 								vertical
 							>
@@ -617,51 +598,6 @@ export const Route = createFileRoute("/$locale/components")({
 									vertical
 								>
 									<Tx label={"Colors"} />
-								</MenuLink>
-
-								<MenuLink
-									icon={"icon-[ph--puzzle-piece]"}
-									to={"/$locale/components/misc"}
-									params={{
-										locale,
-									}}
-									vertical
-								>
-									<Tx label={"Misc Components"} />
-								</MenuLink>
-
-								<MenuLink
-									icon={"icon-[ph--warning-circle]"}
-									to={"/$locale/components/issues"}
-									params={{
-										locale,
-									}}
-									vertical
-								>
-									<Tx label={"Issues"} />
-								</MenuLink>
-							</MenuGroup>
-
-							{/* Examples & Demos */}
-							<MenuGroup
-								icon={"icon-[ph--flask]"}
-								label={<Tx label={"Examples & Demos"} />}
-								match={[
-									{
-										to: "/$locale/components/customer-detail",
-									},
-								]}
-								vertical
-							>
-								<MenuLink
-									icon={"icon-[ph--user-circle]"}
-									to={"/$locale/components/customer-detail"}
-									params={{
-										locale,
-									}}
-									vertical
-								>
-									<Tx label={"Customer Detail"} />
 								</MenuLink>
 							</MenuGroup>
 						</Menu>

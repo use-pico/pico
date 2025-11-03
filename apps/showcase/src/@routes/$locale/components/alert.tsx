@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Alert, Tx } from "@use-pico/client";
+import { Alert } from "@use-pico/client/ui/alert";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 
 export const Route = createFileRoute("/$locale/components/alert")({

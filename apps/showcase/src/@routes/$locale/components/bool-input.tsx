@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BoolInput } from "@use-pico/client";
+import { BoolInput } from "@use-pico/client/ui/bool-input";
 import { useState } from "react";
 
 export const Route = createFileRoute("/$locale/components/bool-input")({

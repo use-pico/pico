@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { translator } from "@use-pico/common";
+import { translator } from "@use-pico/common/translator";
 import { database } from "~/app/database/kysely";
 
 export const Route = createFileRoute("/$locale")({

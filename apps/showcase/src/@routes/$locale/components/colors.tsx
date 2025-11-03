@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ColorsCls } from "@use-pico/client";
+import { ColorsCls } from "@use-pico/client/cls";
 import { tvc, useCls } from "@use-pico/cls";
 import type { FC } from "react";
 

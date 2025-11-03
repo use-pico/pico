@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EntitySchema } from "../source/EntitySchema";
+import { EntitySchema } from "./EntitySchema";
 
 export const IssueSchema = z.object({
 	...EntitySchema.shape,

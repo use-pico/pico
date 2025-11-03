@@ -1,0 +1,1 @@
+export { withQuery } from "./withQuery";

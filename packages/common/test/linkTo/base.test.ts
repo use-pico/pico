@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { linkTo } from "../../src";
+import { linkTo } from "../../src/link-to";
 
 describe("linkTo/base", () => {
 	it("Just href", () => {
@@ -7,7 +7,7 @@ describe("linkTo/base", () => {
 			href: "/foo/bar",
 		});
 
-		expect(link).toBe("/foo/bar");
+		expect(link).toBe("foo/bar");
 	});
 
 	it("Href with base", () => {

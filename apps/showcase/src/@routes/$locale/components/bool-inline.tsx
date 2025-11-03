@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BoolInline, Tx } from "@use-pico/client";
+import { BoolInline } from "@use-pico/client/ui/bool-inline";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 

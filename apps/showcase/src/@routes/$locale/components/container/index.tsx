@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Tx } from "@use-pico/client";
+import { Container } from "@use-pico/client/ui/container";
+import { Tx } from "@use-pico/client/ui/tx";
 
 export const Route = createFileRoute("/$locale/components/container/")({
 	component() {
@@ -182,9 +183,9 @@ export const Route = createFileRoute("/$locale/components/container/")({
 					/>
 					<div className="bg-gray-50 p-4 rounded-lg">
 						<pre className="text-sm overflow-x-auto">
-							{`import { Container } from "@use-pico/client";
+							{`import { Container } from "@use-pico/client/ui/container";
 import type { Cls } from "@use-pico/cls";
-import { ContainerCls } from "@use-pico/client";
+import { ContainerCls } from "@use-pico/client/ui/container";
 
 // Type-safe variant usage
 type ToneVariant = Cls.VariantOf<ContainerCls, "tone">;

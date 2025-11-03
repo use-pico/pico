@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Container, Tx } from "@use-pico/client";
+import { Container } from "@use-pico/client/ui/container";
+import { Tx } from "@use-pico/client/ui/tx";
 
 export const Route = createFileRoute("/$locale/components/container/overflow")({
 	component() {
@@ -62,7 +63,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								font="semi"
 							/>
 							<Container
-								overflow="horizontal"
+								scroll="horizontal"
 								layout="horizontal"
 								gap="md"
 								square="md"
@@ -101,7 +102,7 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 								font="semi"
 							/>
 							<Container
-								overflow="vertical"
+								scroll="vertical"
 								layout="vertical"
 								gap="sm"
 								square="md"
@@ -328,9 +329,9 @@ export const Route = createFileRoute("/$locale/components/container/overflow")({
 					/>
 					<div className="bg-gray-50 p-4 rounded-lg">
 						<pre className="text-sm overflow-x-auto">
-							{`import { Container } from "@use-pico/client";
+							{`import { Container } from "@use-pico/client/ui/container";
 import type { Cls } from "@use-pico/cls";
-import { ContainerCls } from "@use-pico/client";
+import { ContainerCls } from "@use-pico/client/ui/container";
 
 // Type-safe overflow variants
 type OverflowVariant = Cls.VariantOf<ContainerCls, "overflow">;

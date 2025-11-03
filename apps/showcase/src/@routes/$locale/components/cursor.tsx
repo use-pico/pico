@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Cursor, Tx } from "@use-pico/client";
+import { Cursor } from "@use-pico/client/ui/cursor";
+import { Tx } from "@use-pico/client/ui/tx";
 import { tvc } from "@use-pico/cls";
 import type { ReactNode } from "react";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { FilterSchema, withQuerySchema } from "@use-pico/common";
+import { FilterSchema, withQuerySchema } from "@use-pico/common/schema";
 import z from "zod";
 
 export const InventoryItemQuerySchema = withQuerySchema({
