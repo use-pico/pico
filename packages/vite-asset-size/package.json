@@ -1,0 +1,36 @@
+{
+	"name": "@use-pico/vite-asset-size",
+	"description": "Vite plugin for tracking bundle size",
+	"version": "1.0.1",
+	"type": "module",
+	"sideEffects": false,
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"build": "tsc --build"
+	},
+	"dependencies": {},
+	"peerDependencies": {
+		"rollup": "^4.52.5",
+		"vite": "7.1.12"
+	},
+	"devDependencies": {
+		"@types/node": "^24.10.0",
+		"typescript": "^5.9.3"
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"license": "MIT",
+	"repository": "use-pico/pico",
+	"homepage": "https://github.com/use-pico/pico#readme",
+	"bugs": "https://github.com/use-pico/pico/issues"
+}
