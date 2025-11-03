@@ -6,7 +6,7 @@ import type { Form } from "./Form";
 
 export namespace onSubmit {
 	export namespace Map {
-		export interface Props<TValues extends object> {
+		export interface Props<TValues extends object, TData extends object> {
 			/**
 			 * Values from the form
 			 */
@@ -18,33 +18,33 @@ export namespace onSubmit {
 			 * because some values ("randomly") may disappear as they're undefined,
 			 * output schema may not match values provided.
 			 */
-			cleanup(): any;
+			cleanup(): TData;
 		}
 
-		export type Fn<TValues extends object> = (
-			props: Map.Props<TValues>,
-		) => Promise<any>;
+		export type Fn<TValues extends object, TData extends object> = (
+			props: Map.Props<TValues, TData>,
+		) => Promise<TData>;
 	}
 
-	export interface Props<TValues extends object> {
-		mutation: Form.Props.Mutation<TValues>;
+	export interface Props<TValues extends object, TData extends object> {
+		mutation: Form.Props.Mutation<TData>;
 		toast?: withToastPromiseTx.Text;
 		/**
 		 * Map form values to mutation request values (output of this goes directly into mutation).
 		 *
 		 * If you need different behavior, just pass your own map function.
 		 */
-		map?: Map.Fn<TValues>;
+		map?: Map.Fn<TValues, TData>;
 	}
 }
 
-export const onSubmit = <TValues extends object>({
+export const onSubmit = <TValues extends object, TData extends object>({
 	mutation,
 	toast,
-	map = ({ cleanup }) => {
-		return cleanup();
+	map = async ({ cleanup }) => {
+		return cleanup() as TData;
 	},
-}: onSubmit.Props<TValues>) => {
+}: onSubmit.Props<TValues, TData>) => {
 	/**
 	 * A bit strange "format", but this is for basic compatibility with TanStack Form.
 	 */
@@ -53,7 +53,7 @@ export const onSubmit = <TValues extends object>({
 			const mapped = await map({
 				values: value,
 				cleanup() {
-					return cleanOf(mapEmptyToNull(value));
+					return cleanOf(mapEmptyToNull(value)) as unknown as TData;
 				},
 			});
 
