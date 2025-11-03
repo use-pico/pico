@@ -1,17 +1,16 @@
 import { cleanOf } from "@use-pico/common/clean-of";
 import { mapEmptyToNull } from "@use-pico/common/map";
 import { toast as coolToast } from "react-hot-toast";
-import type { z } from "zod";
 import type { withToastPromiseTx } from "../../toast/withToastPromiseTx";
 import type { Form } from "./Form";
 
 export namespace onSubmit {
 	export namespace Map {
-		export interface Props<TShapeSchema extends z.ZodObject> {
+		export interface Props<TValues extends object> {
 			/**
 			 * Values from the form
 			 */
-			values: z.infer<TShapeSchema>;
+			values: TValues;
 			/**
 			 * Default cleanup function returns values: undefined => null.
 			 *
@@ -22,34 +21,34 @@ export namespace onSubmit {
 			cleanup(): any;
 		}
 
-		export type Fn<TShapeSchema extends z.ZodObject> = (
-			props: Map.Props<TShapeSchema>,
+		export type Fn<TValues extends object> = (
+			props: Map.Props<TValues>,
 		) => Promise<any>;
 	}
 
-	export interface Props<TShapeSchema extends z.ZodObject> {
-		mutation: Form.Props.Mutation<TShapeSchema>;
+	export interface Props<TValues extends object> {
+		mutation: Form.Props.Mutation<TValues>;
 		toast?: withToastPromiseTx.Text;
 		/**
 		 * Map form values to mutation request values (output of this goes directly into mutation).
 		 *
 		 * If you need different behavior, just pass your own map function.
 		 */
-		map?: Map.Fn<TShapeSchema>;
+		map?: Map.Fn<TValues>;
 	}
 }
 
-export const onSubmit = <TShapeSchema extends z.ZodObject>({
+export const onSubmit = <TValues extends object>({
 	mutation,
 	toast,
 	map = ({ cleanup }) => {
 		return cleanup();
 	},
-}: onSubmit.Props<TShapeSchema>) => {
+}: onSubmit.Props<TValues>) => {
 	/**
 	 * A bit strange "format", but this is for basic compatibility with TanStack Form.
 	 */
-	return async ({ value }: { value: z.infer<TShapeSchema> }) => {
+	return async ({ value }: { value: TValues }) => {
 		const fn = async () => {
 			return mutation
 				.mutateAsync(
