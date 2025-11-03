@@ -96,6 +96,7 @@ export const tx = ({
 			sourceStats.set(`object:${object}.${name}`, []);
 		}
 		console.log();
+        
 	}
 
 	// Optimize: Move helper functions and selectors outside loops
