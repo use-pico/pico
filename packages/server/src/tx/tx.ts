@@ -340,67 +340,63 @@ export const tx = ({
 			}
 		}
 		console.log();
+	}
 
-		console.log(
-			`📝 Writing translations to ${colors.bold}${colors.yellow}${locales.length}${colors.reset} locale(s)...\n`,
-		);
+	console.log(
+		`📝 Writing translations to ${colors.bold}${colors.yellow}${locales.length}${colors.reset} locale(s)...\n`,
+	);
 
-		locales.forEach((locale) => {
-			const target = `${output}/${locale}.${format}`;
+	locales.forEach((locale) => {
+		const target = `${output}/${locale}.${format}`;
 
-			let current: Record<string, TranslationSchema.Type> = {};
-			try {
-				const fileContent = fs.readFileSync(target, {
-					encoding: "utf-8",
-				});
-				current = (
-					format === "json"
-						? JSON.parse(fileContent)
-						: parse(fileContent)
-				) as Record<string, any>;
-			} catch (_) {
-				// Noop
-			}
-
-			/**
-			 * Delete dead keys
-			 */
-			for (const key of diffOf(
-				Object.keys(current),
-				Object.keys(translations),
-			)) {
-				if (current[key]?.static) {
-					continue;
-				}
-				delete current[key];
-			}
-
-			const sorted = new Map(
-				Object.entries({
-					...translations,
-					...current,
-				}).sort(),
-			);
-
-			const content =
-				format === "json"
-					? JSON.stringify(Object.fromEntries(sorted), null, 2)
-					: stringify(sorted);
-
-			fs.writeFileSync(target, content, {
+		let current: Record<string, TranslationSchema.Type> = {};
+		try {
+			const fileContent = fs.readFileSync(target, {
 				encoding: "utf-8",
 			});
+			current = (
+				format === "json" ? JSON.parse(fileContent) : parse(fileContent)
+			) as Record<string, any>;
+		} catch (_) {
+			// Noop
+		}
 
-			const filename = target.split("/").pop();
-			const dirPath = target.substring(0, target.lastIndexOf("/") + 1);
-			console.log(
-				`  📄 ${dirPath}${colors.green}${filename}${colors.reset}`,
-			);
+		/**
+		 * Delete dead keys
+		 */
+		for (const key of diffOf(
+			Object.keys(current),
+			Object.keys(translations),
+		)) {
+			if (current[key]?.static) {
+				continue;
+			}
+			delete current[key];
+		}
+
+		const sorted = new Map(
+			Object.entries({
+				...translations,
+				...current,
+			}).sort(),
+		);
+
+		const content =
+			format === "json"
+				? JSON.stringify(Object.fromEntries(sorted), null, 2)
+				: stringify(sorted);
+
+		fs.writeFileSync(target, content, {
+			encoding: "utf-8",
 		});
 
-		const translationCount = Object.keys(translations).length;
-		console.log(
-			`\n✨ Found ${colors.bold}${colors.yellow}${translationCount}${colors.reset} translations across ${colors.bold}${colors.yellow}${files}${colors.reset} files\n`,
-		);
-	}
+		const filename = target.split("/").pop();
+		const dirPath = target.substring(0, target.lastIndexOf("/") + 1);
+		console.log(`  📄 ${dirPath}${colors.green}${filename}${colors.reset}`);
+	});
+
+	const translationCount = Object.keys(translations).length;
+	console.log(
+		`\n✨ Found ${colors.bold}${colors.yellow}${translationCount}${colors.reset} translations across ${colors.bold}${colors.yellow}${files}${colors.reset} files\n`,
+	);
 };
