@@ -18,7 +18,7 @@ export namespace onSubmit {
 			 * because some values ("randomly") may disappear as they're undefined,
 			 * output schema may not match values provided.
 			 */
-			cleanup(): TData;
+			cleanup(values: TValues): TData;
 		}
 
 		export type Fn<TValues extends object, TData extends object> = (
@@ -41,8 +41,8 @@ export namespace onSubmit {
 export const onSubmit = <TValues extends object, TData extends object>({
 	mutation,
 	toast,
-	map = async ({ cleanup }) => {
-		return cleanup() as TData;
+	map = async ({ values, cleanup }) => {
+		return cleanup(values) as TData;
 	},
 }: onSubmit.Props<TValues, TData>) => {
 	/**
@@ -52,8 +52,8 @@ export const onSubmit = <TValues extends object, TData extends object>({
 		const fn = async () => {
 			const mapped = await map({
 				values: value,
-				cleanup() {
-					return cleanOf(mapEmptyToNull(value)) as unknown as TData;
+				cleanup(values) {
+					return cleanOf(mapEmptyToNull(values)) as unknown as TData;
 				},
 			});
 
