@@ -13,6 +13,7 @@ export const FormFieldCls = contract(PicoCls.contract)
 	.bool("isSubmitting")
 	.bool("isLoading")
 	.bool("isError")
+	.bool("full")
 	.variant("size", [
 		"xs",
 		"sm",
@@ -50,6 +51,13 @@ export const FormFieldCls = contract(PicoCls.contract)
 				"round.default",
 				"tone.neutral.light.set",
 				"focus.off",
+			],
+		},
+	})
+	.match("full", true, {
+		root: {
+			class: [
+				"w-full",
 			],
 		},
 	})
@@ -134,6 +142,7 @@ export const FormFieldCls = contract(PicoCls.contract)
 	.defaults({
 		tone: "primary",
 		theme: "light",
+		full: false,
 		required: false,
 		disabled: false,
 		isSubmitting: false,

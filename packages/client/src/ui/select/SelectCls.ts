@@ -87,6 +87,7 @@ export const SelectCls = contract(FormFieldCls.contract)
 		tone: "primary",
 		theme: "light",
 		size: "md",
+		full: false,
 		isError: false,
 		isLoading: false,
 		isSubmitting: false,
