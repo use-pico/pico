@@ -19,7 +19,7 @@
         "@tanstack/react-form": "1.23.8",
         "@tanstack/react-query": "5.90.7",
         "@tanstack/react-router": "1.134.12",
-        "@use-pico/client": "5.0.250",
+        "@use-pico/client": "5.0.253",
         "@use-pico/cls": "5.0.75",
         "@use-pico/common": "5.0.100",
         "fuse.js": "7.1.0",
@@ -55,7 +55,7 @@
     },
     "packages/client": {
       "name": "@use-pico/client",
-      "version": "5.0.250",
+      "version": "5.0.253",
       "dependencies": {
         "@floating-ui/react": "0.27.16",
         "@lexical/list": "0.38.2",

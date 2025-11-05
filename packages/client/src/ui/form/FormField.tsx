@@ -28,6 +28,7 @@ export namespace FormField {
 		label?: ReactNode;
 		hint?: ReactNode;
 		name?: string;
+		full?: boolean;
 		required?: boolean;
 		disabled?: boolean;
 		meta?: FormError.Meta;
@@ -42,6 +43,7 @@ export const FormField: FC<FormField.Props> = (props) => {
 		label,
 		hint,
 		name,
+		full = false,
 		required = false,
 		disabled = false,
 		meta,
@@ -59,6 +61,7 @@ export const FormField: FC<FormField.Props> = (props) => {
 			isError,
 			required,
 			disabled,
+			full,
 		},
 	});
 
