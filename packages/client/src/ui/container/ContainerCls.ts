@@ -9,6 +9,7 @@ export const ContainerCls = contract(PicoCls.contract)
 	.variant("height", [
 		"unset",
 		"fit",
+		"content",
 		"auto",
 		"viewport",
 	])
@@ -136,6 +137,14 @@ export const ContainerCls = contract(PicoCls.contract)
 		root: {
 			class: [
 				"h-auto",
+				"min-h-0",
+			],
+		},
+	})
+	.match("height", "content", {
+		root: {
+			class: [
+				"h-fit",
 				"min-h-0",
 			],
 		},
