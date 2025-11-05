@@ -19,16 +19,16 @@
 		"sp:update": "bun x syncpack update",
 		"workflow:format": "run-s sp:format format",
 		"workflow:check": "run-s workflow:format lint typecheck test",
-		"workflow:update": "run-s sp:fix sp:update sp:update workflow:format update workflow:check",
+		"workflow:update": "run-s sp:fix sp:update sp:fix sp:update workflow:format update workflow:check",
 		"workflow:release": "run-s workflow:check build changeset:changeset changeset:version changeset:publish"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.3",
+		"@biomejs/biome": "2.3.4",
 		"@changesets/cli": "2.29.7",
 		"npm-run-all2": "8.0.4",
 		"syncpack": "13.0.4",
 		"turbo": "2.6.0",
-		"typescript": "^5.9.3"
+		"typescript": "5.9.3"
 	},
 	"license": "MIT",
 	"repository": "use-pico/pico.git",

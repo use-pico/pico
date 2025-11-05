@@ -66,6 +66,12 @@ export namespace withMutation {
 		 * Optional array of invalidator functions. Each receives the QueryClient and is awaited in sequence when invalidation is triggered.
 		 */
 		invalidate?: withInvalidator.Invalidate[];
+		/**
+		 * If true, whole Query Client will be cleared out; useful for login/logout to ensure everything is in place.
+		 *
+		 * Cache is cleared _before_ the mutation is executed.
+		 */
+		dropCache?: boolean;
 	}
 
 	export type UseOptions<TVariables, TResult, TContext = unknown> = Omit<
@@ -109,10 +115,21 @@ export function withMutation<TVariables, TResult>({
 	mutationFn,
 	keys,
 	invalidate: $invalidate = [],
+	dropCache,
 }: withMutation.Props<TVariables, TResult>) {
 	const { invalidate } = withInvalidator({
 		invalidate: $invalidate,
 	});
+
+	const clearCache = (queryClient: QueryClient) => {
+		if (dropCache) {
+			queryClient.cancelQueries({
+				type: "all",
+			});
+			queryClient.clear();
+			queryClient.resetQueries();
+		}
+	};
 
 	return {
 		/**
@@ -134,6 +151,8 @@ export function withMutation<TVariables, TResult>({
 			return useMutation<TResult, Error, TVariables, TContext>({
 				mutationKey: keys(),
 				async mutationFn(variables) {
+					clearCache(queryClient);
+
 					await onPreMutation?.({
 						variables,
 					});
@@ -172,6 +191,7 @@ export function withMutation<TVariables, TResult>({
 		 */
 		async mutate(queryClient: QueryClient, variables: TVariables) {
 			const data = await mutationFn(variables);
+			clearCache(queryClient);
 			await invalidate(queryClient);
 			return data;
 		},

@@ -1,6 +1,8 @@
-{
-	"sortPackages": true,
-	"sortFirst": [
+import type { RcFile } from "syncpack";
+
+export default {
+	sortPackages: true,
+	sortFirst: [
 		"name",
 		"description",
 		"version",
@@ -20,27 +22,18 @@
 		"license",
 		"repository",
 		"homepage",
-		"bugs"
+		"bugs",
 	],
-	"sortAz": [
+	sortAz: [
 		"dependencies",
 		"devDependencies",
 		"peerDependencies",
 		"trustedDependencies",
-		"keywords"
+		"keywords",
 	],
-	"versionGroups": [
+	semverGroups: [
 		{
-			"packages": [
-				"*"
-			],
-			"dependencies": [
-				"dependencies",
-				"devDependencies",
-				"peerDependencies",
-				"optionalDependencies"
-			],
-			"semverRange": ""
-		}
-	]
-}
+			range: "",
+		},
+	],
+} satisfies RcFile;
