@@ -6,7 +6,11 @@ export const TranslationSources: TranslationSource.Sources = {
 			name: "Tx",
 			attr: "label",
 		},
-		//
+		{
+			name: "Mx",
+			attr: "label",
+		},
+		// 
 		{
 			name: "Button",
 			attr: "label",
