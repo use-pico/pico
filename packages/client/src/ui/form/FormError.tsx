@@ -1,8 +1,8 @@
-import { translator } from "@use-pico/common/translator";
 import type { FC, ReactNode } from "react";
 import { ErrorIcon } from "../../icon/ErrorIcon";
 import { Badge } from "../badge/Badge";
 import { More } from "../more/More";
+import { Mx } from "../mx/Mx";
 import { Tx } from "../tx/Tx";
 
 export namespace FormError {
@@ -67,7 +67,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 								},
 							}}
 						>
-							{translator.rich(entity.message)}
+							<Tx label={entity.message} />
 						</Badge>
 					);
 				}
@@ -98,7 +98,7 @@ export const FormError: FC<FormError.Props> = ({ meta }) => {
 								},
 							}}
 						>
-							{translator.rich(entity.message)}
+							<Mx label={entity.message} />
 						</Badge>
 					);
 				}

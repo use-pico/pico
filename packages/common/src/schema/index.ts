@@ -1,8 +1,9 @@
 export { CountSchema } from "./CountSchema";
 export { CursorSchema } from "./CursorSchema";
 export { EntitySchema } from "./EntitySchema";
-export { ErrorSchema } from "./ErrorSchema";
 export { FilterSchema } from "./FilterSchema";
+export { MessageSchema } from "./MessageSchema";
+export { MessageTypeSchema } from "./MessageTypeSchema";
 export { OrderSchema } from "./OrderSchema";
 export { DefaultSortSchema, type SortSchema } from "./SortSchema";
 export { TokenSchema } from "./TokenSchema";

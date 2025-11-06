@@ -1,5 +1,6 @@
 import type { Cls } from "@use-pico/cls";
-import type { FC } from "react";
+import { isString } from "@use-pico/common/is-string";
+import type { FC, ReactNode } from "react";
 import { Tx } from "../tx/Tx";
 import { Badge } from "./Badge";
 import type { BadgeCls } from "./BadgeCls";
@@ -18,7 +19,7 @@ export namespace BadgeValue {
 		/**
 		 * Value text to display in the badge.
 		 */
-		textValue: string;
+		textValue: ReactNode;
 	}
 }
 
@@ -60,10 +61,14 @@ export const BadgeValue: FC<BadgeValue.Props> = ({
 				preset={"label"}
 			/>
 
-			<Tx
-				label={textValue}
-				truncate
-			/>
+			{isString(textValue) ? (
+				<Tx
+					label={textValue}
+					truncate
+				/>
+			) : (
+				textValue
+			)}
 		</Badge>
 	);
 };

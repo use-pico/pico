@@ -14,13 +14,13 @@ import {
 } from "@floating-ui/react";
 import { type Cls, useCls } from "@use-pico/cls";
 import type { EntitySchema } from "@use-pico/common/schema";
-import { translator } from "@use-pico/common/translator";
 import type { Entity } from "@use-pico/common/type";
 import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import { CloseIcon } from "../../icon/CloseIcon";
 import { Icon } from "../../icon/Icon";
 import { Action } from "../action/Action";
 import { FormField } from "../form/FormField";
+import { Mx } from "../mx/Mx";
 import { SelectCls } from "./SelectCls";
 
 export namespace Select {
@@ -180,7 +180,7 @@ export const Select = <TItem extends EntitySchema.Type>({
 						{item ? (
 							<Render entity={item} />
 						) : (
-							textSelect || translator.rich("Select item")
+							textSelect || <Mx label="Select item" />
 						)}
 						<div className={"flex flex-row gap-2 items-center"}>
 							{allowClear ? (

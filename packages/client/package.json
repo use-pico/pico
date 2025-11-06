@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.255",
+	"version": "5.0.258",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -19,7 +19,7 @@
 		"@types/luxon": "3.7.1",
 		"@types/object-path": "0.11.4",
 		"@use-pico/cls": "5.0.75",
-		"@use-pico/common": "5.0.100",
+		"@use-pico/common": "5.0.102",
 		"axios": "1.13.2",
 		"js-file-downloader": "1.1.25",
 		"kysely": "0.28.8",
@@ -30,7 +30,9 @@
 		"react-dom": "19.2.0",
 		"react-dropzone": "14.3.8",
 		"react-hot-toast": "2.6.0",
+		"react-markdown": "10.1.0",
 		"read-excel-file": "6.0.1",
+		"remark-gfm": "4.0.1",
 		"ts-pattern": "5.9.0",
 		"use-debounce": "10.0.6",
 		"uuid": "13.0.0",

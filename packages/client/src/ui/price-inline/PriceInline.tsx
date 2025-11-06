@@ -1,6 +1,6 @@
 import { toLocaleNumber } from "@use-pico/common/to-locale-number";
-import { translator } from "@use-pico/common/translator";
 import type { FC } from "react";
+import { Mx } from "../mx/Mx";
 
 export namespace PriceInline {
 	export interface Props extends Omit<toLocaleNumber.Props, "number"> {
@@ -36,9 +36,7 @@ export const PriceInline: FC<PriceInline.Props> = ({
 					})}
 				</div>
 				<div>
-					{withVat
-						? translator.rich("With VAT")
-						: translator.rich("Without VAT")}
+					<Mx label={withVat ? "With VAT" : "Without VAT"} />
 				</div>
 			</div>
 		);
