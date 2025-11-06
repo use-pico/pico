@@ -13,8 +13,8 @@
 	"dependencies": {
 		"@tanstack/react-form": "1.23.8",
 		"@tanstack/react-query": "5.90.7",
-		"@tanstack/react-router": "1.134.12",
-		"@use-pico/client": "5.0.254",
+		"@tanstack/react-router": "1.134.13",
+		"@use-pico/client": "5.0.255",
 		"@use-pico/cls": "5.0.75",
 		"@use-pico/common": "5.0.100",
 		"fuse.js": "7.1.0",
@@ -25,11 +25,11 @@
 		"zod": "4.1.12"
 	},
 	"devDependencies": {
-		"@iconify/json": "2.2.403",
+		"@iconify/json": "2.2.404",
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
 		"@tailwindcss/vite": "4.1.16",
-		"@tanstack/router-plugin": "1.134.12",
+		"@tanstack/router-plugin": "1.134.13",
 		"@types/node": "24.10.0",
 		"@types/react": "19.2.2",
 		"@types/react-dom": "19.2.2",
@@ -37,7 +37,7 @@
 		"@vitejs/plugin-react": "5.1.0",
 		"tailwindcss": "4.1.16",
 		"typescript": "5.9.3",
-		"vite": "7.2.0",
+		"vite": "7.2.1",
 		"vite-plugin-dynamic-import": "1.6.0",
 		"vite-plugin-top-level-await": "1.6.0",
 		"vite-plugin-wasm": "3.5.0",
