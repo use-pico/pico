@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/client",
 	"description": "Client-side stuff",
-	"version": "5.0.260",
+	"version": "5.0.261",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -15,10 +15,10 @@
 		"@lexical/react": "0.38.2",
 		"@lexical/utils": "0.38.2",
 		"@tanstack/react-query": "5.90.7",
-		"@tanstack/react-router": "1.134.13",
+		"@tanstack/react-router": "1.135.0",
 		"@types/luxon": "3.7.1",
 		"@types/object-path": "0.11.4",
-		"@use-pico/cls": "5.0.75",
+		"@use-pico/cls": "5.0.76",
 		"@use-pico/common": "5.0.104",
 		"axios": "1.13.2",
 		"js-file-downloader": "1.1.25",
@@ -48,7 +48,7 @@
 		"@types/node": "24.10.0",
 		"@types/react": "19.2.2",
 		"@use-pico/tsconfig": "5.0.0",
-		"rollup": "4.52.5",
+		"rollup": "4.53.1",
 		"rollup-plugin-dts": "6.2.3",
 		"typescript": "5.9.3"
 	},

@@ -10,7 +10,7 @@ export const TranslationSources: TranslationSource.Sources = {
 			name: "Mx",
 			attr: "label",
 		},
-		// 
+		//
 		{
 			name: "Button",
 			attr: "label",
@@ -49,10 +49,6 @@ export const TranslationSources: TranslationSource.Sources = {
 		{
 			object: "translator",
 			name: "text",
-		},
-		{
-			object: "translator",
-			name: "rich",
 		},
 	],
 };
