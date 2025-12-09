@@ -3,7 +3,7 @@
 	"description": "LLM helpers",
 	"version": "0.5.1",
 	"dependencies": {
-		"@mlc-ai/web-llm": "0.2.79"
+		"@mlc-ai/web-llm": "0.2.80"
 	},
 	"main": "index.ts",
 	"types": "index.ts",

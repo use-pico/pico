@@ -1,7 +1,7 @@
 {
 	"name": "@use-pico/cls",
 	"description": "Type-safe, composable styling system for React, Vue, Svelte, and vanilla JS",
-	"version": "workspace:*",
+	"version": "5.0.76",
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
@@ -22,11 +22,11 @@
 		"@rollup/plugin-typescript": "12.3.0",
 		"@testing-library/jest-dom": "6.9.1",
 		"@testing-library/react": "16.3.0",
-		"@types/node": "24.10.1",
+		"@types/node": "24.10.2",
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
 		"@types/testing-library__jest-dom": "6.0.0",
-		"@typescript/native-preview": "7.0.0-dev.20251208.1",
+		"@typescript/native-preview": "7.0.0-dev.20251209.1",
 		"@use-pico/tsconfig": "5.0.0",
 		"@vitejs/plugin-react": "5.1.2",
 		"jsdom": "27.3.0",

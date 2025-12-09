@@ -12,9 +12,9 @@
 	"dependencies": {
 		"@graphql-codegen/add": "6.0.0",
 		"@graphql-codegen/import-types-preset": "3.0.1",
-		"@graphql-codegen/plugin-helpers": "6.0.0",
+		"@graphql-codegen/plugin-helpers": "6.1.0",
 		"@graphql-codegen/schema-ast": "5.0.0",
-		"@graphql-codegen/typescript-operations": "5.0.2",
+		"@graphql-codegen/typescript-operations": "5.0.6",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"graphql": "16.12.0"
 	},
@@ -22,13 +22,13 @@
 		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
-		"@types/node": "24.10.0",
+		"@types/node": "24.10.2",
 		"@use-pico/tsconfig": "5.0.0",
-		"rollup": "4.53.1",
-		"rollup-plugin-dts": "6.2.3",
+		"rollup": "4.53.3",
+		"rollup-plugin-dts": "6.3.0",
 		"typescript": "5.9.3",
-		"vitest": "4.0.8",
-		"zod": "4.1.12"
+		"vitest": "4.0.15",
+		"zod": "4.1.13"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.js",
