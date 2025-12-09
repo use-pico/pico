@@ -13,6 +13,7 @@ export type { Token } from "./types/Token";
 export type { Utils } from "./types/Utils";
 export type { Variant } from "./types/Variant";
 export type { What } from "./types/What";
+export { ui } from "./ui/ui";
 export { tvc } from "./utils/tvc";
 
 /**

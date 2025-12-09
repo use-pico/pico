@@ -4,6 +4,23 @@ import type { What } from "../types/What";
 import { dedupe } from "./dedupe";
 import { filter } from "./filter";
 
+export function deepClone<T>(value: T): T {
+	if (value === null || typeof value !== "object") {
+		return value;
+	}
+
+	if (Array.isArray(value)) {
+		return value.map((item) => deepClone(item)) as unknown as T;
+	}
+
+	const result: Record<string, unknown> = {};
+	for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
+		result[key] = deepClone(val);
+	}
+
+	return result as T;
+}
+
 /**
  * merge(tweak1, tweak2, ...)
  *
@@ -20,7 +37,7 @@ export function tweaks<const TContract extends Contract.Any>(
 		return {};
 	}
 
-	const list = tweaks
+	const list = deepClone(tweaks)
 		.flat(10)
 		.filter((tweak): tweak is Tweak.Type<TContract> => tweak !== undefined);
 

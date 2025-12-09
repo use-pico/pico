@@ -1,5 +1,9 @@
 import { type ClassNameValue, twMerge } from "tailwind-merge";
 
+export namespace tvc {
+	export type ClassName = ClassNameValue;
+}
+
 export const tvc = (...classLists: ClassNameValue[]): string => {
 	const merged = twMerge(...classLists);
 	if (!merged) {
