@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { PageCls } from "@use-pico/client/cls";
-import { LoadingOverlay } from "@use-pico/client/ui/loading-overlay";
+import { SpinnerContainer } from "@use-pico/client/ui/container";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "~/_route";
@@ -27,7 +27,7 @@ const router = createRouter({
 		tva: PageCls,
 	},
 	scrollRestoration: true,
-	defaultPendingComponent: LoadingOverlay,
+	defaultPendingComponent: SpinnerContainer,
 	defaultPreload: "intent",
 	defaultPreloadStaleTime: 0,
 	defaultPendingMinMs: 200,
