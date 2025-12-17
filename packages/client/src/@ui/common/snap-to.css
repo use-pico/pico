@@ -1,0 +1,81 @@
+@layer components {
+	[data-ui-snap-to="top-left"] {
+		@apply top-2 left-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="top-center"] {
+		@apply top-2 left-1/2 -translate-x-1/2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="top-right"] {
+		@apply top-2 right-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="top"] {
+		@apply top-2 left-2 right-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="bottom-right"] {
+		@apply bottom-2 right-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="bottom-left"] {
+		@apply bottom-2 left-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="bottom-center"] {
+		@apply bottom-2 left-1/2 -translate-x-1/2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="bottom"] {
+		@apply bottom-2 left-2 right-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="left"] {
+		@apply left-2 top-2 bottom-2;
+		position: absolute;
+		width: auto;
+		height: auto;
+	}
+
+	[data-ui-snap-to="right"] {
+		@apply right-2 top-2 bottom-2;
+		position: absolute;
+		width: auto;
+		height: auto;
+	}
+
+	[data-ui-snap-to="left-center"] {
+		@apply left-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="right-center"] {
+		@apply right-2;
+		position: absolute;
+		width: auto;
+	}
+
+	[data-ui-snap-to="middle"] {
+		@apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+		position: absolute;
+		width: auto;
+	}
+}

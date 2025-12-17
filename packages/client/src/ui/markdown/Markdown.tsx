@@ -1,37 +1,47 @@
 import { Typo } from "@use-pico/client/ui/typo";
-import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
+import { tvc } from "@use-pico/cls";
 import type { ComponentProps, FC } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { PicoCls } from "../../cls";
-import { MarkdownCls } from "./MarkdownCls";
+import { uiButton } from "../button";
+import { Container, uiContainer } from "../container";
+import { uiMarkdown } from "./uiMarkdown";
 
 export namespace Markdown {
+	export interface Components {
+		h1?: Typo.PropsEx;
+		h2?: Typo.PropsEx;
+		a?: uiButton.Component<{}>;
+		p?: Container.Props;
+		strong?: Typo.PropsEx;
+	}
+
 	export interface Props
-		extends MarkdownCls.Props<ComponentProps<typeof ReactMarkdown>> {
-		tone?: Cls.VariantOf<PicoCls, "tone">;
-		theme?: Cls.VariantOf<PicoCls, "theme">;
+		extends uiMarkdown.Component<
+			Omit<ComponentProps<typeof ReactMarkdown>, "components">
+		> {
+		components?: Components;
 	}
 }
 
 export const Markdown: FC<Markdown.Props> = ({
-	tone,
-	theme,
-	cls = MarkdownCls,
-	tweak,
+	ui,
+	className,
+	components,
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak);
-
+	/**
+	 * Wrapper div is used only to setup global CSS variables on top of inner components of markdown.
+	 */
 	return (
-		<VariantProvider
-			cls={PicoCls}
-			variant={{
-				tone,
-				theme,
-			}}
+		<div
+			{...uiMarkdown({
+				ui,
+				className,
+			})}
 		>
 			<ReactMarkdown
+				skipHtml
 				remarkPlugins={[
 					remarkGfm,
 				]}
@@ -40,15 +50,11 @@ export const Markdown: FC<Markdown.Props> = ({
 						return (
 							<Typo
 								label={children}
-								size={"xl"}
-								font={"bold"}
-								tweak={{
-									slot: {
-										root: {
-											class: slots.h1(),
-										},
-									},
+								ui={{
+									text: "xl",
+									font: "bold",
 								}}
+								{...components?.h1}
 							/>
 						);
 					},
@@ -56,49 +62,55 @@ export const Markdown: FC<Markdown.Props> = ({
 						return (
 							<Typo
 								label={children}
-								size={"lg"}
-								font={"semi"}
-								tweak={{
-									slot: {
-										root: {
-											class: slots.h2(),
-										},
-									},
+								ui={{
+									text: "lg",
+									font: "normal",
 								}}
+								{...components?.h2}
 							/>
 						);
 					},
 					a(props) {
 						return (
 							<a
-								className={slots.a()}
 								{...props}
 								target="_blank"
 								rel="noopener noreferrer"
+								{...uiButton({
+									ui: components?.a?.ui,
+									className: components?.a?.className ?? [],
+								})}
 							/>
 						);
 					},
 					p({ children }) {
-						return <div className={slots.p()}>{children}</div>;
+						return (
+							<Container
+								className={"py-1"}
+								{...components?.p}
+							>
+								{children}
+							</Container>
+						);
 					},
 					strong({ children }) {
 						return (
 							<Typo
 								label={children}
-								font={"bold"}
-								tweak={{
-									slot: {
-										root: {
-											class: slots.strong(),
-										},
-									},
+								ui={{
+									font: "bold",
 								}}
+								{...components?.strong}
 							/>
 						);
 					},
 					blockquote({ children }) {
 						return (
-							<blockquote className={slots.blockquote()}>
+							<blockquote
+								{...uiContainer({
+									className: [],
+								})}
+							>
 								{children}
 							</blockquote>
 						);
@@ -107,26 +119,36 @@ export const Markdown: FC<Markdown.Props> = ({
 						return (
 							<Typo
 								label={children}
-								italic
-								tweak={{
-									slot: {
-										root: {
-											class: slots.em(),
-										},
-									},
+								ui={{
+									italic: true,
 								}}
 							/>
 						);
 					},
 					ul({ children }) {
-						return <ul className={slots.ul()}>{children}</ul>;
+						return <ul>{children}</ul>;
 					},
 					hr() {
-						return <div className={slots.hr()} />;
+						return (
+							<div
+								className={tvc([
+									"border-t",
+									"h-px",
+									"w-full",
+									"my-4",
+								])}
+								{...uiContainer({
+									ui: {
+										background: "default",
+									},
+									className: [],
+								})}
+							/>
+						);
 					},
 				}}
 				{...props}
 			/>
-		</VariantProvider>
+		</div>
 	);
 };

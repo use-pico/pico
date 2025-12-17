@@ -1,12 +1,10 @@
-import { type Cls, useCls } from "@use-pico/cls";
-import { type FC, type Ref, useCallback, useId, useMemo } from "react";
+import { type FC, useCallback, useId, useMemo } from "react";
 import { useDoubleTap } from "../../hook/useDoubleTap";
 import type { useSnapperNav } from "../../hook/useSnapperNav";
 import { DotIcon } from "../../icon/DotIcon";
 import { Icon } from "../../icon/Icon";
-import type { IconCls } from "../../icon/IconCls";
-import type { UiProps } from "../../type/UiProps";
-import { SnapperNavCls } from "./SnapperNavCls";
+import type { uiIcon } from "../../icon/uiIcon";
+import { Container } from "../container/Container";
 
 export namespace SnapperNav {
 	export namespace IconProps {
@@ -35,36 +33,24 @@ export namespace SnapperNav {
 		icon?: Icon.Type;
 	}
 
-	export interface Props extends UiProps<SnapperNavCls.Props> {
-		ref?: Ref<HTMLDivElement>;
+	export interface Props extends Container.Props {
 		snapperNav: useSnapperNav.Result;
 		pages?: Page[] | Count;
-		subtle?: boolean;
-		orientation: Cls.VariantOf<SnapperNavCls, "orientation">;
-		tone?: Cls.VariantOf<IconCls, "tone">;
-		align?: Cls.VariantOf<SnapperNavCls, "align">;
 		iconProps?: IconProps.IconPropsFn;
 		limit?: number;
 	}
 }
 
 export const SnapperNav: FC<SnapperNav.Props> = ({
-	ui,
-	ref,
 	snapperNav,
 	pages,
-	//
-	subtle,
-	orientation,
-	tone = "secondary",
-	align,
 	//
 	iconProps,
 	limit = 5,
 	//
-	cls = SnapperNavCls,
-	tweak,
+	ui,
 	//
+	...props
 }) => {
 	const pageId = useId();
 	const $pages: SnapperNav.Page[] = pages
@@ -88,16 +74,6 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 					icon: DotIcon,
 				}),
 			);
-
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			orientation,
-			align,
-			subtle,
-			first: snapperNav.state.isFirst,
-			last: snapperNav.state.isLast,
-		},
-	});
 
 	const firstDoubleTap = useDoubleTap({
 		onDoubleTap: snapperNav.api.start,
@@ -137,33 +113,34 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 		snapperNav.state.current,
 	]);
 
+	const activeIconUi: uiIcon.Ui = {
+		text: "lg",
+		color: "lead",
+	};
+
 	const renderLimiter = useCallback(() => {
-		const leftIcon: Icon.Type =
-			orientation === "vertical"
-				? "icon-[rivet-icons--chevron-up]"
-				: "icon-[rivet-icons--chevron-left]";
-		const rightIcon: Icon.Type =
-			orientation === "vertical"
-				? "icon-[rivet-icons--chevron-down]"
-				: "icon-[rivet-icons--chevron-right]";
+		// const leftIcon: Icon.Type =
+		// 	orientation === "vertical"
+		// 		? "icon-[rivet-icons--chevron-up]"
+		// 		: "icon-[rivet-icons--chevron-left]";
+		// const rightIcon: Icon.Type =
+		// 	orientation === "vertical"
+		// 		? "icon-[rivet-icons--chevron-down]"
+		// 		: "icon-[rivet-icons--chevron-right]";
+		const leftIcon: Icon.Type = "icon-[rivet-icons--chevron-left]";
+		const rightIcon: Icon.Type = "icon-[rivet-icons--chevron-right]";
 
 		return (
 			<>
 				<Icon
-					id={firstId}
+					data-ui="SnapperNav[Icon.first]"
 					key={firstId}
 					onDoubleClick={snapperNav.api.start}
 					onClick={snapperNav.api.prev}
 					onTouchStart={firstDoubleTap.onTouchStart}
 					icon={leftIcon}
-					tone={tone}
-					size="md"
-					tweak={{
-						slot: {
-							root: {
-								class: slots.first(),
-							},
-						},
+					ui={{
+						text: "md",
 					}}
 					{...iconProps?.({
 						limit: true,
@@ -183,23 +160,18 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 
 					return (
 						<Icon
-							id={page.id}
+							data-ui="SnapperNav-item"
 							key={page.id}
 							onClick={() => snapperNav.api.snapTo(i)}
 							icon={page.icon}
-							tone={tone}
-							size="md"
-							tweak={{
-								slot: {
-									root: {
-										class: slots.item({
-											variant: {
-												active: isActive,
-											},
-										}),
-									},
-								},
-							}}
+							ui={
+								isActive
+									? activeIconUi
+									: {
+											text: "md",
+											color: "icon",
+										}
+							}
 							{...iconProps?.({
 								limit: false,
 								active: isActive,
@@ -214,20 +186,14 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 					);
 				})}
 				<Icon
-					id={lastId}
+					data-ui="SnapperNav[Icon.last]"
 					key={lastId}
 					onClick={snapperNav.api.next}
 					onDoubleClick={snapperNav.api.end}
 					onTouchStart={lastDoubleTap.onTouchStart}
 					icon={rightIcon}
-					tone={tone}
-					size="md"
-					tweak={{
-						slot: {
-							root: {
-								class: slots.last(),
-							},
-						},
+					ui={{
+						text: "md",
 					}}
 					{...iconProps?.({
 						limit: true,
@@ -240,13 +206,10 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 	}, [
 		firstId,
 		lastId,
-		orientation,
-		tone,
 		iconProps,
 		$pages,
 		snapperNav,
 		flow,
-		slots,
 		firstDoubleTap,
 		lastDoubleTap,
 	]);
@@ -259,24 +222,20 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 
 					return (
 						<Icon
-							id={page.id}
+							data-ui="SnapperNav[Icon.item]"
 							key={page.id}
 							onClick={() => snapperNav.api.snapTo(i)}
 							icon={page.icon}
-							tone={tone}
-							size="md"
-							tweak={{
-								slot: {
-									root: {
-										class: [
-											"pointer-events-auto select-none transition cursor-pointer",
-											isActive
-												? "scale-125 opacity-100"
-												: "opacity-60 hover:opacity-90",
-										],
-									},
-								},
-							}}
+							ui={
+								isActive
+									? activeIconUi
+									: {
+											text: "md",
+										}
+							}
+							//
+							data-active={isActive}
+							//
 							{...iconProps?.({
 								limit: false,
 								active: isActive,
@@ -288,7 +247,6 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 			</>
 		),
 		[
-			tone,
 			$pages,
 			iconProps,
 			snapperNav,
@@ -296,19 +254,30 @@ export const SnapperNav: FC<SnapperNav.Props> = ({
 	);
 
 	return snapperNav.state.count > 1 ? (
-		<div
-			data-ui={ui ?? "SnapperNav-root"}
-			ref={ref}
-			className={slots.root()}
+		<Container
+			data-ui="SnapperNav[Container]"
+			ui={{
+				tone: "primary",
+				theme: "light",
+				border: true,
+				shadow: true,
+				round: "xl",
+				inner: "default",
+				snapTo: "bottom-center",
+				flow: "horizontal",
+				items: "center",
+				justify: "center",
+				gap: "default",
+				background: "default",
+				zIndex: true,
+				color: "lead",
+				opacity: "2xl",
+				...ui,
+			}}
+			className={"transition-all tone-neutral-light-bg"}
+			{...props}
 		>
-			<div
-				data-ui="SnapperNav-items"
-				className={slots.items()}
-			>
-				{limit && $pages.length > limit
-					? renderLimiter()
-					: renderPages()}
-			</div>
-		</div>
+			{limit && $pages.length > limit ? renderLimiter() : renderPages()}
+		</Container>
 	) : null;
 };

@@ -1,0 +1,17 @@
+@layer components {
+	[data-ui-background="default"] {
+		background-color: var(--color-bg);
+	}
+
+	.active[data-ui-background-active="default"] {
+		background-color: var(--color-bg-active);
+	}
+
+	[data-ui-background="alt"] {
+		background-color: var(--color-bg-alt);
+	}
+
+	.active[data-ui-background-active="alt"] {
+		background-color: var(--color-bg-alt-active);
+	}
+}

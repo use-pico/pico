@@ -1,0 +1,37 @@
+@layer components {
+	[data-ui-gap="default"] {
+		@apply gap-2;
+	}
+
+	[data-ui-gap="xs"] {
+		@apply gap-1;
+	}
+
+	[data-ui-gap="sm"] {
+		@apply gap-2;
+	}
+
+	[data-ui-gap="md"] {
+		@apply gap-3;
+	}
+
+	[data-ui-gap="lg"] {
+		@apply gap-4;
+	}
+
+	[data-ui-gap="xl"] {
+		@apply gap-5;
+	}
+
+	[data-ui-gap="2xl"] {
+		@apply gap-6;
+	}
+
+	[data-ui-gap="3xl"] {
+		@apply gap-7;
+	}
+
+	[data-ui-gap="4xl"] {
+		@apply gap-8;
+	}
+}

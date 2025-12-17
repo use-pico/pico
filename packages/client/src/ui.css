@@ -1,0 +1,6 @@
+@import "./@ui/index.css";
+
+@import "./icon/Icon.css";
+@import "./ui/container/Container.css";
+@import "./ui/fade/Fade.css";
+@import "./ui/typo/Typo.css";

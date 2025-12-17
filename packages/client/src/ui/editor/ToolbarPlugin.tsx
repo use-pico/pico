@@ -14,7 +14,7 @@ import {
 	UNDO_COMMAND,
 } from "lexical";
 import { type FC, useCallback, useEffect, useRef, useState } from "react";
-import { Action } from "../action/Action";
+import { Button } from "../button";
 
 const LowPriority = 1;
 
@@ -111,7 +111,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					"gap-1",
 				])}
 			>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols-light--undo]"}
 					iconDisabled={"icon-[material-symbols-light--undo]"}
 					disabled={!canUndo}
@@ -119,7 +119,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 						editor.dispatchCommand(UNDO_COMMAND, undefined);
 					}}
 				/>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols-light--redo]"}
 					iconDisabled={"icon-[material-symbols-light--redo]"}
 					disabled={!canRedo}
@@ -137,31 +137,23 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					"gap-1",
 				])}
 			>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-bold]"}
 					iconDisabled={"icon-[material-symbols--format-bold]"}
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
 					}}
-					tweak={{
-						variant: {
-							disabled: !isBold,
-						},
-					}}
+					disabled={!isBold}
 				/>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-italic]"}
 					iconDisabled={"icon-[material-symbols--format-italic]"}
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
 					}}
-					tweak={{
-						variant: {
-							disabled: !isItalic,
-						},
-					}}
+					disabled={!isItalic}
 				/>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-underlined]"}
 					iconDisabled={"icon-[material-symbols--format-underlined]"}
 					onClick={() => {
@@ -170,13 +162,9 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"underline",
 						);
 					}}
-					tweak={{
-						variant: {
-							disabled: !isUnderline,
-						},
-					}}
+					disabled={!isUnderline}
 				/>
-				<Action
+				<Button
 					iconEnabled={
 						"icon-[material-symbols--format-strikethrough]"
 					}
@@ -189,11 +177,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 							"strikethrough",
 						);
 					}}
-					tweak={{
-						variant: {
-							disabled: !isStrikethrough,
-						},
-					}}
+					disabled={!isStrikethrough}
 				/>
 			</div>
 			<Divider />
@@ -205,13 +189,13 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					"gap-1",
 				])}
 			>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-align-left]"}
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
 					}}
 				/>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-align-center]"}
 					onClick={() => {
 						editor.dispatchCommand(
@@ -220,13 +204,13 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 						);
 					}}
 				/>
-				<Action
+				<Button
 					iconEnabled={"icon-[material-symbols--format-align-right]"}
 					onClick={() => {
 						editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
 					}}
 				/>
-				<Action
+				<Button
 					iconEnabled={
 						"icon-[material-symbols--format-align-justify]"
 					}
@@ -247,7 +231,7 @@ export const ToolbarPlugin: FC<ToolbarPlugin.Props> = ({ onSave }) => {
 					"gap-1",
 				])}
 			>
-				<Action
+				<Button
 					iconEnabled={"icon-[foundation--save]"}
 					onClick={() => {
 						onSave?.({

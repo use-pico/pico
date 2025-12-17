@@ -5,7 +5,7 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"typecheck": "tsc --noEmit",
+		"typecheck": "tsgo --noEmit",
 		"no:build": "bun x rollup -c",
 		"test": "run-s test:*",
 		"test:code": "vitest --run"
@@ -19,19 +19,20 @@
 		"yaml": "2.8.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.8",
+		"@biomejs/biome": "2.3.9",
 		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
-		"@types/node": "24.10.2",
+		"@types/node": "25.0.3",
 		"@types/react": "19.2.7",
+		"@typescript/native-preview": "7.0.0-dev.20251208.1",
 		"@use-pico/tsconfig": "5.0.0",
 		"npm-run-all2": "8.0.4",
-		"react": "19.2.1",
-		"rollup": "4.53.3",
+		"react": "19.2.3",
+		"rollup": "4.53.5",
 		"rollup-plugin-dts": "6.3.0",
 		"typescript": "5.9.3",
-		"vitest": "4.0.15"
+		"vitest": "4.0.16"
 	},
 	"files": [
 		"src"

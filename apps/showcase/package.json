@@ -11,37 +11,37 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@tanstack/react-form": "1.27.1",
+		"@tanstack/react-form": "1.27.4",
 		"@tanstack/react-query": "5.90.12",
-		"@tanstack/react-router": "1.140.0",
+		"@tanstack/react-router": "1.141.4",
 		"@use-pico/client": "5.0.262",
 		"@use-pico/cls": "5.0.77",
 		"@use-pico/common": "5.0.104",
 		"fuse.js": "7.1.0",
-		"kysely": "0.28.8",
-		"react": "19.2.1",
-		"react-dom": "19.2.1",
+		"kysely": "0.28.9",
+		"react": "19.2.3",
+		"react-dom": "19.2.3",
 		"sqlocal": "0.16.0",
-		"zod": "4.1.13"
+		"zod": "4.2.1"
 	},
 	"devDependencies": {
-		"@iconify/json": "2.2.416",
+		"@iconify/json": "2.2.419",
 		"@iconify/tailwind": "1.2.0",
 		"@modyfi/vite-plugin-yaml": "1.1.1",
-		"@tailwindcss/vite": "4.1.17",
-		"@tanstack/router-plugin": "1.140.0",
-		"@types/node": "24.10.2",
+		"@tailwindcss/vite": "4.1.18",
+		"@tanstack/router-plugin": "1.141.5",
+		"@types/node": "25.0.3",
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
 		"@use-pico/server": "5.0.109",
 		"@vitejs/plugin-react": "5.1.2",
-		"tailwindcss": "4.1.17",
+		"tailwindcss": "4.1.18",
 		"typescript": "5.9.3",
-		"vite": "7.2.7",
+		"vite": "7.3.0",
 		"vite-plugin-dynamic-import": "1.6.0",
 		"vite-plugin-top-level-await": "1.6.0",
 		"vite-plugin-wasm": "3.5.0",
-		"vite-tsconfig-paths": "5.1.4"
+		"vite-tsconfig-paths": "6.0.2"
 	},
 	"private": true
 }

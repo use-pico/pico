@@ -1,0 +1,9 @@
+@layer components {
+	[data-ui-shadow="true"] {
+		@apply shadow-md;
+	}
+
+	.active[data-ui-shadow-active="true"] {
+		@apply shadow-lg;
+	}
+}

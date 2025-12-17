@@ -7,6 +7,8 @@ export namespace Mx {
 		label: string | undefined;
 		fallback?: string;
 	}
+
+	export type PropsEx = Partial<Props>;
 }
 
 export const Mx: FC<Mx.Props> = ({ label, fallback, ...props }) => {

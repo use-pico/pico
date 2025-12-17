@@ -1,2 +1,2 @@
 export { LinkTo } from "./LinkTo";
-export { LinkToCls } from "./LinkToCls";
+export { uiLinkTo } from "./uiLinkTo";

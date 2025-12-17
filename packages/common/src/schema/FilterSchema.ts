@@ -9,16 +9,31 @@ export const FilterSchema = z.object({
 	/**
 	 * Basically any entity should have an ID, thus it's present in the default schema.
 	 */
-	id: z.string().nullish(),
+	id: z
+		.union([
+			z.string(),
+			z.null(),
+		])
+		.optional(),
 	/**
 	 * Option to get entities by an array of IDs.
 	 */
-	idIn: z.array(z.string()).nullish(),
+	idIn: z
+		.union([
+			z.array(z.string()),
+			z.null(),
+		])
+		.optional(),
 	/**
 	 * Usually it's somehow possible to search for the Entity by some text, thus it's present,
 	 * but not necessarily required.
 	 */
-	fulltext: z.string().nullish(),
+	fulltext: z
+		.union([
+			z.string(),
+			z.null(),
+		])
+		.optional(),
 });
 
 export type FilterSchema = typeof FilterSchema;

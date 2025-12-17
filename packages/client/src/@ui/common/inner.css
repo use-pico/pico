@@ -1,0 +1,37 @@
+@layer components {
+	[data-ui-inner="default"] {
+		@apply p-2;
+	}
+
+	[data-ui-inner="xs"] {
+		@apply p-1;
+	}
+
+	[data-ui-inner="sm"] {
+		@apply p-1.5;
+	}
+
+	[data-ui-inner="md"] {
+		@apply p-2;
+	}
+
+	[data-ui-inner="lg"] {
+		@apply p-3;
+	}
+
+	[data-ui-inner="xl"] {
+		@apply p-4;
+	}
+
+	[data-ui-inner="2xl"] {
+		@apply p-5;
+	}
+
+	[data-ui-inner="3xl"] {
+		@apply p-6;
+	}
+
+	[data-ui-inner="4xl"] {
+		@apply p-7;
+	}
+}

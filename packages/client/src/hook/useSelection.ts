@@ -277,23 +277,16 @@ export function useSelection<T extends EntitySchema.Type>({
 	]);
 
 	const optionalSingle = useCallback(
-		(): T | undefined =>
-			mode === "single" && selection.length === 1
-				? selection[0]
-				: undefined,
+		(): T | undefined => (selection.length >= 1 ? selection[0] : undefined),
 		[
-			mode,
 			selection,
 		],
 	);
 
 	const optionalSingleId = useCallback(
 		(): string | undefined =>
-			mode === "single" && selection.length === 1
-				? selection[0]?.id
-				: undefined,
+			selection.length >= 1 ? selection[0]?.id : undefined,
 		[
-			mode,
 			selection,
 		],
 	);

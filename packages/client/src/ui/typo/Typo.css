@@ -1,0 +1,31 @@
+@layer components {
+	/** Wrap */
+	.Typo[data-ui-wrap="wrap"] {
+		min-width: 0;
+		max-width: 100%;
+		white-space: normal;
+		overflow: hidden;
+		hyphens: auto;
+		-webkit-hyphens: auto;
+		text-wrap: wrap;
+		word-break: keep-all;
+	}
+
+	.Typo[data-ui-wrap="nowrap"] {
+		min-width: 0;
+		max-width: 100%;
+		text-wrap: nowrap;
+		word-break: keep-all;
+	}
+
+	/** Truncate */
+	.Typo[data-ui-truncate="true"] {
+		min-width: 0;
+		max-width: 100%;
+		text-wrap: nowrap;
+		word-break: keep-all;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}

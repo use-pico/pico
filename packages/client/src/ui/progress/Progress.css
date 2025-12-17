@@ -1,0 +1,12 @@
+@layer components {
+	.Progress {
+		height: 100%;
+		width: 100%;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.Progress [data-ui="Progress-progress"] {
+		height: 100%;
+		line-height: 1;
+	}
+}

@@ -1,0 +1,29 @@
+@layer components {
+	[data-ui-items="start"] {
+		align-items: flex-start;
+	}
+
+	[data-ui-items="center"] {
+		align-items: center;
+	}
+
+	[data-ui-items="end"] {
+		align-items: flex-end;
+	}
+
+	[data-ui-items="stretch"] {
+		align-items: stretch;
+	}
+
+	[data-ui-items="space-around"] {
+		align-items: space-around;
+	}
+
+	[data-ui-items="space-between"] {
+		align-items: space-between;
+	}
+
+	[data-ui-items="space-evenly"] {
+		align-items: space-evenly;
+	}
+}

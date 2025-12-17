@@ -7,6 +7,8 @@ export namespace Tx {
 		label: string | undefined;
 		fallback?: string;
 	}
+
+	export type PropsEx = Omit<Props, "label">;
 }
 
 export const Tx: FC<Tx.Props> = ({ label, fallback, ...props }) => {

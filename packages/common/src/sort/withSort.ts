@@ -8,7 +8,7 @@ export namespace withSort {
 	}
 
 	export interface Props {
-		state: StateType<SortItem[] | null | undefined>;
+		state: StateType.State<SortItem[] | null | undefined>;
 		value: string;
 		by?: OrderSchema.Type;
 	}

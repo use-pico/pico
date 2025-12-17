@@ -1,1 +1,1 @@
-export const ListIcon = "icon-[ph--list-dashes-thin]";
+export const ListIcon = "icon-[material-symbols-light--view-list-outline]";

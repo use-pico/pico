@@ -1,5 +1,6 @@
 import React, { type FC, useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
+import { uiButton } from "./uiButton";
 
 export namespace ConfirmButton {
 	export interface Props extends Button.Props {
@@ -18,6 +19,10 @@ export namespace ConfirmButton {
 		 * @default 3000
 		 */
 		confirmTimeout?: number;
+		/**
+		 * Callback function to reset the confirm state.
+		 */
+		onReset?(): void;
 	}
 }
 
@@ -25,10 +30,12 @@ export const ConfirmButton: FC<ConfirmButton.Props> = ({
 	buttonProps,
 	confirmProps,
 	confirmTimeout = 3000,
+	onReset,
+	ui,
 	...props
 }) => {
 	const [isConfirm, setIsConfirm] = useState(false);
-	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		if (!isConfirm) {
@@ -36,17 +43,18 @@ export const ConfirmButton: FC<ConfirmButton.Props> = ({
 			setIsConfirm(true);
 			timeoutRef.current = setTimeout(() => {
 				setIsConfirm(false);
-				timeoutRef.current = null;
+				timeoutRef.current = undefined;
+				onReset?.();
 			}, confirmTimeout);
 			return;
 		}
 
-		if (timeoutRef.current) {
-			clearTimeout(timeoutRef.current);
-			timeoutRef.current = null;
-		}
-		confirmProps?.onClick?.(event);
+		clearTimeout(timeoutRef.current);
+		timeoutRef.current = undefined;
+
 		setIsConfirm(false);
+
+		confirmProps?.onClick?.(event);
 	};
 
 	useEffect(() => {
@@ -57,10 +65,19 @@ export const ConfirmButton: FC<ConfirmButton.Props> = ({
 		};
 	}, []);
 
+	const conditionalProps = isConfirm ? confirmProps : buttonProps;
+
 	return (
 		<Button
 			{...props}
-			{...(isConfirm ? confirmProps : buttonProps)}
+			{...conditionalProps}
+			{...uiButton({
+				ui: {
+					...ui,
+					...conditionalProps?.ui,
+				},
+				className: [],
+			})}
 			onClick={handleClick}
 		/>
 	);

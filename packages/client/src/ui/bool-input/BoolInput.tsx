@@ -1,17 +1,13 @@
 import { useCls } from "@use-pico/cls";
-import type { FC, InputHTMLAttributes, ReactNode, Ref } from "react";
+import type { ComponentProps, FC, ReactNode } from "react";
 import { Badge } from "../badge/Badge";
 import { BoolInputCls } from "./BoolInputCls";
 
 export namespace BoolInput {
 	export interface Props
 		extends BoolInputCls.Props<
-			Omit<
-				InputHTMLAttributes<HTMLInputElement>,
-				"value" | "onChange" | "type"
-			>
+			Omit<ComponentProps<"input">, "value" | "onChange" | "type">
 		> {
-		ref?: Ref<HTMLInputElement>;
 		value: boolean | undefined | null;
 		onChange(value: boolean): void;
 		label?: ReactNode;
@@ -22,7 +18,6 @@ export namespace BoolInput {
 }
 
 export const BoolInput: FC<BoolInput.Props> = ({
-	ref,
 	value,
 	onChange,
 	label,
@@ -49,7 +44,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 
 	const switchElement = (
 		<div
-			data-ui="BoolInput-root"
+			data-root="BoolInput-switch"
 			className={slots.root()}
 			role="switch"
 			aria-checked={value ?? false}
@@ -63,7 +58,6 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			}}
 		>
 			<input
-				ref={ref}
 				type="checkbox"
 				data-ui="BoolInput-input"
 				className={slots.input()}
@@ -94,7 +88,7 @@ export const BoolInput: FC<BoolInput.Props> = ({
 	// Return switch with label and description
 	return (
 		<div
-			data-ui="BoolInput-container"
+			data-root="BoolInput"
 			className={slots.container()}
 		>
 			<div
@@ -124,11 +118,9 @@ export const BoolInput: FC<BoolInput.Props> = ({
 			</div>
 			{(textOn || textOff) && (
 				<Badge
-					tweak={{
-						variant: {
-							tone: value ? "secondary" : "neutral",
-							theme: "light",
-						},
+					data-ui="BoolInput-badge"
+					ui={{
+						tone: value ? "secondary" : "neutral",
 					}}
 				>
 					{value ? textOn : textOff}

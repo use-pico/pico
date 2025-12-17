@@ -29,7 +29,13 @@ export namespace ui {
 		TProps extends object,
 		TRest extends object = object,
 	> = Omit<TRest, "className"> & {
+		/**
+		 * UI configuration (data-ui-* attributes) of the element.
+		 */
 		ui?: TProps;
+		/**
+		 * Optional class names, uses tailwind merge under the hood.
+		 */
 		className?: tvc.ClassName;
 	};
 

@@ -1,2 +1,2 @@
 export { Fade } from "./Fade";
-export { FadeCls } from "./FadeCls";
+export { uiFade } from "./uiFade";

@@ -1,1 +1,1 @@
-export const FavouriteIcon = "icon-[clarity--favorite-solid]";
+export const FavouriteIcon = "icon-[tabler--heart-filled]";

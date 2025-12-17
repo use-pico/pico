@@ -1,16 +1,9 @@
 import { createLink, type LinkComponent } from "@tanstack/react-router";
-import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
-import type { AnchorHTMLAttributes, ComponentProps, FC, Ref } from "react";
-import { PicoCls } from "../../cls/PicoCls";
+import type { ComponentProps, FC } from "react";
 import { Icon } from "../../icon/Icon";
-import { LinkToCls } from "./LinkToCls";
+import { uiLinkTo } from "./uiLinkTo";
 
-interface BaseLinkToProps
-	extends LinkToCls.Props<AnchorHTMLAttributes<HTMLAnchorElement>> {
-	/**
-	 * Ref to the anchor element.
-	 */
-	ref?: Ref<HTMLAnchorElement>;
+interface BaseLinkToProps extends uiLinkTo.Component<ComponentProps<"a">> {
 	/**
 	 * Icon to display in the link.
 	 */
@@ -23,81 +16,45 @@ interface BaseLinkToProps
 	 * Position of the icon relative to the content.
 	 * @default "left"
 	 */
-	iconPosition?: Cls.VariantOf<LinkToCls, "icon-position">;
-	/**
-	 * Display mode of the link.
-	 * @default "unset"
-	 */
-	display?: Cls.VariantOf<LinkToCls, "display">;
-	/**
-	 * Whether the link should take full width of its container.
-	 * @default false
-	 */
-	full?: boolean;
-	/**
-	 * Color tone of the link (affects text, background, and border colors).
-	 * @default "link"
-	 */
-	tone?: Cls.VariantOf<LinkToCls, "tone">;
-	/**
-	 * Theme variant (light or dark).
-	 * @default "light"
-	 */
-	theme?: Cls.VariantOf<LinkToCls, "theme">;
+	iconPosition?: "left" | "right";
 }
 
 const BaseLinkTo: FC<BaseLinkToProps> = ({
-	ref,
 	icon,
 	iconProps,
 	iconPosition = "left",
-	display,
-	full,
-	tone,
-	theme,
-	cls = LinkToCls,
-	tweak,
 	children,
+	ui,
+	className,
 	...props
 }) => {
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			display,
-			full,
-			tone,
-			theme,
-			"icon-position": iconPosition,
-		},
-	});
-
 	return (
-		<VariantProvider
-			cls={PicoCls}
-			variant={variant}
+		<a
+			data-root={"LinkTo"}
+			{...uiLinkTo({
+				ui,
+				className,
+			})}
+			{...props}
 		>
-			<a
-				{...props}
-				ref={ref}
-				data-ui="LinkTo-root"
-				className={slots.root()}
-			>
-				{iconPosition === "left" && (
-					<Icon
-						icon={icon}
-						size={"sm"}
-						{...iconProps}
-					/>
-				)}
-				{children}
-				{iconPosition === "right" && (
-					<Icon
-						icon={icon}
-						size={"sm"}
-						{...iconProps}
-					/>
-				)}
-			</a>
-		</VariantProvider>
+			{iconPosition === "left" && (
+				<Icon
+					data-ui="LinkTo-[Icon.left]"
+					icon={icon}
+					{...iconProps}
+				/>
+			)}
+
+			{children}
+
+			{iconPosition === "right" && (
+				<Icon
+					data-ui="LinkTo-[Icon.right]"
+					icon={icon}
+					{...iconProps}
+				/>
+			)}
+		</a>
 	);
 };
 

@@ -1,6 +1,5 @@
 import qs, { type IStringifyOptions } from "qs";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ParamMap = Record<string, any>;
 
 type UrlCatConfiguration = Partial<
@@ -29,7 +28,6 @@ function removeNullOrUndef<P extends ParamMap>(params: P) {
 			if (nullOrUndefined(value)) {
 				return result;
 			}
-			// biome-ignore lint/performance/noAccumulatingSpread: Too lazy to fix
 			return Object.assign(result, {
 				[key]: value,
 			});

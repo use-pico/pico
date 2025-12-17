@@ -1,1 +1,1 @@
-export const UserIcon = "icon-[ph--user]";
+export const UserIcon = "icon-[stash--user-id-light]";

@@ -1,2 +1,2 @@
 export { Markdown } from "./Markdown";
-export { MarkdownCls } from "./MarkdownCls";
+export { uiMarkdown } from "./uiMarkdown";

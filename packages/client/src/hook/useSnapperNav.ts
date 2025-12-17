@@ -300,9 +300,11 @@ export function useSnapperNav({
 		positionToIndex,
 	]);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const host = containerRef.current;
-		if (!host) return;
+		if (!host) {
+			return;
+		}
 
 		function handleScroll() {
 			const { pageSize, position } = readMetrics();

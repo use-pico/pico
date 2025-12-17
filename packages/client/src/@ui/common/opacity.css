@@ -1,0 +1,44 @@
+@layer components {
+	[data-ui-opacity="xs"] {
+		opacity: 0.15;
+	}
+
+	[data-ui-opacity="high"],
+	[data-ui-opacity="sm"] {
+		opacity: 0.25;
+	}
+
+	[data-ui-opacity="md"] {
+		opacity: 0.2;
+	}
+
+	[data-ui-opacity="lg"] {
+		opacity: 0.3;
+	}
+
+	[data-ui-opacity="xl"] {
+		opacity: 0.4;
+	}
+
+	[data-ui-opacity="medium"],
+	[data-ui-opacity="2xl"] {
+		opacity: 0.5;
+	}
+
+	[data-ui-opacity="3xl"] {
+		opacity: 0.75;
+	}
+
+	[data-ui-opacity="low"],
+	[data-ui-opacity="4xl"] {
+		opacity: 0.85;
+	}
+
+	[data-ui-opacity="full"] {
+		opacity: 0;
+	}
+
+	[data-ui-opacity="none"] {
+		opacity: 0;
+	}
+}

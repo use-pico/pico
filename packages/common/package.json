@@ -5,12 +5,12 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"typecheck": "tsc --noEmit",
+		"typecheck": "tsgo --noEmit",
 		"no:build": "bun x rollup -c",
 		"test": "vitest --run"
 	},
 	"dependencies": {
-		"@apollo/client": "4.0.9",
+		"@apollo/client": "4.0.11",
 		"@graphql-typed-document-node/core": "3.2.0",
 		"@paralleldrive/cuid2": "3.1.0",
 		"@types/is-callable": "1.1.2",
@@ -23,27 +23,27 @@
 		"is-empty": "1.2.0",
 		"is-string": "1.1.1",
 		"js-sha256": "0.11.1",
-		"kysely": "0.28.8",
+		"kysely": "0.28.9",
 		"luxon": "3.7.2",
 		"preferred-locale": "2.0.2",
 		"qs": "6.14.0",
-		"zod": "4.1.13"
+		"ts-pattern": "5.9.0",
+		"xxhash-wasm": "1.1.0",
+		"zod": "4.2.1"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "29.0.0",
 		"@rollup/plugin-node-resolve": "16.0.3",
 		"@rollup/plugin-typescript": "12.3.0",
-		"@types/node": "24.10.2",
+		"@types/node": "25.0.3",
 		"@types/react": "19.2.7",
+		"@typescript/native-preview": "7.0.0-dev.20251208.1",
 		"@use-pico/tsconfig": "5.0.0",
-		"rollup": "4.53.3",
+		"rollup": "4.53.5",
 		"rollup-plugin-dts": "6.3.0",
 		"typescript": "5.9.3",
-		"vitest": "4.0.15"
+		"vitest": "4.0.16"
 	},
-	"main": "./src/index.ts",
-	"module": "./src/index.ts",
-	"types": "./src/index.ts",
 	"files": [
 		"src"
 	],

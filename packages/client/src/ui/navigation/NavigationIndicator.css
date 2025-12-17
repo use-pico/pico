@@ -1,0 +1,20 @@
+@layer components {
+	.NavigationIndicator {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		background-color: var(--color-background, var(--color-blue-500));
+		z-index: 500;
+		@apply h-1 transition-opacity animate-pulse;
+	}
+
+	.NavigationIndicator[data-ui-visible="true"] {
+		opacity: 1;
+	}
+
+	.NavigationIndicator[data-ui-visible="false"] {
+		opacity: 0;
+	}
+}

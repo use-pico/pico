@@ -12,7 +12,6 @@ import { useInViewport } from "../../hook/useInViewport";
 import { ArrowLeftIcon } from "../../icon/ArrowLeftIcon";
 import { ArrowRightIcon } from "../../icon/ArrowRightIcon";
 import { CloseIcon } from "../../icon/CloseIcon";
-import { Action } from "../action/Action";
 import { Button } from "../button/Button";
 import { Highlighter } from "../highlighter/Highlighter";
 import { Typo } from "../typo/Typo";
@@ -125,13 +124,14 @@ export namespace Tour {
 
 const DefaultClose: Tour.Close.RenderFn = ({ close }) => {
 	return (
-		<Action
+		<Button
 			iconEnabled={CloseIcon}
 			iconDisabled={CloseIcon}
 			onClick={close}
-			size="sm"
-			tone={"neutral"}
-			theme={"light"}
+			ui={{
+				size: "sm",
+				tone: "neutral",
+			}}
 		/>
 	);
 };
@@ -144,9 +144,11 @@ const DefaultDescription: Tour.Description.RenderFn = ({ description }) => {
 	return (
 		<Typo
 			label={description}
-			size="sm"
-			tone={"secondary"}
-			theme={"light"}
+			ui={{
+				text: "sm",
+				tone: "secondary",
+				theme: "light",
+			}}
 		/>
 	);
 };
@@ -159,10 +161,12 @@ const DefaultProgress: Tour.Progress.RenderFn = ({
 	return (
 		<Typo
 			label={`${progress} / ${total} (${percent.toFixed(0)}%)`}
-			font={"bold"}
-			size={"sm"}
-			tone={"primary"}
-			theme={"light"}
+			ui={{
+				text: "sm",
+				font: "bold",
+				tone: "primary",
+				theme: "light",
+			}}
 		/>
 	);
 };
@@ -174,8 +178,10 @@ const DefaultPrevButton: Tour.PrevButton.RenderFn = ({ prev, disabled }) => {
 			iconDisabled={ArrowLeftIcon}
 			onClick={prev}
 			disabled={disabled}
-			size="sm"
 			label="Previous (tour)"
+			ui={{
+				size: "sm",
+			}}
 		/>
 	);
 };
@@ -187,8 +193,10 @@ const DefaultNextButton: Tour.NextButton.RenderFn = ({ next, disabled }) => {
 			iconDisabled={ArrowRightIcon}
 			onClick={next}
 			disabled={disabled}
-			size="sm"
 			label="Next (tour)"
+			ui={{
+				size: "sm",
+			}}
 		/>
 	);
 };
@@ -197,9 +205,11 @@ const DefaultFinishButton: Tour.FinishButton.RenderFn = ({ finish }) => {
 	return (
 		<Button
 			onClick={finish}
-			size="sm"
-			tone="warning"
 			label="Finish (tour)"
+			ui={{
+				size: "sm",
+				tone: "warning",
+			}}
 		/>
 	);
 };

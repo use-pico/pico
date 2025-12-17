@@ -1,13 +1,17 @@
-import type { SelectQueryBuilder } from "kysely";
+import type { SelectQueryBuilder, Simplify } from "kysely";
 import type { z } from "zod";
 import type { FilterSchema } from "../schema/FilterSchema";
 import { tryZodError } from "../schema/tryZodError";
-import type { EnsureSelectOutputSchema } from "../source/EnsureSelectOutputSchema";
 
 export namespace withFetch {
+	export type Output<TOutputSchema extends z.ZodSchema> = Simplify<
+		z.infer<TOutputSchema>
+	>;
+
 	export namespace Query {
 		export interface Props<
-			TSelect extends SelectQueryBuilder<any, any, any>,
+			TOutputSchema extends z.ZodSchema,
+			TSelect extends SelectQueryBuilder<any, any, Output<TOutputSchema>>,
 			TFilter extends FilterSchema.Type,
 		> {
 			select: TSelect;
@@ -16,37 +20,43 @@ export namespace withFetch {
 	}
 
 	export interface Props<
-		TSelect extends SelectQueryBuilder<any, any, any>,
-		TFilter extends FilterSchema.Type,
 		TOutputSchema extends z.ZodSchema,
+		TSelect extends SelectQueryBuilder<any, any, Output<TOutputSchema>>,
+		TFilter extends FilterSchema.Type,
 	> {
 		select: TSelect;
-		query?(props: Query.Props<TSelect, TFilter>): TSelect;
+		query?(props: Query.Props<TOutputSchema, TSelect, TFilter>): TSelect;
 
-		output: EnsureSelectOutputSchema<TSelect, TOutputSchema>;
+		output: TOutputSchema;
 
 		filter?: TFilter;
 		where?: TFilter;
 	}
 
 	export type Callback<
-		TSelect extends SelectQueryBuilder<any, any, any>,
-		TFilter extends FilterSchema.Type,
 		TOutputSchema extends z.ZodSchema,
-	> = (props: Props<TSelect, TFilter, TOutputSchema>) => Promise<any>;
+		TSelect extends SelectQueryBuilder<any, any, Output<TOutputSchema>>,
+		TFilter extends FilterSchema.Type,
+	> = (
+		props: Props<TOutputSchema, TSelect, TFilter>,
+	) => Promise<Output<TOutputSchema> | undefined>;
 }
 
 export const withFetch = async <
-	TSelect extends SelectQueryBuilder<any, any, any>,
-	TFilter extends FilterSchema.Type,
 	TOutputSchema extends z.ZodSchema,
+	TSelect extends SelectQueryBuilder<
+		any,
+		any,
+		withFetch.Output<TOutputSchema>
+	>,
+	TFilter extends FilterSchema.Type,
 >({
 	select,
 	query = () => select,
 	output,
 	filter,
 	where,
-}: withFetch.Props<TSelect, TFilter, TOutputSchema>): Promise<
+}: withFetch.Props<TOutputSchema, TSelect, TFilter>): Promise<
 	z.infer<TOutputSchema> | undefined
 > => {
 	const result = await query({
@@ -61,5 +71,5 @@ export const withFetch = async <
 		return undefined;
 	}
 
-	return tryZodError(output as TOutputSchema, result);
+	return tryZodError(output, result);
 };

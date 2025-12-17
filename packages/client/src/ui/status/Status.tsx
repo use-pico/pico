@@ -1,16 +1,13 @@
-import { type Cls, useCls, VariantProvider } from "@use-pico/cls";
-import type { FC, PropsWithChildren, ReactNode, Ref } from "react";
-import { PicoCls } from "../../cls/PicoCls";
+import type { ComponentProps, FC, ReactNode } from "react";
 import { Icon } from "../../icon/Icon";
-import type { IconCls } from "../../icon/IconCls";
-import type { UiProps } from "../../type/UiProps";
+import { Container } from "../container/Container";
+import { Mx } from "../mx";
 import { Tx } from "../tx/Tx";
 import type { Typo } from "../typo/Typo";
-import { StatusCls } from "./StatusCls";
+import { uiStatus } from "./uiStatus";
 
 export namespace Status {
-	export interface Props extends UiProps<StatusCls.Props<PropsWithChildren>> {
-		ref?: Ref<HTMLDivElement>;
+	export interface Props extends uiStatus.Component<ComponentProps<"div">> {
 		/**
 		 * Translation key for the title text.
 		 */
@@ -26,15 +23,11 @@ export namespace Status {
 		icon?: Icon.Type;
 		iconProps?: Icon.PropsEx;
 		titleProps?: Typo.PropsEx;
-		messageProps?: Typo.PropsEx;
-		tone?: Cls.VariantOf<IconCls, "tone">;
-		theme?: Cls.VariantOf<IconCls, "theme">;
+		messageProps?: Mx.PropsEx;
 	}
 }
 
 export const Status: FC<Status.Props> = ({
-	ref,
-	ui,
 	textTitle,
 	textMessage,
 	action,
@@ -42,85 +35,81 @@ export const Status: FC<Status.Props> = ({
 	iconProps,
 	titleProps,
 	messageProps,
-	tone,
-	theme,
-	cls = StatusCls,
-	tweak,
+	//
+	ui,
+	className,
+	//
 	children,
+	...props
 }) => {
-	const { slots, variant } = useCls(cls, tweak, {
-		variant: {
-			tone,
-			theme,
-		},
-	});
-
 	return (
-		<VariantProvider
-			cls={PicoCls}
-			variant={{
-				tone: variant.tone,
-				theme: variant.theme,
-			}}
+		<div
+			{...uiStatus({
+				ui,
+				//
+				className,
+			})}
+			//
+			{...props}
 		>
-			<div
-				data-ui={ui ?? "Status-root"}
-				ref={ref}
-				className={slots.root()}
+			<Container
+				data-ui="Status-[Container.wrapper]"
+				ui={{
+					layout: "vertical-flex",
+					items: "center",
+					width: "full",
+					gap: "lg",
+				}}
 			>
-				<div
-					data-ui="Status-title"
-					className={slots.title()}
-				>
-					<Icon
-						icon={icon}
-						size="xl"
-						tweak={{
-							slot: {
-								root: {
-									class: [
-										"opacity-50",
-									],
-								},
-							},
-						}}
-						{...iconProps}
-					/>
+				<Icon
+					data-ui="Status-[Icon]"
+					icon={icon}
+					{...iconProps}
+				/>
 
+				<Container
+					data-ui="Status-[Container.title-wrapper]"
+					ui={{
+						layout: "vertical-flex",
+						items: "center",
+						width: "full",
+					}}
+				>
 					<Tx
+						data-ui="Status-[Tx-title]"
 						label={textTitle}
-						size="xl"
-						font="bold"
-						display="block"
-						wrap={"wrap"}
+						ui={{
+							font: "semibold",
+							display: "block",
+							wrap: "wrap",
+							text: "lg",
+						}}
 						{...titleProps}
 					/>
-					<Tx
+
+					<Mx
+						data-ui="Status-[Tx-message]"
 						label={textMessage}
-						display="block"
-						wrap={"wrap"}
 						{...messageProps}
 					/>
-				</div>
+				</Container>
+			</Container>
 
-				{action && (
-					<div
-						data-ui="Status-action"
-						className={slots.action()}
-					>
-						{action}
-					</div>
-				)}
+			{action && (
+				<Container
+					data-ui="Status-[Container.action]"
+					ui={{
+						layout: "vertical-flex",
+						items: "center",
+						justify: "center",
+						gap: "default",
+					}}
+				>
+					{action}
+				</Container>
+			)}
 
-				{children ? (
-					<div
-						data-ui="Status-body"
-						className={slots.body()}
-					>
-						{children}
-					</div>
-				) : null}
-			</div>
-		</VariantProvider>
+			{children}
+		</div>
 	);
 };

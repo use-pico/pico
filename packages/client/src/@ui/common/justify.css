@@ -1,0 +1,25 @@
+@layer components {
+	[data-ui-justify="start"] {
+		justify-content: flex-start;
+	}
+
+	[data-ui-justify="center"] {
+		justify-content: center;
+	}
+
+	[data-ui-justify="end"] {
+		justify-content: flex-end;
+	}
+
+	[data-ui-justify="space-between"] {
+		justify-content: space-between;
+	}
+
+	[data-ui-justify="space-around"] {
+		justify-content: space-around;
+	}
+
+	[data-ui-justify="space-evenly"] {
+		justify-content: space-evenly;
+	}
+}

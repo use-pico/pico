@@ -1,0 +1,750 @@
+/* ===========================
+ * BRAND tone – light theme
+ * Primary brand surfaces, marketing highlights, promo banners
+ * =========================== */
+
+@utility tone-brand-light-text {
+	--color-text: color-mix(in srgb, var(--color-pink-900) 75%, black);
+}
+
+@utility tone-brand-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-pink-700) 85%, white);
+}
+
+@utility tone-brand-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-pink-200) 25%, transparent);
+}
+
+@utility tone-brand-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-pink-100) 70%, white);
+}
+
+@utility tone-brand-light-border {
+	--color-border: color-mix(in srgb, var(--color-pink-300) 30%, transparent);
+}
+
+@utility tone-brand-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-pink-600) 75%, white);
+}
+
+@utility tone-brand-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * BRAND tone – dark theme
+ * Brand surfaces in dark mode
+ * =========================== */
+
+@utility tone-brand-dark-text {
+	--color-text: color-mix(in srgb, var(--color-pink-50) 100%, transparent);
+}
+
+@utility tone-brand-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-pink-200) 100%, transparent);
+}
+
+@utility tone-brand-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-pink-900) 70%, black);
+}
+
+@utility tone-brand-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-pink-800) 70%, black);
+}
+
+@utility tone-brand-dark-border {
+	--color-border: color-mix(in srgb, var(--color-pink-500) 50%, transparent);
+}
+
+@utility tone-brand-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-pink-100) 80%, black);
+}
+
+@utility tone-brand-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 20%,
+		transparent
+	);
+}
+
+/* ===========================
+ * PRIMARY tone – light theme
+ * Default primary actions and emphasis
+ * =========================== */
+
+@utility tone-primary-light-text {
+	--color-text: color-mix(in srgb, var(--color-pink-900) 60%, black);
+}
+
+@utility tone-primary-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-pink-700) 70%, white);
+}
+
+@utility tone-primary-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-pink-300) 70%, white);
+}
+
+@utility tone-primary-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-pink-400) 70%, white);
+}
+
+@utility tone-primary-light-border {
+	--color-border: color-mix(in srgb, var(--color-pink-400) 10%, transparent);
+}
+
+@utility tone-primary-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-700) 85%, white);
+}
+
+@utility tone-primary-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 20%,
+		transparent
+	);
+}
+
+/* ===========================
+ * PRIMARY tone – dark theme
+ * Primary emphasis in dark mode
+ * =========================== */
+
+@utility tone-primary-dark-text {
+	--color-text: var(--color-pink-50);
+}
+
+@utility tone-primary-dark-lead {
+	--color-lead: var(--color-pink-200);
+}
+
+@utility tone-primary-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-pink-800) 75%, black);
+}
+
+@utility tone-primary-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-pink-700) 75%, black);
+}
+
+@utility tone-primary-dark-border {
+	--color-border: color-mix(in srgb, var(--color-pink-500) 50%, transparent);
+}
+
+@utility tone-primary-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-pink-50) 80%, black);
+}
+
+@utility tone-primary-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-pink-800) 40%,
+		transparent
+	);
+}
+
+/* ===========================
+ * SECONDARY tone – light theme
+ * Supporting accents, secondary buttons
+ * =========================== */
+
+@utility tone-secondary-light-text {
+	--color-text: color-mix(in srgb, var(--color-violet-900) 95%, transparent);
+}
+
+@utility tone-secondary-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-violet-700) 100%, transparent);
+}
+
+@utility tone-secondary-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-violet-200) 75%, white);
+}
+
+@utility tone-secondary-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-violet-300) 65%, white);
+}
+
+@utility tone-secondary-light-border {
+	--color-border: color-mix(
+		in srgb,
+		var(--color-violet-400) 10%,
+		transparent
+	);
+}
+
+@utility tone-secondary-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-700) 85%, white);
+}
+
+@utility tone-secondary-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * SECONDARY tone – dark theme
+ * Supporting accents in dark mode
+ * =========================== */
+
+@utility tone-secondary-dark-text {
+	--color-text: color-mix(in srgb, var(--color-violet-50) 100%, transparent);
+}
+
+@utility tone-secondary-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-violet-200) 100%, transparent);
+}
+
+@utility tone-secondary-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-violet-800) 75%, black);
+}
+
+@utility tone-secondary-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-violet-700) 75%, black);
+}
+
+@utility tone-secondary-dark-border {
+	--color-border: color-mix(
+		in srgb,
+		var(--color-violet-500) 45%,
+		transparent
+	);
+}
+
+@utility tone-secondary-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-violet-50) 80%, black);
+}
+
+@utility tone-secondary-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-violet-900) 40%,
+		transparent
+	);
+}
+
+/* ===========================
+ * SUBTLE tone – light theme
+ * Soft backgrounds, low emphasis surfaces
+ * =========================== */
+
+@utility tone-subtle-light-text {
+	--color-text: color-mix(in srgb, var(--color-violet-900) 75%, black);
+}
+
+@utility tone-subtle-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-violet-700) 90%, white);
+}
+
+@utility tone-subtle-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-violet-300) 15%, white);
+}
+
+@utility tone-subtle-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-violet-200) 25%, white);
+}
+
+@utility tone-subtle-light-border {
+	--color-border: color-mix(
+		in srgb,
+		var(--color-violet-400) 10%,
+		transparent
+	);
+}
+
+@utility tone-subtle-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-500) 75%, white);
+}
+
+@utility tone-subtle-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * SUBTLE tone – dark theme
+ * Soft backgrounds in dark mode
+ * =========================== */
+
+@utility tone-subtle-dark-text {
+	--color-text: color-mix(in srgb, var(--color-slate-100) 100%, transparent);
+}
+
+@utility tone-subtle-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-violet-200) 100%, transparent);
+}
+
+@utility tone-subtle-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-violet-900) 65%, black);
+}
+
+@utility tone-subtle-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-violet-800) 65%, black);
+}
+
+@utility tone-subtle-dark-border {
+	--color-border: color-mix(
+		in srgb,
+		var(--color-violet-700) 35%,
+		transparent
+	);
+}
+
+@utility tone-subtle-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-100) 85%, black);
+}
+
+@utility tone-subtle-dark-shadow {
+	--tw-shadow-color: color-mix(in srgb, var(--color-slate-100) 30%, black);
+}
+
+/* ===========================
+ * NEUTRAL tone – light theme
+ * Default cards, surfaces, background chrome
+ * =========================== */
+
+@utility tone-neutral-light-text {
+	--color-text: color-mix(in srgb, var(--color-slate-900) 100%, transparent);
+}
+
+@utility tone-neutral-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-slate-700) 100%, transparent);
+}
+
+@utility tone-neutral-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-slate-100) 75%, transparent);
+}
+
+@utility tone-neutral-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-slate-200) 80%, transparent);
+}
+
+@utility tone-neutral-light-border {
+	--color-border: color-mix(in srgb, var(--color-slate-400) 5%, transparent);
+}
+
+@utility tone-neutral-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-500) 100%, transparent);
+}
+
+@utility tone-neutral-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * NEUTRAL tone – dark theme
+ * Default cards & surfaces in dark mode
+ * =========================== */
+
+@utility tone-neutral-dark-text {
+	--color-text: color-mix(in srgb, var(--color-slate-50) 100%, transparent);
+}
+
+@utility tone-neutral-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-slate-200) 100%, transparent);
+}
+
+@utility tone-neutral-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-slate-900) 100%, transparent);
+}
+
+@utility tone-neutral-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-slate-900) 80%, transparent);
+}
+
+@utility tone-neutral-dark-border {
+	--color-border: color-mix(
+		in srgb,
+		var(--color-slate-500) 100%,
+		transparent
+	);
+}
+
+@utility tone-neutral-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-slate-50) 75%, black);
+}
+
+@utility tone-neutral-dark-shadow {
+	--tw-shadow-color: color-mix(in srgb, var(--color-slate-100) 25%, black);
+}
+
+/* ===========================
+ * WARNING tone – light theme
+ * Non-critical alerts, soft warnings
+ * =========================== */
+
+@utility tone-warning-light-text {
+	--color-text: color-mix(in srgb, var(--color-amber-700) 65%, black);
+}
+
+@utility tone-warning-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-amber-700) 100%, transparent);
+}
+
+@utility tone-warning-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-amber-100) 65%, white);
+}
+
+@utility tone-warning-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-amber-200) 25%, transparent);
+}
+
+@utility tone-warning-light-border {
+	--color-border: color-mix(in srgb, var(--color-amber-400) 30%, transparent);
+}
+
+@utility tone-warning-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-amber-700) 80%, white);
+}
+
+@utility tone-warning-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * WARNING tone – dark theme
+ * Non-critical alerts in dark mode
+ * =========================== */
+
+@utility tone-warning-dark-text {
+	--color-text: color-mix(in srgb, var(--color-amber-50) 100%, transparent);
+}
+
+@utility tone-warning-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-amber-200) 100%, transparent);
+}
+
+@utility tone-warning-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-amber-900) 70%, black);
+}
+
+@utility tone-warning-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-amber-800) 70%, black);
+}
+
+@utility tone-warning-dark-border {
+	--color-border: color-mix(in srgb, var(--color-amber-500) 55%, transparent);
+}
+
+@utility tone-warning-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-amber-50) 80%, black);
+}
+
+@utility tone-warning-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-amber-900) 45%,
+		transparent
+	);
+}
+
+/* ===========================
+ * DANGER tone – light theme
+ * Errors, destructive actions
+ * =========================== */
+
+@utility tone-danger-light-text {
+	--color-text: color-mix(in srgb, var(--color-rose-800) 95%, black);
+}
+
+@utility tone-danger-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-rose-700) 100%, transparent);
+}
+
+@utility tone-danger-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-rose-100) 70%, white);
+}
+
+@utility tone-danger-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-rose-200) 60%, white);
+}
+
+@utility tone-danger-light-border {
+	--color-border: color-mix(in srgb, var(--color-rose-400) 30%, transparent);
+}
+
+@utility tone-danger-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-rose-700) 85%, white);
+}
+
+@utility tone-danger-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * DANGER tone – dark theme
+ * Errors in dark mode
+ * =========================== */
+
+@utility tone-danger-dark-text {
+	--color-text: color-mix(in srgb, var(--color-rose-50) 100%, transparent);
+}
+
+@utility tone-danger-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-rose-200) 100%, transparent);
+}
+
+@utility tone-danger-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-rose-900) 70%, black);
+}
+
+@utility tone-danger-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-rose-800) 70%, black);
+}
+
+@utility tone-danger-dark-border {
+	--color-border: color-mix(in srgb, var(--color-rose-500) 60%, transparent);
+}
+
+@utility tone-danger-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-rose-50) 80%, black);
+}
+
+@utility tone-danger-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-rose-900) 45%,
+		transparent
+	);
+}
+
+/* ===========================
+ * LINK tone – light theme
+ * Interactive links, link-like buttons
+ * =========================== */
+
+@utility tone-link-light-text {
+	--color-text: color-mix(in srgb, var(--color-blue-700) 100%, transparent);
+}
+
+@utility tone-link-light-lead {
+	--color-lead: color-mix(in srgb, var(--color-blue-800) 100%, transparent);
+}
+
+@utility tone-link-light-bg {
+	--color-bg: color-mix(in srgb, var(--color-blue-50) 75%, white);
+}
+
+@utility tone-link-light-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-blue-100) 70%, white);
+}
+
+@utility tone-link-light-border {
+	--color-border: color-mix(in srgb, var(--color-blue-400) 10%, transparent);
+}
+
+@utility tone-link-light-icon {
+	--color-icon: color-mix(in srgb, var(--color-blue-700) 85%, white);
+}
+
+@utility tone-link-light-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-slate-700) 10%,
+		transparent
+	);
+}
+
+/* ===========================
+ * LINK tone – dark theme
+ * Interactive links in dark mode
+ * =========================== */
+
+@utility tone-link-dark-text {
+	--color-text: color-mix(in srgb, var(--color-blue-50) 100%, transparent);
+}
+
+@utility tone-link-dark-lead {
+	--color-lead: color-mix(in srgb, var(--color-blue-200) 100%, transparent);
+}
+
+@utility tone-link-dark-bg {
+	--color-bg: color-mix(in srgb, var(--color-blue-900) 70%, black);
+}
+
+@utility tone-link-dark-bg-alt {
+	--color-bg-alt: color-mix(in srgb, var(--color-blue-800) 70%, black);
+}
+
+@utility tone-link-dark-border {
+	--color-border: color-mix(in srgb, var(--color-blue-500) 55%, transparent);
+}
+
+@utility tone-link-dark-icon {
+	--color-icon: color-mix(in srgb, var(--color-blue-50) 80%, black);
+}
+
+@utility tone-link-dark-shadow {
+	--tw-shadow-color: color-mix(
+		in srgb,
+		var(--color-blue-900) 45%,
+		transparent
+	);
+}
+
+/* ===========================
+ * ACTIVE STATE UTILITIES – light theme
+ * Shared active state tweaks for light surfaces
+ * =========================== */
+
+@utility theme-light-text-active {
+	--color-text-active: color-mix(in srgb, var(--color-text) 92.5%, black);
+}
+
+@utility theme-light-lead-active {
+	--color-lead-active: color-mix(in srgb, var(--color-lead) 95%, black);
+}
+
+@utility theme-light-icon-active {
+	--color-icon-active: color-mix(in srgb, var(--color-icon) 88%, black);
+}
+
+@utility theme-light-border-active {
+	--color-border-active: color-mix(in srgb, var(--color-border) 92.5%, black);
+}
+
+@utility theme-light-shadow-active {
+	--color-shadow-active: color-mix(in srgb, var(--color-shadow) 25%, black);
+}
+
+@utility theme-light-bg-active {
+	--color-bg-active: color-mix(in srgb, var(--color-bg) 92.5%, white);
+}
+
+@utility theme-light-bg-alt-active {
+	--color-bg-alt-active: color-mix(in srgb, var(--color-bg-alt) 92.5%, black);
+}
+
+/* ===========================
+ * ACTIVE STATE UTILITIES – dark theme
+ * Shared active state tweaks for dark surfaces
+ * =========================== */
+
+@utility theme-dark-text-active {
+	--color-text-active: color-mix(in srgb, var(--color-text) 88%, white);
+}
+
+@utility theme-dark-lead-active {
+	--color-lead-active: color-mix(in srgb, var(--color-lead) 88%, white);
+}
+
+@utility theme-dark-icon-active {
+	--color-icon-active: color-mix(in srgb, var(--color-icon) 88%, white);
+}
+
+@utility theme-dark-border-active {
+	--color-border-active: color-mix(in srgb, var(--color-border) 90%, black);
+}
+
+@utility theme-dark-shadow-active {
+	--color-shadow-active: color-mix(in srgb, var(--color-shadow) 90%, black);
+}
+
+@utility theme-dark-bg-active {
+	--color-bg-active: color-mix(in srgb, var(--color-bg) 50%, black);
+}
+
+@utility theme-dark-bg-alt-active {
+	--color-bg-alt-active: color-mix(in srgb, var(--color-bg-alt) 50%, black);
+}
+
+/* ===========================
+ * COMPONENT MAPPING
+ * Glue between data attributes and tone utilities
+ * =========================== */
+
+@layer components {
+	[data-ui-tone="brand"][data-ui-theme="light"] {
+		@apply tone-brand-light-text tone-brand-light-lead tone-brand-light-bg tone-brand-light-bg-alt tone-brand-light-border tone-brand-light-icon tone-brand-light-shadow;
+	}
+
+	[data-ui-tone="brand"][data-ui-theme="dark"] {
+		@apply tone-brand-dark-text tone-brand-dark-lead tone-brand-dark-bg tone-brand-dark-bg-alt tone-brand-dark-border tone-brand-dark-icon tone-brand-dark-shadow;
+	}
+
+	[data-ui-tone="primary"][data-ui-theme="light"] {
+		@apply tone-primary-light-text tone-primary-light-lead tone-primary-light-bg tone-primary-light-bg-alt tone-primary-light-border tone-primary-light-icon tone-primary-light-shadow;
+	}
+
+	[data-ui-tone="primary"][data-ui-theme="dark"] {
+		@apply tone-primary-dark-text tone-primary-dark-lead tone-primary-dark-bg tone-primary-dark-bg-alt tone-primary-dark-border tone-primary-dark-icon tone-primary-dark-shadow;
+	}
+
+	[data-ui-tone="secondary"][data-ui-theme="light"] {
+		@apply tone-secondary-light-text tone-secondary-light-lead tone-secondary-light-bg tone-secondary-light-bg-alt tone-secondary-light-border tone-secondary-light-icon tone-secondary-light-shadow;
+	}
+
+	[data-ui-tone="secondary"][data-ui-theme="dark"] {
+		@apply tone-secondary-dark-text tone-secondary-dark-lead tone-secondary-dark-bg tone-secondary-dark-bg-alt tone-secondary-dark-border tone-secondary-dark-icon tone-secondary-dark-shadow;
+	}
+
+	[data-ui-tone="subtle"][data-ui-theme="light"] {
+		@apply tone-subtle-light-text tone-subtle-light-lead tone-subtle-light-bg tone-subtle-light-bg-alt tone-subtle-light-border tone-subtle-light-icon tone-subtle-light-shadow;
+	}
+
+	[data-ui-tone="subtle"][data-ui-theme="dark"] {
+		@apply tone-subtle-dark-text tone-subtle-dark-lead tone-subtle-dark-bg tone-subtle-dark-bg-alt tone-subtle-dark-border tone-subtle-dark-icon tone-subtle-dark-shadow;
+	}
+
+	[data-ui-tone="neutral"][data-ui-theme="light"] {
+		@apply tone-neutral-light-text tone-neutral-light-lead tone-neutral-light-bg tone-neutral-light-bg-alt tone-neutral-light-border tone-neutral-light-icon tone-neutral-light-shadow;
+	}
+
+	[data-ui-tone="neutral"][data-ui-theme="dark"] {
+		@apply tone-neutral-dark-text tone-neutral-dark-lead tone-neutral-dark-bg tone-neutral-dark-bg-alt tone-neutral-dark-border tone-neutral-dark-icon tone-neutral-dark-shadow;
+	}
+
+	[data-ui-tone="warning"][data-ui-theme="light"] {
+		@apply tone-warning-light-text tone-warning-light-lead tone-warning-light-bg tone-warning-light-bg-alt tone-warning-light-border tone-warning-light-icon tone-warning-light-shadow;
+	}
+
+	[data-ui-tone="warning"][data-ui-theme="dark"] {
+		@apply tone-warning-dark-text tone-warning-dark-lead tone-warning-dark-bg tone-warning-dark-bg-alt tone-warning-dark-border tone-warning-dark-icon tone-warning-dark-shadow;
+	}
+
+	[data-ui-tone="danger"][data-ui-theme="light"] {
+		@apply tone-danger-light-text tone-danger-light-lead tone-danger-light-bg tone-danger-light-bg-alt tone-danger-light-border tone-danger-light-icon tone-danger-light-shadow;
+	}
+
+	[data-ui-tone="danger"][data-ui-theme="dark"] {
+		@apply tone-danger-dark-text tone-danger-dark-lead tone-danger-dark-bg tone-danger-dark-bg-alt tone-danger-dark-border tone-danger-dark-icon tone-danger-dark-shadow;
+	}
+
+	[data-ui-tone="link"][data-ui-theme="light"] {
+		@apply tone-link-light-text tone-link-light-lead tone-link-light-bg tone-link-light-bg-alt tone-link-light-border tone-link-light-icon tone-link-light-shadow;
+	}
+
+	[data-ui-tone="link"][data-ui-theme="dark"] {
+		@apply tone-link-dark-text tone-link-dark-lead tone-link-dark-bg tone-link-dark-bg-alt tone-link-dark-border tone-link-dark-icon tone-link-dark-shadow;
+	}
+
+	/* Active states – mapped per theme */
+
+	[data-ui-theme="light"] {
+		@apply theme-light-text-active theme-light-lead-active theme-light-icon-active theme-light-border-active theme-light-shadow-active theme-light-bg-active theme-light-bg-alt-active;
+	}
+
+	[data-ui-theme="dark"] {
+		@apply theme-dark-text-active theme-dark-lead-active theme-dark-icon-active theme-dark-border-active theme-dark-shadow-active theme-dark-bg-active theme-dark-bg-alt-active;
+	}
+}

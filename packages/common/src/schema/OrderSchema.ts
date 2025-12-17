@@ -1,11 +1,9 @@
 import { z } from "zod";
 
-export const OrderSchema = z
-	.enum([
-		"asc",
-		"desc",
-	])
-	.nullish();
+export const OrderSchema = z.enum([
+	"asc",
+	"desc",
+]);
 
 export type OrderSchema = typeof OrderSchema;
 

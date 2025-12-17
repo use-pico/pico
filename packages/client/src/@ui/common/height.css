@@ -1,0 +1,23 @@
+@layer components {
+	[data-ui-height="full"] {
+		height: 100%;
+		min-height: 0;
+		max-height: 100%;
+	}
+
+	[data-ui-height="auto"] {
+		height: auto;
+		min-height: 0;
+	}
+
+	[data-ui-height="content"] {
+		height: fit-content;
+		min-height: 0;
+	}
+
+	[data-ui-height="viewport"] {
+		height: 100dvh;
+		min-height: 100dvh;
+		max-height: 100dvh;
+	}
+}

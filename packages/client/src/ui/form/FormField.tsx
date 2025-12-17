@@ -1,17 +1,16 @@
-import { useCls } from "@use-pico/cls";
 import type { FC, ReactNode, Ref } from "react";
 import { useId } from "react";
+import { Container } from "../container/Container";
 import { Typo } from "../typo/Typo";
 import { FormError } from "./FormError";
-import { FormFieldCls } from "./FormFieldCls";
+import { uiInput } from "./uiInput";
 
 export namespace FormField {
 	export type FieldError = any;
 
 	export namespace Render {
-		export interface Props {
+		export interface Props extends uiInput.Component<{}> {
 			ref?: Ref<any>;
-			className: string;
 			disabled: boolean;
 			id: string;
 			meta?: FormError.Meta;
@@ -22,13 +21,12 @@ export namespace FormField {
 		export type RenderFn = (props: Props) => ReactNode;
 	}
 
-	export interface Props extends FormFieldCls.Props {
+	export interface Props extends Omit<Container.Props, "children"> {
 		ref?: Ref<any>;
 		id?: string;
 		label?: ReactNode;
 		hint?: ReactNode;
 		name?: string;
-		full?: boolean;
 		required?: boolean;
 		disabled?: boolean;
 		meta?: FormError.Meta;
@@ -43,79 +41,93 @@ export const FormField: FC<FormField.Props> = (props) => {
 		label,
 		hint,
 		name,
-		full = false,
 		required = false,
 		disabled = false,
 		meta,
-		cls = FormFieldCls,
-		tweak,
-		children = (props) => <input {...props} />,
+		ui,
+		children = ({ ui, className, ...props }) => (
+			<input
+				{...uiInput({
+					ui,
+					className,
+				})}
+				{...props}
+			/>
+		),
+		...rest
 	} = props;
 
 	const localId = useId();
 
 	const isError = meta?.isTouched && meta.errors && meta.errors.length > 0;
 
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			isError,
-			required,
-			disabled,
-			full,
-		},
-	});
+	const tone = isError ? "danger" : required ? "brand" : "neutral";
+	const theme = "light";
 
 	return (
-		<div
-			data-ui="FormField-root"
-			className={slots.root()}
+		<Container
+			data-ui="FormField[Container]"
+			ui={{
+				tone,
+				theme,
+				layout: "vertical-flex",
+				items: "start",
+				justify: "center",
+				gap: "xs",
+				width: "full",
+				...ui,
+			}}
+			{...rest}
 		>
-			{label || meta?.errors?.length || hint ? (
-				<div
-					data-ui="FormField-header"
-					className={slots.header()}
+			{label || hint ? (
+				<Container
+					data-ui="FormField-[Container.header]"
+					ui={{
+						layout: "vertical-flex",
+						gap: "xs",
+					}}
 				>
-					{label || meta?.errors?.length ? (
-						<div
-							className={
-								"flex flex-row items-end justify-between"
-							}
-						>
-							{label ? (
-								<Typo
-									size={"md"}
-									font={"semi"}
-									label={label}
-								/>
-							) : (
-								<div />
-							)}
-							{meta?.errors?.length ? (
-								<FormError meta={meta} />
-							) : null}
-						</div>
-					) : null}
-					{hint ? (
+					{label ? (
 						<Typo
-							italic
-							size={"sm"}
-							tone={"subtle"}
-							label={hint}
+							label={label}
+							ui={{
+								text: "md",
+								font: "normal",
+								color: "lead",
+							}}
 						/>
 					) : null}
-				</div>
+
+					{hint ? (
+						<Typo
+							label={hint}
+							ui={{
+								tone: "subtle",
+								text: "md",
+								color: "lead",
+								italic: true,
+							}}
+						/>
+					) : null}
+				</Container>
 			) : null}
+
 			{children({
-				className: slots.input(),
 				disabled,
 				id: id ?? localId,
 				meta,
 				name,
 				ref,
 				required,
+				ui: {
+					tone,
+					theme,
+					width: "full",
+				},
+				className: [],
 			})}
-		</div>
+
+			<FormError meta={meta} />
+		</Container>
 	);
 };
-
-FormField.displayName = "FormField";

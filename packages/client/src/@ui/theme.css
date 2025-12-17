@@ -1,0 +1,6 @@
+@theme {
+	--border-sm: 2px;
+	--border-default: var(--border-sm);
+
+	--radius-default: var(--radius-md);
+}

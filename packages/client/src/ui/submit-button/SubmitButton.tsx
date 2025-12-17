@@ -7,13 +7,22 @@ export namespace SubmitButton {
 	}
 }
 
-export const SubmitButton: FC<SubmitButton.Props> = (props) => {
+export const SubmitButton: FC<SubmitButton.Props> = ({ ui, ...props }) => {
 	return (
 		<Button
 			type={"submit"}
-			tweak={{
-				variant: {
-					tone: "primary",
+			ui={{
+				tone: "primary",
+				theme: "light",
+				size: "default",
+				text: "lg",
+				justify: "center",
+				width: "full",
+				...ui,
+			}}
+			iconProps={{
+				ui: {
+					text: "xl",
 				},
 			}}
 			{...props}

@@ -2040,7 +2040,7 @@ export const PicoCls = contract()
 		 */
 		disabled: {
 			class: [
-				"opacity-60",
+				"opacity-35",
 				"pointer-events-none",
 				"shadow-none",
 			],

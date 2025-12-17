@@ -1,11 +1,10 @@
-import { useCls } from "@use-pico/cls";
 import { type FC, type RefObject, useCallback, useEffect, useRef } from "react";
-import { FadeCls } from "./FadeCls";
+import { uiFade } from "./uiFade";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 export namespace Fade {
-	export interface Props extends FadeCls.Props {
+	export interface Props extends uiFade.Component {
 		scrollableRef: RefObject<HTMLElement | null>;
 		height?: number;
 		fade?: number;
@@ -13,14 +12,13 @@ export namespace Fade {
 }
 
 export const Fade: FC<Fade.Props> = ({
-	height = 48,
+	height = 10,
 	fade = height * 2,
-	cls = FadeCls,
-	tweak,
 	scrollableRef,
+	//
+	ui,
+	className,
 }) => {
-	const { slots } = useCls(cls, tweak);
-
 	const topFadeRef = useRef<HTMLDivElement>(null);
 	const bottomFadeRef = useRef<HTMLDivElement>(null);
 
@@ -105,17 +103,24 @@ export const Fade: FC<Fade.Props> = ({
 			<div
 				ref={topFadeRef}
 				aria-hidden
+				{...uiFade({
+					ui,
+					className,
+				})}
 				data-ui="Fade-top"
-				className={slots.top()}
 				style={{
 					height,
 				}}
 			/>
+
 			<div
 				ref={bottomFadeRef}
 				aria-hidden
+				{...uiFade({
+					ui,
+					className,
+				})}
 				data-ui="Fade-bottom"
-				className={slots.bottom()}
 				style={{
 					height,
 				}}

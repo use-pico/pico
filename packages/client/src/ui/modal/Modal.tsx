@@ -10,14 +10,9 @@ import {
 	useInteractions,
 	useTransitionStyles,
 } from "@floating-ui/react";
-import { type Cls, tvc, useCls } from "@use-pico/cls";
-import { type FC, type ReactNode, useMemo } from "react";
-import { CloseIcon } from "../../icon/CloseIcon";
-import { Icon } from "../../icon/Icon";
-import { Action } from "../action/Action";
-import { createModalStore } from "./createModalStore";
+import { type Cls, useCls } from "@use-pico/cls";
+import { type FC, type ReactNode, useState } from "react";
 import { ModalCls } from "./ModalCls";
-import { ModalContext } from "./ModalContext";
 
 export namespace Modal {
 	export namespace Children {
@@ -33,8 +28,6 @@ export namespace Modal {
 		 * The target element that will open the modal.
 		 */
 		target: ReactNode;
-		icon?: Icon.Type;
-		textTitle: ReactNode;
 		disabled?: boolean;
 		defaultOpen?: boolean;
 		size?: Cls.VariantOf<ModalCls, "size">;
@@ -50,8 +43,6 @@ export namespace Modal {
 
 export const Modal: FC<Modal.Props> = ({
 	target,
-	icon,
-	textTitle,
 	disabled = false,
 	defaultOpen = false,
 	outside = false,
@@ -60,21 +51,12 @@ export const Modal: FC<Modal.Props> = ({
 	cls = ModalCls,
 	children,
 }) => {
-	const useModalStore = useMemo(
-		() =>
-			createModalStore({
-				defaultOpen,
-			}),
-		[
-			defaultOpen,
-		],
-	);
-	const close = useModalStore((state) => state.close);
+	const [isOpen, setIsOpen] = useState(defaultOpen);
 	const nodeId = useFloatingNodeId();
 	const { refs, context } = useFloating({
 		nodeId,
-		open: useModalStore((state) => state.isOpen),
-		onOpenChange: useModalStore((state) => state.toggle),
+		open: isOpen,
+		onOpenChange: setIsOpen,
 	});
 	const click = useClick(context, {
 		enabled: !disabled,
@@ -87,7 +69,22 @@ export const Modal: FC<Modal.Props> = ({
 		click,
 		dismiss,
 	]);
-	const { isMounted, styles } = useTransitionStyles(context);
+	const { isMounted, styles } = useTransitionStyles(context, {
+		duration: 400,
+		initial: {
+			transform: "translateY(10%)",
+			scale: 0.975,
+			opacity: 0,
+		},
+		open: {
+			transform: "translateY(0)",
+			scale: 1,
+			opacity: 1,
+		},
+		common: {
+			transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+		},
+	});
 	const { slots } = useCls(cls, tweak, {
 		variant: {
 			disabled,
@@ -96,7 +93,7 @@ export const Modal: FC<Modal.Props> = ({
 	});
 
 	return (
-		<ModalContext value={useModalStore}>
+		<>
 			<div
 				ref={refs.setReference}
 				{...getReferenceProps({
@@ -106,6 +103,7 @@ export const Modal: FC<Modal.Props> = ({
 			>
 				{target}
 			</div>
+
 			<FloatingNode id={nodeId}>
 				{isMounted && (
 					<FloatingPortal>
@@ -114,68 +112,21 @@ export const Modal: FC<Modal.Props> = ({
 							style={styles}
 							data-ui="Modal-root"
 							className={slots.root()}
-							onDoubleClick={(e) => {
-								e.stopPropagation();
-								e.preventDefault();
-							}}
 						>
-							<FloatingFocusManager context={context}>
+							<FloatingFocusManager
+								context={context}
+								modal
+							>
 								<div
 									ref={refs.setFloating}
 									{...getFloatingProps()}
 									data-ui="Modal-modal"
+									role="dialog"
+									aria-modal="true"
 									className={slots.modal()}
 								>
-									<div
-										className={tvc([
-											"border-b",
-											"border-slate-200",
-											"mb-2",
-											"py-1.5",
-											"flex",
-											"flex-row",
-											"items-center",
-											"justify-between",
-											"select-none",
-										])}
-									>
-										<div
-											className={tvc(
-												"flex",
-												"flex-row",
-												"items-center",
-												"gap-2",
-												"pr-4",
-											)}
-										>
-											<Icon
-												icon={icon}
-												size={"sm"}
-											/>
-											<div
-												className={tvc(
-													"text-lg",
-													"font-semibold",
-													"text-slate-700",
-												)}
-											>
-												{textTitle}
-											</div>
-										</div>
-										<Action
-											iconEnabled={CloseIcon}
-											onClick={() => close()}
-											tweak={{
-												variant: {
-													tone: "neutral",
-													theme: "light",
-												},
-											}}
-											size={"sm"}
-										/>
-									</div>
 									{children({
-										close,
+										close: () => setIsOpen(false),
 									})}
 								</div>
 							</FloatingFocusManager>
@@ -183,6 +134,6 @@ export const Modal: FC<Modal.Props> = ({
 					</FloatingPortal>
 				)}
 			</FloatingNode>
-		</ModalContext>
+		</>
 	);
 };

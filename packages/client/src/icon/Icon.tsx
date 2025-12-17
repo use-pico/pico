@@ -1,7 +1,6 @@
-import { type Cls, useCls } from "@use-pico/cls";
 import { isString } from "@use-pico/common/is-string";
-import type { FC, HTMLAttributes, ReactNode, Ref } from "react";
-import { IconCls } from "./IconCls";
+import type { ComponentProps, FC, ReactNode } from "react";
+import { uiIcon } from "./uiIcon";
 
 /**
  * Simple styled icon (span); uses Tailwind CSS classes.
@@ -14,60 +13,34 @@ export namespace Icon {
 	/**
 	 * Props for `Icon` component.
 	 */
-	export interface Props
-		extends IconCls.Props<
-			Omit<HTMLAttributes<HTMLDivElement>, "className">
-		> {
-		ref?: Ref<HTMLDivElement>;
-		/**
-		 * `Iconify` icon name.
-		 *
-		 * If non-string is provided (basically a JSX element), this component
-		 * is replaced with the element.
-		 */
+	export interface Props extends uiIcon.Component<ComponentProps<"span">> {
 		icon: Icon.Type;
-		size?: Cls.VariantOf<IconCls, "size">;
-		tone?: Cls.VariantOf<IconCls, "tone">;
-		theme?: Cls.VariantOf<IconCls, "theme">;
-		disabled?: boolean;
 	}
 
 	/**
 	 * Useful for extending an icon.
 	 */
-	export type PropsEx = Omit<Props, "icon"> & Partial<Pick<Props, "icon">>;
+	export type PropsEx = Partial<Props>;
 }
 
 export const Icon: FC<Icon.Props> = ({
-	ref,
 	icon,
-	size,
-	tone,
-	theme,
-	disabled,
-	cls = IconCls,
-	tweak,
+	//
+	ui,
+	className,
+	//
 	...props
 }) => {
-	const { slots } = useCls(cls, tweak, {
-		variant: {
-			size,
-			disabled,
-			theme,
-			tone,
-		},
-		slot: {
-			root: {
-				class: isString(icon) ? icon : undefined,
-			},
-		},
-	});
-
 	return isString(icon) ? (
-		<div
-			data-ui="Icon-root"
-			ref={ref}
-			className={slots.root()}
+		<span
+			{...uiIcon({
+				ui,
+				//
+				className: [
+					icon,
+					className,
+				],
+			})}
 			{...props}
 		/>
 	) : (

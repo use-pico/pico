@@ -1,10 +1,13 @@
+import type { UseMutationResult } from "@tanstack/react-query";
 import { cleanOf } from "@use-pico/common/clean-of";
 import { mapEmptyToNull } from "@use-pico/common/map";
-import { toast as coolToast } from "react-hot-toast";
-import type { withToastPromiseTx } from "../../toast/withToastPromiseTx";
-import type { Form } from "./Form";
 
 export namespace onSubmit {
+	export type Mutation<
+		TValues extends object,
+		TOutput = any,
+	> = UseMutationResult<TOutput, any, TValues>;
+
 	export namespace Map {
 		export interface Props<TValues extends object, TData extends object> {
 			/**
@@ -27,8 +30,7 @@ export namespace onSubmit {
 	}
 
 	export interface Props<TValues extends object, TData extends object> {
-		mutation: Form.Props.Mutation<TData>;
-		toast?: withToastPromiseTx.Text;
+		mutation: Mutation<TData>;
 		/**
 		 * Map form values to mutation request values (output of this goes directly into mutation).
 		 *
@@ -40,7 +42,6 @@ export namespace onSubmit {
 
 export const onSubmit = <TValues extends object, TData extends object>({
 	mutation,
-	toast,
 	map = async ({ values, cleanup }) => {
 		return cleanup(values) as TData;
 	},
@@ -49,23 +50,19 @@ export const onSubmit = <TValues extends object, TData extends object>({
 	 * A bit strange "format", but this is for basic compatibility with TanStack Form.
 	 */
 	return async ({ value }: { value: TValues }) => {
-		const fn = async () => {
-			const mapped = await map({
+		const mapped = await map({
+			values: value,
+			cleanup(values) {
+				return cleanOf(mapEmptyToNull(values)) as unknown as TData;
+			},
+		});
+
+		return mutation.mutateAsync(mapped).catch((e) => {
+			console.log("onSubmit: Mutation failed", {
 				values: value,
-				cleanup(values) {
-					return cleanOf(mapEmptyToNull(values)) as unknown as TData;
-				},
+				mapped,
 			});
-
-			return mutation.mutateAsync(mapped).catch((e) => {
-				console.log("onSubmit: Mutation failed", {
-					values: value,
-					mapped,
-				});
-				console.error(e);
-			});
-		};
-
-		return toast ? coolToast.promise(fn(), toast) : fn();
+			console.error(e);
+		});
 	};
 };

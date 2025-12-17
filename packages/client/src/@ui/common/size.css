@@ -1,0 +1,34 @@
+@layer components {
+	[data-ui-size="xs"] {
+		@apply px-2 py-0.5;
+	}
+
+	[data-ui-size="sm"] {
+		@apply px-3 py-1;
+	}
+
+	[data-ui-size="default"],
+	[data-ui-size="md"] {
+		@apply px-3 py-3 md:px-6 md:py-6;
+	}
+
+	[data-ui-size="lg"] {
+		@apply px-7 py-3;
+	}
+
+	[data-ui-size="xl"] {
+		@apply px-9 py-4;
+	}
+
+	[data-ui-size="2xl"] {
+		@apply px-11 py-5;
+	}
+
+	[data-ui-size="3xl"] {
+		@apply px-14 py-6;
+	}
+
+	[data-ui-size="4xl"] {
+		@apply px-16 py-8;
+	}
+}

@@ -1,10 +1,14 @@
+export { useDocumentVisibility } from "./useDocumentVisibility";
 export { useDoubleTap } from "./useDoubleTap";
+export { useElementVisibility } from "./useElementVisibility";
 export { useEvent } from "./useEvent";
 export { useHighlightRectangle } from "./useHighlightRectangle";
 export { useInViewport } from "./useInViewport";
 export { useMergeRefs } from "./useMergeRefs";
+export { usePatchCollection } from "./usePatchCollection";
 export { useScrollTo } from "./useScrollTo";
 export { useSelection } from "./useSelection";
+export { useSentinel } from "./useSentinel";
 export { useSetUnset } from "./useSetUnset";
 export { useSnapperNav } from "./useSnapperNav";
 export { useStopEvent } from "./useStopEvent";

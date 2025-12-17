@@ -1,0 +1,25 @@
+@layer components {
+	[data-ui-round="default"] {
+		border-radius: var(--radius-default);
+	}
+
+	[data-ui-round="sm"] {
+		@apply rounded-sm;
+	}
+
+	[data-ui-round="md"] {
+		@apply rounded-md;
+	}
+
+	[data-ui-round="lg"] {
+		@apply rounded-lg;
+	}
+
+	[data-ui-round="xl"] {
+		@apply rounded-xl;
+	}
+
+	[data-ui-round="full"] {
+		@apply rounded-full;
+	}
+}

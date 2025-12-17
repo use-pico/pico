@@ -1,0 +1,144 @@
+@layer components {
+	/** Misc smaller utils */
+
+	.Container[data-ui-disabled="true"] {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	/** Layout - Vertical */
+	.Container[data-ui-layout="vertical"] {
+		display: grid;
+		grid-template-rows: auto;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+	}
+
+	.Container[data-ui-layout="vertical-full"] {
+		display: grid;
+		grid-template-rows: 100%;
+		grid-template-columns: 1fr;
+		grid-auto-rows: 100%;
+		grid-auto-flow: row;
+	}
+
+	.Container[data-ui-layout="vertical-header-content-footer"] {
+		display: grid;
+		grid-template-rows: min-content 1fr min-content;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+	}
+
+	.Container[data-ui-layout="vertical-header-content"] {
+		display: grid;
+		grid-template-rows: min-content 1fr;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+	}
+
+	.Container[data-ui-layout="vertical-content-footer"] {
+		display: grid;
+		grid-template-rows: 1fr min-content;
+		grid-template-columns: 1fr;
+		grid-auto-rows: auto;
+	}
+
+	.Container[data-ui-layout="vertical-centered"] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.Container[data-ui-layout="vertical-flex"] {
+		display: flex;
+		flex-direction: column;
+		/* & > * {
+			flex-shrink: 0;
+		} */
+	}
+
+	/** Layout - Horizontal */
+
+	.Container[data-ui-layout="horizontal"] {
+		display: grid;
+		grid-template-rows: 1fr;
+		grid-template-columns: auto;
+		grid-auto-columns: auto;
+	}
+
+	.Container[data-ui-layout="horizontal-full"] {
+		display: grid;
+		grid-template-rows: 1fr;
+		grid-template-columns: 100%;
+		grid-auto-columns: 100%;
+		grid-auto-flow: column;
+	}
+
+	.Container[data-ui-layout="horizontal-flex"] {
+		display: flex;
+		flex-direction: row;
+		/* & > * {
+			flex-shrink: 0;
+		} */
+	}
+
+	/** Scroll - Vertical */
+	.Container[data-ui-scroll="vertical"] {
+		overflow-y: auto;
+		overflow-x: clip;
+		overscroll-behavior: none;
+		scrollbar-gutter: stable both-edges;
+	}
+
+	/** Scroll - Horizontal */
+	.Container[data-ui-scroll="horizontal"] {
+		overflow-x: auto;
+		overflow-y: clip;
+		overscroll-behavior: none;
+		scrollbar-gutter: stable both-edges;
+	}
+
+	/** Scroll - Hidden */
+	.Container[data-ui-scroll="hidden"] {
+		overflow: hidden;
+	}
+
+	/** Snap - Vertical */
+	.Container[data-ui-snap="vertical"] {
+		isolation: isolate;
+		overflow-y: auto;
+		overflow-x: clip;
+		overscroll-behavior: contain;
+		scrollbar-gutter: stable both-edges;
+		scroll-snap-type: y mandatory;
+	}
+
+	/** Snap - Horizontal */
+	.Container[data-ui-snap="horizontal"] {
+		isolation: isolate;
+		overflow-x: auto;
+		overflow-y: clip;
+		overscroll-behavior: contain;
+		scrollbar-gutter: stable both-edges;
+		scroll-snap-type: x mandatory;
+	}
+
+	/** Snap - Points */
+	.Container[data-ui-snap-align="start"] {
+		& > * {
+			scroll-snap-align: start;
+		}
+	}
+
+	.Container[data-ui-snap-align="center"] {
+		& > * {
+			scroll-snap-align: center;
+		}
+	}
+
+	.Container[data-ui-snap-align="end"] {
+		& > * {
+			scroll-snap-align: end;
+		}
+	}
+}

@@ -1,9 +1,6 @@
 import type { FC, ReactNode } from "react";
-import { ErrorIcon } from "../../icon/ErrorIcon";
-import { Badge } from "../badge/Badge";
-import { More } from "../more/More";
-import { Mx } from "../mx/Mx";
 import { Tx } from "../tx/Tx";
+import { Typo } from "../typo";
 
 export namespace FormError {
 	export type Type =
@@ -22,99 +19,49 @@ export namespace FormError {
 	}
 
 	export interface Props {
-		meta: Meta;
+		meta?: Meta;
 	}
 }
 
 export const FormError: FC<FormError.Props> = ({ meta }) => {
-	const isError = meta.isTouched && meta.errors && meta.errors.length > 0;
+	const [error] = meta?.errors ?? [];
+	const isError = meta?.isTouched && meta?.errors && meta?.errors?.length > 0;
 
-	return isError ? (
-		<More
-			limit={1}
-			items={
-				meta.errors?.map((item, i) => ({
-					id: `${i}`,
-					...item,
-				})) ?? []
-			}
-			textTitle={<Tx label={"Field errors (title)"} />}
-			renderInline={({ entity }) => {
-				if ("component" in entity) {
-					return (
-						<Badge
-							key={`${entity.id}`}
-							tweak={{
-								variant: {
-									theme: "light",
-									tone: "danger",
-									size: "xs",
-								},
-							}}
-						>
-							{entity.component}
-						</Badge>
-					);
-				} else if ("message" in entity) {
-					return (
-						<Badge
-							key={`${entity.id}`}
-							tweak={{
-								variant: {
-									theme: "light",
-									tone: "danger",
-									size: "xs",
-								},
-							}}
-						>
-							<Tx label={entity.message} />
-						</Badge>
-					);
-				}
-			}}
-			renderItem={({ entity }) => {
-				if ("component" in entity) {
-					return (
-						<Badge
-							key={`${entity.id}`}
-							tweak={{
-								variant: {
-									theme: "light",
-									tone: "danger",
-								},
-							}}
-						>
-							{entity.component}
-						</Badge>
-					);
-				} else if ("message" in entity) {
-					return (
-						<Badge
-							key={`${entity.id}`}
-							tweak={{
-								variant: {
-									theme: "light",
-									tone: "danger",
-								},
-							}}
-						>
-							<Mx label={entity.message} />
-						</Badge>
-					);
-				}
-			}}
-			actionProps={{
-				iconEnabled: ErrorIcon,
-				tweak: {
-					variant: {
-						theme: "light",
-						tone: "danger",
-					},
-				},
-			}}
-			modalProps={{
-				size: "sm",
+	if (!isError || !error) {
+		return (
+			<Typo
+				label={"\u00A0"}
+				ui={{
+					text: "xs",
+				}}
+			/>
+		);
+	}
+
+	if ("component" in error) {
+		return error.component;
+	}
+
+	if ("message" in error) {
+		return (
+			<Tx
+				label={error.message}
+				ui={{
+					tone: "neutral",
+					theme: "light",
+					color: "text",
+					text: "xs",
+				}}
+			/>
+		);
+	}
+
+	return (
+		<Typo
+			label={"&nbsp;"}
+			ui={{
+				text: "xs",
 			}}
 		/>
-	) : null;
+	);
 };

@@ -14,6 +14,7 @@ export const ModalCls = contract(PicoCls.contract)
 		"sm",
 		"md",
 		"lg",
+		"full",
 	])
 	.def()
 	.root({
@@ -87,6 +88,22 @@ export const ModalCls = contract(PicoCls.contract)
 		modal: {
 			class: [
 				"w-4/5",
+			],
+		},
+	})
+	.match("size", "full", {
+		root: {
+			class: [
+				"p-0",
+			],
+		},
+		modal: {
+			class: [
+				"w-dvw",
+				"h-dvh",
+				"overflow-hidden",
+				"rounded-none",
+				"p-0",
 			],
 		},
 	})

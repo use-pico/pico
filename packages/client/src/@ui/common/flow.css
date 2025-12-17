@@ -1,0 +1,11 @@
+@layer components {
+	[data-ui-flow="vertical"] {
+		display: flex;
+		flex-direction: column;
+	}
+
+	[data-ui-flow="horizontal"] {
+		display: flex;
+		flex-direction: row;
+	}
+}

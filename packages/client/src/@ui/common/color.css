@@ -1,0 +1,25 @@
+@layer components {
+	[data-ui-color="text"] {
+		color: var(--color-text);
+	}
+
+	.active[data-ui-color="text"] {
+		color: var(--color-text-active);
+	}
+
+	[data-ui-color="lead"] {
+		color: var(--color-lead);
+	}
+
+	.active[data-ui-color="lead"] {
+		color: var(--color-lead-active);
+	}
+
+	[data-ui-color="icon"] {
+		color: var(--color-icon);
+	}
+
+	.active[data-ui-color="icon"] {
+		color: var(--color-icon-active);
+	}
+}

@@ -43,6 +43,11 @@ export const TranslationSources: TranslationSource.Sources = {
 			name: "TextInput",
 			attr: "placeholder",
 		},
+		//
+		{
+			name: "ConfirmButton",
+			attr: "label",
+		},
 	],
 	functions: [],
 	objects: [

@@ -1,14 +1,18 @@
 import { useRouterState } from "@tanstack/react-router";
-import { tvc } from "@use-pico/cls";
-import { type FC, type Ref, useEffect, useState } from "react";
+import { type ComponentProps, type FC, useEffect, useState } from "react";
+import { asNavigationIndicator } from "./asNavigationIndicator";
 
 export namespace NavigationIndicator {
-	export interface Props {
-		ref?: Ref<HTMLDivElement>;
+	export interface Props
+		extends asNavigationIndicator.PropsEx<ComponentProps<"div">> {
+		//
 	}
 }
 
-export const NavigationIndicator: FC<NavigationIndicator.Props> = ({ ref }) => {
+export const NavigationIndicator: FC<NavigationIndicator.Props> = ({
+	className,
+	...props
+}) => {
 	const { status } = useRouterState();
 	const [visible, setVisible] = useState(false);
 
@@ -34,20 +38,13 @@ export const NavigationIndicator: FC<NavigationIndicator.Props> = ({ ref }) => {
 		status,
 	]);
 
-	return visible ? (
+	return (
 		<div
-			ref={ref}
-			className={tvc([
-				"fixed",
-				"top-0",
-				"left-0",
-				"right-0",
-				"w-full",
-				"h-1",
-				"bg-sky-500",
-				"z-[500]",
-				"animate-pulse",
-			])}
+			{...asNavigationIndicator({
+				visible,
+				className,
+			})}
+			{...props}
 		/>
-	) : null;
+	);
 };
